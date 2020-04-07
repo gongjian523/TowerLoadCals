@@ -1,0 +1,166 @@
+﻿<Window x:Class="TowerLoadCals.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TowerLoadCals"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <WrapPanel>
+            <Button Click="button_ReadXML_Click" Height="30" Width="120" Content="请选择XML文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadDBF_Click" Name="ReadTadbfBtn" Height="30" Width="120" Content="请选择SL_TA.DBF文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadDBF_Click" Name="ReadXiandbfBtn"  Height="30" Width="120" Content="请选择SL_XIAN.DBF文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadDBF_Click" Name="ReadWeatherdbfBtn" Height="30" Width="120" Content="请选择Weather.DBF文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadTa_Click" Height="30" Width="120" Content="请选择TA文件" BorderThickness="0" Margin="3"/>
+        </WrapPanel>
+        <TabControl Grid.Column="1" Name="tabs">
+            <TabItem Header="XML文件">
+                <TreeView Name="myTreeViewEvent" >
+                    <TreeViewItem Header="Employee1" IsSelected="True">
+                        <TreeViewItem Header="Jesper Aaberg"/>
+                        <TreeViewItem Header="Employee Number">
+                            <TreeViewItem Header="12345"/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="Work Days">
+                            <TreeViewItem Header="Monday" />
+                            <TreeViewItem Header="Tuesday"/>
+                            <TreeViewItem Header="Thursday"/>
+                        </TreeViewItem>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Employee2">
+                        <TreeViewItem Header="Dominik Paiha"/>
+                        <TreeViewItem Header="Employee Number">
+                            <TreeViewItem Header="98765"/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="Work Days">
+                            <TreeViewItem Header="Tuesday"/>
+                            <TreeViewItem Header="Wednesday"/>
+                            <TreeViewItem Header="Friday"/>
+                        </TreeViewItem>
+                    </TreeViewItem>
+                    <TreeViewItem>
+                        <TreeViewItem.Header>
+                            <DockPanel>
+                                <CheckBox/>
+                                <TextBlock>
+        TreeViewItem Text
+                                </TextBlock>
+                            </DockPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+                </TreeView>
+
+            </TabItem>
+            <TabItem Header="SL_TA.DBF" Name="ReadTadbfTab">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="166*"/>
+                        <ColumnDefinition Width="65*"/>
+                        <ColumnDefinition Width="425*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="dataGridSLTa" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.ColumnSpan="3">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="电压等级" Width="80" Binding="{Binding VoltageLevel}"/>
+                            <DataGridTextColumn Header="杆塔型号" Width="80" Binding="{Binding TowerModel}"/>
+                            <DataGridTextColumn Header="图号" Width="80" Binding="{Binding PicNum}"/>
+                            <DataGridTextColumn Header="呼高" Width="80" Binding="{Binding Height}"/>
+                            <DataGridTextColumn Header="直线1耐张2" Width="80" Binding="{Binding Line1Tension2}"/>
+                            <DataGridTextColumn Header="最大转角" Width="80" Binding="{Binding AngleMax}"/>
+                            <DataGridTextColumn Header="允许LH" Width="80" Binding="{Binding AllowedLH}"/>
+                            <DataGridTextColumn Header="允许LV" Width="80" Binding="{Binding AllowedLV}"/>
+                            <DataGridTextColumn Header="最大档距" Width="80" Binding="{Binding BreakingStressKGMM}"/>
+                            <DataGridTextColumn Header="断拉力N" Width="80" Binding="{Binding DistanceMax}"/>
+                            <DataGridTextColumn Header="允许摇摆角" Width="80" Binding="{Binding AllowSwingAngle}"/>
+                            <DataGridTextColumn Header="内过摇摆角" Width="80" Binding="{Binding InsideSwingAngle}"/>
+                            <DataGridTextColumn Header="外过摇摆角" Width="80" Binding="{Binding OutsideSwingAngle}"/>
+                            <DataGridTextColumn Header="水平线间距" Width="80" Binding="{Binding HorizontalWireDsitance}"/>
+                            <DataGridTextColumn Header="导地水平距" Width="80" Binding="{Binding EarthWireHorizontalDsitance}"/>
+                            <DataGridTextColumn Header="地线支架高" Width="80" Binding="{Binding EarthWireCarrierHeight}"/>
+                            <DataGridTextColumn Header="上下导线距" Width="80" Binding="{Binding UpDownWireDistance}"/>
+                            <DataGridTextColumn Header="中下导线距" Width="80" Binding="{Binding MiddleDownWireDistance}"/>
+                            <DataGridTextColumn Header="导平1垂2V3" Width="80" Binding="{Binding LineH1V2V3}"/>
+                            <DataGridTextColumn Header="导平投影DP" Width="80" Binding="{Binding LineHProjectionDP}"/>
+                            <DataGridTextColumn Header="导垂投影DZ" Width="80" Binding="{Binding LineVProjectionDZ}"/>
+                            <DataGridTextColumn Header="正面根开米" Width="80" Binding="{Binding FrontDistanceM}"/>
+                            <DataGridTextColumn Header="侧面根开米" Width="80" Binding="{Binding SideDistanceM}"/>
+                            <DataGridTextColumn Header="钢重量KG" Width="80" Binding="{Binding SteelWeightKG}"/>
+                            <DataGridTextColumn Header="A3F重量KG" Width="80" Binding="{Binding A3FWeightKG}"/>
+                            <DataGridTextColumn Header="MN重量KG" Width="80" Binding="{Binding MNWeightKG}"/>
+                            <DataGridTextColumn Header="水泥重量KG" Width="80" Binding="{Binding CementWeightKG}"/>
+                            <DataGridTextColumn Header="本体造价" Width="80" Binding="{Binding BodyPrice}"/>
+                            <DataGridTextColumn Header="角影响LH" Width="80" Binding="{Binding AngelEffectLH}"/>
+                            <DataGridTextColumn Header="最小LH" Width="80" Binding="{Binding LHMin}"/>
+                            <DataGridTextColumn Header="塔KV值" Width="80" Binding="{Binding TowerKV}"/>
+                            <DataGridTextColumn Header="截距" Width="80" Binding="{Binding Intercept}"/>
+                            <DataGridTextColumn Header="斜率" Width="80" Binding="{Binding Slope}"/>
+                            <DataGridTextColumn Header="截距增长值" Width="80" Binding="{Binding InterceptGrowthRate}"/>
+                            <DataGridTextColumn Header="斜率增长值" Width="80" Binding="{Binding SlopeGrowthRate}"/>
+                            <DataGridTextColumn Header="塔挂串个数" Width="80" Binding="{Binding TowerHangStringNum}"/>
+                            <DataGridTextColumn Header="串总个数" Width="80" Binding="{Binding TotalStringNum}"/>
+                            <DataGridTextColumn Header="V串YN" Width="80" Binding="{Binding VStringYN}"/>
+                            <DataGridTextColumn Header="杆塔种类" Width="80" Binding="{Binding TowerType}"/>
+                            <DataGridTextColumn Header="基正面根开" Width="80" Binding="{Binding BaseFrontDistance}"/>
+                            <DataGridTextColumn Header="基侧面根开" Width="80" Binding="{Binding BaseSideDistance}"/>
+                            <DataGridTextColumn Header="基对角线长" Width="80" Binding="{Binding BaseDiagonal}"/>
+                            <DataGridTextColumn Header="预偏距离S1" Width="80" Binding="{Binding ExpectedDeviatingDistance}"/>
+                            <DataGridTextColumn Header="横担宽度" Width="80" Binding="{Binding SidelineWidth}"/>
+                            <DataGridTextColumn Header="是否紧凑塔" Width="80" Binding="{Binding IsTightTower}"/>
+                            <DataGridTextColumn Header="V串夹角" Width="80" Binding="{Binding VStringAngle}"/>
+                            <DataGridTextColumn Header="埋深" Width="80" Binding="{Binding BuriedDeepth}"/>
+                            <DataGridTextColumn Header="裕度" Width="80" Binding="{Binding Margin}"/>
+                            <DataGridTextColumn Header="地栓型号" Width="80" Binding="{Binding GroundBoltModel}"/>
+                            <DataGridTextColumn Header="挂点ABC" Width="80" Binding="{Binding HungPointABC}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="SL_XIAN.DBF" Name="ReadXiandbfTab">
+                <DataGrid  x:Name="dataGridXian" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="电线型号" Width="80" Binding="{Binding WireType}"/>
+                        <DataGridTextColumn Header="截面MM2" Width="80" Binding="{Binding SectionMM2}"/>
+                        <DataGridTextColumn Header="外径MM" Width="80" Binding="{Binding OuterDiameterMM}"/>
+                        <DataGridTextColumn Header="重量KG每KM" Width="80" Binding="{Binding WeightKG}"/>
+                        <DataGridTextColumn Header="弹性系数KG" Width="80" Binding="{Binding ElasticityCoefficientKG}"/>
+                        <DataGridTextColumn Header="弹性系数N" Width="80" Binding="{Binding ElasticityCoefficientN}"/>
+                        <DataGridTextColumn Header="线膨胀系数" Width="80" Binding="{Binding LinearExpansionCoefficient}"/>
+                        <DataGridTextColumn Header="断应力KGMM" Width="80" Binding="{Binding BreakingStressKGMM}"/>
+                        <DataGridTextColumn Header="断拉力N" Width="80" Binding="{Binding BreakingForceN}"/>
+                        <DataGridTextColumn Header="导线1地线2" Width="80" Binding="{Binding Wire1EarthWire2}"/>
+                        <DataGridTextColumn Header="标称截面" Width="80" Binding="{Binding NominalCrossSection}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Weather.DBF" Name="ReadWeatherdbfTab">
+                <DataGrid  x:Name="dataGridWeather" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="工况名称" Width="80" Binding="{Binding SWorkConditionName}"/>
+                        <DataGridTextColumn Header="风速" Width="80" Binding="{Binding SWindSpeed}"/>
+                        <DataGridTextColumn Header="气温" Width="80" Binding="{Binding STemperature}"/>
+                        <DataGridTextColumn Header="冰厚" Width="80" Binding="{Binding SIceThickness}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="ta文件">
+                <DataGrid  x:Name="dataGridTa" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Index}"/>
+                        <DataGridTextColumn Header="塔位号" Width="80" Binding="{Binding TowerNum}"/>
+                        <DataGridTextColumn Header="塔位点" Width="80" Binding="{Binding TowerLocation}"/>
+                        <DataGridTextColumn Header="塔型" Width="80" Binding="{Binding TowerType}"/>
+                        <DataGridTextColumn Header="塔位高程" Width="80" Binding="{Binding TowerDistance}"/>
+                        <DataGridTextColumn Header="前侧档距" Width="80" Binding="{Binding FrontDistance}"/>
+                        <DataGridTextColumn Header="水平档距" Width="80" Binding="{Binding HorizontalDistance}"/>
+                        <DataGridTextColumn Header="后侧/前侧设计气象条件" Width="80" Binding="{Binding DesignWeatherCondition}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>
