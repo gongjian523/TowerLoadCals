@@ -43,6 +43,8 @@ namespace TowerLoadCals
                 return;
             NodeXml root = XmlReader.ReadXml(openFileDialog.FileName);//记录用户选择的文件路径
 
+            xmlTreeView.Items.Clear();
+
             TreeViewItem subItem = new TreeViewItem();
             FormTreeView(root, subItem);
             xmlTreeView.Items.Add(subItem);
