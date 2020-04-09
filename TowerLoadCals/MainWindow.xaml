@@ -15,6 +15,7 @@
             <Button Click="button_ReadXML_Click" Height="30" Width="120" Content="请选择XML文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadDBF_Click" Name="ReadTadbfBtn" Height="30" Width="120" Content="请选择SL_TA.DBF文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadDBF_Click" Name="ReadXiandbfBtn"  Height="30" Width="120" Content="请选择SL_XIAN.DBF文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadWeatherXML_Click" Name="ReadWeatherXMLBtn"  Height="30" Width="120" Content="请选择Weather.XML文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadDBF_Click" Name="ReadWeatherdbfBtn" Height="30" Width="120" Content="请选择Weather.DBF文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadTa_Click" Height="30" Width="120" Content="请选择TA文件" BorderThickness="0" Margin="3"/>
         </WrapPanel>
@@ -136,27 +137,34 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Weather.DBF" Name="ReadWeatherdbfTab">
-                <DataGrid  x:Name="dataGridWeather" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="工况名称" Width="80" Binding="{Binding SWorkConditionName}"/>
-                        <DataGridTextColumn Header="风速" Width="80" Binding="{Binding SWindSpeed}"/>
-                        <DataGridTextColumn Header="气温" Width="80" Binding="{Binding STemperature}"/>
-                        <DataGridTextColumn Header="冰厚" Width="80" Binding="{Binding SIceThickness}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+            <TabItem Header="Weather">
+                <TreeView Name="weatherTreeView" />
             </TabItem>
             <TabItem Header="ta文件">
                 <DataGrid  x:Name="dataGridTa" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="复制" Click="button_DG_Copy_Click"/>
+                            <MenuItem Header="剪切" Click="button_DG_Cut_Click"/>
+                            <MenuItem Header="粘贴" Click="button_DG_Paste_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Index}"/>
-                        <DataGridTextColumn Header="塔位号" Width="80" Binding="{Binding TowerNum}"/>
-                        <DataGridTextColumn Header="塔位点" Width="80" Binding="{Binding TowerLocation}"/>
-                        <DataGridTextColumn Header="塔型" Width="80" Binding="{Binding TowerType}"/>
-                        <DataGridTextColumn Header="塔位高程" Width="80" Binding="{Binding TowerDistance}"/>
-                        <DataGridTextColumn Header="前侧档距" Width="80" Binding="{Binding FrontDistance}"/>
-                        <DataGridTextColumn Header="水平档距" Width="80" Binding="{Binding HorizontalDistance}"/>
-                        <DataGridTextColumn Header="后侧/前侧设计气象条件" Width="80" Binding="{Binding DesignWeatherCondition}"/>
+                        <DataGridTextColumn Header="塔位号" Width="80" Binding="{Binding Num}"/>
+                        <DataGridTextColumn Header="塔位点" Width="80" Binding="{Binding Pos}"/>
+                        <DataGridTextColumn Header="塔型" Width="80" Binding="{Binding Model}"/>
+                        <DataGridTextColumn Header="塔位高程" Width="80" Binding="{Binding Elevation}"/>
+                        <DataGridTextColumn Header="定位高差" Width="80" Binding="{Binding SubOfElv}"/>
+                        <DataGridTextColumn Header="前侧档距" Width="80" Binding="{Binding FrontSpan}"/>
+                        <DataGridTextColumn Header="水平档距" Width="80" Binding="{Binding HorizontalSpan}"/>
+                        <DataGridTextColumn Header="垂直档距" Width="80" Binding="{Binding VerticalSpan}"/>
+                        <DataGridTextColumn Header="WireK" Width="80" Binding="{Binding WireK}"/>
+                        <DataGridTextColumn Header="中间部分" Width="80" Binding="{Binding sec}"/>
+                        <DataGridTextColumn Header="前侧垂直档距" Width="80" Binding="{Binding FrontVerticalSpan}"/>
+                        <DataGridTextColumn Header="后侧垂直档距" Width="80" Binding="{Binding BackVerticalSpan}"/>
+                        <DataGridTextColumn Header="转角" Width="80" Binding="{Binding AngelofApplication}"/>
+                        <DataGridTextColumn Header="后侧/前侧设计气象条件" Width="80" Binding="{Binding WeatherID}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

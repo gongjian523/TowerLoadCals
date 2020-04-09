@@ -24,9 +24,13 @@ namespace TowerLoadCals
     /// </summary>
     public partial class MainWindow : Window
     {
+        private WeatherCollection weathers = new WeatherCollection();
+        int weatherDbfNum = 0;
+
         public MainWindow()
         {
             InitializeComponent();
+            weathers.Weathers = new List<Weather>();
         }
 
         private void button_ReadXML_Click(object sender, RoutedEventArgs e)
@@ -115,11 +119,12 @@ namespace TowerLoadCals
             {
                 tabs.SelectedIndex = 3;
 
-                ObservableCollection<Weather> memberData = new ObservableCollection<Weather>();
+                weatherDbfNum++;
 
+                List<WorkCondition> wcList = new List<WorkCondition>();
                 foreach (DataRow row in DT.Rows)
                 {
-                    memberData.Add(new Weather
+                    wcList.Add(new WorkCondition
                     {
                         SWorkConditionName = row["工况名称"].ToString(),
                         SWindSpeed = row["风速"].ToString(),
@@ -128,8 +133,13 @@ namespace TowerLoadCals
                     });
                 }
 
-                dataGridWeather.DataContext = memberData;
-                dataGridWeather.Items.Refresh();
+                Weather weather = new Weather
+                {
+                    Name = "DBF数据"+ weatherDbfNum.ToString(),
+                    WorkConditions = wcList
+                };
+                weathers.Weathers.Add(weather);
+                UpdateWeatherTreeView();
             }
             else
             {
@@ -201,6 +211,8 @@ namespace TowerLoadCals
             
         }
 
+        private List<Ta> memberData = new List<Ta>();
+
         private void button_ReadTa_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog()
@@ -213,7 +225,8 @@ namespace TowerLoadCals
 
             List<string> strList = TaReader.ReadTa(openFileDialog.FileName);//记录用户选择的文件路径
 
-            ObservableCollection<Ta> memberData = new ObservableCollection<Ta>();
+            //List<Ta> memberData = new List<Ta>();
+            memberData.Clear();
             int i = 0;
 
             foreach (string str  in strList)
@@ -224,15 +237,174 @@ namespace TowerLoadCals
                 i++;
                 memberData.Add(new Ta
                 {
-                    Index = Convert.ToString(i),
-                    TowerNum = sArray[0]
+                    Index = i,
+                    Num = sArray[0],
+                    PosName = sArray[7].TrimStart(' '),
+                    PosOffset = sArray[3].TrimStart(' '),
+                    Pos = sArray[7] + "+" + sArray[3],
+                    Type = Convert.ToInt16(sArray[1]),
+                    Model = sArray[8],
+                    Elevation = Convert.ToDouble(sArray[6]),
+                    SubOfElv = Convert.ToDouble(sArray[12]),
+                    TotalSpan = Convert.ToDouble(sArray[2]),
+                    WireK = Convert.ToDouble(sArray[4]),
+                    Height = Convert.ToDouble(sArray[9]),
+                    StringLength = Convert.ToDouble(sArray[11]),
+                    AngelofApplication = Convert.ToDouble(sArray[20])
                 });
             }
+
+            CalsParameters(memberData);
 
             tabs.SelectedIndex = 4;
 
             dataGridTa.DataContext = memberData;
             dataGridTa.Items.Refresh();
         }
+
+        private void CalsParameters(List<Ta> tas)
+        {
+            for(int i = 0; i< tas.Count; i++)
+            {
+                //获取塔名和呼高
+                string[] arr = tas[i].Model.Split('-');
+                tas[i].Name = arr[0];
+
+                //前侧档距 = 前一个塔的累距-自己的累距
+                if (i == tas.Count - 1)
+                    tas[i].FrontSpan = 0;
+                else
+                    tas[i].FrontSpan = Math.Ceiling(tas[i + 1].TotalSpan - tas[i].TotalSpan);
+
+                //后侧档距 = 自己的累距-前一个塔的累距
+                //水平档距 = (前侧档距 + 后侧档距) / 2
+                double backSpan = 0;
+                if (i != 0)
+                    backSpan = tas[i].TotalSpan - tas[i - 1].TotalSpan;
+                tas[i].HorizontalSpan = Math.Ceiling( (tas[i].FrontSpan + backSpan) / 2);
+
+                if (tas[i].Type == 2)
+                    tas[i].StringLength = 0;
+
+                tas[i].guadg = tas[i].Elevation + tas[i].Height + tas[i].SubOfElv - tas[i].StringLength;
+
+                if (i != 0)
+                {
+                    double h = tas[i].guadg - tas[i-1].guadg;
+                    double x = tas[i].WireK * tas[i].FrontSpan * 0.001;
+                    double y = ((-1) * tas[i].WireK * h * 0.001) / Math.Sinh(x);
+                    tas[i].sec = Math.Log(y + Math.Sqrt(y * y + 1)) / (2 * tas[i].WireK * 0.001);
+                    tas[i].BackVerticalSpan = Math.Ceiling(tas[i].FrontSpan / 2 + Math.Log(y + Math.Sqrt(y * y + 1)) / (2 * tas[i].WireK * 0.001));
+                    tas[i].FrontVerticalSpan = Math.Ceiling(tas[i].FrontSpan - tas[i].BackVerticalSpan);
+
+                    if (tas[i].Type == 1)
+                    {
+                        double vs = tas[i].BackVerticalSpan + tas[i - 1].FrontVerticalSpan;
+                        tas[i].VerticalSpan = vs.ToString();
+                    }
+                    else
+                    {
+                        tas[i].VerticalSpan = tas[i - 1].FrontVerticalSpan.ToString() + "/" + tas[i].BackVerticalSpan.ToString();
+                    }
+                }
+                else
+                {
+                    tas[i].VerticalSpan = "0";
+                }
+            }
+        }
+
+        private void button_ReadWeatherXML_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Excel Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            tabs.SelectedIndex = 0;
+
+            if (result != true)
+                return;
+            //NodeXml root = XmlReader.ReadXml(openFileDialog.FileName);//记录用户选择的文件路径
+
+            List<Weather> listWeathers = XmlReader.ReadWeather(openFileDialog.FileName);
+
+            if(listWeathers.Count > 0)
+                weathers.Weathers.AddRange(listWeathers);
+
+            UpdateWeatherTreeView();
+        }
+
+        private void UpdateWeatherTreeView()
+        {
+            tabs.SelectedIndex = 3;
+
+            weatherTreeView.Items.Clear();
+
+            foreach(var item  in weathers.Weathers)
+            {
+                TreeViewItem subItem = new TreeViewItem();
+                subItem.Header = "气象区名称 = " + item.Name;
+                
+                foreach(var wdItem in item.WorkConditions)
+                {
+                    TreeViewItem wdSubItem = new TreeViewItem();
+                    wdSubItem.Header = "SWorkConditionName=" + wdItem.SWorkConditionName + " SWindSpeed=" + wdItem.SWindSpeed
+                        + " STemperature=" + wdItem.STemperature + " SIceThickness=" + wdItem.SIceThickness;
+                    subItem.Items.Add(wdSubItem);
+                }
+                
+                weatherTreeView.Items.Add(subItem);
+            }
+        }
+
+        List<Ta> copy = new List<Ta>(); 
+
+        private void button_DG_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            copy.Clear();
+            foreach(Ta item in dataGridTa.SelectedItems)
+            {
+                copy.Add(item);
+            }
+                
+            return;
+        }
+
+        private void button_DG_Cut_Click(object sender, RoutedEventArgs e)
+        {
+            copy.Clear();
+            Ta item = (Ta)dataGridTa.SelectedItem;
+            int cnt = dataGridTa.SelectedItems.Count;
+            memberData.RemoveRange(item.Index-1,cnt);
+
+            for(int i = 0; i < memberData.Count; i++)
+            {
+                memberData[i].Index = i + 1;
+            }
+
+            dataGridTa.DataContext = memberData;
+            dataGridTa.Items.Refresh();
+
+            return;
+        }
+
+        private void button_DG_Paste_Click(object sender, RoutedEventArgs e)
+        {
+            Ta item = (Ta)dataGridTa.SelectedItem;
+            memberData.InsertRange(item.Index - 1, copy);
+
+            for (int i = 0; i < memberData.Count; i++)
+            {
+                memberData[i].Index = i + 1;
+            }
+
+            dataGridTa.DataContext = memberData;
+            dataGridTa.Items.Refresh();
+
+            return;
+        }
+
     }
 }

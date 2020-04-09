@@ -54,6 +54,47 @@ namespace TowerLoadCals.Readers
             }
 
             return;
-        }      
+        }
+
+        public static List<Weather> ReadWeather(string path)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            XmlNode rootNode = doc.FirstChild;
+            if (rootNode == null)
+                return new List<Weather>();
+
+            XmlNode weatherNameTitleNode = rootNode.FirstChild;
+            if (weatherNameTitleNode == null)
+                return new List<Weather>();
+
+            List<Weather> list = new List<Weather>();
+
+            foreach(XmlNode node in weatherNameTitleNode.ChildNodes)
+            {
+                List<WorkCondition>  listWd = new List<WorkCondition>();
+                foreach(XmlNode nodeWd in node.ChildNodes)
+                {
+                    WorkCondition wd = new WorkCondition()
+                    {
+                        SWorkConditionName = nodeWd.Attributes["SWorkConditionName"].Value.ToString(),
+                        SWindSpeed = nodeWd.Attributes["SWindSpeed"].Value.ToString(),
+                        STemperature = nodeWd.Attributes["STemperature"].Value.ToString(),
+                        SIceThickness = nodeWd.Attributes["SIceThickness"].Value.ToString(),
+                    };
+                    listWd.Add(wd);
+                }
+
+                Weather weather = new Weather()
+                {
+                    Name = node.Attributes["SName"].Value.ToString(),
+                    WorkConditions = listWd
+                };
+                list.Add(weather);
+            }
+
+            return list;
+        }
     }
 }

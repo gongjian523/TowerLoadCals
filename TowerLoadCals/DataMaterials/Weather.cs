@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.DataMaterials
 {
-    public class Weather
+    public class WorkCondition
     {
         /// <summary>
         /// 工况名称
@@ -27,5 +27,25 @@ namespace TowerLoadCals.DataMaterials
         /// 冰厚
         /// </summary>
         public string SIceThickness { get; set; }
+    }
+
+    public class Weather
+    {
+        /// <summary>
+        /// 气象区对象
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 工况
+        /// </summary>
+        public List<WorkCondition> WorkConditions { get; set; }
+    }
+
+    public class WeatherCollection
+    {
+        public string Name { get; set; }
+
+        public List<Weather> Weathers { get; set; }
     }
 }
