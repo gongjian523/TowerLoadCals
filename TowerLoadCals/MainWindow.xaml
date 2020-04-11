@@ -141,7 +141,7 @@
                 <TreeView Name="weatherTreeView" />
             </TabItem>
             <TabItem Header="ta文件">
-                <DataGrid  x:Name="dataGridTa" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False">
+                <DataGrid  x:Name="dataGridTa" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False" SelectionMode="Extended" SelectionUnit="Cell">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="复制" Click="button_DG_Copy_Click"/>

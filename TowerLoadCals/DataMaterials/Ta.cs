@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.DataMaterials
 {
+    /// <summary>
+    /// 长度 重量、片数、 金具换算片数、名称、类型、联数
+    /// </summary>
+
     public class Ta
     {
         /// <summary>

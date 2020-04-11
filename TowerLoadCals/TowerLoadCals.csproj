@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataMaterials\TaTemplate.cs" />
     <Compile Include="DataMaterials\Weather.cs" />
     <Compile Include="DataMaterials\SLTa.cs" />
     <Compile Include="DataMaterials\SLXian.cs" />
