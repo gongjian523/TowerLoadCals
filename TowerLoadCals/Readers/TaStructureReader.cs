@@ -28,6 +28,13 @@ namespace TowerLoadCals.Readers
             taStructure.AppearanceType = xmlNode.Attributes["AppearanceType"].Value.ToString();
 
             //解析CircuitSet节点
+            XmlNode circuitZBaseNode = doc.GetElementsByTagName("CircuitZBase")[0];
+            if (circuitZBaseNode == null)
+                return null;
+            taStructure.ZBaseCircuitId = Convert.ToInt16(circuitZBaseNode.Attributes["Circuit"].Value.ToString());
+            taStructure.ZBasePhaseId = Convert.ToInt16(circuitZBaseNode.Attributes["PhaseId"].Value.ToString());
+
+            //解析CircuitSet节点
             XmlNode circuitSetNode = doc.GetElementsByTagName("CircuitSet")[0];
             if (circuitSetNode == null)
                 return null;
@@ -38,6 +45,27 @@ namespace TowerLoadCals.Readers
                 Circuit cs = new Circuit();
                 cs.Name = csNode.Attributes["Name"].Value.ToString();
                 cs.Id = Convert.ToInt16(csNode.Attributes["Id"].Value.ToString());
+
+                if(csNode.Attributes["Current"] == null)
+                {
+                    cs.IsCurrentExist = false;
+                }
+                else
+                {
+                    cs.IsCurrentExist = true;
+                    cs.Current = csNode.Attributes["Current"].Value.ToString();
+                }
+
+                if (csNode.Attributes["Voltage"] == null)
+                {
+                    cs.IsVoltageExist = false;
+                }
+                else
+                {
+                    cs.IsVoltageExist = true;
+                    cs.Voltage = Convert.ToInt16(csNode.Attributes["Voltage"].Value.ToString());
+                }
+
                 cs.PhaseWires = new List<PhaseWire>();
 
                 foreach(XmlNode wireNode in csNode.ChildNodes)
@@ -107,14 +135,18 @@ namespace TowerLoadCals.Readers
 
             XmlAttribute circuitNumAttribute = doc.CreateAttribute("Circuit");
             circuitNumAttribute.Value = taStructure.CircuitNum.ToString();
-            xmlNode.Attributes.Append(nameAttribute);
+            xmlNode.Attributes.Append(circuitNumAttribute);
 
             XmlAttribute typeAttribute = doc.CreateAttribute("Type");
             typeAttribute.Value = taStructure.Type.ToString();
             xmlNode.Attributes.Append(typeAttribute);
 
+            XmlAttribute categoryeTypeAttribute = doc.CreateAttribute("Category");
+            categoryeTypeAttribute.Value = taStructure.Category;
+            xmlNode.Attributes.Append(categoryeTypeAttribute);
+
             XmlAttribute appearanceTypeAttribute = doc.CreateAttribute("AppearanceType");
-            appearanceTypeAttribute.Value = taStructure.Name;
+            appearanceTypeAttribute.Value = taStructure.AppearanceType;
             xmlNode.Attributes.Append(appearanceTypeAttribute);
 
             XmlNode circuitSetNode = doc.CreateElement("CircuitSet");
@@ -123,15 +155,15 @@ namespace TowerLoadCals.Readers
             XmlNode circuitPosSetNode = doc.CreateElement("CircuitPosSet");
             xmlNode.AppendChild(circuitPosSetNode);
 
-            XmlNode circuitZBasNode = doc.CreateElement("CircuitZBas");
+            XmlNode circuitZBasNode = doc.CreateElement("CircuitZBase");
             circuitPosSetNode.AppendChild(circuitZBasNode);
 
             XmlAttribute zBaseCircuitIdAttribute = doc.CreateAttribute("Circuit");
-            circuitNumAttribute.Value = taStructure.ZBaseCircuitId.ToString();
+            zBaseCircuitIdAttribute.Value = taStructure.ZBaseCircuitId.ToString();
             circuitZBasNode.Attributes.Append(zBaseCircuitIdAttribute);
 
             XmlAttribute zBasePhaseIdAttribute = doc.CreateAttribute("PhaseId");
-            circuitNumAttribute.Value = taStructure.ZBasePhaseId.ToString();
+            zBasePhaseIdAttribute.Value = taStructure.ZBasePhaseId.ToString();
             circuitZBasNode.Attributes.Append(zBasePhaseIdAttribute);
 
             foreach(var csItem in taStructure.CircuitSet)
@@ -144,10 +176,24 @@ namespace TowerLoadCals.Readers
                 circuitNode.Attributes.Append(csNameAttribute);
 
                 XmlAttribute csIdAttribute = doc.CreateAttribute("Id");
-                csIdAttribute.Value = taStructure.ZBasePhaseId.ToString();
+                csIdAttribute.Value = csItem.Id.ToString();
                 circuitNode.Attributes.Append(csIdAttribute);
 
-                foreach(var wireItem in csItem.PhaseWires)
+                if(csItem.IsCurrentExist)
+                {
+                    XmlAttribute csCurrenttAttribute = doc.CreateAttribute("Current");
+                    csCurrenttAttribute.Value = csItem.Current;
+                    circuitNode.Attributes.Append(csCurrenttAttribute);
+                }
+
+                if (csItem.IsVoltageExist)
+                {
+                    XmlAttribute csVoltageAttribute = doc.CreateAttribute("Voltage");
+                    csVoltageAttribute.Value = csItem.Voltage.ToString();
+                    circuitNode.Attributes.Append(csVoltageAttribute);
+                }
+
+                foreach (var wireItem in csItem.PhaseWires)
                 {
                     XmlNode wireNode = doc.CreateElement("PhaseWire");
                     circuitNode.AppendChild(wireNode);
@@ -157,7 +203,7 @@ namespace TowerLoadCals.Readers
                     wireNode.Attributes.Append(phaseNameAttribute);
 
                     XmlAttribute phaseIdAttribute = doc.CreateAttribute("PhaseId");
-                    phaseIdAttribute.Value = taStructure.ZBasePhaseId.ToString();
+                    phaseIdAttribute.Value = wireItem.Id.ToString();
                     wireNode.Attributes.Append(phaseIdAttribute);
 
                     foreach(var pos in wireItem.Postions)
@@ -177,7 +223,7 @@ namespace TowerLoadCals.Readers
                         functionTypeAttribute.Value = pos.FunctionType;
                         posNode.Attributes.Append(functionTypeAttribute);
 
-                        XmlNode positionNode = doc.CreateElement("CircuitPos");
+                        XmlNode positionNode = doc.CreateElement("Position");
                         posNode.AppendChild(positionNode);
 
                         XmlAttribute pzAttribute = doc.CreateAttribute("Pz");
@@ -185,20 +231,17 @@ namespace TowerLoadCals.Readers
                         positionNode.Attributes.Append(pzAttribute);
 
                         XmlAttribute pyAttribute = doc.CreateAttribute("Py");
-                        pyAttribute.Value = pos.Pz.ToString();
+                        pyAttribute.Value = pos.Py.ToString();
                         positionNode.Attributes.Append(pyAttribute);
 
                         XmlAttribute pxAttribute = doc.CreateAttribute("Px");
-                        pxAttribute.Value = pos.Pz.ToString();
+                        pxAttribute.Value = pos.Px.ToString();
                         positionNode.Attributes.Append(pxAttribute);
-
                     }
-
                 }
             }
 
             doc.Save(path);
-
         }
     }
 }

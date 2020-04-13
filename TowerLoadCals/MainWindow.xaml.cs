@@ -406,20 +406,40 @@ namespace TowerLoadCals
             return;
         }
 
+        TaStructure taStructureReader = new TaStructure();
+
         private void button_ReadMD_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog()
             {
                 Filter = "Excel Files (*.xml)|*.xml"
             };
-            var result = openFileDialog.ShowDialog();
 
-            TaStructure taStructureReader = TaStructureReader.Read(openFileDialog.FileName);
+            if(openFileDialog.ShowDialog() == true)
+            {
+                taStructureReader = TaStructureReader.Read(openFileDialog.FileName);
+            }
+
+            return;
+        }
+
+        private void button_SaveMD_Click(object sender, RoutedEventArgs e)
+        {
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Md Files (*.xml)|*.xml",
+                InitialDirectory = @"D:\"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                TaStructureReader.Save(saveFileDialog.FileName, taStructureReader);
+            }
 
             return;
         }
 
     }
-
 
 }

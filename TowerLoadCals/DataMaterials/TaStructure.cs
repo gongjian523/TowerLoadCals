@@ -63,9 +63,19 @@ namespace TowerLoadCals
         public int Id { get; set; }
 
         /// <summary>
+        /// 电流是否存在
+        /// </summary>
+        public bool IsCurrentExist { get; set; }
+
+        /// <summary>
         /// 电流
         /// </summary>
-        public int Current{ get; set; }
+        public string Current{ get; set; }
+
+        /// <summary>
+        /// 电压是否存在
+        /// </summary>
+        public bool IsVoltageExist { get; set; }
 
         /// <summary>
         /// 电压
