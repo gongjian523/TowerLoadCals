@@ -13,6 +13,9 @@ namespace TowerLoadCals.Readers
     {
         public abstract List<Weather> Read(string path);
         public abstract List<Weather> Read(string dir, string tableName);
+
+        public abstract List<Weather> ReadLocal(string path);
+        public abstract List<Weather> Save(string path);
     }
 
     public class WeatherXmlReader : WeatherReader
@@ -62,6 +65,21 @@ namespace TowerLoadCals.Readers
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public override List<Weather> ReadLocal(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Weather> Save(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class WeatherDbfReader : WeatherReader
@@ -97,6 +115,16 @@ namespace TowerLoadCals.Readers
             weathers.Add(weather);
 
             return weathers;
+        }
+
+        public override List<Weather> ReadLocal(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<Weather> Save(string path)
+        {
+            throw new NotImplementedException();
         }
     }
 
