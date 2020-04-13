@@ -406,5 +406,20 @@ namespace TowerLoadCals
             return;
         }
 
+        private void button_ReadMD_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Excel Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            TaStructure taStructureReader = TaStructureReader.Read(openFileDialog.FileName);
+
+            return;
+        }
+
     }
+
+
 }

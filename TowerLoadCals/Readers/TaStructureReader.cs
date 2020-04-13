@@ -33,25 +33,172 @@ namespace TowerLoadCals.Readers
                 return null;
 
             taStructure.CircuitSet = new List<Circuit>();
-            foreach (XmlNode node in circuitSetNode.ChildNodes)
+            foreach (XmlNode csNode in circuitSetNode.ChildNodes)
             {
                 Circuit cs = new Circuit();
-                cs.Name = node.Attributes["Name"].Value.ToString();
-                cs.Id = Convert.ToInt16(node.Attributes["Id"].Value.ToString());
+                cs.Name = csNode.Attributes["Name"].Value.ToString();
+                cs.Id = Convert.ToInt16(csNode.Attributes["Id"].Value.ToString());
+                cs.PhaseWires = new List<PhaseWire>();
 
+                foreach(XmlNode wireNode in csNode.ChildNodes)
+                {
+                    PhaseWire wire = new PhaseWire();
+                    wire.Name = wireNode.Attributes["PhaseName"].Value.ToString();
+                    wire.Id = Convert.ToInt16(wireNode.Attributes["PhaseId"].Value.ToString());
+                    wire.Postions = new List<CircuitPostion>();
 
+                    cs.PhaseWires.Add(wire);
+                }
+
+                taStructure.CircuitSet.Add(cs);
+            }
+
+            //解析CircuitSet节点
+
+            XmlNodeList CircuitPosNodeList = doc.GetElementsByTagName("CircuitPos");
+
+            foreach(XmlNode csPosNode in CircuitPosNodeList)
+            {
+                int csId = Convert.ToInt16(csPosNode.Attributes["Circuit"].Value.ToString());
+                int phaseId = Convert.ToInt16(csPosNode.Attributes["PhaseId"].Value.ToString());
+
+                XmlNode posNode = csPosNode.FirstChild;
+                
+                if(posNode != null)
+                {
+                    CircuitPostion pos = new CircuitPostion
+                    {
+                        FunctionType = csPosNode.Attributes["FunctionType"].Value.ToString(),
+                        Px = Convert.ToInt16(posNode.Attributes["Px"].Value.ToString()),
+                        Py = Convert.ToInt16(posNode.Attributes["Py"].Value.ToString()),
+                        Pz = Convert.ToInt16(posNode.Attributes["Pz"].Value.ToString())
+                    };
+
+                    Circuit circuit = taStructure.CircuitSet.Where(item => item.Id == csId).ToList().First();
+                    if (circuit == null)
+                        continue;
+
+                    PhaseWire pw = circuit.PhaseWires.Where(item => item.Id == phaseId).ToList().First();
+                    if (pw != null)
+                    {
+                        pw.Postions.Add(pos);
+                    }
+                }
 
             }
 
-
-
-
-
-
-
-
             return taStructure;
         }
-        
+
+
+        public static void Save(string path, TaStructure taStructure)
+        {
+            XmlDocument doc = new XmlDocument();
+
+            XmlNode decNode =  doc.CreateXmlDeclaration("1.0", "UTF-8", "");
+            doc.AppendChild(decNode);
+
+            XmlNode xmlNode = doc.CreateElement("XML");
+            doc.AppendChild(xmlNode);
+
+            XmlAttribute nameAttribute = doc.CreateAttribute("Name");
+            nameAttribute.Value = taStructure.Name;
+            xmlNode.Attributes.Append(nameAttribute);
+
+            XmlAttribute circuitNumAttribute = doc.CreateAttribute("Circuit");
+            circuitNumAttribute.Value = taStructure.CircuitNum.ToString();
+            xmlNode.Attributes.Append(nameAttribute);
+
+            XmlAttribute typeAttribute = doc.CreateAttribute("Type");
+            typeAttribute.Value = taStructure.Type.ToString();
+            xmlNode.Attributes.Append(typeAttribute);
+
+            XmlAttribute appearanceTypeAttribute = doc.CreateAttribute("AppearanceType");
+            appearanceTypeAttribute.Value = taStructure.Name;
+            xmlNode.Attributes.Append(appearanceTypeAttribute);
+
+            XmlNode circuitSetNode = doc.CreateElement("CircuitSet");
+            xmlNode.AppendChild(circuitSetNode);
+
+            XmlNode circuitPosSetNode = doc.CreateElement("CircuitPosSet");
+            xmlNode.AppendChild(circuitPosSetNode);
+
+            XmlNode circuitZBasNode = doc.CreateElement("CircuitZBas");
+            circuitPosSetNode.AppendChild(circuitZBasNode);
+
+            XmlAttribute zBaseCircuitIdAttribute = doc.CreateAttribute("Circuit");
+            circuitNumAttribute.Value = taStructure.ZBaseCircuitId.ToString();
+            circuitZBasNode.Attributes.Append(zBaseCircuitIdAttribute);
+
+            XmlAttribute zBasePhaseIdAttribute = doc.CreateAttribute("PhaseId");
+            circuitNumAttribute.Value = taStructure.ZBasePhaseId.ToString();
+            circuitZBasNode.Attributes.Append(zBasePhaseIdAttribute);
+
+            foreach(var csItem in taStructure.CircuitSet)
+            {
+                XmlNode circuitNode = doc.CreateElement("Circuit");
+                circuitSetNode.AppendChild(circuitNode);
+
+                XmlAttribute csNameAttribute = doc.CreateAttribute("Name");
+                csNameAttribute.Value = csItem.Name;
+                circuitNode.Attributes.Append(csNameAttribute);
+
+                XmlAttribute csIdAttribute = doc.CreateAttribute("Id");
+                csIdAttribute.Value = taStructure.ZBasePhaseId.ToString();
+                circuitNode.Attributes.Append(csIdAttribute);
+
+                foreach(var wireItem in csItem.PhaseWires)
+                {
+                    XmlNode wireNode = doc.CreateElement("PhaseWire");
+                    circuitNode.AppendChild(wireNode);
+
+                    XmlAttribute phaseNameAttribute = doc.CreateAttribute("PhaseName");
+                    phaseNameAttribute.Value = wireItem.Name;
+                    wireNode.Attributes.Append(phaseNameAttribute);
+
+                    XmlAttribute phaseIdAttribute = doc.CreateAttribute("PhaseId");
+                    phaseIdAttribute.Value = taStructure.ZBasePhaseId.ToString();
+                    wireNode.Attributes.Append(phaseIdAttribute);
+
+                    foreach(var pos in wireItem.Postions)
+                    {
+                        XmlNode posNode = doc.CreateElement("CircuitPos");
+                        circuitPosSetNode.AppendChild(posNode);
+
+                        XmlAttribute circuitAttribute = doc.CreateAttribute("Circuit");
+                        circuitAttribute.Value = csItem.Id.ToString();
+                        posNode.Attributes.Append(circuitAttribute);
+
+                        XmlAttribute phaseAttribute = doc.CreateAttribute("PhaseId");
+                        phaseAttribute.Value = wireItem.Id.ToString();
+                        posNode.Attributes.Append(phaseAttribute);
+
+                        XmlAttribute functionTypeAttribute = doc.CreateAttribute("FunctionType");
+                        functionTypeAttribute.Value = pos.FunctionType;
+                        posNode.Attributes.Append(functionTypeAttribute);
+
+                        XmlNode positionNode = doc.CreateElement("CircuitPos");
+                        posNode.AppendChild(positionNode);
+
+                        XmlAttribute pzAttribute = doc.CreateAttribute("Pz");
+                        pzAttribute.Value = pos.Pz.ToString();
+                        positionNode.Attributes.Append(pzAttribute);
+
+                        XmlAttribute pyAttribute = doc.CreateAttribute("Py");
+                        pyAttribute.Value = pos.Pz.ToString();
+                        positionNode.Attributes.Append(pyAttribute);
+
+                        XmlAttribute pxAttribute = doc.CreateAttribute("Px");
+                        pxAttribute.Value = pos.Pz.ToString();
+                        positionNode.Attributes.Append(pxAttribute);
+
+                    }
+
+                }
+            }
+
+            doc.Save(path);
+
+        }
     }
 }

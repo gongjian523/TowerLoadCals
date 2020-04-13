@@ -6,18 +6,8 @@ using System.Text;
 
 namespace TowerLoadCals
 {
-    public class PhaseWire
+    public class CircuitPostion
     {
-        /// <summary>
-        /// 名字
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 序号
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// 线的类型
         /// </summary>
@@ -37,6 +27,26 @@ namespace TowerLoadCals
         /// X轴的位置
         /// </summary>
         public int Px { get; set; }
+    }
+
+
+    public class PhaseWire
+    {
+        /// <summary>
+        /// 名字
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 序号
+        /// </summary>
+        public int Id { get; set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<CircuitPostion> Postions { get; set; }
+
     }
 
 
