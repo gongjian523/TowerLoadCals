@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataMaterials\InsulatorString.cs" />
     <Compile Include="DataMaterials\TaStructure.cs" />
     <Compile Include="DataMaterials\TaTemplate.cs" />
     <Compile Include="DataMaterials\Weather.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Readers\DbfReader.cs" />
     <Compile Include="Readers\TaReader.cs" />
     <Compile Include="Readers\TaStructureReader.cs" />
+    <Compile Include="Readers\TaTemplateReader.cs" />
     <Compile Include="Readers\WireReader.cs" />
     <Compile Include="Readers\WeatherReader.cs" />
     <Compile Include="Readers\XmlReader.cs" />

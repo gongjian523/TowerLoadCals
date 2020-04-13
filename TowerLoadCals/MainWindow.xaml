@@ -11,15 +11,20 @@
             <ColumnDefinition Width="130"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <WrapPanel>
-            <Button Click="button_ReadXML_Click" Height="30" Width="120" Content="请选择XML文件" BorderThickness="0" Margin="3"/>
-            <Button Click="button_ReadDBF_Click" Name="ReadTadbfBtn" Height="30" Width="120" Content="请选择SL_TA.DBF文件" BorderThickness="0" Margin="3"/>
-            <Button Click="button_ReadDBF_Click" Name="ReadXiandbfBtn"  Height="30" Width="120" Content="请选择SL_XIAN.DBF文件" BorderThickness="0" Margin="3"/>
+        <WrapPanel >
+            <!--<Button Click="button_ReadXML_Click" Height="30" Width="120" Content="请选择XML文件" BorderThickness="0" Margin="3"/>-->
+            <!--<Button Click="button_ReadDBF_Click" Name="ReadTadbfBtn" Height="30" Width="120" Content="请选择SL_TA.DBF文件" BorderThickness="0" Margin="3"/>-->
+            <!--<Button Click="button_ReadDBF_Click" Name="ReadXiandbfBtn"  Height="30" Width="120" Content="请选择SL_XIAN.DBF文件" BorderThickness="0" Margin="3"/>-->
             <Button Click="button_ReadWeatherXML_Click" Name="ReadWeatherXMLBtn"  Height="30" Width="120" Content="请选择Weather.XML文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadDBF_Click" Name="ReadWeatherdbfBtn" Height="30" Width="120" Content="请选择Weather.DBF文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadTa_Click" Height="30" Width="120" Content="请选择TA文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadMD_Click" Height="30" Width="120" Content="请选择MD文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_SaveMD_Click" Height="30" Width="120" Content="保存MD文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadTaTemplate_Click" Name="ReadLineTemplateBtn" Height="30" Width="120" Content="打开直线塔文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadTaTemplate_Click" Name="ReadCornerTemplateBtn" Height="30" Width="120" Content="打开转角塔文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadTaTemplate_Click" Name="ReadLineCornerTemplateBtn" Height="30" Width="120" Content="打开直线转角塔文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadTaTemplate_Click" Name="ReadTerminalTemplateBtn" Height="30" Width="120" Content="打开终端塔文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadTaTemplate_Click" Name="ReadBranchTemplateBtn" Height="30" Width="120" Content="打开分支塔文件" BorderThickness="0" Margin="3"/>
         </WrapPanel>
         <TabControl Grid.Column="1" Name="tabs">
             <TabItem Header="XML文件">
@@ -170,7 +175,20 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-
+            <TabItem Header="塔库文件">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Name="nameLabel" HorizontalAlignment="Left"/>
+                    <Label Name="wireLabel" Grid.Row="1"  HorizontalAlignment="Left"/>
+                    <Label Name="wdLabel" Grid.Row="2"   HorizontalAlignment="Left"/>
+                    <DataGrid  Name="wdComboGridTa"  Grid.Row="3"  ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False" />
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

@@ -9,14 +9,39 @@ namespace TowerLoadCals.DataMaterials
     public class WorkConditionCombo
     {
         /// <summary>
-        /// 废弃了
+        /// 
         /// </summary>
-        bool isUsed { get; set; }
+        public bool para1 { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public string para2 { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public string para3 { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public string para4 { get; set; }
 
-     
+        /// <summary>
+        /// 
+        /// </summary>
+        public string para5 { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<int> Indexs {get; set;}
+
+        /// <summary>
+        /// 注释
+        /// </summary>
+        public string Comment { get; set; }
     }
 
 

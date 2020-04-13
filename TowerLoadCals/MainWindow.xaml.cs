@@ -440,6 +440,82 @@ namespace TowerLoadCals
             return;
         }
 
+
+        private void button_ReadTaTemplate_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Excel Files (*.dat)|*.dat"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            if (result != true)
+                return;
+            TaTemplate template = new TaTemplate();
+
+            Button btn = (Button)sender;
+            if (btn.Name == "ReadLineTemplateBtn")
+            {
+                LineTowerTemplateReader taTemplateReader = new LineTowerTemplateReader();
+                template = taTemplateReader.Read(openFileDialog.FileName);
+
+            }
+            else if (btn.Name == "ReadCornerTemplateBtn")
+            {
+                CornerTowerTemplateReader taTemplateReader = new CornerTowerTemplateReader();
+                template = taTemplateReader.Read(openFileDialog.FileName);
+            }
+            else if (btn.Name == "ReadLineCornerTemplateBtn")
+            {
+                LineCornerTowerTemplateReader taTemplateReader = new LineCornerTowerTemplateReader();
+                template = taTemplateReader.Read(openFileDialog.FileName);
+            }
+            else if (btn.Name == "ReadTerminalTemplateBtn")
+            {
+                TerminalTowerTemplateReader taTemplateReader = new TerminalTowerTemplateReader();
+                template = taTemplateReader.Read(openFileDialog.FileName);
+            }
+            else 
+            {
+                BranchTowerTemplateReader taTemplateReader = new BranchTowerTemplateReader();
+                template = taTemplateReader.Read(openFileDialog.FileName);
+            }
+
+            tabs.SelectedIndex = 5;
+
+            nameLabel.Content = template.Name;
+
+            string wire = "";
+            foreach (var item in template.Wires)
+            {
+                if (wire == "")
+                {
+                    wire = item;
+                }
+                else
+                {
+                    wire = wire + " " + item;
+                }
+            }
+            wireLabel.Content = wire;
+
+            string wd = "";
+            foreach (var item in template.WorkConditongs)
+            {
+                if (wd == "")
+                {
+                    wd = item.Key.ToString() + "." + item.Value;
+                }
+                else
+                {
+                    wd = wd + " " + item.Key.ToString() + "." + item.Value;
+                }
+            }
+            wdLabel.Content = wd;
+
+
+
+        }
     }
 
 }
