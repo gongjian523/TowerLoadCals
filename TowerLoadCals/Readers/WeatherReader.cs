@@ -15,7 +15,7 @@ namespace TowerLoadCals.Readers
         public abstract List<Weather> Read(string dir, string tableName);
 
         public abstract List<Weather> ReadLocal(string path);
-        public abstract List<Weather> Save(string path);
+        public abstract void Save(string path, List<Weather> weathers);
     }
 
     public class WeatherXmlReader : WeatherReader
@@ -73,12 +73,81 @@ namespace TowerLoadCals.Readers
         /// <returns></returns>
         public override List<Weather> ReadLocal(string path)
         {
-            throw new NotImplementedException();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            XmlNode rootNode = doc.FirstChild;
+            if (rootNode == null)
+                return new List<Weather>();
+
+            List<Weather> list = new List<Weather>();
+
+            foreach (XmlNode node in rootNode.ChildNodes)
+            {
+                List<WorkCondition> listWd = new List<WorkCondition>();
+                foreach (XmlNode nodeWd in node.ChildNodes)
+                {
+                    WorkCondition wd = new WorkCondition()
+                    {
+                        SWorkConditionName = nodeWd.Attributes["SWorkConditionName"].Value.ToString(),
+                        SWindSpeed = nodeWd.Attributes["SWindSpeed"].Value.ToString(),
+                        STemperature = nodeWd.Attributes["STemperature"].Value.ToString(),
+                        SIceThickness = nodeWd.Attributes["SIceThickness"].Value.ToString(),
+                    };
+                    listWd.Add(wd);
+                }
+
+                Weather weather = new Weather()
+                {
+                    Name = node.Attributes["SName"].Value.ToString(),
+                    WorkConditions = listWd
+                };
+                list.Add(weather);
+            }
+
+            return list;
         }
 
-        public override List<Weather> Save(string path)
+        public override void Save(string path, List<Weather> weathers)
         {
-            throw new NotImplementedException();
+            XmlDocument doc = new XmlDocument();
+
+            XmlNode rootNode = doc.CreateElement("Root");
+            doc.AppendChild(rootNode);
+
+            foreach(var item in weathers)
+            {
+                XmlNode weatherNode = doc.CreateElement("KNode");
+                rootNode.AppendChild(weatherNode);
+
+                XmlAttribute weatherAttribute = doc.CreateAttribute("SName");
+                weatherAttribute.Value = item.Name.ToString();
+                weatherNode.Attributes.Append(weatherAttribute);
+
+                foreach(var wdItem in item.WorkConditions)
+                {
+                    XmlNode wdNode = doc.CreateElement("KNode");
+                    weatherNode.AppendChild(wdNode);
+
+                    XmlAttribute iceThicknessAttribute = doc.CreateAttribute("SIceThickness");
+                    iceThicknessAttribute.Value = wdItem.SIceThickness.ToString();
+                    wdNode.Attributes.Append(iceThicknessAttribute);
+
+                    XmlAttribute temperatureAttribute = doc.CreateAttribute("STemperature");
+                    temperatureAttribute.Value = wdItem.STemperature.ToString();
+                    wdNode.Attributes.Append(temperatureAttribute);
+
+                    XmlAttribute windSpeedAttribute = doc.CreateAttribute("SWindSpeed");
+                    windSpeedAttribute.Value = wdItem.SWindSpeed.ToString();
+                    wdNode.Attributes.Append(windSpeedAttribute);
+
+                    XmlAttribute workConditionNameAttribute = doc.CreateAttribute("SWorkConditionName");
+                    workConditionNameAttribute.Value = wdItem.SWorkConditionName.ToString();
+                    wdNode.Attributes.Append(workConditionNameAttribute);
+                }
+            }
+
+            doc.Save(path);
         }
     }
 
@@ -122,7 +191,7 @@ namespace TowerLoadCals.Readers
             throw new NotImplementedException();
         }
 
-        public override List<Weather> Save(string path)
+        public override void Save(string path, List<Weather> weathers)
         {
             throw new NotImplementedException();
         }

@@ -16,6 +16,8 @@
             <!--<Button Click="button_ReadDBF_Click" Name="ReadTadbfBtn" Height="30" Width="120" Content="请选择SL_TA.DBF文件" BorderThickness="0" Margin="3"/>-->
             <!--<Button Click="button_ReadDBF_Click" Name="ReadXiandbfBtn"  Height="30" Width="120" Content="请选择SL_XIAN.DBF文件" BorderThickness="0" Margin="3"/>-->
             <Button Click="button_ReadWeatherXML_Click" Name="ReadWeatherXMLBtn"  Height="30" Width="120" Content="请选择Weather.XML文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_SaveWeatherXML_Click" Name="SaveWeatherXMLBtn"  Height="30" Width="120" Content="保存Weather.XML文件" BorderThickness="0" Margin="3"/>
+            <Button Click="button_ReadLocalWeatherXML_Click" Name="ReadLocalWeatherXMLBtn"  Height="30" Width="120" Content="保存Weather.XML文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadDBF_Click" Name="ReadWeatherdbfBtn" Height="30" Width="120" Content="请选择Weather.DBF文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadTa_Click" Height="30" Width="120" Content="请选择TA文件" BorderThickness="0" Margin="3"/>
             <Button Click="button_ReadMD_Click" Height="30" Width="120" Content="请选择MD文件" BorderThickness="0" Margin="3"/>

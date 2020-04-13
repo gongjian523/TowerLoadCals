@@ -314,6 +314,8 @@ namespace TowerLoadCals
             }
         }
 
+        private List<Weather> listWeathers = new List<Weather>();
+
         private void button_ReadWeatherXML_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog()
@@ -328,7 +330,8 @@ namespace TowerLoadCals
                 return;
             //NodeXml root = XmlReader.ReadXml(openFileDialog.FileName);//记录用户选择的文件路径
 
-            List<Weather> listWeathers = XmlReader.ReadWeather(openFileDialog.FileName);
+            WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+            listWeathers = weatherReader.Read(openFileDialog.FileName);
 
             if(listWeathers.Count > 0)
                 weathers.Weathers.AddRange(listWeathers);
@@ -358,6 +361,47 @@ namespace TowerLoadCals
                 weatherTreeView.Items.Add(subItem);
             }
         }
+
+        private void button_SaveWeatherXML_Click(object sender, RoutedEventArgs e)
+        {
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Md Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+                weatherReader.Save(saveFileDialog.FileName, listWeathers);
+            }
+
+            return;
+        }
+
+
+        private void button_ReadLocalWeatherXML_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Excel Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            tabs.SelectedIndex = 0;
+
+            if (result != true)
+                return;
+
+            WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+            listWeathers = weatherReader.ReadLocal(openFileDialog.FileName);
+
+            if (listWeathers.Count > 0)
+                weathers.Weathers.AddRange(listWeathers);
+
+            UpdateWeatherTreeView();
+        }
+
 
         List<Ta> copy = new List<Ta>(); 
 
