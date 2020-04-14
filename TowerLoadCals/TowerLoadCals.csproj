@@ -70,6 +70,7 @@
     <Compile Include="DataMaterials\Wire.cs" />
     <Compile Include="DataMaterials\xmlItem.cs" />
     <Compile Include="Readers\DbfReader.cs" />
+    <Compile Include="Readers\DES.cs" />
     <Compile Include="Readers\TaReader.cs" />
     <Compile Include="Readers\TaStructureReader.cs" />
     <Compile Include="Readers\TaTemplateReader.cs" />

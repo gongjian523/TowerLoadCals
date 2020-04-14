@@ -3,13 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using TowerLoadCals.DataMaterials;
 
 namespace TowerLoadCals.Readers
 {
     public class TaTemplateReader
     {
+
+        public enum TowerType
+        {
+            LineTower,
+            LineCornerTower,
+            CornerTower,
+            TerminalTower,
+            BranchTower
+        }
+
         public TaTemplate template = new TaTemplate();
+
+        protected TowerType Type { get; set;}
 
         protected int WireNum { get; set; }
 
@@ -28,24 +41,39 @@ namespace TowerLoadCals.Readers
 
         protected int WorkConditongsComboStartLine { get; set; }
 
-        protected String[] seperate = new string[]
-        {
-            " ",
-            "  ",
-            "   ",
-            "    ",
-            "     ",
-            "      ",
-            "       ",
-            "        "
-        };
 
-        public TaTemplateReader(string type, int workConditongsLine, int workConditongsComboStartLine)
+        public TaTemplateReader(TowerType type)
         {
-            WorkConditongsLine = workConditongsLine;
-            WorkConditongsComboStartLine = workConditongsComboStartLine;
+            if(type == TowerType.LineTower)
+            {
+                WorkConditongsLine = 15;
+                WorkConditongsComboStartLine = 17;
 
-            template.Type = type;
+                template.Type = "直线塔";
+            }
+            else if (type == TowerType.LineCornerTower)
+            {
+                WorkConditongsLine = 16;
+                WorkConditongsComboStartLine = 18;
+
+                template.Type = "直线转角塔";
+            }
+            else
+            {
+                WorkConditongsLine = 26;
+                WorkConditongsComboStartLine = 29;
+
+               if(type == TowerType.CornerTower)
+                    template.Type = "转角塔";
+               else if (type == TowerType.TerminalTower)
+                    template.Type = "终端塔";
+               else
+                    template.Type = "分支塔";
+
+            }
+
+            Type = type;
+
             template.Wires = new List<string>();
             template.WorkConditongs = new Dictionary<int, string>();
             template.WorkConditionCombos = new List<WorkConditionCombo>();
@@ -68,24 +96,24 @@ namespace TowerLoadCals.Readers
 
                 if(lineNum == InstructionLine)
                 {
-                    string[] sArray = line.Split(seperate, StringSplitOptions.RemoveEmptyEntries);
+                    string[] sArray = SplitString(line);
                     WireNum = Convert.ToInt16(sArray[0]);
                     WorkConditionNum = Convert.ToInt16(sArray[2]);
                     WorkConditonComboNum = Convert.ToInt16(sArray[3]);
                 }
                 else if (lineNum == WireLine)
                 {
-                    string[] sArray = line.Split(seperate, StringSplitOptions.RemoveEmptyEntries); ;
-                    foreach(string str in sArray)
+                    string[] sArray = SplitString(line);
+                    foreach (string str in sArray)
                     {
                         template.Wires.Add(str);
                     }
                 }
                 else if(lineNum  == WorkConditongsLine)
                 {
-                    string[] sArray = line.Split(seperate, StringSplitOptions.RemoveEmptyEntries); 
+                    string[] sArray = SplitString(line);
 
-                    for(int i = 0; i < sArray.Count(); i++)
+                    for (int i = 0; i < sArray.Count(); i++)
                     {
                         int digitNum = 0;
                         int total = i+1;
@@ -116,182 +144,63 @@ namespace TowerLoadCals.Readers
         }
 
 
-        virtual protected void DecodeWorkCondition(string line, out WorkConditionCombo combo)
-        {
-            combo = new WorkConditionCombo()
-            {
-                Indexs = new List<int>()
-            };
-        }
-
-    }
-
-    /// <summary>
-    /// 直线塔模板解析
-    /// </summary>
-    public class LineTowerTemplateReader : TaTemplateReader
-    {
-        public LineTowerTemplateReader() : base("直线塔", 15, 17)
-        {
-            
-        }
-
-        override protected void  DecodeWorkCondition(string line, out WorkConditionCombo combo)
+        protected void DecodeWorkCondition(string line, out WorkConditionCombo combo)
         {
             combo = new WorkConditionCombo()
             {
                 Indexs = new List<int>()
             };
 
-            string[] sArray = line.Split(seperate, StringSplitOptions.RemoveEmptyEntries); ;
+            string[] sArray = SplitString(line);
 
-            combo.para1 = Convert.ToBoolean(sArray[1].ToString());
-            combo.para2 = sArray[2];
-            combo.para3 = sArray[3];
-
-            for (int i = 1; i <= WireNum; i++)
+            if(Type == TowerType.LineTower)
             {
-                combo.Indexs.Add(Convert.ToInt16(sArray[3 + i]));
+                combo.para1 = Convert.ToBoolean(sArray[1].ToString());
+                combo.para2 = sArray[2];
+                combo.para3 = sArray[3];
+
+                for (int i = 1; i <= WireNum; i++)
+                {
+                    combo.Indexs.Add(Convert.ToInt16(sArray[3 + i]));
+                }
+
+                combo.Comment = sArray[3 + WireNum + 1 + 1].ToString();
             }
-
-            combo.Comment = sArray[3 + WireNum + 1 + 1].ToString();
-        }
-    }
-
-
-    /// <summary>
-    /// 直线转角塔模板解析
-    /// </summary>
-    public class LineCornerTowerTemplateReader : TaTemplateReader
-    {
-        public LineCornerTowerTemplateReader() : base("直线转角塔", 16, 18)
-        {
-
-        }
-
-        override protected void DecodeWorkCondition(string line, out WorkConditionCombo combo)
-        {
-            combo = new WorkConditionCombo()
+            else if(Type == TowerType.LineCornerTower)
             {
-                Indexs = new List<int>()
-            };
+                combo.para1 = Convert.ToBoolean(sArray[1].ToString());
+                combo.para2 = sArray[2];
+                combo.para3 = sArray[3];
+                combo.para4 = sArray[4];
 
-            string[] sArray = line.Split(seperate, StringSplitOptions.RemoveEmptyEntries); ;
+                for (int i = 1; i <= WireNum; i++)
+                {
+                    combo.Indexs.Add(Convert.ToInt16(sArray[4 + i]));
+                }
 
-            combo.para1 = Convert.ToBoolean(sArray[1].ToString());
-            combo.para2 = sArray[2];
-            combo.para3 = sArray[3];
-            combo.para4 = sArray[4];
-
-            for (int i = 1; i <= WireNum; i++)
-            {
-                combo.Indexs.Add(Convert.ToInt16(sArray[4 + i]));
+                combo.Comment = sArray[4 + WireNum + 1 + 1].ToString();
             }
-
-            combo.Comment = sArray[4 + WireNum + 1 + 1].ToString();
-        }
-    }
-
-    /// <summary>
-    /// 转角塔模板解析
-    /// </summary>
-    public class CornerTowerTemplateReader : TaTemplateReader
-    {
-        public CornerTowerTemplateReader() : base("转角塔", 26, 29)
-        {
-
-        }
-
-        override protected void DecodeWorkCondition(string line, out WorkConditionCombo combo)
-        {
-            combo = new WorkConditionCombo()
+            else
             {
-                Indexs = new List<int>()
-            };
+                combo.para1 = Convert.ToBoolean(sArray[1].ToString());
+                combo.para2 = sArray[2];
+                combo.para3 = sArray[3];
+                combo.para4 = sArray[4];
+                combo.para5 = sArray[5];
 
-            string[] sArray = line.Split(seperate, StringSplitOptions.RemoveEmptyEntries); ;
+                for (int i = 1; i <= WireNum; i++)
+                {
+                    combo.Indexs.Add(Convert.ToInt16(sArray[5 + i]));
+                }
 
-            combo.para1 = Convert.ToBoolean(sArray[1].ToString());
-            combo.para2 = sArray[2];
-            combo.para3 = sArray[3];
-            combo.para4 = sArray[4];
-            combo.para5 = sArray[5];
-
-            for (int i = 1; i <= WireNum; i++)
-            {
-                combo.Indexs.Add(Convert.ToInt16(sArray[5 + i]));
+                combo.Comment = sArray[5 + WireNum + 1 + 1].ToString();
             }
+        }
 
-            combo.Comment = sArray[5 + WireNum + 1 + 1].ToString();
+        protected string[] SplitString(string line)
+        {
+            string str = Regex.Replace(line, "\\s+", " ");
+            return str.Trim(' ').Split(' ');
         }
     }
-
-    /// <summary>
-    /// 终端塔模板解析
-    /// </summary>
-    public class TerminalTowerTemplateReader : TaTemplateReader
-    {
-        public TerminalTowerTemplateReader() : base("终端塔", 26, 29)
-        {
-
-        }
-
-        override protected void DecodeWorkCondition(string line, out WorkConditionCombo combo)
-        {
-            combo = new WorkConditionCombo()
-            {
-                Indexs = new List<int>()
-            };
-
-            string[] sArray = line.Split(seperate, StringSplitOptions.RemoveEmptyEntries); ;
-
-            combo.para1 = Convert.ToBoolean(sArray[1].ToString());
-            combo.para2 = sArray[2];
-            combo.para3 = sArray[3];
-            combo.para4 = sArray[4];
-            combo.para5 = sArray[5];
-
-            for (int i = 1; i <= WireNum; i++)
-            {
-                combo.Indexs.Add(Convert.ToInt16(sArray[5 + i]));
-            }
-
-            combo.Comment = sArray[5 + WireNum + 1 + 1].ToString();
-        }
-    }
-
-    /// <summary>
-    /// 分支塔模板解析
-    /// </summary>
-    public class BranchTowerTemplateReader : TaTemplateReader
-    {
-        public BranchTowerTemplateReader() : base("分支塔", 26, 29)
-        {
-
-        }
-
-        override protected void DecodeWorkCondition(string line, out WorkConditionCombo combo)
-        {
-            combo = new WorkConditionCombo()
-            {
-                Indexs = new List<int>()
-            };
-
-            string[] sArray = line.Split(seperate, StringSplitOptions.RemoveEmptyEntries); ;
-
-            combo.para1 = Convert.ToBoolean(sArray[1].ToString());
-            combo.para2 = sArray[2];
-            combo.para3 = sArray[3];
-            combo.para4 = sArray[4];
-            combo.para5 = sArray[5];
-
-            for (int i = 1; i <= WireNum; i++)
-            {
-                combo.Indexs.Add(Convert.ToInt16(sArray[5 + i]));
-            }
-
-            combo.Comment = sArray[5 + WireNum + 1 + 1].ToString();
-        }
-    }
-
 }

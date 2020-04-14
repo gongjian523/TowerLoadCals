@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TowerLoadCals.DataMaterials;
 using TowerLoadCals.Readers;
+using static TowerLoadCals.Readers.TaTemplateReader;
 
 namespace TowerLoadCals
 {
@@ -498,32 +499,28 @@ namespace TowerLoadCals
             TaTemplate template = new TaTemplate();
 
             Button btn = (Button)sender;
+            TaTemplateReader taTemplateReader;
             if (btn.Name == "ReadLineTemplateBtn")
             {
-                LineTowerTemplateReader taTemplateReader = new LineTowerTemplateReader();
-                template = taTemplateReader.Read(openFileDialog.FileName);
-
+                taTemplateReader = new TaTemplateReader(TowerType.LineTower);
             }
             else if (btn.Name == "ReadCornerTemplateBtn")
             {
-                CornerTowerTemplateReader taTemplateReader = new CornerTowerTemplateReader();
-                template = taTemplateReader.Read(openFileDialog.FileName);
+                taTemplateReader = new TaTemplateReader(TowerType.CornerTower);
             }
             else if (btn.Name == "ReadLineCornerTemplateBtn")
             {
-                LineCornerTowerTemplateReader taTemplateReader = new LineCornerTowerTemplateReader();
-                template = taTemplateReader.Read(openFileDialog.FileName);
+                taTemplateReader = new TaTemplateReader(TowerType.LineCornerTower);
             }
             else if (btn.Name == "ReadTerminalTemplateBtn")
             {
-                TerminalTowerTemplateReader taTemplateReader = new TerminalTowerTemplateReader();
-                template = taTemplateReader.Read(openFileDialog.FileName);
+                taTemplateReader = new TaTemplateReader(TowerType.TerminalTower);
             }
             else 
             {
-                BranchTowerTemplateReader taTemplateReader = new BranchTowerTemplateReader();
-                template = taTemplateReader.Read(openFileDialog.FileName);
+                taTemplateReader = new TaTemplateReader(TowerType.BranchTower);
             }
+            template = taTemplateReader.Read(openFileDialog.FileName);
 
             tabs.SelectedIndex = 5;
 
@@ -556,9 +553,78 @@ namespace TowerLoadCals
                 }
             }
             wdLabel.Content = wd;
+        }
 
+        private void button_DesDecrypt_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "DLL Files (*.dat)|*.dat"
+            };
 
+            if (openFileDialog.ShowDialog() != true)
+                return;
 
+            // Read the file and display it line by line.  
+            //System.IO.StreamReader file = new System.IO.StreamReader(openFileDialog.FileName, Encoding.Default);
+            //string content = file.ReadToEnd();
+            //file.Close();
+
+            //string encryptString = DES.DesEncrypt(content, "12345678");
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Dat Files (*.dll)|*.dll",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            //System.IO.StreamWriter sfile = new System.IO.StreamWriter(saveFileDialog.FileName);
+            //sfile.Flush();
+            //sfile.Write(encryptString);
+            //sfile.Close();
+
+            DES.DesEncrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
+
+        }
+
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_DesEncrypt_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "DLL Files (*.dll)|*.dll"
+            };
+
+            if (openFileDialog.ShowDialog() != true)
+                return;
+
+            // Read the file and display it line by line.  
+            //System.IO.StreamReader file = new System.IO.StreamReader(openFileDialog.FileName, Encoding.Default);
+            //string content = file.ReadToEnd();
+            //file.Close();
+
+            //string decryptString = DES.DesDecrypt(content, "12345678");
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Dat Files (*.dat)|*.dat",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            //System.IO.StreamWriter sfile = new System.IO.StreamWriter(saveFileDialog.FileName);
+            //sfile.Flush();
+            //sfile.Write(decryptString);
+            //sfile.Close();
+
+            DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
         }
     }
 
