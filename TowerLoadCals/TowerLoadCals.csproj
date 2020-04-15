@@ -60,23 +60,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataMaterials\InsulatorString.cs" />
-    <Compile Include="DataMaterials\TaStructure.cs" />
-    <Compile Include="DataMaterials\TaTemplate.cs" />
-    <Compile Include="DataMaterials\Weather.cs" />
-    <Compile Include="DataMaterials\SLTa.cs" />
-    <Compile Include="DataMaterials\SLXian.cs" />
-    <Compile Include="DataMaterials\Ta.cs" />
-    <Compile Include="DataMaterials\Wire.cs" />
-    <Compile Include="DataMaterials\xmlItem.cs" />
-    <Compile Include="Readers\DbfReader.cs" />
-    <Compile Include="Readers\DES.cs" />
-    <Compile Include="Readers\TaReader.cs" />
-    <Compile Include="Readers\TaStructureReader.cs" />
-    <Compile Include="Readers\TaTemplateReader.cs" />
-    <Compile Include="Readers\WireReader.cs" />
-    <Compile Include="Readers\WeatherReader.cs" />
-    <Compile Include="Readers\XmlReader.cs" />
+    <Compile Include="Mode\Circuit.cs" />
+    <Compile Include="Mode\CircuitPostion.cs" />
+    <Compile Include="Mode\InsulatorString.cs" />
+    <Compile Include="Mode\PhaseWire.cs" />
+    <Compile Include="Mode\TowerStructure.cs" />
+    <Compile Include="Mode\TowerTemplate.cs" />
+    <Compile Include="Mode\Weather.cs" />
+    <Compile Include="Mode\TowerStPra.cs" />
+    <Compile Include="Mode\SLXian.cs" />
+    <Compile Include="Mode\TowerSeri.cs" />
+    <Compile Include="Mode\WeatherCollection.cs" />
+    <Compile Include="Mode\Wire.cs" />
+    <Compile Include="Mode\WireLib.cs" />
+    <Compile Include="Mode\WireType.cs" />
+    <Compile Include="Mode\WorkCondition.cs" />
+    <Compile Include="Mode\WorkConditionCombo.cs" />
+    <Compile Include="Mode\xmlItem.cs" />
+    <Compile Include="DAL\TowerStPraReader.cs" />
+    <Compile Include="Utils\DbfUtils.cs" />
+    <Compile Include="Utils\DES.cs" />
+    <Compile Include="DAL\TowerSeriReader.cs" />
+    <Compile Include="DAL\TowerStructureReader.cs" />
+    <Compile Include="DAL\TowerTemplateReader.cs" />
+    <Compile Include="DAL\WireReader.cs" />
+    <Compile Include="DAL\WeatherReader.cs" />
+    <Compile Include="Utils\XmlUtils.cs" />
+    <Compile Include="WireSpec.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

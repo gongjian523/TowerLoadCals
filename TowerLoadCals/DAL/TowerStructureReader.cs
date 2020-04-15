@@ -4,14 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.Readers
 {
-    public class TaStructureReader
+    public class TowerStructureReader
     {
-        public static TaStructure Read(string path)
+        public static TowerStructure Read(string path)
         {
-            TaStructure taStructure = new TaStructure();
+            TowerStructure taStructure = new TowerStructure();
 
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
@@ -119,7 +120,7 @@ namespace TowerLoadCals.Readers
         }
 
 
-        public static void Save(string path, TaStructure taStructure)
+        public static void Save(string path, TowerStructure taStructure)
         {
             XmlDocument doc = new XmlDocument();
 
@@ -166,7 +167,7 @@ namespace TowerLoadCals.Readers
             zBasePhaseIdAttribute.Value = taStructure.ZBasePhaseId.ToString();
             circuitZBasNode.Attributes.Append(zBasePhaseIdAttribute);
 
-            foreach(var csItem in taStructure.CircuitSet)
+            foreach(Circuit csItem in taStructure.CircuitSet)
             {
                 XmlNode circuitNode = doc.CreateElement("Circuit");
                 circuitSetNode.AppendChild(circuitNode);
@@ -193,7 +194,7 @@ namespace TowerLoadCals.Readers
                     circuitNode.Attributes.Append(csVoltageAttribute);
                 }
 
-                foreach (var wireItem in csItem.PhaseWires)
+                foreach (PhaseWire wireItem in csItem.PhaseWires)
                 {
                     XmlNode wireNode = doc.CreateElement("PhaseWire");
                     circuitNode.AppendChild(wireNode);
@@ -206,7 +207,7 @@ namespace TowerLoadCals.Readers
                     phaseIdAttribute.Value = wireItem.Id.ToString();
                     wireNode.Attributes.Append(phaseIdAttribute);
 
-                    foreach(var pos in wireItem.Postions)
+                    foreach(CircuitPostion pos in wireItem.Postions)
                     {
                         XmlNode posNode = doc.CreateElement("CircuitPos");
                         circuitPosSetNode.AppendChild(posNode);

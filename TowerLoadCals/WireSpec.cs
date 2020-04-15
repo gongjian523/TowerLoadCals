@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace TowerLoadCals.DataMaterials
+namespace TowerLoadCals
 {
     public class WireSpec
     {
@@ -47,34 +47,5 @@ namespace TowerLoadCals.DataMaterials
         /// 线膨胀系数
         /// </summary>
         public string LineCoefficient { get; set; }
-    }
-
-    public class Wire
-    {
-        public string Name { get; set; }
-
-        public List<WireSpec>  Specs { get; set; } 
-    }
-
-
-    public class WireType
-    {
-        public string Type { get; set; }
-
-        public List<Wire> Wire { get; set; }
-    }
-
-    public class WireLib
-    {
-        public string Lib { get; set; }
-
-        public List<WireType> Types { get; set; }
-    }
-
-    public class WireCollection
-    {
-        public string Name { get; set; }
-
-        public List<WireLib> Libs { get; set; }
     }
 }

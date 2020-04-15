@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TowerLoadCals.DataMaterials
+namespace TowerLoadCals.Mode
 {
-    public class SLTa
+    /// <summary>
+    /// 铁塔的标准设计条件
+    /// </summary>
+    public class TowerStPra
     {
         /// <summary>
         /// 电压等级

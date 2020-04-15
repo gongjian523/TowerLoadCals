@@ -5,7 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using TowerLoadCals.DataMaterials;
+using TowerLoadCals.Mode;
+using TowerLoadCals.Utils;
 
 namespace TowerLoadCals.Readers
 {
@@ -160,7 +161,7 @@ namespace TowerLoadCals.Readers
 
         public override List<Weather> Read(string dir, string tableName)
         {
-            DataTable DT = DbfReader.ReadDbf(dir, tableName);
+            DataTable DT = DbfUtils.ReadDbf(dir, tableName);
 
             List<WorkCondition> wcList = new List<WorkCondition>();
             foreach (DataRow row in DT.Rows)

@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using TowerLoadCals.DataMaterials;
+using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.Readers
 {
-    public class TaTemplateReader
+    public class TowerTemplateReader
     {
-
         public enum TowerType
         {
             LineTower,
@@ -20,7 +19,7 @@ namespace TowerLoadCals.Readers
             BranchTower
         }
 
-        public TaTemplate template = new TaTemplate();
+        public TowerTemplate template = new TowerTemplate();
 
         protected TowerType Type { get; set;}
 
@@ -42,7 +41,7 @@ namespace TowerLoadCals.Readers
         protected int WorkConditongsComboStartLine { get; set; }
 
 
-        public TaTemplateReader(TowerType type)
+        public TowerTemplateReader(TowerType type)
         {
             if(type == TowerType.LineTower)
             {
@@ -75,66 +74,66 @@ namespace TowerLoadCals.Readers
             Type = type;
 
             template.Wires = new List<string>();
-            template.WorkConditongs = new Dictionary<int, string>();
+            template.WeatherConditongs = new Dictionary<int, string>();
             template.WorkConditionCombos = new List<WorkConditionCombo>();
         }
 
-        public TaTemplate Read(string path)
+        public TowerTemplate Read(string path)
         {
-            string line = "";
-            int lineNum = 0;
+            string sLine = "";
+            int iLineNum = 0;
 
-            int comboNum = 0;
+            int iComboNum = 0;
 
             template.Name = path.Substring(path.LastIndexOf('\\')+1);
             template.Name = template.Name.Substring(0,template.Name.Length - 4);
 
             StreamReader file = new StreamReader(path,Encoding.Default);
-            while ((line = file.ReadLine()) != null)
+            while ((sLine = file.ReadLine()) != null)
             {
-                lineNum++;
+                iLineNum++;
 
-                if(lineNum == InstructionLine)
+                if(iLineNum == InstructionLine)
                 {
-                    string[] sArray = Regex.Split(line.Trim(), "\\s+");
-                    WireNum = Convert.ToInt16(sArray[0]);
-                    WorkConditionNum = Convert.ToInt16(sArray[2]);
-                    WorkConditonComboNum = Convert.ToInt16(sArray[3]);
+                    string[] aWords = Regex.Split(sLine.Trim(), "\\s+");
+                    WireNum = Convert.ToInt16(aWords[0]);
+                    WorkConditionNum = Convert.ToInt16(aWords[2]);
+                    WorkConditonComboNum = Convert.ToInt16(aWords[3]);
                 }
-                else if (lineNum == WireLine)
+                else if (iLineNum == WireLine)
                 {
-                    string[] sArray = Regex.Split(line.Trim(), "\\s+");
-                    foreach (string str in sArray)
+                    string[] aWords = Regex.Split(sLine.Trim(), "\\s+");
+                    foreach (string sWord in aWords)
                     {
-                        template.Wires.Add(str);
+                        template.Wires.Add(sWord);
                     }
                 }
-                else if(lineNum  == WorkConditongsLine)
+                else if(iLineNum  == WorkConditongsLine)
                 {
-                    string[] sArray = Regex.Split(line.Trim(), "\\s+");
+                    string[] aWords = Regex.Split(sLine.Trim(), "\\s+");
 
-                    for (int i = 0; i < sArray.Count(); i++)
+                    for (int i = 0; i < aWords.Count(); i++)
                     {
-                        int digitNum = 0;
-                        int total = i+1;
-                        string str = sArray[i];
+                        int iDigitNum = 0;
+                        int iTotal = i+1;
+                        string str = aWords[i];
 
-                        while (total > 0)
+                        while (iTotal > 0)
                         {
-                            total = total / 10;
-                            digitNum++;
+                            iTotal = iTotal / 10;
+                            iDigitNum++;
                         }
 
-                        template.WorkConditongs.Add(Convert.ToInt16(sArray[i].ToString().Substring(0, digitNum)), sArray[i].ToString().Substring(digitNum+1));
+                        template.WeatherConditongs.Add(Convert.ToInt16(aWords[i].ToString().Substring(0, iDigitNum)), aWords[i].ToString().Substring(iDigitNum+1));
                     }
                 }
-                else if(lineNum >= WorkConditongsComboStartLine)
+                else if(iLineNum >= WorkConditongsComboStartLine)
                 {
-                    if(comboNum < WorkConditonComboNum)
+                    if(iComboNum < WorkConditonComboNum)
                     {
-                        DecodeWorkCondition(line, out WorkConditionCombo combo);
+                        DecodeWorkCondition(sLine, out WorkConditionCombo combo);
                         template.WorkConditionCombos.Add(combo);
-                        comboNum++;
+                        iComboNum++;
                     }
                 }
             }
@@ -151,49 +150,49 @@ namespace TowerLoadCals.Readers
                 Indexs = new List<int>()
             };
 
-            string[] sArray = Regex.Split(line.Trim(), "\\s+");
+            string[] aWords = Regex.Split(line.Trim(), "\\s+");
 
             if(Type == TowerType.LineTower)
             {
-                combo.para1 = Convert.ToBoolean(sArray[1].ToString());
-                combo.para2 = sArray[2];
-                combo.para3 = sArray[3];
+                combo.para1 = Convert.ToBoolean(aWords[1].ToString());
+                combo.para2 = aWords[2];
+                combo.para3 = aWords[3];
 
                 for (int i = 1; i <= WireNum; i++)
                 {
-                    combo.Indexs.Add(Convert.ToInt16(sArray[3 + i]));
+                    combo.Indexs.Add(Convert.ToInt16(aWords[3 + i]));
                 }
 
-                combo.Comment = sArray[3 + WireNum + 1 + 1].ToString();
+                combo.Comment = aWords[3 + WireNum + 1 + 1].ToString();
             }
             else if(Type == TowerType.LineCornerTower)
             {
-                combo.para1 = Convert.ToBoolean(sArray[1].ToString());
-                combo.para2 = sArray[2];
-                combo.para3 = sArray[3];
-                combo.para4 = sArray[4];
+                combo.para1 = Convert.ToBoolean(aWords[1].ToString());
+                combo.para2 = aWords[2];
+                combo.para3 = aWords[3];
+                combo.para4 = aWords[4];
 
                 for (int i = 1; i <= WireNum; i++)
                 {
-                    combo.Indexs.Add(Convert.ToInt16(sArray[4 + i]));
+                    combo.Indexs.Add(Convert.ToInt16(aWords[4 + i]));
                 }
 
-                combo.Comment = sArray[4 + WireNum + 1 + 1].ToString();
+                combo.Comment = aWords[4 + WireNum + 1 + 1].ToString();
             }
             else
             {
-                combo.para1 = Convert.ToBoolean(sArray[1].ToString());
-                combo.para2 = sArray[2];
-                combo.para3 = sArray[3];
-                combo.para4 = sArray[4];
-                combo.para5 = sArray[5];
+                combo.para1 = Convert.ToBoolean(aWords[1].ToString());
+                combo.para2 = aWords[2];
+                combo.para3 = aWords[3];
+                combo.para4 = aWords[4];
+                combo.para5 = aWords[5];
 
                 for (int i = 1; i <= WireNum; i++)
                 {
-                    combo.Indexs.Add(Convert.ToInt16(sArray[5 + i]));
+                    combo.Indexs.Add(Convert.ToInt16(aWords[5 + i]));
                 }
 
-                combo.Comment = sArray[5 + WireNum + 1 + 1].ToString();
+                combo.Comment = aWords[5 + WireNum + 1 + 1].ToString();
             }
         }
     }

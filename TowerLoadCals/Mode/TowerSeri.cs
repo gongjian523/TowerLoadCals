@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TowerLoadCals.DataMaterials
+namespace TowerLoadCals.Mode
 {
-
-
-    public class Ta
+    public class TowerSeri
     {
         /// <summary>
         /// 序号
         /// </summary>
         public int Index { get; set; }
 
+        #region 直接读取的属性
         /// <summary>
         /// 塔位号
         /// </summary>
@@ -76,6 +75,24 @@ namespace TowerLoadCals.DataMaterials
         public double TotalSpan { get; set; }
 
         /// <summary>
+        /// 导线K值
+        /// </summary>
+        public double WireK { get; set; }
+
+        /// <summary>
+        /// 绝缘串长
+        /// </summary>
+        public double StringLength { get; set; }
+
+        /// <summary>
+        /// 转角
+        /// </summary>
+        public double AngelofApplication { get; set; }
+        #endregion
+
+        #region 需要计算的属性
+
+        /// <summary>
         /// 前侧档距 = 前一个塔的累距-自己的累距
         /// </summary>
         public double FrontSpan { get; set; }
@@ -102,15 +119,7 @@ namespace TowerLoadCals.DataMaterials
         /// </summary>
         public string VerticalSpan { get; set; }
 
-        /// <summary>
-        /// 导线K值
-        /// </summary>
-        public double WireK { get; set; }
 
-        /// <summary>
-        /// 绝缘串长
-        /// </summary>
-        public double StringLength { get; set; }
 
         /// <summary>
         /// 垂直档距 中间计算参数
@@ -133,11 +142,6 @@ namespace TowerLoadCals.DataMaterials
         public double BackVerticalSpan { get; set; }
 
         /// <summary>
-        /// 转角
-        /// </summary>
-        public double AngelofApplication { get; set; }
-
-        /// <summary>
         /// 后侧/前侧设计气象条件 = 后侧设计气象条件 + "/" + 前侧设计气象条件
         /// </summary>
         public string WeatherID { get; set; }
@@ -151,6 +155,6 @@ namespace TowerLoadCals.DataMaterials
         /// 后侧设计气象条件
         /// </summary>
         public string BackWeatherID { get; set; }
-
+        #endregion
     }
 }

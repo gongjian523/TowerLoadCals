@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TowerLoadCals.DataMaterials
+namespace TowerLoadCals.Mode
 {
     public class WorkCondition
     {
@@ -27,25 +27,5 @@ namespace TowerLoadCals.DataMaterials
         /// 冰厚
         /// </summary>
         public string SIceThickness { get; set; }
-    }
-
-    public class Weather
-    {
-        /// <summary>
-        /// 气象区对象
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 工况
-        /// </summary>
-        public List<WorkCondition> WorkConditions { get; set; }
-    }
-
-    public class WeatherCollection
-    {
-        public string Name { get; set; }
-
-        public List<Weather> Weathers { get; set; }
     }
 }

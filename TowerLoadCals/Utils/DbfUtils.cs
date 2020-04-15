@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TowerLoadCals.Readers
+namespace TowerLoadCals.Utils
 {
-    public class DbfReader
+    public class DbfUtils
     {
         public static DataTable ReadDbf(string dir,string tableName)
         {

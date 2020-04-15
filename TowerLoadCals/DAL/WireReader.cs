@@ -5,7 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using TowerLoadCals.DataMaterials;
+using TowerLoadCals.Mode;
+using TowerLoadCals.Utils;
 
 namespace TowerLoadCals.Readers
 {
@@ -27,13 +28,13 @@ namespace TowerLoadCals.Readers
             if (rootNode == null)
                 return new List<WireLib>();
 
-            XmlNode LibNameTitleNode = rootNode.FirstChild;
-            if (LibNameTitleNode == null)
+            XmlNode libNameTitleNode = rootNode.FirstChild;
+            if (libNameTitleNode == null)
                 return new List<WireLib>();
 
             List<WireLib> list = new List<WireLib>();
 
-            foreach (XmlNode libNode in LibNameTitleNode.ChildNodes)
+            foreach (XmlNode libNode in libNameTitleNode.ChildNodes)
             {
                 List<WireType> typeList = new List<WireType>();
 
@@ -107,11 +108,11 @@ namespace TowerLoadCals.Readers
 
         public override List<WireLib> Read(string dir, string tableName)
         {
-            DataTable DT = DbfReader.ReadDbf(dir, tableName);
+            DataTable dataTable = DbfUtils.ReadDbf(dir, tableName);
 
             List<WireSpec> specs = new List<WireSpec>();
 
-            foreach (DataRow row in DT.Rows)
+            foreach (DataRow row in dataTable.Rows)
             {
                 specs.Add(new WireSpec
                 {
