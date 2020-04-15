@@ -96,14 +96,14 @@ namespace TowerLoadCals.Readers
 
                 if(lineNum == InstructionLine)
                 {
-                    string[] sArray = SplitString(line);
+                    string[] sArray = Regex.Split(line.Trim(), "\\s+");
                     WireNum = Convert.ToInt16(sArray[0]);
                     WorkConditionNum = Convert.ToInt16(sArray[2]);
                     WorkConditonComboNum = Convert.ToInt16(sArray[3]);
                 }
                 else if (lineNum == WireLine)
                 {
-                    string[] sArray = SplitString(line);
+                    string[] sArray = Regex.Split(line.Trim(), "\\s+");
                     foreach (string str in sArray)
                     {
                         template.Wires.Add(str);
@@ -111,7 +111,7 @@ namespace TowerLoadCals.Readers
                 }
                 else if(lineNum  == WorkConditongsLine)
                 {
-                    string[] sArray = SplitString(line);
+                    string[] sArray = Regex.Split(line.Trim(), "\\s+");
 
                     for (int i = 0; i < sArray.Count(); i++)
                     {
@@ -151,7 +151,7 @@ namespace TowerLoadCals.Readers
                 Indexs = new List<int>()
             };
 
-            string[] sArray = SplitString(line);
+            string[] sArray = Regex.Split(line.Trim(), "\\s+");
 
             if(Type == TowerType.LineTower)
             {
@@ -195,12 +195,6 @@ namespace TowerLoadCals.Readers
 
                 combo.Comment = sArray[5 + WireNum + 1 + 1].ToString();
             }
-        }
-
-        protected string[] SplitString(string line)
-        {
-            string str = Regex.Replace(line, "\\s+", " ");
-            return str.Trim(' ').Split(' ');
         }
     }
 }
