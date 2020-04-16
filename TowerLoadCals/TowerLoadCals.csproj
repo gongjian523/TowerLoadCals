@@ -60,8 +60,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BLL\FormulaCornerTower.cs" />
+    <Compile Include="BLL\FormulaLineCornerTower.cs" />
+    <Compile Include="BLL\FormulaTower.cs" />
+    <Compile Include="BLL\FormulaLineTower.cs" />
     <Compile Include="Mode\Circuit.cs" />
     <Compile Include="Mode\CircuitPostion.cs" />
+    <Compile Include="Mode\FormulaParas.cs" />
     <Compile Include="Mode\InsulatorString.cs" />
     <Compile Include="Mode\PhaseWire.cs" />
     <Compile Include="Mode\TowerStructure.cs" />

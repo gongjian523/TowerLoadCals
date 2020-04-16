@@ -152,51 +152,38 @@ namespace TowerLoadCals.Readers
 
             string[] aWords = Regex.Split(line.Trim(), "\\s+");
 
-            if(Type == TowerType.LineTower)
+            int iIndex = 3;
+            combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
+            combo.WorkConditionCode = aWords[2];
+
+            if (Type == TowerType.LineTower)
             {
-                combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
-                combo.WorkConditionCode = aWords[2];
-                combo.WindDirectionCode = aWords[3];
-
-                for (int i = 1; i <= WireNum; i++)
-                {
-                    combo.WirdIndexCodes.Add(Convert.ToInt16(aWords[3 + i]));
-                }
-
-                combo.WorkCode = aWords[3 + WireNum + 1].ToString();
-                combo.WorkComment  = aWords[3 + WireNum + 1 + 1].ToString();
+                combo.WindDirectionCode = aWords[iIndex];
             }
-            else if(Type == TowerType.LineCornerTower)
+            else if (Type == TowerType.LineCornerTower)
             {
-                combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
-                combo.WorkConditionCode = aWords[2];
-                combo.TensionAngleCode = aWords[3];
-                combo.WindDirectionCode = aWords[4];
-
-                for (int i = 1; i <= WireNum; i++)
-                {
-                    combo.WirdIndexCodes.Add(Convert.ToInt16(aWords[4 + i]));
-                }
-
-                combo.WorkCode = aWords[4 + WireNum + 1].ToString();
-                combo.WorkComment = aWords[4 + WireNum + 1 + 1].ToString();
+                combo.TensionAngleCode = aWords[iIndex];
+                iIndex++;
+                combo.WindDirectionCode = aWords[iIndex];
             }
             else
             {
-                combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
-                combo.WorkConditionCode = aWords[2];
-                combo.TensionAngleCode = aWords[3];
-                combo.VertialLoadCode = aWords[4];
-                combo.WindDirectionCode = aWords[5];
-
-                for (int i = 1; i <= WireNum; i++)
-                {
-                    combo.WirdIndexCodes.Add(Convert.ToInt16(aWords[5 + i]));
-                }
-
-                combo.WorkCode = aWords[4 + WireNum + 1].ToString();
-                combo.WorkComment = aWords[5 + WireNum + 1 + 1].ToString();
+                combo.TensionAngleCode = aWords[iIndex];
+                iIndex++;
+                combo.VertialLoadCode = aWords[iIndex];
+                iIndex++;
+                combo.WindDirectionCode = aWords[iIndex];
             }
+
+            for (int i = 1; i <= WireNum; i++)
+            {
+                combo.WirdIndexCodes.Add(Convert.ToInt16(aWords[iIndex + i]));
+            }
+
+            iIndex++;
+            combo.WorkCode = aWords[iIndex + WireNum].ToString();
+            iIndex++;
+            combo.WorkComment = aWords[iIndex + WireNum].ToString();
         }
     }
 }
