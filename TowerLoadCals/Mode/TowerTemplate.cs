@@ -16,7 +16,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 塔型：直线塔、直线转角塔、转角塔、终端塔、分支塔
         /// </summary>
-        public string Type { get; set; }
+        public string TowerType { get; set; }
 
         /// <summary>
         /// 线名
@@ -26,7 +26,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 工况名列表
         /// </summary>
-        public Dictionary<int, string>  WeatherConditongs { get; set; }
+        public Dictionary<int, string>  WorkConditongs { get; set; }
 
         /// <summary>
         /// 工况组合列表

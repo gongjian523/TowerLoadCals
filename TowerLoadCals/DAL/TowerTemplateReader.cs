@@ -48,14 +48,14 @@ namespace TowerLoadCals.Readers
                 WorkConditongsLine = 15;
                 WorkConditongsComboStartLine = 17;
 
-                template.Type = "直线塔";
+                template.TowerType = "直线塔";
             }
             else if (type == TowerType.LineCornerTower)
             {
                 WorkConditongsLine = 16;
                 WorkConditongsComboStartLine = 18;
 
-                template.Type = "直线转角塔";
+                template.TowerType = "直线转角塔";
             }
             else
             {
@@ -63,18 +63,18 @@ namespace TowerLoadCals.Readers
                 WorkConditongsComboStartLine = 29;
 
                if(type == TowerType.CornerTower)
-                    template.Type = "转角塔";
+                    template.TowerType = "转角塔";
                else if (type == TowerType.TerminalTower)
-                    template.Type = "终端塔";
+                    template.TowerType = "终端塔";
                else
-                    template.Type = "分支塔";
+                    template.TowerType = "分支塔";
 
             }
 
             Type = type;
 
             template.Wires = new List<string>();
-            template.WeatherConditongs = new Dictionary<int, string>();
+            template.WorkConditongs = new Dictionary<int, string>();
             template.WorkConditionCombos = new List<WorkConditionCombo>();
         }
 
@@ -124,7 +124,7 @@ namespace TowerLoadCals.Readers
                             iDigitNum++;
                         }
 
-                        template.WeatherConditongs.Add(Convert.ToInt16(aWords[i].ToString().Substring(0, iDigitNum)), aWords[i].ToString().Substring(iDigitNum+1));
+                        template.WorkConditongs.Add(Convert.ToInt16(aWords[i].ToString().Substring(0, iDigitNum)), aWords[i].ToString().Substring(iDigitNum+1));
                     }
                 }
                 else if(iLineNum >= WorkConditongsComboStartLine)
@@ -147,52 +147,55 @@ namespace TowerLoadCals.Readers
         {
             combo = new WorkConditionCombo()
             {
-                Indexs = new List<int>()
+                WirdIndexCodes = new List<int>()
             };
 
             string[] aWords = Regex.Split(line.Trim(), "\\s+");
 
             if(Type == TowerType.LineTower)
             {
-                combo.para1 = Convert.ToBoolean(aWords[1].ToString());
-                combo.para2 = aWords[2];
-                combo.para3 = aWords[3];
+                combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
+                combo.WorkConditionCode = aWords[2];
+                combo.WindDirectionCode = aWords[3];
 
                 for (int i = 1; i <= WireNum; i++)
                 {
-                    combo.Indexs.Add(Convert.ToInt16(aWords[3 + i]));
+                    combo.WirdIndexCodes.Add(Convert.ToInt16(aWords[3 + i]));
                 }
 
-                combo.Comment = aWords[3 + WireNum + 1 + 1].ToString();
+                combo.WorkCode = aWords[3 + WireNum + 1].ToString();
+                combo.WorkComment  = aWords[3 + WireNum + 1 + 1].ToString();
             }
             else if(Type == TowerType.LineCornerTower)
             {
-                combo.para1 = Convert.ToBoolean(aWords[1].ToString());
-                combo.para2 = aWords[2];
-                combo.para3 = aWords[3];
-                combo.para4 = aWords[4];
+                combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
+                combo.WorkConditionCode = aWords[2];
+                combo.TensionAngleCode = aWords[3];
+                combo.WindDirectionCode = aWords[4];
 
                 for (int i = 1; i <= WireNum; i++)
                 {
-                    combo.Indexs.Add(Convert.ToInt16(aWords[4 + i]));
+                    combo.WirdIndexCodes.Add(Convert.ToInt16(aWords[4 + i]));
                 }
 
-                combo.Comment = aWords[4 + WireNum + 1 + 1].ToString();
+                combo.WorkCode = aWords[4 + WireNum + 1].ToString();
+                combo.WorkComment = aWords[4 + WireNum + 1 + 1].ToString();
             }
             else
             {
-                combo.para1 = Convert.ToBoolean(aWords[1].ToString());
-                combo.para2 = aWords[2];
-                combo.para3 = aWords[3];
-                combo.para4 = aWords[4];
-                combo.para5 = aWords[5];
+                combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
+                combo.WorkConditionCode = aWords[2];
+                combo.TensionAngleCode = aWords[3];
+                combo.VertialLoadCode = aWords[4];
+                combo.WindDirectionCode = aWords[5];
 
                 for (int i = 1; i <= WireNum; i++)
                 {
-                    combo.Indexs.Add(Convert.ToInt16(aWords[5 + i]));
+                    combo.WirdIndexCodes.Add(Convert.ToInt16(aWords[5 + i]));
                 }
 
-                combo.Comment = aWords[5 + WireNum + 1 + 1].ToString();
+                combo.WorkCode = aWords[4 + WireNum + 1].ToString();
+                combo.WorkComment = aWords[5 + WireNum + 1 + 1].ToString();
             }
         }
     }

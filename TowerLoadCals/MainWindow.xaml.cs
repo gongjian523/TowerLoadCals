@@ -391,7 +391,7 @@ namespace TowerLoadCals
             wireLabel.Content = wire;
 
             string wd = "";
-            foreach (var item in template.WeatherConditongs)
+            foreach (var item in template.WorkConditongs)
             {
                 if (wd == "")
                 {

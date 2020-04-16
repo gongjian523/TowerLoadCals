@@ -11,36 +11,41 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 
         /// </summary>
-        public bool para1 { get; set; }
+        public bool IsCalculate { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string para2 { get; set; }
+        public string WorkConditionCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string para3 { get; set; }
+        public string TensionAngleCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string para4 { get; set; }
+        public string VertialLoadCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string para5 { get; set; }
+        public string WindDirectionCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public List<int> Indexs { get; set; }
+        public string WorkCode { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<int> WirdIndexCodes { get; set; }
 
         /// <summary>
         /// 注释
         /// </summary>
-        public string Comment { get; set; }
+        public string WorkComment { get; set; }
     }
 }
