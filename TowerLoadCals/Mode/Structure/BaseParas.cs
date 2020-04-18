@@ -127,14 +127,60 @@ namespace TowerLoadCals.Mode
         /// </summary>
         public float R1Install { get; set; }
 
+        /// <summary>
+        /// 跳线吊装系数            
+        /// 旧名字 tdx
+        /// </summary>
+        public float LiftCoefJumper  { get; set; }   //cd修改
 
-        public float tdx { get; set; }
 
-        public float llz { get; set; }
+        /// <summary>
+        /// 临时拉线对地夹角            
+        /// 旧名字 dangle
+        /// </summary>
+        public float TempStayWireAngle { get; set; }
 
-        public float dangle { get; set; }
+        /// <summary>
+        /// 牵引角度           
+        /// 旧名字 qangle
+        /// </summary>
+        public float TractionAgnle { get; set; }
 
-        public float qangle { get; set; }
+        /// <summary>
+        ///  大风线条风压调整系数         
+        /// 旧名字 Beta1
+        /// </summary>
+        public float WindAdjustFactor { get; set; }
 
+        /// <summary>
+        /// 其他情况线条风压调整系数         
+        /// 旧名字 Beta2
+        /// </summary>
+        public float OtherWindAdjustFactor { get; set; }
+
+
+        /// <summary>
+        /// 动力系数         
+        /// 旧名字 DX
+        /// </summary>
+        public float DynamicCoef { get; set; }
+
+        /// <summary>
+        /// 锚线风荷系数         
+        /// 旧名字 cofw
+        /// </summary>
+        public float AnchorWindCoef { get; set; }
+
+        /// <summary>
+        /// 锚线垂荷系数         
+        /// 旧名字 cofg
+        /// </summary>
+        public float AnchorGravityCoef { get; set; }
+
+        /// <summary>
+        /// 锚角         
+        /// 旧名字 maojiao
+        /// </summary>
+        public float AnchorAngle { get; set; }
     }
 }

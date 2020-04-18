@@ -24,7 +24,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZNX(float a1, float a2, float a3, float a4, float a5)
         {
-            return Paras.LoadRatio * Paras.RQ * a5 * (Beta1(0) * AngX(a1) * a3 + a4 * (float)Math.Sin(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * a5 * (Paras.WindAdjustFactor * AngX(a1) * a3 + a4 * (float)Math.Sin(a2 * PI / 180));
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZNY(float a1, float a2, float a3, float a4, float a5)
         {
-            return Paras.LoadRatio * Paras.RQ * a5 * (Beta1(0) * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * a5 * (Paras.WindAdjustFactor * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZIBUYX(float a1, float a2, float a3, float a4, float a5, float a6)
         {
-            return Paras.LoadRatio * a6 * a5 * (Beta2(0) * AngX(a1) * a3 + a4 * (float)Math.Sin(a2 * PI / 180));
+            return Paras.LoadRatio * a6 * a5 * (Paras.OtherWindAdjustFactor * AngX(a1) * a3 + a4 * (float)Math.Sin(a2 * PI / 180));
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZIBUYY(float a1, float a2, float a3, float a4, float a5, float a6)
         {
-            return Paras.LoadRatio * a6 * a5 * (Beta2(0) * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
+            return Paras.LoadRatio * a6 * a5 * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZLX(float a1, float a2, float a3, float a4)
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngX(a1) * a3 + a4 * (float)Math.Sin(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngX(a1) * a3 + a4 * (float)Math.Sin(a2 * PI / 180));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZLY(float a1, float a2, float a3, float a4)
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
         }
         
         /// <summary>
@@ -150,7 +150,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZLT1Z(float a1, float a2, float a3)
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 + Paras.tdx * a1 * a2 * DX(0));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 + Paras.LiftCoefJumper * a1 * a2 * Paras.DynamicCoef);
         }
 
         /// <summary>
@@ -178,9 +178,9 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float ZM1X(float a1, float a2, float a3, float a4)
+        public float ZM1X(float a1, float a2, float a3, float a4) 
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngX(a1) * a3 + (a4 * DX(0) * gqx(0) - Paras.llz) * (float)Math.Sin(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngX(a1) * a3 + (a4 * Paras.DynamicCoef * gqx(0) - llz) * (float)Math.Sin(a2 * PI / 180));
         }
 
         /// <summary>
@@ -191,9 +191,9 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float ZM1Y(float a1, float a2, float a3, float a4)
+        public float ZM1Y(float a1, float a2, float a3, float a4) 
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngY(a1) * a3 + (a4 * DX(0) * gqx(0) - Paras.llz) * (float)Math.Cos(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 + (a4 * Paras.DynamicCoef * gqx(0) - llz) * (float)Math.Cos(a2 * PI / 180));
         }
 
         /// <summary>
@@ -205,9 +205,9 @@ namespace TowerLoadCals.BLL
         public float ZM1Z(float a1, float a2)
         {
             if (a1 >= 0)
-                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * (Paras.llz * (float)Math.Tan(Paras.dangle * PI / 180) + a2));
+                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * (llz * (float)Math.Tan(Paras.TempStayWireAngle * PI / 180) + a2));
             else
-                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * (Paras.llz * (float)Math.Tan(Paras.dangle * PI / 180) + a2));
+                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * (llz * (float)Math.Tan(Paras.TempStayWireAngle * PI / 180) + a2));
         }
 
         /// <summary>
@@ -218,9 +218,9 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float ZM2X(float a1, float a2, float a3, float a4)
+        public float ZM2X(float a1, float a2, float a3, float a4)  
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngX(a1) * a3 + (a4 - Paras.llz) * (float)Math.Sin(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngX(a1) * a3 + (a4 - llz) * (float)Math.Sin(a2 * PI / 180));
         }
 
         /// <summary>
@@ -231,9 +231,9 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float ZM2Y(float a1, float a2, float a3, float a4)
+        public float ZM2Y(float a1, float a2, float a3, float a4) 
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngY(a1) * a3 + (a4 - Paras.llz) * (float)Math.Cos(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 + (a4 - llz) * (float)Math.Cos(a2 * PI / 180));
         }
 
         /// <summary>
@@ -241,12 +241,12 @@ namespace TowerLoadCals.BLL
         /// </summary>
         /// <param name="a1"></param>
         /// <returns></returns>
-        public float ZM2Z(float a1)
+        public float ZM2Z(float a1) 
         {
             if (a1 >= 0)
-                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * Paras.llz * (float)Math.Tan(Paras.dangle * PI / 180));
+                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * llz * (float)Math.Tan(Paras.TempStayWireAngle * PI / 180));
             else
-                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * Paras.llz * (float)Math.Tan(Paras.dangle * PI / 180));
+                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * llz * (float)Math.Tan(Paras.TempStayWireAngle * PI / 180));
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float MQ1X(float a1, float a2, float a3, float a4)
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngX(a1) * a3 + a4 * DX(0) * gqx(0) * (1 - (float)Math.Cos(Paras.qangle * PI / 180)) * (float)Math.Sin(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngX(a1) * a3 + a4 * Paras.DynamicCoef * gqx(0) * (1 - (float)Math.Cos(Paras.TractionAgnle * PI / 180)) * (float)Math.Sin(a2 * PI / 180));
         }
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float MQ1Y(float a1, float a2, float a3, float a4)
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngY(a1) * a3 + a4 * DX(0) * gqx(0) * (1 - (float)Math.Cos(Paras.qangle * PI / 180)) * (float)Math.Cos(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 + a4 * Paras.DynamicCoef * gqx(0) * (1 - (float)Math.Cos(Paras.TractionAgnle * PI / 180)) * (float)Math.Cos(a2 * PI / 180));
         }
 
         /// <summary>
@@ -285,9 +285,9 @@ namespace TowerLoadCals.BLL
         public float MQ1Z(float a1, float a2, float a3)
         {
             if (a1 >= 0)
-                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * (a2 * DX(0) * gqx(0) * (float)Math.Sin(Paras.qangle * PI / 180) + a3));
+                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * (a2 * Paras.DynamicCoef * gqx(0) * (float)Math.Sin(Paras.TractionAgnle * PI / 180) + a3));
             else
-                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * (a2 * DX(0) * gqx(0) * (float)Math.Sin(Paras.qangle * PI / 180) + a3));
+                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * (a2 * Paras.DynamicCoef * gqx(0) * (float)Math.Sin(Paras.TractionAgnle * PI / 180) + a3));
         }
 
         /// <summary>
@@ -298,9 +298,9 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float MQ2X(float a1, float a2, float a3, float a4)
+        public float MQ2X(float a1, float a2, float a3, float a4) 
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngX(a1) * a3 + (a4 - Paras.llz) * (float)Math.Sin(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngX(a1) * a3 + (a4 - llz) * (float)Math.Sin(a2 * PI / 180));
         }
 
         /// <summary>
@@ -311,9 +311,9 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float MQ2Y(float a1, float a2, float a3, float a4)
+        public float MQ2Y(float a1, float a2, float a3, float a4) 
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngY(a1) * a3 - (a4 - Paras.llz) * (float)Math.Cos(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 - (a4 - llz) * (float)Math.Cos(a2 * PI / 180));
         }
 
         /// <summary>
@@ -321,12 +321,12 @@ namespace TowerLoadCals.BLL
         /// </summary>
         /// <param name="a1"></param>
         /// <returns></returns>
-        public float MQ2Z(float a1)
+        public float MQ2Z(float a1) 
         {
             if (a1 >= 0)
-                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * Paras.llz * (float)Math.Tan(Paras.dangle * PI / 180));
+                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * llz * (float)Math.Tan(Paras.TempStayWireAngle * PI / 180));
             else
-                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * Paras.llz * (float)Math.Tan(Paras.dangle * PI / 180));
+                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * llz * (float)Math.Tan(Paras.TempStayWireAngle * PI / 180));
         }
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float MQ3X(float a1, float a2, float a3, float a4) 
         {
-            return Paras.LoadRatio  * Paras.RQ * Paras.VcFInstall* (Beta2(0) * AngX(a1) * a3 + a4* (float)Math.Sin(a2* PI / 180));
+            return Paras.LoadRatio  * Paras.RQ * Paras.VcFInstall* (Paras.OtherWindAdjustFactor * AngX(a1) * a3 + a4* (float)Math.Sin(a2* PI / 180));
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float MQ3Y(float a1, float a2, float a3, float a4)
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
         }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float JX(float a1, float a2, float a3, float a4, float a5, float a6)
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngX(a1) * a2 + a3 * a4 * a5 * (1 - (float)Math.Cos(Paras.qangle * PI / 180)) * (float)Math.Sin(a6 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngX(a1) * a2 + a3 * a4 * a5 * (1 - (float)Math.Cos(Paras.TractionAgnle * PI / 180)) * (float)Math.Sin(a6 * PI / 180));
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float JY(float a1, float a2, float a3, float a4, float a5, float a6)
         {
-            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Beta2(0) * AngY(a1) * a2 + a3 * a4 * a5 * (1 - (float)Math.Cos(Paras.qangle * PI / 180)) * (float)Math.Cos(a6 * PI / 180));
+            return Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a2 + a3 * a4 * a5 * (1 - (float)Math.Cos(Paras.TractionAgnle * PI / 180)) * (float)Math.Cos(a6 * PI / 180));
         }
 
         /// <summary>
@@ -450,9 +450,9 @@ namespace TowerLoadCals.BLL
         public float JZ(float a1, float a2, float a3, float a4, float a5)
         {
             if (a1 >= 0)
-                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * (a2 * a3 * a4 * (float)Math.Sin(Paras.qangle * PI / 180) + a5));
+                return Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * (a2 * a3 * a4 * (float)Math.Sin(Paras.TractionAgnle * PI / 180) + a5));
             else
-                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * (a2 * a3 * a4 * (float)Math.Sin(Paras.qangle * PI / 180) + a5));
+                return Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * (a2 * a3 * a4 * (float)Math.Sin(Paras.TractionAgnle * PI / 180) + a5));
         }
     }
 }

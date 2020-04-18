@@ -23,36 +23,6 @@ namespace TowerLoadCals.BLL
         }
 
         #region 直线塔
-        protected float Beta1(float para)
-        {
-            return 0;
-        }
-
-        protected float Beta2(float para)
-        {
-            return 0;
-        }
-
-
-        protected float DX(float para)
-        {
-            return 0;
-        }
-
-        protected float CofW(float para)
-        {
-            return 0;
-        }
-
-        protected float CofG(float para)
-        {
-            return 0;
-        }
-
-        protected float MaoJiao(float para)
-        {
-            return 0;
-        }
 
         /// <summary>
         /// 线条风荷载X向分配
@@ -113,10 +83,12 @@ namespace TowerLoadCals.BLL
         }
         #endregion
 
-        protected float gqx (float para)
+        protected float gqx (float para)   //过牵引系数 ，从此类中移除 CD 非基础常数
         {
             return 0;
         }
+
+        protected float llz { get; set; } //临时拉张，从此类中移除 CD 非基础常数
 
     }
 
