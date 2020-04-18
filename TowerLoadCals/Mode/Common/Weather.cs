@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace TowerLoadCals.Mode
 {
@@ -11,6 +12,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 气象区对象
         /// </summary>
+        [XmlAttribute("Name")]
         public string Name { get; set; }
 
         /// <summary>

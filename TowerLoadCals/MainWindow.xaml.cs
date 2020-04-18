@@ -223,8 +223,15 @@ namespace TowerLoadCals
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
-                weatherReader.Save(saveFileDialog.FileName, listWeathers);
+                //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+                //weatherReader.Save(saveFileDialog.FileName, listWeathers);
+
+                XmlUtils.Save(saveFileDialog.FileName, listWeathers);
+
+                //XmlSerializer xs = new XmlSerializer(typeof(Weather));
+                //StreamWriter sw = new StreamWriter(saveFileDialog.FileName);
+                //xs.Serialize(sw, listWeathers[0]);
+                //sw.Close();
             }
 
             return;
