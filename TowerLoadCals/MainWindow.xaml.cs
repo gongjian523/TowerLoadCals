@@ -226,7 +226,7 @@ namespace TowerLoadCals
                 //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
                 //weatherReader.Save(saveFileDialog.FileName, listWeathers);
 
-                XmlUtils.Save(saveFileDialog.FileName, listWeathers);
+                XmlUtils.Save(saveFileDialog.FileName, listWeathers[0]);
 
                 //XmlSerializer xs = new XmlSerializer(typeof(Weather));
                 //StreamWriter sw = new StreamWriter(saveFileDialog.FileName);
@@ -251,8 +251,11 @@ namespace TowerLoadCals
             if (result != true)
                 return;
 
-            WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
-            listWeathers = weatherReader.ReadLocal(openFileDialog.FileName);
+            listWeathers.Clear();
+            listWeathers = XmlUtils.Read<List<Weather>>(openFileDialog.FileName);
+
+            //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+            //listWeathers = weatherReader.ReadLocal(openFileDialog.FileName);
 
             if (listWeathers.Count > 0)
                 weathers.Weathers.AddRange(listWeathers);

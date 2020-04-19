@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace TowerLoadCals.Mode
 {
-    [XmlRootAttribute("KNode")]
+    [XmlType("KNode")]
     public class WorkCondition
     {
         /// <summary>

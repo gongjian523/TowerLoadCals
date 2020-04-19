@@ -66,27 +66,29 @@ namespace TowerLoadCals.Utils
         //    {
         //        using (StreamWriter writer = new StreamWriter(filePath))
         //        {
-        //            XmlSerializer xmlSerializer =  new XmlSerializer(typeof(T));
-        //            xmlSerializer.Serialize(writer, sourceObj);
+        //            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+        //            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+        //            ns.Add("", "");
+        //            xmlSerializer.Serialize(writer, sourceObj, ns);
         //        }
         //    }
         //}
 
-        public static T Read<T>(string filePath)
-        {
-            T t = default(T);
+        //public static T Read<T>(string filePath)
+        //{
+        //    T t = default(T);
 
-            if (File.Exists(filePath))
-            {
-                using (StreamReader reader = new StreamReader(filePath))
-                {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                    t = (T)xmlSerializer.Deserialize(reader);
-                }
-            }
+        //    if (File.Exists(filePath))
+        //    {
+        //        using (StreamReader reader = new StreamReader(filePath))
+        //        {
+        //            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+        //            t = (T)xmlSerializer.Deserialize(reader);
+        //        }
+        //    }
 
-            return t;
-        }
+        //    return t;
+        //}
 
         protected static XmlDocument doc;
 
@@ -111,33 +113,98 @@ namespace TowerLoadCals.Utils
 
         protected static void Serializer<T>(XmlNode node, T sourceObj)
         {
-
-            if (typeof(T) == typeof(List<>))
+            if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(List<>))
             {
                 foreach (var item in (sourceObj as IEnumerable))
                 {
-                    XmlNode subNode = doc.CreateElement(item.GetType().ToString());
-                    Serializer(subNode, item);
-                    node.AppendChild(subNode);
+                    Serializer(node, item);
                 }
             }
             else
             {
                 Type t = sourceObj.GetType();
 
+                XmlNode subNode = doc.CreateElement(sourceObj.GetType().Name.ToString());
+                node.AppendChild(subNode);
+
                 foreach (PropertyInfo pi in t.GetProperties())
                 {
-                    Type t2 = pi.GetType();
-                    //if (t2 == typeof(List<>))
-                    //{
-                    //    Serializer(nodeSub, pi.GetValue);
-                    //}
-                    //else
-                    //{
-                    //    XmlAttribute attr = doc.CreateAttribute(pi.Name);
-                    //    attr.Value = pi.GetValue();
-                    //    node.Attributes.Append(attr);
-                    //}
+                    //不能直接用pi的Type，List会判断不对，而要用这个属性的值的Type
+                    Type t2 = pi.GetValue(sourceObj, null).GetType();
+                    if (t2.IsGenericType && t2.GetGenericTypeDefinition() == typeof(List<>))
+                    {
+                        //一定要先转换成list，注释中的写法不会被判定成list在递归调用中
+                        //var subObj = pi.GetValue(sourceObj, null);
+                        var subObj = ((IEnumerable)pi.GetValue(sourceObj, null)).Cast<object>().ToList();
+                        Serializer(subNode, subObj);
+                    }
+                    else
+                    {
+                        XmlAttribute attr = doc.CreateAttribute(pi.Name);
+                        attr.Value = pi.GetValue(sourceObj,null).ToString();
+                        subNode.Attributes.Append(attr);
+                    }
+                }
+            }
+        }
+
+        public static T Read<T>(string filePath)
+        {
+            doc = new XmlDocument();
+            doc.Load(filePath);
+
+            XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
+            if (rootNode == null)
+                return default(T);
+
+
+            Deserializer(rootNode, out T desObj);
+
+            return desObj;
+        }
+
+        protected static void Deserializer<T>(XmlNode node, out T desObj)
+        {
+            desObj = Activator.CreateInstance<T>();
+
+            if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(List<>))
+            {
+                List<object> list = ((IEnumerable)desObj).Cast<object>().ToList();
+
+                foreach (XmlNode subNode in node.ChildNodes)
+                {
+        
+                    Deserializer(subNode, out T subItem);
+                    list.Add(subItem);
+                }
+            }
+            else
+            {
+                Type t = desObj.GetType();
+
+                foreach (PropertyInfo pi in t.GetProperties())
+                {
+                    Type t2 = pi.GetValue(desObj, null).GetType();
+                    if (t2.IsGenericType && t2.GetGenericTypeDefinition() == typeof(List<>))
+                    {
+                        //List<object> subList = ((IEnumerable)desObj).Cast<object>().ToList();
+                        //一定要先转换成list，注释中的写法不会被判定成list在递归调用中
+                        //var subObj = pi.GetValue(sourceObj, null);
+                        //var subObj = ((IEnumerable)pi.GetValue(desObj, null)).Cast<object>().ToList();
+                        Deserializer(node, out List<object> subList);
+                        pi.SetValue(subList, node.Attributes[pi.Name].ToString(), null);
+                    }
+                    else
+                    {
+                        if (pi.PropertyType.Equals(typeof(string)))//判断属性的类型是不是String
+                        {
+                            pi.SetValue((T)desObj, node.Attributes[pi.Name].ToString(), null);//给泛型的属性赋值
+                        }
+                        else if (pi.PropertyType.Equals(typeof(int)))
+                        {
+                            pi.SetValue((T)desObj, Convert.ToInt16(node.Attributes[pi.Name]), null);//给泛型的属性赋值
+                        }
+                    }
                 }
             }
         }
