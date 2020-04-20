@@ -15,10 +15,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using TowerLoadCals.Common;
+using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
-using TowerLoadCals.Readers;
-using TowerLoadCals.Utils;
-using static TowerLoadCals.Readers.TowerTemplateReader;
+
 
 namespace TowerLoadCals
 {
@@ -363,23 +363,23 @@ namespace TowerLoadCals
             TowerTemplateReader taTemplateReader;
             if (btn.Name == "ReadLineTemplateBtn")
             {
-                taTemplateReader = new TowerTemplateReader(TowerType.LineTower);
+                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.LineTower);
             }
             else if (btn.Name == "ReadCornerTemplateBtn")
             {
-                taTemplateReader = new TowerTemplateReader(TowerType.CornerTower);
+                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.CornerTower);
             }
             else if (btn.Name == "ReadLineCornerTemplateBtn")
             {
-                taTemplateReader = new TowerTemplateReader(TowerType.LineCornerTower);
+                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.LineCornerTower);
             }
             else if (btn.Name == "ReadTerminalTemplateBtn")
             {
-                taTemplateReader = new TowerTemplateReader(TowerType.TerminalTower);
+                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.TerminalTower);
             }
             else 
             {
-                taTemplateReader = new TowerTemplateReader(TowerType.BranchTower);
+                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.BranchTower);
             }
             template = taTemplateReader.Read(openFileDialog.FileName);
 

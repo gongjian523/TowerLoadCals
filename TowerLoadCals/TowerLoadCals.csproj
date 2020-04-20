@@ -60,39 +60,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BLL\Structure\FormulaCornerTower.cs" />
-    <Compile Include="BLL\Structure\FormulaLineCornerTower.cs" />
-    <Compile Include="BLL\Structure\FormulaTower.cs" />
-    <Compile Include="BLL\Structure\FormulaLineTower.cs" />
-    <Compile Include="Mode\Electric\Circuit.cs" />
-    <Compile Include="Mode\Electric\CircuitPostion.cs" />
-    <Compile Include="Mode\Structure\BaseParas.cs" />
-    <Compile Include="Mode\Electric\InsulatorString.cs" />
-    <Compile Include="Mode\Electric\PhaseWire.cs" />
-    <Compile Include="Mode\Common\TowerStructure.cs" />
-    <Compile Include="Mode\Structure\TowerTemplate.cs" />
-    <Compile Include="Mode\Common\Weather.cs" />
-    <Compile Include="Mode\Common\TowerStPra.cs" />
-    <Compile Include="Mode\Electric\SLXian.cs" />
-    <Compile Include="Mode\Common\TowerSeri.cs" />
-    <Compile Include="Mode\Common\WeatherCollection.cs" />
-    <Compile Include="Mode\Common\Wire.cs" />
-    <Compile Include="Mode\Common\WireLib.cs" />
-    <Compile Include="Mode\Common\WireType.cs" />
-    <Compile Include="Mode\Structure\WorkCondition.cs" />
-    <Compile Include="Mode\Structure\WorkConditionCombo.cs" />
-    <Compile Include="Mode\xmlItem.cs" />
-    <Compile Include="DAL\Common\TowerStPraReader.cs" />
-    <Compile Include="Utils\DbfUtils.cs" />
-    <Compile Include="Utils\DES.cs" />
-    <Compile Include="DAL\Common\TowerSeriReader.cs" />
-    <Compile Include="DAL\Common\TowerStructureReader.cs" />
-    <Compile Include="DAL\Structure\TowerTemplateReader.cs" />
-    <Compile Include="DAL\Electric\WireReader.cs" />
-    <Compile Include="DAL\Electric\WeatherReader.cs" />
-    <Compile Include="Utils\XmlHelper.cs" />
-    <Compile Include="Utils\XmlUtils.cs" />
-    <Compile Include="Mode\Electric\WireSpec.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,9 +100,24 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="BLL\Common\" />
-    <Folder Include="BLL\Electric\" />
+    <ProjectReference Include="..\TowerLoadCals.BLL\TowerLoadCals.BLL.csproj">
+      <Project>{11c1cfac-5eba-4b24-895f-89201ef45a8c}</Project>
+      <Name>TowerLoadCals.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TowerLoadCals.Common\TowerLoadCals.Common.csproj">
+      <Project>{02d06c8a-7792-43ee-9c4a-cebef8377aaf}</Project>
+      <Name>TowerLoadCals.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TowerLoadCals.DAL\TowerLoadCals.DAL.csproj">
+      <Project>{05ea043d-3674-4359-8481-3619d35fa25c}</Project>
+      <Name>TowerLoadCals.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TowerLoadCals.Mode\TowerLoadCals.Mode.csproj">
+      <Project>{80d39590-f862-4fec-b748-71aa47ba41c8}</Project>
+      <Name>TowerLoadCals.Mode</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
