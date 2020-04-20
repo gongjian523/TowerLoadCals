@@ -157,26 +157,38 @@ namespace TowerLoadCals.Utils
             if (rootNode == null)
                 return default(T);
 
+            T desObj = Activator.CreateInstance<T>();
 
-            Deserializer(rootNode, out T desObj);
+            Deserializer(rootNode, desObj);
 
             return desObj;
         }
 
-        protected static void Deserializer<T>(XmlNode node, out T desObj)
+        protected static void  Deserializer<T>(XmlNode node, T desObj)
         {
-            desObj = Activator.CreateInstance<T>();
-
             if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(List<>))
             {
-                List<object> list = ((IEnumerable)desObj).Cast<object>().ToList();
+                PropertyInfo pi = desObj.GetType().GetProperty("Item");
+
+                Type tSubItem = pi.PropertyType;
+
+                object list = new object();
+
+                var notNullLength = 0;
+                var listModel = new List<object>();
 
                 foreach (XmlNode subNode in node.ChildNodes)
                 {
-        
-                    Deserializer(subNode, out T subItem);
-                    list.Add(subItem);
+                    Object subItem = Activator.CreateInstance(tSubItem);
+                    Deserializer(subNode, subItem);
+                    listModel.Add (subItem);
+                    notNullLength++;
                 }
+
+                var subObj = ((IEnumerable)pi.GetValue(desObj, null)).Cast<object>().ToList();
+
+                pi.SetValue(subObj, listModel, null);
+
             }
             else
             {
@@ -184,15 +196,16 @@ namespace TowerLoadCals.Utils
 
                 foreach (PropertyInfo pi in t.GetProperties())
                 {
-                    Type t2 = pi.GetValue(desObj, null).GetType();
+                    //Type t2 = pi.GetValue(desObj, null).GetType();
+                    Type t2 = pi.GetType();
                     if (t2.IsGenericType && t2.GetGenericTypeDefinition() == typeof(List<>))
                     {
                         //List<object> subList = ((IEnumerable)desObj).Cast<object>().ToList();
                         //一定要先转换成list，注释中的写法不会被判定成list在递归调用中
                         //var subObj = pi.GetValue(sourceObj, null);
                         //var subObj = ((IEnumerable)pi.GetValue(desObj, null)).Cast<object>().ToList();
-                        Deserializer(node, out List<object> subList);
-                        pi.SetValue(subList, node.Attributes[pi.Name].ToString(), null);
+                        //Deserializer(node, List<object> subList);
+                        //pi.SetValue(subList, node.Attributes[pi.Name].ToString(), null);
                     }
                     else
                     {

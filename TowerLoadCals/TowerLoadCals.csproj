@@ -90,6 +90,7 @@
     <Compile Include="DAL\Structure\TowerTemplateReader.cs" />
     <Compile Include="DAL\Electric\WireReader.cs" />
     <Compile Include="DAL\Electric\WeatherReader.cs" />
+    <Compile Include="Utils\XmlHelper.cs" />
     <Compile Include="Utils\XmlUtils.cs" />
     <Compile Include="Mode\Electric\WireSpec.cs" />
     <Page Include="MainWindow.xaml">
