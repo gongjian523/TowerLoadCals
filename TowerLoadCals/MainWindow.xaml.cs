@@ -1,24 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml;
 using TowerLoadCals.Common;
+using TowerLoadCals.Common.Utils;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
-
+using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals
 {
@@ -363,23 +353,23 @@ namespace TowerLoadCals
             TowerTemplateReader taTemplateReader;
             if (btn.Name == "ReadLineTemplateBtn")
             {
-                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.LineTower);
+                taTemplateReader = new TowerTemplateReader(TowerType.LineTower);
             }
             else if (btn.Name == "ReadCornerTemplateBtn")
             {
-                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.CornerTower);
+                taTemplateReader = new TowerTemplateReader(TowerType.CornerTower);
             }
             else if (btn.Name == "ReadLineCornerTemplateBtn")
             {
-                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.LineCornerTower);
+                taTemplateReader = new TowerTemplateReader(TowerType.LineCornerTower);
             }
             else if (btn.Name == "ReadTerminalTemplateBtn")
             {
-                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.TerminalTower);
+                taTemplateReader = new TowerTemplateReader(TowerType.TerminalTower);
             }
             else 
             {
-                taTemplateReader = new TowerTemplateReader(TowerTemplateReader.TowerType.BranchTower);
+                taTemplateReader = new TowerTemplateReader(TowerType.BranchTower);
             }
             template = taTemplateReader.Read(openFileDialog.FileName);
 
@@ -487,6 +477,39 @@ namespace TowerLoadCals
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
         }
+
+
+        public class student
+        {
+            public string studentId { get; set; }
+        }
+
+
+        private void button_Pathon_Click(object sender, RoutedEventArgs e)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+
+            dic.Add("studentId", "28845");
+            //dic.Add("phone", "13882005866");
+            //dic.Add("password", "e10adc3949ba59abbe56e057f20f883e");
+
+            student st = new student
+            {
+                studentId = "28845"
+            };
+
+
+            JsonSerializerSettings jsetting = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            string JsonBody = JsonConvert.SerializeObject(st, Formatting.Indented, jsetting);
+
+            //string str = HttpUtils.GetResponseString(HttpUtils.CreatePostHttpResponse("http://www.youmeiga.com/umeijia/rest/teacher_service/loginCheckRercode", dic, null));
+            string str = HttpUtils.GetResponseString(HttpUtils.CreatePostHttpResponse("http://47.106.125.192:8082/umjapi/v2/count/listApp", JsonBody, null));
+            tbResult.Text = str;
+
+         }
     }
 
 }

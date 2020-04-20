@@ -30,6 +30,7 @@
                 <Button Click="button_ReadTaTemplate_Click" Name="ReadBranchTemplateBtn" Height="30" Width="120" Content="打开分支塔文件" BorderThickness="0" Margin="3"/>
                 <Button Click="button_DesDecrypt_Click" Height="30" Width="120" Content="加密文件" BorderThickness="0" Margin="3"/>
                 <Button Click="button_DesEncrypt_Click" Height="30" Width="120" Content="解密文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_Pathon_Click" Height="30" Width="120" Content="Pathon接口" BorderThickness="0" Margin="3"/>
             </WrapPanel>
         </ScrollViewer>
         <TabControl Grid.Column="1" Name="tabs">
@@ -195,6 +196,14 @@
                     <DataGrid  Name="wdComboGridTa"  Grid.Row="3"  ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False" />
                 </Grid>
             </TabItem>
+            <TabItem Header="Pathon接口">
+                <WrapPanel>
+                    <TextBox Name="tb1" Height="50"  Width="100"/>
+                    <TextBox Name="tb2" Height="50"  Width="100"/>
+                    <TextBlock Name="tbResult" Height="50" Width="200"/>
+                </WrapPanel>
+            </TabItem>
+            
         </TabControl>
     </Grid>
 </Window>
