@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -484,32 +485,70 @@ namespace TowerLoadCals
             public string studentId { get; set; }
         }
 
-
-        private void button_Pathon_Click(object sender, RoutedEventArgs e)
+        public class Input
         {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
+            public string token { get; set; }
+            public int x { get; set; }
+            public int y { get; set; }
+        }
 
-            dic.Add("studentId", "28845");
-            //dic.Add("phone", "13882005866");
-            //dic.Add("password", "e10adc3949ba59abbe56e057f20f883e");
+        public class Output
+        {
+            public string status { get; set; }
+            public string engine { get; set; }
+            public int msg { get; set; }
+        }
 
-            student st = new student
-            {
-                studentId = "28845"
-            };
-
-
+        private void button_PathonServer_Click(object sender, RoutedEventArgs e)
+        {
             JsonSerializerSettings jsetting = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
             };
-            string JsonBody = JsonConvert.SerializeObject(st, Formatting.Indented, jsetting);
 
-            //string str = HttpUtils.GetResponseString(HttpUtils.CreatePostHttpResponse("http://www.youmeiga.com/umeijia/rest/teacher_service/loginCheckRercode", dic, null));
-            string str = HttpUtils.GetResponseString(HttpUtils.CreatePostHttpResponse("http://47.106.125.192:8082/umjapi/v2/count/listApp", JsonBody, null));
-            tbResult.Text = str;
+            //student st = new student
+            //{
+            //    studentId = "28845"
+            //};
+            //string JsonBody = JsonConvert.SerializeObject(st, Formatting.Indented, jsetting);
+            //string str = HttpUtils.GetResponseString(HttpUtils.CreatePostHttpResponse("http://47.106.125.192:8082/umjapi/v2/count/listApp", JsonBody, null));
+            //tbResult.Text = str;
+            Button btn = (Button)sender;
 
-         }
+            string strUrl = "http://137.168.101.235:9898/calOnline";
+            Input input = new Input
+            {
+                token = "SANWEIYANFA@321$",
+                x = Convert.ToInt16(tb1.Text.ToString()),
+                y = Convert.ToInt16(tb2.Text.ToString())
+            };
+
+            tabs.SelectedIndex = 6;
+
+            Output[] ops = HttpUtils.HttpPost<Output[], Input>(strUrl, input);
+            tbResult.Text = ops[0].msg.ToString();
+        }
+
+        private void button_PathonLocal_Click(object sender, RoutedEventArgs e)
+        {
+            JsonSerializerSettings jsetting = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            string strUrl = "http://127.0.0.1:9898/calOnline";
+            Input input = new Input
+            {
+                token = "SANWEIYANFA@321$",
+                x = Convert.ToInt16(tb21.Text.ToString()),
+                y = Convert.ToInt16(tb22.Text.ToString())
+            };
+
+            tabs.SelectedIndex = 7;
+
+            Output[] ops = HttpUtils.HttpPost<Output[], Input>(strUrl, input);
+            tbResult2.Text = ops[0].msg.ToString();
+        }
     }
 
 }

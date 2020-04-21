@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TowerLoadCals.Common.Utils
 {
@@ -158,6 +157,28 @@ namespace TowerLoadCals.Common.Utils
             if (errors == SslPolicyErrors.None)
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// 封装好的http Post接口
+        /// </summary>
+        /// <typeparam name="T">输出类型</typeparam>
+        /// <typeparam name="K">输入类型</typeparam>
+        /// <param name="url">接口</param>
+        /// <param name="parameters">post的body参数</param>
+        /// <returns></returns>
+        public static T HttpPost<T, K>(string url, K parameters)
+        {
+            JsonSerializerSettings jsetting = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            string JsonBody = JsonConvert.SerializeObject(parameters, Formatting.Indented, jsetting);
+            string str = GetResponseString(CreatePostHttpResponse(url, JsonBody, null));
+            T output = JsonConvert.DeserializeObject<T>(str);
+
+            return output;
         }
     }
 }

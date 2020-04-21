@@ -162,58 +162,58 @@ namespace TowerLoadCals.Common
 
         protected static void  Deserializer<T>(XmlNode node, T desObj)
         {
-            if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(List<>))
-            {
-                PropertyInfo pi = desObj.GetType().GetProperty("Item");
+            Type t1 = typeof(T);
+            //if (t1.FullName.StartsWith("System.Collections.Generic.List`1"))
+            //if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(List<>))
+            //{
+            //    PropertyInfo pi = desObj.GetType().GetProperty("Item");
 
-                Type tSubItem = pi.PropertyType;
+            //    Type tSubItem = pi.PropertyType;
+            //    Assembly ass = Assembly.GetAssembly(tSubItem);
 
-                object list = new object();
+            //    object list = new object();
 
-                var notNullLength = 0;
-                var listModel = new List<object>();
+            //    var notNullLength = 0;
+            //    var listModel = new List<object>();
 
-                foreach (XmlNode subNode in node.ChildNodes)
-                {
-                    Object subItem = Activator.CreateInstance(tSubItem);
-                    Deserializer(subNode, subItem);
-                    listModel.Add (subItem);
-                    notNullLength++;
-                }
+            //    foreach (XmlNode subNode in node.ChildNodes)
+            //    {
+            //        Object subItem = ass.CreateInstance(tSubItem.FullName);
+            //        Deserializer(subNode, subItem);
+            //        listModel.Add(subItem);
+            //        notNullLength++;
+            //    }
 
-                var subObj = ((IEnumerable)pi.GetValue(desObj, null)).Cast<object>().ToList();
+            //    //pi.SetValue(desObj, listModel, null);
 
-                pi.SetValue(subObj, listModel, null);
-
-            }
-            else
+            //}
+            //else
             {
                 Type t = desObj.GetType();
 
                 foreach (PropertyInfo pi in t.GetProperties())
                 {
-                    //Type t2 = pi.GetValue(desObj, null).GetType();
-                    Type t2 = pi.GetType();
-                    if (t2.IsGenericType && t2.GetGenericTypeDefinition() == typeof(List<>))
+                    if (pi.PropertyType.Equals(typeof(string)))//判断属性的类型是不是String
+                    {
+                        pi.SetValue(desObj, node.Attributes[pi.Name].Value.ToString(), null);//给泛型的属性赋值
+                    }
+                    else if (pi.PropertyType.Equals(typeof(int)))
                     {
-                        //List<object> subList = ((IEnumerable)desObj).Cast<object>().ToList();
-                        //一定要先转换成list，注释中的写法不会被判定成list在递归调用中
-                        //var subObj = pi.GetValue(sourceObj, null);
-                        //var subObj = ((IEnumerable)pi.GetValue(desObj, null)).Cast<object>().ToList();
-                        //Deserializer(node, List<object> subList);
-                        //pi.SetValue(subList, node.Attributes[pi.Name].ToString(), null);
+                        pi.SetValue(desObj, Convert.ToInt16(node.Attributes[pi.Name].Value), null);//给泛型的属性赋值
                     }
-                    else
+                    else if(pi.PropertyType.Equals(typeof(bool)))
                     {
-                        if (pi.PropertyType.Equals(typeof(string)))//判断属性的类型是不是String
-                        {
-                            pi.SetValue((T)desObj, node.Attributes[pi.Name].ToString(), null);//给泛型的属性赋值
-                        }
-                        else if (pi.PropertyType.Equals(typeof(int)))
-                        {
-                            pi.SetValue((T)desObj, Convert.ToInt16(node.Attributes[pi.Name]), null);//给泛型的属性赋值
-                        }
+                        pi.SetValue(desObj, Convert.ToBoolean(node.Attributes[pi.Name].Value), null);//给泛型的属性赋值
                     }
+                    else if(pi.PropertyType.FullName.StartsWith("System.Collections.Generic.List`1"))
+                    {
+                        Type tList = pi.PropertyType;
+                        Assembly ass = Assembly.GetAssembly(tList);
+                        //Type type = pi.PropertyType.GetGenericArguments()[0];
+                        List<object> subList = (List<object>)ass.CreateInstance(tList.FullName);
+                        Deserializer(node, subList);
+                        pi.SetValue(desObj, subList, null);
+                    }                   
                 }
             }
         }
