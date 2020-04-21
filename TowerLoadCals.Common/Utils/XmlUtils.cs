@@ -162,38 +162,68 @@ namespace TowerLoadCals.Common
 
         protected static void  Deserializer<T>(XmlNode node, T desObj)
         {
-            Type t1 = typeof(T);
-            //if (t1.FullName.StartsWith("System.Collections.Generic.List`1"))
+            Type t1 = desObj.GetType();
+
+            if (t1.FullName.StartsWith("System.Collections.Generic.List`1"))
             //if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(List<>))
-            //{
-            //    PropertyInfo pi = desObj.GetType().GetProperty("Item");
+            {
+                PropertyInfo pi = desObj.GetType().GetProperty("Item");
 
-            //    Type tSubItem = pi.PropertyType;
-            //    Assembly ass = Assembly.GetAssembly(tSubItem);
+                Type tSubItem = pi.PropertyType;
+                Assembly ass = Assembly.GetAssembly(tSubItem);
 
-            //    object list = new object();
+                var listType = typeof(List<>).MakeGenericType(new Type[] { tSubItem });
+                var list = Activator.CreateInstance(listType);
 
-            //    var notNullLength = 0;
-            //    var listModel = new List<object>();
+                foreach (XmlNode subNode in node.ChildNodes)
+                {
+                    object subItem = ass.CreateInstance(tSubItem.FullName);
+                    Deserializer(subNode, subItem);
+                    ((IEnumerable)list).Cast<object>().ToList().Add(subItem);
+                }
 
-            //    foreach (XmlNode subNode in node.ChildNodes)
-            //    {
-            //        Object subItem = ass.CreateInstance(tSubItem.FullName);
-            //        Deserializer(subNode, subItem);
-            //        listModel.Add(subItem);
-            //        notNullLength++;
-            //    }
+                pi.SetValue(desObj, list, null);
 
-            //    //pi.SetValue(desObj, listModel, null);
-
-            //}
-            //else
+            }
+            else
             {
                 Type t = desObj.GetType();
 
                 foreach (PropertyInfo pi in t.GetProperties())
                 {
-                    if (pi.PropertyType.Equals(typeof(string)))//判断属性的类型是不是String
+                    if (pi.PropertyType.FullName.StartsWith("System.Collections.Generic.List`1"))
+                    {
+                        Type tList = pi.PropertyType;
+                        Assembly ass = Assembly.GetAssembly(tList);
+                        Type type = pi.PropertyType.GetGenericArguments()[0];
+                        Assembly ass2 = Assembly.GetAssembly(type);
+
+
+                        var listType = typeof(List<>).MakeGenericType(new Type[] { type });
+                        var subList = Activator.CreateInstance(listType);
+
+                        pi.SetValue(desObj, ass.CreateInstance(tList.FullName), null);
+
+
+
+
+                        //var subList = ((IEnumerable)pi.GetValue(desObj, null)).Cast<object>().ToList();
+
+                        //List<object> subList = ass.CreateInstance(tList.FullName);
+
+                        //foreach (XmlNode subNode in node.ChildNodes)
+                        //{
+                        //    object subItme = ass2.CreateInstance(type.FullName);
+                        //    Deserializer(subNode, subItme);
+                        //    subList.Add(subItme);
+                        //}
+                        //object subList = ((IEnumerable)ass.CreateInstance(tList.FullName)).Cast<object>().ToList();
+
+                        Deserializer(node, subList);
+                        pi.SetValue(desObj, subList, null);
+
+                    }
+                    else if (pi.PropertyType.Equals(typeof(string)))//判断属性的类型是不是String
                     {
                         pi.SetValue(desObj, node.Attributes[pi.Name].Value.ToString(), null);//给泛型的属性赋值
                     }
@@ -205,17 +235,29 @@ namespace TowerLoadCals.Common
                     {
                         pi.SetValue(desObj, Convert.ToBoolean(node.Attributes[pi.Name].Value), null);//给泛型的属性赋值
                     }
-                    else if(pi.PropertyType.FullName.StartsWith("System.Collections.Generic.List`1"))
-                    {
-                        Type tList = pi.PropertyType;
-                        Assembly ass = Assembly.GetAssembly(tList);
-                        //Type type = pi.PropertyType.GetGenericArguments()[0];
-                        List<object> subList = (List<object>)ass.CreateInstance(tList.FullName);
-                        Deserializer(node, subList);
-                        pi.SetValue(desObj, subList, null);
-                    }                   
+                  
                 }
             }
         }
+
+        protected T Copy<T>(T obj)where T:new()
+        {
+　　        T obj2 = new T();
+　　        return obj2;
+        }
+
+        //private static IEnumerable<object> CreateAListContainingOneObject(Type type)
+        //{
+        //    var del = typeof(Program).GetMethod("CreateAGenericListContainingOneObject",
+        //    BindingFlags.Static | BindingFlags.NonPublic).MakeGenericMethod(type);
+
+        //    return del.Invoke(null, new object[] { }) as IEnumerable<object>;
+        //}
+
+        //private static List<T> CreateAGenericListContainingOneObject<T>()
+        // where T : new()
+        //{
+        //    return new List<T> { new T() };
+        //}
     }
 }
