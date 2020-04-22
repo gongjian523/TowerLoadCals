@@ -11,7 +11,7 @@ using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using static TowerLoadCals.DAL.TowerTemplateReader;
 
-namespace TowerLoadCals
+namespace TowerLoadCals.Demo
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
