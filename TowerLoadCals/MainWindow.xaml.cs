@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using TowerLoadCals.Common;
 using TowerLoadCals.Common.Utils;
 using TowerLoadCals.DAL;
+using TowerLoadCals.DAL.Electric;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Electric;
 using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Demo
@@ -244,10 +247,10 @@ namespace TowerLoadCals.Demo
                 return;
 
             listWeathers.Clear();
-            listWeathers = XmlUtils.Read<List<Weather>>(openFileDialog.FileName);
+            //listWeathers = XmlUtils.Read<List<Weather>>(openFileDialog.FileName);
 
-            //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
-            //listWeathers = weatherReader.ReadLocal(openFileDialog.FileName);
+            WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+            listWeathers = weatherReader.ReadLocal(openFileDialog.FileName);
 
             if (listWeathers.Count > 0)
                 weathers.Weathers.AddRange(listWeathers);
@@ -274,11 +277,11 @@ namespace TowerLoadCals.Demo
             copy.Clear();
             TowerSeri item = (TowerSeri)dataGridTa.SelectedItem;
             int cnt = dataGridTa.SelectedItems.Count;
-            memberData.RemoveRange(item.Index-1,cnt);
+            memberData.RemoveRange(item.ID-1,cnt);
 
             for(int i = 0; i < memberData.Count; i++)
             {
-                memberData[i].Index = i + 1;
+                memberData[i].ID = i + 1;
             }
 
             dataGridTa.DataContext = memberData;
@@ -290,11 +293,11 @@ namespace TowerLoadCals.Demo
         private void button_DG_Paste_Click(object sender, RoutedEventArgs e)
         {
             TowerSeri item = (TowerSeri)dataGridTa.SelectedItem;
-            memberData.InsertRange(item.Index - 1, copy);
+            memberData.InsertRange(item.ID - 1, copy);
 
             for (int i = 0; i < memberData.Count; i++)
             {
-                memberData[i].Index = i + 1;
+                memberData[i].ID = i + 1;
             }
 
             dataGridTa.DataContext = memberData;
@@ -548,6 +551,331 @@ namespace TowerLoadCals.Demo
 
             Output[] ops = HttpUtils.HttpPost<Output[], Input>(strUrl, input);
             tbResult2.Text = ops[0].msg.ToString();
+        }
+
+
+        private void button_ReadProjectXML_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Excel Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            if (result != true)
+                return;
+
+            var list = ProInfoReader.Read(openFileDialog.FileName);
+            
+        }
+
+        private void button_SaveProjectXML_Click(object sender, RoutedEventArgs e)
+        {
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+                //weatherReader.Save(saveFileDialog.FileName, listWeathers);
+
+                List<ProInfo> list = new List<ProInfo>();
+                list.Add(new ProInfo
+                {
+                    ID = 1,
+                    Name = "Test",
+                    FilesID = 2,
+                    Stage = "Begine",
+                    Volt = 220
+                });
+
+                ProInfoReader.Save(saveFileDialog.FileName, list);
+
+                //XmlSerializer xs = new XmlSerializer(typeof(Weather));
+                //StreamWriter sw = new StreamWriter(saveFileDialog.FileName);
+                //xs.Serialize(sw, listWeathers[0]);
+                //sw.Close();
+            }
+
+            return;
+        }
+
+
+        private void button_ReadWireXML_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Xml Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            if (result != true)
+                return;
+
+            var list = WireReader.Read(openFileDialog.FileName);
+
+        }
+
+        private void button_SaveWireXML_Click(object sender, RoutedEventArgs e)
+        {
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+                //weatherReader.Save(saveFileDialog.FileName, listWeathers);
+
+                List<Wire> list = new List<Wire>();
+                list.Add(new Wire
+                {
+                    ID = 10,
+                    Name = "Type1",
+                    Sec = 100,
+                    Dia = 200,
+                    Wei = 300,
+                    Elas = 2,
+                    Coef = 3,
+                    Fore = 4
+                });
+
+                WireReader.Save(saveFileDialog.FileName, list);
+
+                //XmlSerializer xs = new XmlSerializer(typeof(Weather));
+                //StreamWriter sw = new StreamWriter(saveFileDialog.FileName);
+                //xs.Serialize(sw, listWeathers[0]);
+                //sw.Close();
+            }
+
+            return;
+        }
+
+
+        private void button_ReadTaSeriXML_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Xml Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            if (result != true)
+                return;
+
+            var list = TowerSeriReader.Read(openFileDialog.FileName);
+
+        }
+
+        private void button_SaveTaSeriXML_Click(object sender, RoutedEventArgs e)
+        {
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
+                //weatherReader.Save(saveFileDialog.FileName, listWeathers);
+
+                List<TowerSeri> list = new List<TowerSeri>();
+                list.Add(new TowerSeri
+                {
+                    ID = 0,
+                    Num = "111",
+                    PosName = "222",
+                    PosOffset = "100",
+                    Name = "Tower",  
+                    Type = 1,   
+                    Height = 0,  
+                    ResID = "ReID",
+                    Elevation = 0,  
+                    SubOfElv = 0,
+                    TotalSpan = 0,
+                    FrontSpan = 0,
+                    FrontHorizontalSpan = 0,
+                    BackHorizontalSpan = 0,
+                    HorizontalSpan = 0,
+                    FrontVerticalSpan = 0,
+                    BackVerticalSpan = 0,
+                    VerticalSpan = "0",
+                    AngelofApplication = 0,
+                    FrontDRepresentSpan = 0,  
+                    BackDRepresentSpan = 0,   
+                    StringLength = 0,
+                    FrontK = 0,
+                    BackK = 0,
+                    FrontWeatherID = "FrontWeatherID",
+                    BackWeatherID = "BackWeatherID"
+                });
+
+                TowerSeriReader.Save(saveFileDialog.FileName, list);
+
+                //XmlSerializer xs = new XmlSerializer(typeof(Weather));
+                //StreamWriter sw = new StreamWriter(saveFileDialog.FileName);
+                //xs.Serialize(sw, listWeathers[0]);
+                //sw.Close();
+            }
+
+            return;
+        }
+
+        private void button_ReadStrDataXML_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Xml Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            if (result != true)
+                return;
+
+            var list = StrDataReader.Read(openFileDialog.FileName);
+
+        }
+
+        private void button_SaveStrDataXML_Click(object sender, RoutedEventArgs e)
+        {
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                List<StrData> list = new List<StrData>();
+                list.Add(new StrData
+                {
+                    ID = 0,
+                    Name = "string",
+                    Type = "type",
+                    Weight = 0,
+                    FitLength = 0,
+                    PieceLength = 0,
+                    PieceNum = 0,
+                    GoldPieceNum = 0,
+                    LNum = 0,
+                    DampLength = 0,
+                    SuTubleLen = 0,
+                    SoftLineLen = 0,
+                });
+
+                StrDataReader.Save(saveFileDialog.FileName, list);
+            }
+
+            return;
+        }
+
+        private void button_ReadFitDataXML_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Xml Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            if (result != true)
+                return;
+
+            var list = FitDataReader.Read(openFileDialog.FileName);
+
+        }
+
+        private void button_SaveFitDataXML_Click(object sender, RoutedEventArgs e)
+        {
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                List<FitData> list = new List<FitData>();
+                list.Add(new FitData
+                {
+                    ID = 0,
+                    Name = "string",
+                    Type = "type",
+                    Weight = 0,
+                    SecWind = 0,
+                });
+
+                FitDataReader.Save(saveFileDialog.FileName, list);
+            }
+
+            return;
+        }
+
+        private void button_ReadTowerStrDataXML_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Xml Files (*.xml)|*.xml"
+            };
+            var result = openFileDialog.ShowDialog();
+
+            if (result != true)
+                return;
+
+            var list = TowerStrDataReader.Read(openFileDialog.FileName);
+        }
+
+        private void button_SaveTowerStrDataXML_Click(object sender, RoutedEventArgs e)
+        {
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                int[] arry1 = { 1, 2, 3, 4, 5 };
+                int[] arry2 = { 11, 21, 31, 41, 51 };
+
+                List<TowerStrData> list = new List<TowerStrData>();
+                list.Add(new TowerStrData
+                {
+                    ID = 0,
+                    VoltageLevel = 220,
+                    Name = "string",
+                    Type = 1,
+                    CirNum = 1,
+                    CurType = 2,
+                    CalHeight = 3,
+                    MinHeight = 220,
+                    MaxHeight = 228,
+                    AllowedHorSpan = 1,
+                    OneSideMinHorSpan = 1,
+                    OneSideMaxHorSpan = 0,
+                    AllowedVerSpan = 0,
+                    OneSideMinVerSpan = 220,
+                    OneSideUpVerSpanMin = 1,
+                    OneSideUpVerSpanMax = 1,
+                    MinAngel = 0,
+                    MaxAngel = 0,
+                    DRepresentSpanMin = 220,
+                    DRepresentSpanMax = 1,
+                    StrHeightSer = String.Join(",", arry1.Select(p => p.ToString()).ToArray()),
+                    StrAllowHorSpan = String.Join(",", arry2.Select(p => p.ToString()).ToArray()),
+                    AngelToHorSpan = 0,
+                    MaxAngHorSpan = 220,
+                });
+
+                TowerStrDataReader.Save(saveFileDialog.FileName, list);
+            }
+
+            return;
         }
     }
 

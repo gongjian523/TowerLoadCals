@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TowerLoadCals"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1200">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <ScrollViewer Margin="0" VerticalScrollBarVisibility="Auto">
@@ -18,11 +19,27 @@
                 <!--<Button Click="button_ReadDBF_Click" Name="ReadXiandbfBtn"  Height="30" Width="120" Content="请选择SL_XIAN.DBF文件" BorderThickness="0" Margin="3"/>-->
                 <Button Click="button_ReadWeatherXML_Click" Name="ReadWeatherXMLBtn"  Height="30" Width="120" Content="请选择Weather.XML文件" BorderThickness="0" Margin="3"/>
                 <Button Click="button_SaveWeatherXML_Click" Name="SaveWeatherXMLBtn"  Height="30" Width="120" Content="保存Weather.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadLocalWeatherXML_Click" Name="ReadLocalWeatherXMLBtn"  Height="30" Width="120" Content="保存Weather.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadDBF_Click" Name="ReadWeatherdbfBtn" Height="30" Width="120" Content="请选择Weather.DBF文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_ReadLocalWeatherXML_Click" Name="ReadLocalWeatherXMLBtn"  Height="30" Width="120" Content="请选择Weather.XML文件" BorderThickness="0" Margin="3"/>
+                <!--<Button Click="button_ReadDBF_Click" Name="ReadWeatherdbfBtn" Height="30" Width="120" Content="请选择Weather.DBF文件" BorderThickness="0" Margin="3"/>
                 <Button Click="button_ReadTa_Click" Height="30" Width="120" Content="请选择TA文件" BorderThickness="0" Margin="3"/>
                 <Button Click="button_ReadMD_Click" Height="30" Width="120" Content="请选择MD文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveMD_Click" Height="30" Width="120" Content="保存MD文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_SaveMD_Click" Height="30" Width="120" Content="保存MD文件" BorderThickness="0" Margin="3"/>-->
+                <Button Click="button_ReadProjectXML_Click" Height="30" Width="120" Content="请选择ProInfo.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_SaveProjectXML_Click" Height="30" Width="120" Content="保存ProInfo.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_ReadWireXML_Click" Height="30" Width="120" Content="请选择Wire.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_SaveWireXML_Click" Height="30" Width="120" Content="保存Wire.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_ReadTaSeriXML_Click" Height="30" Width="120" Content="请选择TaSeri.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_SaveTaSeriXML_Click" Height="30" Width="120" Content="保存TaSeri.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_ReadStrDataXML_Click" Height="30" Width="120" Content="请选择StrData.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_SaveStrDataXML_Click" Height="30" Width="120" Content="保存StrData.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_ReadFitDataXML_Click" Height="30" Width="120" Content="请选择FitData.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_SaveFitDataXML_Click" Height="30" Width="120" Content="保存FitData.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_ReadTowerStrDataXML_Click" Height="30" Width="120" Content="请选择TowerStrData.XML文件" BorderThickness="0" Margin="3"/>
+                <Button Click="button_SaveTowerStrDataXML_Click" Height="30" Width="120" Content="保存TowerStrData.XML文件" BorderThickness="0" Margin="3"/>
+            </WrapPanel>
+        </ScrollViewer>
+        <ScrollViewer Margin="0" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <WrapPanel >
                 <Button Click="button_ReadTaTemplate_Click" Name="ReadLineTemplateBtn" Height="30" Width="120" Content="打开直线塔文件" BorderThickness="0" Margin="3"/>
                 <Button Click="button_ReadTaTemplate_Click" Name="ReadCornerTemplateBtn" Height="30" Width="120" Content="打开转角塔文件" BorderThickness="0" Margin="3"/>
                 <Button Click="button_ReadTaTemplate_Click" Name="ReadLineCornerTemplateBtn" Height="30" Width="120" Content="打开直线转角塔文件" BorderThickness="0" Margin="3"/>
@@ -34,7 +51,7 @@
                 <Button Click="button_PathonLocal_Click" Name="PythonLocalBtn" Height="30" Width="120" Content="Python接口(本地)" BorderThickness="0" Margin="3"/>
             </WrapPanel>
         </ScrollViewer>
-        <TabControl Grid.Column="1" Name="tabs">
+        <TabControl Grid.Column="2" Name="tabs">
             <TabItem Header="XML文件">
                 <TreeView Name="xmlTreeView" >
                     <!--<TreeViewItem Header="Employee1" IsSelected="True">

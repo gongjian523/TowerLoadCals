@@ -125,6 +125,9 @@ namespace TowerLoadCals.Common
 
                 foreach (PropertyInfo pi in t.GetProperties())
                 {
+                    if (pi.GetValue(sourceObj, null) == null)
+                        continue;
+
                     //不能直接用pi的Type，List会判断不对，而要用这个属性的值的Type
                     Type t2 = pi.GetValue(sourceObj, null).GetType();
                     if (t2.IsGenericType && t2.GetGenericTypeDefinition() == typeof(List<>))

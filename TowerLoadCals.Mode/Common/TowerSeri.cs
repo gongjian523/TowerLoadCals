@@ -5,7 +5,7 @@
         /// <summary>
         /// 序号
         /// </summary>
-        public int Index { get; set; }
+        public int ID { get; set; }
 
         #region 直接读取的属性
         /// <summary>
@@ -69,9 +69,14 @@
         public double TotalSpan { get; set; }
 
         /// <summary>
-        /// 导线K值
+        /// 前侧K值
         /// </summary>
-        public double WireK { get; set; }
+        public double FrontK { get; set; }
+
+        /// <summary>
+        /// 导线K值 后侧K值
+        /// </summary>
+        public double BackK { get; set; }
 
         /// <summary>
         /// 绝缘串长
@@ -101,19 +106,27 @@
         /// <summary>
         /// 前侧水平档距
         /// </summary>
-        //public double FrontHorizontalSpan { get; set; }
+        public double FrontHorizontalSpan { get; set; }
 
         /// <summary>
         /// 后侧水平档距
         /// </summary>
-        //public double BackHorizontalSpan { get; set; }
+        public double BackHorizontalSpan { get; set; }
 
         /// <summary>
         /// 垂直档距 
         /// </summary>
         public string VerticalSpan { get; set; }
 
+        /// <summary>
+        /// 前侧代表档距
+        /// </summary>
+        public double FrontDRepresentSpan { get; set; }
 
+        /// <summary>
+        /// 后侧代表档距 
+        /// </summary>
+        public double BackDRepresentSpan { get; set; }
 
         /// <summary>
         /// 垂直档距 中间计算参数

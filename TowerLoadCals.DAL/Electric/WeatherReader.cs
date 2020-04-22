@@ -64,17 +64,12 @@ namespace TowerLoadCals.DAL
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         public override List<Weather> ReadLocal(string path)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
 
-            XmlNode rootNode = doc.FirstChild;
+            XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
             if (rootNode == null)
                 return new List<Weather>();
 
@@ -97,7 +92,7 @@ namespace TowerLoadCals.DAL
 
                 Weather weather = new Weather()
                 {
-                    Name = node.Attributes["SName"].Value.ToString(),
+                    Name = node.Attributes["Name"].Value.ToString(),
                     WorkConditions = listWd
                 };
                 list.Add(weather);

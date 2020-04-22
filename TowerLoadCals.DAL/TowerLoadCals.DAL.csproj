@@ -41,9 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ProInfoReader.cs" />
     <Compile Include="Common\TowerSeriReader.cs" />
     <Compile Include="Common\TowerStPraReader.cs" />
     <Compile Include="Common\TowerStructureReader.cs" />
+    <Compile Include="Electric\FitDataReader.cs" />
+    <Compile Include="Electric\StrDataReader.cs" />
+    <Compile Include="Electric\TowerStrDataReader.cs" />
     <Compile Include="Electric\WeatherReader.cs" />
     <Compile Include="Electric\WireReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

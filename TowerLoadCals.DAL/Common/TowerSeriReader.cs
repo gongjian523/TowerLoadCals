@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using TowerLoadCals.Common;
 using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.DAL
@@ -35,7 +37,7 @@ namespace TowerLoadCals.DAL
                 i++;
                 towerSeriList.Add(new TowerSeri
                 {
-                    Index = i,
+                    ID = i,
                     Num = aLines[0],
                     PosName = aLines[7].TrimStart(' '),
                     PosOffset = aLines[3].TrimStart(' '),
@@ -45,7 +47,7 @@ namespace TowerLoadCals.DAL
                     Elevation = Convert.ToDouble(aLines[6]),
                     SubOfElv = Convert.ToDouble(aLines[12]),
                     TotalSpan = Convert.ToDouble(aLines[2]),
-                    WireK = Convert.ToDouble(aLines[4]),
+                    BackK = Convert.ToDouble(aLines[4]),
                     Height = Convert.ToDouble(aLines[9]),
                     StringLength = Convert.ToDouble(aLines[11]),
                     AngelofApplication = Convert.ToDouble(aLines[20])
@@ -86,10 +88,10 @@ namespace TowerLoadCals.DAL
                 if (i != 0)
                 {
                     double h = tas[i].guadg - tas[i - 1].guadg;
-                    double x = tas[i].WireK * tas[i].FrontSpan * 0.001;
-                    double y = ((-1) * tas[i].WireK * h * 0.001) / Math.Sinh(x);
-                    tas[i].sec = Math.Log(y + Math.Sqrt(y * y + 1)) / (2 * tas[i].WireK * 0.001);
-                    tas[i].BackVerticalSpan = Math.Ceiling(tas[i].FrontSpan / 2 + Math.Log(y + Math.Sqrt(y * y + 1)) / (2 * tas[i].WireK * 0.001));
+                    double x = tas[i].BackK * tas[i].FrontSpan * 0.001;
+                    double y = ((-1) * tas[i].BackK * h * 0.001) / Math.Sinh(x);
+                    tas[i].sec = Math.Log(y + Math.Sqrt(y * y + 1)) / (2 * tas[i].BackK * 0.001);
+                    tas[i].BackVerticalSpan = Math.Ceiling(tas[i].FrontSpan / 2 + Math.Log(y + Math.Sqrt(y * y + 1)) / (2 * tas[i].BackK * 0.001));
                     tas[i].FrontVerticalSpan = Math.Ceiling(tas[i].FrontSpan - tas[i].BackVerticalSpan);
 
                     if (tas[i].Type == 1)
@@ -107,6 +109,56 @@ namespace TowerLoadCals.DAL
                     tas[i].VerticalSpan = "0";
                 }
             }
+        }
+
+
+        public static List<TowerSeri> Read(string path)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
+            if (rootNode == null)
+                return new List<TowerSeri>();
+
+            List<TowerSeri> list = new List<TowerSeri>();
+
+            foreach (XmlNode node in rootNode.ChildNodes)
+            {
+                TowerSeri seri = new TowerSeri()
+                {
+                    ID = Convert.ToInt16(node.Attributes["ID"].Value.ToString()),
+                    Num = node.Attributes["Num"].Value.ToString(),
+                    PosName = node.Attributes["PosName"].Value.ToString(),
+                    PosOffset = node.Attributes["PosOffset"].Value.ToString(),
+                    Name = node.Attributes["Name"].Value.ToString(),
+                    Type = Convert.ToInt16(node.Attributes["Type"].Value.ToString()),
+                    Height = Convert.ToInt16(node.Attributes["Height"].Value.ToString()),
+                    ResID = node.Attributes["ResID"].Value.ToString(),
+                    Elevation = Convert.ToInt16(node.Attributes["Elevation"].Value.ToString()),
+                    TotalSpan = Convert.ToInt16(node.Attributes["TotalSpan"].Value.ToString()),
+                    FrontSpan = Convert.ToInt16(node.Attributes["FrontSpan"].Value.ToString()),
+                    FrontHorizontalSpan = Convert.ToInt16(node.Attributes["FrontHorizontalSpan"].Value.ToString()),
+                    BackHorizontalSpan = Convert.ToInt16(node.Attributes["BackHorizontalSpan"].Value.ToString()),
+                    HorizontalSpan = Convert.ToInt16(node.Attributes["HorizontalSpan"].Value.ToString()),
+                    FrontVerticalSpan = Convert.ToInt16(node.Attributes["FrontVerticalSpan"].Value.ToString()),
+                    BackVerticalSpan = Convert.ToInt16(node.Attributes["BackVerticalSpan"].Value.ToString()),
+                    VerticalSpan = node.Attributes["VerticalSpan"].Value.ToString(),
+                    FrontDRepresentSpan = Convert.ToInt16(node.Attributes["FrontDRepresentSpan"].Value.ToString()),
+                    BackDRepresentSpan = Convert.ToInt16(node.Attributes["BackDRepresentSpan"].Value.ToString()),
+                    StringLength = Convert.ToInt16(node.Attributes["StringLength"].Value.ToString()),
+                    FrontWeatherID = node.Attributes["FrontWeatherID"].Value.ToString(),
+                    BackWeatherID = node.Attributes["BackWeatherID"].Value.ToString(),
+                };
+                list.Add(seri);
+            }
+
+            return list;
+        }
+
+        public static void Save(string path, List<TowerSeri> infos)
+        {
+            XmlUtils.Save(path, infos);
         }
     }
 }

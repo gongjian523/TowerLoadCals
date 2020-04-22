@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TowerLoad"
-        xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit" xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling" xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxdash="http://schemas.devexpress.com/winfx/2008/xaml/dashboard" xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" x:Class="TowerLoadCals.MainWindow"
+        xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit" xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling" xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxdash="http://schemas.devexpress.com/winfx/2008/xaml/dashboard" xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" x:Class="TowerLoadCals.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -21,7 +21,7 @@
         </dxb:MainMenuControl>
         <TabControl Grid.Row="1">
             <TabControl.Resources>
-                <ControlTemplate x:Key="menuPresenterTemplate" TargetType="ContentControl">
+                <ControlTemplate x:Key="menuPresenterTemplate" TargetType="{x:Type ContentControl}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -70,6 +70,11 @@
                     <!--...-->
                 </ContentControl>
             </TabItem>
+            <dxn:NavBarControl Height="100" Width="100">
+                <dxn:NavBarGroup x:Name="navBarGroup1" Header="navBarGroup1">
+                    <dxn:NavBarItem x:Name="navBarItem1" Content="navBarItem1"/>
+                </dxn:NavBarGroup>
+            </dxn:NavBarControl>
         </TabControl>
     </Grid>
 </Window>
