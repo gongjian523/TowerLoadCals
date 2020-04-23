@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals.Demo", "TowerLoadCals\TowerLoadCals.Demo.csproj", "{5B59FFC2-9F59-47BE-B370-B1CB0104035A}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals.Common", "TowerLoadCals.Common\TowerLoadCals.Common.csproj", "{02D06C8A-7792-43EE-9C4A-CEBEF8377AAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals.BLL", "TowerLoadCals.BLL\TowerLoadCals.BLL.csproj", "{11C1CFAC-5EBA-4B24-895F-89201EF45A8C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals", "TowerLoad\TowerLoadCals.csproj", "{188B3232-C106-4E4D-9EDF-359DBE55B7BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{11C1CFAC-5EBA-4B24-895F-89201EF45A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11C1CFAC-5EBA-4B24-895F-89201EF45A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11C1CFAC-5EBA-4B24-895F-89201EF45A8C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{188B3232-C106-4E4D-9EDF-359DBE55B7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{188B3232-C106-4E4D-9EDF-359DBE55B7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{188B3232-C106-4E4D-9EDF-359DBE55B7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{188B3232-C106-4E4D-9EDF-359DBE55B7BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
