@@ -46,6 +46,7 @@
     <Compile Include="Structure\FormulaLineCornerTower.cs" />
     <Compile Include="Structure\FormulaLineTower.cs" />
     <Compile Include="Structure\FormulaTower.cs" />
+    <Compile Include="Structure\LoadDistributeLineTower.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />

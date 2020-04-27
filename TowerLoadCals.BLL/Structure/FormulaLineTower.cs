@@ -14,7 +14,8 @@ namespace TowerLoadCals.BLL
         }
 
         /// <summary>
-        /// 大风X
+        /// 大风和低温X
+        /// 工况代码：D1,D2,N1,N2
         /// </summary>
         /// <param name="a1"></param>
         /// <param name="a2"></param>
@@ -26,8 +27,8 @@ namespace TowerLoadCals.BLL
         }
 
         /// <summary>
-        /// 大风Y
-        /// </summary>
+        /// 大风和低温Y
+        /// 工况代码：D1,D2,N1,N2        /// </summary>
         /// <param name="a1"></param>
         /// <param name="a2"></param>
         /// <param name="a3"></param>
@@ -40,7 +41,8 @@ namespace TowerLoadCals.BLL
         }
 
         /// <summary>
-        /// 大风Z
+        /// 大风和低温Z
+        /// 工况代码：D1,D2,N1,N2
         /// </summary>
         /// <param name="a1"></param>
         /// <param name="a2"></param>
