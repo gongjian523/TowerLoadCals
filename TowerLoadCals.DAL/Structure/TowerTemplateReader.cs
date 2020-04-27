@@ -162,13 +162,13 @@ namespace TowerLoadCals.DAL
             }
             else if (Type == TowerType.LineCornerTower)
             {
-                combo.TensionAngleCode = aWords[iIndex];
+                combo.TensionAngleCode = Convert.ToInt16(aWords[iIndex]);
                 iIndex++;
                 combo.WindDirectionCode = aWords[iIndex];
             }
             else
             {
-                combo.TensionAngleCode = aWords[iIndex];
+                combo.TensionAngleCode = Convert.ToInt16(aWords[iIndex]);
                 iIndex++;
                 combo.VertialLoadCode = aWords[iIndex];
                 iIndex++;
