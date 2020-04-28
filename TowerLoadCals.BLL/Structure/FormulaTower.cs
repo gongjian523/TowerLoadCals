@@ -48,7 +48,7 @@ namespace TowerLoadCals.BLL
                 return -0.5f;
             else
             {
-                throw new ArgumentException("风向错误");
+                throw new Exception("风向错误");
                 //return 1000;
             }
         }
@@ -77,18 +77,11 @@ namespace TowerLoadCals.BLL
                 return -0.15f;
             else
             {
-                throw new ArgumentException("风向错误");
+                throw new Exception("风向错误");
                 //return 1000;
             }
         }
         #endregion
-
-        protected float gqx (float para)   //过牵引系数 ，从此类中移除 CD 非基础常数
-        {
-            return 0;
-        }
-
-        protected float llz { get; set; } //临时拉张，从此类中移除 CD 非基础常数
 
     }
 
