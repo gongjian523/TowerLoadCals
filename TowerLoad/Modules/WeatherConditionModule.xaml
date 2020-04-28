@@ -13,13 +13,13 @@
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              DataContext="{dxmvvm:ViewModelSource Type=local:WeatherConditionViewModel}">
     <Grid>
-        <dxb:BarManager CreateStandardLayout="False">
-            <!--<dxmvvm:Interaction.Behaviors>
+        <!--<dxb:BarManager CreateStandardLayout="False">
+            --><!--<dxmvvm:Interaction.Behaviors>
                 <local:BarManagerFlagStatusService/>
-            </dxmvvm:Interaction.Behaviors>-->
+            </dxmvvm:Interaction.Behaviors>--><!--
             <dxb:BarManager.Items>
                 <dxb:BarButtonItem x:Name="newtask" Content="New Task"  LargeGlyph="{dx:DXImage Image=NewTask_32x32.png}" />
-                <!--<dxb:BarButtonItem x:Name="editTask" Content="Edit Task" Command="{Binding ShowEditTaskWindowCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" LargeGlyph="{dx:DXImage Image=EditTask_32x32.png}"/>
+                --><!--<dxb:BarButtonItem x:Name="editTask" Content="Edit Task" Command="{Binding ShowEditTaskWindowCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" LargeGlyph="{dx:DXImage Image=EditTask_32x32.png}"/>
                 <dxb:BarButtonItem x:Name="deleteTask" Content="Delete" Command="{Binding DeleteTaskCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" LargeGlyph="{dx:DXImage Image=Delete_32x32.png}"/>
 
                 <dxb:BarCheckItem x:Name="followUp_Today" Content="Today" Command="{Binding FollowUp_TodayCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Today_Flag.png"/>
@@ -36,10 +36,10 @@
                 <dxb:BarCheckItem x:Name="PrioritizedItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.PrioritizedItem}}" Content="Prioritized" Command="{Binding SetPrioritizedViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Prioritized_32x32.png"/>
                 <dxb:BarCheckItem x:Name="OverdueItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.OverdueItem}}" Content="Overdue" Command="{Binding SetOverdueViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Overdue_32x32.png"/>
                 <dxb:BarCheckItem x:Name="SimpleListItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.SimpleListItem}}" Content="Simple List" Command="{Binding SetSimpleListViewCommand}" LargeGlyph="{dx:DXImage Image=TextBox_32x32.png}"/>
-                <dxb:BarCheckItem x:Name="DeferredItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.DeferredItem}}" Content="Deferred" Command="{Binding SetDeferredViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Deferred_32x32.png"/>-->
+                <dxb:BarCheckItem x:Name="DeferredItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.DeferredItem}}" Content="Deferred" Command="{Binding SetDeferredViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Deferred_32x32.png"/>--><!--
                 <dxb:BarButtonItem x:Name="Print" Content="Print Preview"  LargeGlyph="{dx:DXImage Image=Print_32x32.png}"/>
-                <!--<dxb:BarStaticItem x:Name="summaryCount" Content="{Binding Count, ElementName=customSummaryProvider, Converter={StaticResource IntToItemsConverter}}"/>
-                <dxb:BarButtonItem x:Name="reminders" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Reminder.png" BarItemDisplayMode="ContentAndGlyph" GlyphSize="Small" GlyphAlignment="Right" Content="REMINDERS: 11"/>-->
+                --><!--<dxb:BarStaticItem x:Name="summaryCount" Content="{Binding Count, ElementName=customSummaryProvider, Converter={StaticResource IntToItemsConverter}}"/>
+                <dxb:BarButtonItem x:Name="reminders" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Reminder.png" BarItemDisplayMode="ContentAndGlyph" GlyphSize="Small" GlyphAlignment="Right" Content="REMINDERS: 11"/>--><!--
             </dxb:BarManager.Items>
             <Grid>
                 <Grid.RowDefinitions>
@@ -50,7 +50,7 @@
                     <dxdo:LayoutGroup Margin="1">
                         <dxdo:LayoutPanel AllowClose="False" AllowFloat="False" AllowHide="False" ShowCaption="False" ShowBorder="False" ShowCloseButton="False">
                             <Grid>
-                                <!--<dxg:GridControl x:Name="grid" Grid.Row="1" Style="{StaticResource gridControlMVVMStyle}" View="{StaticResource view}" ColumnGeneratorStyle="{StaticResource columnGeneratorStyle}">
+                                --><!--<dxg:GridControl x:Name="grid" Grid.Row="1" Style="{StaticResource gridControlMVVMStyle}" View="{StaticResource view}" ColumnGeneratorStyle="{StaticResource columnGeneratorStyle}">
                                     <dxmvvm:Interaction.Behaviors>
                                         --><!--<local:GridControlColumnsUpdateLocker/>
                                         <local:GridControlPrint/>
@@ -63,11 +63,11 @@
                                         <dxg:GridSummaryItem SummaryType="Count"/>
                                         <dxg:GridSummaryItem SummaryType="Custom"/>
                                     </dxg:GridControl.TotalSummary>
-                                </dxg:GridControl>-->
+                                </dxg:GridControl>--><!--
                             </Grid>
                         </dxdo:LayoutPanel>
                         <dxdo:LayoutPanel ItemWidth="Auto" AllowClose="False" ShowCaption="False" Margin="0" BorderBrush="{x:Null}" BorderThickness="0" ShowBorder="False" MaxWidth="250" MinWidth="200">
-                            <!--<dxe:ListBoxEdit ItemsSource="{Binding Employees}" Padding="13,15,10,0" BorderThickness="0" ShowBorder="False" BorderBrush="{x:Null}" SelectedItem="{Binding SelectedEmployee}">
+                            --><!--<dxe:ListBoxEdit ItemsSource="{Binding Employees}" Padding="13,15,10,0" BorderThickness="0" ShowBorder="False" BorderBrush="{x:Null}" SelectedItem="{Binding SelectedEmployee}">
                                 <dxmvvm:Interaction.Triggers>
                                     <dxmvvm:EventToCommand EventName="SelectedIndexChanged" Command="{Binding SelectedEmployee.ShowCommand}"/>
                                 </dxmvvm:Interaction.Triggers>
@@ -79,7 +79,7 @@
                                 <dxe:ListBoxEdit.StyleSettings>
                                     <dxe:RadioListBoxEditStyleSettings/>
                                 </dxe:ListBoxEdit.StyleSettings>
-                            </dxe:ListBoxEdit>-->
+                            </dxe:ListBoxEdit>--><!--<dxg:TreeListControl />
                         </dxdo:LayoutPanel>
                     </dxdo:LayoutGroup>
                 </dxdo:DockLayoutManager>
@@ -91,6 +91,13 @@
                     </dxr:RibbonStatusBarControl.LeftItemLinks>
                 </dxr:RibbonStatusBarControl>
             </Grid>
-        </dxb:BarManager>
+        </dxb:BarManager>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <dxg:TreeListControl />
+        <dxg:GridControl Grid.Column="1"/>
+
     </Grid>
 </UserControl>
