@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\BaseDataNameTreeItem.cs" />
     <Compile Include="Common\ProInfo.cs" />
     <Compile Include="Common\TowerSeri.cs" />
     <Compile Include="Common\TowerStPra.cs" />

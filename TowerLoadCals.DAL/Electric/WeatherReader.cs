@@ -7,6 +7,18 @@ using TowerLoadCals.Common;
 
 namespace TowerLoadCals.DAL
 {
+
+    public interface IWeatherConditionDal
+    {
+        List<Weather>  Get();
+
+        bool Save(List<Weather> weathers);
+    }
+    
+
+
+
+
     public abstract class WeatherReader
     {
         public abstract List<Weather> Read(string path);

@@ -53,6 +53,7 @@
     <Reference Include="DevExpress.Xpf.Core.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Dashboard.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Docking.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Gantt.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Grid.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Grid.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Layout.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -162,6 +163,16 @@
   <ItemGroup>
     <Resource Include="SplashScreen\Image.png" />
     <Resource Include="SplashScreen\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TowerLoadCals.DAL\TowerLoadCals.DAL.csproj">
+      <Project>{05EA043D-3674-4359-8481-3619D35FA25C}</Project>
+      <Name>TowerLoadCals.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TowerLoadCals.Mode\TowerLoadCals.Mode.csproj">
+      <Project>{80D39590-F862-4FEC-B748-71AA47BA41C8}</Project>
+      <Name>TowerLoadCals.Mode</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

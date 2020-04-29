@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Grid;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,15 @@ namespace TowerLoadCals.Modules
     /// </summary>
     public partial class WeatherConditionModule : UserControl
     {
+        
         public WeatherConditionModule()
         {
             InitializeComponent();
+        }
+
+        void treeListControl_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
