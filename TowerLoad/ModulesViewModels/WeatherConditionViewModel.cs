@@ -52,11 +52,9 @@ namespace TowerLoadCals.Modules
             
             SelectedCommand = new DelegateCommand<MouseButtonEventArgs>(UpdateWeatherCondition);
 
-
-
-            Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
-            //Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
-
+            //Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
+       
             if (Weathers.Count == 0)
             {
                 SelectedWeatherCondition = new ObservableCollection<WorkCondition>();
@@ -87,8 +85,6 @@ namespace TowerLoadCals.Modules
             }
 
         }
-
-        int i = 0;
 
         public void UpdateWeatherCondition(MouseButtonEventArgs arg)
         {

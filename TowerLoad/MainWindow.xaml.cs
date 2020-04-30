@@ -74,7 +74,18 @@ namespace TowerLoadCals
             if (newContent != null)
             {
                 //RibbonMergingHelper.SetMergeWith(newContent, ribbon);
-                RibbonMergingHelper.SetMergeStatusBarWith(newContent, statusBar);
+                //RibbonMergingHelper.SetMergeStatusBarWith(newContent, statusBar);
+            }
+        }
+
+
+        void AAAA(object sender, EventArgs e)
+        {
+            FrameworkElement newContent = (FrameworkElement)e.Content;
+            if (newContent != null)
+            {
+                //RibbonMergingHelper.SetMergeWith(newContent, ribbon);
+                //RibbonMergingHelper.SetMergeStatusBarWith(newContent, statusBar);
             }
         }
     }

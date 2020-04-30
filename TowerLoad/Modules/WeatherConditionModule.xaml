@@ -110,6 +110,8 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
+        
+        
         <dxg:TreeListControl ItemsSource="{Binding NameTree}">
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand EventName="MouseDoubleClick" Command="{Binding SelectedCommand}" PassEventArgsToCommand="True">

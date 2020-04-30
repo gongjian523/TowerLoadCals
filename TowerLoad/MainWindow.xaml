@@ -11,8 +11,10 @@
         xmlns:dxwuin="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
         xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
         xmlns:dxat="http://schemas.devexpress.com/winfx/2008/xaml/accordion/themekeys"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:local="clr-namespace:TowerLoadCals"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Icon="{dxc:DXImage Image=Home_16x16.png}"         
         Title="杆塔负荷协同程序"
         Height="900" Width="1304"
         WindowStartupLocation="CenterScreen"
@@ -32,61 +34,6 @@
         <dxmvvm:CurrentWindowService />
     </dxmvvm:Interaction.Behaviors>
     <dxb:BarManager Name="barManager"  AllowQuickCustomization="False" >
-        <dxb:BarManager.Categories>
-            <dxb:BarManagerCategory Name="File"/>
-            <dxb:BarManagerCategory Name="Edit"/>
-            <dxb:BarManagerCategory Name="DataExchanger"/>
-            <dxb:BarManagerCategory Name="Caculate"/>
-            <dxb:BarManagerCategory Name="AnalyseReport"/>
-            <dxb:BarManagerCategory Name="Help"/>
-            <dxb:BarManagerCategory Name="Operation"/>
-        </dxb:BarManager.Categories>
-        <dxb:BarManager.Items>
-            <dxb:BarSubItem Name="bNewSub" CategoryName="File"  Content="新建"  />
-            <dxb:BarSubItem Name="bSaveSub" CategoryName="File"  Content="保存" />
-            <dxb:BarSubItem Name="bFile" Content="文件" CategoryName="File">
-                <dxb:BarSubItem.ItemLinks>
-                    <dxb:BarSubItemLink BarItemName="bNewSub"/>
-                    <dxb:BarSubItemLink BarItemName="bSaveSub"/>
-                </dxb:BarSubItem.ItemLinks>
-            </dxb:BarSubItem>
-            
-            <dxb:BarSubItem Name="bEdit" Content="编辑" CategoryName="Edit"/>
-            <dxb:BarSubItem Name="bDataExchanger" Content="数据交互" CategoryName="DataExchanger"/>
-            <dxb:BarSubItem Name="bCaculate" Content="计算" CategoryName="Caculate"/>
-            <dxb:BarSubItem Name="bAnalyseReport" Content="分析及报告" CategoryName="AnalyseReport"/>
-            <dxb:BarSubItem Name="bHelp" Content="帮助" CategoryName="Help">
-            </dxb:BarSubItem>
-
-            <dxb:BarSubItem Name="bAbout" CategoryName="Help" Content="关于" Description="Displays the description of this program." />
-
-            <dxb:BarSubItem Name="bNew" CategoryName="Operation"  Content="新建" />
-            <dxb:BarSubItem Name="bSave" CategoryName="Operation"  Content="保存" />
-            <dxb:BarSubItem Name="bExport" CategoryName="Operation"  Content="导入" />
-            <dxb:BarSubItem Name="bCopy" CategoryName="Operation"  Content="复制" />
-            <dxb:BarSubItem Name="bPaste" CategoryName="Operation"  Content="粘贴" />
-        </dxb:BarManager.Items>
-        <dxb:BarManager.Bars>
-            <dxb:Bar Name="MainMenu" Caption="Options" IsMainMenu="True" AllowHide="False" DockInfo="{dxb:DockInfo ContainerName=topContainer}">
-                <dxb:Bar.ItemLinks>
-                    <dxb:BarSubItemLink BarItemName="bFile"/>
-                    <dxb:BarSubItemLink BarItemName="bEdit" />
-                    <dxb:BarSubItemLink BarItemName="bDataExchanger"/>
-                    <dxb:BarSubItemLink BarItemName="bCaculate" />
-                    <dxb:BarSubItemLink BarItemName="bAnalyseReport" />
-                    <dxb:BarSubItemLink BarItemName="bHelp" />
-                </dxb:Bar.ItemLinks>
-            </dxb:Bar>
-            <dxb:Bar Name="OperationMenu" Caption="Options" IsMainMenu="True" AllowHide="False" DockInfo="{dxb:DockInfo ContainerName=operationContainer}">
-                <dxb:Bar.ItemLinks>
-                    <dxb:BarSubItemLink BarItemName="bNew"/>
-                    <dxb:BarSubItemLink BarItemName="bSave" />
-                    <dxb:BarSubItemLink BarItemName="bExport"/>
-                    <dxb:BarSubItemLink BarItemName="bCopy" />
-                    <dxb:BarSubItemLink BarItemName="bPaste" />
-                </dxb:Bar.ItemLinks>
-            </dxb:Bar>
-        </dxb:BarManager.Bars>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -94,83 +41,151 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <dxb:BarContainerControl x:Name="topContainer" ContainerType="Top" Grid.Row="0" HorizontalAlignment="Stretch" Margin="6,3,6,0">
-                <dxb:BarContainerControl.Resources>
-                    <ResourceDictionary>
-                        <!--<ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/DevExpress.StockMarketTrader;component/TouchBarStyles.xaml"/>
-                        </ResourceDictionary.MergedDictionaries>-->
-                    </ResourceDictionary>
-                </dxb:BarContainerControl.Resources>
-            </dxb:BarContainerControl>
-            <dxb:BarContainerControl x:Name="operationContainer" ContainerType="Top" Grid.Row="1" HorizontalAlignment="Stretch" Margin="6,6,6,0">
-                <dxb:BarContainerControl.Resources>
-                    <ResourceDictionary>
-                        <!--<ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/DevExpress.StockMarketTrader;component/TouchBarStyles.xaml"/>
-                        </ResourceDictionary.MergedDictionaries>-->
-                    </ResourceDictionary>
-                </dxb:BarContainerControl.Resources>
-            </dxb:BarContainerControl>
-            <!--<dxr:RibbonControl RibbonStyle="Office2010" x:Name="ribbon" AllowCustomization="False">
-                <dxr:RibbonControl.ApplicationMenu>
-                    <dxr:BackstageViewControl SelectedTabIndex="{Binding DefaultBackstatgeIndex, Mode=TwoWay}" IsOpen="{Binding IsBackstageOpen, Mode=TwoWay}">
-                        <dxr:BackstageViewControl.Items>
-                            <dxr:BackstageTabItem Content="Info">
-                                --><!--<dxr:BackstageTabItem.ControlPane>
-                                    <local:InfoView />
-                                </dxr:BackstageTabItem.ControlPane>--><!--
-                            </dxr:BackstageTabItem>
-                            <dxr:BackstageTabItem Content="Print/Export" IsEnabled="{Binding HasPrinting, Mode=OneWay}">
-                                --><!--<dxr:BackstageTabItem.ControlPane>
-                                    <local:PrintView/>
-                                </dxr:BackstageTabItem.ControlPane>--><!--
-                            </dxr:BackstageTabItem>
-                            <dxr:BackstageButtonItem Glyph="{dx:DXImage Image=Close_16x16.png}" Content="Exit" Command="{Binding ExitCommand}" />
-                        </dxr:BackstageViewControl.Items>
-                    </dxr:BackstageViewControl>
-                </dxr:RibbonControl.ApplicationMenu>
+            <dxr:RibbonControl x:Name="RibbonControl" Grid.Row="0" HorizontalAlignment="Stretch" Margin="6,3,6,0">
                 <dxr:RibbonDefaultPageCategory>
-                    <dxr:RibbonPage Caption="文件" MergeOrder="1">
-                        <dxr:RibbonPageGroup Caption="">
-                            <dxb:BarCheckItem Content="新建"/>
+                    <dxr:RibbonPage Caption="工程">
+                        <dxr:RibbonPageGroup Name="pgProject" Caption="工程" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bNew" Content="新建" 
+                               Glyph="{dxc:DXImage Image=New_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=New_32x32.png}"  
+                               RibbonStyle="Large"
+                                               ItemClick="AAAA"
+                               >
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EventToCommand EventName="MouseDoubleClick" Command="{Binding SelectedCommand}" PassEventArgsToCommand="True">
+                                    </dxmvvm:EventToCommand>
+                                </dxmvvm:Interaction.Behaviors>
+                            </dxb:BarButtonItem>
+                            <dxb:BarButtonItem Name="bOpen" Content="打开" 
+                               Glyph="{dxc:DXImage Image=Open_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Open_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bClose" Content="关闭" 
+                               Glyph="{dxc:DXImage Image=Close_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Close_32x32.png}"  
+                               RibbonStyle="Large"/>
                         </dxr:RibbonPageGroup>
-                        <dxr:RibbonPageGroup Caption="">
-                            <dxb:BarCheckItem Content="保存"/>
+                        <dxr:RibbonPageGroup Name="pgSave" Caption="保存" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bSave" Content="保存" 
+                               Glyph="{dxc:DXImage Image=Save_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Save_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bSaveAs" Content="保存为" 
+                               Glyph="{dxc:DXImage Image=SaveAs_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=SaveAs_32x32.png}"  
+                               RibbonStyle="Large"/>
                         </dxr:RibbonPageGroup>
-                        <dxr:RibbonPageGroup Caption="">
-                            <dxb:BarCheckItem Content="导入"/>
-                        </dxr:RibbonPageGroup>
-                        <dxr:RibbonPageGroup Caption="">
-                            <dxb:BarCheckItem Content="复制"/>
-                        </dxr:RibbonPageGroup>
-                        <dxr:RibbonPageGroup Caption="">
-                            <dxb:BarCheckItem Content="粘贴"/>
+                        <dxr:RibbonPageGroup Name="pgData" Caption="数据" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bImport" Content="导入" 
+                               Glyph="{dxc:DXImage Image=Import_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Import_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bExport" Content="导出" 
+                               Glyph="{dxc:DXImage Image=Export_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Export_32x32.png}"  
+                               RibbonStyle="Large"/>
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
-                    <dxr:RibbonPage Caption="编辑" MergeOrder="1">
+                    <dxr:RibbonPage Caption="编辑">
+                        <dxr:RibbonPageGroup Name="pgEdit" Caption="编辑" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bCopy" Content="复制" 
+                               Glyph="{dxc:DXImage Image=Copy_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Import_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bPaste" Content="粘贴" 
+                               Glyph="{dxc:DXImage Image=Paste_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Paste_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bUndo" Content="撤销" 
+                               Glyph="{dxc:DXImage Image=Undo_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Undo_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bRedo" Content="重做" 
+                               Glyph="{dxc:DXImage Image=Redo_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Redo_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
-                    <dxr:RibbonPage Caption="文件" MergeOrder="1">
+                    <dxr:RibbonPage Caption="数据交互">
+                        <dxr:RibbonPageGroup Name="pgDataAccess" Caption="数据" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bDataLib" Content="基本参数库" 
+                               Glyph="{dxc:DXImage Image=DataSource_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=DataSource_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bCheck" Content="超条件检测" 
+                               Glyph="{dxc:DXImage Image=CheckBox_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CheckBox_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
-                    <dxr:RibbonPage Caption="文件" MergeOrder="1">
+                    <dxr:RibbonPage Caption="计算">
+                        <dxr:RibbonPageGroup Name="pgCalculate" Caption="计算" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bLoadCals" Content="项荷载计算" 
+                               Glyph="{dxc:DXImage Image=CalculateSheet_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculateSheet_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bStruCals" Content="结构计算" 
+                               Glyph="{dxc:DXImage Image=CalculationOptions_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
-
-                    <dxr:RibbonPage Caption="VIEW" MergeOrder="99">
-                        <dxr:RibbonPageGroup Caption="Appearance">
-                            <dxr:RibbonGalleryBarItemLink BarItemName="ribbonGalleryBarItem1">
-                                <dxr:RibbonGalleryBarItemLink.CustomResources>
-                                    <ResourceDictionary>
-                                        <Style TargetType="{x:Type dxb:GalleryItemControl}">
-                                            <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
-                                        </Style>
-                                    </ResourceDictionary>
-                                </dxr:RibbonGalleryBarItemLink.CustomResources>
-                            </dxr:RibbonGalleryBarItemLink>
+                    <dxr:RibbonPage Caption="分析及报告">
+                        <dxr:RibbonPageGroup Name="pgAnalysis" Caption="分析" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bStandredLoadComp" Content="标准负荷荷载比较" 
+                               Glyph="{dxc:DXImage Image=CalculateSheet_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculateSheet_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bLoadComp" Content="荷载比较" 
+                               Glyph="{dxc:DXImage Image=CalculationOptions_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bLoadStatics" Content="验算负荷分布统计" 
+                               Glyph="{dxc:DXImage Image=Statistical_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Statistical_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bLoadComp2" Content="荷载比对" 
+                               Glyph="{dxc:DXImage Image=CalculationOptions_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                        <dxr:RibbonPageGroup Name="pgReport" Caption="报告" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bExportReport" Content="导出报告" 
+                               Glyph="{dxc:DXImage Image=Report_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Report_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                    <dxr:RibbonPage Caption="帮助">
+                        <dxr:RibbonPageGroup Name="pgHelp" Caption="帮助" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bDocument" Content="帮助文档" 
+                               Glyph="{dxc:DXImage Image=TextBox_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=TextBox_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bVideo" Content="视频教学" 
+                               Glyph="{dxc:DXImage Image=Video_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Video_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bExample" Content="示例仓库" 
+                               Glyph="{dxc:DXImage Image=Example_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Example_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bVerion" Content="版本信息" 
+                               Glyph="{dxc:DXImage Image=Version_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Version_32x32.png}"  
+                               RibbonStyle="Large"/>
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonDefaultPageCategory>
 
-            </dxr:RibbonControl>-->
+                <dxr:RibbonControl.ToolbarItemLinks>
+                    <dxb:BarButtonItemLink BarItemName="bOpen"/>
+                    <dxb:BarButtonItemLink BarItemName="bSave"/>
+                    <dxb:BarButtonItemLink BarItemName="bUndo"/>
+                    <dxb:BarButtonItemLink BarItemName="bRedo"/>
+                </dxr:RibbonControl.ToolbarItemLinks>
+            </dxr:RibbonControl>
+
             <dxdo:DockLayoutManager Grid.Row="2" Margin="6">
                 <dxdo:LayoutGroup Caption="LayoutRoot">
                     <dxdo:LayoutPanel Caption="WPF Products" ItemWidth="{Binding ElementName=accordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
