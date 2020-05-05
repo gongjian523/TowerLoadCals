@@ -63,8 +63,8 @@ namespace TowerLoadCals
             FrameworkElement oldContent = (FrameworkElement)frame.Content;
             if (oldContent != null)
             {
-                //RibbonMergingHelper.SetMergeWith(oldContent, null);
-                //RibbonMergingHelper.SetMergeStatusBarWith(oldContent, null);
+                RibbonMergingHelper.SetMergeWith(oldContent, null);
+                RibbonMergingHelper.SetMergeStatusBarWith(oldContent, null);
             }
         }
 
@@ -73,19 +73,8 @@ namespace TowerLoadCals
             FrameworkElement newContent = (FrameworkElement)e.Content;
             if (newContent != null)
             {
-                //RibbonMergingHelper.SetMergeWith(newContent, ribbon);
-                //RibbonMergingHelper.SetMergeStatusBarWith(newContent, statusBar);
-            }
-        }
-
-
-        void AAAA(object sender, EventArgs e)
-        {
-            FrameworkElement newContent = (FrameworkElement)e.Content;
-            if (newContent != null)
-            {
-                //RibbonMergingHelper.SetMergeWith(newContent, ribbon);
-                //RibbonMergingHelper.SetMergeStatusBarWith(newContent, statusBar);
+                RibbonMergingHelper.SetMergeWith(newContent, RibbonControl);
+                RibbonMergingHelper.SetMergeStatusBarWith(newContent, statusBar);
             }
         }
     }

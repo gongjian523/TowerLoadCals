@@ -19,10 +19,10 @@ namespace TowerLoadCals.Modules
     /// <summary>
     /// WeatherConditionModule.xaml 的交互逻辑
     /// </summary>
-    public partial class WeatherConditionModule : UserControl
+    public partial class WireModule : UserControl
     {
         
-        public WeatherConditionModule()
+        public WireModule()
         {
             InitializeComponent();
         }

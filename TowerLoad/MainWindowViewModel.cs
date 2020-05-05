@@ -16,19 +16,33 @@ using DevExpress.Xpf.Core;
 using TowerLoadCals.Modules;
 using System.ComponentModel.DataAnnotations;
 using DevExpress.Mvvm.DataAnnotations;
+using TowerLoadCals.Common;
+using TowerLoadCals.ModulesViewModels;
+using System.Windows.Media;
+using TowerLoadCals.Common.Utils;
 
 namespace TowerLoadCals
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel: ViewModelBase
     {
+
+        protected ProjectUtils projectUtils;
 
         public MainWindowViewModel()
         {
             SplashScreenType = typeof(SplashScreenWindow);
-            Modules = new List<ModuleInfo>() {
-                ViewModelSource.Create(() => new ModuleInfo("WeatherConditionModule", this, "气象条件")),
-            };
+
+            projectUtils = new ProjectUtils();
+
             //MetadataLocator.Default = MetadataLocator.Create().AddMetadata<PrefixEnumWithExternalMetadata>();
+
+            Modules = new List<ModuleInfo>();
+
+            CreateProjectCommand = new DelegateCommand(CreateProject);
+            OpenProjectCommand = new DelegateCommand(OpenProject);
+            CloseProjectCommand = new DelegateCommand(CloseProject);
+            SaveProjectCommand = new DelegateCommand(SaveProject);
+            
         }
         public virtual IEnumerable<ModuleInfo> Modules { get; protected set; }
 
@@ -43,6 +57,9 @@ namespace TowerLoadCals
         }
         public void OnModulesLoaded()
         {
+            if (Modules.Count() == 0)
+                return;
+
             if (SelectedModuleInfo == null)
             {
                 SelectedModuleInfo = Modules.First();
@@ -62,6 +79,9 @@ namespace TowerLoadCals
         protected virtual INavigationService NavigationService { get { return null; } }
         protected virtual void OnSelectedModuleInfoChanged()
         {
+            if (SelectedModuleInfo == null)
+                return;
+
             if (!allowSelectedModuleInfoChanged)
                 return;
             //PrintingService.PrintableControlLink = null;
@@ -85,6 +105,68 @@ namespace TowerLoadCals
             get { return new BitmapImage(AssemblyHelper.GetResourceUri(typeof(DXImages).Assembly, "Images/Mail/NewContact_16x16.png")); }
         }
         bool allowSelectedModuleInfoChanged = true;
+
+        public DelegateCommand CreateProjectCommand { get; private set; }
+
+        protected void CreateProject()
+        {
+            if (!projectUtils.CreateProject())
+                return;
+            
+            LoadModules();
+        }
+
+        public DelegateCommand OpenProjectCommand { get; private set; }
+        protected void OpenProject()
+        {
+            if (!projectUtils.OpenProject())
+                return;
+
+            LoadModules();
+        }
+
+        public DelegateCommand CloseProjectCommand { get; private set; }
+        void CloseProject()
+        {
+            
+
+            SaveCurrentModule();
+
+            Modules = new List<ModuleInfo>();
+
+            ModuleInfo blankModule = new ModuleInfo("BlankModule", this, "空模板");
+            blankModule.Show();
+        }
+
+        public DelegateCommand SaveProjectCommand { get; private set; }
+        void SaveProject()
+        {
+            SaveCurrentModule();
+        }
+
+        public DelegateCommand SaveProjectAsCommand { get; private set; }
+        void SaveProjectAs()
+        {
+           
+        }
+
+        protected void LoadModules()
+        {
+            Modules = new List<ModuleInfo>() {
+                ViewModelSource.Create(() => new ModuleInfo("WeatherConditionModule", this, "气象条件")),
+                ViewModelSource.Create(() => new ModuleInfo("WireModule", this, "线")),
+            };
+            OnModulesLoaded();
+        }
+
+        protected void SaveCurrentModule()
+        {
+            IBaseViewModel viewModel = NavigationService.Current as IBaseViewModel;
+            if (viewModel == null)
+                return;
+            viewModel.Save();
+        }
+
     }
 
     public class ModuleInfo
@@ -100,10 +182,21 @@ namespace TowerLoadCals
         public string Type { get; private set; }
         public virtual bool IsSelected { get; set; }
         public string Title { get; private set; }
-        public virtual Uri Icon { get; set; }
+        public virtual ImageSource Icon { get; set; }
+        //public ModuleInfo SetIcon(string icon)
+        //{
+        //    Icon = new Uri("D:\\智菲\\P - 200325 - 杆塔负荷程序\\数据资源示例\\ModuleIcon.png");
+        //    //this.Icon = AssemblyHelper.GetResourceUri(typeof(ModuleInfo).Assembly, string.Format("Images/{0}.png", icon));
+        //    return this;
+        //}
+
         public ModuleInfo SetIcon(string icon)
         {
-            this.Icon = AssemblyHelper.GetResourceUri(typeof(ModuleInfo).Assembly, string.Format("Images/{0}.png", icon));
+
+            
+            var extension = new SvgImageSourceExtension() { Uri = AssemblyHelper.GetResourceUri(typeof(DXImages).Assembly, "Images/BandedReports.png") };
+            //var extension = new SvgImageSourceExtension() { Uri = new Uri(string.Format(@"pack://application:,,,/TowerLoadCals;component/Images/{0}.png", icon), UriKind.RelativeOrAbsolute) };
+            this.Icon = (ImageSource)extension.ProvideValue(null);
             return this;
         }
         public void Show(object parameter = null)

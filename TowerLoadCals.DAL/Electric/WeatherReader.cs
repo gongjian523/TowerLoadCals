@@ -4,6 +4,7 @@ using System.Data;
 using System.Xml;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Common;
+using System.IO;
 
 namespace TowerLoadCals.DAL
 {
@@ -78,6 +79,9 @@ namespace TowerLoadCals.DAL
 
         public override List<Weather> ReadLocal(string path)
         {
+            if(!File.Exists(path))
+                return new List<Weather>();
+
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
 

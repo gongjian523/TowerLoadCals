@@ -12,131 +12,101 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:dxgn="http://schemas.devexpress.com/winfx/2008/xaml/gantt" 
-             x:Class="TowerLoadCals.Modules.WeatherConditionModule"
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
+    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+    x:Class="TowerLoadCals.Modules.WeatherConditionModule"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WeatherConditionViewModel}}">
     <Grid>
-        <!--<dxb:BarManager CreateStandardLayout="False">
-            -->
-        <!--<dxmvvm:Interaction.Behaviors>
-                <local:BarManagerFlagStatusService/>
-            </dxmvvm:Interaction.Behaviors>-->
-        <!--
-            <dxb:BarManager.Items>
-                <dxb:BarButtonItem x:Name="newtask" Content="New Task"  LargeGlyph="{dx:DXImage Image=NewTask_32x32.png}" />
-                -->
-        <!--<dxb:BarButtonItem x:Name="editTask" Content="Edit Task" Command="{Binding ShowEditTaskWindowCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" LargeGlyph="{dx:DXImage Image=EditTask_32x32.png}"/>
-                <dxb:BarButtonItem x:Name="deleteTask" Content="Delete" Command="{Binding DeleteTaskCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" LargeGlyph="{dx:DXImage Image=Delete_32x32.png}"/>
-
-                <dxb:BarCheckItem x:Name="followUp_Today" Content="Today" Command="{Binding FollowUp_TodayCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Today_Flag.png"/>
-                <dxb:BarCheckItem x:Name="followUp_Tomorrow" Content="Tomorrow" Command="{Binding FollowUp_TomorrowCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Tomorrow_Flag.png"/>
-                <dxb:BarCheckItem x:Name="followUp_ThisWeek" Content="This Week" Command="{Binding FollowUp_ThisWeekCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/ThisWeek_Flag.png"/>
-                <dxb:BarCheckItem x:Name="followUp_NextWeek" Content="Next Week" Command="{Binding FollowUp_NextWeekCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/NextWeek_Flag.png"/>
-                <dxb:BarCheckItem x:Name="followUp_NoDate" Content="No Date" Command="{Binding FollowUp_NoDateCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/NoDate_Flag.png"/>
-                <dxb:BarCheckItem x:Name="followUp_Custom" Content="Custom" Command="{Binding FollowUp_CustomCommand}" IsEnabled="{Binding SelectedItem, Converter={StaticResource ObjectToBooleanConverter}}" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Custom_Flag.png" />-->
-
-        <!--<dxb:BarCheckItem x:Name="ListItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.List}}" Content="List"  Command="{Binding SetListViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/ListByDate_32x32.png"/>
-                <dxb:BarCheckItem x:Name="ToDoListItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.ToDoListItem}}" Content="ToDoList" Command="{Binding SetToDoListViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/ToDoList_32x32.png"/>
-                <dxb:BarCheckItem x:Name="CompletedItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.CompletedItem}}" Content="Completed" Command="{Binding SetCompletedViewCommand}" LargeGlyph="{dx:DXImage Image=Apply_32x32.png}"/>
-                <dxb:BarCheckItem x:Name="TodayItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.TodayItem}}" Content="Today" Command="{Binding SetTodayViewCommand}" LargeGlyph="{dx:DXImage Image=Today_32x32.png}"/>
-                <dxb:BarCheckItem x:Name="PrioritizedItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.PrioritizedItem}}" Content="Prioritized" Command="{Binding SetPrioritizedViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Prioritized_32x32.png"/>
-                <dxb:BarCheckItem x:Name="OverdueItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.OverdueItem}}" Content="Overdue" Command="{Binding SetOverdueViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Overdue_32x32.png"/>
-                <dxb:BarCheckItem x:Name="SimpleListItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.SimpleListItem}}" Content="Simple List" Command="{Binding SetSimpleListViewCommand}" LargeGlyph="{dx:DXImage Image=TextBox_32x32.png}"/>
-                <dxb:BarCheckItem x:Name="DeferredItem" GroupIndex="100" AllowUncheckInGroup="False" IsChecked="{Binding CheckedItemType, Converter={StaticResource itemTypeToBooleanConverter}, ConverterParameter={x:Static local:ItemType.DeferredItem}}" Content="Deferred" Command="{Binding SetDeferredViewCommand}" LargeGlyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Deferred_32x32.png"/>-->
-        <!--
-                <dxb:BarButtonItem x:Name="Print" Content="Print Preview"  LargeGlyph="{dx:DXImage Image=Print_32x32.png}"/>
-                -->
-        <!--<dxb:BarStaticItem x:Name="summaryCount" Content="{Binding Count, ElementName=customSummaryProvider, Converter={StaticResource IntToItemsConverter}}"/>
-                <dxb:BarButtonItem x:Name="reminders" Glyph="pack://application:,,,/DevExpress.ProductsDemo.Wpf;component/Images/Tasks/Reminder.png" BarItemDisplayMode="ContentAndGlyph" GlyphSize="Small" GlyphAlignment="Right" Content="REMINDERS: 11"/>-->
-        <!--
-            </dxb:BarManager.Items>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <dxdo:DockLayoutManager Grid.Row="1">
-                    <dxdo:LayoutGroup Margin="1">
-                        <dxdo:LayoutPanel AllowClose="False" AllowFloat="False" AllowHide="False" ShowCaption="False" ShowBorder="False" ShowCloseButton="False">
-                            <Grid>
-                                -->
-        <!--<dxg:GridControl x:Name="grid" Grid.Row="1" Style="{StaticResource gridControlMVVMStyle}" View="{StaticResource view}" ColumnGeneratorStyle="{StaticResource columnGeneratorStyle}">
-                                    <dxmvvm:Interaction.Behaviors>
-                                        -->
-        <!--<local:GridControlColumnsUpdateLocker/>
-                                        <local:GridControlPrint/>
-                                        <local:StatusBarSummaryUpdate x:Name="customSummaryProvider"/>-->
-        <!--
-                                    </dxmvvm:Interaction.Behaviors>
-                                    <dxg:GridControl.GroupSummary>
-                                        <dxg:GridSummaryItem SummaryType="Count"/>
-                                    </dxg:GridControl.GroupSummary>
-                                    <dxg:GridControl.TotalSummary>
-                                        <dxg:GridSummaryItem SummaryType="Count"/>
-                                        <dxg:GridSummaryItem SummaryType="Custom"/>
-                                    </dxg:GridControl.TotalSummary>
-                                </dxg:GridControl>-->
-        <!--
-                            </Grid>
-                        </dxdo:LayoutPanel>
-                        <dxdo:LayoutPanel ItemWidth="Auto" AllowClose="False" ShowCaption="False" Margin="0" BorderBrush="{x:Null}" BorderThickness="0" ShowBorder="False" MaxWidth="250" MinWidth="200">
-                            -->
-        <!--<dxe:ListBoxEdit ItemsSource="{Binding Employees}" Padding="13,15,10,0" BorderThickness="0" ShowBorder="False" BorderBrush="{x:Null}" SelectedItem="{Binding SelectedEmployee}">
-                                <dxmvvm:Interaction.Triggers>
-                                    <dxmvvm:EventToCommand EventName="SelectedIndexChanged" Command="{Binding SelectedEmployee.ShowCommand}"/>
-                                </dxmvvm:Interaction.Triggers>
-                                <dxe:ListBoxEdit.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Path=Employee.Name.FullName, TargetNullValue=All\ Tasks, FallbackValue=All\ Tasks}"/>
-                                    </DataTemplate>
-                                </dxe:ListBoxEdit.ItemTemplate>
-                                <dxe:ListBoxEdit.StyleSettings>
-                                    <dxe:RadioListBoxEditStyleSettings/>
-                                </dxe:ListBoxEdit.StyleSettings>
-                            </dxe:ListBoxEdit>-->
-        <!--<dxg:TreeListControl />
-                        </dxdo:LayoutPanel>
-                    </dxdo:LayoutGroup>
-                </dxdo:DockLayoutManager>
-                <dxr:RibbonStatusBarControl>
-                    <dxr:RibbonStatusBarControl.LeftItemLinks>
-                        <dxb:BarStaticItemLink BarItemName="summaryCount"/>
-                        <dxb:BarItemLinkSeparator/>
-                        <dxb:BarButtonItemLink BarItemName="reminders"/>
-                    </dxr:RibbonStatusBarControl.LeftItemLinks>
-                </dxr:RibbonStatusBarControl>
-            </Grid>
-        </dxb:BarManager>-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        
-        
-        <dxg:TreeListControl ItemsSource="{Binding NameTree}">
-            <dxmvvm:Interaction.Behaviors>
-                <dxmvvm:EventToCommand EventName="MouseDoubleClick" Command="{Binding SelectedCommand}" PassEventArgsToCommand="True">
-                </dxmvvm:EventToCommand>
-            </dxmvvm:Interaction.Behaviors>
-            <dxg:TreeListControl.Columns>
-                <dxg:TreeListColumn FieldName="Name" Header="Name" />
-            </dxg:TreeListControl.Columns>
-            <dxg:TreeListControl.View>
-                <dxg:TreeListView Name="treeListView1" AutoWidth="True"
-                                  KeyFieldName="ID" ParentFieldName="ParentID" />
-            </dxg:TreeListControl.View>
-        </dxg:TreeListControl>
-        <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
+        <Border BorderBrush="LightGray" BorderThickness="1" >
+            <dxa:AccordionControl Name="TypeAccordion" 
+                                  ItemsSource="{Binding Weathers }" 
+                                  DisplayMemberPath="Name"
+                                  AllowPopupMenu="True">
+                <dxa:AccordionControl.PopupMenuActions>
+                    <dxb:InsertAction>
+                        <dxb:InsertAction.Element>
+                            <dxb:BarButtonItem Content="My Custom Button" />
+                        </dxb:InsertAction.Element>
+                    </dxb:InsertAction>
+                </dxa:AccordionControl.PopupMenuActions>
+
+                <dxa:AccordionControl.Resources>
+                    <dxmvvm:ObjectToObjectConverter x:Key="PeekFormTemplateConverter">
+                        <dxmvvm:MapItem Source="{x:Null}" Target="{x:Null}" />
+                        <dxmvvm:ObjectToObjectConverter.DefaultTarget>
+                            <DataTemplate>
+                                <dxwui:Flyout ShowIndicator="True" Command="{Binding DataContext.PinPeekCollectionViewCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                    <Grid Height="400" Width="250" x:Name="grid">
+                                        <view:PeekCollectionView dxmvvm:ViewModelExtensions.ParentViewModel="{Binding DataContext, ElementName=grid}" Margin="10" dxmvvm:ViewModelExtensions.DocumentTitle="{Binding DataContext.ModuleTitle, ElementName=grid}" DataContext="{Binding PeekCollectionViewModel}" />
+                                    </Grid>
+                                </dxwui:Flyout>
+                            </DataTemplate>
+                        </dxmvvm:ObjectToObjectConverter.DefaultTarget>
+                    </dxmvvm:ObjectToObjectConverter>
+                </dxa:AccordionControl.Resources>
+                <dxa:AccordionControl.ItemContainerStyle>
+                    <Style TargetType="dxa:AccordionItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DataContext, RelativeSource={RelativeSource Self}, Converter={local:ModuleDescriptionToBoolConverter}}" Value="True">
+                                <Setter Property="dxa:AccordionItem.PeekFormTemplate" Value="{Binding PeekCollectionViewModel, Converter={StaticResource PeekFormTemplateConverter}}" />
+                                <Setter Property="Header" Value="{Binding ModuleTitle}"/>
+                                <Setter Property="Glyph" Value="{Binding ImageSource}"/>
+                            </DataTrigger>
+                            <Trigger Property="ItemLevel" Value="1">
+                                <Setter Property="Header" Value="{Binding Name}" />
+                                <Setter Property="dxb:BarManager.DXContextMenu">
+                                    <Setter.Value>
+                                        <dxb:PopupMenuInfo>
+                                            <dxb:BarLinkContainerItem IsVisible="{Binding FilterTreeViewModel.AllowFiltersContextMenu}">
+                                                <dxb:BarButtonItem Content="New Custom Filter" />
+                                            </dxb:BarLinkContainerItem>
+                                        </dxb:PopupMenuInfo>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="ItemLevel" Value="2">
+                                <Setter Property="Header" Value="{Binding DisplayText}" />
+                                <Setter Property="ShowInCollapsedMode" Value="{Binding IsCustomFilter, Converter={dxmvvm:BooleanNegationConverter}}"/>
+                                <Setter Property="dxb:BarManager.DXContextMenu">
+                                    <Setter.Value>
+                                        <dxb:PopupMenuInfo>
+                                            <dxb:BarLinkContainerItem IsVisible="{Binding FilterTreeViewModel.AllowFiltersContextMenu}">
+                                                <dxb:BarButtonItem Content="Modify Custom Filter" />
+                                                <dxb:BarButtonItem Content="Duplicate Custom Filter"  />
+                                            </dxb:BarLinkContainerItem>
+                                        </dxb:PopupMenuInfo>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="ItemLevel" Value="2"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </MultiTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </dxa:AccordionControl.ItemContainerStyle>
+            </dxa:AccordionControl>
+        </Border>
+                <dxg:GridControl Grid.Column="1" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedWeatherCondition}"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-            <!--<dxg:GridControl.Columns>
+                <dxg:GridControl.Columns>
                 <dxg:GridColumn FieldName="工况组合" IsSmart="True" />
                 <dxg:GridColumn FieldName="气温" IsSmart="True"/>
                 <dxg:GridColumn FieldName="风速" IsSmart="True"/>
 
-            </dxg:GridControl.Columns>-->
+            </dxg:GridControl.Columns>
 
-        </dxg:GridControl>
+            </dxg:GridControl>
     </Grid>
 </UserControl>

@@ -13,14 +13,16 @@ namespace TowerLoadCals.Common.Utils
     {
         public string ProjectPath { get; set; }
 
+        protected GlobalInfo globalInfo;
+
         public ProjectUtils()
         {
-            
+            globalInfo = GlobalInfo.GetInstance();
         }
 
-        public bool CreateProject(out string msgStr)
+        public bool CreateProject()
         {
-            var saveFileDialog = new OpenFileDialog()
+            var saveFileDialog = new SaveFileDialog()
             {
                 Filter = "Lcp Files (*.lcp)|*.lcp"
             };
@@ -28,13 +30,9 @@ namespace TowerLoadCals.Common.Utils
             var result = saveFileDialog.ShowDialog();
 
             if (result != true)
-            {
-                msgStr = "";
-                return true;
-            }
+                return false;
 
             String strDir = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 1 - saveFileDialog.SafeFileName.Length);
-
             string prejectName = saveFileDialog.SafeFileName.Substring(0, saveFileDialog.SafeFileName.Length - 4);
 
             System.IO.Directory.CreateDirectory(strDir);
@@ -42,11 +40,13 @@ namespace TowerLoadCals.Common.Utils
 
             if (!CreateProjetcFile(strDir + "//" + prejectName + "//" + saveFileDialog.SafeFileName))
             {
-                msgStr = "新建工程Lcp文件失败";
+                MessageBox.Show("新建工程Lcp文件失败");
                 return false;
             }
 
-            msgStr = "";
+            globalInfo.ProjectPath = strDir + "//" + prejectName;
+            globalInfo.ProjectName = prejectName;
+
             return true;
         }
 
@@ -71,6 +71,28 @@ namespace TowerLoadCals.Common.Utils
         public void  AddFileToProject(string module,string file)
         {
             
+        }
+
+        public bool OpenProject()
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Lcp Files (*.lcp)|*.lcp"
+            };
+
+            var result = openFileDialog.ShowDialog();
+
+            if (result != true)
+                return false;
+
+            String strDir = openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 1 - openFileDialog.SafeFileName.Length);
+
+            string prejectName = openFileDialog.SafeFileName.Substring(0, openFileDialog.SafeFileName.Length - 4);
+
+            globalInfo.ProjectPath = strDir;
+            globalInfo.ProjectName = prejectName;
+
+            return true;
         }
 
     }

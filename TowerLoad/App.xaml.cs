@@ -30,7 +30,7 @@ namespace TowerLoad
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            ServiceContainer.Default.RegisterService(new ApplicationJumpListService());
+            //ServiceContainer.Default.RegisterService(new ApplicationJumpListService());
             base.OnStartup(e);
         }
     }

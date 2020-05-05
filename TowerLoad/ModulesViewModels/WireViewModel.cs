@@ -23,8 +23,9 @@ namespace TowerLoadCals.Modules
 {
 
     //[POCOViewModel]
-    public class WeatherConditionViewModel: ViewModelBase, IBaseViewModel
+    public class WireViewModel: ViewModelBase, IBaseViewModel
     {
+        private GlobalInfo globalInfo;
         public List<Weather> Weathers { get; set; }
 
         private ObservableCollection<WorkCondition> _SelectedWeatherCondition = new ObservableCollection<WorkCondition>();
@@ -44,26 +45,23 @@ namespace TowerLoadCals.Modules
 
         public ObservableCollection<BaseDataNameTreeItem> NameTree { get; set; }
 
-        public ICommand<MouseButtonEventArgs> SelectedCommand { get; private set; }
-
-
-        private GlobalInfo globalInfo;
-
-        protected string filePath;
-
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
 
 
-        public WeatherConditionViewModel()
+        public ICommand<MouseButtonEventArgs> SelectedCommand { get; private set; }
+
+
+        public WireViewModel()
         {
             globalInfo = GlobalInfo.GetInstance();
-            filePath = globalInfo.ProjectPath + "\\BaseData\\WeatherCondition.xml";
 
             SelectedCommand = new DelegateCommand<MouseButtonEventArgs>(UpdateWeatherCondition);
 
-            //Weathers = _weatherXmlReader.ReadLocal(filePath);
-            Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            Messenger.Default.Register<string>(this, OnMessage);
 
+            Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            //Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
+       
             if (Weathers.Count == 0)
             {
                 SelectedWeatherCondition = new ObservableCollection<WorkCondition>();
@@ -95,6 +93,10 @@ namespace TowerLoadCals.Modules
 
         }
 
+        void OnMessage(string message)
+        {
+            System.Windows.MessageBox.Show("Wire");
+        }
 
         public void UpdateWeatherCondition(MouseButtonEventArgs arg)
         {
@@ -108,7 +110,6 @@ namespace TowerLoadCals.Modules
                 .FirstOrDefault();
 
             //var clickedItem = LayoutTreeHelper.GetVisualParents(child: clickedElement, stopNode: parentElement);
-    
 
             if (clickedItem == null)
                 return;
@@ -124,7 +125,8 @@ namespace TowerLoadCals.Modules
 
         public void Save()
         {
-            ;
+            
         }
+
     }
 }

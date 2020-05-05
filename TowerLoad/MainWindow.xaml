@@ -49,31 +49,32 @@
                                Glyph="{dxc:DXImage Image=New_16x16.png}" 
                                LargeGlyph="{dxc:DXImage Image=New_32x32.png}"  
                                RibbonStyle="Large"
-                                               ItemClick="AAAA"
+                               Command="{Binding CreateProjectCommand}"                 
                                >
-                                <dxmvvm:Interaction.Behaviors>
-                                    <dxmvvm:EventToCommand EventName="MouseDoubleClick" Command="{Binding SelectedCommand}" PassEventArgsToCommand="True">
-                                    </dxmvvm:EventToCommand>
-                                </dxmvvm:Interaction.Behaviors>
                             </dxb:BarButtonItem>
                             <dxb:BarButtonItem Name="bOpen" Content="打开" 
                                Glyph="{dxc:DXImage Image=Open_16x16.png}" 
                                LargeGlyph="{dxc:DXImage Image=Open_32x32.png}"  
-                               RibbonStyle="Large"/>
+                               RibbonStyle="Large"
+                               Command="{Binding OpenProjectCommand}"/>
                             <dxb:BarButtonItem Name="bClose" Content="关闭" 
                                Glyph="{dxc:DXImage Image=Close_16x16.png}" 
                                LargeGlyph="{dxc:DXImage Image=Close_32x32.png}"  
-                               RibbonStyle="Large"/>
+                               RibbonStyle="Large"
+                               Command="{Binding CloseProjectCommand}"/>
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Name="pgSave" Caption="保存" ShowCaptionButton="False">
                             <dxb:BarButtonItem Name="bSave" Content="保存" 
                                Glyph="{dxc:DXImage Image=Save_16x16.png}" 
                                LargeGlyph="{dxc:DXImage Image=Save_32x32.png}"  
-                               RibbonStyle="Large"/>
+                               RibbonStyle="Large"
+                               Command="{Binding SaveProjectCommand}"/>
                             <dxb:BarButtonItem Name="bSaveAs" Content="保存为" 
                                Glyph="{dxc:DXImage Image=SaveAs_16x16.png}" 
                                LargeGlyph="{dxc:DXImage Image=SaveAs_32x32.png}"  
-                               RibbonStyle="Large"/>
+                               RibbonStyle="Large"
+                               Command="{Binding SaveProjectAsCommand}"
+                            />
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Name="pgData" Caption="数据" ShowCaptionButton="False">
                             <dxb:BarButtonItem Name="bImport" Content="导入" 
@@ -227,7 +228,7 @@
                             </dxwui:NavigationFrame.Resources>
                             <dxmvvm:Interaction.Behaviors>
                                 <dxwuin:FrameNavigationService Frame="{Binding ElementName=documentFrame}" />
-                                <dx:DXSplashScreenService SplashScreenType="{Binding SplashScreenType}" FadeOutDuration="0" />
+                                <!--<dx:DXSplashScreenService SplashScreenType="{Binding SplashScreenType}" FadeOutDuration="0" />-->
                             </dxmvvm:Interaction.Behaviors>
                         </dxwui:NavigationFrame>
                     </dxdo:LayoutPanel>

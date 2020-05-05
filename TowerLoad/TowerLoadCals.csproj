@@ -95,6 +95,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
+    <Compile Include="ModulesViewModels\WireViewModel.cs" />
+    <Compile Include="Modules\BlankModule.xaml.cs">
+      <DependentUpon>BlankModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WireModule.xaml.cs">
+      <DependentUpon>WireModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SplashScreen\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
     </Compile>
@@ -113,6 +121,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modules\BlankModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\WireModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Modules\WeatherConditionModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -165,6 +181,10 @@
     <Resource Include="SplashScreen\Logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TowerLoadCals.Common\TowerLoadCals.Common.csproj">
+      <Project>{02D06C8A-7792-43EE-9C4A-CEBEF8377AAF}</Project>
+      <Name>TowerLoadCals.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TowerLoadCals.DAL\TowerLoadCals.DAL.csproj">
       <Project>{05EA043D-3674-4359-8481-3619D35FA25C}</Project>
       <Name>TowerLoadCals.DAL</Name>
