@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
              xmlns:local="clr-namespace:TowerLoadCals.Modules"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
@@ -14,87 +15,46 @@
              xmlns:dxgn="http://schemas.devexpress.com/winfx/2008/xaml/gantt" 
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
-    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
-    x:Class="TowerLoadCals.Modules.WeatherConditionModule"
+             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             x:Class="TowerLoadCals.Modules.WeatherConditionModule"
+             xmlns:m="clr-namespace:TowerLoadCals.Mode;assembly=TowerLoadCals.Mode"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WeatherConditionViewModel}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Border BorderBrush="LightGray" BorderThickness="1" >
-            <dxa:AccordionControl Name="TypeAccordion" 
-                                  ItemsSource="{Binding Weathers }" 
-                                  DisplayMemberPath="Name"
-                                  AllowPopupMenu="True">
-                <dxa:AccordionControl.PopupMenuActions>
-                    <dxb:InsertAction>
-                        <dxb:InsertAction.Element>
-                            <dxb:BarButtonItem Content="My Custom Button" />
-                        </dxb:InsertAction.Element>
-                    </dxb:InsertAction>
-                </dxa:AccordionControl.PopupMenuActions>
+        <TreeView  Name="treeView1"  BorderBrush="LightGray"  ItemsSource="{Binding WeatherCollections}" >
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type m:WeatherCollection}" ItemsSource="{Binding Weathers}">
+                        <Border BorderThickness="0">
+                            <TextBlock Text="{Binding Name}" />
+                            <Border.ContextMenu>
+                                 <ContextMenu>
+                                <MenuItem Header="新建" Command="{Binding WeatherConditionViewModel.AddItemCommand}" />
+                                 </ContextMenu>
+                            </Border.ContextMenu>
+                        </Border>
+                    </HierarchicalDataTemplate>
+                    <DataTemplate DataType="{x:Type m:Weather}" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}"/>
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                <MenuItem Header="编辑" Command="{Binding WeatherConditionViewModel.AddItemCommand}"/>
+                                <MenuItem Header="删除" Command="{Binding WeatherConditionViewModel.AddItemCommand}"/>
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.Resources>
 
-                <dxa:AccordionControl.Resources>
-                    <dxmvvm:ObjectToObjectConverter x:Key="PeekFormTemplateConverter">
-                        <dxmvvm:MapItem Source="{x:Null}" Target="{x:Null}" />
-                        <dxmvvm:ObjectToObjectConverter.DefaultTarget>
-                            <DataTemplate>
-                                <dxwui:Flyout ShowIndicator="True" Command="{Binding DataContext.PinPeekCollectionViewCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding}">
-                                    <Grid Height="400" Width="250" x:Name="grid">
-                                        <view:PeekCollectionView dxmvvm:ViewModelExtensions.ParentViewModel="{Binding DataContext, ElementName=grid}" Margin="10" dxmvvm:ViewModelExtensions.DocumentTitle="{Binding DataContext.ModuleTitle, ElementName=grid}" DataContext="{Binding PeekCollectionViewModel}" />
-                                    </Grid>
-                                </dxwui:Flyout>
-                            </DataTemplate>
-                        </dxmvvm:ObjectToObjectConverter.DefaultTarget>
-                    </dxmvvm:ObjectToObjectConverter>
-                </dxa:AccordionControl.Resources>
-                <dxa:AccordionControl.ItemContainerStyle>
-                    <Style TargetType="dxa:AccordionItem">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DataContext, RelativeSource={RelativeSource Self}, Converter={local:ModuleDescriptionToBoolConverter}}" Value="True">
-                                <Setter Property="dxa:AccordionItem.PeekFormTemplate" Value="{Binding PeekCollectionViewModel, Converter={StaticResource PeekFormTemplateConverter}}" />
-                                <Setter Property="Header" Value="{Binding ModuleTitle}"/>
-                                <Setter Property="Glyph" Value="{Binding ImageSource}"/>
-                            </DataTrigger>
-                            <Trigger Property="ItemLevel" Value="1">
-                                <Setter Property="Header" Value="{Binding Name}" />
-                                <Setter Property="dxb:BarManager.DXContextMenu">
-                                    <Setter.Value>
-                                        <dxb:PopupMenuInfo>
-                                            <dxb:BarLinkContainerItem IsVisible="{Binding FilterTreeViewModel.AllowFiltersContextMenu}">
-                                                <dxb:BarButtonItem Content="New Custom Filter" />
-                                            </dxb:BarLinkContainerItem>
-                                        </dxb:PopupMenuInfo>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="ItemLevel" Value="2">
-                                <Setter Property="Header" Value="{Binding DisplayText}" />
-                                <Setter Property="ShowInCollapsedMode" Value="{Binding IsCustomFilter, Converter={dxmvvm:BooleanNegationConverter}}"/>
-                                <Setter Property="dxb:BarManager.DXContextMenu">
-                                    <Setter.Value>
-                                        <dxb:PopupMenuInfo>
-                                            <dxb:BarLinkContainerItem IsVisible="{Binding FilterTreeViewModel.AllowFiltersContextMenu}">
-                                                <dxb:BarButtonItem Content="Modify Custom Filter" />
-                                                <dxb:BarButtonItem Content="Duplicate Custom Filter"  />
-                                            </dxb:BarLinkContainerItem>
-                                        </dxb:PopupMenuInfo>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="ItemLevel" Value="2"/>
-                                    <Condition Property="IsSelected" Value="True"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </dxa:AccordionControl.ItemContainerStyle>
-            </dxa:AccordionControl>
-        </Border>
+        </TreeView>
                 <dxg:GridControl Grid.Column="1" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedWeatherCondition}"

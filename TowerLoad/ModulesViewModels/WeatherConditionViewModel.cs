@@ -23,7 +23,7 @@ namespace TowerLoadCals.Modules
 {
 
     //[POCOViewModel]
-    public class WeatherConditionViewModel: ViewModelBase, IBaseViewModel
+    public class WeatherConditionViewModel: ViewModelBase, IBaseViewModel,INotifyPropertyChanged
     {
         public List<Weather> Weathers { get; set; }
 
@@ -44,8 +44,11 @@ namespace TowerLoadCals.Modules
 
         public ObservableCollection<BaseDataNameTreeItem> NameTree { get; set; }
 
+        public ObservableCollection<WeatherCollection> WeatherCollections { get; set; }
+
         public ICommand<MouseButtonEventArgs> SelectedCommand { get; private set; }
 
+        public DelegateCommand AddItemCommand { get; private set; }
 
         private GlobalInfo globalInfo;
 
@@ -53,6 +56,50 @@ namespace TowerLoadCals.Modules
 
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
 
+        private  object _selectedItem = null;
+        public  object SelectedItem
+        {
+            get { return _selectedItem; }
+            private set
+            {
+                if (_selectedItem != value)
+                {
+                    _selectedItem = value;
+                    OnSelectedItemChanged();
+                }
+            }
+        }
+
+        protected virtual void OnSelectedItemChanged()
+        {
+            ;           // Raise event / do other things
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged("IsSelected");
+                    if (_isSelected)
+                    {
+                        SelectedItem = this;
+                    }
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var handler = this.PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public WeatherConditionViewModel()
         {
@@ -60,9 +107,18 @@ namespace TowerLoadCals.Modules
             filePath = globalInfo.ProjectPath + "\\BaseData\\WeatherCondition.xml";
 
             SelectedCommand = new DelegateCommand<MouseButtonEventArgs>(UpdateWeatherCondition);
+            AddItemCommand = new DelegateCommand(AddItem);
 
             //Weathers = _weatherXmlReader.ReadLocal(filePath);
-            Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
+            //Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+
+            WeatherCollections = new ObservableCollection<WeatherCollection>();
+            WeatherCollections.Add(new WeatherCollection
+            {
+                Name = "气象条件",
+                Weathers = Weathers
+            });
 
             if (Weathers.Count == 0)
             {
@@ -95,7 +151,6 @@ namespace TowerLoadCals.Modules
 
         }
 
-
         public void UpdateWeatherCondition(MouseButtonEventArgs arg)
         {
 
@@ -123,6 +178,11 @@ namespace TowerLoadCals.Modules
         }
 
         public void Save()
+        {
+            ;
+        }
+
+        public void AddItem()
         {
             ;
         }

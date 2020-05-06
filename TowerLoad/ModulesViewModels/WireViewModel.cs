@@ -44,12 +44,8 @@ namespace TowerLoadCals.Modules
         }
 
         public ObservableCollection<BaseDataNameTreeItem> NameTree { get; set; }
-
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
-
-
         public ICommand<MouseButtonEventArgs> SelectedCommand { get; private set; }
-
 
         public WireViewModel()
         {
@@ -59,8 +55,8 @@ namespace TowerLoadCals.Modules
 
             Messenger.Default.Register<string>(this, OnMessage);
 
-            Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
-            //Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
+            //Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
        
             if (Weathers.Count == 0)
             {
