@@ -13,27 +13,27 @@
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:dxgn="http://schemas.devexpress.com/winfx/2008/xaml/gantt" 
              x:Class="TowerLoadCals.Modules.WireModule"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WireViewModel}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        
-        
-        <dxg:TreeListControl ItemsSource="{Binding NameTree}">
-            <dxmvvm:Interaction.Behaviors>
-                <dxmvvm:EventToCommand EventName="MouseDoubleClick" Command="{Binding SelectedCommand}" PassEventArgsToCommand="True">
-                </dxmvvm:EventToCommand>
-            </dxmvvm:Interaction.Behaviors>
-            <dxg:TreeListControl.Columns>
-                <dxg:TreeListColumn FieldName="Name" Header="Name" />
-            </dxg:TreeListControl.Columns>
-            <dxg:TreeListControl.View>
-                <dxg:TreeListView Name="treeListView2" AutoWidth="True"
-                                  KeyFieldName="ID" ParentFieldName="ParentID" />
-            </dxg:TreeListControl.View>
-        </dxg:TreeListControl>
+
+        <TreeView  Name="treeView"  BorderBrush="LightGray"  ItemsSource="{Binding WeatherCollections}" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectedItemChanged">
+                    <i:InvokeCommandAction
+                        Command="{Binding SetSelectedItemCommand}"
+                        CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <TreeViewItem Header="导底线">
+                <TreeViewItem Header="导线"/>
+                <TreeViewItem Header="底线"/>
+            </TreeViewItem>
+        </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedWeatherCondition}"

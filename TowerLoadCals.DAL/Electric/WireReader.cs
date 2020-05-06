@@ -173,39 +173,47 @@ namespace TowerLoadCals.DAL
     //    }
     //}
 
-    public class WireReader
+    public static class WireReader
     {
-        public static List<Wire> Read(string path)
+        public static List<WireType> Read(string path)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
 
             XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
             if (rootNode == null)
-                return new List<Wire>();
+                return new List<WireType>();
 
-            List<Wire> list = new List<Wire>();
+            List<WireType> list = new List<WireType>();
 
-            foreach (XmlNode node in rootNode.ChildNodes)
+            foreach (XmlNode typeNode in rootNode.ChildNodes)
             {
-                Wire wire = new Wire()
+                WireType typeItem = new WireType()
                 {
-                    ID = Convert.ToInt16(node.Attributes["ID"].Value.ToString()),
-                    Name = node.Attributes["Name"].Value.ToString(),
-                    Sec = Convert.ToInt16(node.Attributes["Sec"].Value.ToString()),
-                    Dia = Convert.ToInt16(node.Attributes["Dia"].Value.ToString()),
-                    Wei = Convert.ToInt16(node.Attributes["Wei"].Value.ToString()),
-                    Elas = Convert.ToInt16(node.Attributes["Elas"].Value.ToString()),
-                    Coef = Convert.ToInt16(node.Attributes["Coef"].Value.ToString()),
-                    Fore = Convert.ToInt16(node.Attributes["Fore"].Value.ToString()),
+                    Type = typeNode.Attributes["Name"].Value.ToString(),
+                    Wire = new List<Wire>()
                 };
-                list.Add(wire);
+
+                foreach (XmlNode node in typeNode.ChildNodes)
+                {
+                    Wire wire = new Wire()
+                    {
+                        Name = node.Attributes["Name"].Value.ToString(),
+                        Sec = Convert.ToInt16(node.Attributes["Sec"].Value.ToString()),
+                        Dia = Convert.ToInt16(node.Attributes["Dia"].Value.ToString()),
+                        Wei = Convert.ToInt16(node.Attributes["Wei"].Value.ToString()),
+                        Elas = Convert.ToInt16(node.Attributes["Elas"].Value.ToString()),
+                        Coef = Convert.ToInt16(node.Attributes["Coef"].Value.ToString()),
+                        Fore = Convert.ToInt16(node.Attributes["Fore"].Value.ToString()),
+                    };
+                    typeItem.Wire.Add(wire);
+                }
             }
 
             return list;
         }
 
-        public static void Save(string path, List<Wire> infos)
+        public static void Save(string path, List<WireType> infos)
         {
             XmlUtils.Save(path, infos);
         }

@@ -128,7 +128,6 @@ namespace TowerLoadCals
         public DelegateCommand CloseProjectCommand { get; private set; }
         void CloseProject()
         {
-            
 
             SaveCurrentModule();
 
@@ -154,7 +153,7 @@ namespace TowerLoadCals
         {
             Modules = new List<ModuleInfo>() {
                 ViewModelSource.Create(() => new ModuleInfo("WeatherConditionModule", this, "气象条件")),
-                ViewModelSource.Create(() => new ModuleInfo("WireModule", this, "线")),
+                ViewModelSource.Create(() => new ModuleInfo("WireModule", this, "导地线")),
             };
             OnModulesLoaded();
         }

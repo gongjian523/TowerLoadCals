@@ -22,102 +22,39 @@ using TextBox = System.Windows.Controls.TextBox;
 namespace TowerLoadCals.Modules
 {
 
-    //[POCOViewModel]
     public class WireViewModel: ViewModelBase, IBaseViewModel
     {
+        public List<WireType> WireTypes { get; set; }
+
+        public ObservableCollection<Wire> SelectedWire{ get; set; }
+
+        public DelegateCommand<object> SetSelectedItemCommand { get; private set; }
+
         private GlobalInfo globalInfo;
-        public List<Weather> Weathers { get; set; }
 
-        private ObservableCollection<WorkCondition> _SelectedWeatherCondition = new ObservableCollection<WorkCondition>();
-        public ObservableCollection<WorkCondition> SelectedWeatherCondition
-        {
-            get
-            {
-                return _SelectedWeatherCondition;
-            }
+        protected string filePath;
 
-            private set
-            {
-                _SelectedWeatherCondition = value;
-                RaisePropertyChanged("SelectedWeatherCondition");
-            }
-        }
-
-        public ObservableCollection<BaseDataNameTreeItem> NameTree { get; set; }
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
-        public ICommand<MouseButtonEventArgs> SelectedCommand { get; private set; }
 
         public WireViewModel()
         {
             globalInfo = GlobalInfo.GetInstance();
 
-            SelectedCommand = new DelegateCommand<MouseButtonEventArgs>(UpdateWeatherCondition);
-
-            Messenger.Default.Register<string>(this, OnMessage);
-
-            //Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
-            Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
-       
-            if (Weathers.Count == 0)
-            {
-                SelectedWeatherCondition = new ObservableCollection<WorkCondition>();
-            }
-            else
-            {
-                SelectedWeatherCondition = new ObservableCollection<WorkCondition>(Weathers[0].WorkConditions);
-            }
+            //WireTypes = WireReader.Read(filePath);
+            WireTypes = WireReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
 
 
-            int id = 0;
-            NameTree = new ObservableCollection<BaseDataNameTreeItem>();
-            NameTree.Add(new BaseDataNameTreeItem
-            {
-                ID = (++id),
-                ParentID = 0,
-                Name = "气象条件"
-            });
-
-            foreach(var item in Weathers)
-            {
-                NameTree.Add(new BaseDataNameTreeItem
-                {
-                    ID = (++id),
-                    ParentID = 1,
-                    Name = item.Name
-                });
-            }
+            SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
 
         }
 
-        void OnMessage(string message)
+        protected void SelectedItemChanged(object para)
         {
-            System.Windows.MessageBox.Show("Wire");
-        }
-
-        public void UpdateWeatherCondition(MouseButtonEventArgs arg)
-        {
-
-            TreeListControl parentElement = (TreeListControl)arg.Source;
-            DependencyObject clickedElement = (DependencyObject)arg.OriginalSource;
-
-            TextBox clickedItem =
-                LayoutTreeHelper.GetVisualParents(child: clickedElement, stopNode: parentElement)
-                .OfType<TextBox>()
-                .FirstOrDefault();
-
-            //var clickedItem = LayoutTreeHelper.GetVisualParents(child: clickedElement, stopNode: parentElement);
-
-            if (clickedItem == null)
-                return;
-            //BaseDataNameTreeItem treeItem = (BaseDataNameTreeItem)clickedItem.DataContext;
-
-            if (Weathers.Where(item => item.Name == clickedItem.Text).ToList().Count == 0)
+            if (((TreeViewItem)para).Header.ToString() == "导底线")
                 return;
 
-            Weather selectedWd = Weathers.Where(item => item.Name == clickedItem.Text).First();
-
-            SelectedWeatherCondition = new ObservableCollection<WorkCondition>(selectedWd.WorkConditions);
         }
+
 
         public void Save()
         {

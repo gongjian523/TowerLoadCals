@@ -42,13 +42,11 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        public ObservableCollection<BaseDataNameTreeItem> NameTree { get; set; }
-
         public ObservableCollection<WeatherCollection> WeatherCollections { get; set; }
 
-        public ICommand<MouseButtonEventArgs> SelectedCommand { get; private set; }
-
         public DelegateCommand AddItemCommand { get; private set; }
+
+        public DelegateCommand<object> SetSelectedItemCommand { get; private set; }
 
         private GlobalInfo globalInfo;
 
@@ -56,62 +54,17 @@ namespace TowerLoadCals.Modules
 
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
 
-        private  object _selectedItem = null;
-        public  object SelectedItem
-        {
-            get { return _selectedItem; }
-            private set
-            {
-                if (_selectedItem != value)
-                {
-                    _selectedItem = value;
-                    OnSelectedItemChanged();
-                }
-            }
-        }
-
-        protected virtual void OnSelectedItemChanged()
-        {
-            ;           // Raise event / do other things
-        }
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                if (_isSelected != value)
-                {
-                    _isSelected = value;
-                    OnPropertyChanged("IsSelected");
-                    if (_isSelected)
-                    {
-                        SelectedItem = this;
-                    }
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            var handler = this.PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public WeatherConditionViewModel()
         {
             globalInfo = GlobalInfo.GetInstance();
             filePath = globalInfo.ProjectPath + "\\BaseData\\WeatherCondition.xml";
 
-            SelectedCommand = new DelegateCommand<MouseButtonEventArgs>(UpdateWeatherCondition);
             AddItemCommand = new DelegateCommand(AddItem);
+            SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
 
             //Weathers = _weatherXmlReader.ReadLocal(filePath);
-            Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
-            //Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            //Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
+            Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
 
             WeatherCollections = new ObservableCollection<WeatherCollection>();
             WeatherCollections.Add(new WeatherCollection
@@ -128,52 +81,17 @@ namespace TowerLoadCals.Modules
             {
                 SelectedWeatherCondition = new ObservableCollection<WorkCondition>(Weathers[0].WorkConditions);
             }
-
-
-            int id = 0;
-            NameTree = new ObservableCollection<BaseDataNameTreeItem>();
-            NameTree.Add(new BaseDataNameTreeItem
-            {
-                ID = (++id),
-                ParentID = 0,
-                Name = "气象条件"
-            });
-
-            foreach(var item in Weathers)
-            {
-                NameTree.Add(new BaseDataNameTreeItem
-                {
-                    ID = (++id),
-                    ParentID = 1,
-                    Name = item.Name
-                });
-            }
-
         }
 
-        public void UpdateWeatherCondition(MouseButtonEventArgs arg)
+        protected void SelectedItemChanged(object para)
         {
-
-            TreeListControl parentElement = (TreeListControl)arg.Source;
-            DependencyObject clickedElement = (DependencyObject)arg.OriginalSource;
-
-            TextBox clickedItem =
-                LayoutTreeHelper.GetVisualParents(child: clickedElement, stopNode: parentElement)
-                .OfType<TextBox>()
-                .FirstOrDefault();
-
-            //var clickedItem = LayoutTreeHelper.GetVisualParents(child: clickedElement, stopNode: parentElement);
-    
-
-            if (clickedItem == null)
-                return;
-            //BaseDataNameTreeItem treeItem = (BaseDataNameTreeItem)clickedItem.DataContext;
-
-            if (Weathers.Where(item => item.Name == clickedItem.Text).ToList().Count == 0)
+            if (para.GetType().Name != "Weather")
                 return;
 
-            Weather selectedWd = Weathers.Where(item => item.Name == clickedItem.Text).First();
+            if (Weathers.Where(item => item.Name == ((Weather)para).Name).ToList().Count == 0)
+                return;
 
+            Weather selectedWd = Weathers.Where(item => item.Name == ((Weather)para).Name).First();
             SelectedWeatherCondition = new ObservableCollection<WorkCondition>(selectedWd.WorkConditions);
         }
 
