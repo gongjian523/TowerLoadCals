@@ -36,16 +36,12 @@
         </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
-                ItemsSource="{Binding SelectedWeatherCondition}"
+                ItemsSource="{Binding SelectedWire}"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-            <!--<dxg:GridControl.Columns>
-                <dxg:GridColumn FieldName="工况组合" IsSmart="True" />
-                <dxg:GridColumn FieldName="气温" IsSmart="True"/>
-                <dxg:GridColumn FieldName="风速" IsSmart="True"/>
-
-            </dxg:GridControl.Columns>-->
-
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False"/>
+            </dxg:GridControl.View>
         </dxg:GridControl>
     </Grid>
 </UserControl>

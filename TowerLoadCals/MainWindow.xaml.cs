@@ -632,8 +632,8 @@ namespace TowerLoadCals.Demo
                 //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
                 //weatherReader.Save(saveFileDialog.FileName, listWeathers);
 
-                List<Wire> list = new List<Wire>();
-                list.Add(new Wire
+                List<Wire1> list = new List<Wire1>();
+                list.Add(new Wire1
                 {
                     ID = 10,
                     Name = "Type1",

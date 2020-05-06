@@ -119,6 +119,9 @@ namespace TowerLoadCals.DAL
 
         public override void Save(string path, List<Weather> weathers)
         {
+            if (File.Exists(path))
+                File.Delete(path);
+
             XmlDocument doc = new XmlDocument();
 
             XmlNode rootNode = doc.CreateElement("Root");

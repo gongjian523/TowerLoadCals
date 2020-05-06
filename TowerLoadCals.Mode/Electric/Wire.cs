@@ -1,18 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace TowerLoadCals.Mode
+﻿namespace TowerLoadCals
 {
     public class Wire
     {
         /// <summary>
-        /// 
+        /// 型号规格
         /// </summary>
-        public int ID { get; set; }
-
-        /// <summary>
-        /// 导线型号
-        /// </summary>
-        public string Name { get; set; }
+        public string ModelSpecification { get; set; }
 
         /// <summary>
         /// 线类型
@@ -20,43 +13,42 @@ namespace TowerLoadCals.Mode
         public string WireType { get; set; }
 
         /// <summary>
-        /// 截面积 mm2
+        /// 截面积
         /// </summary>
-        public float Sec { get; set; }
+        public decimal SectionArea { get; set; }
 
         /// <summary>
-        /// 外径 mm
+        /// 外径
         /// </summary>
-        public float Dia { get; set; }
+        public decimal ExternalDiameter { get; set; }
 
         /// <summary>
-        /// 单位长度质量  Kg/Km
+        /// 单位长度质量
         /// </summary>
-        public float Wei { get; set; }
+        public decimal UnitLengthMass { get; set; }
 
         /// <summary>
-        /// 直流电阻(Ω)
+        /// 直流电阻
         /// </summary>
-        public float Resistance { get; set; }
+        public decimal DCResistor { get; set; }
 
         /// <summary>
-        /// 额定拉断力 N
+        /// 额定拉断力
         /// </summary>
-        public int Fore { get; set; }
+        public int RatedBreakingForce { get; set; }
 
         /// <summary>
-        /// 综合弹性系数 Gpa 10^6 N/m2
+        /// 弹性模量
         /// </summary>
-        public int Elas { get; set; }
+        public int ModulusElasticity { get; set; }
 
         /// <summary>
-        /// 线性膨胀系数 10^-6/℃
+        /// 线膨胀系数
         /// </summary>
-        public float Coef { get; set; }
+        public decimal LineCoefficient { get; set; }
     }
 
-
-    public class WireChinese
+    public class WireCh
     {
         /// <summary>
         /// 型号规格
@@ -71,22 +63,22 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 截面积 mm2
         /// </summary>
-        public float 截面积 { get; set; }
+        public decimal 截面积 { get; set; }
 
         /// <summary>
         /// 外径 mm
         /// </summary>
-        public float 外径 { get; set; }
+        public decimal 外径 { get; set; }
 
         /// <summary>
         /// 单位长度质量  Kg/Km
         /// </summary>
-        public float 单位长度质量 { get; set; }
+        public decimal 单位长度质量 { get; set; }
 
         /// <summary>
         /// 直流电阻(Ω)
         /// </summary>
-        public float 直流电阻 { get; set; }
+        public decimal 直流电阻 { get; set; }
 
         /// <summary>
         /// 额定拉断力 N
@@ -101,6 +93,6 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 线性膨胀系数 10^-6/℃
         /// </summary>
-        public float 线性膨胀系数 { get; set; }
+        public decimal 线性膨胀系数 { get; set; }
     }
 }

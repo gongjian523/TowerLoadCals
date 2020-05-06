@@ -4,6 +4,7 @@ using System.Data;
 using System.Xml;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Common;
+using System.IO;
 
 namespace TowerLoadCals.DAL
 {
@@ -177,6 +178,9 @@ namespace TowerLoadCals.DAL
     {
         public static List<WireType> Read(string path)
         {
+            if (!File.Exists(path))
+                return new List<WireType>();
+
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
 
@@ -198,13 +202,15 @@ namespace TowerLoadCals.DAL
                 {
                     Wire wire = new Wire()
                     {
-                        Name = node.Attributes["Name"].Value.ToString(),
-                        Sec = Convert.ToInt16(node.Attributes["Sec"].Value.ToString()),
-                        Dia = Convert.ToInt16(node.Attributes["Dia"].Value.ToString()),
-                        Wei = Convert.ToInt16(node.Attributes["Wei"].Value.ToString()),
-                        Elas = Convert.ToInt16(node.Attributes["Elas"].Value.ToString()),
-                        Coef = Convert.ToInt16(node.Attributes["Coef"].Value.ToString()),
-                        Fore = Convert.ToInt16(node.Attributes["Fore"].Value.ToString()),
+                        ModelSpecification = node.Attributes["ModelSpecification"].Value.ToString(),
+                        WireType = node.Attributes["WireType"].Value.ToString(),
+                        SectionArea = Convert.ToDecimal(node.Attributes["SectionArea"].Value.ToString()),
+                        ExternalDiameter = Convert.ToDecimal(node.Attributes["ExternalDiameter"].Value.ToString()),
+                        UnitLengthMass = Convert.ToDecimal(node.Attributes["UnitLengthMass"].Value.ToString()),
+                        DCResistor = Convert.ToDecimal(node.Attributes["DCResistor"].Value.ToString()),
+                        RatedBreakingForce = Convert.ToInt16(node.Attributes["RatedBreakingForce"].Value.ToString()),
+                        ModulusElasticity = Convert.ToInt16(node.Attributes["ModulusElasticity"].Value.ToString()),
+                        LineCoefficient = Convert.ToDecimal(node.Attributes["LineCoefficient"].Value.ToString()),
                     };
                     typeItem.Wire.Add(wire);
                 }
@@ -215,6 +221,9 @@ namespace TowerLoadCals.DAL
 
         public static void Save(string path, List<WireType> infos)
         {
+            if (File.Exists(path))
+                File.Delete(path);
+
             XmlUtils.Save(path, infos);
         }
 
