@@ -194,7 +194,7 @@ namespace TowerLoadCals.DAL
             {
                 WireType typeItem = new WireType()
                 {
-                    Type = typeNode.Attributes["Name"].Value.ToString(),
+                    Type = typeNode.Attributes["Type"].Value.ToString(),
                     Wire = new List<Wire>()
                 };
 
@@ -214,6 +214,8 @@ namespace TowerLoadCals.DAL
                     };
                     typeItem.Wire.Add(wire);
                 }
+
+                list.Add(typeItem);
             }
 
             return list;

@@ -63,8 +63,8 @@ namespace TowerLoadCals.Modules
             SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
 
             //Weathers = _weatherXmlReader.ReadLocal(filePath);
-            //Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
-            Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
+            //Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
 
             WeatherCollections = new ObservableCollection<WeatherCollection>();
             WeatherCollections.Add(new WeatherCollection

@@ -37,6 +37,7 @@ namespace TowerLoadCals.Common.Utils
 
             System.IO.Directory.CreateDirectory(strDir);
             System.IO.Directory.CreateDirectory(strDir + "//" + prejectName);
+            System.IO.Directory.CreateDirectory(strDir + "//" + prejectName + "//BaseData");
 
             if (!CreateProjetcFile(strDir + "//" + prejectName + "//" + saveFileDialog.SafeFileName))
             {

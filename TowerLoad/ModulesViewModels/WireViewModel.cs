@@ -86,7 +86,7 @@ namespace TowerLoadCals.Modules
             }
 
             curType = "导线";
-            SelectedWire = wireDi;
+            SelectedWire = wireDao;
 
             SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
         }

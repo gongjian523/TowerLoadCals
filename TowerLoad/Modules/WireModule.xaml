@@ -29,9 +29,9 @@
                         CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <TreeViewItem Header="导底线">
+            <TreeViewItem Header="导地线">
                 <TreeViewItem Header="导线"/>
-                <TreeViewItem Header="底线"/>
+                <TreeViewItem Header="地线"/>
             </TreeViewItem>
         </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
