@@ -200,18 +200,27 @@ namespace TowerLoadCals.DAL
 
                 foreach (XmlNode node in typeNode.ChildNodes)
                 {
-                    Wire wire = new Wire()
-                    {
-                        ModelSpecification = node.Attributes["ModelSpecification"].Value.ToString(),
-                        WireType = node.Attributes["WireType"].Value.ToString(),
-                        SectionArea = Convert.ToDecimal(node.Attributes["SectionArea"].Value.ToString()),
-                        ExternalDiameter = Convert.ToDecimal(node.Attributes["ExternalDiameter"].Value.ToString()),
-                        UnitLengthMass = Convert.ToDecimal(node.Attributes["UnitLengthMass"].Value.ToString()),
-                        DCResistor = Convert.ToDecimal(node.Attributes["DCResistor"].Value.ToString()),
-                        RatedBreakingForce = Convert.ToInt16(node.Attributes["RatedBreakingForce"].Value.ToString()),
-                        ModulusElasticity = Convert.ToInt16(node.Attributes["ModulusElasticity"].Value.ToString()),
-                        LineCoefficient = Convert.ToDecimal(node.Attributes["LineCoefficient"].Value.ToString()),
-                    };
+                    Wire wire = new Wire();
+
+                    if (node.Attributes["ModelSpecification"] != null)
+                        wire.ModelSpecification = node.Attributes["ModelSpecification"].Value.ToString();
+                    if (node.Attributes["WireType"] != null)
+                        wire.WireType = node.Attributes["WireType"].Value.ToString();
+                    if (node.Attributes["WireType"] != null)
+                        wire.SectionArea = Convert.ToDecimal(node.Attributes["SectionArea"].Value.ToString());
+                    if (node.Attributes["ExternalDiameter"] != null)
+                        wire.ExternalDiameter = Convert.ToDecimal(node.Attributes["ExternalDiameter"].Value.ToString());
+                    if (node.Attributes["UnitLengthMass"] != null)
+                        wire.UnitLengthMass = Convert.ToDecimal(node.Attributes["UnitLengthMass"].Value.ToString());
+                    if (node.Attributes["DCResistor"] != null)
+                        wire.DCResistor = Convert.ToDecimal(node.Attributes["DCResistor"].Value.ToString());
+                    if (node.Attributes["RatedBreakingForce"] != null)
+                        wire.RatedBreakingForce = Convert.ToInt16(node.Attributes["RatedBreakingForce"].Value.ToString());
+                    if (node.Attributes["ModulusElasticity"] != null)
+                        wire.ModulusElasticity = Convert.ToInt16(node.Attributes["ModulusElasticity"].Value.ToString());
+                    if (node.Attributes["LineCoefficient"] != null)
+                        wire.LineCoefficient = Convert.ToDecimal(node.Attributes["LineCoefficient"].Value.ToString());
+                    
                     typeItem.Wire.Add(wire);
                 }
 

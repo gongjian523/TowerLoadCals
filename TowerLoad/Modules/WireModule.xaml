@@ -36,11 +36,20 @@
         </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
-                ItemsSource="{Binding SelectedWire}"
-                ScrollViewer.VerticalScrollBarVisibility="Hidden" 
-                ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                ItemsSource="{Binding SelectedItems}"
+                ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                >
             <dxg:GridControl.View>
-                <dxg:TableView ShowGroupPanel="False"/>
+                <dxg:TableView ShowGroupPanel="False" ShowFilterPanelMode="Never">
+                    <dxg:TableView.RowCellMenuCustomizations>
+                        <dxb:BarButtonItem Name="viewCopyRow" Content="复制行" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WireViewModel},AncestorLevel=3}, Path=CopyRowCommand}"/>
+                        <dxb:BarButtonItem Name="viewPasteRow" Content="粘贴行"  />
+                        <dxb:BarButtonItem Name="viewDeleteRow" Content="删除行"  />
+                        <dxb:BarButtonItem Name="viewEmptyRow" Content="清空行"  />
+                        <dxb:BarButtonItem Name="viewAddRow" Content="新增行" />
+                    </dxg:TableView.RowCellMenuCustomizations>
+                </dxg:TableView>
             </dxg:GridControl.View>
         </dxg:GridControl>
     </Grid>

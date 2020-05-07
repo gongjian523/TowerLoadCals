@@ -21,8 +21,7 @@ using TextBox = System.Windows.Controls.TextBox;
 
 namespace TowerLoadCals.Modules
 {
-
-    public class WireViewModel: ViewModelBase, IBaseViewModel,INotifyPropertyChanged
+    public class WireViewModel: DaseDataBaseViewModel<WireCh>
     {
         public List<WireType> WireTypes { get; set; }
 
@@ -40,13 +39,9 @@ namespace TowerLoadCals.Modules
                 RaisePropertyChanged("SelectedWire");
             }
         }
-        
 
-        public DelegateCommand<object> SetSelectedItemCommand { get; private set; }
+        public DelegateCommand CopyRowCommand { get; private set; }
 
-        private GlobalInfo globalInfo;
-
-        protected string filePath;
 
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
 
@@ -56,14 +51,19 @@ namespace TowerLoadCals.Modules
 
         protected ObservableCollection<WireCh> wireDao = new ObservableCollection<WireCh>();
 
-        public WireViewModel()
+
+        protected override void InitializeItemsSource()
         {
-            globalInfo = GlobalInfo.GetInstance();
+            base.InitializeItemsSource();
 
             filePath = globalInfo.ProjectPath + "\\BaseData\\Wire.xml";
 
+            CopyRowCommand = new DelegateCommand(CopyRow);
+        }
+
+        protected override void InitializeData()
+        {
             WireTypes = WireReader.Read(filePath);
-            //WireTypes = WireReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
 
             if (WireTypes.Where(item => item.Type == "导线").Count() == 0)
             {
@@ -86,12 +86,12 @@ namespace TowerLoadCals.Modules
             }
 
             curType = "导线";
-            SelectedWire = wireDao;
-
-            SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
+            SelectedItems = wireDao;
+            
         }
 
-        protected void SelectedItemChanged(object para)
+
+        protected override void  SelectedItemChanged(object para)
         {
             if (((TreeViewItem)para).Header.ToString() == "导地线")
                 return;
@@ -114,34 +114,14 @@ namespace TowerLoadCals.Modules
             else
             {
                 curType = "地线";
-                SelectedWire = wireDi;
+                SelectedItems = wireDi;
                 return;
             }
         }
 
-
-        public void Save()
+        protected void CopyRow()
         {
-            List<WireType> wireType = new List<WireType>();
-
-            List<Wire> entityDao = new List<Wire>();
-            WireEntityConvert(wireDao, entityDao);
-            wireType.Add(new WireType
-            {
-                Type = "导线",
-                Wire = entityDao
-            });
-
-            List<Wire> entityDi = new List<Wire>();
-            WireEntityConvert(wireDi, entityDi);
-            wireType.Add(new WireType
-            {
-                Type = "地线",
-                Wire = entityDi
-            });
-
-            WireReader.Save(filePath, wireType);
-
+            ;
         }
 
         protected void WireEntityConvert(ObservableCollection<WireCh> entityCh, List<Wire> entity, bool isChtoEn = true)
@@ -186,5 +166,27 @@ namespace TowerLoadCals.Modules
             }
         }
 
+        public override void Save()
+        {
+            List<WireType> wireType = new List<WireType>();
+
+            List<Wire> entityDao = new List<Wire>();
+            WireEntityConvert(wireDao, entityDao);
+            wireType.Add(new WireType
+            {
+                Type = "导线",
+                Wire = entityDao
+            });
+
+            List<Wire> entityDi = new List<Wire>();
+            WireEntityConvert(wireDi, entityDi);
+            wireType.Add(new WireType
+            {
+                Type = "地线",
+                Wire = entityDi
+            });
+
+            WireReader.Save(filePath, wireType);
+        }
     }
 }

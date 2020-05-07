@@ -101,6 +101,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModulesViewModels\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\WireViewModel.cs" />
     <Compile Include="Modules\BlankModule.xaml.cs">

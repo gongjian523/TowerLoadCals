@@ -72,6 +72,10 @@
             <dxg:GridControl.View>
                 <dxg:TableView ShowGroupPanel="False"/>
             </dxg:GridControl.View>
+            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" />
+            <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" />
+            <dxg:GridColumn FieldName="STemperature"  Header="气温" />
+            <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" />
         </dxg:GridControl>
     </Grid>
 </UserControl>

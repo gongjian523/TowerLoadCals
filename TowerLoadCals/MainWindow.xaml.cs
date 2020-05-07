@@ -632,20 +632,14 @@ namespace TowerLoadCals.Demo
                 //WeatherReader weatherReader = WeatherReaderFactory.CreateReader("XML");
                 //weatherReader.Save(saveFileDialog.FileName, listWeathers);
 
-                List<Wire1> list = new List<Wire1>();
-                list.Add(new Wire1
+                List<Wire> list = new List<Wire>();
+                list.Add(new Wire
                 {
-                    ID = 10,
-                    Name = "Type1",
-                    Sec = 100,
-                    Dia = 200,
-                    Wei = 300,
-                    Elas = 2,
-                    Coef = 3,
-                    Fore = 4
+  
+ 
                 });
 
-                WireReader.Save(saveFileDialog.FileName, list);
+                //WireReader.Save(saveFileDialog.FileName, list);
 
                 //XmlSerializer xs = new XmlSerializer(typeof(Weather));
                 //StreamWriter sw = new StreamWriter(saveFileDialog.FileName);
