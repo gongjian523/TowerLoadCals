@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             
              xmlns:local="clr-namespace:TowerLoadCals.Modules"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
@@ -66,16 +65,16 @@
         </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
-                ItemsSource="{Binding SelectedWeatherCondition}"
+                ItemsSource="{Binding SelectedItems}"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden" 
                 ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <dxg:GridControl.View>
                 <dxg:TableView ShowGroupPanel="False"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" />
-            <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" />
-            <dxg:GridColumn FieldName="STemperature"  Header="气温" />
-            <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" />
+            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" HorizontalHeaderContentAlignment="Center"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

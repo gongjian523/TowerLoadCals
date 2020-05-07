@@ -10,7 +10,7 @@ using TowerLoadCals.Common;
 
 namespace TowerLoadCals.ModulesViewModels
 {
-    abstract public class DaseDataBaseViewModel<T> : ViewModelBase, INotifyPropertyChanged where T:
+    abstract public class DaseDataBaseViewModel<T> : ViewModelBase, IBaseViewModel, INotifyPropertyChanged where T:
     class{
 
         protected GlobalInfo globalInfo;

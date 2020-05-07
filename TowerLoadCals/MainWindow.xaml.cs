@@ -780,32 +780,32 @@ namespace TowerLoadCals.Demo
             if (result != true)
                 return;
 
-            var list = FitDataReader.Read(openFileDialog.FileName);
+            //var list = FitDataReader.Read(openFileDialog.FileName);
 
         }
 
         private void button_SaveFitDataXML_Click(object sender, RoutedEventArgs e)
         {
 
-            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
-            {
-                Filter = "XML Files (*.xml)|*.xml",
-            };
+            //var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            //{
+            //    Filter = "XML Files (*.xml)|*.xml",
+            //};
 
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                List<FitData> list = new List<FitData>();
-                list.Add(new FitData
-                {
-                    ID = 0,
-                    Name = "string",
-                    Type = "type",
-                    Weight = 0,
-                    SecWind = 0,
-                });
+            //if (saveFileDialog.ShowDialog() == true)
+            //{
+            //    List<FitData> list = new List<FitData>();
+            //    list.Add(new FitData
+            //    {
+            //        ID = 0,
+            //        Name = "string",
+            //        Type = "type",
+            //        Weight = 0,
+            //        SecWind = 0,
+            //    });
 
-                FitDataReader.Save(saveFileDialog.FileName, list);
-            }
+            //    FitDataReader.Save(saveFileDialog.FileName, list);
+            //}
 
             return;
         }

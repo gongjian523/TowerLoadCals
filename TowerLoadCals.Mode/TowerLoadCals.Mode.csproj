@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\BaseDataNameTreeItem.cs" />
     <Compile Include="Common\ProInfo.cs" />
     <Compile Include="Common\TowerSeri.cs" />
     <Compile Include="Common\TowerStPra.cs" />
@@ -54,6 +53,7 @@
     <Compile Include="Electric\Circuit.cs" />
     <Compile Include="Electric\CircuitPostion.cs" />
     <Compile Include="Electric\FitData.cs" />
+    <Compile Include="Electric\FitDataCollection.cs" />
     <Compile Include="Electric\StrData.cs" />
     <Compile Include="Electric\PhaseWire.cs" />
     <Compile Include="Electric\SLXian.cs" />

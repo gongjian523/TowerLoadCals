@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.Mode
 {
-    public class BaseDataNameTreeItem
+    public class FitDataCollection
     {
-        public int ID { get; set; }
+        public string Type { get; set; }
 
-        public int ParentID { get; set; }
-
-        public string Name { get; set; }
+        public List<FitData>  FitDatas { get; set; }
     }
 }

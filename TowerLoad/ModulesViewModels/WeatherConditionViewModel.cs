@@ -23,48 +23,33 @@ namespace TowerLoadCals.Modules
 {
 
     //[POCOViewModel]
-    public class WeatherConditionViewModel: ViewModelBase, IBaseViewModel,INotifyPropertyChanged
+    public class WeatherConditionViewModel: DaseDataBaseViewModel<WorkCondition>
     {
         public List<Weather> Weathers { get; set; }
-
-        private ObservableCollection<WorkCondition> _SelectedWeatherCondition = new ObservableCollection<WorkCondition>();
-        public ObservableCollection<WorkCondition> SelectedWeatherCondition
-        {
-            get
-            {
-                return _SelectedWeatherCondition;
-            }
-
-            private set
-            {
-                _SelectedWeatherCondition = value;
-                RaisePropertyChanged("SelectedWeatherCondition");
-            }
-        }
 
         public ObservableCollection<WeatherCollection> WeatherCollections { get; set; }
 
         public DelegateCommand AddItemCommand { get; private set; }
 
-        public DelegateCommand<object> SetSelectedItemCommand { get; private set; }
-
-        private GlobalInfo globalInfo;
-
-        protected string filePath;
-
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
 
-        public WeatherConditionViewModel()
+        protected string curName;
+
+        protected override void InitializeItemsSource()
         {
-            globalInfo = GlobalInfo.GetInstance();
+            base.InitializeItemsSource();
+
             filePath = globalInfo.ProjectPath + "\\BaseData\\WeatherCondition.xml";
 
             AddItemCommand = new DelegateCommand(AddItem);
-            SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
+        }
 
+        protected override void InitializeData()
+        {
             //Weathers = _weatherXmlReader.ReadLocal(filePath);
-            Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
-            //Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            //Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
+            Weathers = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+
 
             WeatherCollections = new ObservableCollection<WeatherCollection>();
             WeatherCollections.Add(new WeatherCollection
@@ -75,34 +60,55 @@ namespace TowerLoadCals.Modules
 
             if (Weathers.Count == 0)
             {
-                SelectedWeatherCondition = new ObservableCollection<WorkCondition>();
+                curName = "";
+                SelectedItems = new ObservableCollection<WorkCondition>();
             }
             else
             {
-                SelectedWeatherCondition = new ObservableCollection<WorkCondition>(Weathers[0].WorkConditions);
+                curName = Weathers[0].Name;
+                SelectedItems = new ObservableCollection<WorkCondition>(Weathers[0].WorkConditions);
             }
         }
 
-        protected void SelectedItemChanged(object para)
+        protected override void SelectedItemChanged(object para)
         {
             if (para.GetType().Name != "Weather")
                 return;
 
             if (Weathers.Where(item => item.Name == ((Weather)para).Name).ToList().Count == 0)
                 return;
+            
+            UpdateLastSelectedWeather();
 
+            curName = ((Weather)para).Name;
             Weather selectedWd = Weathers.Where(item => item.Name == ((Weather)para).Name).First();
-            SelectedWeatherCondition = new ObservableCollection<WorkCondition>(selectedWd.WorkConditions);
+            SelectedItems = new ObservableCollection<WorkCondition>(selectedWd.WorkConditions);
         }
 
-        public void Save()
+        public override void Save()
         {
-            ;
+            UpdateLastSelectedWeather();
+
+            _weatherXmlReader.Save(filePath, Weathers);
         }
+
+
 
         public void AddItem()
         {
             ;
+        }
+
+
+        protected void UpdateLastSelectedWeather()
+        {
+            int index= Weathers.FindIndex(item => item.Name == curName);
+
+            //这种情况只能是curName为空的情况
+            if (index == -1)
+                return;
+
+            Weathers[index].WorkConditions = SelectedItems.ToList();
         }
     }
 }

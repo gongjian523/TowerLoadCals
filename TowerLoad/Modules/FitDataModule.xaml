@@ -12,9 +12,9 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:dxgn="http://schemas.devexpress.com/winfx/2008/xaml/gantt" 
-             x:Class="TowerLoadCals.Modules.WireModule"
+             x:Class="TowerLoadCals.Modules.FitDataModule"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WireViewModel}}">
+             DataContext="{dxmvvm:ViewModelSource Type={x:Type local:FitDataViewModel}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -29,9 +29,11 @@
                         CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <TreeViewItem Header="导地线">
-                <TreeViewItem Header="导线"/>
-                <TreeViewItem Header="地线"/>
+            <TreeViewItem Header="其他金具">
+                <TreeViewItem Header="防震锤"/>
+                <TreeViewItem Header="间隔棒"/>
+                <TreeViewItem Header="警示装置"/>
+                <TreeViewItem Header="其他装置"/>
             </TreeViewItem>
         </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
@@ -43,7 +45,7 @@
             <dxg:GridControl.View>
                 <dxg:TableView ShowGroupPanel="False" ShowFilterPanelMode="Never">
                     <dxg:TableView.RowCellMenuCustomizations>
-                        <dxb:BarButtonItem Name="viewCopyRow" Content="复制行" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WireViewModel},AncestorLevel=3}, Path=CopyRowCommand}"/>
+                        <dxb:BarButtonItem Name="viewCopyRow" Content="复制行" />
                         <dxb:BarButtonItem Name="viewPasteRow" Content="粘贴行"  />
                         <dxb:BarButtonItem Name="viewDeleteRow" Content="删除行"  />
                         <dxb:BarButtonItem Name="viewEmptyRow" Content="清空行"  />
@@ -51,15 +53,10 @@
                     </dxg:TableView.RowCellMenuCustomizations>
                 </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="ModelSpecification"  Header="型号规格" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="WireType"  Header="线类型" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SectionArea"  Header="截面积(mm²)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="ExternalDiameter"  Header="外径(mm)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="UnitLengthMass"  Header="单位长度质量(km/mm)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="DCResistor"  Header="直流电阻(Ω)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="RatedBreakingForce"  Header="额定拉断力(N)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="ModulusElasticity"  Header="弹性模量" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="LineCoefficient"  Header="线性膨胀系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Name"  Header="型号" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Voltage"  Header="电压等级" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SecWind"  Header="受风面积" HorizontalHeaderContentAlignment="Center"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

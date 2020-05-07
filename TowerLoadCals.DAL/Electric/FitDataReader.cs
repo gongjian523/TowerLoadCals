@@ -1,45 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Xml;
 using TowerLoadCals.Common;
-using TowerLoadCals.Mode.Electric;
+using TowerLoadCals.Mode;
 
-namespace TowerLoadCals.DAL.Electric
+namespace TowerLoadCals.DAL
 {
-    public class FitDataReader
+    public  class FitDataReader
     {
-        public static List<FitData> Read(string path)
+        public static List<FitDataCollection> Read(string path)
         {
+            if (!File.Exists(path))
+                return new List<FitDataCollection>();
+
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
 
             XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
             if (rootNode == null)
-                return new List<FitData>();
+                return new List<FitDataCollection>();
 
-            List<FitData> list = new List<FitData>();
+            List<FitDataCollection> list = new List<FitDataCollection>();
 
-            foreach (XmlNode node in rootNode.ChildNodes)
+            foreach (XmlNode typeNode in rootNode.ChildNodes)
             {
-                FitData str = new FitData()
+                FitDataCollection collectionItem = new FitDataCollection()
                 {
-                    ID = Convert.ToInt16(node.Attributes["ID"].Value.ToString()),
-                    Name = node.Attributes["Name"].Value.ToString(),
-                    Type = node.Attributes["Type"].Value.ToString(),
-                    Weight = Convert.ToInt16(node.Attributes["Weight"].Value.ToString()),
-                    SecWind = Convert.ToInt16(node.Attributes["SecWind"].Value.ToString()),
+                    Type = typeNode.Attributes["Type"].Value.ToString(),
+                    FitDatas = new List<FitData>()
                 };
-                list.Add(str);
+
+                foreach (XmlNode node in typeNode.ChildNodes)
+                {
+                    FitData fitData = new FitData();
+
+                    if (node.Attributes["Name"] != null)
+                        fitData.Name = node.Attributes["Name"].Value.ToString();
+                    if (node.Attributes["Weight"] != null)
+                        fitData.Weight = Convert.ToInt16(node.Attributes["Weight"].Value.ToString());
+                    if (node.Attributes["Voltage"] != null)
+                        fitData.Voltage = Convert.ToInt16(node.Attributes["Voltage"].Value.ToString());
+                    if (node.Attributes["SecWind"] != null)
+                        fitData.SecWind = Convert.ToInt16(node.Attributes["SecWind"].Value.ToString());
+                 
+                    collectionItem.FitDatas.Add(fitData);
+                }
+
+                list.Add(collectionItem);
             }
 
             return list;
         }
 
-        public static void Save(string path, List<FitData> infos)
+        public static void Save(string path, List<FitDataCollection> infos)
         {
+            if (File.Exists(path))
+                File.Delete(path);
+
             XmlUtils.Save(path, infos);
         }
     }
