@@ -106,7 +106,6 @@ namespace TowerLoadCals.Modules
         }
 
 
-
         public override void Save()
         {
             List<WireType> wireType = new List<WireType>();

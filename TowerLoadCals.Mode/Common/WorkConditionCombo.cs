@@ -27,7 +27,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 
         /// </summary>
-        public string WindDirectionCode { get; set; }
+        public int WindDirectionCode { get; set; }
 
         /// <summary>
         /// 

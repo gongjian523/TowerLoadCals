@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using TowerLoadCals.Common;
 using TowerLoadCals.Common.Utils;
 using TowerLoadCals.DAL;
-using TowerLoadCals.DAL.Electric;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 using static TowerLoadCals.DAL.TowerTemplateReader;
@@ -749,9 +748,9 @@ namespace TowerLoadCals.Demo
                 List<StrData> list = new List<StrData>();
                 list.Add(new StrData
                 {
-                    ID = 0,
+                    //ID = 0,
                     Name = "string",
-                    Type = "type",
+                    StrType = "type",
                     Weight = 0,
                     FitLength = 0,
                     PieceLength = 0,
@@ -763,7 +762,7 @@ namespace TowerLoadCals.Demo
                     SoftLineLen = 0,
                 });
 
-                StrDataReader.Save(saveFileDialog.FileName, list);
+                //StrDataReader.Save(saveFileDialog.FileName, list);
             }
 
             return;

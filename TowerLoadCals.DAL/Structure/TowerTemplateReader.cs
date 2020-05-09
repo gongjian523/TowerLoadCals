@@ -158,13 +158,13 @@ namespace TowerLoadCals.DAL
 
             if (Type == TowerType.LineTower)
             {
-                combo.WindDirectionCode = aWords[iIndex];
+                combo.WindDirectionCode = Convert.ToInt16(aWords[iIndex]);
             }
             else if (Type == TowerType.LineCornerTower)
             {
                 combo.TensionAngleCode = Convert.ToInt16(aWords[iIndex]);
                 iIndex++;
-                combo.WindDirectionCode = aWords[iIndex];
+                combo.WindDirectionCode = Convert.ToInt16(aWords[iIndex]);
             }
             else
             {
@@ -172,7 +172,7 @@ namespace TowerLoadCals.DAL
                 iIndex++;
                 combo.VertialLoadCode = aWords[iIndex];
                 iIndex++;
-                combo.WindDirectionCode = aWords[iIndex];
+                combo.WindDirectionCode = Convert.ToInt16(aWords[iIndex]);
             }
 
             for (int i = 1; i <= WireNum; i++)

@@ -55,6 +55,7 @@
     <Compile Include="Electric\FitData.cs" />
     <Compile Include="Electric\FitDataCollection.cs" />
     <Compile Include="Electric\StrData.cs" />
+    <Compile Include="Electric\StrDataCollection.cs" />
     <Compile Include="Electric\PhaseWire.cs" />
     <Compile Include="Electric\SLXian.cs" />
     <Compile Include="Electric\TowerStrData.cs" />

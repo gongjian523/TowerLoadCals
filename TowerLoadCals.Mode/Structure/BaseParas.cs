@@ -152,7 +152,6 @@
         /// </summary>
         public float OtherWindAdjustFactor { get; set; }
 
-
         /// <summary>
         /// 动力系数         
         /// 旧名字 DX

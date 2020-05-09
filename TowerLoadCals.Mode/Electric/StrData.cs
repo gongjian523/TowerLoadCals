@@ -10,7 +10,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// ID 
         /// </summary>
-        public int ID { get; set; }
+        //public int ID { get; set; }
 
         /// <summary>
         /// 名字 
@@ -18,9 +18,9 @@ namespace TowerLoadCals.Mode
         public String Name { get; set; }
 
         /// <summary>
-        /// 类型 
+        /// 串类型 
         /// </summary>
-        public String Type { get; set; }
+        public String StrType { get; set; }
 
         /// <summary>
         /// 重量

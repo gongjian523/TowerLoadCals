@@ -102,11 +102,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ModulesViewModels\DaseDataBaseViewModel.cs" />
+    <Compile Include="ModulesViewModels\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\FitDataViewModel.cs" />
     <Compile Include="ModulesViewModels\WireViewModel.cs" />
     <Compile Include="Modules\BlankModule.xaml.cs">
       <DependentUpon>BlankModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\StrDataModule.xaml.cs">
+      <DependentUpon>StrDataModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\FitDataModule.xaml.cs">
       <DependentUpon>FitDataModule.xaml</DependentUpon>
@@ -135,6 +139,10 @@
     <Page Include="Modules\BlankModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\StrDataModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\FitDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
