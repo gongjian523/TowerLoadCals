@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Structure;
 
 namespace TowerLoadCals.BLL.Structure
 {
@@ -20,6 +21,11 @@ namespace TowerLoadCals.BLL.Structure
         /// 从界面获取的公共参数
         /// </summary>
         protected FormulaParas Paras { get; set; }
+
+        /// <summary>
+        /// 从界面获取的先参数
+        /// </summary>
+        protected StruLineParas LineParas { get; set; }
 
         /// <summary>
         /// 模板参数
@@ -45,25 +51,27 @@ namespace TowerLoadCals.BLL.Structure
         protected FormulaLineTower formula;
 
 
-        public LoadDistributeLineTower(FormulaParas para, TowerTemplate template, float[][] table)
+        public LoadDistributeLineTower(FormulaParas para,  StruLineParas lineParas,  TowerTemplate template, float[][] table)
         {
 
             ProcessString = new List<string>();
-            formula = new FormulaLineTower(para);
+            formula = new FormulaLineTower(para, lineParas);
 
             Paras = para;
+            LineParas = lineParas;
             Template = template;
 
             ConvertTable(table);
         }
 
-        public LoadDistributeLineTower(FormulaParas para, TowerTemplate template)
+        public LoadDistributeLineTower(FormulaParas para, StruLineParas lineParas, TowerTemplate template)
         {
 
             ProcessString = new List<string>();
-            formula = new FormulaLineTower(para);
+            formula = new FormulaLineTower(para, lineParas);
 
             Paras = para;
+            LineParas = lineParas;
             Template = template;
 
             GetTable();
@@ -77,7 +85,7 @@ namespace TowerLoadCals.BLL.Structure
 
         protected void GetTable()
         {
-            string strConn = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + "D:\\00-项目\\P-200325-杆塔负荷程序\\21.xlsx" + ";" + "Extended Properties=Excel 8.0;";
+            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;" + "Data Source=" + "D:\\00-项目\\P-200325-杆塔负荷程序\\21.xlsx" + ";" + "Extended Properties=Excel 12.0;";
             OleDbConnection conn = new OleDbConnection(strConn);
             conn.Open();
             string strExcel = "";
@@ -88,44 +96,28 @@ namespace TowerLoadCals.BLL.Structure
             ds = new DataSet();
             myCommand.Fill(ds, "table1");
 
-            //Wind = new float[][] { new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }};
-            //GMax = new float[][] { new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }};
-            //GMin = new float[][] { new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }};
-            //TensionMax = new float[][] { new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }};
-            //TensionMin = new float[][] { new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-            //new float[]{0,0,0,0,0,0,0,0 }, new float[] {0,0,0,0,0,0,0,0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }, new float[] { 0, 0, 0, 0, 0, 0, 0, 0 }};
+            //后续计算的序号从1开始
+            Wind = new float[Template.Wires.Count+1,Template.WorkConditongs.Count+1];
+            GMax = new float[Template.Wires.Count+1, Template.WorkConditongs.Count+1];
+            GMin = new float[Template.Wires.Count+1, Template.WorkConditongs.Count+1];
+            TensionMax = new float[Template.Wires.Count+1, Template.WorkConditongs.Count+1];
+            TensionMin = new float[Template.Wires.Count+1, Template.WorkConditongs.Count+1];
 
 
-            Wind = new float[Template.WorkConditongs.Count, Template.Wires.Count];
-            GMax = new float[Template.WorkConditongs.Count, Template.Wires.Count];
-            GMin = new float[Template.WorkConditongs.Count, Template.Wires.Count];
-            TensionMax = new float[Template.WorkConditongs.Count, Template.Wires.Count];
-            TensionMin = new float[Template.WorkConditongs.Count, Template.Wires.Count];
-
-
-            for (int j = 0; j < Template.WorkConditongs.Count; j++)
+            for (int j = 1; j <= Template.WorkConditongs.Count; j++)
             {
-                for(int i = 0; i < Template.Wires.Count;  i++ )
+                for(int i = 1; i <= Template.Wires.Count;  i++ )
                 {
-                    object obj = ds.Tables[0].Rows[4 + 6 * i][j+1];
-                    float.TryParse(obj.ToString(), out Wind[j,i]);
-                    object obj2 = ds.Tables[0].Rows[5 + 6 * i][j + 1];
-                    float.TryParse(obj2.ToString(), out GMax[j,i]);
-                    object obj3 = ds.Tables[0].Rows[6 + 6 * i][j + 1];
-                    float.TryParse(obj3.ToString(), out GMin[j,i]);
-                    object obj4 = ds.Tables[0].Rows[7 + 6 * i][j + 1];
-                    float.TryParse(obj4.ToString(), out TensionMax[j,i]);
-                    object obj5 = ds.Tables[0].Rows[8 + 6 * i][j + 1];
-                    float.TryParse(obj5.ToString(), out TensionMin[j,i]);
+                    object obj = ds.Tables[0].Rows[4 + 6 * (i-1)][j];
+                    float.TryParse(obj.ToString(), out Wind[i,j]);
+                    object obj2 = ds.Tables[0].Rows[5 + 6 * (i - 1)][j];
+                    float.TryParse(obj2.ToString(), out GMax[i,j]);
+                    object obj3 = ds.Tables[0].Rows[6 + 6 * (i - 1)][j];
+                    float.TryParse(obj3.ToString(), out GMin[i,j]);
+                    object obj4 = ds.Tables[0].Rows[7 + 6 * (i - 1)][j];
+                    float.TryParse(obj4.ToString(), out TensionMax[i,j]);
+                    object obj5 = ds.Tables[0].Rows[8 + 6 * (i - 1)][j];
+                    float.TryParse(obj5.ToString(), out TensionMin[i,j]);
                 }
             }
         }
@@ -138,7 +130,7 @@ namespace TowerLoadCals.BLL.Structure
             YY = new float[calNums, Template.Wires.Count];
             ZZ = new float[calNums, Template.Wires.Count];
 
-            int i = 0, j = 0;
+            int i = 0, j = 1;
 
             ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));
 
@@ -150,7 +142,7 @@ namespace TowerLoadCals.BLL.Structure
                 if (!wd.IsCalculate)
                     continue;
 
-                j = 0;
+                j = 1;
                 foreach(int wic in wd.WirdIndexCodes)
                 {
                     int zhs = wic;
@@ -288,7 +280,7 @@ namespace TowerLoadCals.BLL.Structure
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j];
+            int zhs = wd.WirdIndexCodes[j-1];
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
 
@@ -353,13 +345,13 @@ namespace TowerLoadCals.BLL.Structure
                 Vcb = Paras.VcFCold;
             }
 
-            XX[i,j] = formula.ZXNX(angle, x1, Vcb, out string strX);
-            YY[i,j] = formula.ZXNY(angle, x1, y1, y2, Vcb, out string strY);
-            ZZ[i,j] = formula.ZXNZ(zg, rg, Vcb, out string strZ);
+            XX[i,j-1] = formula.ZXNX(angle, x1, Vcb, out string strX);
+            YY[i,j-1] = formula.ZXNY(angle, x1, y1, y2, Vcb, out string strY);
+            ZZ[i,j-1] = formula.ZXNZ(zg, rg, Vcb, out string strZ);
 
-            ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-            ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-            ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+            ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+            ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+            ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
         }
 
         /// <summary>
@@ -376,7 +368,7 @@ namespace TowerLoadCals.BLL.Structure
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j];
+            int zhs = wd.WirdIndexCodes[j-1];
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -491,13 +483,13 @@ namespace TowerLoadCals.BLL.Structure
                 Vloadx = Paras.RA;
             }
         
-            XX[i,j] = formula.ZXIYX(angle, x1, fhn, Vloadx,out string strX);
-            YY[i,j] = formula.ZXIYY(angle, x1, y1, y2, fhn, Vloadx, out string strY);
-            ZZ[i,j] = formula.ZXIYZ(zg1, zg, rg, fhn, Vloadx, out string strZ);
+            XX[i, j - 1] = formula.ZXIYX(angle, x1, fhn, Vloadx,out string strX);
+            YY[i, j - 1] = formula.ZXIYY(angle, x1, y1, y2, fhn, Vloadx, out string strY);
+            ZZ[i, j - 1] = formula.ZXIYZ(zg1, zg, rg, fhn, Vloadx, out string strZ);
 
-            ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-            ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-            ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+            ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+            ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+            ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
         }
 
         /// <summary>
@@ -513,7 +505,7 @@ namespace TowerLoadCals.BLL.Structure
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j], zhsAM;
+            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -538,13 +530,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,Math.Abs(zhs)];
                 z2 = GMax[j,1];
 
-                XX[i,j] = formula.ZXTX(angle, x1, out string strX);
-                YY[i,j] = formula.ZXTY(angle, x1, y1, y2, fuhao, out string strY);
-                ZZ[i,j] = formula.ZXTZ2(z2, z1, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXTX(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXTY(angle, x1, y1, y2, fuhao, out string strY);
+                ZZ[i,j-1] = formula.ZXTZ2(z2, z1, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
             }
             else if(Math.Abs(zhs) > 1000)
@@ -575,23 +568,26 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMin[j,zhsAM];
                 z2 = GMin[j,1];
 
-                XX[i,j] = formula.ZXTX(angle, x1, out string strX);
-                YY[i,j] = formula.ZXTY(angle, x1, y1, y2, fuhao, out string strY);
-                ZZ[i,j] = formula.ZXTZ1(z2, z1, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXTX(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXTY(angle, x1, y1, y2, fuhao, out string strY);
+                ZZ[i,j-1] = formula.ZXTZ1(z2, z1, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
             }
             else if(zhs == 0)
             {
-                XX[i,j] = 0;
-                YY[i,j] = 0;
-                ZZ[i,j] = 0;
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = 0;
+                YY[i,j-1] = 0;
+                ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + 0);
+
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
             }
         }
 
@@ -609,7 +605,7 @@ namespace TowerLoadCals.BLL.Structure
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j], zhsAM;
+            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -632,13 +628,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,Math.Abs(zhs)];
                 z2 = GMin[j,Math.Abs(zhs)];
 
-                XX[i,j] = formula.ZXLX(angle, x1, out string strX);
-                YY[i,j] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j] = formula.ZXLZ1(z1, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
+                ZZ[i,j-1] = formula.ZXLZ1(z1, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
             }
             else if (zhs > 100 || zhs < -100)
@@ -664,7 +661,7 @@ namespace TowerLoadCals.BLL.Structure
                 {
                     fuhao = -1;
                     //此处为吊装荷载系数
-                    zg = Paras.diaoxi;
+                    zg = LineParas.HoistingCoef;
                     fhn = Math.Abs(zhs) / 1000;
                     zhsAM = Math.Abs(zhs) % 1000;
                 }
@@ -672,7 +669,7 @@ namespace TowerLoadCals.BLL.Structure
                 {
                     fuhao = 1;
                     //此处为吊装荷载系数
-                    zg = Paras.diaoxi;
+                    zg = LineParas.HoistingCoef;
                     fhn = Math.Abs(zhs) / 1000;
                     zhsAM = Math.Abs(zhs) % 1000;
                 }
@@ -697,23 +694,25 @@ namespace TowerLoadCals.BLL.Structure
                     y2 = TensionMax[j,zhsAM];
                 }
 
-                XX[i,j] = formula.ZXLX(angle, x1, out string strX);
-                YY[i,j] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j] = formula.ZXLZ2(z1, zg, Paras.fh * fhn, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
+                ZZ[i,j-1] = formula.ZXLZ2(z1, zg, LineParas.WireExtraLoad, fhn, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
             }
             else if (zhs == 0)
             {
-                XX[i,j] = 0;
-                YY[i,j] = 0;
-                ZZ[i,j] = 0;
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = 0;
+                YY[i,j-1] = 0;
+                ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
             }
         }
 
@@ -732,7 +731,7 @@ namespace TowerLoadCals.BLL.Structure
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j], zhsAM;
+            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -765,7 +764,7 @@ namespace TowerLoadCals.BLL.Structure
                 y1 = TensionMax[j,zhsAM];
                 y2 = TensionMin[j,zhsAM];
 
-                if (j <= Paras.dxl && y1 >= Paras.mz)
+                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
                 {
                     //地线有开段时
                     deta1 = y1;
@@ -775,7 +774,7 @@ namespace TowerLoadCals.BLL.Structure
                 else
                 {
                     //地线不开段和导线
-                    deta1 = Paras.mz;
+                    deta1 = LineParas.AnchorTension;
                     deta2 = Paras.AnchorAngle;
                     deta3 = Paras.AnchorAngle;
                 }
@@ -784,13 +783,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,zhsAM];
                 z2 = GMin[j,zhsAM];
 
-                XX[i,j] = formula.ZXMX2(angle, x1, out string strX);
-                YY[i,j] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j] = formula.ZXMZ2(z1, Paras.fh * fhn, deta1, deta3, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad * fhn, deta1, deta3, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
             }
             else if (Math.Abs(zhs) > 1000)
@@ -824,12 +824,12 @@ namespace TowerLoadCals.BLL.Structure
                     y1 = TensionMax[j,zhsAM];
                     y2 = TensionMin[j,zhsAM];
 
-                    if (j <= Paras.dxl && y1 >= Paras.mz)
+                    if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
                     {
                         //地线有开段时
                         if (y1 > 0)
                         {
-                            deta1 = y1 * Paras.gqx;
+                            deta1 = y1 * LineParas.DrawingCoef;
                         }
                         else
                         {
@@ -841,7 +841,7 @@ namespace TowerLoadCals.BLL.Structure
                     else
                     {
                         //地线不开段和导线
-                        deta1 = Paras.mz;
+                        deta1 = LineParas.AnchorTension;
                         deta2 = Paras.AnchorAngle;
                         deta3 = Paras.AnchorAngle;
                     }
@@ -853,12 +853,12 @@ namespace TowerLoadCals.BLL.Structure
                     y1 = -TensionMax[j,zhsAM];
                     y2 = -TensionMin[j,zhsAM];
 
-                    if (j <= Paras.dxl && Math.Abs(y1) >= Math.Abs(Paras.mz))
+                    if (j <= Paras.dxl && Math.Abs(y1) >= Math.Abs(LineParas.AnchorTension))
                     {
                         //地线有开段时
                         if (y1 < 0)
                         {
-                            deta1 = y1 * Paras.gqx;
+                            deta1 = y1 * LineParas.DrawingCoef;
                         }
                         else
                         {
@@ -871,28 +871,31 @@ namespace TowerLoadCals.BLL.Structure
                     else
                     {
                         //地线不开段和导线
-                        deta1 = -Paras.mz;
+                        deta1 = -LineParas.AnchorTension;
                         deta2 = Paras.AnchorAngle;
                         deta3 = Paras.AnchorAngle;
                     }
                 }
-                XX[i,j] = formula.ZXMX1(angle, x1, out string strX);
-                YY[i,j] = formula.ZXMY1(angle, x1, deta1, deta2, out string strY);
-                ZZ[i,j] = formula.ZXMZ1(z1, Paras.fh * fhn, deta1, deta3, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXMX1(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXMY1(angle, x1, deta1, deta2, out string strY);
+                ZZ[i,j-1] = formula.ZXMZ1(z1, LineParas.WireExtraLoad * fhn, deta1, deta3, out string strZ);
+
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
             }
             else if (zhs == 0)
             {
-                XX[i,j] = 0;
-                YY[i,j] = 0;
-                ZZ[i,j] = 0;
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = 0;
+                YY[i,j-1] = 0;
+                ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
             }
         }
 
@@ -910,7 +913,7 @@ namespace TowerLoadCals.BLL.Structure
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j], zhsAM;
+            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -924,14 +927,15 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,zhs];
                 z2 = GMin[j,zhs];
 
+                //j从1开始计数，但是XX YY ZZ 从0开始
                 //刚老师意见，无论开断与否，OPGW已架相均应该有荷载，与常规不符
-                XX[i,j] = formula.MO2X(angle, x1, out string strX);
-                YY[i,j] = formula.MO2Y(angle, x1, y1, y2, out string strY);
-                ZZ[i,j] = formula.MO2Z(z1, out string strZ);
+                XX[i,j-1] = formula.MO2X(angle, x1, out string strX);
+                YY[i,j-1] = formula.MO2Y(angle, x1, y1, y2, out string strY);
+                ZZ[i,j-1] = formula.MO2Z(z1, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
             }
             else if ( zhs > 1000)
@@ -948,36 +952,40 @@ namespace TowerLoadCals.BLL.Structure
                 //左地线
                 if( y1 > 0)
                 {
-                    deta1 = Paras.gqx;
-                    XX[i,j] = formula.MO1X(angle, x1, out string strX);
-                    XX[i,j] = formula.MO1Y(angle, x1, y1, deta1, y2, out string strY);
-                    XX[i,j] = formula.MO1Z(z1, y1, deta1, Paras.fh * fhn, out string strZ);
+                    //j从1开始计数，但是XX YY ZZ 从0开始
+                    deta1 = LineParas.DrawingCoef;
+                    XX[i,j-1] = formula.MO1X(angle, x1, out string strX);
+                    XX[i,j-1] = formula.MO1Y(angle, x1, y1, deta1, y2, out string strY);
+                    XX[i,j-1] = formula.MO1Z(z1, y1, deta1, LineParas.WireExtraLoad * fhn, out string strZ);
 
-                    ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                    ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                    ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                    ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
                 }
                 else
                 {
                     deta1 = 1;
-                    XX[i,j] = 0;
-                    YY[i,j] = 0;
-                    ZZ[i,j] = 0;
 
-                    ProcessString.Add(Template.Wires[j] + " Fx= " + 0);
-                    ProcessString.Add(Template.Wires[j] + " Fy= " + 0);
-                    ProcessString.Add(Template.Wires[j] + " Fz= " + 0);
+                    //j从1开始计数，但是XX YY ZZ 从0开始
+                    XX[i,j-1] = 0;
+                    YY[i,j-1] = 0;
+                    ZZ[i,j-1] = 0;
+
+                    ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
+                    ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
+                    ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
                 }
             }
             else if (zhs == 0)
             {
-                XX[i,j] = 0;
-                YY[i,j] = 0;
-                ZZ[i,j] = 0;
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = 0;
+                YY[i,j-1] = 0;
+                ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
             }
         }
 
@@ -996,7 +1004,7 @@ namespace TowerLoadCals.BLL.Structure
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j], zhsAM;
+            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -1020,13 +1028,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,Math.Abs(zhs)];
                 z2 = GMin[j,Math.Abs(zhs)];
 
-                XX[i,j] = formula.ZXLX(angle, x1, out string strX);
-                YY[i,j] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j] = formula.ZXLZ1(z1, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
+                ZZ[i,j-1] = formula.ZXLZ1(z1, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
             }
             else if ( Math.Abs(zhs) > 100 && Math.Abs(zhs) < 1000)
@@ -1052,7 +1061,7 @@ namespace TowerLoadCals.BLL.Structure
                 y1 = TensionMax[j,zhsAM];
                 y2 = TensionMin[j,zhsAM];
 
-                if (j <= Paras.dxl && y1 >= Paras.mz)
+                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
                 {
                     //地线有开段时
                     deta1 = y1;
@@ -1062,7 +1071,7 @@ namespace TowerLoadCals.BLL.Structure
                 else
                 {
                     //地线不开段和导线
-                    deta1 = Paras.mz;
+                    deta1 = LineParas.AnchorTension;
                     deta2 = Paras.AnchorAngle;
                     deta3 = Paras.AnchorAngle;
                 }
@@ -1071,13 +1080,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,zhsAM];
                 z2 = GMin[j,zhsAM];
 
-                XX[i,j] = formula.ZXMX2(angle, x1, out string strX);
-                YY[i,j] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j] = formula.ZXMZ2(z1, Paras.fh * fhn, deta1, deta3, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad * fhn, deta1, deta3, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-               ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+               ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
                 
             }
             else if ( Math.Abs(zhs) > 1000)
@@ -1112,13 +1122,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,1];
                 z2 = GMax[j,zhsAM];
 
-                XX[i,j] = formula.GLX(angle, x1, out string strX);
-                YY[i,j] = formula.GLY(angle, x1, y1, out string strY);
-                ZZ[i,j] = formula.GLZ(z1, z2, Paras.fh* fhn, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.GLX(angle, x1, out string strX);
+                YY[i,j-1] = formula.GLY(angle, x1, y1, out string strY);
+                ZZ[i,j-1] = formula.GLZ(z1, z2, LineParas.WireExtraLoad* fhn, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
                 //TODO
                 //If Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
@@ -1147,13 +1158,14 @@ namespace TowerLoadCals.BLL.Structure
             }
             else if (zhs == 0)
             {
-                XX[i,j] = 0;
-                YY[i,j] = 0;
-                ZZ[i,j] = 0;
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = 0;
+                YY[i,j-1] = 0;
+                ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
             }
         }
 
@@ -1172,7 +1184,7 @@ namespace TowerLoadCals.BLL.Structure
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j], zhsAM;
+            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -1196,13 +1208,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,Math.Abs(zhs)];
                 z2 = GMin[j,Math.Abs(zhs)];
 
-                XX[i,j] = formula.ZXLX(angle, x1, out string strX);
-                YY[i,j] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j] = formula.ZXLZ1(z1, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
+                ZZ[i,j-1] = formula.ZXLZ1(z1, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
             }
             else if (Math.Abs(zhs) > 100 && Math.Abs(zhs) < 1000)
@@ -1228,7 +1241,7 @@ namespace TowerLoadCals.BLL.Structure
                 y1 = TensionMax[j,zhsAM];
                 y2 = TensionMin[j,zhsAM];
 
-                if (j <= Paras.dxl && y1 >= Paras.mz)
+                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
                 {
                     //地线有开段时
                     deta1 = y1;
@@ -1238,7 +1251,7 @@ namespace TowerLoadCals.BLL.Structure
                 else
                 {
                     //地线不开段和导线
-                    deta1 = Paras.mz;
+                    deta1 = LineParas.AnchorTension;
                     deta2 = Paras.AnchorAngle;
                     deta3 = Paras.AnchorAngle;
                 }
@@ -1247,13 +1260,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,zhsAM];
                 z2 = GMin[j,zhsAM];
 
-                XX[i,j] = formula.ZXMX2(angle, x1, out string strX);
-                YY[i,j] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j] = formula.ZXMZ2(z1, Paras.fh * fhn, deta1, deta3, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad * fhn, deta1, deta3, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
             }
             else if (Math.Abs(zhs) > 1000)
@@ -1280,13 +1294,14 @@ namespace TowerLoadCals.BLL.Structure
                 z1 = GMax[j,zhsAM];
                 z2 = GMin[j,zhsAM];
 
-                XX[i,j] = formula.ZXCX(angle, x1, out string strX);
-                YY[i,j] = formula.ZXCY(angle, x1, Paras.diaoxi, z1, out string strY);
-                ZZ[i,j] = formula.ZXCZ(Paras.fh * fhn, Paras.diaoxi, z1, out string strZ);
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = formula.ZXCX(angle, x1, out string strX);
+                YY[i,j-1] = formula.ZXCY(angle, x1, LineParas.HoistingCoef, z1, out string strY);
+                ZZ[i,j-1] = formula.ZXCZ(LineParas.WireExtraLoad * fhn, LineParas.HoistingCoef, z1, out string strZ);
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + strZ);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
                 //TODO
                 //Dim angf%
@@ -1316,13 +1331,14 @@ namespace TowerLoadCals.BLL.Structure
             }
             else if (zhs == 0)
             {
-                XX[i,j] = 0;
-                YY[i,j] = 0;
-                ZZ[i,j] = 0;
+                //j从1开始计数，但是XX YY ZZ 从0开始
+                XX[i,j-1] = 0;
+                YY[i,j-1] = 0;
+                ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
             }
         }
     }

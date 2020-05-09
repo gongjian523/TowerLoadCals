@@ -10,7 +10,6 @@ using TowerLoadCals.Common;
 using TowerLoadCals.Common.Utils;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
-using TowerLoadCals.Mode.Electric;
 using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Demo
@@ -865,7 +864,7 @@ namespace TowerLoadCals.Demo
                     MaxAngHorSpan = 220,
                 });
 
-                TowerStrDataReader.Save(saveFileDialog.FileName, list);
+                //TowerStrDataReader.Save(saveFileDialog.FileName, list);
             }
 
             return;

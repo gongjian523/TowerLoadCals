@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Structure;
 
 namespace TowerLoadCals.BLL
 {
     public class FormulaLineTower: FormulaTower
     {
-        public FormulaLineTower(FormulaParas paras) :base(paras)
+        public FormulaLineTower(FormulaParas paras, StruLineParas lineParas) : base(paras, lineParas)
         {
         }
 
@@ -40,7 +41,7 @@ namespace TowerLoadCals.BLL
         public float ZXNY(float a1, float a2, float a3, float a4, float a5, out string str)
         {
             float res = Paras.LoadRatio * Paras.RQ * a5 * (Paras.WindAdjustFactor * AngY(a1) * a2 + (a3 - a4));
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + a5 + " x (" + Paras.WindAdjustFactor + " x " + AngY(a1) + " x " + a2 + "+ ( " + a3 + " - " +  a4 + ")) = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + a5 + " x (" + Paras.WindAdjustFactor + " x " + AngY(a1) + " x " + a2 + "+ (" + a3 + " - " +  a4 + ")) = " + res.ToString("0.00");
             return res;
         }
 
@@ -157,7 +158,7 @@ namespace TowerLoadCals.BLL
         public float ZXLY(float a1, float a2, float a3, float a4, out string str)
         {
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a2 + (a3 - a4));
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + ( " + a3 + " - " + a4 +"))= " + res.ToString("0.00"); 
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + (" + a3 + " - " + a4 +"))= " + res.ToString("0.00"); 
             return res;
         }
 
@@ -191,11 +192,11 @@ namespace TowerLoadCals.BLL
         /// <param name="a2"></param>
         /// <param name="a3"></param>
         /// <returns></returns>
-        public float ZXLZ2(float a1, float a2, float a3, out string str)
+        public float ZXLZ2(float a1, float a2, float a3, float a4, out string str)
         {
             //a2 a3 为吊装系数和附加荷载，导地线不同
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a1 * Paras.DynamicCoef * a2 + a3);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a1 + " x " + Paras.DynamicCoef + " x " + a2 + " + " + a3 + ") = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a1 + " x " + Paras.DynamicCoef + " x " + a2 + " + " + a3 + " x " + a4  + ") = " + res.ToString("0.00");
             return res;
         }
 

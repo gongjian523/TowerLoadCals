@@ -105,6 +105,7 @@
     <Compile Include="ModulesViewModels\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\FitDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\WireViewModel.cs" />
     <Compile Include="Modules\BlankModule.xaml.cs">
       <DependentUpon>BlankModule.xaml</DependentUpon>
@@ -114,6 +115,9 @@
     </Compile>
     <Compile Include="Modules\FitDataModule.xaml.cs">
       <DependentUpon>FitDataModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TowerModule.xaml.cs">
+      <DependentUpon>TowerModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\WireModule.xaml.cs">
       <DependentUpon>WireModule.xaml</DependentUpon>
@@ -145,6 +149,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\FitDataModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\TowerModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

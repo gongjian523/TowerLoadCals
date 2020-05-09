@@ -154,6 +154,7 @@ namespace TowerLoadCals
             Modules = new List<ModuleInfo>() {
                 ViewModelSource.Create(() => new ModuleInfo("WeatherConditionModule", this, "气象条件")),
                 ViewModelSource.Create(() => new ModuleInfo("WireModule", this, "导地线")),
+                ViewModelSource.Create(() => new ModuleInfo("TowerModule", this, "杆塔")),
                 ViewModelSource.Create(() => new ModuleInfo("StrDataModule", this, "绝缘子串")),
                 ViewModelSource.Create(() => new ModuleInfo("FitDataModule", this, "其他金具")),
             };

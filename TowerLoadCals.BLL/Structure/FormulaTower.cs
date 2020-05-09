@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Structure;
 
 namespace TowerLoadCals.BLL
 {
@@ -11,15 +12,18 @@ namespace TowerLoadCals.BLL
     {
         protected FormulaParas Paras { get; set; }
 
+        protected StruLineParas LineParas { get; set; }
+
         protected float PI { get
             {
                 return 3.14f;
             }
         }
 
-        public FormulaTower(FormulaParas paras)
+        public FormulaTower(FormulaParas paras, StruLineParas lineParas)
         {
             Paras = paras;
+            LineParas = lineParas;
         }
 
         #region 直线塔
@@ -68,11 +72,11 @@ namespace TowerLoadCals.BLL
             else if (fenxiang == 45)
                 return 0.15f;
             else if (fenxiang == 0)
-                return 0;
+                return 0.25f;
             else if (fenxiang == -90)
                 return 0;
             else if (fenxiang == -60)
-                return -0;
+                return 0;
             else if (fenxiang == -45)
                 return -0.15f;
             else

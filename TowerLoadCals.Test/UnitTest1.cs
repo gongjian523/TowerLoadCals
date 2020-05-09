@@ -7,6 +7,7 @@ using TowerLoadCals.BLL.Structure;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Structure;
 using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Test
@@ -41,6 +42,7 @@ namespace TowerLoadCals.Test
 
             FormulaParas formulaParas = new FormulaParas();
 
+            formulaParas.LoadRatio = 1;
 
             //结构重要性系数
             formulaParas.R1Install = 1f;
@@ -66,8 +68,9 @@ namespace TowerLoadCals.Test
             formulaParas.AnchorGravityCoef = 0.8f;
             formulaParas.AnchorAngle = 25f;
 
+            StruLineParas lineParas = new StruLineParas();
 
-            LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(formulaParas,template);
+            LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(formulaParas, lineParas, template);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 
