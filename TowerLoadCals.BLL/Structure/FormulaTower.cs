@@ -20,12 +20,17 @@ namespace TowerLoadCals.BLL
             }
         }
 
-        public FormulaTower(FormulaParas paras, StruLineParas lineParas)
+        public FormulaTower(FormulaParas paras)
         {
             Paras = paras;
-            LineParas = lineParas;
         }
 
+        //不能在构造函数中赋值，这个参数在不同线条上取值不一样
+        public void SetStrLineParas(StruLineParas lineParas)
+        {
+            LineParas = lineParas;
+        }
+        
         #region 直线塔
 
         /// <summary>

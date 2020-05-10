@@ -25,6 +25,7 @@ namespace TowerLoadCals.BLL.Structure
         /// <summary>
         /// 从界面获取的先参数
         /// </summary>
+        protected StruLineParas[] LineParasArr { get; set; }
         protected StruLineParas LineParas { get; set; }
 
         /// <summary>
@@ -51,27 +52,27 @@ namespace TowerLoadCals.BLL.Structure
         protected FormulaLineTower formula;
 
 
-        public LoadDistributeLineTower(FormulaParas para,  StruLineParas lineParas,  TowerTemplate template, float[][] table)
+        public LoadDistributeLineTower(FormulaParas para,  StruLineParas[] lineParas,  TowerTemplate template, float[][] table)
         {
 
             ProcessString = new List<string>();
-            formula = new FormulaLineTower(para, lineParas);
+            formula = new FormulaLineTower(para);
 
             Paras = para;
-            LineParas = lineParas;
+            LineParasArr = lineParas;
             Template = template;
 
             ConvertTable(table);
         }
 
-        public LoadDistributeLineTower(FormulaParas para, StruLineParas lineParas, TowerTemplate template)
+        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template)
         {
 
             ProcessString = new List<string>();
-            formula = new FormulaLineTower(para, lineParas);
+            formula = new FormulaLineTower(para);
 
             Paras = para;
-            LineParas = lineParas;
+            LineParasArr = lineParas;
             Template = template;
 
             GetTable();
@@ -143,8 +144,11 @@ namespace TowerLoadCals.BLL.Structure
                     continue;
 
                 j = 1;
-                foreach(int wic in wd.WirdIndexCodes)
+                foreach (int wic in wd.WirdIndexCodes)
                 {
+                    LineParas = LineParasArr[j - 1];
+                    formula.SetStrLineParas(LineParas);
+
                     int zhs = wic;
 
                     switch (wd.WorkConditionCode)
@@ -375,7 +379,7 @@ namespace TowerLoadCals.BLL.Structure
 
             int zhsM = (Math.Abs(zhs)) % 1000;
 
-            if (zhs != 0)
+            if (zhs > 0)
             {
                 x1 = Wind[j, zhsM];
                 y1 = TensionMax[j, zhsM];
@@ -386,6 +390,18 @@ namespace TowerLoadCals.BLL.Structure
                 z3 = GMin[j, zhsM];
                 //第一列必须为正常运行大风工况
                 z4 = GMin[j,1];
+            }
+            else if(zhs < 0)
+            {
+                x1 = Wind[j, zhsM];
+                y1 = TensionMin[j, zhsM];
+                y2 = TensionMax[j, zhsM];
+                z1 = GMax[j, zhsM];
+                //第一列必须为正常运行大风工况
+                z2 = GMax[j, 1];
+                z3 = GMin[j, zhsM];
+                //第一列必须为正常运行大风工况
+                z4 = GMin[j, 1];
             }
             else 
             {
@@ -585,9 +601,9 @@ namespace TowerLoadCals.BLL.Structure
                 ZZ[i,j-1] = 0;
 
 
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
             }
         }
 
@@ -710,9 +726,9 @@ namespace TowerLoadCals.BLL.Structure
                 YY[i,j-1] = 0;
                 ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
             }
         }
 
@@ -786,7 +802,7 @@ namespace TowerLoadCals.BLL.Structure
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad * fhn, deta1, deta3, out string strZ);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad, fhn, deta1, deta3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -880,7 +896,7 @@ namespace TowerLoadCals.BLL.Structure
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXMX1(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXMY1(angle, x1, deta1, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ1(z1, LineParas.WireExtraLoad * fhn, deta1, deta3, out string strZ);
+                ZZ[i,j-1] = formula.ZXMZ1(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -893,9 +909,9 @@ namespace TowerLoadCals.BLL.Structure
                 YY[i,j-1] = 0;
                 ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
             }
         }
 
@@ -956,7 +972,7 @@ namespace TowerLoadCals.BLL.Structure
                     deta1 = LineParas.DrawingCoef;
                     XX[i,j-1] = formula.MO1X(angle, x1, out string strX);
                     XX[i,j-1] = formula.MO1Y(angle, x1, y1, deta1, y2, out string strY);
-                    XX[i,j-1] = formula.MO1Z(z1, y1, deta1, LineParas.WireExtraLoad * fhn, out string strZ);
+                    XX[i,j-1] = formula.MO1Z(z1, y1, deta1, LineParas.WireExtraLoad , fhn, out string strZ);
 
                     ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                     ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -971,9 +987,9 @@ namespace TowerLoadCals.BLL.Structure
                     YY[i,j-1] = 0;
                     ZZ[i,j-1] = 0;
 
-                    ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
-                    ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
-                    ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
+                    ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
+                    ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
+                    ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
                 }
             }
             else if (zhs == 0)
@@ -983,9 +999,9 @@ namespace TowerLoadCals.BLL.Structure
                 YY[i,j-1] = 0;
                 ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
             }
         }
 
@@ -1083,7 +1099,7 @@ namespace TowerLoadCals.BLL.Structure
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad * fhn, deta1, deta3, out string strZ);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1125,7 +1141,7 @@ namespace TowerLoadCals.BLL.Structure
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.GLX(angle, x1, out string strX);
                 YY[i,j-1] = formula.GLY(angle, x1, y1, out string strY);
-                ZZ[i,j-1] = formula.GLZ(z1, z2, LineParas.WireExtraLoad* fhn, out string strZ);
+                ZZ[i,j-1] = formula.GLZ(z1, z2, LineParas.WireExtraLoad, fhn, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1163,9 +1179,9 @@ namespace TowerLoadCals.BLL.Structure
                 YY[i,j-1] = 0;
                 ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
             }
         }
 
@@ -1263,7 +1279,7 @@ namespace TowerLoadCals.BLL.Structure
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad * fhn, deta1, deta3, out string strZ);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1336,9 +1352,9 @@ namespace TowerLoadCals.BLL.Structure
                 YY[i,j-1] = 0;
                 ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + 0);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + 0);
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
             }
         }
     }

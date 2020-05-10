@@ -10,7 +10,7 @@ namespace TowerLoadCals.BLL
 {
     public class FormulaLineTower: FormulaTower
     {
-        public FormulaLineTower(FormulaParas paras, StruLineParas lineParas) : base(paras, lineParas)
+        public FormulaLineTower(FormulaParas paras) : base(paras)
         {
         }
 
@@ -101,7 +101,7 @@ namespace TowerLoadCals.BLL
         public float ZXIYY(float a1, float a2, float a3, float a4, float a5, float a6, out string str)
         {
             float res = Paras.LoadRatio * a6 * a5 * (Paras.OtherWindAdjustFactor * AngY(a1) * a2 + (a3 - a4));
-            str = Paras.LoadRatio + " x " + a6 + " x " + a5 + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2  + "+ (" + a3 + " - " + a4 + ")) = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + a6 + " x " + a5 + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2  + " + (" + a3 + " - " + a4 + ")) = " + res.ToString("0.00");
             return res;
         }
 
@@ -226,7 +226,7 @@ namespace TowerLoadCals.BLL
         public float ZXMY2(float a1, float a2, float a3, float a4, out string str)
         {
             float res = Paras.LoadRatio * Paras.AnchorWindCoef * Paras.RQ * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngY(a1) * a2 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a3 * (1 - (float)Math.Cos(a4 * PI / 180));
-            str = Paras.LoadRatio + " x " + Paras.AnchorWindCoef + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a3 + " x (1 - cos(" + (a4 * PI / 180).ToString("0.0") +")) = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.AnchorWindCoef + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a3 + " x (1 - cos(" + a4 + ")) = " + res.ToString("0.00");
             return res;
         }
 
@@ -239,10 +239,10 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float ZXMZ2(float a1, float a2, float a3, float a4, out string str)
+        public float ZXMZ2(float a1, float a21, float a22, float a3, float a4, out string str)
         {
-            float res =  Paras.LoadRatio * Paras.RGBad * Paras.AnchorGravityCoef * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * (float)Math.Sin(a4 * PI /180) + a2);
-            str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + Paras.AnchorGravityCoef + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " +  Paras.VcFInstall + " x (" + a3 + " x sin(" + (a4 * PI / 180).ToString("0.0") + ") + " + a2 + ") = " + res.ToString("0.00");
+            float res =  Paras.LoadRatio * Paras.RGBad * Paras.AnchorGravityCoef * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * (float)Math.Sin(a4 * PI /180) + a21 * a22);
+            str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + Paras.AnchorGravityCoef + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " +  Paras.VcFInstall + " x (" + a3 + " x sin(" + a4 + ") + " + a21 + " x " + a22  + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -283,18 +283,18 @@ namespace TowerLoadCals.BLL
         /// <param name="a2"></param>
         /// <param name="a3"></param>
         /// <returns></returns>
-        public float GLZ(float a1, float a2, float a3, out string str)
+        public float GLZ(float a1, float a2, float a31,float a32,  out string str)
         {
             if (a1 >= 0)
             {
-                float res = Paras.LoadRatio * Paras.RGBad * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * ((a2 - a1) + a3);
-                str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x ((" + a2 + " - " + a1 + " ) +  " + a3 + ") = " + res.ToString("0.00");
+                float res = Paras.LoadRatio * Paras.RGBad * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * ((a2 - a1) + a31 * a32);
+                str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x ((" + a2 + " - " + a1 + " ) +  " + a31 + " x " + a32 + ") = " + res.ToString("0.00");
                 return res;
             }
             else
             {
-                float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a2 - 0) + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a3;
-                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a2 + " - 0) + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a3 + " = " + res.ToString("0.00");
+                float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a2 - 0) + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a31 * a32;
+                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a2 + " - 0) + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a31 + " x " + a32 + " = " + res.ToString("0.00");
                 return res;
             }
                 
@@ -342,7 +342,7 @@ namespace TowerLoadCals.BLL
         public float ZXCZ(float a2, float a3, float a4, out string str)
         {
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a3 * a4 * (float)Math.Sin(90 * PI / 180) + a2);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a3 + " x " + a4 + " x  sin(" + (90 * PI / 180).ToString("0.0") + ") + " + a2 + ") = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a3 + " x " + a4 + " x  sin(" + 90 + ") + " + a2 + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -372,7 +372,7 @@ namespace TowerLoadCals.BLL
         public float ZXMY1(float a1, float a2, float a3, float a4, out string str)
         {
             float res = Paras.LoadRatio * Paras.AnchorWindCoef * Paras.RQ * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngY(a1) * a2 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * Paras.DynamicCoef * a3 * (1 - (float)Math.Cos(a4 * PI / 180));
-            str = Paras.LoadRatio + " x " + Paras.AnchorWindCoef + " x " + Paras.RQ * Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.DynamicCoef + " x " + a3 + " x (1 - cos(" + (a4 * PI / 180).ToString("0.0") + ")) = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.AnchorWindCoef + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.DynamicCoef + " x " + a3 + " x (1 - cos(" + a4 + ")) = " + res.ToString("0.00");
             return res;
         }
 
@@ -385,10 +385,10 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float ZXMZ1(float a1, float a2, float a3, float a4, out string str)
+        public float ZXMZ1(float a1, float a21, float a22, float a3, float a4, out string str)
         {
-            float res = Paras.LoadRatio * Paras.RGBad * Paras.AnchorGravityCoef * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a3 * (float)Math.Sin(a4 * PI / 180) + a2);
-            str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + Paras.AnchorGravityCoef + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a3 + " x sin(" + (a4 * PI / 180).ToString("0.0") + ") + "+ a2 + ") = " + res.ToString("0.00");
+            float res = Paras.LoadRatio * Paras.RGBad * Paras.AnchorGravityCoef * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a3 * (float)Math.Sin(a4 * PI / 180) + a21 * a22);
+            str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + Paras.AnchorGravityCoef + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a3 + " x sin(" + a4  + ") + "+ a21 + " x " + a22 + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -421,7 +421,7 @@ namespace TowerLoadCals.BLL
         public float MO1Y(float a1, float a2, float a3, float a4, float a5, out string str)
         {
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngY(a1) * a2 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 - a4 * Paras.DynamicCoef * a5 * (1 - (float)Math.Cos(Paras.AnchorAngle * PI / 180)));
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " - " + a4 + " x " + Paras.DynamicCoef + " x " + a5 + " x (" + 1 + " - cos( " + (Paras.AnchorAngle * PI / 180).ToString("0.0") + "))) = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " - " + a4 + " x " + Paras.DynamicCoef + " x " + a5 + " x (" + 1 + " - cos( " + Paras.AnchorAngle  + "))) = " + res.ToString("0.00");
             return res;
         }
 
@@ -435,18 +435,18 @@ namespace TowerLoadCals.BLL
         /// <param name="a4"></param>
         /// <param name="a5"></param>
         /// <returns></returns>
-        public float MO1Z(float a1, float a3, float a4, float a5, out string str)
+        public float MO1Z(float a1, float a3, float a4, float a51, float a52, out string str)
         {
             if (a1 >= 0)
             {
-                float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * Paras.DynamicCoef * a4 * (float)Math.Sin(Paras.AnchorAngle * PI / 180) + a5) + Paras.LoadRatio * Paras.RGBad * a1;
-                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " x " + Paras.DynamicCoef + " x " + a4 + " x sin(" + (Paras.AnchorAngle * PI / 180).ToString("0.0") +") + "  + a5 + ") + " +  Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " = " + res.ToString("0.00");
+                float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * Paras.DynamicCoef * a4 * (float)Math.Sin(Paras.AnchorAngle * PI / 180) + a51 * a52) + Paras.LoadRatio * Paras.RGBad * a1;
+                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " x " + Paras.DynamicCoef + " x " + a4 + " x sin(" + Paras.AnchorAngle  +") + "  + a51 + " x " + a52  + ") + " +  Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " = " + res.ToString("0.00");
                 return res;
             }
             else
             {
-                float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * Paras.DynamicCoef * a4 * (float)Math.Sin(Paras.AnchorAngle * PI / 180) + a5) + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a1;
-                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " x " + Paras.DynamicCoef + " x " + a4 + " x sin(" + (Paras.AnchorAngle * PI / 180).ToString("0.0") + ") + " + a5 + ") + "  + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a1 + " = " + res.ToString("0.00");
+                float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * Paras.DynamicCoef * a4 * (float)Math.Sin(Paras.AnchorAngle * PI / 180) + a51 * a52) + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a1;
+                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " x " + Paras.DynamicCoef + " x " + a4 + " x sin(" + Paras.AnchorAngle  + ") + " + a51 + " x " + a52 + ") + "  + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a1 + " = " + res.ToString("0.00");
                 return res;
             }
         }
@@ -479,7 +479,7 @@ namespace TowerLoadCals.BLL
         public float MO2Y(float a1, float a2, float a3, float a4, out string str)
         {
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a2 + (a3 - a4) * 0);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + ( " + a3 + " - " + a4 + ") x 0) = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + (" + a3 + " - " + a4 + ") x 0) = " + res.ToString("0.00");
             return res;
         }
 

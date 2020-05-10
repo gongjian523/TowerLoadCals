@@ -52,6 +52,7 @@ namespace TowerLoadCals.Test
             formulaParas.RGBad = 1.3f;
             formulaParas.RGGood = 1.05f;
             formulaParas.RQ = 1.5f;
+            formulaParas.RGCheck01 = 1.3f;
 
             //可变荷载组合系数
             formulaParas.VcFNormal = 1.1f;
@@ -68,7 +69,74 @@ namespace TowerLoadCals.Test
             formulaParas.AnchorGravityCoef = 0.8f;
             formulaParas.AnchorAngle = 25f;
 
-            StruLineParas lineParas = new StruLineParas();
+            formulaParas.RA = 1.5f;
+
+            StruLineParas[] lineParas = new StruLineParas[] {
+                new StruLineParas
+                {
+                    HoistingCoef = 2.5f,
+                    WireExtraLoad = 4,
+                    AnchorTension = 61.20f,
+                    PulleyTensionDif = 0,
+                    DrawingCoef = 1.3f
+                },
+                new StruLineParas
+                {
+                    HoistingCoef = 2.5f,
+                    WireExtraLoad = 4,
+                    AnchorTension = 61.20f,
+                    PulleyTensionDif = 0,
+                    DrawingCoef = 1.3f
+                },
+                new StruLineParas
+                {
+                    HoistingCoef = 2.5f,
+                    WireExtraLoad = 8,
+                    AnchorTension = 375.23f,
+                    PulleyTensionDif = 50,
+                    DrawingCoef = 1.3f
+                },
+                 new StruLineParas
+                {
+                    HoistingCoef = 2.5f,
+                    WireExtraLoad = 8,
+                    AnchorTension = 375.23f,
+                    PulleyTensionDif = 50,
+                    DrawingCoef = 1.3f
+                },
+                new StruLineParas
+                {
+                    HoistingCoef = 2.5f,
+                    WireExtraLoad = 8,
+                    AnchorTension = 375.23f,
+                    PulleyTensionDif = 50,
+                    DrawingCoef = 1.3f
+                },
+                                new StruLineParas
+                {
+                    HoistingCoef = 2.5f,
+                    WireExtraLoad = 8,
+                    AnchorTension = 375.23f,
+                    PulleyTensionDif = 50,
+                    DrawingCoef = 1.3f
+                },
+                 new StruLineParas
+                {
+                    HoistingCoef = 2.5f,
+                    WireExtraLoad = 8,
+                    AnchorTension = 375.23f,
+                    PulleyTensionDif = 50,
+                    DrawingCoef = 1.3f
+                },
+                new StruLineParas
+                {
+                    HoistingCoef = 2.5f,
+                    WireExtraLoad = 8,
+                    AnchorTension = 375.23f,
+                    PulleyTensionDif = 50,
+                    DrawingCoef = 1.3f
+                }
+            };
 
             LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(formulaParas, lineParas, template);
 
