@@ -37,7 +37,6 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -178,7 +177,6 @@
                         </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                 </dxr:RibbonDefaultPageCategory>
-
                 <dxr:RibbonControl.ToolbarItemLinks>
                     <dxb:BarButtonItemLink BarItemName="bOpen"/>
                     <dxb:BarButtonItemLink BarItemName="bSave"/>
@@ -187,7 +185,7 @@
                 </dxr:RibbonControl.ToolbarItemLinks>
             </dxr:RibbonControl>
 
-            <dxdo:DockLayoutManager Grid.Row="2" Margin="6">
+            <dxdo:DockLayoutManager Grid.Row="1" Margin="6">
                 <dxdo:LayoutGroup Caption="LayoutRoot">
                     <dxdo:LayoutPanel Caption="WPF Products" ItemWidth="{Binding ElementName=accordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
                                       AllowClose="False" ShowCaption="False" Name="layoutPanel" AllowSizing="False">
@@ -208,9 +206,9 @@
                                     <Setter Property="ExpandButtonPosition" Value="None" />
                                 </Style>
                             </dxa:AccordionControl.ItemContainerStyle>
-                            <dxmvvm:Interaction.Triggers>
+                            <!--<dxmvvm:Interaction.Triggers>
                                 <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding OnModulesLoadedCommand}" />
-                            </dxmvvm:Interaction.Triggers>
+                            </dxmvvm:Interaction.Triggers>-->
                         </dxa:AccordionControl>
                     </dxdo:LayoutPanel>
                     <dxdo:LayoutPanel AllowClose="False" AllowFloat="False" AllowHide="False" ShowCaption="False" ShowBorder="False" ShowCloseButton="False">
@@ -234,7 +232,7 @@
                     </dxdo:LayoutPanel>
                 </dxdo:LayoutGroup>
             </dxdo:DockLayoutManager>
-            <dxr:RibbonStatusBarControl x:Name="statusBar" Grid.Row="3">
+            <dxr:RibbonStatusBarControl x:Name="statusBar" Grid.Row="2">
                 <dxr:RibbonStatusBarControl.RightItems>
                     <dxb:BarCheckItem x:Name="layoutNormal" IsChecked="{Binding IsExpanded, ElementName=accordion, Mode=TwoWay}" />
                     <dxb:BarCheckItem x:Name="layoutReading" IsChecked="{Binding IsExpanded, ElementName=accordion, Mode=TwoWay, Converter={dxmvvm:BooleanNegationConverter}}" />

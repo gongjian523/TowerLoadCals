@@ -152,11 +152,12 @@ namespace TowerLoadCals
         protected void LoadModules()
         {
             Modules = new List<ModuleInfo>() {
-                ViewModelSource.Create(() => new ModuleInfo("WeatherConditionModule", this, "气象条件")),
-                ViewModelSource.Create(() => new ModuleInfo("WireModule", this, "导地线")),
-                ViewModelSource.Create(() => new ModuleInfo("TowerModule", this, "杆塔")),
-                ViewModelSource.Create(() => new ModuleInfo("StrDataModule", this, "绝缘子串")),
-                ViewModelSource.Create(() => new ModuleInfo("FitDataModule", this, "其他金具")),
+                //ViewModelSource.Create(() => new ModuleInfo("WeatherConditionModule", this, "气象条件")),
+                //ViewModelSource.Create(() => new ModuleInfo("WireModule", this, "导地线")),
+                //ViewModelSource.Create(() => new ModuleInfo("TowerModule", this, "杆塔")),
+                //ViewModelSource.Create(() => new ModuleInfo("StrDataModule", this, "绝缘子串")),
+                //ViewModelSource.Create(() => new ModuleInfo("FitDataModule", this, "其他金具")),
+                ViewModelSource.Create(() => new ModuleInfo("BaseDataModule", this, "基础数据")),
             };
             OnModulesLoaded();
         }
@@ -194,8 +195,6 @@ namespace TowerLoadCals
 
         public ModuleInfo SetIcon(string icon)
         {
-
-            
             var extension = new SvgImageSourceExtension() { Uri = AssemblyHelper.GetResourceUri(typeof(DXImages).Assembly, "Images/BandedReports.png") };
             //var extension = new SvgImageSourceExtension() { Uri = new Uri(string.Format(@"pack://application:,,,/TowerLoadCals;component/Images/{0}.png", icon), UriKind.RelativeOrAbsolute) };
             this.Icon = (ImageSource)extension.ProvideValue(null);

@@ -101,12 +101,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModulesViewModels\BaseData\BaseDataViewModel.cs" />
     <Compile Include="ModulesViewModels\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\FitDataViewModel.cs" />
     <Compile Include="ModulesViewModels\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\WireViewModel.cs" />
+    <Compile Include="Modules\BaseData\BaseDataModule.xaml.cs">
+      <DependentUpon>BaseDataModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\BlankModule.xaml.cs">
       <DependentUpon>BlankModule.xaml</DependentUpon>
     </Compile>
@@ -140,6 +144,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modules\BaseData\BaseDataModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\BlankModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -226,5 +234,6 @@
       <Name>TowerLoadCals.Mode</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
