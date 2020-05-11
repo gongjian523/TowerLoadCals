@@ -181,9 +181,9 @@ namespace TowerLoadCals
             this.parent = (ISupportServices)parent;
             Title = _title;
         }
-        public string Type { get; private set; }
+        public string Type { get; protected set; }
         public virtual bool IsSelected { get; set; }
-        public string Title { get; private set; }
+        public string Title { get; protected set; }
         public virtual ImageSource Icon { get; set; }
         //public ModuleInfo SetIcon(string icon)
         //{
@@ -194,19 +194,35 @@ namespace TowerLoadCals
 
         public ModuleInfo SetIcon(string icon)
         {
-
-            
             var extension = new SvgImageSourceExtension() { Uri = AssemblyHelper.GetResourceUri(typeof(DXImages).Assembly, "Images/BandedReports.png") };
             //var extension = new SvgImageSourceExtension() { Uri = new Uri(string.Format(@"pack://application:,,,/TowerLoadCals;component/Images/{0}.png", icon), UriKind.RelativeOrAbsolute) };
             this.Icon = (ImageSource)extension.ProvideValue(null);
             return this;
         }
-        public void Show(object parameter = null)
+        public virtual void Show(object parameter = null)
         {
             INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
             navigationService.Navigate(Type, parameter, parent);
         }
     }
+
+    public class SubModuleInfo: ModuleInfo
+    {
+        ISupportServices parent;
+
+        public SubModuleInfo(string _type, object parent, string _title):base(_type, parent, _title)
+        {
+            
+        }
+
+        public  override void   Show(object parameter = null)
+        {
+            INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
+            navigationService.Navigate(Type, parameter, parent);
+        }
+    }
+
+
     public class PrefixEnumWithExternalMetadata
     {
         

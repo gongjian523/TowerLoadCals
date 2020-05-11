@@ -213,6 +213,30 @@
                             </dxmvvm:Interaction.Triggers>
                         </dxa:AccordionControl>
                     </dxdo:LayoutPanel>
+                    <dxdo:LayoutPanel Caption="WPF Products" ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
+                                      AllowClose="False" ShowCaption="False" Name="subLayoutPanel" AllowSizing="False">
+                        <dxa:AccordionControl x:Name="subAccordion"
+                                              SelectedItem="{Binding SelectedModuleInfo}"
+                                              ItemsSource="{Binding Path=Modules}"
+                                              HeaderContent=""
+                                              SummaryItemHeader=""
+                                              IsCollapseButtonVisible="True"
+                                              RootItemDisplayMode="Item"
+                                              >
+                            <dxa:AccordionControl.ItemContainerStyle>
+                                <Style TargetType="dxa:AccordionItem">
+                                    <Setter Property="Header" Value="{Binding Path=Title}" />
+                                    <Setter Property="Glyph" Value="{Binding Path=Icon}" />
+                                    <Setter Property="GlyphPosition" Value="Top" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="ExpandButtonPosition" Value="None" />
+                                </Style>
+                            </dxa:AccordionControl.ItemContainerStyle>
+                            <dxmvvm:Interaction.Triggers>
+                                <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding OnModulesLoadedCommand}" />
+                            </dxmvvm:Interaction.Triggers>
+                        </dxa:AccordionControl>
+                    </dxdo:LayoutPanel>
                     <dxdo:LayoutPanel AllowClose="False" AllowFloat="False" AllowHide="False" ShowCaption="False" ShowBorder="False" ShowCloseButton="False">
                         <dxwui:NavigationFrame x:Name="documentFrame" Navigating="OnDocumentFrameNavigating" Navigated="OnDocumentFrameNavigated">
                             <dxwui:NavigationFrame.Resources>
