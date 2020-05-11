@@ -13,21 +13,15 @@ namespace TowerLoadCals.ModulesViewModels
     {
         public BaseDataViewModel()
         {
-
-            //MetadataLocator.Default = MetadataLocator.Create().AddMetadata<PrefixEnumWithExternalMetadata>();
-
-            //Modules = new List<SubModuleInfo>();
-            //LoadModules();
+            Modules = new List<SubModuleInfo>();
+            LoadModules();
         }
 
         public IEnumerable<SubModuleInfo> Modules { get; protected set; }
 
         public SubModuleInfo SelectedModuleInfo { get; set; }
 
-        public void Exit()
-        {
-            CurrentWindowService.Close();
-        }
+
         public void OnModulesLoaded()
         {
             if (Modules.Count() == 0)
@@ -41,12 +35,11 @@ namespace TowerLoadCals.ModulesViewModels
             }
         }
 
-        [Required]
-        protected virtual ICurrentWindowService CurrentWindowService { get { return null; } }
-        [Required]
-        protected virtual IApplicationJumpListService ApplicationJumpListService { get { return null; } }
-        [Required]
-        protected virtual INavigationService NavigationService { get { return null; } }
+        protected virtual INavigationService NavigationService { get {
+                //return GetService<INavigationService>();
+                return null;
+        } }
+
         protected virtual void OnSelectedModuleInfoChanged()
         {
             if (SelectedModuleInfo == null)

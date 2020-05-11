@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using System.Windows.Shapes;
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.WindowsUI;
 using DevExpress.Xpf.WindowsUI.Navigation;
 
@@ -21,7 +22,7 @@ namespace TowerLoadCals.Modules
     /// <summary>
     /// BaseDataModule.xaml 的交互逻辑
     /// </summary>
-    public partial class BaseDataModule : UserControl
+    public partial class BaseDataModule : ThemedWindow
     {
         public BaseDataModule()
         {

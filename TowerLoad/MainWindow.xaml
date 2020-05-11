@@ -226,7 +226,6 @@
                             </dxwui:NavigationFrame.Resources>
                             <dxmvvm:Interaction.Behaviors>
                                 <dxwuin:FrameNavigationService Frame="{Binding ElementName=documentFrame}" />
-                                <!--<dx:DXSplashScreenService SplashScreenType="{Binding SplashScreenType}" FadeOutDuration="0" />-->
                             </dxmvvm:Interaction.Behaviors>
                         </dxwui:NavigationFrame>
                     </dxdo:LayoutPanel>

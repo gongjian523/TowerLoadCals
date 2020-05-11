@@ -197,7 +197,7 @@ namespace TowerLoadCals
         {
             var extension = new SvgImageSourceExtension() { Uri = AssemblyHelper.GetResourceUri(typeof(DXImages).Assembly, "Images/BandedReports.png") };
             //var extension = new SvgImageSourceExtension() { Uri = new Uri(string.Format(@"pack://application:,,,/TowerLoadCals;component/Images/{0}.png", icon), UriKind.RelativeOrAbsolute) };
-            this.Icon = (ImageSource)extension.ProvideValue(null);
+            Icon = (ImageSource)extension.ProvideValue(null);
             return this;
         }
         public void Show(object parameter = null)
