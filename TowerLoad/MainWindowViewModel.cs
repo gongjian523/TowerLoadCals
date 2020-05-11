@@ -47,6 +47,9 @@ namespace TowerLoadCals
         public virtual IEnumerable<ModuleInfo> Modules { get; protected set; }
 
         public virtual ModuleInfo SelectedModuleInfo { get; set; }
+        public virtual IEnumerable<SubModuleInfo> SubModules { get; set; }
+        public virtual SubModuleInfo SelectedSubModuleInfo { get; set; }
+
         public virtual Type SplashScreenType { get; set; }
         public virtual int DefaultBackstatgeIndex { get; set; }
         public virtual bool HasPrinting { get; set; }
@@ -84,10 +87,21 @@ namespace TowerLoadCals
 
             if (!allowSelectedModuleInfoChanged)
                 return;
-            //PrintingService.PrintableControlLink = null;
-            SelectedModuleInfo.IsSelected = true;
-            SelectedModuleInfo.Show();
+
+            //SelectedModuleInfo.IsSelected = true;
+
+            SubModules = SelectedModuleInfo.SubModules;
+
+            if (SubModules == null || SubModules.Count() == 0)
+                return;
+
+            SelectedSubModuleInfo = SubModules.ToList().First();
+            SelectedSubModuleInfo.IsSelected = true;
+            SelectedSubModuleInfo.Show();
         }
+
+
+
         protected virtual void OnIsBackstageOpenChanged()
         {
             //HasPrinting = PrintingService.HasPrinting;
@@ -151,13 +165,25 @@ namespace TowerLoadCals
 
         protected void LoadModules()
         {
-            Modules = new List<ModuleInfo>() {
-                ViewModelSource.Create(() => new ModuleInfo("WeatherConditionModule", this, "气象条件")),
-                ViewModelSource.Create(() => new ModuleInfo("WireModule", this, "导地线")),
-                ViewModelSource.Create(() => new ModuleInfo("TowerModule", this, "杆塔")),
-                ViewModelSource.Create(() => new ModuleInfo("StrDataModule", this, "绝缘子串")),
-                ViewModelSource.Create(() => new ModuleInfo("FitDataModule", this, "其他金具")),
+            List<ModuleInfo> moduleList = new List<ModuleInfo>() {};
+
+            var baseDataSubModules = new List<SubModuleInfo>() {
+                ViewModelSource.Create(() => new SubModuleInfo("WeatherConditionModule", this, "气象条件")),
+                ViewModelSource.Create(() => new SubModuleInfo("WireModule", this, "导地线")),
+                ViewModelSource.Create(() => new SubModuleInfo("TowerModule", this, "杆塔")),
+                ViewModelSource.Create(() => new SubModuleInfo("StrDataModule", this, "绝缘子串")),
+                ViewModelSource.Create(() => new SubModuleInfo("FitDataModule", this, "其他金具")),
             };
+
+            ModuleInfo baseDataMudule = new ModuleInfo("BaseDataModule", this, "基础数据");
+            baseDataMudule.SubModules = baseDataSubModules;
+            moduleList.Add(baseDataMudule);
+
+            ModuleInfo towerMudule = new ModuleInfo("TowersModule", this, "塔杆排位");
+            moduleList.Add(towerMudule);
+
+            Modules = moduleList;
+
             OnModulesLoaded();
         }
 
@@ -173,7 +199,7 @@ namespace TowerLoadCals
 
     public class ModuleInfo
     {
-        ISupportServices parent;
+        protected ISupportServices parent;
 
         public ModuleInfo(string _type, object parent, string _title)
         {
@@ -185,12 +211,6 @@ namespace TowerLoadCals
         public virtual bool IsSelected { get; set; }
         public string Title { get; protected set; }
         public virtual ImageSource Icon { get; set; }
-        //public ModuleInfo SetIcon(string icon)
-        //{
-        //    Icon = new Uri("D:\\智菲\\P - 200325 - 杆塔负荷程序\\数据资源示例\\ModuleIcon.png");
-        //    //this.Icon = AssemblyHelper.GetResourceUri(typeof(ModuleInfo).Assembly, string.Format("Images/{0}.png", icon));
-        //    return this;
-        //}
 
         public ModuleInfo SetIcon(string icon)
         {
@@ -201,21 +221,29 @@ namespace TowerLoadCals
         }
         public virtual void Show(object parameter = null)
         {
+
+
             INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
             navigationService.Navigate(Type, parameter, parent);
         }
+
+        public virtual IEnumerable<SubModuleInfo> SubModules { get; set; }
+
+        public virtual SubModuleInfo SelectedSubModuleInfo { get; set; }
+
+
     }
 
     public class SubModuleInfo: ModuleInfo
     {
-        ISupportServices parent;
 
         public SubModuleInfo(string _type, object parent, string _title):base(_type, parent, _title)
         {
-            
+            Type = _type;
+            Title = _title;
         }
 
-        public  override void   Show(object parameter = null)
+        public  override void  Show(object parameter = null)
         {
             INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
             navigationService.Navigate(Type, parameter, parent);

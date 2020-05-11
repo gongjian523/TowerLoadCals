@@ -192,11 +192,11 @@ namespace TowerLoadCals.BLL
         /// <param name="a2"></param>
         /// <param name="a3"></param>
         /// <returns></returns>
-        public float ZXLZ2(float a1, float a2, float a3, float a4, out string str)
+        public float ZXLZ2(float a1, float a2, float a31, float a32, out string str) 
         {
             //a2 a3 为吊装系数和附加荷载，导地线不同
-            float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a1 * Paras.DynamicCoef * a2 + a3);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a1 + " x " + Paras.DynamicCoef + " x " + a2 + " + " + a3 + " x " + a4  + ") = " + res.ToString("0.00");
+            float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a1 * Paras.DynamicCoef * a2 + a31*a32);
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a1 + " x " + Paras.DynamicCoef + " x " + a2 + " + " + a31 + " x " + a32  + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -209,8 +209,8 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZXMX2(float a1, float a2, out string str)
         {
-            float res = Paras.LoadRatio * Paras.AnchorWindCoef * Paras.RQ * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngX(a1) * a2;
-            str = Paras.LoadRatio + " x " + Paras.AnchorWindCoef + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngX(a1) + " x " + a2 + " = " + res.ToString("0.00");
+            float res = Paras.LoadRatio * Paras.RQ * Paras.AnchorWindCoef * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngX(a1) * a2;
+            str = Paras.LoadRatio + " x " + Paras.RQ  + " x " + Paras.AnchorWindCoef + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngX(a1) + " x " + a2 + " = " + res.ToString("0.00");
             return res;
         }
 
@@ -225,8 +225,8 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZXMY2(float a1, float a2, float a3, float a4, out string str)
         {
-            float res = Paras.LoadRatio * Paras.AnchorWindCoef * Paras.RQ * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngY(a1) * a2 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a3 * (1 - (float)Math.Cos(a4 * PI / 180));
-            str = Paras.LoadRatio + " x " + Paras.AnchorWindCoef + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a3 + " x (1 - cos(" + a4 + ")) = " + res.ToString("0.00");
+            float res = Paras.LoadRatio * Paras.RQ * Paras.AnchorWindCoef  * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngY(a1) * a2 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a3 * (1 - (float)Math.Cos(a4 * PI / 180));
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.AnchorWindCoef + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a3 + " x (1 - cos(" + a4 + ")) = " + res.ToString("0.00");
             return res;
         }
 
@@ -355,8 +355,8 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZXMX1(float a1, float a2, out string str)
         {
-            float res = Paras.LoadRatio * Paras.AnchorWindCoef * Paras.RQ * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngX(a1) * a2;
-            str = Paras.LoadRatio + " x " + Paras.AnchorWindCoef + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngX(a1) + " x " + a2 + " = " + res.ToString("0.00"); 
+            float res = Paras.LoadRatio * Paras.RQ * Paras.AnchorWindCoef * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngX(a1) * a2;
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.AnchorWindCoef + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngX(a1) + " x " + a2 + " = " + res.ToString("0.00"); 
             return res;
         }
 
@@ -371,8 +371,8 @@ namespace TowerLoadCals.BLL
         /// <returns></returns>
         public float ZXMY1(float a1, float a2, float a3, float a4, out string str)
         {
-            float res = Paras.LoadRatio * Paras.AnchorWindCoef * Paras.RQ * Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngY(a1) * a2 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * Paras.DynamicCoef * a3 * (1 - (float)Math.Cos(a4 * PI / 180));
-            str = Paras.LoadRatio + " x " + Paras.AnchorWindCoef + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.DynamicCoef + " x " + a3 + " x (1 - cos(" + a4 + ")) = " + res.ToString("0.00");
+            float res = Paras.LoadRatio * Paras.RQ * Paras.AnchorWindCoef *  Paras.VcFInstall * Paras.OtherWindAdjustFactor * AngY(a1) * a2 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * Paras.DynamicCoef * a3 * (1 - (float)Math.Cos(a4 * PI / 180));
+            str = Paras.LoadRatio + " x " + Paras.RQ   + " x " + Paras.AnchorWindCoef + " x " + Paras.VcFInstall + " x " + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + Paras.DynamicCoef + " x " + a3 + " x (1 - cos(" + a4 + ")) = " + res.ToString("0.00");
             return res;
         }
 
@@ -572,9 +572,7 @@ namespace TowerLoadCals.BLL
                 float res = Paras.LoadRatio * Paras.RA * Paras.VcFCheck * a2;
                 str = Paras.LoadRatio + " x " + Paras.RA + " x " + Paras.VcFCheck + " x " + a2 + " = " + res.ToString("0.00"); ;
                 return res;
-            }
-                
-
+            }               
         }
     }
 }

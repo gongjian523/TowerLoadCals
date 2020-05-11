@@ -16,7 +16,7 @@ namespace TowerLoadCals.BLL
 
         protected float PI { get
             {
-                return 3.14f;
+                return (float)Math.PI;
             }
         }
 

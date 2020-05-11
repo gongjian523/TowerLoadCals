@@ -216,8 +216,8 @@
                     <dxdo:LayoutPanel Caption="WPF Products" ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
                                       AllowClose="False" ShowCaption="False" Name="subLayoutPanel" AllowSizing="False">
                         <dxa:AccordionControl x:Name="subAccordion"
-                                              SelectedItem="{Binding SelectedModuleInfo}"
-                                              ItemsSource="{Binding Path=Modules}"
+                                              SelectedItem="{Binding SelectedSubModuleInfo}"
+                                              ItemsSource="{Binding Path=SubModules}"
                                               HeaderContent=""
                                               SummaryItemHeader=""
                                               IsCollapseButtonVisible="True"
