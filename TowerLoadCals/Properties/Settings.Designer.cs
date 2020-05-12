@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TowerLoadCals.Demo.Properties {
+namespace TowerLoadCals.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

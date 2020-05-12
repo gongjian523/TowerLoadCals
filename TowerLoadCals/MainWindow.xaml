@@ -1,233 +1,279 @@
-﻿<Window x:Class="TowerLoadCals.Demo.MainWindow"
+﻿<dx:ThemedWindow x:Class="TowerLoadCals.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+        xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+        xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+        xmlns:dxrt="http://schemas.devexpress.com/winfx/2008/xaml/ribbon/themekeys"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+        xmlns:dxwuin="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
+        xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
+        xmlns:dxat="http://schemas.devexpress.com/winfx/2008/xaml/accordion/themekeys"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:local="clr-namespace:TowerLoadCals"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <ScrollViewer Margin="0" VerticalScrollBarVisibility="Auto">
-            <WrapPanel >
-                <!--<Button Click="button_ReadXML_Click" Height="30" Width="120" Content="请选择XML文件" BorderThickness="0" Margin="3"/>-->
-                <!--<Button Click="button_ReadDBF_Click" Name="ReadTadbfBtn" Height="30" Width="120" Content="请选择SL_TA.DBF文件" BorderThickness="0" Margin="3"/>-->
-                <!--<Button Click="button_ReadDBF_Click" Name="ReadXiandbfBtn"  Height="30" Width="120" Content="请选择SL_XIAN.DBF文件" BorderThickness="0" Margin="3"/>-->
-                <Button Click="button_ReadWeatherXML_Click" Name="ReadWeatherXMLBtn"  Height="30" Width="120" Content="请选择Weather.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveWeatherXML_Click" Name="SaveWeatherXMLBtn"  Height="30" Width="120" Content="保存Weather.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadLocalWeatherXML_Click" Name="ReadLocalWeatherXMLBtn"  Height="30" Width="120" Content="请选择Weather.XML文件" BorderThickness="0" Margin="3"/>
-                <!--<Button Click="button_ReadDBF_Click" Name="ReadWeatherdbfBtn" Height="30" Width="120" Content="请选择Weather.DBF文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadTa_Click" Height="30" Width="120" Content="请选择TA文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadMD_Click" Height="30" Width="120" Content="请选择MD文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveMD_Click" Height="30" Width="120" Content="保存MD文件" BorderThickness="0" Margin="3"/>-->
-                <Button Click="button_ReadProjectXML_Click" Height="30" Width="120" Content="请选择ProInfo.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveProjectXML_Click" Height="30" Width="120" Content="保存ProInfo.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadWireXML_Click" Height="30" Width="120" Content="请选择Wire.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveWireXML_Click" Height="30" Width="120" Content="保存Wire.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadTaSeriXML_Click" Height="30" Width="120" Content="请选择TaSeri.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveTaSeriXML_Click" Height="30" Width="120" Content="保存TaSeri.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadStrDataXML_Click" Height="30" Width="120" Content="请选择StrData.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveStrDataXML_Click" Height="30" Width="120" Content="保存StrData.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadFitDataXML_Click" Height="30" Width="120" Content="请选择FitData.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveFitDataXML_Click" Height="30" Width="120" Content="保存FitData.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadTowerStrDataXML_Click" Height="30" Width="120" Content="请选择TowerStrData.XML文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_SaveTowerStrDataXML_Click" Height="30" Width="120" Content="保存TowerStrData.XML文件" BorderThickness="0" Margin="3"/>
-            </WrapPanel>
-        </ScrollViewer>
-        <ScrollViewer Margin="0" Grid.Column="1" VerticalScrollBarVisibility="Auto">
-            <WrapPanel >
-                <Button Click="button_ReadTaTemplate_Click" Name="ReadLineTemplateBtn" Height="30" Width="120" Content="打开直线塔文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadTaTemplate_Click" Name="ReadCornerTemplateBtn" Height="30" Width="120" Content="打开转角塔文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadTaTemplate_Click" Name="ReadLineCornerTemplateBtn" Height="30" Width="120" Content="打开直线转角塔文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadTaTemplate_Click" Name="ReadTerminalTemplateBtn" Height="30" Width="120" Content="打开终端塔文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_ReadTaTemplate_Click" Name="ReadBranchTemplateBtn" Height="30" Width="120" Content="打开分支塔文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_DesDecrypt_Click" Height="30" Width="120" Content="加密文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_DesEncrypt_Click" Height="30" Width="120" Content="解密文件" BorderThickness="0" Margin="3"/>
-                <Button Click="button_PathonServer_Click" Name="PythonServerBtn" Height="30" Width="120" Content="Python接口(服务器)" BorderThickness="0" Margin="3"/>
-                <Button Click="button_PathonLocal_Click" Name="PythonLocalBtn" Height="30" Width="120" Content="Python接口(本地)" BorderThickness="0" Margin="3"/>
-            </WrapPanel>
-        </ScrollViewer>
-        <TabControl Grid.Column="2" Name="tabs">
-            <TabItem Header="XML文件">
-                <TreeView Name="xmlTreeView" >
-                    <!--<TreeViewItem Header="Employee1" IsSelected="True">
-                        <TreeViewItem Header="Jesper Aaberg"/>
-                        <TreeViewItem Header="Employee Number">
-                            <TreeViewItem Header="12345"/>
-                        </TreeViewItem>
-                        <TreeViewItem Header="Work Days">
-                            <TreeViewItem Header="Monday" />
-                            <TreeViewItem Header="Tuesday"/>
-                            <TreeViewItem Header="Thursday"/>
-                        </TreeViewItem>
-                    </TreeViewItem>
-                    <TreeViewItem Header="Employee2">
-                        <TreeViewItem Header="Dominik Paiha" />
-                        <TreeViewItem Header="Employee Number">
-                            <TreeViewItem Header="98765"/>
-                        </TreeViewItem>
-                        <TreeViewItem Header="Work Days">
-                            <TreeViewItem Header="Tuesday"/>
-                            <TreeViewItem Header="Wednesday"/>
-                            <TreeViewItem Header="Friday"/>
-                        </TreeViewItem>
-                    </TreeViewItem>
-                    <TreeViewItem>
-                        <TreeViewItem.Header>
-                            <DockPanel>
-                                <CheckBox/>
-                                <TextBlock>
-        TreeViewItem Text
-                                </TextBlock>
-                            </DockPanel>
-                        </TreeViewItem.Header>
-                    </TreeViewItem>-->
-                </TreeView>
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Icon="{dxc:DXImage Image=Home_16x16.png}"         
+        Title="杆塔负荷协同程序"
+        Height="900" Width="1304"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True"
+        DataContext="{dxmvvm:ViewModelSource Type=local:MainWindowViewModel}">
+    <dx:ThemedWindow.Resources>
+        <dx:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <sys:Double x:Key="{dxrt:RibbonThemeKey ResourceKey=ColumnIndent, ThemeName=Office2013}">5</sys:Double>
+        <sys:Double x:Key="{dxrt:RibbonThemeKey ResourceKey=ColumnIndent, ThemeName=Office2013LightGray}">5</sys:Double>
+        <sys:Double x:Key="{dxrt:RibbonThemeKey ResourceKey=ColumnIndent, ThemeName=Office2013DarkGray}">5</sys:Double>
+        <dxmvvm:ObjectToObjectConverter x:Key="expandedToWidthConverter" DefaultTarget="183">
+            <dxmvvm:MapItem Source="False" Target="Auto" />
+        </dxmvvm:ObjectToObjectConverter>
+        <!--<sys:Double x:Key="{dxat:AccordionThemeKeys ResourceKey=PopupDefaultWidth, IsThemeIndependent=True}">1</sys:Double>-->
+    </dx:ThemedWindow.Resources>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:CurrentWindowService />
+    </dxmvvm:Interaction.Behaviors>
+    <dxb:BarManager Name="barManager"  AllowQuickCustomization="False" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <dxr:RibbonControl x:Name="RibbonControl" Grid.Row="0" HorizontalAlignment="Stretch" Margin="6,3,6,0">
+                <dxr:RibbonDefaultPageCategory>
+                    <dxr:RibbonPage Caption="工程">
+                        <dxr:RibbonPageGroup Name="pgProject" Caption="工程" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bNew" Content="新建" 
+                               Glyph="{dxc:DXImage Image=New_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=New_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{Binding CreateProjectCommand}"                 
+                               >
+                            </dxb:BarButtonItem>
+                            <dxb:BarButtonItem Name="bOpen" Content="打开" 
+                               Glyph="{dxc:DXImage Image=Open_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Open_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{Binding OpenProjectCommand}"/>
+                            <dxb:BarButtonItem Name="bClose" Content="关闭" 
+                               Glyph="{dxc:DXImage Image=Close_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Close_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{Binding CloseProjectCommand}"/>
+                        </dxr:RibbonPageGroup>
+                        <dxr:RibbonPageGroup Name="pgSave" Caption="保存" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bSave" Content="保存" 
+                               Glyph="{dxc:DXImage Image=Save_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Save_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{Binding SaveProjectCommand}"/>
+                            <dxb:BarButtonItem Name="bSaveAs" Content="保存为" 
+                               Glyph="{dxc:DXImage Image=SaveAs_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=SaveAs_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{Binding SaveProjectAsCommand}"
+                            />
+                        </dxr:RibbonPageGroup>
+                        <dxr:RibbonPageGroup Name="pgData" Caption="数据" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bImport" Content="导入" 
+                               Glyph="{dxc:DXImage Image=Import_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Import_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bExport" Content="导出" 
+                               Glyph="{dxc:DXImage Image=Export_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Export_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                    <dxr:RibbonPage Caption="编辑">
+                        <dxr:RibbonPageGroup Name="pgEdit" Caption="编辑" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bCopy" Content="复制" 
+                               Glyph="{dxc:DXImage Image=Copy_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Import_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bPaste" Content="粘贴" 
+                               Glyph="{dxc:DXImage Image=Paste_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Paste_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bUndo" Content="撤销" 
+                               Glyph="{dxc:DXImage Image=Undo_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Undo_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bRedo" Content="重做" 
+                               Glyph="{dxc:DXImage Image=Redo_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Redo_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                    <dxr:RibbonPage Caption="数据交互">
+                        <dxr:RibbonPageGroup Name="pgDataAccess" Caption="数据" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bDataLib" Content="基本参数库" 
+                               Glyph="{dxc:DXImage Image=DataSource_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=DataSource_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bCheck" Content="超条件检测" 
+                               Glyph="{dxc:DXImage Image=CheckBox_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CheckBox_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                    <dxr:RibbonPage Caption="计算">
+                        <dxr:RibbonPageGroup Name="pgCalculate" Caption="计算" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bLoadCals" Content="项荷载计算" 
+                               Glyph="{dxc:DXImage Image=CalculateSheet_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculateSheet_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bStruCals" Content="结构计算" 
+                               Glyph="{dxc:DXImage Image=CalculationOptions_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                    <dxr:RibbonPage Caption="分析及报告">
+                        <dxr:RibbonPageGroup Name="pgAnalysis" Caption="分析" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bStandredLoadComp" Content="标准负荷荷载比较" 
+                               Glyph="{dxc:DXImage Image=CalculateSheet_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculateSheet_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bLoadComp" Content="荷载比较" 
+                               Glyph="{dxc:DXImage Image=CalculationOptions_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bLoadStatics" Content="验算负荷分布统计" 
+                               Glyph="{dxc:DXImage Image=Statistical_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Statistical_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bLoadComp2" Content="荷载比对" 
+                               Glyph="{dxc:DXImage Image=CalculationOptions_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                        <dxr:RibbonPageGroup Name="pgReport" Caption="报告" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bExportReport" Content="导出报告" 
+                               Glyph="{dxc:DXImage Image=Report_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Report_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                    <dxr:RibbonPage Caption="帮助">
+                        <dxr:RibbonPageGroup Name="pgHelp" Caption="帮助" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bDocument" Content="帮助文档" 
+                               Glyph="{dxc:DXImage Image=TextBox_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=TextBox_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bVideo" Content="视频教学" 
+                               Glyph="{dxc:DXImage Image=Video_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Video_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bExample" Content="示例仓库" 
+                               Glyph="{dxc:DXImage Image=Example_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Example_32x32.png}"  
+                               RibbonStyle="Large"/>
+                            <dxb:BarButtonItem Name="bVerion" Content="版本信息" 
+                               Glyph="{dxc:DXImage Image=Version_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=Version_32x32.png}"  
+                               RibbonStyle="Large"/>
+                        </dxr:RibbonPageGroup>
+                    </dxr:RibbonPage>
+                </dxr:RibbonDefaultPageCategory>
 
-            </TabItem>
-            <TabItem Header="SL_TA.DBF" Name="ReadTadbfTab">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="166*"/>
-                        <ColumnDefinition Width="65*"/>
-                        <ColumnDefinition Width="425*"/>
-                    </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="dataGridSLTa" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.ColumnSpan="3">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="电压等级" Width="80" Binding="{Binding VoltageLevel}"/>
-                            <DataGridTextColumn Header="杆塔型号" Width="80" Binding="{Binding TowerModel}"/>
-                            <DataGridTextColumn Header="图号" Width="80" Binding="{Binding PicNum}"/>
-                            <DataGridTextColumn Header="呼高" Width="80" Binding="{Binding Height}"/>
-                            <DataGridTextColumn Header="直线1耐张2" Width="80" Binding="{Binding Line1Tension2}"/>
-                            <DataGridTextColumn Header="最大转角" Width="80" Binding="{Binding AngleMax}"/>
-                            <DataGridTextColumn Header="允许LH" Width="80" Binding="{Binding AllowedLH}"/>
-                            <DataGridTextColumn Header="允许LV" Width="80" Binding="{Binding AllowedLV}"/>
-                            <DataGridTextColumn Header="最大档距" Width="80" Binding="{Binding BreakingStressKGMM}"/>
-                            <DataGridTextColumn Header="断拉力N" Width="80" Binding="{Binding DistanceMax}"/>
-                            <DataGridTextColumn Header="允许摇摆角" Width="80" Binding="{Binding AllowSwingAngle}"/>
-                            <DataGridTextColumn Header="内过摇摆角" Width="80" Binding="{Binding InsideSwingAngle}"/>
-                            <DataGridTextColumn Header="外过摇摆角" Width="80" Binding="{Binding OutsideSwingAngle}"/>
-                            <DataGridTextColumn Header="水平线间距" Width="80" Binding="{Binding HorizontalWireDsitance}"/>
-                            <DataGridTextColumn Header="导地水平距" Width="80" Binding="{Binding EarthWireHorizontalDsitance}"/>
-                            <DataGridTextColumn Header="地线支架高" Width="80" Binding="{Binding EarthWireCarrierHeight}"/>
-                            <DataGridTextColumn Header="上下导线距" Width="80" Binding="{Binding UpDownWireDistance}"/>
-                            <DataGridTextColumn Header="中下导线距" Width="80" Binding="{Binding MiddleDownWireDistance}"/>
-                            <DataGridTextColumn Header="导平1垂2V3" Width="80" Binding="{Binding LineH1V2V3}"/>
-                            <DataGridTextColumn Header="导平投影DP" Width="80" Binding="{Binding LineHProjectionDP}"/>
-                            <DataGridTextColumn Header="导垂投影DZ" Width="80" Binding="{Binding LineVProjectionDZ}"/>
-                            <DataGridTextColumn Header="正面根开米" Width="80" Binding="{Binding FrontDistanceM}"/>
-                            <DataGridTextColumn Header="侧面根开米" Width="80" Binding="{Binding SideDistanceM}"/>
-                            <DataGridTextColumn Header="钢重量KG" Width="80" Binding="{Binding SteelWeightKG}"/>
-                            <DataGridTextColumn Header="A3F重量KG" Width="80" Binding="{Binding A3FWeightKG}"/>
-                            <DataGridTextColumn Header="MN重量KG" Width="80" Binding="{Binding MNWeightKG}"/>
-                            <DataGridTextColumn Header="水泥重量KG" Width="80" Binding="{Binding CementWeightKG}"/>
-                            <DataGridTextColumn Header="本体造价" Width="80" Binding="{Binding BodyPrice}"/>
-                            <DataGridTextColumn Header="角影响LH" Width="80" Binding="{Binding AngelEffectLH}"/>
-                            <DataGridTextColumn Header="最小LH" Width="80" Binding="{Binding LHMin}"/>
-                            <DataGridTextColumn Header="塔KV值" Width="80" Binding="{Binding TowerKV}"/>
-                            <DataGridTextColumn Header="截距" Width="80" Binding="{Binding Intercept}"/>
-                            <DataGridTextColumn Header="斜率" Width="80" Binding="{Binding Slope}"/>
-                            <DataGridTextColumn Header="截距增长值" Width="80" Binding="{Binding InterceptGrowthRate}"/>
-                            <DataGridTextColumn Header="斜率增长值" Width="80" Binding="{Binding SlopeGrowthRate}"/>
-                            <DataGridTextColumn Header="塔挂串个数" Width="80" Binding="{Binding TowerHangStringNum}"/>
-                            <DataGridTextColumn Header="串总个数" Width="80" Binding="{Binding TotalStringNum}"/>
-                            <DataGridTextColumn Header="V串YN" Width="80" Binding="{Binding VStringYN}"/>
-                            <DataGridTextColumn Header="杆塔种类" Width="80" Binding="{Binding TowerType}"/>
-                            <DataGridTextColumn Header="基正面根开" Width="80" Binding="{Binding BaseFrontDistance}"/>
-                            <DataGridTextColumn Header="基侧面根开" Width="80" Binding="{Binding BaseSideDistance}"/>
-                            <DataGridTextColumn Header="基对角线长" Width="80" Binding="{Binding BaseDiagonal}"/>
-                            <DataGridTextColumn Header="预偏距离S1" Width="80" Binding="{Binding ExpectedDeviatingDistance}"/>
-                            <DataGridTextColumn Header="横担宽度" Width="80" Binding="{Binding SidelineWidth}"/>
-                            <DataGridTextColumn Header="是否紧凑塔" Width="80" Binding="{Binding IsTightTower}"/>
-                            <DataGridTextColumn Header="V串夹角" Width="80" Binding="{Binding VStringAngle}"/>
-                            <DataGridTextColumn Header="埋深" Width="80" Binding="{Binding BuriedDeepth}"/>
-                            <DataGridTextColumn Header="裕度" Width="80" Binding="{Binding Margin}"/>
-                            <DataGridTextColumn Header="地栓型号" Width="80" Binding="{Binding GroundBoltModel}"/>
-                            <DataGridTextColumn Header="挂点ABC" Width="80" Binding="{Binding HungPointABC}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="SL_XIAN.DBF" Name="ReadXiandbfTab">
-                <DataGrid  x:Name="dataGridXian" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="电线型号" Width="80" Binding="{Binding WireType}"/>
-                        <DataGridTextColumn Header="截面MM2" Width="80" Binding="{Binding SectionMM2}"/>
-                        <DataGridTextColumn Header="外径MM" Width="80" Binding="{Binding OuterDiameterMM}"/>
-                        <DataGridTextColumn Header="重量KG每KM" Width="80" Binding="{Binding WeightKG}"/>
-                        <DataGridTextColumn Header="弹性系数KG" Width="80" Binding="{Binding ElasticityCoefficientKG}"/>
-                        <DataGridTextColumn Header="弹性系数N" Width="80" Binding="{Binding ElasticityCoefficientN}"/>
-                        <DataGridTextColumn Header="线膨胀系数" Width="80" Binding="{Binding LinearExpansionCoefficient}"/>
-                        <DataGridTextColumn Header="断应力KGMM" Width="80" Binding="{Binding BreakingStressKGMM}"/>
-                        <DataGridTextColumn Header="断拉力N" Width="80" Binding="{Binding BreakingForceN}"/>
-                        <DataGridTextColumn Header="导线1地线2" Width="80" Binding="{Binding Wire1EarthWire2}"/>
-                        <DataGridTextColumn Header="标称截面" Width="80" Binding="{Binding NominalCrossSection}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-            <TabItem Header="Weather">
-                <TreeView Name="weatherTreeView" />
-            </TabItem>
-            <TabItem Header="ta文件">
-                <DataGrid  x:Name="dataGridTa" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False" SelectionMode="Extended" SelectionUnit="Cell">
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="复制" Click="button_DG_Copy_Click"/>
-                            <MenuItem Header="剪切" Click="button_DG_Cut_Click"/>
-                            <MenuItem Header="粘贴" Click="button_DG_Paste_Click"/>
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Index}"/>
-                        <DataGridTextColumn Header="塔位号" Width="80" Binding="{Binding Num}"/>
-                        <DataGridTextColumn Header="塔位点" Width="80" Binding="{Binding Pos}"/>
-                        <DataGridTextColumn Header="塔型" Width="80" Binding="{Binding Model}"/>
-                        <DataGridTextColumn Header="塔位高程" Width="80" Binding="{Binding Elevation}"/>
-                        <DataGridTextColumn Header="定位高差" Width="80" Binding="{Binding SubOfElv}"/>
-                        <DataGridTextColumn Header="前侧档距" Width="80" Binding="{Binding FrontSpan}"/>
-                        <DataGridTextColumn Header="水平档距" Width="80" Binding="{Binding HorizontalSpan}"/>
-                        <DataGridTextColumn Header="垂直档距" Width="80" Binding="{Binding VerticalSpan}"/>
-                        <DataGridTextColumn Header="WireK" Width="80" Binding="{Binding WireK}"/>
-                        <DataGridTextColumn Header="中间部分" Width="80" Binding="{Binding sec}"/>
-                        <DataGridTextColumn Header="前侧垂直档距" Width="80" Binding="{Binding FrontVerticalSpan}"/>
-                        <DataGridTextColumn Header="后侧垂直档距" Width="80" Binding="{Binding BackVerticalSpan}"/>
-                        <DataGridTextColumn Header="转角" Width="80" Binding="{Binding AngelofApplication}"/>
-                        <DataGridTextColumn Header="后侧/前侧设计气象条件" Width="80" Binding="{Binding WeatherID}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-            <TabItem Header="塔库文件">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Label Name="nameLabel" HorizontalAlignment="Left"/>
-                    <Label Name="wireLabel" Grid.Row="1"  HorizontalAlignment="Left"/>
-                    <Label Name="wdLabel" Grid.Row="2"   HorizontalAlignment="Left"/>
-                    <DataGrid  Name="wdComboGridTa"  Grid.Row="3"  ItemsSource="{Binding}" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto"  AutoGenerateColumns="False" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="Python服务器">
-                <WrapPanel>
-                    <TextBox Name="tb1" Height="50"  Width="100" Text="1"/>
-                    <TextBox Name="tb2" Height="50"  Width="100" Text="2"/>
-                    <TextBlock Name="tbResult" Height="50" Width="200"/>
-                </WrapPanel>
-            </TabItem>
-            <TabItem Header="Python本地">
-                <WrapPanel>
-                    <TextBox Name="tb21" Height="50"  Width="100" Text="1"/>
-                    <TextBox Name="tb22" Height="50"  Width="100" Text="2"/>
-                    <TextBlock Name="tbResult2" Height="50" Width="200"/>
-                </WrapPanel>
-            </TabItem>
-        </TabControl>
-    </Grid>
-</Window>
+                <dxr:RibbonControl.ToolbarItemLinks>
+                    <dxb:BarButtonItemLink BarItemName="bOpen"/>
+                    <dxb:BarButtonItemLink BarItemName="bSave"/>
+                    <dxb:BarButtonItemLink BarItemName="bUndo"/>
+                    <dxb:BarButtonItemLink BarItemName="bRedo"/>
+                </dxr:RibbonControl.ToolbarItemLinks>
+            </dxr:RibbonControl>
+
+            <dxdo:DockLayoutManager Grid.Row="2" Margin="6">
+                <dxdo:LayoutGroup Caption="LayoutRoot">
+                    <dxdo:LayoutPanel   ItemWidth="60" 
+                                      AllowClose="False" ShowCaption="False" Name="layoutPanel" AllowSizing="False">
+                        <dxa:AccordionControl x:Name="accordion"
+                                              SelectedItem="{Binding SelectedModuleInfo}"
+                                              ItemsSource="{Binding Path=Modules}"
+                                              HeaderContent=""
+                                              SummaryItemHeader=""
+                                              IsCollapseButtonVisible="False"
+                                              RootItemDisplayMode="Item"
+                                              >
+                            <dxa:AccordionControl.ItemContainerStyle>
+                                <Style TargetType="dxa:AccordionItem">
+                                    <Setter Property="Header" Value="{Binding Path=Title}" />
+                                    <Setter Property="Glyph" Value="{Binding Path=Icon}" />
+                                    <Setter Property="GlyphPosition" Value="Top" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="ExpandButtonPosition" Value="None" />
+                                    <Setter Property="Width" Value="60"/>
+                                    <Setter Property="Height" Value="56"/>
+                                </Style>
+                            </dxa:AccordionControl.ItemContainerStyle>
+                            <dxmvvm:Interaction.Triggers>
+                                <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding OnModulesLoadedCommand}" />
+                            </dxmvvm:Interaction.Triggers>
+                        </dxa:AccordionControl>
+                    </dxdo:LayoutPanel>
+                    <dxdo:LayoutPanel Caption="WPF Products" ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
+                                      AllowClose="False" ShowCaption="False" Name="subLayoutPanel" AllowSizing="False">
+                        <dxa:AccordionControl x:Name="subAccordion"
+                                              SelectedItem="{Binding SelectedSubModuleInfo}"
+                                              ItemsSource="{Binding Path=SubModules}"
+                                              HeaderContent=""
+                                              SummaryItemHeader=""
+                                              IsCollapseButtonVisible="False"
+                                              RootItemDisplayMode="Item"
+                                              SelectedItemChanged="{DXEvent Handler='OnSelectedSubModuleChanged(@args)'}"
+                                              >
+                            <dxa:AccordionControl.ItemContainerStyle>
+                                <Style TargetType="dxa:AccordionItem">
+                                    <Setter Property="Header" Value="{Binding Path=Title}" />
+                                    <Setter Property="Glyph" Value="{Binding Path=Icon}" />
+                                    <Setter Property="GlyphPosition" Value="Top" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="ExpandButtonPosition" Value="None" />
+                                </Style>
+                            </dxa:AccordionControl.ItemContainerStyle>
+                            <dxmvvm:Interaction.Triggers>
+                                <dxmvvm:EventToCommand EventName="MouseClick" Command="{Binding OnMouseClickCommand}" />
+                            </dxmvvm:Interaction.Triggers>
+                            <dxb:BarManager.DXContextMenu >
+                                <dxb:PopupMenu>
+                                    <dxb:PopupMenu.Items>
+                                        <dxb:BarButtonItem Content="Copy" Command="{Binding CopyCommand}"/>
+                                        </dxb:PopupMenu.Items>
+                                </dxb:PopupMenu>
+                            </dxb:BarManager.DXContextMenu>
+                        </dxa:AccordionControl>
+                    </dxdo:LayoutPanel>
+                    <dxdo:LayoutPanel AllowClose="False" AllowFloat="False" AllowHide="False" ShowCaption="False" ShowBorder="False" ShowCloseButton="False">
+                        <dxwui:NavigationFrame x:Name="documentFrame" Navigating="OnDocumentFrameNavigating" Navigated="OnDocumentFrameNavigated">
+                            <dxwui:NavigationFrame.Resources>
+                                <Style TargetType="dxwui:PageAdornerControl">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="dxwui:PageAdornerControl">
+                                                <ContentPresenter Content="{TemplateBinding Content}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </dxwui:NavigationFrame.Resources>
+                            <dxmvvm:Interaction.Behaviors>
+                                <dxwuin:FrameNavigationService Frame="{Binding ElementName=documentFrame}" />
+                                <!--<dx:DXSplashScreenService SplashScreenType="{Binding SplashScreenType}" FadeOutDuration="0" />-->
+                            </dxmvvm:Interaction.Behaviors>
+                        </dxwui:NavigationFrame>
+                    </dxdo:LayoutPanel>
+                </dxdo:LayoutGroup>
+            </dxdo:DockLayoutManager>
+            <dxr:RibbonStatusBarControl x:Name="statusBar" Grid.Row="3">
+                <dxr:RibbonStatusBarControl.RightItems>
+                    <dxb:BarCheckItem x:Name="layoutNormal" IsChecked="{Binding IsExpanded, ElementName=accordion, Mode=TwoWay}" />
+                    <dxb:BarCheckItem x:Name="layoutReading" IsChecked="{Binding IsExpanded, ElementName=accordion, Mode=TwoWay, Converter={dxmvvm:BooleanNegationConverter}}" />
+                </dxr:RibbonStatusBarControl.RightItems>
+            </dxr:RibbonStatusBarControl>
+        </Grid>
+    </dxb:BarManager>
+</dx:ThemedWindow>

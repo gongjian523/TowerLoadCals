@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5B59FFC2-9F59-47BE-B370-B1CB0104035A}</ProjectGuid>
+    <ProjectGuid>{188B3232-C106-4E4D-9EDF-359DBE55B7BA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>TowerLoadCals</RootNamespace>
     <AssemblyName>TowerLoadCals</AssemblyName>
@@ -34,16 +34,52 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DbfDataReader, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DbfDataReader.0.5.4\lib\net452\DbfDataReader.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="DevExpress.Sparkline.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v19.2.Wpf, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Images.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Map.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Mvvm.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Accordion.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Charts.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Controls.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Core.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Dashboard.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Docking.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Gantt.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Layout.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.LayoutControl.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Map.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.NavBar.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.PdfViewer.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.PivotGrid.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Printing.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.PropertyGrid.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Ribbon.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.RichEdit.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Scheduling.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.TreeMap.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +90,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -63,6 +101,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainWindowViewModel-BaseData.cs" />
+    <Compile Include="ModulesViewModels\DaseDataBaseViewModel.cs" />
+    <Compile Include="ModulesViewModels\StrDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
+    <Compile Include="ModulesViewModels\FitDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\TowerViewModel.cs" />
+    <Compile Include="ModulesViewModels\WireViewModel.cs" />
+    <Compile Include="Modules\BlankModule.xaml.cs">
+      <DependentUpon>BlankModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\StrDataModule.xaml.cs">
+      <DependentUpon>StrDataModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\FitDataModule.xaml.cs">
+      <DependentUpon>FitDataModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TowerModule.xaml.cs">
+      <DependentUpon>TowerModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WireModule.xaml.cs">
+      <DependentUpon>WireModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreen\ProgressWindow.xaml.cs">
+      <DependentUpon>ProgressWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreen\SplashScreenWindow.xaml.cs">
+      <DependentUpon>SplashScreenWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,8 +141,45 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modules\BlankModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\StrDataModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\FitDataModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\TowerModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\WireModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\WeatherConditionModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SplashScreen\ProgressWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SplashScreen\SplashScreenWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="ModulesViewModels\WeatherConditionViewModel.cs" />
+    <Compile Include="Modules\WeatherConditionModule.xaml.cs">
+      <DependentUpon>WeatherConditionModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -90,6 +193,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -101,26 +205,204 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\TowerLoadCals.BLL\TowerLoadCals.BLL.csproj">
-      <Project>{11c1cfac-5eba-4b24-895f-89201ef45a8c}</Project>
-      <Name>TowerLoadCals.BLL</Name>
-    </ProjectReference>
+    <Resource Include="SplashScreen\Image.png" />
+    <Resource Include="SplashScreen\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TowerLoadCals.Common\TowerLoadCals.Common.csproj">
-      <Project>{02d06c8a-7792-43ee-9c4a-cebef8377aaf}</Project>
+      <Project>{02D06C8A-7792-43EE-9C4A-CEBEF8377AAF}</Project>
       <Name>TowerLoadCals.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\TowerLoadCals.DAL\TowerLoadCals.DAL.csproj">
-      <Project>{05ea043d-3674-4359-8481-3619d35fa25c}</Project>
+      <Project>{05EA043D-3674-4359-8481-3619D35FA25C}</Project>
       <Name>TowerLoadCals.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\TowerLoadCals.Mode\TowerLoadCals.Mode.csproj">
-      <Project>{80d39590-f862-4fec-b748-71aa47ba41c8}</Project>
+      <Project>{80D39590-F862-4FEC-B748-71AA47BA41C8}</Project>
       <Name>TowerLoadCals.Mode</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Analytics.png" />
+    <Resource Include="Images\BandedReports.png" />
+    <Resource Include="Images\Bars.png" />
+    <Resource Include="Images\BO_Task.png" />
+    <Resource Include="Images\BO_Task_Large.png" />
+    <Resource Include="Images\Clipart\caCompClient.png" />
+    <Resource Include="Images\Clipart\caCompClientEnabled.png" />
+    <Resource Include="Images\Clipart\caDatabaseBlue.png" />
+    <Resource Include="Images\Clipart\caDataBaseDisabled.png" />
+    <Resource Include="Images\Clipart\caDatabaseGreen.png" />
+    <Resource Include="Images\Clipart\caDataBaseViolet.png" />
+    <Resource Include="Images\Clipart\caInet.png" />
+    <Resource Include="Images\Clipart\caInetSearch.png" />
+    <Resource Include="Images\Clipart\caModem.png" />
+    <Resource Include="Images\Clipart\caModemEnabled.png" />
+    <Resource Include="Images\Clipart\caNetCard.png" />
+    <Resource Include="Images\Clipart\caNetwork.png" />
+    <Resource Include="Images\Clipart\caNetworkEnabled.png" />
+    <Resource Include="Images\Clipart\caServer.png" />
+    <Resource Include="Images\Clipart\caServerEnabled.png" />
+    <Resource Include="Images\Clipart\caWebCam.png" />
+    <Resource Include="Images\Code_Central.png" />
+    <Resource Include="Images\Contacts\Card_32x32.png" />
+    <Resource Include="Images\Contacts\List_32x32.png" />
+    <Resource Include="Images\Contacts\Unknown-user.png" />
+    <Resource Include="Images\Contact_32x32.png" />
+    <Resource Include="Images\Contact_Us.png" />
+    <Resource Include="Images\DXRibbon.png" />
+    <Resource Include="Images\FolderList_16x16.png" />
+    <Resource Include="Images\FolderList_32x32.png" />
+    <Resource Include="Images\GridContacts.png" />
+    <Resource Include="Images\GridTasks.png" />
+    <Resource Include="Images\Icons\font-color-16x16.png" />
+    <Resource Include="Images\Icons\font-color-32x32.png" />
+    <Resource Include="Images\Icons\InsertPicture-32x32.png" />
+    <Resource Include="Images\Icons\Scaling_16x16.png" />
+    <Resource Include="Images\Icons\Thickness_16x16.png" />
+    <Resource Include="Images\Icons\Unpinned.png" />
+    <Resource Include="Images\ModuleIcon.png" />
+    <Resource Include="Images\normal.png" />
+    <Resource Include="Images\online.gif" />
+    <Resource Include="Images\Online_Help.png" />
+    <Resource Include="Images\PDFViewer.png" />
+    <Resource Include="Images\PhotoGallery\Athens\Academy-of-Athens.jpg" />
+    <Resource Include="Images\PhotoGallery\Athens\Acropolis-of-Athens.jpg" />
+    <Resource Include="Images\PhotoGallery\Athens\National-Library-of-Greece.jpg" />
+    <Resource Include="Images\PhotoGallery\Athens\Temple-of-Hephaestus.jpg" />
+    <Resource Include="Images\PhotoGallery\Athens\Temple-of-Olympian-Zeus.jpg" />
+    <Resource Include="Images\PhotoGallery\Athens\Zappeion.jpg" />
+    <Resource Include="Images\PhotoGallery\BackButton.png" />
+    <Resource Include="Images\PhotoGallery\Barcelona\Arc-de-Triomf.jpg" />
+    <Resource Include="Images\PhotoGallery\Barcelona\Camp-Nou.jpg" />
+    <Resource Include="Images\PhotoGallery\Barcelona\Cathedral-of-Santa-Eulalia.jpg" />
+    <Resource Include="Images\PhotoGallery\Barcelona\Columbus-Monument.jpg" />
+    <Resource Include="Images\PhotoGallery\Barcelona\Palau-de-la-Musica-Catalana.jpg" />
+    <Resource Include="Images\PhotoGallery\Barcelona\Sagrada-Familia.jpg" />
+    <Resource Include="Images\PhotoGallery\Berlin\Bellevue-Palace.jpg" />
+    <Resource Include="Images\PhotoGallery\Berlin\Brandenburg-Gate.jpg" />
+    <Resource Include="Images\PhotoGallery\Berlin\Fernsehturm-Berlin.jpg" />
+    <Resource Include="Images\PhotoGallery\Berlin\Gendarmenmarkt.jpg" />
+    <Resource Include="Images\PhotoGallery\Berlin\Red-City-Hall.jpg" />
+    <Resource Include="Images\PhotoGallery\Berlin\Reichstag.jpg" />
+    <Resource Include="Images\PhotoGallery\Cairo\Al-Azhar-Mosque.jpg" />
+    <Resource Include="Images\PhotoGallery\Cairo\Cairo-Citadel.jpg" />
+    <Resource Include="Images\PhotoGallery\Cairo\Cairo-Tower.jpg" />
+    <Resource Include="Images\PhotoGallery\Cairo\Egyptian-Museum.jpg" />
+    <Resource Include="Images\PhotoGallery\Cairo\Mosque-of-Ibn-Tulun.jpg" />
+    <Resource Include="Images\PhotoGallery\CityInformationControl.png" />
+    <Resource Include="Images\PhotoGallery\CitySmallIcon.png" />
+    <Resource Include="Images\PhotoGallery\Label.png" />
+    <Resource Include="Images\PhotoGallery\London\Buckingham-Palace.jpg" />
+    <Resource Include="Images\PhotoGallery\London\St-Pauls-Cathedral.jpg" />
+    <Resource Include="Images\PhotoGallery\London\Tower-Bridge.jpg" />
+    <Resource Include="Images\PhotoGallery\London\Tower-of-London.jpg" />
+    <Resource Include="Images\PhotoGallery\London\Trafalgar-Square.jpg" />
+    <Resource Include="Images\PhotoGallery\London\Westminster-Abbey.jpg" />
+    <Resource Include="Images\PhotoGallery\Los-Angeles\%28Los-Angeles%29-Downtown.jpg" />
+    <Resource Include="Images\PhotoGallery\Los-Angeles\%28Los-Angeles%29-Griffith-Observatory.jpg" />
+    <Resource Include="Images\PhotoGallery\Los-Angeles\%28Los-Angeles%29-International-Airport.jpg" />
+    <Resource Include="Images\PhotoGallery\Los-Angeles\%28Los-Angeles%29-Music-Center.jpg" />
+    <Resource Include="Images\PhotoGallery\Los-Angeles\DevExpress-Office.jpg" />
+    <Resource Include="Images\PhotoGallery\Los-Angeles\Hollywood-Walk-of-Fame.jpg" />
+    <Resource Include="Images\PhotoGallery\Moscow\Bolshoi-Theatre.jpg" />
+    <Resource Include="Images\PhotoGallery\Moscow\Cathedral-of-Christ-the-Saviour.jpg" />
+    <Resource Include="Images\PhotoGallery\Moscow\Novodevichy-Convent.jpg" />
+    <Resource Include="Images\PhotoGallery\Moscow\Ostankino-Tower.jpg" />
+    <Resource Include="Images\PhotoGallery\Moscow\Saint-Basils-Cathedral.jpg" />
+    <Resource Include="Images\PhotoGallery\Moscow\Spasskaya-Tower.jpg" />
+    <Resource Include="Images\PhotoGallery\NewYork\Broadway.jpg" />
+    <Resource Include="Images\PhotoGallery\NewYork\Brooklyn-Bridge.jpg" />
+    <Resource Include="Images\PhotoGallery\NewYork\Empire-State-Building.jpg" />
+    <Resource Include="Images\PhotoGallery\NewYork\Rockefeller-Center.jpg" />
+    <Resource Include="Images\PhotoGallery\NewYork\Statue-of-Liberty.jpg" />
+    <Resource Include="Images\PhotoGallery\NewYork\Times-Square.jpg" />
+    <Resource Include="Images\PhotoGallery\NextPlace.png" />
+    <Resource Include="Images\PhotoGallery\Paris\Arc-de-Triomphe.jpg" />
+    <Resource Include="Images\PhotoGallery\Paris\Eiffel-Tower.jpg" />
+    <Resource Include="Images\PhotoGallery\Paris\Louvre.jpg" />
+    <Resource Include="Images\PhotoGallery\Paris\Montmartre.jpg" />
+    <Resource Include="Images\PhotoGallery\Paris\Notre-Dame-de-Paris.jpg" />
+    <Resource Include="Images\PhotoGallery\Paris\Sainte-Chapelle.jpg" />
+    <Resource Include="Images\PhotoGallery\Prague\Charles-Bridge.jpg" />
+    <Resource Include="Images\PhotoGallery\Prague\Lennon-Wall.jpg" />
+    <Resource Include="Images\PhotoGallery\Prague\Prague-Orloj.jpg" />
+    <Resource Include="Images\PhotoGallery\Prague\Prague-Zoo.jpg" />
+    <Resource Include="Images\PhotoGallery\Prague\St.-Vitus-Cathedral.jpg" />
+    <Resource Include="Images\PhotoGallery\PrevPlace.png" />
+    <Resource Include="Images\PhotoGallery\Rio-de-Janeiro\Christ-the-Redeemer.jpg" />
+    <Resource Include="Images\PhotoGallery\Rio-de-Janeiro\Copacabana-Beach.jpg" />
+    <Resource Include="Images\PhotoGallery\Rio-de-Janeiro\Maracana.jpg" />
+    <Resource Include="Images\PhotoGallery\Rio-de-Janeiro\Rio-Niteroi-Bridge.jpg" />
+    <Resource Include="Images\PhotoGallery\Rio-de-Janeiro\Sugarloaf-Mountain.jpg" />
+    <Resource Include="Images\PhotoGallery\Sydney\Queen-Victoria-Building.jpg" />
+    <Resource Include="Images\PhotoGallery\Sydney\Royal-Botanic-Gardens.jpg" />
+    <Resource Include="Images\PhotoGallery\Sydney\Sydney-Central-Business-District.jpg" />
+    <Resource Include="Images\PhotoGallery\Sydney\Sydney-Harbour-Bridge.jpg" />
+    <Resource Include="Images\PhotoGallery\Sydney\Sydney-Opera-House.jpg" />
+    <Resource Include="Images\PhotoGallery\Sydney\Sydney-Town-Hall.jpg" />
+    <Resource Include="Images\PhotoGallery\Tokyo\Rainbow-Bridge.jpg" />
+    <Resource Include="Images\PhotoGallery\Tokyo\Tokyo-Imperial-Palace.jpg" />
+    <Resource Include="Images\PhotoGallery\Tokyo\Tokyo-National-Museum.jpg" />
+    <Resource Include="Images\PhotoGallery\Tokyo\Tokyo-Tower.jpg" />
+    <Resource Include="Images\PhotoGallery\Tokyo\University-of-Tokyo.jpg" />
+    <Resource Include="Images\Pivot.png" />
+    <Resource Include="Images\reading.png" />
+    <Resource Include="Images\ribbon-application-32x32.png" />
+    <Resource Include="Images\SalesDemo\ArrowLeft.png" />
+    <Resource Include="Images\SalesDemo\ArrowRight.png" />
+    <Resource Include="Images\Scheduler.png" />
+    <Resource Include="Images\Scheduler\OpenSchedule_32x32.png" />
+    <Resource Include="Images\Scheduler\SaveSchedule_32x32.png" />
+    <Resource Include="Images\Shapes\ShapeCircle.png" />
+    <Resource Include="Images\Shapes\ShapeDownArrow.png" />
+    <Resource Include="Images\Shapes\ShapeLeftArrow.png" />
+    <Resource Include="Images\Shapes\ShapeRectangle.png" />
+    <Resource Include="Images\Shapes\ShapeRightArrow.png" />
+    <Resource Include="Images\Shapes\ShapeStar.png" />
+    <Resource Include="Images\Shapes\ShapeTriangle.png" />
+    <Resource Include="Images\Shapes\ShapeUpArrow.png" />
+    <Resource Include="Images\Spreadsheet.png" />
+    <Resource Include="Images\Tasks\Category_HouseChores.png" />
+    <Resource Include="Images\Tasks\Category_Shopping.png" />
+    <Resource Include="Images\Tasks\Category_Work.png" />
+    <Resource Include="Images\Tasks\Column_Complete.png" />
+    <Resource Include="Images\Tasks\Column_FlagStatus.png" />
+    <Resource Include="Images\Tasks\Column_Icon.png" />
+    <Resource Include="Images\Tasks\Column_Priority.png" />
+    <Resource Include="Images\Tasks\Completed_32x32.png" />
+    <Resource Include="Images\Tasks\Completed_Flag.png" />
+    <Resource Include="Images\Tasks\Custom_Flag.png" />
+    <Resource Include="Images\Tasks\Deferred_32x32.png" />
+    <Resource Include="Images\Tasks\Doctor.png" />
+    <Resource Include="Images\Tasks\Gender_Female.png" />
+    <Resource Include="Images\Tasks\Gender_Male.png" />
+    <Resource Include="Images\Tasks\ListByDate_32x32.png" />
+    <Resource Include="Images\Tasks\Miss.png" />
+    <Resource Include="Images\Tasks\Mr.png" />
+    <Resource Include="Images\Tasks\Mrs.png" />
+    <Resource Include="Images\Tasks\Ms.png" />
+    <Resource Include="Images\Tasks\NextWeek_Flag.png" />
+    <Resource Include="Images\Tasks\NoDate_Flag.png" />
+    <Resource Include="Images\Tasks\Overdue_32x32.png" />
+    <Resource Include="Images\Tasks\Prioritized_32x32.png" />
+    <Resource Include="Images\Tasks\Priority_High.png" />
+    <Resource Include="Images\Tasks\Priority_Low.png" />
+    <Resource Include="Images\Tasks\Reminder.png" />
+    <Resource Include="Images\Tasks\Status_0.png" />
+    <Resource Include="Images\Tasks\Status_1.png" />
+    <Resource Include="Images\Tasks\ThisWeek_Flag.png" />
+    <Resource Include="Images\Tasks\Today_Flag.png" />
+    <Resource Include="Images\Tasks\ToDoList_32x32.png" />
+    <Resource Include="Images\Tasks\Tomorrow_Flag.png" />
+    <Resource Include="Images\Warning_16x16.png" />
+    <Resource Include="Images\WeatherMap.png" />
+    <Resource Include="Images\WordProcessing.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
