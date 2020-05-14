@@ -16,26 +16,6 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:FitDataViewModel}}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-
-        <TreeView  Name="treeView"  BorderBrush="LightGray"  ItemsSource="{Binding WeatherCollections}" >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectedItemChanged">
-                    <i:InvokeCommandAction
-                        Command="{Binding SetSelectedItemCommand}"
-                        CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <TreeViewItem Header="其他金具">
-                <TreeViewItem Header="防震锤"/>
-                <TreeViewItem Header="间隔棒"/>
-                <TreeViewItem Header="警示装置"/>
-                <TreeViewItem Header="其他装置"/>
-            </TreeViewItem>
-        </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"

@@ -23,8 +23,6 @@ namespace TowerLoadCals.Modules
 {
     public class TowerViewModel: DaseDataBaseViewModel<TowerStrData, List<TowerStrCollection>>
     {
-        public List<TowerStrCollection> TowerStrCollections { get; set; }
-
         public DelegateCommand CopyRowCommand { get; private set; }
 
         protected string curType;
@@ -42,7 +40,7 @@ namespace TowerLoadCals.Modules
 
         protected override void InitializeData()
         {
-            TowerStrCollections = TowerStrDataReader.Read(filePath);
+            BaseData = TowerStrDataReader.Read(filePath);
         }
 
 

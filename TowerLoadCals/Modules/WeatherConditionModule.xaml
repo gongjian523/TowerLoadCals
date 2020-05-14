@@ -20,49 +20,6 @@
              xmlns:m="clr-namespace:TowerLoadCals.Mode;assembly=TowerLoadCals.Mode"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WeatherConditionViewModel}}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-        <TreeView  Name="treeView"  BorderBrush="LightGray"  ItemsSource="{Binding WeatherCollections}" >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectedItemChanged">
-                    <i:InvokeCommandAction
-                        Command="{Binding SetSelectedItemCommand}"
-                        CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type m:WeatherCollection}" ItemsSource="{Binding Weathers}">
-                    <Border BorderThickness="0">
-                        <TextBlock Text="{Binding Name}" />
-                        <Border.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="新建" >
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseClick">
-                                            <i:InvokeCommandAction Command="{Binding typeof AddItemCommand}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Border.ContextMenu>
-                    </Border>
-                </HierarchicalDataTemplate>
-                <DataTemplate DataType="{x:Type m:Weather}" >
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}"/>
-                        <StackPanel.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="编辑" />
-                                <MenuItem Header="删除" />
-                            </ContextMenu>
-                        </StackPanel.ContextMenu>
-                    </StackPanel>
-                </DataTemplate>
-            </TreeView.Resources>
-
-        </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"

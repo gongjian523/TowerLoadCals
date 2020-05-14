@@ -22,10 +22,13 @@ using System.Windows.Media;
 using TowerLoadCals.Common.Utils;
 using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Accordion;
+using TowerLoadCals.Mode;
+using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace TowerLoadCals
 {
-    public partial class  MainWindowViewModel: ViewModelBase
+    public partial class MainWindowViewModel : ViewModelBase,INotifyPropertyChanged
     {
         protected ProjectUtils projectUtils;
 
@@ -43,13 +46,32 @@ namespace TowerLoadCals
             OpenProjectCommand = new DelegateCommand(OpenProject);
             CloseProjectCommand = new DelegateCommand(CloseProject);
             SaveProjectCommand = new DelegateCommand(SaveProject);
-            
-        }
-        public virtual IEnumerable<ModuleInfo> Modules { get; protected set; }
 
+
+            NewItemCommand = new DelegateCommand<object>(NewMenuItem);
+            EditItemCommand = new DelegateCommand<object>(EditMenuItem);
+            DelItemCommand = new DelegateCommand<object>(DelMenuItem);
+        }
+
+        public virtual IEnumerable<ModuleInfo> Modules { get; protected set; }
         public virtual ModuleInfo SelectedModuleInfo { get; set; }
-        public virtual IEnumerable<SubModuleInfo> SubModules { get; set; }
-        public virtual SubModuleInfo SelectedSubModuleInfo { get; set; }
+
+        private ObservableCollection<MenuItemVM> _menuItems = new ObservableCollection<MenuItemVM>();
+        public ObservableCollection<MenuItemVM> MenuItems
+        {
+            get
+            {
+                return _menuItems;
+            }
+
+            protected set
+            {
+                _menuItems = value;
+                RaisePropertyChanged("MenuItems");
+            }
+        }
+
+        public virtual MenuItemVM SelectedMenuItem { get; set; }
 
         public virtual Type SplashScreenType { get; set; }
         public virtual int DefaultBackstatgeIndex { get; set; }
@@ -89,14 +111,19 @@ namespace TowerLoadCals
                 return;
 
             //SelectedModuleInfo.IsSelected = true;
+            if (SelectedModuleInfo.MenuItems == null)
+            {
+                SelectedModuleInfo.MenuItems = new List<MenuItemVM>();
+            }
 
-            SubModules = SelectedModuleInfo.SubModules;
+            MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
 
-            if (SubModules == null || SubModules.Count() == 0)
-                return;
+            if (MenuItems == null || MenuItems.Count() == 0)
+                return; 
 
-            SelectedSubModuleInfo = SubModules.ToList().First();
-            SelectedSubModuleInfo.IsSelected = true;
+            SelectedMenuItem = MenuItems.ToList().First();
+            SelectedMenuItem.IsSelected = true;
+            SelectedMenuItem.Show();
         }
 
         protected virtual void OnIsBackstageOpenChanged()
@@ -110,19 +137,13 @@ namespace TowerLoadCals
 
         bool allowSelectedModuleInfoChanged = true;
 
-        public void OnSelectedSubModuleChanged(AccordionSelectedItemChangedEventArgs e)
-        {
-            if(SelectedSubModuleInfo != null)
-                SelectedSubModuleInfo.Show();
-        }
-
         public DelegateCommand CreateProjectCommand { get; private set; }
 
         protected void CreateProject()
         {
             if (!projectUtils.CreateProject())
                 return;
-            
+
             LoadModules();
         }
 
@@ -138,7 +159,6 @@ namespace TowerLoadCals
         public DelegateCommand CloseProjectCommand { get; private set; }
         void CloseProject()
         {
-
             SaveCurrentModule();
 
             Modules = new List<ModuleInfo>();
@@ -156,34 +176,24 @@ namespace TowerLoadCals
         public DelegateCommand SaveProjectAsCommand { get; private set; }
         void SaveProjectAs()
         {
-           
+
         }
 
         protected void LoadModules()
         {
-            List<ModuleInfo> moduleList = new List<ModuleInfo>() {};
+            List<ModuleInfo> moduleList = new List<ModuleInfo>() { };
 
-            var baseDataSubModules = new List<SubModuleInfo>() {
-                ViewModelSource.Create(() => new SubModuleInfo("WeatherConditionModule", this, "气象条件")),
-                ViewModelSource.Create(() => new SubModuleInfo("WireModule", this, "导地线")),
-                ViewModelSource.Create(() => new SubModuleInfo("TowerModule", this, "杆塔")),
-                ViewModelSource.Create(() => new SubModuleInfo("StrDataModule", this, "绝缘子串")),
-                ViewModelSource.Create(() => new SubModuleInfo("FitDataModule", this, "其他金具")),
-            };
-
-            ModuleInfo baseDataMudule = new ModuleInfo("BaseDataModule", this, "基础数据");
-            baseDataMudule.SetIcon("FolderList_32x32.png");
-            baseDataMudule.SubModules = baseDataSubModules;
-            moduleList.Add(baseDataMudule);
+            moduleList.Add(IniBaseDataModule());
 
             ModuleInfo towerMudule = new ModuleInfo("TowersModule", this, "塔杆排位");
             towerMudule.SetIcon("FolderList_32x32.png");
-            moduleList.Add(towerMudule);
+                moduleList.Add(towerMudule);
 
             Modules = moduleList;
 
             OnModulesLoaded();
         }
+
 
         protected void SaveCurrentModule()
         {
@@ -193,6 +203,20 @@ namespace TowerLoadCals
             viewModel.Save();
         }
 
+        public DelegateCommand<object> NewItemCommand { get; private set; }
+        void NewMenuItem(object menu)
+        {
+        }
+
+        public DelegateCommand<object> EditItemCommand { get; private set; }
+        void EditMenuItem(object menu)
+        {
+        }
+
+        public DelegateCommand<object> DelItemCommand { get; private set; }
+        void DelMenuItem(object menu)
+        {
+        }
     }
 
     public class ModuleInfo
@@ -218,35 +242,64 @@ namespace TowerLoadCals
 
         public virtual void Show(object parameter = null)
         {
-
-
             INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
             navigationService.Navigate(Type, parameter, parent);
         }
 
-        public virtual IEnumerable<SubModuleInfo> SubModules { get; set; }
 
-        public virtual SubModuleInfo SelectedSubModuleInfo { get; set; }
+        public virtual IEnumerable<MenuItemVM> MenuItems { get; set; }
 
+        public virtual MenuItemVM SelectedMenuItem { get; set; }
 
     }
 
-    public class SubModuleInfo: ModuleInfo
+    public class MenuItemVM : ModuleInfo
     {
+        public ICommand Command { get; set; }
 
-        public SubModuleInfo(string _type, object parent, string _title):base(_type, parent, _title)
+        public MenuItemVM ParentNode { get; set; }
+
+        public IList<MenuItemVM> ChildItems { get; set; }
+
+        public Visibility ContextVisible { get; set; }
+
+        public Visibility NewBtnVisible { get; set; }
+
+        public Visibility EditBtnVisible { get; set; }
+
+        public Visibility DelBtnVisible { get; set; }
+
+        public MenuItemVM(string _type, 
+                        object parent, 
+                        string _title, 
+                        Action<MenuItemVM> func,
+                        Visibility contextVisible = Visibility.Collapsed,
+                        Visibility bNewBtnVisible = Visibility.Collapsed,
+                        Visibility bEditBtnVisible = Visibility.Collapsed,
+                        Visibility bDelBtnVisible = Visibility.Collapsed, 
+                        IList<MenuItemVM> children = null) 
+                        : base(_type, parent, _title)
         {
             Type = _type;
             Title = _title;
+            this.parent = (ISupportServices)parent;
+
+            Command = new DelegateCommand<MenuItemVM>(func);
+
+            ContextVisible = contextVisible;
+            NewBtnVisible = bNewBtnVisible;
+            EditBtnVisible = bEditBtnVisible;
+            DelBtnVisible = bDelBtnVisible;
+
+            ChildItems = children;
         }
 
-        public  override void  Show(object parameter = null)
+        public override void Show(object parameter = null)
         {
             INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
             navigationService.Navigate(Type, parameter, parent);
         }
     }
-
 
     public class PrefixEnumWithExternalMetadata
     {

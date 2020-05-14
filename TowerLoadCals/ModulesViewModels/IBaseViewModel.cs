@@ -8,6 +8,6 @@ namespace TowerLoadCals.ModulesViewModels
 {
     public interface IBaseViewModel
     {
-        void Save();
+        void Save();        
     }
 }

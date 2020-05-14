@@ -23,8 +23,6 @@ namespace TowerLoadCals.Modules
 {
     public class WireViewModel: DaseDataBaseViewModel<Wire, List<WireType>>
     {
-        public List<WireType> WireTypes { get; set; }
-
         public DelegateCommand CopyRowCommand { get; private set; }
 
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
@@ -34,7 +32,6 @@ namespace TowerLoadCals.Modules
         protected ObservableCollection<Wire> wireDi = new ObservableCollection<Wire>();
 
         protected ObservableCollection<Wire> wireDao = new ObservableCollection<Wire>();
-
 
         protected override void InitializeItemsSource()
         {
@@ -47,24 +44,24 @@ namespace TowerLoadCals.Modules
 
         protected override void InitializeData()
         {
-            WireTypes = WireReader.Read(filePath);
+            BaseData = WireReader.Read(filePath);
 
-            if (WireTypes.Where(item => item.Type == "导线").Count() == 0)
+            if (BaseData.Where(item => item.Type == "导线").Count() == 0)
             {
                 wireDao.Add(new Wire { });
             }
             else
             {
-                wireDao = new ObservableCollection<Wire>(WireTypes.Where(item => item.Type == "导线").First().Wire);
+                wireDao = new ObservableCollection<Wire>(BaseData.Where(item => item.Type == "导线").First().Wire);
             }
 
-            if (WireTypes.Where(item => item.Type == "地线").Count() == 0)
+            if (BaseData.Where(item => item.Type == "地线").Count() == 0)
             {
                 wireDi.Add(new Wire { });
             }
             else
             {
-                wireDi = new ObservableCollection<Wire>(WireTypes.Where(item => item.Type == "地线").First().Wire);
+                wireDi = new ObservableCollection<Wire>(BaseData.Where(item => item.Type == "地线").First().Wire);
             }
 
             curType = "导线";

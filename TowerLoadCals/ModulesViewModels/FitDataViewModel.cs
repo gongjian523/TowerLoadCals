@@ -23,13 +23,9 @@ namespace TowerLoadCals.Modules
 {
     public class FitDataViewModel: DaseDataBaseViewModel<FitData, List<FitDataCollection> >
     {
-        public List<FitDataCollection> FitDataCollections { get; set; }
-
         public DelegateCommand CopyRowCommand { get; private set; }
 
-
         protected string curType;
-
 
         protected override void InitializeItemsSource()
         {
@@ -42,7 +38,7 @@ namespace TowerLoadCals.Modules
 
         protected override void InitializeData()
         {
-            FitDataCollections = FitDataReader.Read(filePath);
+            BaseData = FitDataReader.Read(filePath);
 
             UpdateCurrentSelectedFitData("防震锤");                
         }
@@ -69,17 +65,17 @@ namespace TowerLoadCals.Modules
         {
             UpdateLastSelectedFitData();
 
-            FitDataReader.Save(filePath, FitDataCollections);
+            FitDataReader.Save(filePath, BaseData);
         }
 
         protected void UpdateLastSelectedFitData()
         {
-            int index = FitDataCollections.FindIndex(item => item.Type == curType);
+            int index = BaseData.FindIndex(item => item.Type == curType);
 
             //这种情况只能是FitDataCollectionsz中没有保存相应的type的数据
             if (index == -1)
             {
-                FitDataCollections.Add(new FitDataCollection
+                BaseData.Add(new FitDataCollection
                 {
                     Type = curType,
                     FitDatas = SelectedItems.ToList()
@@ -87,7 +83,7 @@ namespace TowerLoadCals.Modules
             }
             else
             {
-                FitDataCollections[index].FitDatas = SelectedItems.ToList();
+                BaseData[index].FitDatas = SelectedItems.ToList();
             }
         }
 
@@ -95,14 +91,14 @@ namespace TowerLoadCals.Modules
         {
             curType = type;
 
-            if (FitDataCollections.Where(item => item.Type == curType).Count() == 0)
+            if (BaseData.Where(item => item.Type == curType).Count() == 0)
             {
                 SelectedItems.Clear();
                 SelectedItems.Add(new FitData { });
             }
             else
             {
-                SelectedItems = new ObservableCollection<FitData>(FitDataCollections.Where(item => item.Type == curType).First().FitDatas);
+                SelectedItems = new ObservableCollection<FitData>(BaseData.Where(item => item.Type == curType).First().FitDatas);
             }
         }
     }

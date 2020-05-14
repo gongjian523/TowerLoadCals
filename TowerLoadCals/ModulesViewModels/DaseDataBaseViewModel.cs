@@ -67,5 +67,7 @@ namespace TowerLoadCals.ModulesViewModels
         abstract protected void SelectedItemChanged(object para);
 
         abstract public void Save();
+
+
     }
 }

@@ -218,33 +218,45 @@
                     <dxdo:LayoutPanel Caption="WPF Products" ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
                                       AllowClose="False" ShowCaption="False" Name="subLayoutPanel" AllowSizing="False">
                         <dxa:AccordionControl x:Name="subAccordion"
-                                              SelectedItem="{Binding SelectedSubModuleInfo}"
-                                              ItemsSource="{Binding Path=SubModules}"
+                                              SelectedItem="{Binding SelectedMenuItem}"
+                                              ItemsSource="{Binding Path=MenuItems}"
                                               HeaderContent=""
                                               SummaryItemHeader=""
                                               IsCollapseButtonVisible="False"
-                                              RootItemDisplayMode="Item"
-                                              SelectedItemChanged="{DXEvent Handler='OnSelectedSubModuleChanged(@args)'}"
+                                              RootItemDisplayMode="Group"
+                                              ExpandMode="MultipleOrNone"
+                                              ChildrenPath="ChildItems"
+                                              AutoExpandAllItems="True"
                                               >
                             <dxa:AccordionControl.ItemContainerStyle>
                                 <Style TargetType="dxa:AccordionItem">
                                     <Setter Property="Header" Value="{Binding Path=Title}" />
                                     <Setter Property="Glyph" Value="{Binding Path=Icon}" />
                                     <Setter Property="GlyphPosition" Value="Top" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
                                     <Setter Property="ExpandButtonPosition" Value="None" />
+                                    <Setter Property="Command" Value="{Binding Command}" />
+                                    <Setter Property="CommandParameter" Value="{Binding}" />
+                                    <Setter Property="ContextMenu">
+                                        <Setter.Value>
+                                            <ContextMenu  Visibility="{Binding ContextVisible}">
+                                                <MenuItem Header="新增" Command="{Binding Path=NewItemCommand, ElementName = DataContext}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
+                                                <MenuItem Header="编辑" Command="{Binding Path=EditItemCommand, ElementName = DataContext}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
+                                                <MenuItem Header="删除" Command="{Binding Path=DelItemCommand, ElementName = DataContext}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
+                                            </ContextMenu>
+                                        </Setter.Value>
+                                    </Setter >
                                 </Style>
                             </dxa:AccordionControl.ItemContainerStyle>
-                            <dxmvvm:Interaction.Triggers>
-                                <dxmvvm:EventToCommand EventName="MouseClick" Command="{Binding OnMouseClickCommand}" />
-                            </dxmvvm:Interaction.Triggers>
-                            <dxb:BarManager.DXContextMenu >
+                            <!--<dxb:BarManager.DXContextMenu >
                                 <dxb:PopupMenu>
                                     <dxb:PopupMenu.Items>
-                                        <dxb:BarButtonItem Content="Copy" Command="{Binding CopyCommand}"/>
-                                        </dxb:PopupMenu.Items>
+                                        <dxb:BarButtonItem Content="新增" Command="{Binding NewItemCommand}"  CommandParameter="{Binding SelectedMenuItem}" IsVisible="{Binding SelectedMenuItem.NewBtnVisible}"/>
+                                        <dxb:BarButtonItem Content="编辑" Command="{Binding EditItemCommand}" CommandParameter="{Binding SelectedMenuItem}" IsVisible="{Binding SelectedMenuItem.EditBtnVisible}"/>
+                                        <dxb:BarButtonItem Content="删除" Command="{Binding DelItemCommand}" CommandParameter="{Binding SelectedMenuItem}" IsVisible="{Binding SelectedMenuItem.DelBtnVisible}"/>
+                                    </dxb:PopupMenu.Items>
                                 </dxb:PopupMenu>
-                            </dxb:BarManager.DXContextMenu>
+                            </dxb:BarManager.DXContextMenu>-->
                         </dxa:AccordionControl>
                     </dxdo:LayoutPanel>
                     <dxdo:LayoutPanel AllowClose="False" AllowFloat="False" AllowHide="False" ShowCaption="False" ShowBorder="False" ShowCloseButton="False">

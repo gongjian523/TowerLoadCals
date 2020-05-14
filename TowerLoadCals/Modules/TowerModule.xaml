@@ -16,24 +16,6 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:TowerViewModel}}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-
-        <TreeView  Name="treeView"  BorderBrush="LightGray"  ItemsSource="{Binding WeatherCollections}" >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectedItemChanged">
-                    <i:InvokeCommandAction
-                        Command="{Binding SetSelectedItemCommand}"
-                        CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <TreeViewItem Header="导地线">
-                <TreeViewItem Header="导线"/>
-                <TreeViewItem Header="地线"/>
-            </TreeViewItem>
-        </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"
@@ -43,7 +25,7 @@
             <dxg:GridControl.View>
                 <dxg:TableView ShowGroupPanel="False" ShowFilterPanelMode="Never">
                     <dxg:TableView.RowCellMenuCustomizations>
-                        <dxb:BarButtonItem Name="viewCopyRow" Content="复制行" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WireViewModel},AncestorLevel=3}, Path=CopyRowCommand}"/>
+                        <!--<dxb:BarButtonItem Name="viewCopyRow" Content="复制行" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WireViewModel},AncestorLevel=3}, Path=CopyRowCommand}"/>-->
                         <dxb:BarButtonItem Name="viewPasteRow" Content="粘贴行"  />
                         <dxb:BarButtonItem Name="viewDeleteRow" Content="删除行"  />
                         <dxb:BarButtonItem Name="viewEmptyRow" Content="清空行"  />

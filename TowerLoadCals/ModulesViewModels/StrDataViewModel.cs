@@ -23,13 +23,9 @@ namespace TowerLoadCals.Modules
 {
     public class StrDataViewModel: DaseDataBaseViewModel<StrData, List<StrDataCollection>>
     {
-        public List<StrDataCollection> StrDataCollections { get; set; }
-
         public DelegateCommand CopyRowCommand { get; private set; }
 
-
         protected string curType;
-
 
         protected override void InitializeItemsSource()
         {
@@ -42,7 +38,7 @@ namespace TowerLoadCals.Modules
 
         protected override void InitializeData()
         {
-            StrDataCollections = StrDataReader.Read(filePath);
+            BaseData = StrDataReader.Read(filePath);
 
             UpdateCurrentSelectedFitData("一般子串");                
         }
@@ -69,17 +65,17 @@ namespace TowerLoadCals.Modules
         {
             UpdateLastSelectedFitData();
 
-            StrDataReader.Save(filePath, StrDataCollections);
+            StrDataReader.Save(filePath, BaseData);
         }
 
         protected void UpdateLastSelectedFitData()
         {
-            int index = StrDataCollections.FindIndex(item => item.Type == curType);
+            int index = BaseData.FindIndex(item => item.Type == curType);
 
             //这种情况只能是FitDataCollectionsz中没有保存相应的type的数据
             if (index == -1)
             {
-                StrDataCollections.Add(new StrDataCollection
+                BaseData.Add(new StrDataCollection
                 {
                     Type = curType,
                     StrDatas = SelectedItems.ToList()
@@ -87,7 +83,7 @@ namespace TowerLoadCals.Modules
             }
             else
             {
-                StrDataCollections[index].StrDatas = SelectedItems.ToList();
+                BaseData[index].StrDatas = SelectedItems.ToList();
             }
         }
 
@@ -95,14 +91,14 @@ namespace TowerLoadCals.Modules
         {
             curType = type;
 
-            if (StrDataCollections.Where(item => item.Type == curType).Count() == 0)
+            if (BaseData.Where(item => item.Type == curType).Count() == 0)
             {
                 SelectedItems.Clear();
                 SelectedItems.Add(new StrData { });
             }
             else
             {
-                SelectedItems = new ObservableCollection<StrData>(StrDataCollections.Where(item => item.Type == curType).First().StrDatas);
+                SelectedItems = new ObservableCollection<StrData>(BaseData.Where(item => item.Type == curType).First().StrDatas);
             }
         }
     }

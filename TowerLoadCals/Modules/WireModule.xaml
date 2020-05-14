@@ -16,24 +16,6 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WireViewModel}}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-
-        <TreeView  Name="treeView"  BorderBrush="LightGray"  ItemsSource="{Binding WeatherCollections}" >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectedItemChanged">
-                    <i:InvokeCommandAction
-                        Command="{Binding SetSelectedItemCommand}"
-                        CommandParameter="{Binding SelectedItem, ElementName=treeView}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <TreeViewItem Header="导地线">
-                <TreeViewItem Header="导线"/>
-                <TreeViewItem Header="地线"/>
-            </TreeViewItem>
-        </TreeView>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"

@@ -21,12 +21,8 @@ using TextBox = System.Windows.Controls.TextBox;
 
 namespace TowerLoadCals.Modules
 {
-
-    //[POCOViewModel]
     public class WeatherConditionViewModel: DaseDataBaseViewModel<WorkCondition, List<Weather>>
     {
-        //public List<Weather> Weathers { get; set; }
-
         public ObservableCollection<WeatherCollection> WeatherCollections { get; set; }
 
         public DelegateCommand AddItemCommand { get; private set; }
@@ -47,8 +43,8 @@ namespace TowerLoadCals.Modules
         protected override void InitializeData()
         {
             //Weathers = _weatherXmlReader.ReadLocal(filePath);
-            //Weathers = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
-            BaseData = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            BaseData = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
+            //BaseData = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
 
 
             //WeatherCollections = new ObservableCollection<WeatherCollection>();
