@@ -29,6 +29,7 @@
             <dxmvvm:MapItem Source="False" Target="Auto" />
         </dxmvvm:ObjectToObjectConverter>
         <!--<sys:Double x:Key="{dxat:AccordionThemeKeys ResourceKey=PopupDefaultWidth, IsThemeIndependent=True}">1</sys:Double>-->
+        <local:MainWindowViewModel x:Key="vm"/>
     </dx:ThemedWindow.Resources>
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:CurrentWindowService />
@@ -240,9 +241,9 @@
                                     <Setter Property="ContextMenu">
                                         <Setter.Value>
                                             <ContextMenu  Visibility="{Binding ContextVisible}">
-                                                <MenuItem Header="新增" Command="{Binding Path=NewItemCommand, ElementName = DataContext}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
-                                                <MenuItem Header="编辑" Command="{Binding Path=EditItemCommand, ElementName = DataContext}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
-                                                <MenuItem Header="删除" Command="{Binding Path=DelItemCommand, ElementName = DataContext}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
+                                                <MenuItem Header="新增" Command="{Binding NewItemCommand,Source={StaticResource vm}}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
+                                                <MenuItem Header="编辑" Command="{Binding EditItemCommand,Source={StaticResource vm}}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
+                                                <MenuItem Header="删除" Command="{Binding DelItemCommand, Source={StaticResource vm}}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
                                             </ContextMenu>
                                         </Setter.Value>
                                     </Setter >

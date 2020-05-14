@@ -206,11 +206,13 @@ namespace TowerLoadCals
         public DelegateCommand<object> NewItemCommand { get; private set; }
         void NewMenuItem(object menu)
         {
+            ;
         }
 
         public DelegateCommand<object> EditItemCommand { get; private set; }
         void EditMenuItem(object menu)
         {
+            ;
         }
 
         public DelegateCommand<object> DelItemCommand { get; private set; }

@@ -90,11 +90,7 @@ namespace TowerLoadCals
             
             vm.ChildItems = listMenu;
 
-
             MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
-            //MenuItems = new ObservableCollection<MenuItemVM> (menuItem);
-            //var ttt = MenuItems;
-            //RaisePropertyChanged("MenuItems");
         }
 
         private void OnSelectedWeatherItemChanged(MenuItemVM vm)
