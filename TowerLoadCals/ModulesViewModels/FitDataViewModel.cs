@@ -43,18 +43,6 @@ namespace TowerLoadCals.Modules
             UpdateCurrentSelectedFitData("防震锤");                
         }
 
-        protected override void  SelectedItemChanged(object para)
-        {
-            string sendItemName = ((TreeViewItem)para).Header.ToString();
-
-            if (sendItemName == "其他金具")
-                return;
-
-            UpdateLastSelectedFitData();
-
-            UpdateCurrentSelectedFitData(sendItemName);
-        }
-
         protected void CopyRow()
         {
             ;
@@ -100,6 +88,16 @@ namespace TowerLoadCals.Modules
             {
                 SelectedItems = new ObservableCollection<FitData>(BaseData.Where(item => item.Type == curType).First().FitDatas);
             }
+        }
+
+        public override void UpDateView(string para1, string para2 = "")
+        {
+            UpdateCurrentSelectedFitData(para1);
+        }
+
+        public override void DelSubItem(string itemName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

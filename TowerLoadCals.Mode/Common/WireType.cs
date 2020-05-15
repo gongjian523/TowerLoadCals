@@ -6,6 +6,6 @@ namespace TowerLoadCals.Mode
     {
         public string Type { get; set; }
 
-        public List<Wire> Wire { get; set; }
+        public List<Wire> Wires { get; set; }
     }
 }

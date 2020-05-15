@@ -28,9 +28,13 @@ using System.Collections.ObjectModel;
 
 namespace TowerLoadCals
 {
-    public partial class MainWindowViewModel : ViewModelBase,INotifyPropertyChanged
+    public partial class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         protected ProjectUtils projectUtils;
+
+        //记录当前的子模块，用于判断是否要加载新的模块
+        public string curSubModule;
+        protected IBaseViewModel curViewMode;
 
         public MainWindowViewModel()
         {
@@ -119,11 +123,14 @@ namespace TowerLoadCals
             MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
 
             if (MenuItems == null || MenuItems.Count() == 0)
-                return; 
+                return;
 
             SelectedMenuItem = MenuItems.ToList().First();
             SelectedMenuItem.IsSelected = true;
-            SelectedMenuItem.Show();
+            //SelectedMenuItem.Show();
+            OnSelectedBaseDataSubModuleChanged(SelectedMenuItem);
+
+            curSubModule = SelectedMenuItem.Title;
         }
 
         protected virtual void OnIsBackstageOpenChanged()
@@ -187,7 +194,7 @@ namespace TowerLoadCals
 
             ModuleInfo towerMudule = new ModuleInfo("TowersModule", this, "塔杆排位");
             towerMudule.SetIcon("FolderList_32x32.png");
-                moduleList.Add(towerMudule);
+            moduleList.Add(towerMudule);
 
             Modules = moduleList;
 
@@ -197,7 +204,7 @@ namespace TowerLoadCals
 
         protected void SaveCurrentModule()
         {
-            IBaseViewModel viewModel = NavigationService.Current as IBaseViewModel;
+            IBaseViewModel viewModel = GetCurSubModuleVM();
             if (viewModel == null)
                 return;
             viewModel.Save();
@@ -206,7 +213,10 @@ namespace TowerLoadCals
         public DelegateCommand<object> NewItemCommand { get; private set; }
         void NewMenuItem(object menu)
         {
-            ;
+            IBaseViewModel viewModel = GetCurSubModuleVM();
+            if (viewModel == null)
+                return;
+          
         }
 
         public DelegateCommand<object> EditItemCommand { get; private set; }
@@ -218,17 +228,51 @@ namespace TowerLoadCals
         public DelegateCommand<object> DelItemCommand { get; private set; }
         void DelMenuItem(object menu)
         {
+            IBaseViewModel viewModel = NavigationService.Current as IBaseViewModel;
+
+            if (curViewMode == null)
+                return;
+            curViewMode.DelSubItem(((MenuItemVM)menu).Title);
+        }
+
+        protected IBaseViewModel GetCurSubModuleVM()
+        {
+            if (NavigationService == null)
+                return null;
+
+            return (NavigationService.Current as IBaseViewModel);
+        }
+
+        //更新子模块，返回true； 不更新子模块，返回false
+        protected bool UpdateSubModule(MenuItemVM subVm)
+        {
+            if (curSubModule == subVm.Title)
+                return false;
+            else
+            {
+                subVm.Show();
+                curSubModule = subVm.Title;
+
+                return true;
+            }
+        }
+
+        public void UpdateNavigationBar()
+        {
+            MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
         }
     }
 
     public class ModuleInfo
     {
         protected ISupportServices parent;
+        protected MainWindowViewModel parentVm;
 
         public ModuleInfo(string _type, object parent, string _title)
         {
             Type = _type;
             this.parent = (ISupportServices)parent;
+            parentVm = (MainWindowViewModel)parent;
             Title = _title;
         }
         public string Type { get; protected set; }
@@ -247,8 +291,6 @@ namespace TowerLoadCals
             INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
             navigationService.Navigate(Type, parameter, parent);
         }
-
-
         public virtual IEnumerable<MenuItemVM> MenuItems { get; set; }
 
         public virtual MenuItemVM SelectedMenuItem { get; set; }
@@ -270,6 +312,8 @@ namespace TowerLoadCals
         public Visibility EditBtnVisible { get; set; }
 
         public Visibility DelBtnVisible { get; set; }
+
+
 
         public MenuItemVM(string _type, 
                         object parent, 
@@ -294,6 +338,8 @@ namespace TowerLoadCals
             DelBtnVisible = bDelBtnVisible;
 
             ChildItems = children;
+
+            DelItemCommand = new DelegateCommand<object>(DelMenuItem);
         }
 
         public override void Show(object parameter = null)
@@ -301,6 +347,21 @@ namespace TowerLoadCals
             INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
             navigationService.Navigate(Type, parameter, parent);
         }
+
+        public DelegateCommand<object> DelItemCommand { get; private set; }
+        void DelMenuItem(object menu)
+        {
+            INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
+            IBaseViewModel curViewMode = navigationService.Current as IBaseViewModel;
+            if (curViewMode == null)
+                return;
+
+            ((MenuItemVM)menu).ParentNode.ChildItems.Remove((MenuItemVM)menu);
+            parentVm.UpdateNavigationBar();
+
+            curViewMode.DelSubItem(((MenuItemVM)menu).Title);
+        }
+
     }
 
     public class PrefixEnumWithExternalMetadata

@@ -43,13 +43,6 @@ namespace TowerLoadCals.Modules
             BaseData = TowerStrDataReader.Read(filePath);
         }
 
-
-        protected override void  SelectedItemChanged(object para)
-        {
-            if (((TreeViewItem)para).Header.ToString() == "导地线")
-                return;
-        }
-
         protected void CopyRow()
         {
             ;
@@ -63,6 +56,16 @@ namespace TowerLoadCals.Modules
 
 
             WireReader.Save(filePath, wireType);
+        }
+
+        public override void UpDateView(string para1, string para2 = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DelSubItem(string itemName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

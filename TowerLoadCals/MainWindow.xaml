@@ -200,6 +200,9 @@
                                               IsCollapseButtonVisible="False"
                                               RootItemDisplayMode="Item"
                                               >
+                            <!--<dxmvvm:Interaction.Behaviors>
+                                <dxwuin:FrameNavigationService Frame="{Binding ElementName=documentFrame}" />
+                            </dxmvvm:Interaction.Behaviors>-->
                             <dxa:AccordionControl.ItemContainerStyle>
                                 <Style TargetType="dxa:AccordionItem">
                                     <Setter Property="Header" Value="{Binding Path=Title}" />
@@ -243,7 +246,7 @@
                                             <ContextMenu  Visibility="{Binding ContextVisible}">
                                                 <MenuItem Header="新增" Command="{Binding NewItemCommand,Source={StaticResource MainWinVM}}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
                                                 <MenuItem Header="编辑" Command="{Binding EditItemCommand,Source={StaticResource MainWinVM}}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
-                                                <MenuItem Header="删除" Command="{Binding DelItemCommand, Source={StaticResource MainWinVM}}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
+                                                <MenuItem Header="删除" Command="{Binding DelItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
                                             </ContextMenu>
                                         </Setter.Value>
                                     </Setter >

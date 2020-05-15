@@ -46,39 +46,7 @@ namespace TowerLoadCals.Modules
             BaseData = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
             //BaseData = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
 
-
-            //WeatherCollections = new ObservableCollection<WeatherCollection>();
-            //WeatherCollections.Add(new WeatherCollection
-            //{
-            //    Name = "气象条件",
-            //    Weathers = Weathers
-            //});
-
-            //if (Weathers.Count == 0)
-            //{
-            //    curName = "";
-            //    SelectedItems = new ObservableCollection<WorkCondition>();
-            //}
-            //else
-            //{
-            //    curName = Weathers[0].Name;
-            //    SelectedItems = new ObservableCollection<WorkCondition>(Weathers[0].WorkConditions);
-            //}
-        }
-
-        protected override void SelectedItemChanged(object para)
-        {
-            if (para.GetType().Name != "Weather")
-                return;
-
-            if (BaseData.Where(item => item.Name == ((Weather)para).Name).ToList().Count == 0)
-                return;
-            
-            UpdateLastSelectedWeather();
-
-            curName = ((Weather)para).Name;
-            Weather selectedWd = BaseData.Where(item => item.Name == ((Weather)para).Name).First();
-            SelectedItems = new ObservableCollection<WorkCondition>(selectedWd.WorkConditions);
+            UpdateCurrentWeatherCondition(BaseData.Count == 0 ? "" : BaseData[0].Name);
         }
 
         public override void Save()
@@ -104,6 +72,33 @@ namespace TowerLoadCals.Modules
                 return;
 
             BaseData[index].WorkConditions = SelectedItems.ToList();
+        }
+
+
+        protected void UpdateCurrentWeatherCondition(string name)
+        {
+            curName = name;
+
+            if (BaseData.Where(item => item.Name == curName).Count() == 0)
+            {
+                SelectedItems.Clear(); 
+            }
+            else
+            {
+                SelectedItems = new ObservableCollection<WorkCondition>(BaseData.Where(item => item.Name == curName).First().WorkConditions);
+            }
+        }
+
+        public override void UpDateView(string para1, string para2 = "")
+        {
+            UpdateCurrentWeatherCondition(para1);
+        }
+
+        public override void DelSubItem(string itemName)
+        {
+            BaseData.Remove(BaseData.Where(item  => item.Name == itemName).First());
+
+            UpdateCurrentWeatherCondition(BaseData.Count == 0 ? "" : BaseData.First().Name);
         }
     }
 }

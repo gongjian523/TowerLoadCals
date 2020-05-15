@@ -8,6 +8,10 @@ namespace TowerLoadCals.ModulesViewModels
 {
     public interface IBaseViewModel
     {
-        void Save();        
+        void Save();
+
+        void UpDateView(string para1, string para2 = "");
+
+        void DelSubItem(string itemName);
     }
 }

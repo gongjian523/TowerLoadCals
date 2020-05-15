@@ -29,97 +29,72 @@ namespace TowerLoadCals.Modules
 
         protected string curType;
 
-        protected ObservableCollection<Wire> wireDi = new ObservableCollection<Wire>();
-
-        protected ObservableCollection<Wire> wireDao = new ObservableCollection<Wire>();
 
         protected override void InitializeItemsSource()
         {
             base.InitializeItemsSource();
 
             filePath = globalInfo.ProjectPath + "\\BaseData\\Wire.xml";
-
-            CopyRowCommand = new DelegateCommand(CopyRow);
         }
 
         protected override void InitializeData()
         {
             BaseData = WireReader.Read(filePath);
 
-            if (BaseData.Where(item => item.Type == "导线").Count() == 0)
-            {
-                wireDao.Add(new Wire { });
-            }
-            else
-            {
-                wireDao = new ObservableCollection<Wire>(BaseData.Where(item => item.Type == "导线").First().Wire);
-            }
-
-            if (BaseData.Where(item => item.Type == "地线").Count() == 0)
-            {
-                wireDi.Add(new Wire { });
-            }
-            else
-            {
-                wireDi = new ObservableCollection<Wire>(BaseData.Where(item => item.Type == "地线").First().Wire);
-            }
-
-            curType = "导线";
-            SelectedItems = wireDao;          
+            UpdateCurrentSelectedWire("导线");
+        
         }
 
-
-        protected override void  SelectedItemChanged(object para)
+        protected void UpdateCurrentSelectedWire(string type)
         {
-            if (((TreeViewItem)para).Header.ToString() == "导地线")
-                return;
+            curType = type;
 
-            if(curType == "导线")
+            if (BaseData.Where(item => item.Type == curType).Count() == 0)
             {
-                wireDao = SelectedItems;
+                SelectedItems.Clear();
+                SelectedItems.Add(new Wire { });
             }
             else
             {
-                wireDi = SelectedItems;
-            }
-
-            if (((TreeViewItem)para).Header.ToString() == "导线")
-            {
-                curType = "导线";
-                SelectedItems = wireDao;
-                return;
-            }
-            else
-            {
-                curType = "地线";
-                SelectedItems = wireDi;
-                return;
+                SelectedItems = new ObservableCollection<Wire>(BaseData.Where(item => item.Type == curType).First().Wires);
             }
         }
 
-        protected void CopyRow()
+        protected void UpdateLastSelectedWire()
         {
-            ;
+            int index = BaseData.FindIndex(item => item.Type == curType);
+
+            //这种情况只能是FitDataCollectionsz中没有保存相应的type的数据
+            if (index == -1)
+            {
+                BaseData.Add(new WireType
+                {
+                    Type = curType,
+                    Wires = SelectedItems.ToList()
+                });
+            }
+            else
+            {
+                BaseData[index].Wires = SelectedItems.ToList();
+            }
         }
 
 
         public override void Save()
         {
-            List<WireType> wireType = new List<WireType>();
+            UpdateLastSelectedWire();
 
-            wireType.Add(new WireType
-            {
-                Type = "导线",
-                Wire = wireDao.ToList()
-            }) ; 
+            WireReader.Save(filePath, BaseData);
+        }
 
-            wireType.Add(new WireType
-            {
-                Type = "地线",
-                Wire = wireDi.ToList()
-            });
+        public override void UpDateView(string para1, string para2 = "")
+        {
+            UpdateCurrentSelectedWire(para1);
+        }
 
-            WireReader.Save(filePath, wireType);
+        public override void DelSubItem(string itemName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

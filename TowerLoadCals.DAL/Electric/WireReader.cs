@@ -195,7 +195,7 @@ namespace TowerLoadCals.DAL
                 WireType typeItem = new WireType()
                 {
                     Type = typeNode.Attributes["Type"].Value.ToString(),
-                    Wire = new List<Wire>()
+                    Wires = new List<Wire>()
                 };
 
                 foreach (XmlNode node in typeNode.ChildNodes)
@@ -221,7 +221,7 @@ namespace TowerLoadCals.DAL
                     if (node.Attributes["LineCoefficient"] != null)
                         wire.LineCoefficient = Convert.ToDecimal(node.Attributes["LineCoefficient"].Value.ToString());
                     
-                    typeItem.Wire.Add(wire);
+                    typeItem.Wires.Add(wire);
                 }
 
                 list.Add(typeItem);

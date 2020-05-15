@@ -59,15 +59,15 @@ namespace TowerLoadCals.ModulesViewModels
 
             globalInfo = GlobalInfo.GetInstance();
 
-            SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
+            //SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
         }
 
         abstract protected void InitializeData();
 
-        abstract protected void SelectedItemChanged(object para);
+        //abstract protected void SelectedItemChanged(object para);
 
         abstract public void Save();
-
-
+        public abstract void UpDateView(string para1, string para2 = "");
+        public abstract void DelSubItem(string itemName);
     }
 }
