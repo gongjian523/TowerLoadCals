@@ -203,5 +203,14 @@
 
         public float ghcz { get; set; } 
 
+        public bool IsCornerTower { get; set; }
+
+        public bool IsTerminalTower { get; set; }
+
+        public bool IsBranchTower { get; set; }
+
+
+        public bool baseParaFormRadioButton1 { get; set; }
+
     }
 }

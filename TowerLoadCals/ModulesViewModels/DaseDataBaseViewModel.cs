@@ -67,7 +67,7 @@ namespace TowerLoadCals.ModulesViewModels
         //abstract protected void SelectedItemChanged(object para);
 
         abstract public void Save();
-        public abstract void UpDateView(string para1, string para2 = "");
-        public abstract void DelSubItem(string itemName);
+        abstract public void UpDateView(string para1, string para2 = "");
+        abstract public void DelSubItem(string itemName);
     }
 }

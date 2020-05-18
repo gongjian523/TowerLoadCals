@@ -15,23 +15,23 @@ namespace TowerLoadCals.BLL.Structure
     /// <summary>
     /// 直线塔的荷载分配
     /// </summary>
-    public class LoadDistributeLineTower
+    public class LoadDistributeLineTower:LoadDistributeBase
     {
-        /// <summary>
-        /// 从界面获取的公共参数
-        /// </summary>
-        protected FormulaParas Paras { get; set; }
+        ///// <summary>
+        ///// 从界面获取的公共参数
+        ///// </summary>
+        //protected FormulaParas Paras { get; set; }
 
-        /// <summary>
-        /// 从界面获取的先参数
-        /// </summary>
-        protected StruLineParas[] LineParasArr { get; set; }
-        protected StruLineParas LineParas { get; set; }
+        ///// <summary>
+        ///// 从界面获取的先参数
+        ///// </summary>
+        //protected StruLineParas[] LineParasArr { get; set; }
+        //protected StruLineParas LineParas { get; set; }
 
-        /// <summary>
-        /// 模板参数
-        /// </summary>
-        protected TowerTemplate Template { get; set; }
+        ///// <summary>
+        ///// 模板参数
+        ///// </summary>
+        //protected TowerTemplate Template { get; set; }
 
         protected float[,] Wind { get; set; }
 
@@ -43,50 +43,50 @@ namespace TowerLoadCals.BLL.Structure
 
         protected float[,] TensionMin { get; set; }
 
-        protected float [,] XX { get; set; }
-        protected float[,] YY { get; set; }
-        protected float[,] ZZ { get; set; }
+        //protected float [,] XX { get; set; }
+        //protected float[,] YY { get; set; }
+        //protected float[,] ZZ { get; set; }
 
-        protected List<string>  ProcessString { get; set; }
+        //protected List<string>  ProcessString { get; set; }
 
-        protected FormulaLineTower formula;
+        //protected FormulaLineTower formula;
 
 
-        public LoadDistributeLineTower(FormulaParas para,  StruLineParas[] lineParas,  TowerTemplate template, float[][] table)
+        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, float[][] table) : base(para, lineParas, template, table)
         {
 
-            ProcessString = new List<string>();
-            formula = new FormulaLineTower(para);
+            //ProcessString = new List<string>();
+            //formula = new FormulaLineTower(para);
 
-            Paras = para;
-            LineParasArr = lineParas;
-            Template = template;
+            //Paras = para;
+            //LineParasArr = lineParas;
+            //Template = template;
 
-            ConvertTable(table);
+            //ConvertTable(table);
         }
 
-        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template)
+        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template) : base(para, lineParas, template)
         {
 
-            ProcessString = new List<string>();
-            formula = new FormulaLineTower(para);
+            //ProcessString = new List<string>();
+            //formula = new FormulaLineTower(para);
 
-            Paras = para;
-            LineParasArr = lineParas;
-            Template = template;
+            //Paras = para;
+            //LineParasArr = lineParas;
+            //Template = template;
 
-            GetTable();
+            GetTable("D:\\00-项目\\P-200325-杆塔负荷程序\\21.xlsx");
         }
 
 
-        protected void ConvertTable(float[][] table)
+        protected override void ConvertTable(float[][] table)
         {
             
         }
 
-        protected void GetTable()
+        protected override void GetTable(string path)
         {
-            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;" + "Data Source=" + "D:\\00-项目\\P-200325-杆塔负荷程序\\21.xlsx" + ";" + "Extended Properties=Excel 12.0;";
+            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;" + path + ";" + "Extended Properties=Excel 12.0;";
             OleDbConnection conn = new OleDbConnection(strConn);
             conn.Open();
             string strExcel = "";
@@ -98,32 +98,32 @@ namespace TowerLoadCals.BLL.Structure
             myCommand.Fill(ds, "table1");
 
             //后续计算的序号从1开始
-            Wind = new float[Template.Wires.Count+1,Template.WorkConditongs.Count+1];
-            GMax = new float[Template.Wires.Count+1, Template.WorkConditongs.Count+1];
-            GMin = new float[Template.Wires.Count+1, Template.WorkConditongs.Count+1];
-            TensionMax = new float[Template.Wires.Count+1, Template.WorkConditongs.Count+1];
-            TensionMin = new float[Template.Wires.Count+1, Template.WorkConditongs.Count+1];
+            Wind = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
+            GMax = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
+            GMin = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
+            TensionMax = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
+            TensionMin = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
 
 
             for (int j = 1; j <= Template.WorkConditongs.Count; j++)
             {
-                for(int i = 1; i <= Template.Wires.Count;  i++ )
+                for (int i = 1; i <= Template.Wires.Count; i++)
                 {
-                    object obj = ds.Tables[0].Rows[4 + 6 * (i-1)][j];
-                    float.TryParse(obj.ToString(), out Wind[i,j]);
+                    object obj = ds.Tables[0].Rows[4 + 6 * (i - 1)][j];
+                    float.TryParse(obj.ToString(), out Wind[i, j]);
                     object obj2 = ds.Tables[0].Rows[5 + 6 * (i - 1)][j];
-                    float.TryParse(obj2.ToString(), out GMax[i,j]);
+                    float.TryParse(obj2.ToString(), out GMax[i, j]);
                     object obj3 = ds.Tables[0].Rows[6 + 6 * (i - 1)][j];
-                    float.TryParse(obj3.ToString(), out GMin[i,j]);
+                    float.TryParse(obj3.ToString(), out GMin[i, j]);
                     object obj4 = ds.Tables[0].Rows[7 + 6 * (i - 1)][j];
-                    float.TryParse(obj4.ToString(), out TensionMax[i,j]);
+                    float.TryParse(obj4.ToString(), out TensionMax[i, j]);
                     object obj5 = ds.Tables[0].Rows[8 + 6 * (i - 1)][j];
-                    float.TryParse(obj5.ToString(), out TensionMin[i,j]);
+                    float.TryParse(obj5.ToString(), out TensionMin[i, j]);
                 }
             }
         }
 
-        public void CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, string path)
+        public override void CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, string path)
         {
             int calNums = Template.WorkConditionCombos.Where(item => item.IsCalculate).ToList().Count;
 

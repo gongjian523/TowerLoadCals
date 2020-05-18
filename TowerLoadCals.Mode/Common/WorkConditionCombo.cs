@@ -17,7 +17,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 
         /// </summary>
-        public int TensionAngleCode { get; set; }
+        public string TensionAngleCode { get; set; }
 
         /// <summary>
         /// 
