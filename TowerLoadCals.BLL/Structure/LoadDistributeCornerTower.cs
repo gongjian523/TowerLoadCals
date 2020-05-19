@@ -94,7 +94,7 @@ namespace TowerLoadCals.BLL.Structure
         protected float[,] YTB { get; set; }
         protected float[,] ZTB { get; set; }
 
-
+        
 
         public LoadDistributeCornerTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, float[][] table); base(para, lineParas, template, table)
         {
@@ -1804,37 +1804,167 @@ namespace TowerLoadCals.BLL.Structure
                 switch (wd.VertialLoadCode)
                 {
                     case "YY":
-                                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3 : c(9) = z011 : c(10) = z021 : c(11) = z03
-                                    Case "YB"
-                                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3 : c(9) = z011 : c(10) = z022 : c(11) = z03
-                                    Case "0B"
-                                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3 : c(9) = 0 : c(10) = z022 : c(11) = z03
-                                    Case "B0"
-                                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3 : c(9) = z012 : c(10) = 0 : c(11) = z03
-                                    Case "Y0"
-                                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3 : c(9) = z011 : c(10) = 0 : c(11) = z03
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3 : c(9) = z011 : c(10) = z021 : c(11) = z03
+                    case "YB"v
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3 : c(9) = z011 : c(10) = z022 : c(11) = z03
+                    case "0B":
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3 : c(9) = 0 : c(10) = z022 : c(11) = z03
+                    case "B0":
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3 : c(9) = z012 : c(10) = 0 : c(11) = z03
+                    case "Y0:
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3 : c(9) = z011 : c(10) = 0 : c(11) = z03
 
-                                    Case "BB"
-                                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3 : c(9) = z012 : c(10) = z022 : c(11) = z03
-                                    Case "BY"
-                                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3 : c(9) = z012 : c(10) = z021 : c(11) = z03
-                                    Case "0Y"
-                                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3 : c(9) = 0 : c(10) = z021 : c(11) = z03
-                                        '   Case "00"
-                                        '     c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3 : c(9) = 0 : c(10) = 0 : c(11) = z03
+                    case "BB":
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3 : c(9) = z012 : c(10) = z022 : c(11) = z03
+                    case "BY":
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3 : c(9) = z012 : c(10) = z021 : c(11) = z03
+                    case "0Y":
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3 : c(9) = 0 : c(10) = z021 : c(11) = z03
+                    //case "00":
+                        //c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3 : c(9) = 0 : c(10) = 0 : c(11) = z03
+                     //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "YT":
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3 : c(9) = z011 : c(10) = z012 : c(11) = z03
+                    case "0T":
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3 : c(9) = 0 : c(10) = z012 : c(11) = z03
+                    case "T0":
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3 : c(9) = z022 : c(10) = 0 : c(11) = z03
+                    case "TY":
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3 : c(9) = z022 : c(10) = z021 : c(11) = z03
+                    //20190113新版程序
+                    default;
+                        c(1) = e1 : c(2) = y3 : c(4) = e2 : c(5) = y4 : c(7) = x3 : c(8) = z3 : c(11) = z03;
+                        if (Math.Abs(zhs) > 1000)
+                        {
+                            //垂荷列数互换法则补充
+                            //'特意针对垂荷组合为12情况
+                            //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                        '2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                            int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                            float zzz11 = gmaxF(j, zhs1) * BL2;
+                            float zzz12 = gminF(j, zhs1) * BL2;
+                            float zzz21 = gmaxB(j, zhs1) * BL2;
+                            float zzz22 = gminB(j, zhs1) * BL2;
 
-                                    Case "YT"
-                                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3 : c(9) = z011 : c(10) = z012 : c(11) = z03
-                                    Case "0T"
-                                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3 : c(9) = 0 : c(10) = z012 : c(11) = z03
-                                    Case "T0"
-                                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3 : c(9) = z022 : c(10) = 0 : c(11) = z03
-                                    Case "TY"
-                                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3 : c(9) = z022 : c(10) = z021 : c(11) = z03
-                                        '20190113新版程序
-                    defa;
+                            if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
+                            {
+                                //前侧垂荷需要替换 万位数为1
+                                if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                                {
+                                    c(3) = 0; c(9) = 0;
+                                }
+                                else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                                {
+                                    c(3) = zzz11; c(9) = z011;
+                                }
+                                else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                                {
+                                    c(3) = zzz12; c(9) = z012;
+                                }
+                                else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                                {
+                                    c(3) = zzz21; c(9) = z021;
+                                }
+                                else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                                {
+                                    c(3) = zzz22; c(9) = z022;
+                                }
+                                else
+                                {
+                                    throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-15");
+                                }
+
+                                if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                                {
+                                    c(6) = 0; c(10) = 0;
+                                }
+                                else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                                {
+                                    c(6) = z11; c(10) = z011;
+                                }
+                                else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                                {
+                                    c(6) = z12; c(10) = z012;
+                                }
+                                else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                                {
+                                    c(6) = z21; c(10) = z021;
+                                }
+                                else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                                {
+                                    c(6) = z22; c(10) = z022;
+                                }
+                                else
+                                {
+                                    throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                                }
+
+                            }
+                            else if (Math.Abs(zhs).ToString().Substring(0, 1) == "2")
+                            {
+                                //后侧垂荷需要替换  万位数为2
+                                if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                                {
+                                    c(3) = 0; c(9) = 0;
+                                }
+                                else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                                {
+                                    c(3) = z11; c(9) = z011;
+                                }
+                                else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                                {
+                                    c(3) = z12; c(9) = z012;
+                                }
+                                else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                                {
+                                    c(3) = z21; c(9) = z021;
+                                }
+                                else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                                {
+                                    c(3) = z22; c(9) = z022;
+                                }
+                                else
+                                {
+                                    throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-15");
+                                }
+
+                                if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                                {
+                                    c(6) = 0; c(10) = 0;
+                                }
+                                else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                                {
+                                    c(6) = zzz11; c(10) = z011;
+                                }
+                                else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                                {
+                                    c(6) = zzz12; c(10) = z012;
+                                }
+                                else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                                {
+                                    c(6) = zzz21; c(10) = z021;
+                                }
+                                else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                                {
+                                    c(6) = zzz22; c(10) = z022;
+                                }
+                                else
+                                {
+                                    throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                                }
+
+                            }
+                            else
+                            {
+                                throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190115-01");
+                            }
+                        }
+                        else
+                        {
+                              
+                        }
+
+
                 }
 
             }

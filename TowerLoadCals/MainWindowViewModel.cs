@@ -196,6 +196,8 @@ namespace TowerLoadCals
             towerMudule.SetIcon("FolderList_32x32.png");
             moduleList.Add(towerMudule);
 
+            moduleList.Add(IniStruCalsModule());
+
             Modules = moduleList;
 
             OnModulesLoaded();

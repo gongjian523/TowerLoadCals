@@ -50,6 +50,8 @@
     <Compile Include="Common\WeatherCollection.cs" />
     <Compile Include="Common\WireLib.cs" />
     <Compile Include="Common\WireType.cs" />
+    <Compile Include="Common\WorkConditionComboSpec.cs" />
+    <Compile Include="Common\WorkConditionComboBase.cs" />
     <Compile Include="Electric\Circuit.cs" />
     <Compile Include="Electric\CircuitPostion.cs" />
     <Compile Include="Electric\FitData.cs" />

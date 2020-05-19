@@ -2,37 +2,37 @@
 
 namespace TowerLoadCals.Mode
 {
-    public class WorkConditionCombo
+    public class WorkConditionCombo:WorkConditionComboBase
     {
         /// <summary>
         /// 
         /// </summary>
-        public bool IsCalculate { get; set; }
+        //public bool IsCalculate { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string WorkConditionCode { get; set; }
+        //public string WorkConditionCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string TensionAngleCode { get; set; }
+        //public string TensionAngleCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string VertialLoadCode { get; set; }
+        //public string VertialLoadCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int WindDirectionCode { get; set; }
+        //public int WindDirectionCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string WorkCode { get; set; }
+        //public string WorkCode { get; set; }
 
         /// <summary>
         /// 
@@ -42,6 +42,6 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 注释
         /// </summary>
-        public string WorkComment { get; set; }
+        //public string WorkComment { get; set; }
     }
 }

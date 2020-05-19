@@ -185,5 +185,64 @@ namespace TowerLoadCals.DAL
             iIndex++;
             combo.WorkComment = aWords[iIndex + WireNum].ToString();
         }
+
+        public List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
+        {
+            List<WorkConditionComboSpec> listSpec = new List<WorkConditionComboSpec>();
+
+            if (template == null)
+                return listSpec;
+
+            foreach(var item in template.WorkConditionCombos)
+            {
+                WorkConditionComboSpec spec = new WorkConditionComboSpec();
+
+                spec.IsCalculate = item.IsCalculate;
+                spec.WorkConditionCode = item.WorkConditionCode;
+                if(item.TensionAngleCode != null)
+                    spec.TensionAngleCode = item.TensionAngleCode;
+                if (item.VertialLoadCode != null)
+                    spec.VertialLoadCode = item.VertialLoadCode;
+                spec.WindDirectionCode = item.WindDirectionCode;
+                spec.WorkCode = item.WorkCode;
+
+                if (item.WirdIndexCodes.Count >= 1)
+                    spec.Wire = item.WirdIndexCodes[0];
+                if (item.WirdIndexCodes.Count >= 2)
+                    spec.Wire2 = item.WirdIndexCodes[1];
+                if (item.WirdIndexCodes.Count >= 3)
+                    spec.Wire3 = item.WirdIndexCodes[2];
+                if (item.WirdIndexCodes.Count >= 4)
+                    spec.Wire4 = item.WirdIndexCodes[3];
+                if (item.WirdIndexCodes.Count >= 5)
+                    spec.Wire5 = item.WirdIndexCodes[4];
+                if (item.WirdIndexCodes.Count >= 6)
+                    spec.Wire6 = item.WirdIndexCodes[5];
+                if (item.WirdIndexCodes.Count >= 7)
+                    spec.Wire7 = item.WirdIndexCodes[6];
+                if (item.WirdIndexCodes.Count >= 8)
+                    spec.Wire8 = item.WirdIndexCodes[7];
+                if (item.WirdIndexCodes.Count >= 9)
+                    spec.Wire9 = item.WirdIndexCodes[8];
+                if (item.WirdIndexCodes.Count >= 10)
+                    spec.Wire10 = item.WirdIndexCodes[9];
+                if (item.WirdIndexCodes.Count >= 11)
+                    spec.Wire11 = item.WirdIndexCodes[10];
+                if (item.WirdIndexCodes.Count >= 12)
+                    spec.Wire12 = item.WirdIndexCodes[11];
+                if (item.WirdIndexCodes.Count >= 13)
+                    spec.Wire13 = item.WirdIndexCodes[12];
+                if (item.WirdIndexCodes.Count >= 14)
+                    spec.Wire14 = item.WirdIndexCodes[13];
+                if (item.WirdIndexCodes.Count >= 15)
+                    spec.Wire15 = item.WirdIndexCodes[14];
+                if (item.WirdIndexCodes.Count >= 16)
+                    spec.Wire16 = item.WirdIndexCodes[15];
+
+                listSpec.Add(spec);
+            }
+
+            return listSpec;
+        }
     }
 }
