@@ -101,6 +101,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\BooleanVisibityConverter .cs" />
+    <Compile Include="Converter\InverseBooleanVisibityConverter.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
     <Compile Include="MainWindowViewModel-BaseData.cs" />
     <Compile Include="ModulesViewModels\DaseDataBaseViewModel.cs" />
@@ -423,5 +425,9 @@
     <Resource Include="Images\WeatherMap.png" />
     <Resource Include="Images\WordProcessing.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TowerOption.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

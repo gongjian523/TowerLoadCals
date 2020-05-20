@@ -7,7 +7,6 @@ using TowerLoadCals.BLL.Structure;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
-using TowerLoadCals.Mode.Structure;
 using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Test

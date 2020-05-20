@@ -29,9 +29,6 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <dxg:GridControl ItemsSource="{Binding WorkConditions}" x:Name="grid" 
@@ -39,9 +36,11 @@
                         ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}"
                         ColumnGeneratorStyle="{StaticResource ColumnStyle}">
             <dxg:GridControl.View>
-                <dxg:TableView x:Name="view" NavigationStyle="Cell" AutoWidth="True"
-                            AllowPerPixelScrolling="True" ShowTotalSummary="True"
-                            IsTotalSummaryMenuEnabled="False"/>
+                <dxg:TableView x:Name="view" 
+                    NavigationStyle="Cell" AutoWidth="True"
+                    AllowPerPixelScrolling="True" 
+                    ShowGroupPanel="False"
+                    IsTotalSummaryMenuEnabled="False"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
 

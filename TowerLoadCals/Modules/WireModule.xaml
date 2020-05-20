@@ -33,7 +33,7 @@
                     </dxg:TableView.RowCellMenuCustomizations>
                 </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="ModelSpecification"  Header="型号规格" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="ModelSpecification"  Header="型号规格" HorizontalHeaderContentAlignment="Center" />
             <dxg:GridColumn FieldName="WireType"  Header="线类型" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="SectionArea"  Header="截面积(mm²)" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="ExternalDiameter"  Header="外径(mm)" HorizontalHeaderContentAlignment="Center"/>

@@ -4,11 +4,289 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TowerLoadCals.Modules"
+             xmlns:cvt="clr-namespace:TowerLoadCals.Converter"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:BaseAndLineParasViewModel}}">
+    <Control.Resources>
+        <cvt:BooleanVisibityConverter x:Key="BooleanVisibityConverter"/>
+        <cvt:InverseBooleanVisibityConverter x:Key="InverseBooleanVisibityConverter"/>
+    </Control.Resources>
     <Grid>
-    
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Grid.Column="0" Text="设计标准" VerticalAlignment="Center" Margin="0,0,8,4" />
+                <dxe:ComboBoxEdit ItemsSource="{Binding Standards}"  SelectedItem="{Binding SelectedStandard}" Width="130">
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+            </StackPanel>
+            <GroupBox Grid.Row="1" Header="结构重要性参数" Margin="0,16,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="安装" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="1" Margin="0,0,0,4"  Text="{Binding BaseParas.R1Install,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="2"  Text="其他" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="3" Margin="0,0,0,4"  Text="{Binding BaseParas.R0Normal,  UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Grid.Column="1" Header="荷载分项系数" Margin="0,16,0,0" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="yG不利" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="1" Margin="0,0,0,4"  Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" 
+                                  NullText=""/>
+                    <TextBlock Grid.Column="2"  Text="yG有利" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="3" Margin="0,0,0,4"  Text="{Binding BaseParas.RGGood,  UpdateSourceTrigger=PropertyChanged}" 
+                                  NullText=""/>
+                    <TextBlock Grid.Column="4" Text="yQ可变" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="5" Margin="0,0,0,4"  Text="{Binding BaseParas.RQ,  UpdateSourceTrigger=PropertyChanged}" 
+                                  NullText=""/>
+                    <TextBlock Grid.Column="6"  Text="yG倾-滑" VerticalAlignment="Center" Margin="0,0,8,4" Visibility="{Binding IsStandard2010,Converter={StaticResource InverseBooleanVisibityConverter}}"/>
+                    <dxe:TextEdit Grid.Column="7" Margin="0,0,0,4"  Text="{Binding BaseParas.RGOverturn,  UpdateSourceTrigger=PropertyChanged}" 
+                                  NullText="" NullValue="" Visibility="{Binding IsStandard2010,Converter={StaticResource InverseBooleanVisibityConverter}}" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="可变荷载组合系统"   Margin="0,16,0,0" Visibility="{Binding IsStandard2010,Converter={StaticResource BooleanVisibityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="运行" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="1" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFNormal,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="2"  Text="安装" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="3" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFInstall,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="4" Text="断线" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="5" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFBroken,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="6"  Text="不均匀冰" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="7" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFUnevenIce,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="8" Text="验算" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="9" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFCheck,  UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="可变荷载组合系统"   Margin="0,16,0,0" Visibility="{Binding IsStandard2010,Converter={StaticResource InverseBooleanVisibityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="大风" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="1" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFNormal,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="2"  Text="覆冰" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="3" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFIce,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="4" Text="低温" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="5" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFCold,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="6"  Text="不均匀冰" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="7" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFUnevenIce,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="8" Text="断线" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="9" Margin="0,0,0,4"  Text="{Binding BaseParas.VcFBroken,  UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Grid.Column="10" Text="安装" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit Grid.Column="11" Margin="0,0,0,4" Text="{Binding BaseParas.VcFInstall,  UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="其他系数"   Margin="0,16,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="大风线条风荷调整系数" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit Grid.Column="1" Margin="0,0,0,4"  Text="{Binding BaseParas.WindAdjustFactor,  UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Grid.Column="2"  Text="其他线条风荷调整系数" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit Grid.Column="3" Margin="0,0,0,4"  Text="{Binding BaseParas.OtherWindAdjustFactor,  UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Grid.Column="4" Text="安装动力系数" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit Grid.Column="5" Margin="0,0,0,4"  Text="{Binding BaseParas.DynamicCoef,  UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Visibility="{Binding IsOtherParasAngleVisible,Converter={StaticResource BooleanVisibityConverter}}" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Column="0"  Text="锚线风荷系数" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit  Grid.Column="1" Margin="0,0,0,4"  Text="{Binding BaseParas.AnchorWindCoef,  UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock  Grid.Column="2" Text="锚线垂荷系数" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit  Grid.Column="3" Margin="0,0,0,4"  Text="{Binding BaseParas.AnchorGravityCoef,  UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock  Grid.Column="4" Text="锚角" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit  Grid.Column="5" Margin="0,0,0,4"  Text="{Binding BaseParas.AnchorAngle,  UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Visibility="{Binding IsOtherParasJumpVisible,Converter={StaticResource BooleanVisibityConverter}}">
+                        <TextBlock  Grid.Column="0"  Text="条线吊装系数" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit   Grid.Column="1" Margin="0,0,0,4"  Text="{Binding BaseParas.LiftCoefJumper,  UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Grid.Column="2" Text="临时拉线对地夹角" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit  Grid.Column="3" Margin="0,0,0,4"  Text="{Binding BaseParas.TempStayWireAngle,  UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock  Grid.Column="4" Text="牵引角度" VerticalAlignment="Center" Margin="0,0,8,4" />
+                        <dxe:TextEdit  Grid.Column="5" Margin="0,0,0,4"  Text="{Binding BaseParas.TractionAgnle,  UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Row="1">
+            <dxg:GridControl Margin="8,0"
+                EnableSmartColumnsGeneration="True" 
+                ItemsSource="{Binding SelectedItems}"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False"/>
+            </dxg:GridControl.View>
+            <dxg:GridColumn FieldName="SWorkConditionName"  Header="序号" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="SWindSpeed"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="索引行" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="吊荷系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="附加荷载" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="最小转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="最大转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
+        </dxg:GridControl>
+            <dxg:GridControl Margin="8,0"
+                EnableSmartColumnsGeneration="True" 
+                ItemsSource="{Binding SelectedItems}"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False"/>
+            </dxg:GridControl.View>
+            <dxg:GridColumn FieldName="SWorkConditionName"  Header="序号" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="SWindSpeed"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="索引行" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="跳串数目" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="线条附荷" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="最小转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="最大转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="前侧转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="后侧转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="右转" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="门构小张" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="门构大张" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
+        </dxg:GridControl>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock  Text="荷载比例" VerticalAlignment="Center" Margin="0,0,8,4" />
+                    <dxe:TextEdit  Margin="0,0,0,4"  />
+                </StackPanel>
+                <TextBlock Grid.Row="1"  TextWrapping="Wrap"  Text="荷载比例设置请注意："/>
+                <TextBlock Grid.Row="2"  TextWrapping="Wrap"  Text="(1) 一般只建议输入1.00或0.98，其他比例慎用。"/>
+                <TextBlock Grid.Row="3"  TextWrapping="Wrap"  Text="(2) 需根据各工程设计原则确定按0.98或1.00考虑。"/>
+                <TextBlock Grid.Row="4"  TextWrapping="Wrap"  Text="(3) 附加荷载和临时拉线张力根据规定输入，输入单位为kN。"/>
+                <TextBlock Grid.Row="5"  TextWrapping="Wrap"  Text="(4) 其余负荷按电气提资输入，按kN输入时比例设为1.00；按100kg输入时比例为1.00或0.98；"/>
+                <TextBlock Grid.Row="6"  TextWrapping="Wrap"  Text="按kg输入时比例设为0.01或0.0098；按N输入时比例设为0.001。 "/>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Image Source="pack://application:,,,/Images/TowerOption.png" Stretch="Fill"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <dxe:ListBoxEdit ShowBorder="False" Background="{x:Null}" SelectedIndex="0" Margin="0,0,0,5" >
+                        <dxe:ListBoxEdit.StyleSettings>
+                            <dxe:RadioListBoxEditStyleSettings />
+                        </dxe:ListBoxEdit.StyleSettings>
+                        <dxe:ListBoxEdit.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </dxe:ListBoxEdit.ItemsPanel>
+                        <dxe:ListBoxEditItem Content="方式1" />
+                        <dxe:ListBoxEditItem Content="方式2" Margin="6,0,0,0" />
+                    </dxe:ListBoxEdit>
+                </StackPanel>
+                <Label Grid.Row="2" Content="为与excel表格一致，在单回直流中采用方式1，在其它情况下采用方式2，注意上拔垂荷填写要求。"/>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

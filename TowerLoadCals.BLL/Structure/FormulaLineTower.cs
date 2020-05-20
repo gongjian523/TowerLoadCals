@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TowerLoadCals.Mode;
-using TowerLoadCals.Mode.Structure;
+
 
 namespace TowerLoadCals.BLL
 {
