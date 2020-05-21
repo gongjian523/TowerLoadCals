@@ -9,10 +9,14 @@ namespace TowerLoadCals.Mode
     public class StruLineParas
     {
         /// <summary>
-        /// 吊荷系数
-        /// 旧名称 diaoxi 直线塔
+        /// 序号
         /// </summary>
-        public float HoistingCoef { get; set; }
+        public float Index { get; set; }
+
+        /// <summary>
+        /// 说明
+        /// </summary>
+        public float WireType { get; set; }
 
         /// <summary>
         /// 附加荷载 旧名称 fh 直线塔

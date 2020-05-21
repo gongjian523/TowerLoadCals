@@ -108,8 +108,9 @@ namespace TowerLoadCals.Modules
         }
 
         public bool IsMethod1Selected { get; set; }
-
         public bool IsMethod2Selected { get; set; }
+
+        public string  SelectedMothed { get; set; }
 
         public BaseAndLineParasViewModel()
         {
@@ -123,6 +124,8 @@ namespace TowerLoadCals.Modules
             BaseParas.R1Install = 1;
             Test = 4;
 
+            IsMethod1Selected = true;
+
         }
 
         void IBaseViewModel.Save()
@@ -131,7 +134,9 @@ namespace TowerLoadCals.Modules
             var ti = SelectedStandard;
             var aa = Test;
 
-            var aaa = IsMethod1Selected;
+            var aaa = IsMethod1Selected ;
+            var sd = IsMethod2Selected;
+            
         }
 
         void IBaseViewModel.UpDateView(string para1, string para2)

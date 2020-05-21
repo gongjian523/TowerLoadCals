@@ -17,7 +17,7 @@
     </Control.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -194,13 +194,13 @@
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden" 
-                ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                Visibility="{Binding IsOtherParasJumpVisible,Converter={StaticResource InverseBooleanVisibityConverter}}">
             <dxg:GridControl.View>
                 <dxg:TableView ShowGroupPanel="False"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="SWorkConditionName"  Header="序号" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="SWindSpeed"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="索引行" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="WireType"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="HoistingCoef"  Header="吊荷系数" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="WireExtraLoad"  Header="附加荷载" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="AnchorTension"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
@@ -215,26 +215,26 @@
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden" 
-                ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                Visibility="{Binding IsOtherParasJumpVisible,Converter={StaticResource BooleanVisibityConverter}}" >
             <dxg:GridControl.View>
                 <dxg:TableView ShowGroupPanel="False"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="SWorkConditionName"  Header="序号" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="SWindSpeed"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="索引行" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="TstringNum"  Header="跳串数目" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="WireExtraLoad"  Header="线条附荷" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="TwireExtraLoad"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="AnchorTension"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="AngleMin"  Header="最小转角" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="AngleMax"  Header="最大转角" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="AngleFront"  Header="前侧转角" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="AngleBack"  Header="后侧转角" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="isTurnRight"  Header="右转" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="PortalTensionMin"  Header="门构小张" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="PortalTensionMax"  Header="门构大张" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="DrawingCoef"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
-                <dxg:GridColumn FieldName="PulleyTensionDif"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="WireType"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="TstringNum"  Header="跳串数目" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="WireExtraLoad"  Header="线条附荷" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="TwireExtraLoad"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="AnchorTension"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="AngleMin"  Header="最小转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="AngleMax"  Header="最大转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="AngleFront"  Header="前侧转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="AngleBack"  Header="后侧转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="isTurnRight"  Header="右转" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="PortalTensionMin"  Header="门构小张" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="PortalTensionMax"  Header="门构大张" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="DrawingCoef"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="PulleyTensionDif"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
         </dxg:GridControl>
         </Grid>
         <Grid Grid.Row="2">
@@ -272,7 +272,8 @@
                 </Grid.RowDefinitions>
                 <Image Source="pack://application:,,,/Images/TowerOption.png" Stretch="Fill"/>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <dxe:ListBoxEdit ShowBorder="False" Background="{x:Null}" SelectedIndex="0" Margin="0,0,0,5" >
+                    <dxe:ListBoxEdit ShowBorder="False" Background="{x:Null}" SelectedIndex="0" Margin="0,0,0,5" 
+                                     SelectedItem = "{Binding SelectedMothed, UpdateSourceTrigger=PropertyChanged}">
                         <dxe:ListBoxEdit.StyleSettings>
                             <dxe:RadioListBoxEditStyleSettings />
                         </dxe:ListBoxEdit.StyleSettings>
@@ -281,9 +282,11 @@
                                 <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </dxe:ListBoxEdit.ItemsPanel>
-                        <dxe:ListBoxEditItem Content="方式1"  IsSelected="{Binding IsMethod1Selected, Converter={StaticResource BooleanVisibityConverter}}"/>
-                        <dxe:ListBoxEditItem Content="方式2"  IsSelected="{Binding IsMethod2Selected, Converter={StaticResource BooleanVisibityConverter}}"/>
+                        <dxe:ListBoxEditItem Content="方式1" IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.IsMethod1Selected}"/>
+                        <dxe:ListBoxEditItem Content="方式2" IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.IsMethod2Selected}"/>
                     </dxe:ListBoxEdit>
+                    <!--<dxe:ListBoxRadioButton Content="方式1"/>
+                    <dxe:ListBoxRadioButton Content="方式2"/>-->
                 </StackPanel>
                 <Label Grid.Row="2" Content="为与excel表格一致，在单回直流中采用方式1，在其它情况下采用方式2，注意上拔垂荷填写要求。"/>
             </Grid>
