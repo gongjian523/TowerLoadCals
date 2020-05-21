@@ -107,6 +107,10 @@ namespace TowerLoadCals.Modules
             }
         }
 
+        public bool IsMethod1Selected { get; set; }
+
+        public bool IsMethod2Selected { get; set; }
+
         public BaseAndLineParasViewModel()
         {
             _standards.Add("GB50545-2010");
@@ -126,6 +130,8 @@ namespace TowerLoadCals.Modules
             var itme = BaseParas;
             var ti = SelectedStandard;
             var aa = Test;
+
+            var aaa = IsMethod1Selected;
         }
 
         void IBaseViewModel.UpDateView(string para1, string para2)

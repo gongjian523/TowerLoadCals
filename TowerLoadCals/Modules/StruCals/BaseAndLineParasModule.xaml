@@ -201,15 +201,15 @@
             <dxg:GridColumn FieldName="SWorkConditionName"  Header="序号" HorizontalHeaderContentAlignment="Center" />
             <dxg:GridColumn FieldName="SWindSpeed"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="STemperature"  Header="索引行" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="吊荷系数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="附加荷载" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="最小转角" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="最大转角" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="HoistingCoef"  Header="吊荷系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="WireExtraLoad"  Header="附加荷载" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="AnchorTension"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="PulleyTensionDif"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="DrawingCoef"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="PulleyTensionDif"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="AngleMin"  Header="最小转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="AngleMax"  Header="最大转角" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="DrawingCoef"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
         </dxg:GridControl>
             <dxg:GridControl Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
@@ -222,19 +222,19 @@
             <dxg:GridColumn FieldName="SWorkConditionName"  Header="序号" HorizontalHeaderContentAlignment="Center" />
             <dxg:GridColumn FieldName="SWindSpeed"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="STemperature"  Header="索引行" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="跳串数目" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="线条附荷" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="最小转角" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="最大转角" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="前侧转角" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="后侧转角" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="右转" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="门构小张" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="门构大张" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="TstringNum"  Header="跳串数目" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="WireExtraLoad"  Header="线条附荷" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="TwireExtraLoad"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="AnchorTension"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="AngleMin"  Header="最小转角" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="AngleMax"  Header="最大转角" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="AngleFront"  Header="前侧转角" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="AngleBack"  Header="后侧转角" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="isTurnRight"  Header="右转" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="PortalTensionMin"  Header="门构小张" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="PortalTensionMax"  Header="门构大张" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="DrawingCoef"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
+                <dxg:GridColumn FieldName="PulleyTensionDif"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center"/>
         </dxg:GridControl>
         </Grid>
         <Grid Grid.Row="2">
@@ -254,7 +254,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock  Text="荷载比例" VerticalAlignment="Center" Margin="0,0,8,4" />
-                    <dxe:TextEdit  Margin="0,0,0,4"  />
+                    <dxe:TextEdit  Margin="0,0,0,4"  Text="{Binding BaseParas.LoadRatio,  UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <TextBlock Grid.Row="1"  TextWrapping="Wrap"  Text="荷载比例设置请注意："/>
                 <TextBlock Grid.Row="2"  TextWrapping="Wrap"  Text="(1) 一般只建议输入1.00或0.98，其他比例慎用。"/>
@@ -281,8 +281,8 @@
                                 <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </dxe:ListBoxEdit.ItemsPanel>
-                        <dxe:ListBoxEditItem Content="方式1" />
-                        <dxe:ListBoxEditItem Content="方式2" Margin="6,0,0,0" />
+                        <dxe:ListBoxEditItem Content="方式1"  IsSelected="{Binding IsMethod1Selected, Converter={StaticResource BooleanVisibityConverter}}"/>
+                        <dxe:ListBoxEditItem Content="方式2"  IsSelected="{Binding IsMethod2Selected, Converter={StaticResource BooleanVisibityConverter}}"/>
                     </dxe:ListBoxEdit>
                 </StackPanel>
                 <Label Grid.Row="2" Content="为与excel表格一致，在单回直流中采用方式1，在其它情况下采用方式2，注意上拔垂荷填写要求。"/>
