@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +12,22 @@ using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Modules
 {
-    public class BaseAndLineParasViewModel:IBaseViewModel
+    public class BaseAndLineParasViewModel: ViewModelBase,IBaseViewModel, INotifyPropertyChanged
     {
+        protected string _selectedStandard = "GB50545-2010";
+        public String SelectedStandard {
+            get
+            {
+                return _selectedStandard;
+            }
+            set
+            {
+                _selectedStandard = value;
+                RaisePropertyChanged("SelectedStandard");
+            }
+        }
 
-        public String SelectedStandard { get; set; }
-
-        protected List<String> _standards = new List<string>();
+        protected List<String> _standards = new List<string>() { "GB50545-2010", "DL/T5551-2018" };
         public List<String>  Standards
         {
             get {
@@ -27,7 +39,9 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        protected FormulaParas _baseParas = new FormulaParas();
+       protected FormulaParas _baseParas = new FormulaParas();
+
+
         public FormulaParas BaseParas
         {
             get
@@ -39,11 +53,9 @@ namespace TowerLoadCals.Modules
                 _baseParas = value;
             }
         }
-        public StruLineParas LineParas { get; set; }
+        public ObservableCollection<StruLineParas> LineParas { get; set; }
 
         public TowerType  Type { get; set; }
-
-        public int Test { get; set; }
 
         public bool IsLineTower { get
             {
@@ -83,14 +95,6 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        public bool IsStandard2010
-        {
-            get
-            {
-                return SelectedStandard == "GB50545-2010";
-            }
-        }
-
         public bool IsOtherParasAngleVisible
         {
             get
@@ -114,29 +118,26 @@ namespace TowerLoadCals.Modules
 
         public BaseAndLineParasViewModel()
         {
-            _standards.Add("GB50545-2010");
-            _standards.Add("DL/T5551-2018");
-
-            SelectedStandard = Standards[1];
-
-            Type = TowerType.LineTower;
+            Type = TowerType.BranchTower;
 
             BaseParas.R1Install = 1;
-            Test = 4;
 
             IsMethod1Selected = true;
+            IsMethod2Selected = false;
 
+            LineParas = new ObservableCollection<StruLineParas>();
+            LineParas.Add(new StruLineParas { Index = 1,  isTurnRight = true });
+            LineParas.Add(new StruLineParas { Index = 2,  isTurnRight = false });
         }
 
         void IBaseViewModel.Save()
         {
             var itme = BaseParas;
             var ti = SelectedStandard;
-            var aa = Test;
 
             var aaa = IsMethod1Selected ;
             var sd = IsMethod2Selected;
-            
+            var sss = LineParas;
         }
 
         void IBaseViewModel.UpDateView(string para1, string para2)

@@ -37,6 +37,12 @@ namespace TowerLoadCals.Mode
         /// </summary>
         public float PulleyTensionDif { get; set; }
 
+        /// <summary>
+        /// 吊荷系数
+        /// 旧名称 diaoxi 直线塔 
+        /// </summary>
+        public float HoistingCoef { get; set; }
+
         /// <summary>   
         /// 最小转角
         /// 旧名称 xiaojiao 直线塔
@@ -105,6 +111,6 @@ namespace TowerLoadCals.Mode
         /// 右转
         /// 旧名称 BL3 转角塔
         /// </summary>
-        public float isTurnRight { get; set; }
+        public bool isTurnRight { get; set; }
     }
 }

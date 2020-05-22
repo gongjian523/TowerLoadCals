@@ -7,7 +7,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 
         /// </summary>
-        public int Wire { get; set; }
+        public int Wire1 { get; set; }
 
         /// <summary>
         /// 

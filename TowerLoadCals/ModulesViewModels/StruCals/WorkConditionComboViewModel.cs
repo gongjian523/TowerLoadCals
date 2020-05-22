@@ -37,15 +37,21 @@ namespace TowerLoadCals.Modules
             WorkConditions = templateReader.ConvertTemplateToSpec(template);
 
             List<Column> columns = new List<Column>();
-            //columns.Add(new Column() { FieldName = "IsCalculate" });
-            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkConditionCode" , Header ="工况"});
-            columns.Add(new Column() { FieldName = "WindDirectionCode" });
-            columns.Add(new Column() { FieldName = "Wire" });
-            columns.Add(new Column() { FieldName = "Wire2" });
-            columns.Add(new Column() { FieldName = "Wire3" });
-            columns.Add(new Column() { FieldName = "Wire4" });
-            columns.Add(new Column() { FieldName = "Wire5" });
-            //columns.Add(new Column() { FieldName = "WorkComment" });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "IsCalculate", Header = "选择与否" });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkConditionCode", Header = "工况" });
+            if(template.TowerType != "直线塔")
+                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "TensionAngleCode", Header = "张力角" });
+            if (template.TowerType == "转角塔" || template.TowerType == "分支塔" || template.TowerType == "终端塔")
+                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "VertialLoadCode", Header = "垂直载荷" });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WindDirectionCode", Header = "风向" });
+
+            for(int i = 0; i< template.Wires.Count; i++)
+            {
+                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Wire"+ (i+1).ToString(), Header = template.Wires[i] });
+            }
+
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkComment", Header = "注释" });
 
             Columns = new ObservableCollection<Column>(columns);
         }

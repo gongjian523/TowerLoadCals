@@ -153,6 +153,7 @@ namespace TowerLoadCals.DAL
             string[] aWords = Regex.Split(line.Trim(), "\\s+");
 
             int iIndex = 3;
+            combo.Index = Convert.ToInt16(aWords[0]);
             combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
             combo.WorkConditionCode = aWords[2];
 
@@ -197,6 +198,7 @@ namespace TowerLoadCals.DAL
             {
                 WorkConditionComboSpec spec = new WorkConditionComboSpec();
 
+                spec.Index = item.Index;
                 spec.IsCalculate = item.IsCalculate;
                 spec.WorkConditionCode = item.WorkConditionCode;
                 if(item.TensionAngleCode != null)
@@ -207,7 +209,7 @@ namespace TowerLoadCals.DAL
                 spec.WorkCode = item.WorkCode;
 
                 if (item.WirdIndexCodes.Count >= 1)
-                    spec.Wire = item.WirdIndexCodes[0];
+                    spec.Wire1 = item.WirdIndexCodes[0];
                 if (item.WirdIndexCodes.Count >= 2)
                     spec.Wire2 = item.WirdIndexCodes[1];
                 if (item.WirdIndexCodes.Count >= 3)
@@ -238,6 +240,8 @@ namespace TowerLoadCals.DAL
                     spec.Wire15 = item.WirdIndexCodes[14];
                 if (item.WirdIndexCodes.Count >= 16)
                     spec.Wire16 = item.WirdIndexCodes[15];
+
+                spec.WorkComment = item.WorkComment;
 
                 listSpec.Add(spec);
             }

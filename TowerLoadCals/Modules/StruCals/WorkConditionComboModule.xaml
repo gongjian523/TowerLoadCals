@@ -37,7 +37,9 @@
                         ColumnGeneratorStyle="{StaticResource ColumnStyle}">
             <dxg:GridControl.View>
                 <dxg:TableView x:Name="view" 
-                    NavigationStyle="Cell" AutoWidth="True"
+                    NavigationStyle="Cell" 
+                    AutoWidth="True"
+                    EnableImmediatePosting="True"
                     AllowPerPixelScrolling="True" 
                     ShowGroupPanel="False"
                     IsTotalSummaryMenuEnabled="False"/>

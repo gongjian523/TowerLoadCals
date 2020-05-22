@@ -5,6 +5,11 @@ namespace TowerLoadCals.Mode
     public class WorkConditionComboBase
     {
         /// <summary>
+        /// 序号
+        /// </summary>
+        public int Index { get; set; }
+
+        /// <summary>
         /// 选择与否
         /// </summary>
         public bool IsCalculate { get; set; }
