@@ -11,7 +11,7 @@ namespace TowerLoadCals.BLL
     /// <summary>
     /// 直线塔的荷载分配
     /// </summary>
-    public class LoadDistributeLineTower:LoadDistributeBase
+    public class LoadDistributeLineCornerTower:LoadDistributeBase
     {
         ///// <summary>
         ///// 从界面获取的公共参数
@@ -48,7 +48,7 @@ namespace TowerLoadCals.BLL
         //protected FormulaLineTower formula;
 
 
-        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, float[][] table) : base(para, lineParas, template, table)
+        public LoadDistributeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, float[][] table) : base(para, lineParas, template, table)
         {
 
             //ProcessString = new List<string>();
@@ -61,7 +61,7 @@ namespace TowerLoadCals.BLL
             //ConvertTable(table);
         }
 
-        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template) : base(para, lineParas, template)
+        public LoadDistributeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template) : base(para, lineParas, template)
         {
 
             //ProcessString = new List<string>();
@@ -179,28 +179,6 @@ namespace TowerLoadCals.BLL
                         case "Lh":
                             DistributeInLift(i, j);
                             break;
-                        case "M":
-                        case "Ma":
-                        case "Mb":
-                        case "Mc":
-                        case "Md":
-                        case "Me":
-                        case "Mf":
-                        case "Mg":
-                        case "Mh":
-                            DistributeInAnchor(i, j);
-                            break;
-                        case "MO":
-                        case "MOa":
-                        case "MOb":
-                        case "MOc":
-                        case "MOd":
-                        case "MOe":
-                        case "MOf":
-                        case "MOg":
-                        case "MOh":
-                            DistributeInOPGWAnchor(i, j);
-                            break;
                         case "G":
                         case "Ga":
                         case "Gb":
@@ -277,6 +255,7 @@ namespace TowerLoadCals.BLL
         {
             float x1, y1, y2, z1, z2;
             float rg, zg, Vcb;
+            float fuhao; 
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -288,19 +267,37 @@ namespace TowerLoadCals.BLL
 
             if (zhs <= mz1 && zhs > 0)
             {
-                x1 = Wind[j,zhs];
+                If Me.DataGridView7.Rows(i - 1).Cells(3).Value.ToString = "D" Then
+                    x1 = wind(j, zhs)
+                    zjiao = dajiao
+                ElseIf Me.DataGridView7.Rows(i - 1).Cells(3).Value.ToString = "X" Then
+                    x1 = windx(j, zhs)
+                    zjiao = xiaojiao
+                End If
+
                 y1 = TensionMax[j, zhs];
                 y2 = TensionMin[j, zhs];
                 z1 = GMax[j, zhs];
                 z2 = GMin[j, zhs];
+                fuhao = 1;
             }
             else if (zhs < 0 && zhs >= -mz1)
             {
-                x1 = Wind[j, Math.Abs(zhs)];
+                If Me.DataGridView7.Rows(i - 1).Cells(3).Value.ToString = "D" Then
+                    x1 = wind(j, zhs)
+                    zjiao = dajiao
+                ElseIf Me.DataGridView7.Rows(i - 1).Cells(3).Value.ToString = "X" Then
+                    x1 = windx(j, zhs)
+                    zjiao = xiaojiao
+                End If
+
+                        
+
                 y1 = TensionMin[j, Math.Abs(zhs)];
                 y2 = TensionMax[j, Math.Abs(zhs)];
                 z1 = GMax[j,Math.Abs(zhs)];
                 z2 = GMin[j,Math.Abs(zhs)];
+                fuhao = -1;
             }
             else if (zhs == 0)
             {
@@ -309,6 +306,7 @@ namespace TowerLoadCals.BLL
                 y2 = 0;
                 z1 = 0;
                 z2 = 0;
+                zjiao = 0;
             }
             else
             {
@@ -728,278 +726,6 @@ namespace TowerLoadCals.BLL
             }
         }
 
-        /// <summary>
-        /// 针对锚线工况
-        /// 工况代码"M", "Ma", "Mb", "Mc", "Md", "Me", "Mf", "Mg", "Mh"
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="j"></param>
-        protected void DistributeInAnchor(int i, int j)
-        {
-            float x1, y1, y2, z1, z2;
-            int fuhao;
-            float fhn;
-            float deta1, deta2, deta3;
-
-            WorkConditionCombo wd = Template.WorkConditionCombos[i];
-
-            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
-            int angle = wd.WindDirectionCode;
-            string workConditionCode = wd.WorkConditionCode;
-            int mz1 = Template.WorkConditongs.Count;
-
-            //锚线工况，统一按最大垂荷考虑
-            if (Math.Abs(zhs) < 1000 && Math.Abs(zhs) > 0)
-            {
-                //已锚相
-                if( zhs > 0)
-                {
-                    fuhao = 1;
-                }
-                else
-                {
-                    //不应出现
-                    fuhao = -1;
-                }
-
-                fhn = Math.Abs(zhs) / 100;
-                if (fhn < 1)
-                    fhn = 1;
-
-                zhsAM = Math.Abs(zhs) % 100;
-
-                if(zhsAM > mz1)
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-211");
-                }
-
-                y1 = TensionMax[j,zhsAM];
-                y2 = TensionMin[j,zhsAM];
-
-                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
-                {
-                    //地线有开段时
-                    deta1 = y1;
-                    deta2 = 90;
-                    deta3 = 0;
-                }
-                else
-                {
-                    //地线不开段和导线
-                    deta1 = LineParas.AnchorTension;
-                    deta2 = Paras.AnchorAngle;
-                    deta3 = Paras.AnchorAngle;
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad, fhn, deta1, deta3, out string strZ);
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-
-            }
-            else if (Math.Abs(zhs) > 1000)
-            {
-                //正锚
-                
-                if(zhs > 0)
-                {
-                    fuhao = 1;
-                }
-                else
-                {
-                    fuhao = -1;
-                }
-
-                fhn = Math.Abs(zhs) / 1000;
-                zhsAM = Math.Abs(zhs) % 1000;
-
-                if (zhsAM > mz1 )
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" +  "0 + 16+" + "错误：1-212");
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                //'正锚相
-                if (fuhao > 0)
-                {
-                    y1 = TensionMax[j,zhsAM];
-                    y2 = TensionMin[j,zhsAM];
-
-                    if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
-                    {
-                        //地线有开段时
-                        if (y1 > 0)
-                        {
-                            deta1 = y1 * LineParas.DrawingCoef;
-                        }
-                        else
-                        {
-                            deta1 = y1;
-                        }
-                        deta2 = 90;
-                        deta3 = 0;
-                    }
-                    else
-                    {
-                        //地线不开段和导线
-                        deta1 = LineParas.AnchorTension;
-                        deta2 = Paras.AnchorAngle;
-                        deta3 = Paras.AnchorAngle;
-                    }
-                }
-                else
-                {
-                    //此种情况不应出现
-                    //反向张力情况，锚线张力反向
-                    y1 = -TensionMax[j,zhsAM];
-                    y2 = -TensionMin[j,zhsAM];
-
-                    if (j <= Paras.dxl && Math.Abs(y1) >= Math.Abs(LineParas.AnchorTension))
-                    {
-                        //地线有开段时
-                        if (y1 < 0)
-                        {
-                            deta1 = y1 * LineParas.DrawingCoef;
-                        }
-                        else
-                        {
-                            deta1 = y1;
-                        }
-
-                        deta2 = 90;
-                        deta3 = 0;
-                    }
-                    else
-                    {
-                        //地线不开段和导线
-                        deta1 = -LineParas.AnchorTension;
-                        deta2 = Paras.AnchorAngle;
-                        deta3 = Paras.AnchorAngle;
-                    }
-                }
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXMX1(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXMY1(angle, x1, deta1, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ1(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-            }
-            else if (zhs == 0)
-            {
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = 0;
-                YY[i,j-1] = 0;
-                ZZ[i,j-1] = 0;
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
-            }
-        }
-
-        /// <summary>
-        /// 针对OPGW锚线工况
-        /// 工况代码"MO", "MOa", "MOb", "MOc", "MOd", "MOe", "MOf", "MOg", "MOh"
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="j"></param>
-        protected void DistributeInOPGWAnchor(int i, int j)
-        {
-            float x1, y1, y2, z1, z2;
-            float fhn;
-            float deta1;
-
-            WorkConditionCombo wd = Template.WorkConditionCombos[i];
-
-            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
-            int angle = wd.WindDirectionCode;
-            string workConditionCode = wd.WorkConditionCode;
-            int mz1 = Template.WorkConditongs.Count;
-
-            //OPGW锚线特殊工况，其表达式与常规锚线有所不同，需区分
-            if (zhs < 1000 && zhs > 0)
-            {
-                x1 = Wind[j,zhs];
-                y1 = TensionMax[j,zhs];
-                y2 = TensionMin[j,zhs];
-                z1 = GMax[j,zhs];
-                z2 = GMin[j,zhs];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                //刚老师意见，无论开断与否，OPGW已架相均应该有荷载，与常规不符
-                XX[i,j-1] = formula.MO2X(angle, x1, out string strX);
-                YY[i,j-1] = formula.MO2Y(angle, x1, y1, y2, out string strY);
-                ZZ[i,j-1] = formula.MO2Z(z1, out string strZ);
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-
-            }
-            else if ( zhs > 1000)
-            {
-                fhn = zhs / 1000;
-                zhsAM = zhs % 1000;
-
-                x1 = Wind[j,zhsAM];
-                y1 = TensionMax[j,zhsAM];
-                y2 = TensionMin[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-                                    
-                //左地线
-                if( y1 > 0)
-                {
-                    //j从1开始计数，但是XX YY ZZ 从0开始
-                    deta1 = LineParas.DrawingCoef;
-                    XX[i,j-1] = formula.MO1X(angle, x1, out string strX);
-                    XX[i,j-1] = formula.MO1Y(angle, x1, y1, deta1, y2, out string strY);
-                    XX[i,j-1] = formula.MO1Z(z1, y1, deta1, LineParas.WireExtraLoad , fhn, out string strZ);
-
-                    ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                    ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                    ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-                }
-                else
-                {
-                    deta1 = 1;
-
-                    //j从1开始计数，但是XX YY ZZ 从0开始
-                    XX[i,j-1] = 0;
-                    YY[i,j-1] = 0;
-                    ZZ[i,j-1] = 0;
-
-                    ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
-                    ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
-                    ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
-                }
-            }
-            else if (zhs == 0)
-            {
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = 0;
-                YY[i,j-1] = 0;
-                ZZ[i,j-1] = 0;
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
-            }
-        }
 
         /// <summary>
         /// 针对过滑车工况,只考虑最大垂荷

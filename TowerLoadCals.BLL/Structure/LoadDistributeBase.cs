@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TowerLoadCals.Mode;
-using TowerLoadCals.Mode.Structure;
 
-namespace TowerLoadCals.BLL.Structure
+namespace TowerLoadCals.BLL
 {
     abstract public class LoadDistributeBase
     {
