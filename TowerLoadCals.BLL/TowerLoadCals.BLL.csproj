@@ -49,8 +49,8 @@
     <Compile Include="Structure\FormulaTower.cs" />
     <Compile Include="Structure\LoadDistributeBase.cs" />
     <Compile Include="Structure\LoadDistributeLineCornerTower.cs" />
+    <Compile Include="Structure\LoadDistributeCornerTower.cs" />
     <Compile Include="Structure\LoadDistributeLineTower.cs" />
-    <Compile Include="Structure\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Electric\" />

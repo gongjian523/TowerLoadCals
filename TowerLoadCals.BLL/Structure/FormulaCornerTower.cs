@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TowerLoadCals.Mode;
-using TowerLoadCals.Mode.Structure;
 
 namespace TowerLoadCals.BLL
 {
-    class FormulaCornerTower : FormulaTower
+    public class FormulaCornerTower : FormulaTower
     {
         public FormulaCornerTower(FormulaParas paras) : base(paras)
         {
