@@ -30,6 +30,7 @@ namespace TowerLoadCals.BLL
         //protected TowerTemplate Template { get; set; }
 
         protected float[,] Wind { get; set; }
+        protected float[,] Windx { get; set; }
 
         protected float[,] GMax { get; set; }
 
@@ -45,7 +46,7 @@ namespace TowerLoadCals.BLL
 
         //protected List<string>  ProcessString { get; set; }
 
-        //protected FormulaLineTower formula;
+        protected FormulaLineCornerTower formula;
 
 
         public LoadDistributeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, float[][] table) : base(para, lineParas, template, table)
@@ -59,6 +60,7 @@ namespace TowerLoadCals.BLL
             //Template = template;
 
             //ConvertTable(table);
+            formula = new FormulaLineCornerTower(para);
         }
 
         public LoadDistributeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template) : base(para, lineParas, template)
@@ -72,6 +74,8 @@ namespace TowerLoadCals.BLL
             //Template = template;
 
             GetTable("D:\\00-项目\\P-200325-杆塔负荷程序\\21.xlsx");
+            formula = new FormulaLineCornerTower(para);
+
         }
 
 
@@ -218,7 +222,7 @@ namespace TowerLoadCals.BLL
                             DistributeInTixian(i, j);
                             break;
                         default:
-                            throw new Exception("直线塔工况代号超出范围" + "0 + 16" + "错误：1-217");
+                            throw new Exception("直线塔工况代号超出范围" + "0 + 16" + "错误：1-230");
                             break;
 
                     }
@@ -255,7 +259,7 @@ namespace TowerLoadCals.BLL
         {
             float x1, y1, y2, z1, z2;
             float rg, zg, Vcb;
-            float fuhao; 
+            float zjiao; 
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -267,37 +271,41 @@ namespace TowerLoadCals.BLL
 
             if (zhs <= mz1 && zhs > 0)
             {
-                If Me.DataGridView7.Rows(i - 1).Cells(3).Value.ToString = "D" Then
-                    x1 = wind(j, zhs)
-                    zjiao = dajiao
-                ElseIf Me.DataGridView7.Rows(i - 1).Cells(3).Value.ToString = "X" Then
-                    x1 = windx(j, zhs)
-                    zjiao = xiaojiao
-                End If
+                if( wd.TensionAngleCode == "D" )
+                {
+                    x1 = Wind[j, zhs];
+                    zjiao = LineParas.AngleMax;
+                } 
+                //else if( wd.TensionAngleCode == "X" )
+                else
+                {
+                    x1 = Windx[j, zhs];
+                    zjiao = LineParas.AngleMin;
+                }
 
                 y1 = TensionMax[j, zhs];
                 y2 = TensionMin[j, zhs];
                 z1 = GMax[j, zhs];
                 z2 = GMin[j, zhs];
-                fuhao = 1;
             }
             else if (zhs < 0 && zhs >= -mz1)
             {
-                If Me.DataGridView7.Rows(i - 1).Cells(3).Value.ToString = "D" Then
-                    x1 = wind(j, zhs)
-                    zjiao = dajiao
-                ElseIf Me.DataGridView7.Rows(i - 1).Cells(3).Value.ToString = "X" Then
-                    x1 = windx(j, zhs)
-                    zjiao = xiaojiao
-                End If
-
-                        
+                if( wd.TensionAngleCode == "D" )
+                {
+                    x1 = Wind[j, zhs];
+                    zjiao = LineParas.AngleMax;
+                }
+                //else if( wd.TensionAngleCode == "X" )
+                else
+                {
+                    x1 = Windx[j, zhs];
+                    zjiao = LineParas.AngleMin;
+                }
 
                 y1 = TensionMin[j, Math.Abs(zhs)];
                 y2 = TensionMax[j, Math.Abs(zhs)];
                 z1 = GMax[j,Math.Abs(zhs)];
                 z2 = GMin[j,Math.Abs(zhs)];
-                fuhao = -1;
             }
             else if (zhs == 0)
             {
@@ -315,37 +323,35 @@ namespace TowerLoadCals.BLL
                 y2 = 9999;
                 z1 = 9999;
                 z2 = 9999;
-                throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误，只能为-" + -mz1 + "～" + mz1 + "之间 " + "0 + 16 " + "错误：1-207");
+                throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误，只能为-" + -mz1 + "～" + mz1 + "之间 " + "0 + 16 " + "错误：1-218");
             }
 
-            if (workConditionCode == "N1")
+            if (workConditionCode == "N1" || workConditionCode == "D1")
             {
                 rg = Paras.RGBad;
                 zg = z1;
-                Vcb = Paras.VcFNormal;
             }
-            else if (workConditionCode == "N2")
-            {
-                rg = Paras.RGGood;
-                zg = z2;
-                Vcb = Paras.VcFNormal;
-            }
-            else if (workConditionCode == "D1")
-            {
-                rg = Paras.RGBad;
-                zg = z1;
-                Vcb = Paras.VcFCold;
-            }
+            //else if (workConditionCode == "N2" || workConditionCode == "D2")
             else
             {
                 rg = Paras.RGGood;
                 zg = z2;
+            }
+
+            if (workConditionCode == "N1" || workConditionCode == "N1")
+            {
+                Vcb = Paras.VcFNormal;
+            }
+            //else if (workConditionCode == "D2" || workConditionCode == "D2")
+            else
+            {
                 Vcb = Paras.VcFCold;
             }
 
-            XX[i,j-1] = formula.ZXNX(angle, x1, Vcb, out string strX);
-            YY[i,j-1] = formula.ZXNY(angle, x1, y1, y2, Vcb, out string strY);
-            ZZ[i,j-1] = formula.ZXNZ(zg, rg, Vcb, out string strZ);
+            //与直线塔有所差别，需要考虑角度力的影响，张力按角度在X向有所分离，在Y向存在荷载，下同
+            XX[i, j] = formula.ZZNX(angle, x1, y1, y2, zjiao, Vcb, out string strX);
+            YY[i, j] = formula.ZZNY(angle, x1, y1, y2, zjiao, Vcb, out string strY);
+            ZZ[i, j] = formula.ZZNZ(zg, rg, Vcb, out string strZ);
 
             ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
             ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -355,7 +361,6 @@ namespace TowerLoadCals.BLL
         /// <summary>
         /// 针对覆冰-最低温、不均匀冰、断线、验算冰工况
         /// 工况代码"I1", "I2", "U1", "U2", "B1", "B2", "Y1", "Y2"
-        /// 1为最大垂荷，2为最小垂荷
         /// </summary>
         /// <param name="i"></param>
         /// <param name="j"></param>
@@ -363,6 +368,7 @@ namespace TowerLoadCals.BLL
         {
             float x1, y1, y2, z1, z2, z3, z4;
             float rg, zg, zg1, fhn, Vloadx;
+            float zjiao;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -375,26 +381,43 @@ namespace TowerLoadCals.BLL
 
             if (zhs > 0)
             {
-                x1 = Wind[j, zhsM];
+                if( wd.TensionAngleCode == "D" )
+                {
+                    x1 = Wind[j, zhs];
+                    zjiao = LineParas.AngleMax;
+                } 
+                //else if( wd.TensionAngleCode == "X" )
+                else
+                {
+                    x1 = Windx[j, zhs];
+                    zjiao = LineParas.AngleMin;
+                }
+
                 y1 = TensionMax[j, zhsM];
                 y2 = TensionMin[j, zhsM];
                 z1 = GMax[j, zhsM];
-                //第一列必须为正常运行大风工况
-                z2 = GMax[j,1];
+                z2 = GMax[j, 1];
                 z3 = GMin[j, zhsM];
-                //第一列必须为正常运行大风工况
-                z4 = GMin[j,1];
+                z4 = GMin[j, 1];
             }
             else if(zhs < 0)
             {
-                x1 = Wind[j, zhsM];
-                y1 = TensionMin[j, zhsM];
-                y2 = TensionMax[j, zhsM];
-                z1 = GMax[j, zhsM];
-                //第一列必须为正常运行大风工况
+                if( wd.TensionAngleCode == "D" )
+                {
+                    x1 = Wind[j, zhs];
+                    zjiao = LineParas.AngleMax;
+                }
+                //else if( wd.TensionAngleCode == "X" )
+                else
+                {
+                    x1 = Windx[j, zhs];
+                    zjiao = LineParas.AngleMin;
+                }
+                y1 = TensionMin[j, zhs];
+                y2 = TensionMax[j, zhs];
+                z1 = GMax[j, zhs];
                 z2 = GMax[j, 1];
-                z3 = GMin[j, zhsM];
-                //第一列必须为正常运行大风工况
+                z3 = GMin[j, zhs];
                 z4 = GMin[j, 1];
             }
             else 
@@ -406,6 +429,7 @@ namespace TowerLoadCals.BLL
                 z2 = 0;
                 z3 = 0;
                 z4 = 0;
+                zjiao = 0;
             }
 
             if(zhsM > mz1)
@@ -417,7 +441,7 @@ namespace TowerLoadCals.BLL
                 z2 = 9999;
                 z3 = 9999;
                 z4 = 9999;
-                throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误，只能为-" + -mz1 + "～" + mz1 + "之间 " + "0 + 16 " + "错误：1-208");
+                throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误，只能为-" + -mz1 + "～" + mz1 + "之间 " + "0 + 16 " + "错误：1-219");
             }
 
             if (workConditionCode == "I1")
@@ -431,71 +455,63 @@ namespace TowerLoadCals.BLL
             else if (workConditionCode == "I2")
             {
                 rg = Paras.RGGood;
-                zg = z3;
-                zg1 = z4;
+                zg = z3; 
+                zg1 = z4; 
                 fhn = Paras.VcFNormal;
                 Vloadx = Paras.RQ;
             }
             else if (workConditionCode == "U1")
             {
-                rg = Paras.RGBad;
-                zg = z1;
-                zg1 = z2;
+                rg = Paras.RGBad; 
+                zg = z1; 
+                zg1 = z2; 
                 fhn = Paras.VcFUnevenIce;
                 Vloadx = Paras.RQ;
             }
             else if (workConditionCode == "U2")
             {
-                rg = Paras.RGGood;
-                zg = z3;
-                zg1 = z4;
+                rg = Paras.RGGood; 
+                zg = z3; 
+                zg1 = z4; 
                 fhn = Paras.VcFUnevenIce;
                 Vloadx = Paras.RQ;
             }
             else if (workConditionCode == "B1")
             {
-                rg = Paras.RGBad;
-                zg = z1;
-                zg1 = z2;
+                rg = Paras.RGBad; 
+                zg = z1; 
+                zg1 = z2; 
                 fhn = Paras.VcFBroken;
-                Vloadx = Paras.RQ;
-            }
-            else if (workConditionCode == "U1")
-            {
-                rg = Paras.RGBad;
-                zg = z1;
-                zg1 = z2;
-                fhn = Paras.VcFUnevenIce;
                 Vloadx = Paras.RQ;
             }
             else if (workConditionCode == "B2")
             {
-                rg = Paras.RGGood;
-                zg = z3;
-                zg1 = z4;
+                rg = Paras.RGGood; 
+                zg = z3; 
+                zg1 = z4; 
                 fhn = Paras.VcFBroken;
                 Vloadx = Paras.RQ;
             }
             else if (workConditionCode == "Y1")
             {
-                rg = Paras.RGCheck01;
-                zg = z1;
-                zg1 = z2;
+                rg = Paras.RGCheck01; 
+                zg = z1; 
+                zg1 = z2; 
                 fhn = Paras.VcFCheck;
                 Vloadx = Paras.RA;
             }
             else
             {
-                rg = Paras.RGCheck02;
-                zg = z3;
-                zg1 = z4;
+                rg = Paras.RGCheck02; 
+                zg = z3; 
+                zg1 = z4; 
                 fhn = Paras.VcFCheck;
                 Vloadx = Paras.RA;
             }
-        
-            XX[i, j - 1] = formula.ZXIYX(angle, x1, fhn, Vloadx,out string strX);
-            YY[i, j - 1] = formula.ZXIYY(angle, x1, y1, y2, fhn, Vloadx, out string strY);
-            ZZ[i, j - 1] = formula.ZXIYZ(zg1, zg, rg, fhn, Vloadx, out string strZ);
+
+            XX[i, j] = formula.ZZIYX(angle, x1, y1, y2, zjiao, fhn, Vloadx, out string strX);
+            YY[i, j] = formula.ZZIYY(angle, x1, y1, y2, zjiao, fhn, Vloadx, out string strY);
+            ZZ[i, j] = formula.ZZIYZ(zg1, zg, rg, fhn, Vloadx, out string strZ);
 
             ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
             ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -510,8 +526,8 @@ namespace TowerLoadCals.BLL
         /// <param name="j"></param>
         protected void DistributeInJump(int i, int j)
         {
-            float x1, y1, y2, z1, z2;
-            int fuhao;
+            float x1, y1, y2, z1, z2, z3, z4;
+            float zjiao;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -525,25 +541,50 @@ namespace TowerLoadCals.BLL
                 //正常覆冰相
                 if (zhs > 0)
                 {
-                    fuhao = 1;
-                    y1 = TensionMax[j,Math.Abs(zhs)];
-                    y2 = TensionMin[j,Math.Abs(zhs)];
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhs];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhs];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhs];
+                    y2 = TensionMin[j, zhs];
+                    z1 = GMax[j, zhs];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, zhs];
+                    z4 = GMin[j, 1];
                 }
                 else
                 {
-                    fuhao = -1;
-                    y1 = TensionMin[j,Math.Abs(zhs)];
-                    y2 = TensionMax[j,Math.Abs(zhs)];
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, Math.Abs(zhs)];
+                        zjiao = LineParas.AngleMax;
+                    }
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, Math.Abs(zhs)];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMin[j, Math.Abs(zhs)];
+                    y2 = TensionMax[j, Math.Abs(zhs)];
+                    z1 = GMax[j, Math.Abs(zhs)];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, Math.Abs(zhs)];
+                    z4 = GMin[j, 1];
                 }
 
-                x1 = Wind[j,Math.Abs(zhs)];
-                z1 = GMax[j,Math.Abs(zhs)];
-                z2 = GMax[j,1];
 
                 //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXTX(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXTY(angle, x1, y1, y2, fuhao, out string strY);
-                ZZ[i,j-1] = formula.ZXTZ2(z2, z1, out string strZ);
+                XX[i, j] = formula.ZZTX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j] = formula.ZZTY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j] = formula.ZZTZ2(z2, z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -555,33 +596,63 @@ namespace TowerLoadCals.BLL
                 zhsAM = Math.Abs(zhs) % 1000;
 
                 //脱冰跳跃相
-
-                if (zhs > 0)
+                
+                if (zhs > 1000)
                 {
-                    fuhao = 1;
-                    y1 = TensionMax[j,zhsAM];
-                    y2 = TensionMin[j,zhsAM];
+
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-220");
+                    }
+
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhsAM];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhsAM];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhsAM];
+                    y2 = TensionMin[j, zhsAM];
+                    z1 = GMax[j, zhsAM];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, zhsAM];
+                    z4 = GMin[j, 1];
                 }
                 else
                 {
-                    fuhao = -1;
-                    y1 = TensionMin[j,zhsAM];
-                    y2 = TensionMax[j,zhsAM];
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-221");
+                    }
+
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhsAM];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhsAM];
+                        zjiao = LineParas.AngleMin;
+                    }
+
+                    y1 = TensionMin[j, zhsAM];
+                    y2 = TensionMax[j, zhsAM];
+                    z1 = GMax[j, zhsAM];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, zhsAM];
+                    z4 = GMin[j, 1];
                 }
 
-                if (zhsAM > mz1 || fuhao > 1)
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误，只能为-" + -mz1 + "～" + mz1 + "之间 " + "0 + 16 " + "错误：1-209");
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMin[j,zhsAM];
-                z2 = GMin[j,1];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXTX(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXTY(angle, x1, y1, y2, fuhao, out string strY);
-                ZZ[i,j-1] = formula.ZXTZ1(z2, z1, out string strZ);
+                XX[i, j] = formula.ZZTX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j] = formula.ZZTY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j] = formula.ZZTZ1(z4, z3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -609,9 +680,9 @@ namespace TowerLoadCals.BLL
         /// <param name="j"></param>
         protected void DistributeInLift(int i, int j)
         {
-            float x1, y1, y2, z1, z2;
-            int fuhao;
+            float x1, y1, y2, z1, z2, z3, z4;
             float zg, fhn;
+            float zjiao;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -622,92 +693,179 @@ namespace TowerLoadCals.BLL
 
             if (Math.Abs(zhs) <= mz1 && Math.Abs(zhs) > 0)
             {
-                //吊装工况统一按最大垂荷考虑，不计算最小垂荷
+                //已安装，无附加荷载
                 if (zhs <= mz1 && zhs > 0)
                 {
-                    y1 = TensionMax[j,Math.Abs(zhs)];
-                    y2 = TensionMin[j,Math.Abs(zhs)];
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhs];
+                        zjiao = LineParas.AngleMax;
+                    }
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhs];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhs];
+                    y2 = TensionMin[j, zhs];
+                    z1 = GMax[j, zhs];
+                    z2 = GMax[j, 1];
                 }
                 else
                 {
-                    y1 = TensionMin[j,Math.Abs(zhs)];
-                    y2 = TensionMax[j,Math.Abs(zhs)];
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, Math.Abs(zhs)];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, Math.Abs(zhs)];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMin[j, Math.Abs(zhs)];
+                    y2 = TensionMax[j, Math.Abs(zhs)];
+                    z1 = GMax[j, Math.Abs(zhs)];
+                    z2 = GMax[j, 1];
                 }
 
-                x1 = Wind[j,Math.Abs(zhs)];
-                z1 = GMax[j,Math.Abs(zhs)];
-                z2 = GMin[j,Math.Abs(zhs)];
-
                 //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j-1] = formula.ZXLZ1(z1, out string strZ);
+                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j] = formula.ZZLZ1(z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
                 ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
             }
-            else if (zhs > 100 || zhs < -100)
+            else if (Math.Abs(zhs) > 100)
             {
                 // 包含检修提线和吊装
-                if (zhs > 100 && zhs < 1000)
+                if (zhs > 1000)
                 {
-                    fuhao = 1;
-                    //此处为吊装荷载系数，检修提线时取1.0
-                    zg = 1;
                     fhn = Math.Abs(zhs) / 100;
                     zhsAM = Math.Abs(zhs) % 100;
-                }
-                else if(zhs > -1000 && zhs < -100)
-                {
-                    fuhao = -1;
-                    //此处为吊装荷载系数，检修提线时取1.0
-                    zg = 1;
-                    fhn = Math.Abs(zhs) / 100;
-                    zhsAM = Math.Abs(zhs) % 100;
+
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-222");
+                    }
+
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhsAM];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhsAM];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhsAM];
+                    y2 = TensionMin[j, zhsAM];
+                    z1 = GMax[j, zhsAM];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, zhsAM];
+                    z4 = GMin[j, 1];
+                    zg = LineParas.HoistingCoef;
                 }
                 else if(zhs < -1000)
                 {
-                    fuhao = -1;
-                    //此处为吊装荷载系数
+
+                    fhn = Math.Abs(zhs) / 100;
+                    zhsAM = Math.Abs(zhs) % 100;
+
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-223");
+                    }
+
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhsAM];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhsAM];
+                        zjiao = LineParas.AngleMin;
+                    }
+
+                    y1 = TensionMin[j, zhsAM];
+                    y2 = TensionMax[j, zhsAM];
+                    z1 = GMax[j, zhsAM];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, zhsAM];
+                    z4 = GMin[j, 1];
                     zg = LineParas.HoistingCoef;
-                    fhn = Math.Abs(zhs) / 1000;
-                    zhsAM = Math.Abs(zhs) % 1000;
+                }
+                else if(zhs > 100 && zhs < 1000)
+                {
+                    fhn = Math.Abs(zhs) / 100;
+                    zhsAM = Math.Abs(zhs) % 100;
+
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-224");
+                    }
+
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhsAM];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhsAM];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhsAM];
+                    y2 = TensionMin[j, zhsAM];
+                    z1 = GMax[j, zhsAM];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, zhsAM];
+                    z4 = GMin[j, 1];
+                    zg = 1.0f;
                 }
                 else
                 {
-                    fuhao = 1;
-                    //此处为吊装荷载系数
-                    zg = LineParas.HoistingCoef;
-                    fhn = Math.Abs(zhs) / 1000;
-                    zhsAM = Math.Abs(zhs) % 1000;
+                    fhn = Math.Abs(zhs) / 100;
+                    zhsAM = Math.Abs(zhs) % 100;
+
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-225");
+                    }
+
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhs];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhs];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMin[j, zhs];
+                    y2 = TensionMax[j, zhs];
+                    z1 = GMax[j, zhs];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, zhs];
+                    z4 = GMin[j, 1];
+                    zg = 1.0f;
                 }
 
-                if (zhsAM > mz1)
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-210");
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                if(fuhao == 1)
-                {
-                    y1 = TensionMax[j,zhsAM];
-                    y2 = TensionMin[j,zhsAM];
-                }
-                else
-                {
-                    y1 = TensionMin[j,zhsAM];
-                    y2 = TensionMax[j,zhsAM];
-                }
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j-1] = formula.ZXLZ2(z1, zg, LineParas.WireExtraLoad, fhn, out string strZ);
+                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j] = formula.ZZLZ2(z1, zg, LineParas.WireExtraLoad, fhn, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -735,10 +893,9 @@ namespace TowerLoadCals.BLL
         /// <param name="j"></param>
         protected void DistributeInHuache(int i, int j)
         {
-            float x1, y1, y2, z1, z2;
+            float x1, y1, y2, z1, z2, z3, z4;
             int fuhao;
-            float fhn;
-            float deta1, deta2, deta3;
+            float fhn = 0.0f,zjiao;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -750,149 +907,161 @@ namespace TowerLoadCals.BLL
             
             if (Math.Abs(zhs) < mz1 && Math.Abs(zhs) > 0)
             {
-                //已安装
+                //已安装，无附加荷载
                 if (zhs <= mz1 && zhs > 0)
                 {
-                    y1 = TensionMax[j,Math.Abs(zhs)];
-                    y2 = TensionMin[j,Math.Abs(zhs)];
-                }
-                else
-                {
-                    y1 = TensionMin[j,Math.Abs(zhs)];
-                    y2 = TensionMax[j,Math.Abs(zhs)];
-                }
-
-                x1 = Wind[j,Math.Abs(zhs)];
-                z1 = GMax[j,Math.Abs(zhs)];
-                z2 = GMin[j,Math.Abs(zhs)];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j-1] = formula.ZXLZ1(z1, out string strZ);
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-
-            }
-            else if ( Math.Abs(zhs) > 100 && Math.Abs(zhs) < 1000)
-            {
-                //已锚相
-                if( zhs > 0)
-                {
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhs];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhs];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhs];
+                    y2 = TensionMin[j, zhs];
+                    z1 = GMax[j, zhs];
+                    z2 = GMax[j, 1];
                     fuhao = 1;
                 }
                 else
                 {
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, Math.Abs(zhs)];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, Math.Abs(zhs)];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMin[j, Math.Abs(zhs)];
+                    y2 = TensionMax[j, Math.Abs(zhs)];
+                    z1 = GMax[j, Math.Abs(zhs)];
+                    z2 = GMax[j, 1];
                     fuhao = -1;
                 }
 
-                fhn = Math.Abs(zhs) / 100;
-                zhsAM = Math.Abs(zhs) % 100;
-
-                if(zhsAM > mz1)
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-213");
-                }
-
-                y1 = TensionMax[j,zhsAM];
-                y2 = TensionMin[j,zhsAM];
-
-                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
-                {
-                    //地线有开段时
-                    deta1 = y1;
-                    deta2 = 90;
-                    deta3 = 0;
-                }
-                else
-                {
-                    //地线不开段和导线
-                    deta1 = LineParas.AnchorTension;
-                    deta2 = Paras.AnchorAngle;
-                    deta3 = Paras.AnchorAngle;
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-               ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-                
-            }
-            else if ( Math.Abs(zhs) > 1000)
-            {
-                //过滑车 >10000 表示转向过滑车
-                if (zhs > 0)
-                {
-                    y1 = Paras.ghcz;
-                }
-                else
-                {
-                    y1 = -Paras.ghcz;
-                }
-
-                if(Math.Abs(zhs) < 1000)
-                {
-                    fhn = Math.Abs(zhs) / 1000;
-                }
-                else
-                {
-                    fhn = (Math.Abs(zhs) - 10000) / 1000;
-                }
-
-                zhsAM = Math.Abs(zhs) % 1000;
-
-                if(zhsAM > mz1)
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-214");
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,1];
-                z2 = GMax[j,zhsAM];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.GLX(angle, x1, out string strX);
-                YY[i,j-1] = formula.GLY(angle, x1, y1, out string strY);
-                ZZ[i,j-1] = formula.GLZ(z1, z2, LineParas.WireExtraLoad, fhn, out string strZ);
+                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j] = formula.ZZLZ1(z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
                 ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
-                //TODO
-                //If Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
-                //angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value)
-                // XX(i, j + lz - dxl) = -ZZ(i, j) * Sin(angf * PI / 180)
-                //YY(i, j + lz - dxl) = YY(i, j)
-                //ZZ(i, j + lz - dxl) = ZZ(i, j) + ZZ(i, j) * Cos(angf * PI / 180)
+            }
+            else if ( Math.Abs(zhs) > 1000)
+            {
+                if(zhs > 1000)
+                {
+                    if (Math.Abs(zhs) < 10000)
+                    {
+                        fhn = Math.Abs(zhs) / 1000;
+                    }
+                    else
+                    {
+                        fhn = (Math.Abs(zhs) - 10000) / 1000;
+                    }
 
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fx= -" & Format(ZZ(i, j), "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j + lz - dxl), "0.00"))
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fy= " & Format(YY(i, j), "0.00"))
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fz= " & Format(ZZ(i, j), "0.00") & " + " & Format(ZZ(i, j), "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j + lz - dxl), "0.00"))
+                    zhsAM = Math.Abs(zhs) % 1000;
 
-                //Dim fzz!, fzz1!
-                //fzz = XX(i, j)
-                //fzz1 = ZZ(i, j)
-                //XX(i, j) = XX(i, j) + ZZ(i, j) * Sin(angf * PI / 180)
-                //YY(i, j) = YY(i, j)
-                //ZZ(i, j) = ZZ(i, j) - ZZ(i, j) * Cos(angf * PI / 180)
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-226");
+                    }
 
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fx= " & Format(fzz, "0.00") & " + " & Format(fzz1, "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j), "0.00"))
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fy= " & Format(YY(i, j), "0.00"))
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fz= " & Format(fzz1, "0.00") & " - " & Format(fzz1, "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j), "0.00"))
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhs];
+                        zjiao = LineParas.AngleMax;
+                    }
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhs];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhs];
+                    y2 = TensionMin[j, zhs];
+                    z1 = GMax[j, zhs];
+                    z2 = GMax[j, 1];
+                    z3 = GMin[j, zhs];
+                    z4 = GMin[j, 1];
+                    fuhao = 1;
+                }
+                else if(zhs < -1000)
+                {
+                    if (Math.Abs(zhs) < 10000)
+                    {
+                        fhn = Math.Abs(zhs) / 1000;
+                    }
+                    else
+                    {
+                        fhn = (Math.Abs(zhs) - 10000) / 1000;
+                    }
 
-                //End If
+                    zhsAM = Math.Abs(zhs) % 1000;
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-227");
+                    }
+                }
 
+                if( wd.TensionAngleCode == "D" )
+                {
+                    x1 = Wind[j, zhs];
+                    zjiao = LineParas.AngleMax;
+                }
+                //else if( wd.TensionAngleCode == "X" )
+                else
+                {
+                    x1 = Windx[j, zhs];
+                    zjiao = LineParas.AngleMin;
+                }
+                y1 = TensionMin[j, zhs];
+                y2 = TensionMax[j, zhs];
+                z1 = GMax[j, zhs];
+                z2 = GMax[j, 1];
+                z3 = GMin[j, zhs];
+                z4 = GMin[j, 1];
+                fuhao = -1;
+
+                XX[i, j] = formula.ZZGX(angle, x1, y1, y2, zjiao, LineParas.PulleyTensionDif,  out string strX);
+                YY[i, j] = formula.ZZGY(angle, x1, y1, y2, zjiao, LineParas.PulleyTensionDif * fuhao, out string strY);
+                ZZ[i, j] = formula.ZZGZ(z2, z1, LineParas.WireExtraLoad, fhn, out string strZ);
+
+                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
+                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
+                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
+
+                //if( Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 4).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True ){
+                //    angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value)
+                //    XX(i, j + lz - dxl) = -ZZ[i, j] * Sin(angf * PI / 180)
+                //    YY(i, j + lz - dxl) = YY[i, j]
+                //    ZZ(i, j + lz - dxl) = ZZ[i, j] + ZZ[i, j] * Cos(angf * PI / 180)
+
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fx= -" & Format(ZZ[i, j], "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j + lz - dxl), "0.00"))
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fy= " & Format(YY[i, j], "0.00"))
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fz= " & Format(ZZ[i, j], "0.00") & " + " & Format(ZZ[i, j], "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j + lz - dxl), "0.00"))
+
+                //    Dim fzz!, fzz1!
+                //    fzz = XX[i, j]
+                //    fzz1 = ZZ[i, j]
+                //    XX[i, j] = XX[i, j] + ZZ[i, j] * Sin(angf * PI / 180)
+                //    YY[i, j] = YY[i, j]
+                //    ZZ[i, j] = ZZ[i, j] - ZZ[i, j] * Cos(angf * PI / 180)
+
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fx= " & Format(fzz, "0.00") & " + " & Format(fzz1, "0.00") & " x " & "sin(" & angf & ")= " & Format(XX[i, j], "0.00"))
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fy= " & Format(YY[i, j], "0.00"))
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fz= " & Format(fzz1, "0.00") & " - " & Format(fzz1, "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ[i, j], "0.00"))
+
+                //}
             }
             else if (zhs == 0)
             {
@@ -915,93 +1084,59 @@ namespace TowerLoadCals.BLL
         /// <param name="j"></param>
         protected void DistributeInTixian(int i, int j)
         {
-            float x1, y1, y2, z1, z2;
-            int fuhao;
-            float fhn;
-            float deta1, deta2, deta3;
+            float x1, y1, y2, z1, z2, z3, z4;
+            float fhn, zjiao;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
             int zhs = wd.WirdIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
-            string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
 
-
-            if (Math.Abs(zhs) < mz1 && Math.Abs(zhs) > 0)
+            if (Math.Abs(zhs) <= mz1 && Math.Abs(zhs) > 0)
             {
                 //已安装
                 if (zhs <= mz1 && zhs > 0)
                 {
-                    y1 = TensionMax[j,Math.Abs(zhs)];
-                    y2 = TensionMin[j,Math.Abs(zhs)];
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhs];
+                        zjiao = LineParas.AngleMax;
+                    }
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhs];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhs];
+                    y2 = TensionMin[j, zhs];
+                    z1 = GMax[j, zhs];
+                    //z2 = GMax[j, 1];
                 }
                 else
                 {
-                    y1 = TensionMin[j,Math.Abs(zhs)];
-                    y2 = TensionMax[j,Math.Abs(zhs)];
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, Math.Abs(zhs)];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, Math.Abs(zhs)];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMin[j, Math.Abs(zhs)];
+                    y2 = TensionMax[j, Math.Abs(zhs)];
+                    z1 = GMax[j, Math.Abs(zhs)];
+                    //z2 = GMax[j, 1];
                 }
 
-                x1 = Wind[j,Math.Abs(zhs)];
-                z1 = GMax[j,Math.Abs(zhs)];
-                z2 = GMin[j,Math.Abs(zhs)];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j-1] = formula.ZXLZ1(z1, out string strZ);
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-
-            }
-            else if (Math.Abs(zhs) > 100 && Math.Abs(zhs) < 1000)
-            {
-                //已锚相
-                if (zhs > 0)
-                {
-                    fuhao = 1;
-                }
-                else
-                {
-                    fuhao = -1;
-                }
-
-                fhn = Math.Abs(zhs) / 100;
-                zhsAM = Math.Abs(zhs) % 100;
-
-                if (zhsAM > mz1)
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-215");
-                }
-
-                y1 = TensionMax[j,zhsAM];
-                y2 = TensionMin[j,zhsAM];
-
-                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
-                {
-                    //地线有开段时
-                    deta1 = y1;
-                    deta2 = 90;
-                    deta3 = 0;
-                }
-                else
-                {
-                    //地线不开段和导线
-                    deta1 = LineParas.AnchorTension;
-                    deta2 = Paras.AnchorAngle;
-                    deta3 = Paras.AnchorAngle;
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
+                //已安装，无附加荷载
+                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j] = formula.ZZLZ1(z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1010,61 +1145,119 @@ namespace TowerLoadCals.BLL
             }
             else if (Math.Abs(zhs) > 1000)
             {
-                //施工提线相
-                if (Math.Abs(zhs) < 1000)
+                //过滑车相
+                if(zhs > 1000)
                 {
-                    fhn = Math.Abs(zhs) / 1000;
+                    if (Math.Abs(zhs) < 10000)
+                    {
+                        fhn = Math.Abs(zhs) / 1000;
+                    }
+                    else
+                    {
+                        fhn = (Math.Abs(zhs) - 10000) / 1000;
+                    }
+
+                    zhsAM = Math.Abs(zhs) % 1000;
+
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-228");
+                    }
+
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhsAM];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhsAM];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMax[j, zhsAM];
+                    y2 = TensionMin[j, zhsAM];
+                    z1 = GMax[j, zhsAM];
+                    //z2 = GMax[j, 1];
+                    //z3 = GMin[j, zhsAM];
+                    //z4 = GMin[j, 1];
+                }
+                else if(zhs < -1000)
+                {
+                    if (Math.Abs(zhs) < 10000)
+                    {
+                        fhn = Math.Abs(zhs) / 1000;
+                    }
+                    else
+                    {
+                        fhn = (Math.Abs(zhs) - 10000) / 1000;
+                    }
+
+                    zhsAM = Math.Abs(zhs) % 1000;
+
+                    if (zhsAM > mz1)
+                    {
+                        throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-229");
+                    }
+                    if( wd.TensionAngleCode == "D" )
+                    {
+                        x1 = Wind[j, zhsAM];
+                        zjiao = LineParas.AngleMax;
+                    } 
+                    //else if( wd.TensionAngleCode == "X" )
+                    else
+                    {
+                        x1 = Windx[j, zhsAM];
+                        zjiao = LineParas.AngleMin;
+                    }
+                    y1 = TensionMin[j, zhsAM];
+                    y2 = TensionMax[j, zhsAM];
+                    z1 = GMax[j, zhsAM];
+                    //z2 = GMax[j, 1];
+                    //z3 = GMin[j, zhsAM];
+                    //z4 = GMin[j, 1];
                 }
                 else
                 {
-                    fhn = (Math.Abs(zhs) - 10000) / 1000;
+                    zjiao = 0;
+                    x1 = 0;
+                    y1 = 0;
+                    y2 = 0;
+                    z1 = 0;
+                    fhn = 0;
                 }
 
-                zhsAM = Math.Abs(zhs) % 1000;
-
-                if (zhsAM > mz1)
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-216");
-                }
-
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = formula.ZXCX(angle, x1, out string strX);
-                YY[i,j-1] = formula.ZXCY(angle, x1, LineParas.HoistingCoef, z1, out string strY);
-                ZZ[i,j-1] = formula.ZXCZ(LineParas.WireExtraLoad * fhn, LineParas.HoistingCoef, z1, out string strZ);
+                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j] = formula.ZZCZ(z1, LineParas.HoistingCoef, fhn * LineParas.WireExtraLoad, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
                 ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
-                //TODO
-                //Dim angf%
-                //If Abs(Val(Me.DataGridView7.Rows(i - 1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
-                //    angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value)
-                //    XX(i, j + lz - dxl) = -ZZ(i, j) * Sin(angf * PI / 180)
-                //    YY(i, j + lz - dxl) = YY(i, j)
-                //    ZZ(i, j + lz - dxl) = ZZ(i, j) + ZZ(i, j) * Cos(angf * PI / 180)
 
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fx= -" & Format(ZZ(i, j), "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j + lz - dxl), "0.00"))
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fy= " & Format(YY(i, j), "0.00"))
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fz= " & Format(ZZ(i, j), "0.00") & " + " & Format(ZZ(i, j), "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j + lz - dxl), "0.00"))
+                //if( Abs(Val(Me.DataGridView7.Rows(i - 1).Cells(j + 4).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True ){
+                //    angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value)
+                //    XX(i, j + lz - dxl) = -ZZ[i, j] * Sin(angf * PI / 180)
+                //    YY(i, j + lz - dxl) = YY[i, j]
+                //    ZZ(i, j + lz - dxl) = ZZ[i, j] + ZZ[i, j] * Cos(angf * PI / 180)
+
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fx= -" & Format(ZZ[i, j], "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j + lz - dxl), "0.00"))
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fy= " & Format(YY[i, j]), "0.00")
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fz= " & Format(ZZ[i, j], "0.00") & " + " & Format(ZZ[i, j], "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j + lz - dxl), "0.00"))
 
                 //    Dim fzz!, fzz1!
-                //    fzz = XX(i, j)
-                //    fzz1 = ZZ(i, j)
-                //    XX(i, j) = XX(i, j) + ZZ(i, j) * Sin(angf * PI / 180)
-                //    YY(i, j) = YY(i, j)
-                //    ZZ(i, j) = ZZ(i, j) - ZZ(i, j) * Cos(angf * PI / 180)
+                //    fzz = XX[i, j]
+                //    fzz1 = ZZ[i, j]
+                //    XX[i, j] = XX[i, j] + ZZ[i, j] * Sin(angf * PI / 180)
+                //    YY[i, j] = YY[i, j]
+                //    ZZ[i, j] = ZZ[i, j] - ZZ[i, j] * Cos(angf * PI / 180)
 
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fx= " & Format(fzz, "0.00") & " + " & Format(fzz1, "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j), "0.00"))
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fy= " & Format(YY(i, j), "0.00"))
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fz= " & Format(fzz1, "0.00") & " - " & Format(fzz1, "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j), "0.00"))
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fx= " & Format(fzz, "0.00") & " + " & Format(fzz1, "0.00") & " x " & "sin(" & angf & ")= " & Format(XX[i, j], "0.00"))
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fy= " & Format(YY[i, j], "0.00"))
+                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fz= " & Format(fzz1, "0.00") & " - " & Format(fzz1, "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ[i, j], "0.00"))
 
-                //End If
+                //}
 
             }
             else if (zhs == 0)

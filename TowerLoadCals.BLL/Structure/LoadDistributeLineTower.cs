@@ -45,7 +45,7 @@ namespace TowerLoadCals.BLL
 
         //protected List<string>  ProcessString { get; set; }
 
-        //protected FormulaLineTower formula;
+        protected FormulaLineTower formula;
 
 
         public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, float[][] table) : base(para, lineParas, template, table)
@@ -59,6 +59,7 @@ namespace TowerLoadCals.BLL
             //Template = template;
 
             //ConvertTable(table);
+            formula = new FormulaLineTower(para);
         }
 
         public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template) : base(para, lineParas, template)
@@ -70,7 +71,7 @@ namespace TowerLoadCals.BLL
             //Paras = para;
             //LineParasArr = lineParas;
             //Template = template;
-
+            formula = new FormulaLineTower(para);
             GetTable("D:\\00-项目\\P-200325-杆塔负荷程序\\21.xlsx");
         }
 
@@ -460,14 +461,6 @@ namespace TowerLoadCals.BLL
                 zg = z1;
                 zg1 = z2;
                 fhn = Paras.VcFBroken;
-                Vloadx = Paras.RQ;
-            }
-            else if (workConditionCode == "U1")
-            {
-                rg = Paras.RGBad;
-                zg = z1;
-                zg1 = z2;
-                fhn = Paras.VcFUnevenIce;
                 Vloadx = Paras.RQ;
             }
             else if (workConditionCode == "B2")
@@ -1107,14 +1100,14 @@ namespace TowerLoadCals.BLL
                 //过滑车 >10000 表示转向过滑车
                 if (zhs > 0)
                 {
-                    y1 = Paras.ghcz;
+                    y1 = LineParas.PulleyTensionDif;
                 }
                 else
                 {
-                    y1 = -Paras.ghcz;
+                    y1 = -LineParas.PulleyTensionDif;
                 }
 
-                if(Math.Abs(zhs) < 1000)
+                if(Math.Abs(zhs) < 10000)
                 {
                     fhn = Math.Abs(zhs) / 1000;
                 }
@@ -1285,7 +1278,7 @@ namespace TowerLoadCals.BLL
             else if (Math.Abs(zhs) > 1000)
             {
                 //施工提线相
-                if (Math.Abs(zhs) < 1000)
+                if (Math.Abs(zhs) < 10000)
                 {
                     fhn = Math.Abs(zhs) / 1000;
                 }

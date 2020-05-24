@@ -184,47 +184,16 @@
         /// </summary>
         public float TractionAgnle { get; set; }
 
-
-
-
-
- 
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //public float diaoxi { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //public float fh { get; set; }
-
         /// <summary>
         /// 地线数字
         /// </summary>
         public float dxl { get; set; } 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //public float mz { get; set; }
-
-        //public float gqx { get; set; }   //过牵引系数 ，从此类中移除 CD 非基础常数
-
-        public float llz { get; set; } //临时拉张，从此类中移除 CD 非基础常数
-
-
-        public float ghcz { get; set; } 
 
         public bool IsCornerTower { get; set; }
 
         public bool IsTerminalTower { get; set; }
 
         public bool IsBranchTower { get; set; }
-
 
         public bool baseParaFormRadioButton1 { get; set; }
 

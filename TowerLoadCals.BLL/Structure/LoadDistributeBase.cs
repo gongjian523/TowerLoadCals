@@ -37,14 +37,10 @@ namespace TowerLoadCals.BLL
 
         protected List<string> ProcessString { get; set; }
 
-        protected FormulaLineTower formula;
-
 
         public LoadDistributeBase(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, float[][] table)
         {
-
             ProcessString = new List<string>();
-            formula = new FormulaLineTower(para);
 
             Paras = para;
             LineParasArr = lineParas;
@@ -57,7 +53,6 @@ namespace TowerLoadCals.BLL
         {
 
             ProcessString = new List<string>();
-            formula = new FormulaLineTower(para);
 
             Paras = para;
             LineParasArr = lineParas;
