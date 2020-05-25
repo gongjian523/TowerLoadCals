@@ -180,15 +180,15 @@ namespace TowerLoadCals.BLL
                             break;
                         case "J1":
                         case "J2":
-                            //DistributeInOPGWAnchor(i, j);
+                            DistributeInJ(i, j);
                             break;
                         case "MQ1":
                         case "MQ2":
-                            //DistributeInHuache(i, j);
+                            DistributeInMQ(i, j);
                             break;
                         case "G1":
                         case "G2":
-                            //DistributeInTixian(i, j);
+                            DistributeInG(i, j);
                             break;
                         default:
                             throw new Exception("直线塔工况代号超出范围" + "0 + 16" + "错误：1-217");
@@ -4395,7 +4395,7 @@ namespace TowerLoadCals.BLL
         /// </summary>
         /// <param name="i"></param>
         /// <param name="j"></param>
-        protected void DistributeInJump(int i, int j)
+        protected void DistributeInLift(int i, int j)
         {
             float x1, y1, y2, z1, z2;
             int fuhao;
@@ -4430,216 +4430,1524 @@ namespace TowerLoadCals.BLL
                 e1 = x12 : e2 = x22 : e3 = minangle;
             }
 
-
-            if (Math.Abs(zhs) <= mz1 && Math.Abs(zhs) > 0)
+            if (wd.TensionAngleCode == "DD")
             {
-                //正常覆冰相
-                if (zhs > 0)
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
                 {
-                    fuhao = 1;
-                    y1 = TensionMax[j,Math.Abs(zhs)];
-                    y2 = TensionMin[j,Math.Abs(zhs)];
+                    y3 = y1;
+                    y4 = y1;
                 }
                 else
                 {
-                    fuhao = -1;
-                    y1 = TensionMin[j,Math.Abs(zhs)];
-                    y2 = TensionMax[j,Math.Abs(zhs)];
+                    y3 = y1;
+                    y4 = mgdz;
                 }
 
-                x1 = Wind[j,Math.Abs(zhs)];
-                z1 = GMax[j,Math.Abs(zhs)];
-                z2 = GMax[j,1];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                //XX[i,j-1] = formula.ZXTX(angle, x1, out string strX);
-                //YY[i,j-1] = formula.ZXTY(angle, x1, y1, y2, fuhao, out string strY);
-                //ZZ[i,j-1] = formula.ZXTZ2(z2, z1, out string strZ);
-
-                //ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                //ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                //ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-
-            }
-            else if(Math.Abs(zhs) > 1000)
-            {
-                zhsAM = Math.Abs(zhs) % 1000;
-
-                //脱冰跳跃相
-
-                if (zhs > 0)
+                //按最严重情况考虑扭转 20170620新增  扭转相垂荷按最严重情况考虑
+                switch (wd.VertialLoadCode)
                 {
-                    fuhao = 1;
-                    y1 = TensionMax[j,zhsAM];
-                    y2 = TensionMin[j,zhsAM];
+                    case "YY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "YB"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "0B"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "B0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    case "Y0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+
+                    case "BB"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "BY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "0Y"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    //case "00"
+                    // c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "YT"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3
+                    case "0T"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3
+                    case "T0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    case "TY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    //20190113新版程序
+                    default:
+                        c(1) = e1 : c(2) = y3 : c(4) = e2 : c(5) = y4 : c(7) = x3 : c(8) = z3
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
+                }
+            }
+            else if (wd.TensionAngleCode == "DX")
+            {
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    y3 = y1;
+                    y4 = y2;
                 }
                 else
                 {
-                    fuhao = -1;
-                    y1 = TensionMin[j,zhsAM];
-                    y2 = TensionMax[j,zhsAM];
+                    y3 = y1;
+                    y4 = mgxz;
                 }
 
-                if (zhsAM > mz1 || fuhao > 1)
+                //按最严重情况考虑扭转 20170620新增  扭转相垂荷按最严重情况考虑
+                switch (wd.VertialLoadCode)
                 {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误，只能为-" + -mz1 + "～" + mz1 + "之间 " + "0 + 16 " + "错误：1-209");
+                    case "YY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "YB"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "0B"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "B0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    case "Y0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+
+                    case "BB"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "BY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "0Y"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "00"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                            '2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "YT"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3
+                    case "0T"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3
+                    case "T0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    case "TY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    //20190113新版程序
+                    default:
+                        c(1) = e1 : c(2) = y3 : c(4) = e2 : c(5) = y4 : c(7) = x3 : c(8) = z3
+
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
                 }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMin[j,zhsAM];
-                z2 = GMin[j,1];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                //XX[i,j-1] = formula.ZXTX(angle, x1, out string strX);
-                //YY[i,j-1] = formula.ZXTY(angle, x1, y1, y2, fuhao, out string strY);
-                //ZZ[i,j-1] = formula.ZXTZ1(z2, z1, out string strZ);
-
-                //ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                //ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                //ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
             }
-            else if(zhs == 0)
+            else if (wd.TensionAngleCode == "XD")
             {
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = 0;
-                YY[i,j-1] = 0;
-                ZZ[i,j-1] = 0;
-
-
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
-            }
-        }
-
-        /// <summary>
-        /// 针对吊装工况
-        /// 工况代码"L", "La", "Lb", "Lc", "Ld", "Le", "Lf", "Lg", "Lh"
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="j"></param>
-        protected void DistributeInLift(int i, int j)
-        {
-            float x1, y1, y2, z1, z2;
-            int fuhao;
-            float zg, fhn;
-
-            WorkConditionCombo wd = Template.WorkConditionCombos[i];
-
-            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
-            int angle = wd.WindDirectionCode;
-            string workConditionCode = wd.WorkConditionCode;
-            int mz1 = Template.WorkConditongs.Count;
-
-            if (Math.Abs(zhs) <= mz1 && Math.Abs(zhs) > 0)
-            {
-                //吊装工况统一按最大垂荷考虑，不计算最小垂荷
-                if (zhs <= mz1 && zhs > 0)
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
                 {
-                    y1 = TensionMax[j,Math.Abs(zhs)];
-                    y2 = TensionMin[j,Math.Abs(zhs)];
+                    y3 = y2;
+                    y4 = y1;
                 }
                 else
                 {
-                    y1 = TensionMin[j,Math.Abs(zhs)];
-                    y2 = TensionMax[j,Math.Abs(zhs)];
+                    y3 = y2;
+                    y4 = mgdz;
                 }
 
-                x1 = Wind[j,Math.Abs(zhs)];
-                z1 = GMax[j,Math.Abs(zhs)];
-                z2 = GMin[j,Math.Abs(zhs)];
+                //按最严重情况考虑扭转 20170620新增  扭转相垂荷按最严重情况考虑
+                switch (wd.VertialLoadCode)
+                {
+                    case "YY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "YB"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "0B"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "B0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    case "Y0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
 
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                //XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
-                //YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                //ZZ[i,j-1] = formula.ZXLZ1(z1, out string strZ);
+                    case "BB"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "BY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "0Y"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "00"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "YT"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3
+                    case "0T"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3
+                    case "T0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    case "TY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    //20190113新版程序
+                    default:
+                        c(1) = e1 : c(2) = y3 : c(4) = e2 : c(5) = y4 : c(7) = x3 : c(8) = z3
 
-                //ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                //ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                //ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
 
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
+                }
             }
-            else if (zhs > 100 || zhs < -100)
+            else if (wd.TensionAngleCode == "XX")
             {
-                // 包含检修提线和吊装
-                if (zhs > 100 && zhs < 1000)
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
                 {
-                    fuhao = 1;
-                    //此处为吊装荷载系数，检修提线时取1.0
-                    zg = 1;
-                    fhn = Math.Abs(zhs) / 100;
-                    zhsAM = Math.Abs(zhs) % 100;
-                }
-                else if(zhs > -1000 && zhs < -100)
-                {
-                    fuhao = -1;
-                    //此处为吊装荷载系数，检修提线时取1.0
-                    zg = 1;
-                    fhn = Math.Abs(zhs) / 100;
-                    zhsAM = Math.Abs(zhs) % 100;
-                }
-                else if(zhs < -1000)
-                {
-                    fuhao = -1;
-                    //此处为吊装荷载系数
-                    zg = LineParas.HoistingCoef;
-                    fhn = Math.Abs(zhs) / 1000;
-                    zhsAM = Math.Abs(zhs) % 1000;
+                    y3 = y2;
+                    y4 = y2;
                 }
                 else
                 {
-                    fuhao = 1;
-                    //此处为吊装荷载系数
-                    zg = LineParas.HoistingCoef;
-                    fhn = Math.Abs(zhs) / 1000;
-                    zhsAM = Math.Abs(zhs) % 1000;
+                    y3 = y2;
+                    y4 = mgxz;
                 }
 
-                if (zhsAM > mz1)
+                //按最严重情况考虑扭转 20170620新增  扭转相垂荷按最严重情况考虑
+                switch (wd.VertialLoadCode)
                 {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-210");
+                    case "YY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "YB"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "0B"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "B0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    case "Y0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+
+                    case "BB"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = x3 : c(8) = z3
+                    case "BY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "0Y"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    case "00"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "YT"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3
+                    case "0T"
+                        c(1) = e1 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = x3 : c(8) = z3
+                    case "T0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = 0 : c(7) = x3 : c(8) = z3
+                    case "TY"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = x3 : c(8) = z3
+                    //20190113新版程序
+                    default:
+                        c(1) = e1 : c(2) = y3 : c(4) = e2 : c(5) = y4 : c(7) = x3 : c(8) = z3
+
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
                 }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                if(fuhao == 1)
+            }
+            else if (wd.TensionAngleCode == "D0")
+            {
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
                 {
-                    y1 = TensionMax[j,zhsAM];
-                    y2 = TensionMin[j,zhsAM];
+                    y3 = y1;
+                    y4 = 0;
                 }
                 else
                 {
-                    y1 = TensionMin[j,zhsAM];
-                    y2 = TensionMax[j,zhsAM];
+                    y3 = y1;
+                    y4 = 0;
                 }
 
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                //XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
-                //YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                //ZZ[i,j-1] = formula.ZXLZ2(z1, zg, LineParas.WireExtraLoad, fhn, out string strZ);
+                switch (wd.VertialLoadCode)
+                {
+                    case "B0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = 0 : c(5) = y4 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                    case "Y0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = 0 : c(5) = y4 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                    //case "00"
+                    //c(1) = 0 : c(2) = 0 : c(3) = 0 : c(4) = 0 : c(5) = y4 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "T0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = 0 : c(5) = y4 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                    //20190113新版程序
+                    default:
+                        c(1) = e1 : c(2) = y3 : c(4) = 0 : c(5) = y4 : c(7) = 0 : c(8) = 0
 
-                //ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                //ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                //ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
+                }
             }
-            else if (zhs == 0)
+            else if (wd.TensionAngleCode == "X0")
             {
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = 0;
-                YY[i,j-1] = 0;
-                ZZ[i,j-1] = 0;
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    y3 = y2;
+                    y4 = 0;
+                }
+                else
+                {
+                    y3 = y2;
+                    y4 = 0;
+                }
 
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
+                switch (wd.VertialLoadCode)
+                {
+                    case "B0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z12 : c(4) = 0 : c(5) = y4 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                    case "Y0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z11 : c(4) = 0 : c(5) = y4 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                    //case "00"
+                        //c(1) = 0 : c(2) = 0 : c(3) = 0 : c(4) = 0 : c(5) = 0 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "T0"
+                        c(1) = e1 : c(2) = y3 : c(3) = z22 : c(4) = 0 : c(5) = y4 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                    //20190113新版程序
+                    default:
+                        c(1) = e1 : c(2) = y3 : c(4) = 0 : c(5) = y4 : c(7) = 0 : c(8) = 0
+
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
+                }
+            }
+            else if (wd.TensionAngleCode == "0D")
+            {
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    y3 = 0;
+                    y4 = y1;
+                }
+                else
+                {
+                    y3 = 0;
+                    y4 = mgdz;
+                }
+
+                switch (wd.VertialLoadCode)
+                {
+                    case "0B"
+                        c(1) = 0 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = 0 : c(8) = 0
+                    case "0Y"
+                        c(1) = 0 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = 0 : c(8) = 0
+                     //case "00"
+                        //c(1) = 0 : c(2) = 0 : c(3) = 0 : c(4) = 0 : c(5) = 0 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                     //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "0T"
+                        c(1) = 0 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = 0 : c(8) = 0
+                    default:
+                        c(1) = 0 : c(2) = y3 : c(4) = e2 : c(5) = y4 : c(7) = 0 : c(8) = 0
+
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-26");
+                        }
+
+                        break;
+                }
+            }
+            else if (wd.TensionAngleCode == "0X")
+            {
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    y3 = 0;
+                    y4 = y2;
+                }
+                else
+                {
+                    y3 = 0;
+                    y4 = mgxz;
+                }
+
+                switch (wd.VertialLoadCode)
+                {
+                    case "0B"
+                        c(1) = 0 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z22 : c(7) = 0 : c(8) = 0
+                    case "0Y"
+                        c(1) = 0 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z21 : c(7) = 0 : c(8) = 0
+                     //case "00"
+                     // c(1) = 0 : c(2) = 0 : c(3) = 0 : c(4) = 0 : c(5) = 0 : c(6) = 0 : c(7) = 0 : c(8) = 0
+                     //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "0T"
+                        c(1) = 0 : c(2) = y3 : c(3) = 0 : c(4) = e2 : c(5) = y4 : c(6) = z12 : c(7) = 0 : c(8) = 0
+                    default:
+                        c(1) = 0 : c(2) = y3 : c(4) = e2 : c(5) = y4 : c(7) = 0 : c(8) = 0
+
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-26");
+                        }
+
+                        break;
+                }
+            }
+
+            if(zhs == 0)
+            {
+                XLF(i, j) = 0
+                YLF(i, j) = 0
+                ZLF(i, j) = 0
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= 0.00");
+
+                XLB(i, j) = 0
+                YLB(i, j) = 0
+                ZLB(i, j) = 0
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= 0.00");
+            }
+            else
+            {
+                if(Paras.IsBranchTower)
+                {
+                    //前后转角  20161124分支塔添加
+                    e3 = qzjiao;
+                }
+
+                XLF(i, j) = ZLX(angle, e3, c(1), c(2)) * BL3
+                YLF(i, j) = ZLY(angle, e3, c(1), c(2))
+                ZLF(i, j) = ZLZ(c(3))
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+
+                if (Paras.IsBranchTower)
+                {
+                    //前后转角  20161124分支塔添加
+                    e3 = hzjiao;
+                }
+
+                XLB(i, j) = ZLX(angle, e3, c(4), c(5)) * BL3
+                YLB(i, j) = ZLY(angle, e3, c(4), -c(5))
+                ZLB(i, j) = ZLZ(c(6))
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + strZ);
+            }
+
+            if(zhs < 100 && zhs > 0)
+            {
+                //表该相跳线为不吊装，跳线荷载为0  i
+                //中间吊装未吊
+                if(nt % 3 != 0 || nt == 0)
+                {
+                    XTF(i, j) = 0
+                    YTF(i, j) = 0
+                    ZTF(i, j) = 0
+
+                    XTB(i, j) = 0
+                    YTB(i, j) = 0
+                    ZTB(i, j) = 0
+
+                    if(nt > 0)
+                    {
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                    }
+                }
+                else if(nt % 3 == 0 || nt > 0)
+                {
+                    XTF(i, j) = 0
+                    YTF(i, j) = 0
+                    ZTF(i, j) = 0
+
+                    XTC(i, j) = 0
+                    YTC(i, j) = 0
+                    ZTC(i, j) = 0
+
+                    XTB(i, j) = 0
+                    YTB(i, j) = 0
+                    ZTB(i, j) = 0
+
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= 0.00");
+
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                }
+
+            }
+            else if(zhs.ToString().Length == 5 && (zhs.ToString().Substring(0,3) == "200" || zhs.ToString().Substring(0, 3) == "100"))
+            {
+                //单侧吊装未吊  双I 双V                             
+                if (nt % 3 != 0 || nt == 0)
+                {
+                    XTF(i, j) = 0
+                    YTF(i, j) = 0
+                    ZTF(i, j) = 0
+
+                    XTB(i, j) = 0
+                    YTB(i, j) = 0
+                    ZTB(i, j) = 0
+
+                    if (nt > 0)
+                    {
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                    }
+                }
+                else
+                {
+                    throw new Exception("线条" + j + "跳串数目与跳线吊装工况组合参数矛盾，请核实工况" + i + "0 + 16 " + "错误：1-231");
+                }
+            }
+            else if (zhs.ToString().Length == 6 && (zhs.ToString().Substring(0, 4) == "3000" || zhs.ToString().Substring(0, 4) == "1000"))
+            {
+                //单侧吊装未吊  双I 双V                            
+                if (nt % 3 != 0 || nt == 0)
+                {
+                    XTF(i, j) = 0
+                    YTF(i, j) = 0
+                    ZTF(i, j) = 0
+
+                    XTC(i, j) = 0
+                    YTC(i, j) = 0
+                    ZTC(i, j) = 0
+
+                    XTB(i, j) = 0
+                    YTB(i, j) = 0
+                    ZTB(i, j) = 0
+
+                    if (nt % 3 == 0 && nt > 0)
+                    {
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= 0.00");
+
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                    }
+                }
+                else
+                {
+                    throw new Exception("线条" + j + "跳串数目与跳线吊装工况组合参数矛盾，请核实工况" + i + "0 + 16 " + "错误：1-232");
+                }
+            }
+            else if (zhs > 1000 && zhs < 2000 && zhs.ToString().Substring(0, 1) == "1")
+            {
+                fhn = 1;
+
+
+                //单侧吊装未吊  双I 双V                            
+                if (nt % 3 != 0 || nt == 0)
+                {
+                    //已吊，中间吊装
+                    //20160903 单侧吊装按单个串荷考虑  中间吊装考虑前后侧比例  只针对跳线串数不为3的情况
+
+                    XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTQ
+                    YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTQ
+                    ZTF(i, j) = ZLT2Z(c(8), nt, 0) * BLTQ
+
+                    if (nt > 0)
+                    {
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                    }
+
+                    XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTH
+                    YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTH
+                    ZTB(i, j) = ZLT2Z(c(8), nt, 0) * BLTH
+
+                    if (nt > 0)
+                    {
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                    }
+                }
+                else if (nt % 3 == 0 && nt > 0)
+                {
+                    XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTQ
+                    YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTQ
+                    ZTF(i, j) = ZLT2Z(c(8), nt, 0) * BLTQ
+
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+
+                    XTC(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTZ
+                    YTC(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTZ
+                    ZTC(i, j) = ZLT2Z(c(8), nt, 0) * BLTZ
+                        
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZ);
+
+                    XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTH
+                    YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTH
+                    ZTB(i, j) = ZLT2Z(c(8), nt, 0) * BLTH
+                    
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                }
+            }
+            else if (zhs > 2000 && zhs.ToString().Length == 4)
+            {
+                //单侧吊装未吊  双I 双V                            
+                if (nt % 3 == 0 && nt > 0)
+                {
+                    //'中间吊装正吊
+                    fhn = 1
+                    XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTQ
+                    YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTQ
+                    ZTF(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn) * BLTQ
+                    
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+
+                    XTC(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTZ
+                    YTC(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTZ
+                    ZTC(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn) * BLTZ
+
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZ);
+
+                    XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTH
+                    YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTH
+                    ZTB(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn) * BLTH
+
+
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                    
+                }
+                else if (nt % 3 != 0 || nt == 0)
+                {
+                    '20160903 单侧吊装按单个串荷考虑  中间吊装考虑前后侧比例  只针对跳线串数不为3的情况
+                    fhn = 1
+                    XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTQ
+                    YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTQ
+                    ZTF(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn) * BLTQ
+
+                    if(nt > 0)
+                    {
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                    }
+
+                    XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLTH
+                    YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLTH
+                    ZTB(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn) * BLTH
+
+                    if (nt > 0)
+                    {
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                        ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                    }
+                }
+            }
+            else if (zhs.ToString().Length == 5 && zhs.ToString().Substring(0, 1) == "1" && zhs.ToString().Substring(0, 3) != "100")
+            {
+                //单侧集中吊装   1AB0i系列    注意AB不能同时取1或2  排他
+                fhn = 1;
+                if(nt == 0)
+                {
+                    XTF(i, j) = 0
+                    YTF(i, j) = 0
+                    ZTF(i, j) = 0
+
+                    XTB(i, j) = 0
+                    YTB(i, j) = 0
+                    ZTB(i, j) = 0
+                }
+                else
+                {
+                    switch (zhs.ToString().Substring(1, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTF(i, j) = 0
+                            YTF(i, j) = 0
+                            ZTF(i, j) = 0
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTF(i, j) = ZLT2Z(c(8), nt, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊
+                            XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTF(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                    switch (zhs.ToString().Substring(2, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTB(i, j) = 0
+                            YTB(i, j) = 0
+                            ZTB(i, j) = 0
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTB(i, j) = ZLT2Z(c(8), nt, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTB(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                }
+            }
+            else if (zhs.ToString().Length == 5 && zhs.ToString().Substring(0, 1) == "2" && zhs.ToString().Substring(0, 3) != "200")
+            {
+                //吊装荷载前后分开吊装  不区分吊串数  荷载直接按比例前后分配
+                fhn = 1;
+                if (nt == 0)
+                {
+                    XTF(i, j) = 0
+                    YTF(i, j) = 0
+                    ZTF(i, j) = 0
+
+                    XTB(i, j) = 0
+                    YTB(i, j) = 0
+                    ZTB(i, j) = 0
+                }
+                else
+                {
+                    switch (zhs.ToString().Substring(1, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTF(i, j) = 0
+                            YTF(i, j) = 0
+                            ZTF(i, j) = 0
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTQ
+                            YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTQ
+                            ZTF(i, j) = ZLT2Z(c(8), nt * BLDZTQ, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊
+                            XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTQ
+                            YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTQ
+                            ZTF(i, j) = ZLT1Z(c(8), nt * BLDZTQ, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                    switch (zhs.ToString().Substring(2, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTB(i, j) = 0
+                            YTB(i, j) = 0
+                            ZTB(i, j) = 0
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTH
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTH
+                            ZTB(i, j) = ZLT2Z(c(8), nt * BLDZTH, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTH
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTH
+                            ZTB(i, j) = ZLT1Z(c(8), nt * BLDZTH, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                }
+            }
+            else if (zhs.ToString().Length == 6 && zhs.ToString().Substring(0, 1) == "1" && zhs.ToString().Substring(0, 4) != "1000")
+            {
+                //3I或3V  单侧集中吊装
+                fhn = 1;
+                if (nt == 0)
+                {
+                    XTF(i, j) = 0
+                    YTF(i, j) = 0
+                    ZTF(i, j) = 0
+
+                    XTC(i, j) = 0
+                    YTC(i, j) = 0
+                    ZTC(i, j) = 0
+
+                    XTB(i, j) = 0
+                    YTB(i, j) = 0
+                    ZTB(i, j) = 0
+                        
+                    //没跳线，不输出
+                }
+                else
+                {
+                    switch (zhs.ToString().Substring(1, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTF(i, j) = 0
+                            YTF(i, j) = 0
+                            ZTF(i, j) = 0
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTF(i, j) = ZLT2Z(c(8), nt, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊
+                            //  nt = 1   '此处错误
+                            XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTF(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                    switch (zhs.ToString().Substring(2, 1))
+                    {
+                        //TODO XTB 是不是应该为XTC
+                        case "0":
+                            //未吊
+                            XTB(i, j) = 0
+                            YTB(i, j) = 0
+                            ZTB(i, j) = 0
+                            nt = 1
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            //   nt = 1    此处错误
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTB(i, j) = ZLT2Z(c(8), nt, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊         
+                            //  nt = 1    '此处错误
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTB(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                    switch (zhs.ToString().Substring(3, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTB(i, j) = 0
+                            YTB(i, j) = 0
+                            ZTB(i, j) = 0
+                            nt = 1
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            //   nt = 1    此处错误
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTB(i, j) = ZLT2Z(c(8), nt, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊         
+                            //  nt = 1    '此处错误
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt
+                            ZTB(i, j) = ZLT1Z(c(8), nt, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                }
+            }
+            else if (zhs.ToString().Length == 6 && zhs.ToString().Substring(0, 1) == "2" && zhs.ToString().Substring(0, 4) != "2000")
+            {
+                //3I或3V   分开吊装
+                fhn = 1;
+                if (nt == 0)
+                {
+                    XTF(i, j) = 0
+                    YTF(i, j) = 0
+                    ZTF(i, j) = 0
+
+                    XTC(i, j) = 0
+                    YTC(i, j) = 0
+                    ZTC(i, j) = 0
+
+                    XTB(i, j) = 0
+                    YTB(i, j) = 0
+                    ZTB(i, j) = 0
+
+                    //没跳线，不输出
+                }
+                else
+                {
+                    switch (zhs.ToString().Substring(1, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTF(i, j) = 0
+                            YTF(i, j) = 0
+                            ZTF(i, j) = 0
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTQ
+                            YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTQ
+                            ZTF(i, j) = ZLT2Z(c(8), BLDZTQ * nt, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊
+                            //  nt = 1   
+                            XTF(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTQ
+                            YTF(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTQ
+                            ZTF(i, j) = ZLT1Z(c(8), BLDZTQ * nt, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                    switch (zhs.ToString().Substring(2, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTC(i, j) = 0
+                            YTC(i, j) = 0
+                            ZTC(i, j) = 0
+                            //nt = 1
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            //   nt = 1 
+                            XTC(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTZ
+                            YTC(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTZ
+                            ZTC(i, j) = ZLT2Z(c(8), BLDZTZ * nt, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊         
+                            //  nt = 1    
+                            XTC(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTZ
+                            YTC(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTZ
+                            ZTC(i, j) = ZLT1Z(c(8), BLDZTZ * nt, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                    switch (zhs.ToString().Substring(3, 1))
+                    {
+                        case "0":
+                            //未吊
+                            XTB(i, j) = 0
+                            YTB(i, j) = 0
+                            ZTB(i, j) = 0
+                            //nt = 1
+
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                            }
+                            break;
+                        case "1":
+                            //已吊
+                            //   nt = 1    此处错误
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTH
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTH
+                            ZTB(i, j) = ZLT2Z(c(8), BLDZTH * nt, 0)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                            }
+                            break;
+                        case "2":
+                            //正吊         
+                            //  nt = 1    '此处错误
+                            XTB(i, j) = ZLX(angle, 0, c(7), 0) * nt * BL3 * BLDZTH
+                            YTB(i, j) = ZLY(angle, 0, c(7), 0) * nt * BLDZTH
+                            ZTB(i, j) = ZLT1Z(c(8), BLDZTH * nt, fh_2 * fhn)
+                            if (j > dxl)
+                            {
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strX);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strY);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= " + strZ);
+                            }
+                            break;
+                    }
+                }
             }
         }
 
         /// <summary>
         /// 针对锚线工况
-        /// 工况代码"M", "Ma", "Mb", "Mc", "Md", "Me", "Mf", "Mg", "Mh"
+        /// 工况代码"M1", "M2",
         /// </summary>
         /// <param name="i"></param>
         /// <param name="j"></param>
@@ -4648,7 +5956,6 @@ namespace TowerLoadCals.BLL
             float x1, y1, y2, z1, z2;
             int fuhao;
             float fhn;
-            float deta1, deta2, deta3;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -4657,172 +5964,1190 @@ namespace TowerLoadCals.BLL
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
 
-            //锚线工况，统一按最大垂荷考虑
-            if (Math.Abs(zhs) < 1000 && Math.Abs(zhs) > 0)
+            //锚线工况，大小转角情况
+            if (zhs == 0)
             {
-                //已锚相
-                if( zhs > 0)
-                {
-                    fuhao = 1;
-                }
-                else
-                {
-                    //不应出现
-                    fuhao = -1;
-                }
-
-                fhn = Math.Abs(zhs) / 100;
-                if (fhn < 1)
-                    fhn = 1;
-
-                zhsAM = Math.Abs(zhs) % 100;
-
-                if(zhsAM > mz1)
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" + "0 + 16 " + "错误：1-211");
-                }
-
-                y1 = TensionMax[j,zhsAM];
-                y2 = TensionMin[j,zhsAM];
-
-                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
-                {
-                    //地线有开段时
-                    deta1 = y1;
-                    deta2 = 90;
-                    deta3 = 0;
-                }
-                else
-                {
-                    //地线不开段和导线
-                    deta1 = LineParas.AnchorTension;
-                    deta2 = Paras.AnchorAngle;
-                    deta3 = Paras.AnchorAngle;
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                //XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
-                //YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                //ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad, fhn, deta1, deta3, out string strZ);
-
-                //ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                //ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                //ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
-
+                BL2 = 0
+                //未锚
+                zhsx = 0
+                y1 = 0
+                y2 = 0
+                x11 = 0
+                x12 = 0
+                x21 = 0
+                x22 = 0
+                x3 = 0
+                z11 = 0
+                z12 = 0
+                z21 = 0
+                z22 = 0
+                z3 = 0
             }
-            else if (Math.Abs(zhs) > 1000)
+            else if(zhs < 1000 && zhs > 0)
             {
+                BL2 = 1
+                //已锚
+                zhsx = zhs
+                y1 = tensionD(j, zhsx)
+                y2 = tensionX(j, zhsx)
+                x11 = windDF(j, zhsx)
+                x12 = windXF(j, zhsx)
+                x21 = windDB(j, zhsx)
+                x22 = windXB(j, zhsx)
+                x3 = windTX(j, zhsx)
+                z11 = gmaxF(j, zhsx)
+                z12 = gminF(j, zhsx)
+                z21 = gmaxB(j, zhsx)
+                z22 = gminB(j, zhsx)
+                z3 = gTX(j, zhsx)
+            }
+            else  if(zhs > 1000)
+            {
+                BL2 = 1
                 //正锚
-                
-                if(zhs > 0)
-                {
-                    fuhao = 1;
-                }
-                else
-                {
-                    fuhao = -1;
-                }
-
-                fhn = Math.Abs(zhs) / 1000;
-                zhsAM = Math.Abs(zhs) % 1000;
-
-                if (zhsAM > mz1 )
-                {
-                    throw new Exception("第　" + i + "　工况，第 " + j + " 线条组合参数错误" +  "0 + 16+" + "错误：1-212");
-                }
-
-                x1 = Wind[j,zhsAM];
-                z1 = GMax[j,zhsAM];
-                z2 = GMin[j,zhsAM];
-
-                //'正锚相
-                if (fuhao > 0)
-                {
-                    y1 = TensionMax[j,zhsAM];
-                    y2 = TensionMin[j,zhsAM];
-
-                    if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
-                    {
-                        //地线有开段时
-                        if (y1 > 0)
-                        {
-                            deta1 = y1 * LineParas.DrawingCoef;
-                        }
-                        else
-                        {
-                            deta1 = y1;
-                        }
-                        deta2 = 90;
-                        deta3 = 0;
-                    }
-                    else
-                    {
-                        //地线不开段和导线
-                        deta1 = LineParas.AnchorTension;
-                        deta2 = Paras.AnchorAngle;
-                        deta3 = Paras.AnchorAngle;
-                    }
-                }
-                else
-                {
-                    //此种情况不应出现
-                    //反向张力情况，锚线张力反向
-                    y1 = -TensionMax[j,zhsAM];
-                    y2 = -TensionMin[j,zhsAM];
-
-                    if (j <= Paras.dxl && Math.Abs(y1) >= Math.Abs(LineParas.AnchorTension))
-                    {
-                        //地线有开段时
-                        if (y1 < 0)
-                        {
-                            deta1 = y1 * LineParas.DrawingCoef;
-                        }
-                        else
-                        {
-                            deta1 = y1;
-                        }
-
-                        deta2 = 90;
-                        deta3 = 0;
-                    }
-                    else
-                    {
-                        //地线不开段和导线
-                        deta1 = -LineParas.AnchorTension;
-                        deta2 = Paras.AnchorAngle;
-                        deta3 = Paras.AnchorAngle;
-                    }
-                }
-
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                //XX[i,j-1] = formula.ZXMX1(angle, x1, out string strX);
-                //YY[i,j-1] = formula.ZXMY1(angle, x1, deta1, deta2, out string strY);
-                //ZZ[i,j-1] = formula.ZXMZ1(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
-
-                //ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
-                //ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
-                //ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
+                fhn = zhs / 1000
+                zhsx = zhs % 1000
+                y1 = tensionD(j, zhsx)
+                y2 = tensionX(j, zhsx)
+                x11 = windDF(j, zhsx)
+                x12 = windXF(j, zhsx)
+                x21 = windDB(j, zhsx)
+                x22 = windXB(j, zhsx)
+                x3 = windTX(j, zhsx)
+                z11 = gmaxF(j, zhsx)
+                z12 = gminF(j, zhsx)
+                z21 = gmaxB(j, zhsx)
+                z22 = gminB(j, zhsx)
+                z3 = gTX(j, zhsx)
             }
-            else if (zhs == 0)
-            {
-                //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i,j-1] = 0;
-                YY[i,j-1] = 0;
-                ZZ[i,j-1] = 0;
 
-                ProcessString.Add(Template.Wires[j-1] + " Fx= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fy= " + "0.00");
-                ProcessString.Add(Template.Wires[j-1] + " Fz= " + "0.00");
+            if (wd.WorkConditionCode == "M1")
+            {
+                e1 = x11 : e2 = x21 : e3 = maxangle
+            }
+            //else if (wd.WorkConditionCode == "M2")
+            else
+            {
+                e1 = x12 : e2 = x22 : e3 = minangle
+            }
+
+            if (wd.TensionAngleCode == "D0")
+            {
+                switch (wd.VertialLoadCode)
+                {
+                    case "Y0":
+                        if(Paras.IsCornerTower || Paras.IsBranchTower)
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z12
+                        }
+                        else
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z11
+                        }
+                        break;
+                    case "B0"
+                        if (Paras.IsCornerTower || Paras.IsBranchTower)
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z12
+                        }
+                        else
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z12
+                        }
+                        break;
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "T0"
+                        if (Paras.IsCornerTower || Paras.IsBranchTower)
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z22
+                        }
+                        else
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z22
+                        }
+                        break;
+                    default:
+                        c(1) = e1 : c(2) = Max(y1, mxz)
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
+                }
+            }
+
+            if(zhs > 1000)
+            {
+                if(Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = qzjiao;
+                }
+                XLF(i, j) = ZM1X(angle, e3, c(1), c(2)) * BL3
+                YLF(i, j) = ZM1Y(angle, e3, c(1), c(2))
+                ZLF(i, j) = ZM1Z(c(3), fhn * fh_1)
+                
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+            }
+            else if(zhs < 1000 && zhs >0)
+            {
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = qzjiao;
+                }
+
+                XLF(i, j) = ZM2X(angle, e3, c(1), c(2)) * BL3
+                YLF(i, j) = ZM2Y(angle, e3, c(1), c(2))
+                ZLF(i, j) = ZM2Z(c(3))
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+
+            }
+            else if(zhs == 0)
+            {
+                XLF(i, j) = 0
+                YLF(i, j) = 0
+                ZLF(i, j) = 0
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= 0.00");
+            }
+
+            XLB(i, j) = 0
+            YLB(i, j) = 0
+            ZLB(i, j) = 0
+
+            ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= 0.00");
+            ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= 0.00");
+            ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= 0.00");
+
+            XTF(i, j) = 0
+            YTF(i, j) = 0
+            ZTF(i, j) = 0
+
+            XTC(i, j) = 0
+            YTC(i, j) = 0
+            ZTC(i, j) = 0
+
+            XTB(i, j) = 0
+            YTB(i, j) = 0
+            ZTB(i, j) = 0
+
+            if(nt % 3 != 0)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+            }
+            else if(nt % 3 == 0 && nt > 0)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
             }
         }
 
 
+        /// <summary>
+        /// 工况代码"J1", "J2",
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        protected void DistributeInJ(int i, int j)
+        {
+            float x1, y1, y2, z1, z2;
+            int fuhao;
+            float fhn;
+
+            WorkConditionCombo wd = Template.WorkConditionCombos[i];
+
+            int zhs = wd.WirdIndexCodes[j - 1], zhsAM;
+            int angle = wd.WindDirectionCode;
+            string workConditionCode = wd.WorkConditionCode;
+            int mz1 = Template.WorkConditongs.Count;
+
+            if (zhs == 0)
+            {
+                BL2 = 0
+                //未紧
+                zhsx = 0
+                y1 = 0
+                y2 = 0
+                x11 = 0
+                x12 = 0
+                x21 = 0
+                x22 = 0
+                x3 = 0
+                z11 = 0
+                z12 = 0
+                z21 = 0
+                z22 = 0
+                z3 = 0
+            }
+            else if (zhs < 1000 && zhs > 0)
+            {
+                BL2 = 1
+                //已紧
+                zhsx = zhs % 100
+                fhn = zhs / 100
+                if (fhn < 1)
+                    fhn = 1;
+                y1 = tensionD(j, zhsx)
+                y2 = tensionX(j, zhsx)
+                x11 = windDF(j, zhsx)
+                x12 = windXF(j, zhsx)
+                x21 = windDB(j, zhsx)
+                x22 = windXB(j, zhsx)
+                x3 = windTX(j, zhsx)
+                z11 = gmaxF(j, zhsx)
+                z12 = gminF(j, zhsx)
+                z21 = gmaxB(j, zhsx)
+                z22 = gminB(j, zhsx)
+                z3 = gTX(j, zhsx)
+            }
+            else if (zhs > 1000)
+            {
+                BL2 = 1
+                //正紧
+                zhsx = zhs % 1000;
+                fhn = zhs / 1000
+                y1 = tensionD(j, zhsx)
+                y2 = tensionX(j, zhsx)
+                x11 = windDF(j, zhsx)
+                x12 = windXF(j, zhsx)
+                x21 = windDB(j, zhsx)
+                x22 = windXB(j, zhsx)
+                x3 = windTX(j, zhsx)
+                z11 = gmaxF(j, zhsx)
+                z12 = gminF(j, zhsx)
+                z21 = gmaxB(j, zhsx)
+                z22 = gminB(j, zhsx)
+                z3 = gTX(j, zhsx)
+            }
+
+            if (wd.WorkConditionCode == "J1")
+            {
+                e1 = x11 : e2 = x21 : e3 = maxangle
+            }
+            //else if (wd.WorkConditionCode == "J2")
+            else
+            {
+                e1 = x12 : e2 = x22 : e3 = minangle
+            }
+
+            if (wd.TensionAngleCode == "D0")
+            {
+                switch (wd.VertialLoadCode)
+                {
+                    case "Y0":
+                        if (Paras.IsCornerTower || Paras.IsBranchTower)
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z12
+                        }
+                        else
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z11
+                        }
+                        break;
+                    case "B0"
+                        if (Paras.IsCornerTower || Paras.IsBranchTower)
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z12
+                        }
+                        else
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z12
+                        }
+                        break;
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "T0"
+                        if (Paras.IsCornerTower || Paras.IsBranchTower)
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z22
+                        }
+                        else
+                        {
+                            c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = z22
+                        }
+                        break;
+                    default:
+                        c(1) = e1 : c(2) = Max(y1, mxz)
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            c(3) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            c(3) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            c(3) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            c(3) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            c(3) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            c(6) = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            c(6) = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            c(6) = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            c(6) = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            c(6) = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
+                }
+            }
+
+            if (zhs > 1000)
+            {
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = qzjiao;
+                }
+                XLF(i, j) = JX(angle, c(1), dx(0), gqx(0), c(2), e3) * BL3
+                YLF(i, j) = JY(angle, c(1), dx(0), gqx(0), c(2), e3)
+                ZLF(i, j) = JZ(c(3), dx(0), gqx(0), c(2), fh_1 * fhn)
 
 
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+            }
+            else if (zhs < 1000 && zhs > 0)
+            {
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = qzjiao;
+                }
+
+                XLF(i, j) = JX(angle, c(1), 1.0, gqx(0), c(2), e3) * BL3
+                YLF(i, j) = JY(angle, c(1), 1.0, gqx(0), c(2), e3)
+                ZLF(i, j) = JZ(c(3), 1.0, gqx(0), c(2), fh_1 * fhn)
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+
+            }
+            else if (zhs == 0)
+            {
+                XLF(i, j) = 0
+                YLF(i, j) = 0
+                ZLF(i, j) = 0
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= 0.00");
+            }
+
+            XLB(i, j) = 0
+            YLB(i, j) = 0
+            ZLB(i, j) = 0
+
+            ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= 0.00");
+            ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= 0.00");
+            ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= 0.00");
+
+            XTF(i, j) = 0
+            YTF(i, j) = 0
+            ZTF(i, j) = 0
+
+            XTC(i, j) = 0
+            YTC(i, j) = 0
+            ZTC(i, j) = 0
+
+            XTB(i, j) = 0
+            YTB(i, j) = 0
+            ZTB(i, j) = 0
+
+            if (nt % 3 != 0)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+            }
+            else if (nt % 3 == 0 && nt > 0)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+            }
+        }
+
+        /// <summary>
+        /// 锚兼牵工况
+        /// 工况代码"MQ1", "MQ2",
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        protected void DistributeInMQ(int i, int j)
+        {
+            float x1, y1, y2, z1, z2;
+            int fuhao;
+            float fhn;
+
+            WorkConditionCombo wd = Template.WorkConditionCombos[i];
+
+            int zhs = wd.WirdIndexCodes[j - 1], zhsAM;
+            int angle = wd.WindDirectionCode;
+            string workConditionCode = wd.WorkConditionCode;
+            int mz1 = Template.WorkConditongs.Count;
+
+            if( zhs< 100 && zhs > 0 )
+            {
+                //后侧已锚，前侧未挂
+                BL2 = 1;
+                zhsx = zhs;
+            }
+            else if(zhs > 100 && zhs < 1000)
+            {
+                //已架
+                BL2 = 1;
+                zhsx = zhs % 100;
+                fhn = zhs / 100;
+            }
+            else if(zhs > 1000)
+            {
+                //后侧已锚，前侧正牵
+                BL2 = 1;
+                fhn = zhs / 1000;
+                zhsx = zhs % 1000;
+            }
+
+            y1 = tensionD(j, zhsx)
+            y2 = tensionX(j, zhsx)
+            x11 = windDF(j, zhsx)
+            x12 = windXF(j, zhsx)
+            x21 = windDB(j, zhsx)
+            x22 = windXB(j, zhsx)
+            x3 = windTX(j, zhsx)
+            z11 = gmaxF(j, zhsx)
+            z12 = gminF(j, zhsx)
+            z21 = gmaxB(j, zhsx)
+            z22 = gminB(j, zhsx)
+            z3 = gTX(j, zhsx)
+
+            if (wd.WorkConditionCode == "MQ1")
+            {
+                e1 = x11 : e2 = x21 : e3 = maxangle
+            }
+            //else if (wd.WorkConditionCode == "MQ2")
+            else
+            {
+                e1 = x12 : e2 = x22 : e3 = minangle
+            }
+
+            if (wd.TensionAngleCode == "DX")
+            {
+                switch (wd.VertialLoadCode)
+                {
+                    case "YY":
+                        t1 = z11;
+                        t2 = z21;
+                        break;
+                    case "YB"
+                        t1 = z11;
+                        t2 = z22;
+                        break;
+                    case "BY"
+                        t1 = z12;
+                        t2 = z21;
+                        break;
+                    case "BB"
+                        t1 = z12;
+                        t2 = z22;
+                        break;
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "YT"
+                        t1 = z11;
+                        t2 = z12;
+                        break;
+                    case "TY"
+                        t1 = z22;
+                        t2 = z21;
+                        break;
+                    default:
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            t1 = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            t1 = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            t1 = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            t1 = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            t1 = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            t2 = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            t2 = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            t2 = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            t2 = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            t2 = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
+                }
+            }
+
+            if (zhs > 1000)
+            {
+                //前侧正牵
+                if(Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = t1
+                }
+                else if(Paras.IsTerminalTower)
+                {
+                    c(1) = e1 : c(2) = Max(y1, mxz) : c(3) = t1
+                }
+
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = qzjiao;
+                }
+
+                XLF(i, j) = MQ1X(angle, e3, c(1), c(2)) * BL3
+                YLF(i, j) = MQ1Y(angle, e3, c(1), c(2))
+                ZLF(i, j) = MQ1Z(c(3), c(2), fhn * fh_1)
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+
+
+                //后侧已锚
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    c(1) = e2 : c(2) = Max(y2, mxz) : c(3) = t2
+                }
+                else if (Paras.IsTerminalTower)
+                {
+                    c(1) = e2 : c(2) = Max(mgxz, mxz) : c(3) = t2
+                }
+
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = hzjiao;
+                }
+
+                XLB(i, j) = MQ2X(angle, e3, c(1), c(2)) * BL3
+                YLB(i, j) = MQ2Y(angle, e3, c(1), c(2))
+                ZLB(i, j) = MQ2Z(c(3))
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + strZ);
+            }
+            else if (zhs > 100 && zhs < 1000)
+            {
+                //前后侧已架
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    c(1) = e1 : c(2) = y1 : c(3) = t1
+                }
+                else if (Paras.IsTerminalTower)
+                {
+                    c(1) = e1 : c(2) = y1 : c(3) = t1
+                }
+
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = qzjiao;
+                }
+
+                XLF(i, j) = MQ3X(angle, e3, c(1), c(2)) * BL3
+                YLF(i, j) = MQ3Y(angle, e3, c(1), c(2))
+                ZLF(i, j) = MQ3Z(c(3))
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+
+
+                //后侧已锚
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    c(1) = e2 : c(2) = y2 : c(3) = t2
+                }
+                else if (Paras.IsTerminalTower)
+                {
+                    c(1) = e2 : c(2) = mgxz : c(3) = t2
+                }
+
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = hzjiao;
+                }
+
+                XLB(i, j) = MQ3X(angle, e3, c(1), c(2)) * BL3
+                YLB(i, j) = MQ3Y(angle, e3, c(1), -c(2))
+                ZLB(i, j) = MQ3Z(c(3))
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + strZ);
+            }
+            else if (zhs < 100 && zhs > 0)
+            {
+                //其余未挂
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = qzjiao;
+                }
+                XLF(i, j) = MQ4X(e3) * BL3
+                YLF(i, j) = MQ4Y(e3)
+                ZLF(i, j) = MQ4Z()
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+
+
+                //后侧正锚
+                if (Paras.IsCornerTower || Paras.IsBranchTower)
+                {
+                    c(1) = e2 : c(2) = Max(y2, mxz) : c(3) = t2
+                }
+                else if (Paras.IsTerminalTower)
+                {
+                    c(1) = e2 : c(2) = Max(mgxz, mxz) : c(3) = t2
+                }
+
+                if (Paras.IsBranchTower)
+                {
+                    //前侧转角  20161124分支塔添加
+                    e3 = hzjiao;
+                }
+
+                XLB(i, j) = MQ2X(angle, e3, c(1), c(2)) * BL3
+                YLB(i, j) = MQ2Y(angle, e3, c(1), c(2))
+                ZLB(i, j) = MQ2Z(c(3))
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= " + strX);
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= " + strY);
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + strZ);
+
+            }
+            else if (zhs == 0)
+            {
+                XLF(i, j) = 0
+                YLF(i, j) = 0
+                ZLF(i, j) = 0
+
+                XLB(i, j) = 0
+                YLB(i, j) = 0
+                ZLB(i, j) = 0
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= 0.00");
+            }
+
+            XTF(i, j) = 0
+            YTF(i, j) = 0
+            ZTF(i, j) = 0
+
+            XTC(i, j) = 0
+            YTC(i, j) = 0
+            ZTC(i, j) = 0
+
+            XTB(i, j) = 0
+            YTB(i, j) = 0
+            ZTB(i, j) = 0
+
+            if (nt % 3 != 0)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+            }
+            else if (nt % 3 == 0 && nt > 0)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+            }
+        }
+
+        /// <summary>
+        /// 过滑车工况
+        /// 工况代码"G1", "G2",
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        protected void DistributeInG(int i, int j)
+        {
+            float x1, y1, y2, z1, z2;
+            int fuhao;
+            float fhn;
+
+            WorkConditionCombo wd = Template.WorkConditionCombos[i];
+
+            int zhs = wd.WirdIndexCodes[j - 1], zhsAM;
+            int angle = wd.WindDirectionCode;
+            string workConditionCode = wd.WorkConditionCode;
+            int mz1 = Template.WorkConditongs.Count;
+
+            if (zhs < 100 && zhs > 0)
+            {
+                //已过滑车
+                BL2 = 1;
+                zhsx = zhs;
+            }
+            else if (zhs > 1000)
+            {
+                //正过滑车
+                BL2 = 1;
+                fhn = zhs / 1000;
+                zhsx = zhs % 1000;
+            }
+
+            y1 = tensionD(j, zhsx)
+            y2 = tensionX(j, zhsx)
+            x11 = windDF(j, zhsx)
+            x12 = windXF(j, zhsx)
+            x21 = windDB(j, zhsx)
+            x22 = windXB(j, zhsx)
+            x3 = windTX(j, zhsx)
+            z11 = gmaxF(j, zhsx)
+            z12 = gminF(j, zhsx)
+            z21 = gmaxB(j, zhsx)
+            z22 = gminB(j, zhsx)
+            z3 = gTX(j, zhsx)
+
+            if (wd.WorkConditionCode == "G1")
+            {
+                e1 = x11 : e2 = x21 : e3 = maxangle
+            }
+            //else if (wd.WorkConditionCode == "G2")
+            else
+            {
+                e1 = x12 : e2 = x22 : e3 = minangle
+            }
+
+            if (wd.TensionAngleCode == "DX" || wd.TensionAngleCode == "DD")
+            {
+                switch (wd.VertialLoadCode)
+                {
+                    case "YY":
+                        t1 = z11;
+                        t2 = z21;
+                        break;
+                    case "YB"
+                        t1 = z11;
+                        t2 = z22;
+                        break;
+                    case "BY"
+                        t1 = z12;
+                        t2 = z21;
+                        break;
+                    case "BB"
+                        t1 = z12;
+                        t2 = z22;
+                        break;
+                    //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
+                    case "YT"
+                        t1 = z11;
+                        t2 = z12;
+                        break;
+                    case "TY"
+                        t1 = z22;
+                        t2 = z21;
+                        break;
+                    default:
+                        if (wd.VertialLoadCode.Substring(0, 1) == "0")
+                        {
+                            t1 = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "1")
+                        {
+                            t1 = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "2")
+                        {
+                            t1 = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "3")
+                        {
+                            t1 = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(0, 1) == "4")
+                        {
+                            t1 = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-25");
+                        }
+
+                        if (wd.VertialLoadCode.Substring(1, 1) == "0")
+                        {
+                            t2 = 0;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "1")
+                        {
+                            t2 = z11;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "2")
+                        {
+                            t2 = z12;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "3")
+                        {
+                            t2 = z21;
+                        }
+                        else if (wd.VertialLoadCode.Substring(1, 1) == "4")
+                        {
+                            t2 = z22;
+                        }
+                        else
+                        {
+                            throw new Exception("工况" + i + "垂荷组合参数有误，请核实!" + "0 + 32 " + "错误：20190113-16");
+                        }
+
+                        break;
+                }
+
+                if (zhs < 100 && zhs > 0)
+                {
+                    //已过滑车
+                    if (Paras.IsCornerTower || Paras.IsBranchTower)
+                    {
+                        c(1) = e1 : c(2) = y1 : c(3) = t1
+                    }
+                    else if (Paras.IsTerminalTower)
+                    {
+                        c(1) = e1 : c(2) = y1 : c(3) = t1
+                    }
+
+                    if (Paras.IsBranchTower)
+                    {
+                        //前侧转角  20161124分支塔添加
+                        e3 = qzjiao;
+                    }
+
+                    XLF(i, j) = MQ3X(angle, e3, c(1), c(2)) * BL3
+                    YLF(i, j) = MQ3Y(angle, e3, c(1), c(2))
+                    ZLF(i, j) = MQ3Z(c(3))
+
+                    ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+
+                    if (wd.TensionAngleCode == "DX")
+                    {
+                        //后侧已锚
+                        if (Paras.IsCornerTower || Paras.IsBranchTower)
+                        {
+                            c(1) = e2 : c(2) = y2 : c(3) = t2
+                        }
+                        else if (Paras.IsTerminalTower)
+                        {
+                            c(1) = e2 : c(2) = mgxz : c(3) = t2
+                        }
+
+                        if (Paras.IsBranchTower)
+                        {
+                            //前侧转角  20161124分支塔添加
+                            e3 = hzjiao
+                        }
+                    }
+                    else if (wd.TensionAngleCode == "DX")
+                    {
+                        //后侧已锚
+                        if (Paras.IsCornerTower || Paras.IsBranchTower)
+                        {
+                            c(1) = e2 : c(2) = y1 : c(3) = t2
+                        }
+                        else if (Paras.IsTerminalTower)
+                        {
+                            c(1) = e2 : c(2) = y1 : c(3) = t2
+                        }
+
+                        if (Paras.IsBranchTower)
+                        {
+                            //前侧转角  20161124分支塔添加
+                            e3 = hzjiao;
+                        }
+                    }
+
+                    XLB(i, j) = MQ3X(angle, e3, c(1), c(2)) * BL3
+                    YLB(i, j) = MQ3Y(angle, e3, c(1), -c(2))
+                    ZLB(i, j) = MQ3Z(c(3))
+
+                    ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + strZ);
+                }
+                else if (zhs > 1000)
+                {
+                    //正过滑车，无张力差
+                    if (Paras.IsCornerTower || Paras.IsBranchTower)
+                    {
+                        c(1) = e1 : c(2) = Max(y1, y2) : c(3) = t1
+                    }
+                    else if (Paras.IsTerminalTower)
+                    {
+                        c(1) = e1 : c(2) = Max(y1, y2) : c(3) = t1
+                    }
+
+                    if (Paras.IsBranchTower)
+                    {
+                        //前侧转角  20161124分支塔添加
+                        e3 = qzjiao;
+                    }
+
+                    XLF(i, j) = MQ3X(angle, e3, c(1), c(2)) * BL3
+                    YLF(i, j) = MQ5Y(ghcz)
+                    ZLF(i, j) = MQ3Z(c(3))
+    
+                ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= " + strZ);
+
+                    if (Paras.IsCornerTower || Paras.IsBranchTower)
+                    {
+                        c(1) = e2 : c(2) = y1 : c(3) = t2
+                    }
+                    else if (Paras.IsTerminalTower)
+                    {
+                        c(1) = e2 : c(2) = mgdz : c(3) = t2
+                    }
+
+                    if (Paras.IsBranchTower)
+                    {
+                        //前侧转角  20161124分支塔添加
+                        e3 = hzjiao;
+                    }
+
+                    XLB(i, j) = MQ3X(angle, e3, c(1), c(2)) * BL3
+                    YLB(i, j) = MQ5Y(ghcz)
+                    ZLB(i, j) = MQ3Z(c(3))
+    
+                ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= " + strX);
+                    ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= " + strY);
+                    ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + strZ);
+                }
+                else if (zhs == 0)
+                {
+                    XLF(i, j) = 0
+                    YLF(i, j) = 0
+                    ZLF(i, j) = 0
+    
+                    XLB(i, j) = 0
+                    YLB(i, j) = 0
+                    ZLB(i, j) = 0
+    
+                    ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fz= 0.00");
+
+                    ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= 0.00");
+                    ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= 0.00");
+                }
+            }
+            else
+            {
+                throw new Exception("工况" + i + ".线条" + j +  "前后张力信息有误");
+            }
+
+            XTF(i, j) = 0
+            YTF(i, j) = 0
+            ZTF(i, j) = 0
+
+            XTC(i, j) = 0
+            YTC(i, j) = 0
+            ZTC(i, j) = 0
+
+            XTB(i, j) = 0
+            YTB(i, j) = 0
+            ZTB(i, j) = 0
+
+            if (nt % 3 != 0)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+            }
+            else if (nt % 3 == 0 && nt > 0)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= 0.00");
+
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
+                ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+            }
+        }
 
 
     }
