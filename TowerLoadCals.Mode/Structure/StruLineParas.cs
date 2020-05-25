@@ -53,7 +53,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 最大转角
         /// 旧名称 dajiao 直线塔
-        /// 旧名称 minangle 转角塔
+        /// 旧名称 maxangle 转角塔
         /// </summary>
         public float AngleMax { get; set; }
 
