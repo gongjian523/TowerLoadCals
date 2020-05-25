@@ -13,21 +13,6 @@ namespace TowerLoadCals.BLL
     /// </summary>
     public class LoadDistributeCornerTower:LoadDistributeBase
     {
-        ///// <summary>
-        ///// 从界面获取的公共参数
-        ///// </summary>
-        //protected FormulaParas Paras { get; set; }
-
-        ///// <summary>
-        ///// 从界面获取的先参数
-        ///// </summary>
-        //protected StruLineParas[] LineParasArr { get; set; }
-        //protected StruLineParas LineParas { get; set; }
-
-        ///// <summary>
-        ///// 模板参数
-        ///// </summary>
-        //protected TowerTemplate Template { get; set; }
 
         protected float[,] Wind { get; set; }
 
@@ -38,6 +23,19 @@ namespace TowerLoadCals.BLL
         protected float[,] TensionMax { get; set; }
 
         protected float[,] TensionMin { get; set; }
+
+        protected float[,] WindDF { get; set; }
+        protected float[,] WindXF { get; set; }
+        protected float[,] WindDB { get; set; }
+        protected float[,] WindXB { get; set; }
+
+        protected float[,] WindTX { get; set; }
+
+        protected float[,] GMaxF { get; set; }
+        protected float[,] GMinF { get; set; }
+        protected float[,] GMaxB { get; set; }
+        protected float[,] GMinB { get; set; }
+        protected float[,] GTX { get; set; }
 
         //protected float [,] XX { get; set; }
         //protected float[,] YY { get; set; }
@@ -244,15 +242,15 @@ namespace TowerLoadCals.BLL
             if (Math.Abs(zhs) > 0)
             {
                 x11 = WindDF(j, Abs(zhs));
-                x12 = windXF(j, Abs(zhs));
-                x21 = windDB(j, Abs(zhs));
-                x22 = windXB(j, Abs(zhs));
-                x3 = windTX(j, Abs(zhs));
-                z11 = gmaxF(j, Abs(zhs));
-                z12 = gminF(j, Abs(zhs));
-                z21 = gmaxB(j, Abs(zhs));
-                z22 = gminB(j, Abs(zhs));
-                z3 = gTX(j, Abs(zhs));
+                x12 = WindXF(j, Abs(zhs));
+                x21 = WindDB(j, Abs(zhs));
+                x22 = WindXB(j, Abs(zhs));
+                x3 = WindTX(j, Abs(zhs));
+                z11 = GMaxF(j, Abs(zhs));
+                z12 = GMinF(j, Abs(zhs));
+                z21 = GMaxB(j, Abs(zhs));
+                z22 = GMinB(j, Abs(zhs));
+                z3 = GTX(j, Abs(zhs));
 
                 if (wd.WorkConditionCode == "N1" || wd.WorkConditionCode == "D1")
                 {
@@ -1518,21 +1516,21 @@ namespace TowerLoadCals.BLL
                 BL2 = 1;
                 y1 = tensionD(j, zhsx) * BL2;
                 y2 = tensionX(j, zhsx) * BL2;
-                x11 = windDF(j, zhsx) * BL2;
-                x12 = windXF(j, zhsx) * BL2;
-                x21 = windDB(j, zhsx) * BL2;
-                x22 = windXB(j, zhsx) * BL2;
-                x3 = windTX(j, zhsx) * BL2;
-                z11 = gmaxF(j, zhsx) * BL2;
-                z12 = gminF(j, zhsx) * BL2;
-                z21 = gmaxB(j, zhsx) * BL2;
-                z22 = gminB(j, zhsx) * BL2;
-                z3 = gTX(j, zhsx) * BL2;
-                z011 = gmaxF(j, 1) * BL2;
-                z012 = gminF(j, 1) * BL2;
-                z021 = gmaxB(j, 1) * BL2;
-                z022 = gminB(j, 1) * BL2;
-                z03 = gTX(j, 1) * BL2;
+                x11 = WindDF(j, zhsx) * BL2;
+                x12 = WindXF(j, zhsx) * BL2;
+                x21 = WindDB(j, zhsx) * BL2;
+                x22 = WindXB(j, zhsx) * BL2;
+                x3 = WindTX(j, zhsx) * BL2;
+                z11 = GMaxF(j, zhsx) * BL2;
+                z12 = GMinF(j, zhsx) * BL2;
+                z21 = GMaxB(j, zhsx) * BL2;
+                z22 = GMinB(j, zhsx) * BL2;
+                z3 = GTX(j, zhsx) * BL2;
+                z011 = GMaxF(j, 1) * BL2;
+                z012 = GMinF(j, 1) * BL2;
+                z021 = GMaxB(j, 1) * BL2;
+                z022 = GMinB(j, 1) * BL2;
+                z03 = GTX(j, 1) * BL2;
 
                 if (wd.WorkConditionCode == "I1")
                 {
@@ -1635,10 +1633,10 @@ namespace TowerLoadCals.BLL
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                     int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                    float zzz11 = gmaxF(j, zhs1) * BL2;
-                                    float zzz12 = gminF(j, zhs1) * BL2;
-                                    float zzz21 = gmaxB(j, zhs1) * BL2;
-                                    float zzz22 = gminB(j, zhs1) * BL2;
+                                    float zzz11 = GMaxF(j, zhs1) * BL2;
+                                    float zzz12 = GMinF(j, zhs1) * BL2;
+                                    float zzz21 = GMaxB(j, zhs1) * BL2;
+                                    float zzz22 = GMinB(j, zhs1) * BL2;
 
                                     if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                     {
@@ -1852,10 +1850,10 @@ namespace TowerLoadCals.BLL
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                     int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                    float zzz11 = gmaxF(j, zhs1) * BL2;
-                                    float zzz12 = gminF(j, zhs1) * BL2;
-                                    float zzz21 = gmaxB(j, zhs1) * BL2;
-                                    float zzz22 = gminB(j, zhs1) * BL2;
+                                    float zzz11 = GMaxF(j, zhs1) * BL2;
+                                    float zzz12 = GMinF(j, zhs1) * BL2;
+                                    float zzz21 = GMaxB(j, zhs1) * BL2;
+                                    float zzz22 = GMinB(j, zhs1) * BL2;
 
                                     if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                     {
@@ -2109,10 +2107,10 @@ namespace TowerLoadCals.BLL
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                     int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                    float zzz11 = gmaxF(j, zhs1) * BL2;
-                                    float zzz12 = gminF(j, zhs1) * BL2;
-                                    float zzz21 = gmaxB(j, zhs1) * BL2;
-                                    float zzz22 = gminB(j, zhs1) * BL2;
+                                    float zzz11 = GMaxF(j, zhs1) * BL2;
+                                    float zzz12 = GMinF(j, zhs1) * BL2;
+                                    float zzz21 = GMaxB(j, zhs1) * BL2;
+                                    float zzz22 = GMinB(j, zhs1) * BL2;
 
                                     if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                     {
@@ -2325,10 +2323,10 @@ namespace TowerLoadCals.BLL
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                     int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                    float zzz11 = gmaxF(j, zhs1) * BL2;
-                                    float zzz12 = gminF(j, zhs1) * BL2;
-                                    float zzz21 = gmaxB(j, zhs1) * BL2;
-                                    float zzz22 = gminB(j, zhs1) * BL2;
+                                    float zzz11 = GMaxF(j, zhs1) * BL2;
+                                    float zzz12 = GMinF(j, zhs1) * BL2;
+                                    float zzz21 = GMaxB(j, zhs1) * BL2;
+                                    float zzz22 = GMinB(j, zhs1) * BL2;
 
                                     if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                     {
@@ -2573,10 +2571,10 @@ namespace TowerLoadCals.BLL
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                     int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                    float zzz11 = gmaxF(j, zhs1) * BL2;
-                                    float zzz12 = gminF(j, zhs1) * BL2;
-                                    float zzz21 = gmaxB(j, zhs1) * BL2;
-                                    float zzz22 = gminB(j, zhs1) * BL2;
+                                    float zzz11 = GMaxF(j, zhs1) * BL2;
+                                    float zzz12 = GMinF(j, zhs1) * BL2;
+                                    float zzz21 = GMaxB(j, zhs1) * BL2;
+                                    float zzz22 = GMinB(j, zhs1) * BL2;
 
                                     if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                     {
@@ -2789,10 +2787,10 @@ namespace TowerLoadCals.BLL
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                     int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                    float zzz11 = gmaxF(j, zhs1) * BL2;
-                                    float zzz12 = gminF(j, zhs1) * BL2;
-                                    float zzz21 = gmaxB(j, zhs1) * BL2;
-                                    float zzz22 = gminB(j, zhs1) * BL2;
+                                    float zzz11 = GMaxF(j, zhs1) * BL2;
+                                    float zzz12 = GMinF(j, zhs1) * BL2;
+                                    float zzz21 = GMaxB(j, zhs1) * BL2;
+                                    float zzz22 = GMinB(j, zhs1) * BL2;
 
                                     if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                     {
@@ -3018,10 +3016,10 @@ namespace TowerLoadCals.BLL
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                     int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                    float zzz11 = gmaxF(j, zhs1) * BL2;
-                                    float zzz12 = gminF(j, zhs1) * BL2;
-                                    float zzz21 = gmaxB(j, zhs1) * BL2;
-                                    float zzz22 = gminB(j, zhs1) * BL2;
+                                    float zzz11 = GMaxF(j, zhs1) * BL2;
+                                    float zzz12 = GMinF(j, zhs1) * BL2;
+                                    float zzz21 = GMaxB(j, zhs1) * BL2;
+                                    float zzz22 = GMinB(j, zhs1) * BL2;
 
                                     if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                     {
@@ -3234,10 +3232,10 @@ namespace TowerLoadCals.BLL
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                     int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                    float zzz11 = gmaxF(j, zhs1) * BL2;
-                                    float zzz12 = gminF(j, zhs1) * BL2;
-                                    float zzz21 = gmaxB(j, zhs1) * BL2;
-                                    float zzz22 = gminB(j, zhs1) * BL2;
+                                    float zzz11 = GMaxF(j, zhs1) * BL2;
+                                    float zzz12 = GMinF(j, zhs1) * BL2;
+                                    float zzz21 = GMaxB(j, zhs1) * BL2;
+                                    float zzz22 = GMinB(j, zhs1) * BL2;
 
                                     if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                     {
@@ -3442,10 +3440,10 @@ namespace TowerLoadCals.BLL
                                 //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                 int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                float zzz11 = gmaxF(j, zhs1) * BL2;
-                                float zzz12 = gminF(j, zhs1) * BL2;
-                                float zzz21 = gmaxB(j, zhs1) * BL2;
-                                float zzz22 = gminB(j, zhs1) * BL2;
+                                float zzz11 = GMaxF(j, zhs1) * BL2;
+                                float zzz12 = GMinF(j, zhs1) * BL2;
+                                float zzz21 = GMaxB(j, zhs1) * BL2;
+                                float zzz22 = GMinB(j, zhs1) * BL2;
 
                                 if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                 {
@@ -3652,10 +3650,10 @@ namespace TowerLoadCals.BLL
                                 //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                 int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                float zzz11 = gmaxF(j, zhs1) * BL2;
-                                float zzz12 = gminF(j, zhs1) * BL2;
-                                float zzz21 = gmaxB(j, zhs1) * BL2;
-                                float zzz22 = gminB(j, zhs1) * BL2;
+                                float zzz11 = GMaxF(j, zhs1) * BL2;
+                                float zzz12 = GMinF(j, zhs1) * BL2;
+                                float zzz21 = GMaxB(j, zhs1) * BL2;
+                                float zzz22 = GMinB(j, zhs1) * BL2;
 
                                 if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                 {
@@ -3862,10 +3860,10 @@ namespace TowerLoadCals.BLL
                                 //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                 int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                float zzz11 = gmaxF(j, zhs1) * BL2;
-                                float zzz12 = gminF(j, zhs1) * BL2;
-                                float zzz21 = gmaxB(j, zhs1) * BL2;
-                                float zzz22 = gminB(j, zhs1) * BL2;
+                                float zzz11 = GMaxF(j, zhs1) * BL2;
+                                float zzz12 = GMinF(j, zhs1) * BL2;
+                                float zzz21 = GMaxB(j, zhs1) * BL2;
+                                float zzz22 = GMinB(j, zhs1) * BL2;
 
                                 if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                 {
@@ -4072,10 +4070,10 @@ namespace TowerLoadCals.BLL
                                 //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
                                 int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
-                                float zzz11 = gmaxF(j, zhs1) * BL2;
-                                float zzz12 = gminF(j, zhs1) * BL2;
-                                float zzz21 = gmaxB(j, zhs1) * BL2;
-                                float zzz22 = gminB(j, zhs1) * BL2;
+                                float zzz11 = GMaxF(j, zhs1) * BL2;
+                                float zzz12 = GMinF(j, zhs1) * BL2;
+                                float zzz21 = GMaxB(j, zhs1) * BL2;
+                                float zzz22 = GMinB(j, zhs1) * BL2;
 
                                 if (Math.Abs(zhs).ToString().Substring(0, 1) == "1")
                                 {
@@ -4410,16 +4408,16 @@ namespace TowerLoadCals.BLL
             BL2 = 1;
             y1 = tensionD(j, zhsx) * BL2;
             y2 = tensionX(j, zhsx) * BL2;
-            x11 = windDF(j, zhsx) * BL2;
-            x12 = windXF(j, zhsx) * BL2;
-            x21 = windDB(j, zhsx) * BL2;
-            x22 = windXB(j, zhsx) * BL2;
-            x3 = windTX(j, zhsx) * BL2;
-            z11 = gmaxF(j, zhsx) * BL2;
-            z12 = gminF(j, zhsx) * BL2;
-            z21 = gmaxB(j, zhsx) * BL2;
-            z22 = gminB(j, zhsx) * BL2;
-            z3 = gTX(j, zhsx) * BL2;
+            x11 = WindDF(j, zhsx) * BL2;
+            x12 = WindXF(j, zhsx) * BL2;
+            x21 = WindDB(j, zhsx) * BL2;
+            x22 = WindXB(j, zhsx) * BL2;
+            x3 = WindTX(j, zhsx) * BL2;
+            z11 = GMaxF(j, zhsx) * BL2;
+            z12 = GMinF(j, zhsx) * BL2;
+            z21 = GMaxB(j, zhsx) * BL2;
+            z22 = GMinB(j, zhsx) * BL2;
+            z3 = GTX(j, zhsx) * BL2;
 
             if (wd.WorkConditionCode == "L1" || wd.WorkConditionCode == "L1a" || wd.WorkConditionCode == "L1b")
             {
@@ -5990,16 +5988,16 @@ namespace TowerLoadCals.BLL
                 zhsx = zhs
                 y1 = tensionD(j, zhsx)
                 y2 = tensionX(j, zhsx)
-                x11 = windDF(j, zhsx)
-                x12 = windXF(j, zhsx)
-                x21 = windDB(j, zhsx)
-                x22 = windXB(j, zhsx)
-                x3 = windTX(j, zhsx)
-                z11 = gmaxF(j, zhsx)
-                z12 = gminF(j, zhsx)
-                z21 = gmaxB(j, zhsx)
-                z22 = gminB(j, zhsx)
-                z3 = gTX(j, zhsx)
+                x11 = WindDF(j, zhsx)
+                x12 = WindXF(j, zhsx)
+                x21 = WindDB(j, zhsx)
+                x22 = WindXB(j, zhsx)
+                x3 = WindTX(j, zhsx)
+                z11 = GMaxF(j, zhsx)
+                z12 = GMinF(j, zhsx)
+                z21 = GMaxB(j, zhsx)
+                z22 = GMinB(j, zhsx)
+                z3 = GTX(j, zhsx)
             }
             else  if(zhs > 1000)
             {
@@ -6009,16 +6007,16 @@ namespace TowerLoadCals.BLL
                 zhsx = zhs % 1000
                 y1 = tensionD(j, zhsx)
                 y2 = tensionX(j, zhsx)
-                x11 = windDF(j, zhsx)
-                x12 = windXF(j, zhsx)
-                x21 = windDB(j, zhsx)
-                x22 = windXB(j, zhsx)
-                x3 = windTX(j, zhsx)
-                z11 = gmaxF(j, zhsx)
-                z12 = gminF(j, zhsx)
-                z21 = gmaxB(j, zhsx)
-                z22 = gminB(j, zhsx)
-                z3 = gTX(j, zhsx)
+                x11 = WindDF(j, zhsx)
+                x12 = WindXF(j, zhsx)
+                x21 = WindDB(j, zhsx)
+                x22 = WindXB(j, zhsx)
+                x3 = WindTX(j, zhsx)
+                z11 = GMaxF(j, zhsx)
+                z12 = GMinF(j, zhsx)
+                z21 = GMaxB(j, zhsx)
+                z22 = GMinB(j, zhsx)
+                z3 = GTX(j, zhsx)
             }
 
             if (wd.WorkConditionCode == "M1")
@@ -6258,16 +6256,16 @@ namespace TowerLoadCals.BLL
                     fhn = 1;
                 y1 = tensionD(j, zhsx)
                 y2 = tensionX(j, zhsx)
-                x11 = windDF(j, zhsx)
-                x12 = windXF(j, zhsx)
-                x21 = windDB(j, zhsx)
-                x22 = windXB(j, zhsx)
-                x3 = windTX(j, zhsx)
-                z11 = gmaxF(j, zhsx)
-                z12 = gminF(j, zhsx)
-                z21 = gmaxB(j, zhsx)
-                z22 = gminB(j, zhsx)
-                z3 = gTX(j, zhsx)
+                x11 = WindDF(j, zhsx)
+                x12 = WindXF(j, zhsx)
+                x21 = WindDB(j, zhsx)
+                x22 = WindXB(j, zhsx)
+                x3 = WindTX(j, zhsx)
+                z11 = GMaxF(j, zhsx)
+                z12 = GMinF(j, zhsx)
+                z21 = GMaxB(j, zhsx)
+                z22 = GMinB(j, zhsx)
+                z3 = GTX(j, zhsx)
             }
             else if (zhs > 1000)
             {
@@ -6277,16 +6275,16 @@ namespace TowerLoadCals.BLL
                 fhn = zhs / 1000
                 y1 = tensionD(j, zhsx)
                 y2 = tensionX(j, zhsx)
-                x11 = windDF(j, zhsx)
-                x12 = windXF(j, zhsx)
-                x21 = windDB(j, zhsx)
-                x22 = windXB(j, zhsx)
-                x3 = windTX(j, zhsx)
-                z11 = gmaxF(j, zhsx)
-                z12 = gminF(j, zhsx)
-                z21 = gmaxB(j, zhsx)
-                z22 = gminB(j, zhsx)
-                z3 = gTX(j, zhsx)
+                x11 = WindDF(j, zhsx)
+                x12 = WindXF(j, zhsx)
+                x21 = WindDB(j, zhsx)
+                x22 = WindXB(j, zhsx)
+                x3 = WindTX(j, zhsx)
+                z11 = GMaxF(j, zhsx)
+                z12 = GMinF(j, zhsx)
+                z21 = GMaxB(j, zhsx)
+                z22 = GMinB(j, zhsx)
+                z3 = GTX(j, zhsx)
             }
 
             if (wd.WorkConditionCode == "J1")
@@ -6522,16 +6520,16 @@ namespace TowerLoadCals.BLL
 
             y1 = tensionD(j, zhsx)
             y2 = tensionX(j, zhsx)
-            x11 = windDF(j, zhsx)
-            x12 = windXF(j, zhsx)
-            x21 = windDB(j, zhsx)
-            x22 = windXB(j, zhsx)
-            x3 = windTX(j, zhsx)
-            z11 = gmaxF(j, zhsx)
-            z12 = gminF(j, zhsx)
-            z21 = gmaxB(j, zhsx)
-            z22 = gminB(j, zhsx)
-            z3 = gTX(j, zhsx)
+            x11 = WindDF(j, zhsx)
+            x12 = WindXF(j, zhsx)
+            x21 = WindDB(j, zhsx)
+            x22 = WindXB(j, zhsx)
+            x3 = WindTX(j, zhsx)
+            z11 = GMaxF(j, zhsx)
+            z12 = GMinF(j, zhsx)
+            z21 = GMaxB(j, zhsx)
+            z22 = GMinB(j, zhsx)
+            z3 = GTX(j, zhsx)
 
             if (wd.WorkConditionCode == "MQ1")
             {
@@ -6863,16 +6861,16 @@ namespace TowerLoadCals.BLL
 
             y1 = tensionD(j, zhsx)
             y2 = tensionX(j, zhsx)
-            x11 = windDF(j, zhsx)
-            x12 = windXF(j, zhsx)
-            x21 = windDB(j, zhsx)
-            x22 = windXB(j, zhsx)
-            x3 = windTX(j, zhsx)
-            z11 = gmaxF(j, zhsx)
-            z12 = gminF(j, zhsx)
-            z21 = gmaxB(j, zhsx)
-            z22 = gminB(j, zhsx)
-            z3 = gTX(j, zhsx)
+            x11 = WindDF(j, zhsx)
+            x12 = WindXF(j, zhsx)
+            x21 = WindDB(j, zhsx)
+            x22 = WindXB(j, zhsx)
+            x3 = WindTX(j, zhsx)
+            z11 = GMaxF(j, zhsx)
+            z12 = GMinF(j, zhsx)
+            z21 = GMaxB(j, zhsx)
+            z22 = GMinB(j, zhsx)
+            z3 = GTX(j, zhsx)
 
             if (wd.WorkConditionCode == "G1")
             {
