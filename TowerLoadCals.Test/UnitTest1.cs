@@ -1,9 +1,5 @@
-﻿using System;
-using System.Data;
-using System.Data.OleDb;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TowerLoadCals.BLL;
-using TowerLoadCals.BLL.Structure;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
@@ -111,7 +107,7 @@ namespace TowerLoadCals.Test
                     PulleyTensionDif = 50,
                     DrawingCoef = 1.3f
                 },
-                                new StruLineParas
+                new StruLineParas
                 {
                     HoistingCoef = 2.5f,
                     WireExtraLoad = 8,
