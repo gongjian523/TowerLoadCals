@@ -184,18 +184,19 @@
         /// </summary>
         public float TractionAgnle { get; set; }
 
-        /// <summary>
-        /// 地线数字
-        /// </summary>
-        public float dxl { get; set; } 
-
         public bool IsCornerTower { get; set; }
 
         public bool IsTerminalTower { get; set; }
 
         public bool IsBranchTower { get; set; }
 
-        public bool baseParaFormRadioButton1 { get; set; }
+        public bool IsMethod1Selected { get
+            {
+                return SelectedMothed == "方式1";
+            }
+        }
+
+        public string SelectedMothed { get; set; }
 
     }
 }

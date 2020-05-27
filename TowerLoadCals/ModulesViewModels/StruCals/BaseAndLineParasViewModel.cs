@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.ModulesViewModels;
 using static TowerLoadCals.DAL.TowerTemplateReader;
@@ -126,8 +127,13 @@ namespace TowerLoadCals.Modules
             IsMethod2Selected = false;
 
             LineParas = new ObservableCollection<StruLineParas>();
-            LineParas.Add(new StruLineParas { Index = 1,  isTurnRight = true });
-            LineParas.Add(new StruLineParas { Index = 2,  isTurnRight = false });
+            TowerTemplateReader templateReader = new TowerTemplateReader(TowerType.LineTower);
+            TowerTemplate template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
+
+            for(int i = 0; i < template.Wires.Count; i++)
+            {
+                LineParas.Add(new StruLineParas { Index = i+1, WireType  = template.Wires[i]});
+            }
         }
 
         void IBaseViewModel.Save()
@@ -136,7 +142,7 @@ namespace TowerLoadCals.Modules
             var ti = SelectedStandard;
 
             var aaa = IsMethod1Selected ;
-            var sd = IsMethod2Selected;
+            var sd = SelectedMothed;
             var sss = LineParas;
         }
 

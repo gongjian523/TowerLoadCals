@@ -326,10 +326,10 @@ namespace TowerLoadCals.BLL
         /// <param name="a2"></param>
         /// <param name="a3"></param>
         /// <returns></returns>
-        public float ZZCZ(float a1 , float a2 , float a3, out string str)
+        public float ZZCZ(float a1 , float a2 , float a31, float a32,  out string str)
         {
-            float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a1 * a2 + a3);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a1 + " x " + a2 + " x " + a3 + " = " + res.ToString("0.00"); 
+            float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a1 * a2 + a31 * a32);
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a1 + " x " + a2 + " x " + a31 + " x " +  a32 + ") = " + res.ToString("0.00"); 
             return res;
         }
     }

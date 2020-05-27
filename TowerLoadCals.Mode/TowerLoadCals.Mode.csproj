@@ -67,6 +67,7 @@
     <Compile Include="Electric\Wire.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structure\BaseParas.cs" />
+    <Compile Include="Structure\RatioParas.cs" />
     <Compile Include="Structure\StruLineParas.cs" />
     <Compile Include="Structure\TowerTemplate.cs" />
     <Compile Include="Common\WorkCondition.cs" />

@@ -10,19 +10,6 @@ using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Modules
 {
-    public enum SettingsType { Default,Binding }
-
-    public class Column
-    {
-        public string FieldName { get; set; }
-        public SettingsType Settings { get; set; }
-    }
-
-    public class HeaderColumn : Column
-    {
-        public string Header { get; set; }
-    }
-
     public class WorkConditionComboViewModel
     {
         public IList<WorkConditionComboSpec> WorkConditions { get; private set; }

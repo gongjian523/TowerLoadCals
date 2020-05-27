@@ -11,12 +11,12 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 序号
         /// </summary>
-        public float Index { get; set; }
+        public int Index { get; set; }
 
         /// <summary>
         /// 说明
         /// </summary>
-        public float WireType { get; set; }
+        public string WireType { get; set; }
 
         /// <summary>
         /// 附加荷载 旧名称 fh 直线塔

@@ -26,6 +26,8 @@ namespace TowerLoadCals
             var towerMenu = new  MenuItemVM("WorkConditionComboModule", this, "工况组合", (e) => { OnSelectedStruCalsSubModuleChanged(e); }, Visibility.Visible, Visibility.Visible);
             menuItem.Add(towerMenu);
 
+            var hungingPointMenu = new MenuItemVM("HangingPointModule", this, "挂点设置", (e) => { OnSelectedStruCalsSubModuleChanged(e); }, Visibility.Visible, Visibility.Visible);
+            menuItem.Add(hungingPointMenu);
 
             baseDataMudule.MenuItems = menuItem;
 

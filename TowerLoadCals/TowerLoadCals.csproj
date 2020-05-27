@@ -112,9 +112,13 @@
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\FitDataViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\BaseAndLineParasViewModel.cs" />
+    <Compile Include="ModulesViewModels\StruCals\HangingPointViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\WireViewModel.cs" />
+    <Compile Include="Modules\StruCals\HangingPointModule.xaml.cs">
+      <DependentUpon>HangingPointModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\BindingHelper.cs" />
     <Compile Include="Modules\BlankModule.xaml.cs">
       <DependentUpon>BlankModule.xaml</DependentUpon>
@@ -169,6 +173,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\StruCals\BaseAndLineParasModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\StruCals\HangingPointModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

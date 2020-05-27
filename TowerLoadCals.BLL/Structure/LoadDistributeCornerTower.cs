@@ -166,6 +166,9 @@ namespace TowerLoadCals.BLL
                 foreach (int wic in wd.WirdIndexCodes)
                 {
                     LineParas = LineParasArr[j - 1];
+                    LineParas.TemporaryTension = LineParas.TemporaryTension / Paras.LoadRatio;
+                    LineParas.AngleMax = LineParas.AngleMax / 2;
+                    LineParas.AngleMin = LineParas.AngleMin / 2;
                     formula.SetStrLineParas(LineParas);
 
                     int zhs = wic;
@@ -1684,7 +1687,7 @@ namespace TowerLoadCals.BLL
                         y4 = LineParas.PortalTensionMax;
                     }
 
-                    if (Paras.baseParaFormRadioButton1 && zhs < 0)
+                    if (Paras.IsMethod1Selected && zhs < 0)
                     {
                         //按最严重情况考虑扭转 20170620新增  扭转相垂荷按最严重情况考虑
                         switch (wd.VertialLoadCode)
@@ -2170,7 +2173,7 @@ namespace TowerLoadCals.BLL
                         }
                     }
 
-                    if (Paras.baseParaFormRadioButton1 && zhs < 0)
+                    if (Paras.IsMethod1Selected && zhs < 0)
                     {
                         //按最严重情况考虑扭转 20170620新增  扭转相垂荷按最严重情况考虑
                         switch (wd.VertialLoadCode)
@@ -2655,7 +2658,7 @@ namespace TowerLoadCals.BLL
                         }
                     }
 
-                    if (Paras.baseParaFormRadioButton1 && zhs < 0)
+                    if (Paras.IsMethod1Selected && zhs < 0)
                     {
                         //按最严重情况考虑扭转 20170620新增  扭转相垂荷按最严重情况考虑
                         switch (wd.VertialLoadCode)
@@ -3124,7 +3127,7 @@ namespace TowerLoadCals.BLL
                         y4 = LineParas.PortalTensionMin;
                     }
 
-                    if (Paras.baseParaFormRadioButton1 && zhs < 0)
+                    if (Paras.IsMethod1Selected && zhs < 0)
                     {
                         //按最严重情况考虑扭转 20170620新增  扭转相垂荷按最严重情况考虑
                         switch (wd.VertialLoadCode)
@@ -4603,6 +4606,8 @@ namespace TowerLoadCals.BLL
             int BL3 = LineParas.isTurnRight ? 1 : -1;
             //跳线数 = 导线数
             int nt = Template.Wires.Where(item => item.Contains("导")).Count();
+            int dxl = Template.Wires.Where(item => item.Contains("地")).Count();
+            float fh_2 = LineParas.TwireExtraLoad / Paras.LoadRatio;
 
             BL2 = 1;
             y1 = TensionD[j, zhsx] * BL2;
@@ -5647,7 +5652,7 @@ namespace TowerLoadCals.BLL
                     fhn = 1;
                     XTF[i, j] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt, Ratio.BLTQ);
                     YTF[i, j] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt, Ratio.BLTQ);
-                    ZTF[i, j] = formula.ZLT1Z(out string strZTF, outc[8], nt, fh_2, fhn, Ratio.BLTQ);
+                    ZTF[i, j] = formula.ZLT1Z(out string strZTF, c[8], nt, fh_2, fhn, Ratio.BLTQ);
                     
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
@@ -5939,7 +5944,7 @@ namespace TowerLoadCals.BLL
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
-                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZ);
+                                ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
                             }
                             break;
                         case "2":
@@ -5958,7 +5963,6 @@ namespace TowerLoadCals.BLL
                     }
                     switch (zhs.ToString().Substring(2, 1))
                     {
-                        //TODO XTB 是不是应该为XTC
                         case "0":
                             //未吊
                             XTB[i, j] = 0.00f;
@@ -6211,8 +6215,8 @@ namespace TowerLoadCals.BLL
             float z11, z12, z21, z22, z3;
             float e1, e2, e3;
             float[] c = new float[12];
-            int fhn;
-            int BL2;
+            int fhn = 0;
+            //int BL2;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -6223,11 +6227,12 @@ namespace TowerLoadCals.BLL
             int BL3 = LineParas.isTurnRight ? 1 : -1;
             //跳线数 = 导线数
             int nt = Template.Wires.Where(item => item.Contains("导")).Count();
+            float fh_1 = LineParas.WireExtraLoad / Paras.LoadRatio;
 
             //锚线工况，大小转角情况
             if (zhs == 0)
             {
-                BL2 = 0;
+                //BL2 = 0;
                 //未锚
                 zhsx = 0;
                 y1 = 0;
@@ -6245,7 +6250,7 @@ namespace TowerLoadCals.BLL
             }
             else if(zhs < 1000 && zhs > 0)
             {
-                BL2 = 1;
+                //BL2 = 1;
                 //已锚
                 zhsx = zhs;
                 y1 = TensionD[j, zhsx];
@@ -6263,7 +6268,7 @@ namespace TowerLoadCals.BLL
             }
             else  if(zhs > 1000)
             {
-                BL2 = 1;
+                //BL2 = 1;
                 //正锚
                 fhn = zhs / 1000;
                 zhsx = zhs % 1000;
@@ -6282,7 +6287,7 @@ namespace TowerLoadCals.BLL
             }
             else
             {
-                BL2 = 0;
+                //BL2 = 0;
                 //未锚
                 zhsx = 0;
                 y1 = 0;
@@ -6316,36 +6321,36 @@ namespace TowerLoadCals.BLL
                     case "Y0":
                         if(Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z12;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z12;
                         }
                         else
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z11;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z11;
                         }
                         break;
                     case "B0":
                         if (Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z12;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z12;
                         }
                         else
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z12;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z12;
                         }
                         break;
                     //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
                     case "T0":
                         if (Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z22
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z22;
                         }
                         else
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z22
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z22;
                         }
                         break;
                     default:
-                        c[1] = e1 ; c[2] = Math.Max(y1, mxz);
+                        c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension);
                         if (wd.VertialLoadCode.Substring(0, 1) == "0")
                         {
                             c[3] = 0;
@@ -6501,8 +6506,8 @@ namespace TowerLoadCals.BLL
             float z11, z12, z21, z22, z3;
             float e1, e2, e3;
             float[] c = new float[12];
-            int fhn, zhsx;
-            int BL2;
+            int fhn = 0, zhsx;
+            //int BL2;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -6513,10 +6518,11 @@ namespace TowerLoadCals.BLL
             int BL3 = LineParas.isTurnRight ? 1 : -1;
             //跳线数 = 导线数
             int nt = Template.Wires.Where(item => item.Contains("导")).Count();
+            float fh_1 = LineParas.WireExtraLoad / Paras.LoadRatio;
 
             if (zhs == 0)
             {
-                BL2 = 0;
+                //BL2 = 0;
                 //未紧
                 zhsx = 0;
                 y1 = 0;
@@ -6534,7 +6540,7 @@ namespace TowerLoadCals.BLL
             }
             else if (zhs < 1000 && zhs > 0)
             {
-                BL2 = 1;
+                //BL2 = 1;
                 //已紧
                 zhsx = zhs % 100;
                 fhn = zhs / 100;
@@ -6555,7 +6561,7 @@ namespace TowerLoadCals.BLL
             }
             else if (zhs > 1000)
             {
-                BL2 = 1;
+                //BL2 = 1;
                 //正紧
                 zhsx = zhs % 1000;
                 fhn = zhs / 1000;
@@ -6574,7 +6580,7 @@ namespace TowerLoadCals.BLL
             }
             else
             {
-                BL2 = 0;
+                //BL2 = 0;
                 zhsx = 0;
                 y1 = 0;
                 y2 = 0;
@@ -6607,36 +6613,36 @@ namespace TowerLoadCals.BLL
                     case "Y0":
                         if (Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z12;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z12;
                         }
                         else
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z11;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z11;
                         }
                         break;
                     case "B0":
                         if (Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z12;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z12;
                         }
                         else
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z12;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z12;
                         }
                         break;
                     //2016.9.24 针对前后侧同时取某一侧的拔力新增,T表示某侧取相反侧上拔力计算
                     case "T0":
                         if (Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z22;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z22;
                         }
                         else
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = z22;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z22;
                         }
                         break;
                     default:
-                        c[1] = e1 ; c[2] = Math.Max(y1, mxz);
+                        c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension);
                         if (wd.VertialLoadCode.Substring(0, 1) == "0")
                         {
                             c[3] = 0;
@@ -6698,9 +6704,9 @@ namespace TowerLoadCals.BLL
                     //前侧转角  20161124分支塔添加
                     e3 = LineParas.AngleFront;
                 }
-                XLF[i, j] = formula.JX(out string strXLF, angle, c[1], dx(0), gqx(0), c[2], e3, BL3);
-                YLF[i, j] = formula.JY(out string strYLF, angle, c[1], dx(0), gqx(0), c[2], e3);
-                ZLF[i, j] = formula.JZ(out string strZLF, c[3], dx(0), gqx(0), c[2], fh_1, fhn);
+                XLF[i, j] = formula.JX(out string strXLF, angle, c[1], Paras.DynamicCoef, LineParas.DrawingCoef, c[2], e3, BL3);
+                YLF[i, j] = formula.JY(out string strYLF, angle, c[1], Paras.DynamicCoef, LineParas.DrawingCoef, c[2], e3);
+                ZLF[i, j] = formula.JZ(out string strZLF, c[3], Paras.DynamicCoef, LineParas.DrawingCoef, c[2], fh_1, fhn);
 
 
                 ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strXLF);
@@ -6715,9 +6721,9 @@ namespace TowerLoadCals.BLL
                     e3 = LineParas.AngleFront;
                 }
 
-                XLF[i, j] = formula.JX(out string strXLF, angle, c[1], 1.0, gqx(0), c[2], e3, BL3);
-                YLF[i, j] = formula.JY(out string strYLF, angle, c[1], 1.0, gqx(0), c[2], e3);
-                ZLF[i, j] = formula.JZ(out string strZLF, c[3], 1.0, gqx(0), c[2], fh_1, fhn);
+                XLF[i, j] = formula.JX(out string strXLF, angle, c[1], 1.0f, LineParas.DrawingCoef, c[2], e3, BL3);
+                YLF[i, j] = formula.JY(out string strYLF, angle, c[1], 1.0f, LineParas.DrawingCoef, c[2], e3);
+                ZLF[i, j] = formula.JZ(out string strZLF, c[3], 1.0f, LineParas.DrawingCoef, c[2], fh_1, fhn);
 
                 ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fx= " + strXLF);
                 ProcessString.Add(Template.Wires[j - 1] + "线条前侧 Fy= " + strYLF);
@@ -6793,10 +6799,10 @@ namespace TowerLoadCals.BLL
             float y1, y2;
             float z11, z12, z21, z22, z3;
             float e1, e2, e3;
-            float t1, t2;
+            float t1 = 0, t2 = 0;
             float[] c = new float[12];
-            int fhn, zhsx;
-            int BL2;
+            int fhn = 0, zhsx;
+            //int BL2;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -6807,30 +6813,31 @@ namespace TowerLoadCals.BLL
             int BL3 = LineParas.isTurnRight ? 1 : -1;
             //跳线数 = 导线数
             int nt = Template.Wires.Where(item => item.Contains("导")).Count();
+            float fh_1 = LineParas.WireExtraLoad / Paras.LoadRatio;
 
             if ( zhs< 100 && zhs > 0 )
             {
                 //后侧已锚，前侧未挂
-                BL2 = 1;
+                //BL2 = 1;
                 zhsx = zhs;
             }
             else if(zhs > 100 && zhs < 1000)
             {
                 //已架
-                BL2 = 1;
+                //BL2 = 1;
                 zhsx = zhs % 100;
                 fhn = zhs / 100;
             }
             else if(zhs > 1000)
             {
                 //后侧已锚，前侧正牵
-                BL2 = 1;
+                //BL2 = 1;
                 fhn = zhs / 1000;
                 zhsx = zhs % 1000;
             }
             else
             {
-                BL2 = 1;
+                //BL2 = 1;
                 zhsx = zhs;
                 fhn = zhs / 1000;
             }
@@ -6947,11 +6954,11 @@ namespace TowerLoadCals.BLL
                 //前侧正牵
                 if(Paras.IsCornerTower || Paras.IsBranchTower)
                 {
-                    c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = t1;
+                    c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = t1;
                 }
                 else if(Paras.IsTerminalTower)
                 {
-                    c[1] = e1 ; c[2] = Math.Max(y1, mxz) ; c[3] = t1;
+                    c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = t1;
                 }
 
                 if (Paras.IsBranchTower)
@@ -6972,11 +6979,11 @@ namespace TowerLoadCals.BLL
                 //后侧已锚
                 if (Paras.IsCornerTower || Paras.IsBranchTower)
                 {
-                    c[1] = e2 ; c[2] = Math.Max(y2, mxz) ; c[3] = t2;
+                    c[1] = e2 ; c[2] = Math.Max(y2, LineParas.AnchorTension) ; c[3] = t2;
                 }
                 else if (Paras.IsTerminalTower)
                 {
-                    c[1] = e2 ; c[2] = Math.Max(LineParas.PortalTensionMin, mxz);  c[3] = t2;
+                    c[1] = e2 ; c[2] = Math.Max(LineParas.PortalTensionMin, LineParas.AnchorTension);  c[3] = t2;
                 }
 
                 if (Paras.IsBranchTower)
@@ -7064,11 +7071,11 @@ namespace TowerLoadCals.BLL
                 //后侧正锚
                 if (Paras.IsCornerTower || Paras.IsBranchTower)
                 {
-                    c[1] = e2 ; c[2] = Math.Max(y2, mxz) ; c[3] = t2;
+                    c[1] = e2 ; c[2] = Math.Max(y2, LineParas.AnchorTension) ; c[3] = t2;
                 }
                 else if (Paras.IsTerminalTower)
                 {
-                    c[1] = e2 ; c[2] = Math.Max(LineParas.PortalTensionMin, mxz) ; c[3] = t2;
+                    c[1] = e2 ; c[2] = Math.Max(LineParas.PortalTensionMin, LineParas.AnchorTension) ; c[3] = t2;
                 }
 
                 if (Paras.IsBranchTower)
@@ -7158,7 +7165,7 @@ namespace TowerLoadCals.BLL
             float t1, t2;
             float[] c = new float[12];
             int fhn, zhsx;
-            int BL2;
+            //int BL2;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -7173,19 +7180,19 @@ namespace TowerLoadCals.BLL
             if (zhs < 100 && zhs > 0)
             {
                 //已过滑车
-                BL2 = 1;
+                //BL2 = 1;
                 zhsx = zhs;
             }
             else if (zhs > 1000)
             {
                 //正过滑车
-                BL2 = 1;
+                //BL2 = 1;
                 fhn = zhs / 1000;
                 zhsx = zhs % 1000;
             }
             else
             {
-                BL2 = 1;
+                //BL2 = 1;
                 zhsx = zhs;
             }
 

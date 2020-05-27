@@ -614,6 +614,7 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
+            float fh = LineParas.WireExtraLoad / Paras.LoadRatio;
 
             if (Math.Abs(zhs) <= mz1 && Math.Abs(zhs) > 0)
             {
@@ -702,7 +703,7 @@ namespace TowerLoadCals.BLL
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXLX(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXLY(angle, x1, y1, y2, out string strY);
-                ZZ[i,j-1] = formula.ZXLZ2(z1, zg, LineParas.WireExtraLoad, fhn, out string strZ);
+                ZZ[i,j-1] = formula.ZXLZ2(z1, zg, fh, fhn, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -740,6 +741,8 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
+            int dxl = Template.Wires.Where(item => item.Contains("地")).Count();
+            float fh = LineParas.WireExtraLoad / Paras.LoadRatio;
 
             //锚线工况，统一按最大垂荷考虑
             if (Math.Abs(zhs) < 1000 && Math.Abs(zhs) > 0)
@@ -769,7 +772,7 @@ namespace TowerLoadCals.BLL
                 y1 = TensionMax[j,zhsAM];
                 y2 = TensionMin[j,zhsAM];
 
-                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
+                if (j <= dxl && y1 >= LineParas.AnchorTension)
                 {
                     //地线有开段时
                     deta1 = y1;
@@ -791,7 +794,7 @@ namespace TowerLoadCals.BLL
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad, fhn, deta1, deta3, out string strZ);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, fh, fhn, deta1, deta3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -829,7 +832,7 @@ namespace TowerLoadCals.BLL
                     y1 = TensionMax[j,zhsAM];
                     y2 = TensionMin[j,zhsAM];
 
-                    if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
+                    if (j <= dxl && y1 >= LineParas.AnchorTension)
                     {
                         //地线有开段时
                         if (y1 > 0)
@@ -858,7 +861,7 @@ namespace TowerLoadCals.BLL
                     y1 = -TensionMax[j,zhsAM];
                     y2 = -TensionMin[j,zhsAM];
 
-                    if (j <= Paras.dxl && Math.Abs(y1) >= Math.Abs(LineParas.AnchorTension))
+                    if (j <= dxl && Math.Abs(y1) >= Math.Abs(LineParas.AnchorTension))
                     {
                         //地线有开段时
                         if (y1 < 0)
@@ -885,7 +888,7 @@ namespace TowerLoadCals.BLL
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXMX1(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXMY1(angle, x1, deta1, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ1(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
+                ZZ[i,j-1] = formula.ZXMZ1(z1, fh , fhn, deta1, deta3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -922,6 +925,7 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
+            float fh = LineParas.WireExtraLoad / Paras.LoadRatio;
 
             //OPGW锚线特殊工况，其表达式与常规锚线有所不同，需区分
             if (zhs < 1000 && zhs > 0)
@@ -961,7 +965,7 @@ namespace TowerLoadCals.BLL
                     deta1 = LineParas.DrawingCoef;
                     XX[i,j-1] = formula.MO1X(angle, x1, out string strX);
                     XX[i,j-1] = formula.MO1Y(angle, x1, y1, deta1, y2, out string strY);
-                    XX[i,j-1] = formula.MO1Z(z1, y1, deta1, LineParas.WireExtraLoad , fhn, out string strZ);
+                    XX[i,j-1] = formula.MO1Z(z1, y1, deta1, fh , fhn, out string strZ);
 
                     ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                     ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1013,8 +1017,10 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
+            int dxl = Template.Wires.Where(item => item.Contains("地")).Count();
+            float fh = LineParas.WireExtraLoad / Paras.LoadRatio;
+            int lz = Template.Wires.Count;
 
-            
             if (Math.Abs(zhs) < mz1 && Math.Abs(zhs) > 0)
             {
                 //已安装
@@ -1066,7 +1072,7 @@ namespace TowerLoadCals.BLL
                 y1 = TensionMax[j,zhsAM];
                 y2 = TensionMin[j,zhsAM];
 
-                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
+                if (j <= dxl && y1 >= LineParas.AnchorTension)
                 {
                     //地线有开段时
                     deta1 = y1;
@@ -1088,7 +1094,7 @@ namespace TowerLoadCals.BLL
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, fh , fhn, deta1, deta3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1130,36 +1136,34 @@ namespace TowerLoadCals.BLL
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.GLX(angle, x1, out string strX);
                 YY[i,j-1] = formula.GLY(angle, x1, y1, out string strY);
-                ZZ[i,j-1] = formula.GLZ(z1, z2, LineParas.WireExtraLoad, fhn, out string strZ);
+                ZZ[i,j-1] = formula.GLZ(z1, z2, fh, fhn, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
                 ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
-                //TODO
+
                 //If Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
-                //angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value)
-                // XX(i, j + lz - dxl) = -ZZ(i, j) * Sin(angf * PI / 180)
-                //YY(i, j + lz - dxl) = YY(i, j)
-                //ZZ(i, j + lz - dxl) = ZZ(i, j) + ZZ(i, j) * Cos(angf * PI / 180)
+                {
+                    float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
+                    XX[i, j + lz - dxl] = (float)(-ZZ[i, j] * Math.Sin(angf * Math.PI / 180));
+                    YY[i, j + lz - dxl] = YY[i, j];
+                    ZZ[i, j + lz - dxl] = (float)(ZZ[i, j] + ZZ[i, j] * Math.Cos(angf * Math.PI / 180));
 
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fx= -" & Format(ZZ(i, j), "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j + lz - dxl), "0.00"))
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fy= " & Format(YY(i, j), "0.00"))
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fz= " & Format(ZZ(i, j), "0.00") & " + " & Format(ZZ(i, j), "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j + lz - dxl), "0.00"))
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fx= -" + ZZ[i, j].ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j + lz - dxl].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fy= " + YY[i, j].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fz= " + ZZ[i, j].ToString("0.00") + " + " + ZZ[i, j].ToString("0.00") +  " * cos(" + angf + ") = " + ZZ[i, j + lz - dxl].ToString("0.00"));
 
-                //Dim fzz!, fzz1!
-                //fzz = XX(i, j)
-                //fzz1 = ZZ(i, j)
-                //XX(i, j) = XX(i, j) + ZZ(i, j) * Sin(angf * PI / 180)
-                //YY(i, j) = YY(i, j)
-                //ZZ(i, j) = ZZ(i, j) - ZZ(i, j) * Cos(angf * PI / 180)
+                    float fzz = XX[i, j];
+                    float fzz1 = ZZ[i, j];
+                    XX[i, j] = XX[i, j] + ZZ[i, j] * (float)Math.Sin(angf * Math.PI / 180);
+                    YY[i, j] = YY[i, j];
+                    ZZ[i, j] = ZZ[i, j] - ZZ[i, j] * (float)Math.Cos(angf * Math.PI / 180);
 
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fx= " & Format(fzz, "0.00") & " + " & Format(fzz1, "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j), "0.00"))
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fy= " & Format(YY(i, j), "0.00"))
-                //PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fz= " & Format(fzz1, "0.00") & " - " & Format(fzz1, "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j), "0.00"))
-
-                //End If
-
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fx= " + fzz.ToString("0.00") + " + " + fzz1.ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fy= " + YY[i, j].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fz= " + fzz1.ToString("0.00") + " - " + fzz1.ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j].ToString("0.00"));
+                }
             }
             else if (zhs == 0)
             {
@@ -1193,7 +1197,9 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
-
+            int dxl = Template.Wires.Where(item => item.Contains("地")).Count();
+            float fh = LineParas.WireExtraLoad / Paras.LoadRatio;
+            int lz = Template.Wires.Count;
 
             if (Math.Abs(zhs) < mz1 && Math.Abs(zhs) > 0)
             {
@@ -1246,7 +1252,7 @@ namespace TowerLoadCals.BLL
                 y1 = TensionMax[j,zhsAM];
                 y2 = TensionMin[j,zhsAM];
 
-                if (j <= Paras.dxl && y1 >= LineParas.AnchorTension)
+                if (j <= dxl && y1 >= LineParas.AnchorTension)
                 {
                     //地线有开段时
                     deta1 = y1;
@@ -1268,7 +1274,7 @@ namespace TowerLoadCals.BLL
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXMX2(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXMY2(angle, x1, deta1 * fuhao, deta2, out string strY);
-                ZZ[i,j-1] = formula.ZXMZ2(z1, LineParas.WireExtraLoad , fhn, deta1, deta3, out string strZ);
+                ZZ[i,j-1] = formula.ZXMZ2(z1, fh , fhn, deta1, deta3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1302,36 +1308,33 @@ namespace TowerLoadCals.BLL
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = formula.ZXCX(angle, x1, out string strX);
                 YY[i,j-1] = formula.ZXCY(angle, x1, LineParas.HoistingCoef, z1, out string strY);
-                ZZ[i,j-1] = formula.ZXCZ(LineParas.WireExtraLoad * fhn, LineParas.HoistingCoef, z1, out string strZ);
+                ZZ[i,j-1] = formula.ZXCZ(fh * fhn, LineParas.HoistingCoef, z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
                 ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
-                //TODO
-                //Dim angf%
-                //If Abs(Val(Me.DataGridView7.Rows(i - 1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
-                //    angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value)
-                //    XX(i, j + lz - dxl) = -ZZ(i, j) * Sin(angf * PI / 180)
-                //    YY(i, j + lz - dxl) = YY(i, j)
-                //    ZZ(i, j + lz - dxl) = ZZ(i, j) + ZZ(i, j) * Cos(angf * PI / 180)
+                //If Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
+                {
+                    float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
+                    XX[i, j + lz - dxl] = (float)(-ZZ[i, j] * Math.Sin(angf * Math.PI / 180));
+                    YY[i, j + lz - dxl] = YY[i, j];
+                    ZZ[i, j + lz - dxl] = (float)(ZZ[i, j] + ZZ[i, j] * Math.Cos(angf * Math.PI / 180));
 
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fx= -" & Format(ZZ(i, j), "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j + lz - dxl), "0.00"))
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fy= " & Format(YY(i, j), "0.00"))
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "转向处 Fz= " & Format(ZZ(i, j), "0.00") & " + " & Format(ZZ(i, j), "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j + lz - dxl), "0.00"))
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fx= -" + ZZ[i, j].ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j + lz - dxl].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fy= " + YY[i, j].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fz= " + ZZ[i, j].ToString("0.00") + " + " + ZZ[i, j].ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j + lz - dxl].ToString("0.00"));
 
-                //    Dim fzz!, fzz1!
-                //    fzz = XX(i, j)
-                //    fzz1 = ZZ(i, j)
-                //    XX(i, j) = XX(i, j) + ZZ(i, j) * Sin(angf * PI / 180)
-                //    YY(i, j) = YY(i, j)
-                //    ZZ(i, j) = ZZ(i, j) - ZZ(i, j) * Cos(angf * PI / 180)
+                    float fzz = XX[i, j];
+                    float fzz1 = ZZ[i, j];
+                    XX[i, j] = XX[i, j] + ZZ[i, j] * (float)Math.Sin(angf * Math.PI / 180);
+                    YY[i, j] = YY[i, j];
+                    ZZ[i, j] = ZZ[i, j] - ZZ[i, j] * (float)Math.Cos(angf * Math.PI / 180);
 
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fx= " & Format(fzz, "0.00") & " + " & Format(fzz1, "0.00") & " x " & "sin(" & angf & ")= " & Format(XX(i, j), "0.00"))
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fy= " & Format(YY(i, j), "0.00"))
-                //    PrintLine(1, Form5.DataGridView13.Rows(j - 1).Cells(1).Value & "导线处 Fz= " & Format(fzz1, "0.00") & " - " & Format(fzz1, "0.00") & " x " & "cos(" & angf & ")= " & Format(ZZ(i, j), "0.00"))
-
-                //End If
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fx= " + fzz.ToString("0.00") + " + " + fzz1.ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fy= " + YY[i, j].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fz= " + fzz1.ToString("0.00") + " - " + fzz1.ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j].ToString("0.00"));
+                }
 
             }
             else if (zhs == 0)
