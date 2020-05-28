@@ -1145,7 +1145,8 @@ namespace TowerLoadCals.BLL
 
                 //If Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
                 {
-                    float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
+                    float angf = 0;
+                    //float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
                     XX[i, j + lz - dxl] = (float)(-ZZ[i, j] * Math.Sin(angf * Math.PI / 180));
                     YY[i, j + lz - dxl] = YY[i, j];
                     ZZ[i, j + lz - dxl] = (float)(ZZ[i, j] + ZZ[i, j] * Math.Cos(angf * Math.PI / 180));
@@ -1316,7 +1317,8 @@ namespace TowerLoadCals.BLL
 
                 //If Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
                 {
-                    float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
+                    float angf = 0;
+                    //float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
                     XX[i, j + lz - dxl] = (float)(-ZZ[i, j] * Math.Sin(angf * Math.PI / 180));
                     YY[i, j + lz - dxl] = YY[i, j];
                     ZZ[i, j + lz - dxl] = (float)(ZZ[i, j] + ZZ[i, j] * Math.Cos(angf * Math.PI / 180));

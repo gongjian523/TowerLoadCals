@@ -107,6 +107,7 @@
     <Compile Include="Converter\InverseBooleanVisibityConverter.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
     <Compile Include="MainWindowViewModel-BaseData.cs" />
+    <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />

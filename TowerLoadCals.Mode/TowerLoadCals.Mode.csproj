@@ -72,6 +72,7 @@
     <Compile Include="Structure\TowerTemplate.cs" />
     <Compile Include="Common\WorkCondition.cs" />
     <Compile Include="Common\WorkConditionCombo.cs" />
+    <Compile Include="Structure\VStingParas.cs" />
     <Compile Include="xmlItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

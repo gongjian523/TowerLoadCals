@@ -4,11 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxci="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:local="clr-namespace:TowerLoadCals.Modules"
+             xmlns:cvt="clr-namespace:TowerLoadCals.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{dxmvvm:ViewModelSource local:HangingPointViewModel}">
+    <UserControl.Resources>
+        <local:ColumnTemplateSelector x:Key="ColumnTemplateSelector"/>
+        <Style x:Key="ColumnStyle" TargetType="dxg:GridColumn">
+            <Setter Property="FilterPopupMode" Value="CheckedList"/>
+        </Style>
+        <DataTemplate x:Key="DefaultColumnTemplate">
+            <ContentControl>
+                <dxg:GridColumn FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"/>
+            </ContentControl>
+        </DataTemplate>
+        <DataTemplate x:Key="BindingColumnTemplate">
+            <ContentControl>
+                <dxg:GridColumn local:BindingHelper.Path="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
+                                Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"/>
+            </ContentControl>
+        </DataTemplate>
+        <cvt:BooleanVisibityConverter x:Key="BooleanVisibityConverter"/>
+        <cvt:InverseBooleanVisibityConverter x:Key="InverseBooleanVisibityConverter"/>
+        <cvt:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </UserControl.Resources>
     <dx:DXTabControl x:Name="tabControl"
                                  Grid.Row="1"
                                  Margin="15,11,11,11"
@@ -38,24 +63,6 @@
         <dxmvvm:Interaction.Behaviors>
             <dxmvvm:EventToCommand EventName="TabAdding" Command="{Binding AddNewTabCommand}" PassEventArgsToCommand="True" />
         </dxmvvm:Interaction.Behaviors>
-        <!--<dx:DXTabControl.ItemContainerStyle>
-            <Style TargetType="dx:DXTabItem">
-                <Setter Property="Content" Value="{Binding Photo}" />
-                <Setter Property="ContentTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <Image Source="{Binding}" MaxHeight="400" MaxWidth="600" Stretch="Uniform" />
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="ContextMenuService.ShowOnDisabled" Value="True" />
-                <Setter Property="Header" Value="{Binding Title}" />
-                <Setter Property="HeaderMenuGlyph" Value="{Binding Glyph}" />
-                <Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}" />
-                <Setter Property="Visibility" Value="{Binding IsVisible, Mode=TwoWay, Converter={dxmvvm:BooleanToVisibilityConverter}}" />
-                <Setter Property="dx:TabControlStretchView.PinMode" Value="{Binding PinMode, Mode=TwoWay}" />
-            </Style>
-        </dx:DXTabControl.ItemContainerStyle>-->
         <dx:DXTabControl.ItemContainerStyle>
             <Style TargetType="dx:DXTabItem">
                 <Setter Property="BackgroundColor" Value="{Binding BackgroundColor}" />
@@ -64,30 +71,204 @@
         </dx:DXTabControl.ItemContainerStyle>
         <dx:DXTabControl.ItemTemplate>
             <DataTemplate>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" BorderBrush="Black" BorderThickness="0" Margin="0">
-                        <Image Margin="1" Source="{Binding Employee.Photo}" Stretch="None" />
-                    </Border>
-                    <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding Employee.PageHeader}"
-                                   TextWrapping="Wrap"
-                                   Grid.Row="1"
-                                   FontFamily="Times New Roman"
-                                   FontSize="22.667"
-                                   Margin="0,15,0,5" />
-                    <TextBlock Text="{Binding Employee.PageContent}" TextWrapping="Wrap" Grid.Row="2" Margin="10,0" />
-                    <StackPanel Grid.Row="3" Margin="0,10,0,0">
-                        <Rectangle Fill="#FFA4A7BD" StrokeThickness="0" Height="1" />
-                        <TextBlock Margin="10" TextWrapping="Wrap" Text="{Binding Employee.Notes}" />
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,5">
+                        <Button Content="常规挂点" Command="{DXCommand 'NormalHangingPointVisible(true)', CanExecute='!IsNormalHangingPointVisible'}" />
+                        <Button Content="吊装挂点" Margin="5,0,0,0" Command="{DXCommand 'NormalHangingPointVisible(false)', CanExecute='IsNormalHangingPointVisible'}"/>
                     </StackPanel>
-                </Grid>
+                    <Grid Visibility="{Binding IsNormalHangingPointVisible, Converter={StaticResource BooleanVisibityConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <GroupBox Header="V串信息">
+                                    <dxg:GridControl EnableSmartColumnsGeneration="False" ItemsSource="{Binding VStings}" MaxHeight="500"
+                                        ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                        Visibility="{Binding IsOtherParasJumpVisible,Converter={StaticResource BooleanVisibityConverter}}" >
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView ShowGroupPanel="False" AutoWidth="True" EnableImmediatePosting="True"  NewItemRowPosition="Bottom" />
+                                        </dxg:GridControl.View>
+                                        <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" />
+                                        <dxg:GridColumn FieldName="L1"  HorizontalHeaderContentAlignment="Center"/>
+                                        <dxg:GridColumn FieldName="H1"  HorizontalHeaderContentAlignment="Center"/>
+                                        <dxg:GridColumn FieldName="L2"  Header="L2" HorizontalHeaderContentAlignment="Center"/>
+                                        <dxg:GridColumn FieldName="H2"  Header="H2" HorizontalHeaderContentAlignment="Center"/>
+                                        <dxg:GridColumn FieldName="StressLimit"  Header="V串承压上限(N)" HorizontalHeaderContentAlignment="Center" />
+                                        <dxg:GridColumn FieldName="Angle"  Header="夹角" HorizontalHeaderContentAlignment="Center" Visible="{Binding IsBranchTower, Converter={StaticResource InverseBooleanConverter}}"/>
+                                    </dxg:GridControl>
+                                </GroupBox>
+                                <GroupBox  Grid.Column="1" Header="跳线荷载分配比例" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
+                                    <dxlc:LayoutGroup Orientation="Vertical">
+                                        <dxlc:LayoutItem Label="前侧:"  >
+                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                        </dxlc:LayoutItem>
+                                        <dxlc:LayoutItem Label="后侧:"  >
+                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                        </dxlc:LayoutItem>
+                                        <dxlc:LayoutItem Label="前侧:"  >
+                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                        </dxlc:LayoutItem>
+                                    </dxlc:LayoutGroup>
+                                </GroupBox>
+                                <GroupBox Header="跳线荷载分开吊装分配比例" Grid.Column="2" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
+                                    <dxlc:LayoutGroup Orientation="Vertical">
+                                        <dxlc:LayoutItem Label="前侧:"  >
+                                            <dxe:TextEdit  Margin="5,0,0,0"/>
+                                        </dxlc:LayoutItem>
+                                        <dxlc:LayoutItem Label="后侧:"  >
+                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                        </dxlc:LayoutItem>
+                                        <dxlc:LayoutItem Label="前侧:"  >
+                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                        </dxlc:LayoutItem>
+                                    </dxlc:LayoutGroup>
+                                </GroupBox>
+
+                                <GroupBox  Grid.Column="1" Header="地线挂点荷载分配比例" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource InverseBooleanVisibityConverter}}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="1" Text="常规" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="3" Text="悬臂" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="1" Text="前侧" Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="1"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBlock Grid.Row="1" Grid.Column="2" Text="外侧"  Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="3"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBlock Grid.Row="2" Text="后侧" VerticalAlignment="Center"  Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="1"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBlock Grid.Row="2" Grid.Column="2"  Margin="0,5,0,0" Text="内侧" VerticalAlignment="Center"  HorizontalAlignment="Center"/>
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="3"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Header="导线挂点荷载分配比例" Grid.Column="2" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource InverseBooleanVisibityConverter}}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="1" Text="其他" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="吊装" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="锚线" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                   Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                        <TextBlock Grid.Row="1" Text="前侧风荷" Margin="0,5,0,0" VerticalAlignment="Center" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="1" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="2" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="3" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}"  
+                                                       Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                        <TextBlock Grid.Row="2" Text="后侧风荷" Margin="0,5,0,0" VerticalAlignment="Center" />
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="1" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="2" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="3" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" 
+                                                       Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                        <TextBlock Grid.Row="3" Text="前侧垂荷" Margin="0,5,0,0" VerticalAlignment="Center" />
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="1" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="2" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="3" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" 
+                                                       Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                        <TextBlock Grid.Row="4" Text="后侧垂荷" Margin="0,5,0,0" VerticalAlignment="Center" />
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="1" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="2" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="3" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" 
+                                                       Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                    </Grid>
+                                </GroupBox>
+
+                            </Grid>
+                            <Grid Grid.Row="1" Margin="0,5,0,0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <GroupBox Header="常规挂点 XY向">
+                                    <dxg:GridControl ItemsSource="{Binding WorkConditions}"  MaxHeight="500" ColumnsSource="{Binding Columns}"
+                                    ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                                ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
+                                        </dxg:GridControl.View>
+                                    </dxg:GridControl>
+                                </GroupBox>
+                                <GroupBox Grid.Column="1" Margin="5,0,0,0" Header="常规挂点 Z向">
+                                    <dxg:GridControl ItemsSource="{Binding WorkConditions}" ColumnsSource="{Binding Columns}" MaxHeight="500"
+                                    ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                            ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
+                                        </dxg:GridControl.View>
+                                    </dxg:GridControl>
+                                </GroupBox>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <StackPanel  Orientation="Vertical" Visibility="{Binding IsNormalHangingPointVisible, Converter={StaticResource InverseBooleanVisibityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Header="{Binding HPColumnXYName}">
+                                <dxg:GridControl ItemsSource="{Binding WorkConditions}"  MaxHeight="500" ColumnsSource="{Binding Columns}"
+                                ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
+                                    <dxg:GridControl.View>
+                                        <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                            ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
+                                    </dxg:GridControl.View>
+                                </dxg:GridControl>
+                            </GroupBox>
+                            <GroupBox  Grid.Column="1" Margin="5,0,0,0"  Header="{Binding HPColumnZName}">
+                                <dxg:GridControl ItemsSource="{Binding WorkConditions}"  MaxHeight="500" ColumnsSource="{Binding Columns}"
+                                ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
+                                    <dxg:GridControl.View>
+                                        <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                            ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
+                                    </dxg:GridControl.View>
+                                </dxg:GridControl>
+                            </GroupBox>
+                        </Grid>
+                        <CheckBox Content="{Binding HPCheckBoxName}"  IsChecked="{Binding IsTurnHPChecked}"/>
+                        <Grid Visibility="{Binding IsTurnHPChecked,Converter={StaticResource BooleanVisibityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Header="{Binding HPCheckBoxName}">
+                                <dxg:GridControl ItemsSource="{Binding WorkConditions}"  MaxHeight="500" ColumnsSource="{Binding Columns}"
+                                ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
+                                    <dxg:GridControl.View>
+                                        <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                            ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
+                                    </dxg:GridControl.View>
+                                </dxg:GridControl>
+                            </GroupBox>
+                        </Grid>
+
+                    </StackPanel>
+                </StackPanel>
             </DataTemplate>
         </dx:DXTabControl.ItemTemplate>
     </dx:DXTabControl>
