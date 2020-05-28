@@ -24,6 +24,15 @@
                 <dxg:GridColumn FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"/>
             </ContentControl>
         </DataTemplate>
+        <DataTemplate x:Key="ComboColumnTemplate">
+            <ContentControl>
+                <dxg:GridColumn  FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:ComboBoxEditSettings ItemsSource="{Binding Source}"/>
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+            </ContentControl>
+        </DataTemplate>
         <DataTemplate x:Key="BindingColumnTemplate">
             <ContentControl>
                 <dxg:GridColumn local:BindingHelper.Path="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
@@ -89,7 +98,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="V串信息">
-                                    <dxg:GridControl EnableSmartColumnsGeneration="False" ItemsSource="{Binding VStings}" MaxHeight="500"
+                                    <dxg:GridControl EnableSmartColumnsGeneration="False" ItemsSource="{Binding VStrings}" MaxHeight="500"
                                         ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                         Visibility="{Binding IsOtherParasJumpVisible,Converter={StaticResource BooleanVisibityConverter}}" >
                                         <dxg:GridControl.View>
@@ -205,22 +214,28 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="常规挂点 XY向">
-                                    <dxg:GridControl ItemsSource="{Binding WorkConditions}"  MaxHeight="500" ColumnsSource="{Binding Columns}"
+                                    <StackPanel Orientation="Vertical">
+                                        <Button  Content="增加挂点" Command="{DXCommand 'AddNormalXYPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
+                                        <dxg:GridControl ItemsSource="{Binding NormalXYPoints}"  MaxHeight="500" ColumnsSource="{Binding NormalXYColumns}"
                                     ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
-                                        <dxg:GridControl.View>
-                                            <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                            <dxg:GridControl.View>
+                                                <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
                                                 ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
-                                        </dxg:GridControl.View>
-                                    </dxg:GridControl>
+                                            </dxg:GridControl.View>
+                                        </dxg:GridControl>
+                                    </StackPanel>
                                 </GroupBox>
                                 <GroupBox Grid.Column="1" Margin="5,0,0,0" Header="常规挂点 Z向">
-                                    <dxg:GridControl ItemsSource="{Binding WorkConditions}" ColumnsSource="{Binding Columns}" MaxHeight="500"
+                                    <StackPanel Orientation="Vertical">
+                                        <Button  Content="增加挂点" Command="{DXCommand 'AddNormalZPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
+                                        <dxg:GridControl ItemsSource="{Binding NormalZPoints}" ColumnsSource="{Binding NormalZColumns}" MaxHeight="500"
                                     ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
-                                        <dxg:GridControl.View>
-                                            <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                            <dxg:GridControl.View>
+                                                <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
                                             ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
-                                        </dxg:GridControl.View>
-                                    </dxg:GridControl>
+                                            </dxg:GridControl.View>
+                                        </dxg:GridControl>
+                                    </StackPanel>
                                 </GroupBox>
                             </Grid>
                         </Grid>
@@ -232,22 +247,28 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <GroupBox Header="{Binding HPColumnXYName}">
-                                <dxg:GridControl ItemsSource="{Binding WorkConditions}"  MaxHeight="500" ColumnsSource="{Binding Columns}"
+                                <StackPanel Orientation="Vertical">
+                                    <Button  Content="增加挂点" Command="{DXCommand 'AddInstallXYPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
+                                    <dxg:GridControl ItemsSource="{Binding InstallXYPoints}"  MaxHeight="500" ColumnsSource="{Binding InstallXYColumns}"
                                 ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
-                                    <dxg:GridControl.View>
-                                        <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
                                             ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
-                                    </dxg:GridControl.View>
-                                </dxg:GridControl>
+                                        </dxg:GridControl.View>
+                                    </dxg:GridControl>
+                                </StackPanel>
                             </GroupBox>
                             <GroupBox  Grid.Column="1" Margin="5,0,0,0"  Header="{Binding HPColumnZName}">
-                                <dxg:GridControl ItemsSource="{Binding WorkConditions}"  MaxHeight="500" ColumnsSource="{Binding Columns}"
+                                <StackPanel Orientation="Vertical">
+                                    <Button  Content="增加挂点" Command="{DXCommand 'AddInstallZPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
+                                    <dxg:GridControl ItemsSource="{Binding InstallZPoints}"  MaxHeight="500" ColumnsSource="{Binding InstallZColumns}"
                                 ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
-                                    <dxg:GridControl.View>
-                                        <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
                                             ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
-                                    </dxg:GridControl.View>
-                                </dxg:GridControl>
+                                        </dxg:GridControl.View>
+                                    </dxg:GridControl>
+                                </StackPanel>
                             </GroupBox>
                         </Grid>
                         <CheckBox Content="{Binding HPCheckBoxName}"  IsChecked="{Binding IsTurnHPChecked}"/>
@@ -257,13 +278,16 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <GroupBox Header="{Binding HPCheckBoxName}">
-                                <dxg:GridControl ItemsSource="{Binding WorkConditions}"  MaxHeight="500" ColumnsSource="{Binding Columns}"
+                                <StackPanel Orientation="Vertical">
+                                    <Button  Content="增加挂点" Command="{DXCommand 'AddTurningPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
+                                    <dxg:GridControl ItemsSource="{Binding TurningPoints}"  MaxHeight="500" ColumnsSource="{Binding TurningColumns}"
                                 ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
-                                    <dxg:GridControl.View>
-                                        <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
                                             ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
-                                    </dxg:GridControl.View>
-                                </dxg:GridControl>
+                                        </dxg:GridControl.View>
+                                    </dxg:GridControl>
+                                </StackPanel>
                             </GroupBox>
                         </Grid>
 

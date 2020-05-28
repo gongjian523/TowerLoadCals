@@ -19,7 +19,8 @@ namespace TowerLoadCals.Modules
         {
 
             TowerTemplateReader templateReader = new TowerTemplateReader(TowerType.LineTower);
-            TowerTemplate template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
+            //TowerTemplate template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
+            TowerTemplate template = templateReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\双回交流重冰区.dat");
 
             WorkConditions = templateReader.ConvertTemplateToSpec(template);
 

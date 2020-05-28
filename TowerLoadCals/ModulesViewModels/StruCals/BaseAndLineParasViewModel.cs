@@ -128,9 +128,10 @@ namespace TowerLoadCals.Modules
 
             LineParas = new ObservableCollection<StruLineParas>();
             TowerTemplateReader templateReader = new TowerTemplateReader(TowerType.LineTower);
-            TowerTemplate template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
+            //TowerTemplate template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
+            TowerTemplate template = templateReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\双回交流重冰区.dat");
 
-            for(int i = 0; i < template.Wires.Count; i++)
+            for (int i = 0; i < template.Wires.Count; i++)
             {
                 LineParas.Add(new StruLineParas { Index = i+1, WireType  = template.Wires[i]});
             }

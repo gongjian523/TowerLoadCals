@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.Mode
 {
-    public class VStingParas
+    public class VStringParas
     {
         public int Index { get; set; }
 
