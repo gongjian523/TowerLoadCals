@@ -8,16 +8,19 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
+using TowerLoadCals.ModulesViewModels;
 using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Modules
 {
-    public class HangingPointViewModel
+    public class HangingPointViewModel: IStruCalsBaseViewModel
     {
         protected int num = 0;
-        protected TowerTemplate Template;
+        protected TowerTemplate template;
+        protected string towerType;
 
         public static HangingPointViewModel Create()
         {
@@ -26,38 +29,99 @@ namespace TowerLoadCals.Modules
         protected HangingPointViewModel()
         {
             TowerTemplateReader templateReader = new TowerTemplateReader(TowerType.LineTower);
-            Template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
+            template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
             //Template = templateReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\双回交流重冰区.dat");
 
             HangingPoints = new ObservableCollection<HangingPoint>();
             for (num = 1; num < 2; num++)
             {
-                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), Template));
+                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), "直线塔", template));
+            }
+        }
+
+
+        public HangingPointViewModel(string type)
+        {
+
+            var globalInfo = GlobalInfo.GetInstance();
+            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);
+
+            if (index < 0)
+                return;
+
+            template = globalInfo.StruCalsParas[index].Template;
+            towerType = type;
+
+            HangingPoints = new ObservableCollection<HangingPoint>();
+            for (num = 1; num < 2; num++)
+            {
+                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), towerType, template));
             }
         }
 
         public virtual ObservableCollection<HangingPoint> HangingPoints { get; protected set; }
         public void AddNewTab(TabControlTabAddingEventArgs e)
         {
-            e.Item = HangingPoint.Create("挂点方案" + num.ToString(), Template);
+            e.Item = HangingPoint.Create("挂点方案" + num.ToString(), towerType, template);
             num++;
+        }
+
+        string IStruCalsBaseViewModel.GetTowerType()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBaseViewModel.Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBaseViewModel.UpDateView(string para1, string para2)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBaseViewModel.DelSubItem(string itemName)
+        {
+            throw new NotImplementedException();
         }
     }
 
     public class HangingPoint:ViewModelBase,INotifyPropertyChanged
     {
-        public static HangingPoint Create(string title, TowerTemplate template)
+        public static HangingPoint Create(string title, string towerType, TowerTemplate template)
         {
-            return ViewModelSource.Create(() => new HangingPoint(title, template));
+            return ViewModelSource.Create(() => new HangingPoint(title, towerType, template));
         }
-        protected HangingPoint(string title, TowerTemplate template)
+        protected HangingPoint(string title,  string towerType, TowerTemplate template)
         {
             Title = title;
+
+            if (towerType == "直线塔")
+            {
+                Type = TowerType.LineTower;
+            }
+            else if (towerType == "直转塔")
+            {
+                Type = TowerType.LineCornerTower;
+            }
+            else if (towerType == "转角塔")
+            {
+                Type = TowerType.CornerTower;
+            }
+            else if (towerType == "分支塔")
+            {
+                Type = TowerType.BranchTower;
+            }
+            else
+            {
+                Type = TowerType.TerminalTower;
+            }
             Type = TowerType.LineTower;
 
             VStrings = new ObservableCollection<VStringParas>();
-            Template = template;
 
+            Template = template;
 
             NormalXYPoints = new ObservableCollection<HangingPointParas>();
             NormalZPoints = new ObservableCollection<HangingPointParas>();

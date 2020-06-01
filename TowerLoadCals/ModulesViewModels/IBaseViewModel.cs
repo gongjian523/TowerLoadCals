@@ -14,4 +14,10 @@ namespace TowerLoadCals.ModulesViewModels
 
         void DelSubItem(string itemName);
     }
+
+
+    public interface IStruCalsBaseViewModel: IBaseViewModel
+    {
+        String GetTowerType();
+    }
 }

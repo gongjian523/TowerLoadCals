@@ -47,22 +47,7 @@ namespace TowerLoadCals.BLL
 
         protected FormulaLineTower formula;
 
-
-        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, float[][] table) : base(para, lineParas, template, table)
-        {
-
-            //ProcessString = new List<string>();
-            //formula = new FormulaLineTower(para);
-
-            //Paras = para;
-            //LineParasArr = lineParas;
-            //Template = template;
-
-            //ConvertTable(table);
-            formula = new FormulaLineTower(para);
-        }
-
-        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template) : base(para, lineParas, template)
+        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, string tablePath) : base(para, lineParas, template)
         {
 
             //ProcessString = new List<string>();
@@ -72,7 +57,7 @@ namespace TowerLoadCals.BLL
             //LineParasArr = lineParas;
             //Template = template;
             formula = new FormulaLineTower(para);
-            GetTable("D:\\00-项目\\P-200325-杆塔负荷程序\\21.xlsx");
+            GetTable(tablePath);
         }
 
 

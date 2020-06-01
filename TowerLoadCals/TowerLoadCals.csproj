@@ -107,6 +107,7 @@
     <Compile Include="Converter\InverseBooleanVisibityConverter.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
     <Compile Include="MainWindowViewModel-BaseData.cs" />
+    <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\StrDataViewModel.cs" />
@@ -250,6 +251,10 @@
     <Resource Include="SplashScreen\Logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TowerLoadCals.BLL\TowerLoadCals.BLL.csproj">
+      <Project>{11C1CFAC-5EBA-4B24-895F-89201EF45A8C}</Project>
+      <Name>TowerLoadCals.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TowerLoadCals.Common\TowerLoadCals.Common.csproj">
       <Project>{02D06C8A-7792-43EE-9C4A-CEBEF8377AAF}</Project>
       <Name>TowerLoadCals.Common</Name>

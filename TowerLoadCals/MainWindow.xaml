@@ -247,6 +247,8 @@
                                                 <MenuItem Header="新增" Command="{Binding NewItemCommand,Source={StaticResource MainWinVM}}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
                                                 <MenuItem Header="编辑" Command="{Binding EditItemCommand,Source={StaticResource MainWinVM}}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
                                                 <MenuItem Header="删除" Command="{Binding DelItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
+                                                <MenuItem Header="加载" Command="{Binding LoadCommand}"  CommandParameter="{Binding}" Visibility="{Binding LoadBtnVisible}"/>
+                                                <MenuItem Header="计算" Command="{Binding CalsCommand}"  CommandParameter="{Binding}" Visibility="{Binding CalsBtnVisible}"/>
                                             </ContextMenu>
                                         </Setter.Value>
                                     </Setter >

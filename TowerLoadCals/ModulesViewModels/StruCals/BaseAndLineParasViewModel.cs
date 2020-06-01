@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.ModulesViewModels;
@@ -13,7 +14,7 @@ using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Modules
 {
-    public class BaseAndLineParasViewModel: ViewModelBase,IBaseViewModel, INotifyPropertyChanged
+    public class BaseAndLineParasViewModel: ViewModelBase, IStruCalsBaseViewModel, INotifyPropertyChanged
     {
         protected string _selectedStandard = "GB50545-2010";
         public String SelectedStandard {
@@ -120,41 +121,69 @@ namespace TowerLoadCals.Modules
         public BaseAndLineParasViewModel()
         {
             Type = TowerType.BranchTower;
-
-            BaseParas.R1Install = 1;
-
-            IsMethod1Selected = true;
-            IsMethod2Selected = false;
-
-            LineParas = new ObservableCollection<StruLineParas>();
-            TowerTemplateReader templateReader = new TowerTemplateReader(TowerType.LineTower);
-            TowerTemplate template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
-            //TowerTemplate template = templateReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\双回交流重冰区.dat");
-
-            for (int i = 0; i < template.Wires.Count; i++)
+        }
+        
+        
+        public BaseAndLineParasViewModel(string towerType)
+        {
+            if (towerType == "直线塔")
             {
-                LineParas.Add(new StruLineParas { Index = i+1, WireType  = template.Wires[i]});
+                Type = TowerType.LineTower;
             }
+            else if (towerType == "直转塔")
+            {
+                Type = TowerType.LineCornerTower;
+            }
+            else if (towerType == "转角塔")
+            {
+                Type = TowerType.CornerTower;
+            }
+            else if (towerType == "分支塔")
+            {
+                Type = TowerType.BranchTower;
+            }
+            else
+            {
+                Type = TowerType.TerminalTower;
+            }
+
+            var globalInfo = GlobalInfo.GetInstance();
+            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);
+
+            if (index < 0)
+                return;
+
+            var template = globalInfo.StruCalsParas[index].Template;
+            LineParas = new ObservableCollection<StruLineParas>(globalInfo.StruCalsParas[index].LineParas);
         }
 
-        void IBaseViewModel.Save()
+        public void Save()
         {
-            var itme = BaseParas;
-            var ti = SelectedStandard;
-
-            var aaa = IsMethod1Selected ;
-            var sd = SelectedMothed;
-            var sss = LineParas;
+            
         }
 
-        void IBaseViewModel.UpDateView(string para1, string para2)
+        public void UpDateView(string para1, string para2)
         {
             throw new NotImplementedException();
         }
 
-        void IBaseViewModel.DelSubItem(string itemName)
+        public void DelSubItem(string itemName)
         {
             throw new NotImplementedException();
+        }
+
+        public string GetTowerType()
+        {
+            if (Type == TowerType.LineTower)
+                return "直线塔";
+            else if (Type == TowerType.LineCornerTower)
+                return "直转塔";
+            else if (Type == TowerType.CornerTower)
+                return "转角塔";
+            else if (Type == TowerType.BranchTower)
+                return "分支塔";
+            else
+                return "终端塔"; 
         }
     }
 }

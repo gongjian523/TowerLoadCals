@@ -133,7 +133,7 @@ namespace TowerLoadCals.Test
                 }
             };
 
-            LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(formulaParas, lineParas, template);
+            LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(formulaParas, lineParas, template, "D:\\00 - 项目\\P - 200325 - 杆塔负荷程序\\21.xlsx");
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 

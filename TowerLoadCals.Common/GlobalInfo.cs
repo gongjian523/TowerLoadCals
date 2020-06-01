@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.Common
 {
@@ -27,8 +28,15 @@ namespace TowerLoadCals.Common
             return singleton;
         }
 
+        private GlobalInfo()
+        {
+            StruCalsParas = new List<StruCalsParas>();
+        }
+
         public string ProjectPath { get; set; }
 
         public string ProjectName { get; set; }
+
+        public List<StruCalsParas> StruCalsParas { get; set; }
     }
 }
