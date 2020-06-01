@@ -15,9 +15,9 @@ namespace TowerLoadCals.Modules
         public SettingsType Settings { get; set; }
     }
 
-    public class ComboColumn : HeaderColumn
+    public class ComboColumn : Column
     {
-        //public string Header { get; set; }
+        public string Header { get; set; }
 
         public IList Source { get; set; }
     }

@@ -35,6 +35,8 @@ namespace TowerLoadCals.BLL
         protected float[,] YY { get; set; }
         protected float[,] ZZ { get; set; }
 
+        
+
         protected List<string> ProcessString { get; set; }
 
 
@@ -66,6 +68,8 @@ namespace TowerLoadCals.BLL
         abstract protected void ConvertTable(float [][] table);
 
         abstract public void CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, string path);
+
+        
 
     }
 }

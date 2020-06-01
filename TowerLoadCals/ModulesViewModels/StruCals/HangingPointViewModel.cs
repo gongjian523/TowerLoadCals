@@ -26,8 +26,8 @@ namespace TowerLoadCals.Modules
         protected HangingPointViewModel()
         {
             TowerTemplateReader templateReader = new TowerTemplateReader(TowerType.LineTower);
-            //TowerTemplate template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
-            Template = templateReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\双回交流重冰区.dat");
+            Template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
+            //Template = templateReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\双回交流重冰区.dat");
 
             HangingPoints = new ObservableCollection<HangingPoint>();
             for (num = 1; num < 2; num++)
@@ -160,7 +160,6 @@ namespace TowerLoadCals.Modules
                 return IsTensionTower ? "过滑车挂架挂点" : "转向挂点";
             }
         }
-
 
         private bool _isTensionHPCheck = false;
         public bool IsTurnHPChecked

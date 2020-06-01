@@ -26,7 +26,8 @@
         </DataTemplate>
         <DataTemplate x:Key="ComboColumnTemplate">
             <ContentControl>
-                <dxg:GridColumn  FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}">
+                <dxg:GridColumn  FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
+                                 Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}">
                     <dxg:GridColumn.EditSettings>
                         <dxe:ComboBoxEditSettings ItemsSource="{Binding Source}"/>
                     </dxg:GridColumn.EditSettings>
@@ -74,7 +75,7 @@
         </dxmvvm:Interaction.Behaviors>
         <dx:DXTabControl.ItemContainerStyle>
             <Style TargetType="dx:DXTabItem">
-                <Setter Property="BackgroundColor" Value="{Binding BackgroundColor}" />
+                <!--<Setter Property="BackgroundColor" Value="{Binding BackgroundColor}" />-->
                 <Setter Property="Header" Value="{Binding Title}" />
             </Style>
         </dx:DXTabControl.ItemContainerStyle>
@@ -99,8 +100,7 @@
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="V串信息">
                                     <dxg:GridControl EnableSmartColumnsGeneration="False" ItemsSource="{Binding VStrings}" MaxHeight="500"
-                                        ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                        Visibility="{Binding IsOtherParasJumpVisible,Converter={StaticResource BooleanVisibityConverter}}" >
+                                        ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
                                         <dxg:GridControl.View>
                                             <dxg:TableView ShowGroupPanel="False" AutoWidth="True" EnableImmediatePosting="True"  NewItemRowPosition="Bottom" />
                                         </dxg:GridControl.View>
@@ -110,7 +110,7 @@
                                         <dxg:GridColumn FieldName="L2"  Header="L2" HorizontalHeaderContentAlignment="Center"/>
                                         <dxg:GridColumn FieldName="H2"  Header="H2" HorizontalHeaderContentAlignment="Center"/>
                                         <dxg:GridColumn FieldName="StressLimit"  Header="V串承压上限(N)" HorizontalHeaderContentAlignment="Center" />
-                                        <dxg:GridColumn FieldName="Angle"  Header="夹角" HorizontalHeaderContentAlignment="Center" Visible="{Binding IsBranchTower, Converter={StaticResource InverseBooleanConverter}}"/>
+                                        <dxg:GridColumn FieldName="Angle"  Header="夹角" HorizontalHeaderContentAlignment="Center" />
                                     </dxg:GridControl>
                                 </GroupBox>
                                 <GroupBox  Grid.Column="1" Header="跳线荷载分配比例" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
@@ -290,7 +290,6 @@
                                 </StackPanel>
                             </GroupBox>
                         </Grid>
-
                     </StackPanel>
                 </StackPanel>
             </DataTemplate>

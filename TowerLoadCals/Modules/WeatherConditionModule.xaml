@@ -22,13 +22,12 @@
     <Grid>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
-                ItemsSource="{Binding SelectedItems}"
-                ScrollViewer.VerticalScrollBarVisibility="Hidden" 
-                ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-            <dxg:GridControl.View>
-                <dxg:TableView ShowGroupPanel="False"/>
+                ItemsSource="{Binding SelectedItems}">
+            <dxg:GridControl.View   >
+                <!--<dxg:TableView ShowGroupPanel="False" AutoWidth="True" VerticalScrollbarVisibility="Auto"/>-->
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center" AllowEditing="false" />
             <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" HorizontalHeaderContentAlignment="Center"/>

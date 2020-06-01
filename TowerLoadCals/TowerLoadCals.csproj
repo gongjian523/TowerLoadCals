@@ -120,6 +120,10 @@
     <Compile Include="Modules\StruCals\HangingPointModule.xaml.cs">
       <DependentUpon>HangingPointModule.xaml</DependentUpon>
     </Compile>
+    <Page Include="Style\TableViewStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Compile Include="Utils\BindingHelper.cs" />
     <Compile Include="Modules\BlankModule.xaml.cs">
       <DependentUpon>BlankModule.xaml</DependentUpon>

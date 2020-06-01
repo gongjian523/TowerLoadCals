@@ -41,8 +41,7 @@
                     AutoWidth="True"
                     EnableImmediatePosting="True"
                     AllowPerPixelScrolling="True" 
-                    ShowGroupPanel="False"
-                    IsTotalSummaryMenuEnabled="False"/>
+                    ShowGroupPanel="False"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
 

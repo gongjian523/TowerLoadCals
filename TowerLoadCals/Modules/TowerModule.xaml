@@ -23,7 +23,7 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 >
             <dxg:GridControl.View>
-                <dxg:TableView ShowGroupPanel="False" ShowFilterPanelMode="Never">
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}">
                     <dxg:TableView.RowCellMenuCustomizations>
                         <!--<dxb:BarButtonItem Name="viewCopyRow" Content="复制行" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WireViewModel},AncestorLevel=3}, Path=CopyRowCommand}"/>-->
                         <dxb:BarButtonItem Name="viewPasteRow" Content="粘贴行"  />
