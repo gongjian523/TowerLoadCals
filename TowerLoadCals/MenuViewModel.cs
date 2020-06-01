@@ -187,6 +187,18 @@ namespace TowerLoadCals
                 globalInfo.StruCalsParas[index].Template = template;
                 globalInfo.StruCalsParas[index].LineParas = lineParas;
             }
+
+
+            if (((MenuItemVM)menu).MenuItems == null)
+            {
+                ((MenuItemVM)menu).MenuItems = new List<MenuItemVM>();
+            }
+
+            if (((MenuItemVM)menu).MenuItems.Count() == 0)
+            {
+                parentVm.NewTowerSubMenuItem(((MenuItemVM)menu));
+            }
+
         }
 
         public DelegateCommand<object> CalsCommand { get; private set; }

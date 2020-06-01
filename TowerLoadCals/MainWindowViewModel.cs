@@ -55,6 +55,7 @@ namespace TowerLoadCals
             NewItemCommand = new DelegateCommand<object>(NewMenuItem);
             EditItemCommand = new DelegateCommand<object>(EditMenuItem);
             DelItemCommand = new DelegateCommand<object>(DelMenuItem);
+
         }
 
         public virtual IEnumerable<ModuleInfo> Modules { get; protected set; }

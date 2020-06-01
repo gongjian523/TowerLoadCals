@@ -6,9 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using TowerLoadCals.Common;
+using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Modules;
 using TowerLoadCals.ModulesViewModels;
+using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals
 {
@@ -19,17 +22,24 @@ namespace TowerLoadCals
             ModuleInfo baseDataMudule = new ModuleInfo("StruCalsModule", this, "结构计算");
             baseDataMudule.SetIcon("FolderList_32x32.png");
 
-            var menuItem = new List<MenuItemVM>() { };
+            var menuItems = new List<MenuItemVM>() { };
 
-            menuItem.Add(NewTowrSubMenuItem("直线塔"));
-            menuItem.Add(NewTowrSubMenuItem("直转塔"));
+            MenuItemVM menu1 = new MenuItemVM("", this, "直线塔", (e) => { OnSelectedStruCalsTowersChanged(e); }, Visibility.Visible);
+            menu1.CalsBtnVisible = Visibility.Visible;
+            menu1.LoadBtnVisible = Visibility.Visible;
+            menuItems.Add(menu1);
 
-            baseDataMudule.MenuItems = menuItem;
+            MenuItemVM menu2 = new MenuItemVM("", this, "直转塔", (e) => { OnSelectedStruCalsTowersChanged(e); }, Visibility.Visible);
+            menu2.CalsBtnVisible = Visibility.Visible;
+            menu2.LoadBtnVisible = Visibility.Visible;
+            menuItems.Add(menu2);
+            
+            baseDataMudule.MenuItems = menuItems;
 
             return baseDataMudule;
         }
 
-        private MenuItemVM NewTowrSubMenuItem(string towerName)
+        public void NewTowerSubMenuItem(MenuItemVM menuVm)
         {
             var subMenus = new List<MenuItemVM>() { };
             var weatherMenu = new MenuItemVM("BaseAndLineParasModule", this, "结构计算参数", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
@@ -41,39 +51,48 @@ namespace TowerLoadCals
             var hungingPointMenu = new MenuItemVM("HangingPointModule", this, "挂点设置", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             subMenus.Add(hungingPointMenu);
 
-            MenuItemVM menu = new MenuItemVM("", this, towerName, (e) => { OnSelectedStruCalsTowersChanged(e); }, Visibility.Visible, Visibility.Collapsed, Visibility.Collapsed, Visibility.Collapsed, subMenus);
-            menu.CalsBtnVisible = Visibility.Visible;
-            menu.LoadBtnVisible = Visibility.Visible;
+            menuVm.MenuItems = subMenus;
 
-            return menu;
+            MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
+
+            object vm = new BaseAndLineParasViewModel(menuVm.Title);
+            weatherMenu.Show();
+
         }
 
-        private void OnSelectedStruCalsSubModuleChanged(MenuItemVM vm)
+        private void OnSelectedStruCalsSubModuleChanged(MenuItemVM menuVm)
         {
-            object mv = new object();
-            if(vm.Type == "BaseAndLineParasModule")
+            object vm = new object();
+            if(menuVm.Type == "BaseAndLineParasModule")
             {
-                mv = new BaseAndLineParasViewModel(vm.Title);
+                vm = new BaseAndLineParasViewModel(menuVm.Title);
             }
-            
-
-            if (curSubModule != vm.Title)
+            else if(menuVm.Type == "WorkConditionComboModule")
             {
-                vm.Show(mv);
-                curSubModule = vm.Title;
+                vm = new WorkConditionComboViewModel(menuVm.Title);
             }
             else
             {
-                subVm.Show();
-                curSubModule = subVm.Title;
+                vm = new HangingPointViewModel(menuVm.Title);
+            }
 
-                return true;
+            IStruCalsBaseViewModel viewModel = NavigationService.Current as IStruCalsBaseViewModel;
+
+            if (curSubModule != menuVm.Title || viewModel.GetTowerType() != menuVm.Title)
+            {
+                menuVm.Show(vm);
+                curSubModule = menuVm.Title;
             }
         }
 
-        private void OnSelectedStruCalsTowersChanged(MenuItemVM vm)
+        private void OnSelectedStruCalsTowersChanged(MenuItemVM menuVm)
         {
+         
             
         }
+
+        
+
+
     }
 }
