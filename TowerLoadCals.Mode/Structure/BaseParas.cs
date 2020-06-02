@@ -1,7 +1,24 @@
-﻿namespace TowerLoadCals.Mode
+﻿using DevExpress.Mvvm;
+
+namespace TowerLoadCals.Mode
 {
+    //public class FormulaParas : BindableBase
     public class FormulaParas
     {
+        protected string _selectedStandard = "GB50545-2010";
+        public string SelectedStandard
+        {
+            get
+            {
+                return _selectedStandard;
+            }
+            set
+            {
+                _selectedStandard = value;
+                //RaisePropertyChanged("SelectedStandard");
+            }
+        }
+
         /// <summary>
         /// 荷载比例
         /// GB50545-2010 DL/T5551-2018
@@ -15,7 +32,19 @@
         /// DL/T5551-2018 
         /// 旧名字 r1
         /// </summary>
+        //protected float _riInstall;
         public float R1Install { get; set; }
+        //{
+        //    get
+        //    {
+        //        return _riInstall;
+        //    }
+        //    set
+        //    {
+        //        _riInstall = value;
+        //        //RaisePropertyChanged("R1Install"); 
+        //    }
+        //}
 
         /// <summary>
         /// 结构重要性系数_其他     
@@ -69,7 +98,7 @@
         /// </summary>
         public float VcFNormal { get; set; }
 
-                /// <summary>
+        /// <summary>
         /// 可变荷载组合系数_安装
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Vcb_L
@@ -169,7 +198,7 @@
         /// 跳线吊装系数            
         /// 旧名字 tdx
         /// </summary>
-        public float LiftCoefJumper  { get; set; }   //cd修改
+        public float LiftCoefJumper { get; set; }   //cd修改
 
 
         /// <summary>
@@ -184,11 +213,64 @@
         /// </summary>
         public float TractionAgnle { get; set; }
 
-        public bool IsCornerTower { get; set; }
+        public TowerType Type { get; set; }
 
-        public bool IsTerminalTower { get; set; }
 
-        public bool IsBranchTower { get; set; }
+        public bool IsLineTower
+        {
+            get
+            {
+                return Type == TowerType.LineTower;
+            }
+        }
+
+        public bool IsCornerTower
+        {
+            get
+            {
+                return Type == TowerType.CornerTower;
+            }
+        }
+
+        public bool IsLineCornerTower
+        {
+            get
+            {
+                return Type == TowerType.LineCornerTower;
+            }
+        }
+
+        public bool IsBranchTower
+        {
+            get
+            {
+                return Type == TowerType.BranchTower;
+            }
+        }
+
+        public bool IsTerminalTower
+        {
+            get
+            {
+                return Type == TowerType.TerminalTower;
+            }
+        }
+
+        public bool IsOtherParasAngleVisible
+        {
+            get
+            {
+                return Type == TowerType.LineTower;
+            }
+        }
+
+        public bool IsTensionTowerVisible
+        {
+            get
+            {
+                return (Type == TowerType.CornerTower || Type == TowerType.TerminalTower || Type == TowerType.BranchTower);
+            }
+        }
 
         public bool IsMethod1Selected { get
             {

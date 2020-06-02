@@ -35,7 +35,6 @@ namespace TowerLoadCals.BLL
         protected float[,] YY { get; set; }
         protected float[,] ZZ { get; set; }
 
-        
 
         protected List<string> ProcessString { get; set; }
 

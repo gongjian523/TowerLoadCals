@@ -43,44 +43,31 @@ namespace TowerLoadCals
         {
             var subMenus = new List<MenuItemVM>() { };
             var weatherMenu = new MenuItemVM("BaseAndLineParasModule", this, "结构计算参数", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            weatherMenu.ParentNode = menuVm;
             subMenus.Add(weatherMenu);
 
             var towerMenu = new MenuItemVM("WorkConditionComboModule", this, "工况组合", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            towerMenu.ParentNode = menuVm;
             subMenus.Add(towerMenu);
 
             var hungingPointMenu = new MenuItemVM("HangingPointModule", this, "挂点设置", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            hungingPointMenu.ParentNode = menuVm;
             subMenus.Add(hungingPointMenu);
 
-            menuVm.MenuItems = subMenus;
+            menuVm.ChildItems = subMenus;
 
             MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
 
-            object vm = new BaseAndLineParasViewModel(menuVm.Title);
-            weatherMenu.Show();
+            weatherMenu.Show(menuVm.Title);
 
         }
 
         private void OnSelectedStruCalsSubModuleChanged(MenuItemVM menuVm)
         {
-            object vm = new object();
-            if(menuVm.Type == "BaseAndLineParasModule")
-            {
-                vm = new BaseAndLineParasViewModel(menuVm.Title);
-            }
-            else if(menuVm.Type == "WorkConditionComboModule")
-            {
-                vm = new WorkConditionComboViewModel(menuVm.Title);
-            }
-            else
-            {
-                vm = new HangingPointViewModel(menuVm.Title);
-            }
-
             IStruCalsBaseViewModel viewModel = NavigationService.Current as IStruCalsBaseViewModel;
-
-            if (curSubModule != menuVm.Title || viewModel.GetTowerType() != menuVm.Title)
+            if (curSubModule != menuVm.Title || (viewModel != null && viewModel.GetTowerType() != menuVm.Title))
             {
-                menuVm.Show(vm);
+                menuVm.Show(viewModel.GetTowerType());
                 curSubModule = menuVm.Title;
             }
         }

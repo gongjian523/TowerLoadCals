@@ -40,16 +40,11 @@ namespace TowerLoadCals
             Icon = ImageSourceHelper.GetImageSource(AssemblyHelper.GetResourceUri(typeof(ModuleInfo).Assembly, string.Format("Images/{0}", icon)));
         }
 
-        public virtual void Show(object vm = null, object parameter = null)
+        public virtual void Show(object parameter = null)
         {
             INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
-            
-            if(vm == null)
-                navigationService.Navigate(Type, parameter, parent);
-            else
-                navigationService.Navigate(vm, parameter, parent);
+            navigationService.Navigate(Type, parameter, parent);
         }
-
 
         public virtual IEnumerable<MenuItemVM> MenuItems { get; set; }
 
@@ -166,6 +161,7 @@ namespace TowerLoadCals
             int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == ((MenuItemVM)menu).Title);
 
             List<StruLineParas> lineParas = new List<StruLineParas>();
+
             for (int i = 0; i < template.Wires.Count; i++)
             {
                 lineParas.Add(new StruLineParas { Index = i + 1, WireType = template.Wires[i] });
@@ -176,15 +172,17 @@ namespace TowerLoadCals
                 globalInfo.StruCalsParas.Add(new StruCalsParas
                 {
                     TowerName = ((MenuItemVM)menu).Title,
-                    TablePath = openTemplateDialog.FileName,
+                    TablePath = openTableDialog.FileName,
                     Template = template,
+                    BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010" , Type = TowerType.LineTower},
                     LineParas = lineParas
                 });
             }
             else
             {
-                globalInfo.StruCalsParas[index].TablePath = openTemplateDialog.FileName;
+                globalInfo.StruCalsParas[index].TablePath = openTableDialog.FileName;
                 globalInfo.StruCalsParas[index].Template = template;
+                globalInfo.StruCalsParas[index].BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010", Type = TowerType.LineTower };
                 globalInfo.StruCalsParas[index].LineParas = lineParas;
             }
 
@@ -223,13 +221,8 @@ namespace TowerLoadCals
 
             if (((MenuItemVM)menu).Title == "直线塔")
             {
-                type = TowerType.LineTower;
-
-                //LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(formulaParas, lineParas, paras.Template, paras.TablePath);
-
-                //string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
-
-                //loadLineTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
+                LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(paras.BaseParas, paras.LineParas.ToArray(), paras.Template, paras.TablePath);
+                loadLineTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
             }
             else if (((MenuItemVM)menu).Title == "直转塔")
             {

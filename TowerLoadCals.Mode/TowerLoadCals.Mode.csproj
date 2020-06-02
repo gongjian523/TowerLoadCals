@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Mvvm.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +48,7 @@
     <Compile Include="Common\TowerSeri.cs" />
     <Compile Include="Common\TowerStPra.cs" />
     <Compile Include="Common\TowerStructure.cs" />
+    <Compile Include="Common\TowerType.cs" />
     <Compile Include="Common\Weather.cs" />
     <Compile Include="Common\WeatherCollection.cs" />
     <Compile Include="Common\WireLib.cs" />

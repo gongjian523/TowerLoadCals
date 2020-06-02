@@ -60,7 +60,6 @@ namespace TowerLoadCals.BLL
             GetTable(tablePath);
         }
 
-
         protected override void ConvertTable(float[][] table)
         {
             
@@ -68,7 +67,7 @@ namespace TowerLoadCals.BLL
 
         protected override void GetTable(string path)
         {
-            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;" + path + ";" + "Extended Properties=Excel 12.0;";
+            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + path + ";" + "Extended Properties=Excel 12.0";
             OleDbConnection conn = new OleDbConnection(strConn);
             conn.Open();
             string strExcel = "";

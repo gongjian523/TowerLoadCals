@@ -10,15 +10,6 @@ namespace TowerLoadCals.DAL
 {
     public class TowerTemplateReader
     {
-        public enum TowerType
-        {
-            LineTower,
-            LineCornerTower,
-            CornerTower,
-            TerminalTower,
-            BranchTower
-        }
-
         public TowerTemplate template = new TowerTemplate();
 
         protected TowerType Type { get; set;}
