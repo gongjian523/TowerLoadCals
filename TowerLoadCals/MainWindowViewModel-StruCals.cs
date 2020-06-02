@@ -11,7 +11,6 @@ using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Modules;
 using TowerLoadCals.ModulesViewModels;
-using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals
 {

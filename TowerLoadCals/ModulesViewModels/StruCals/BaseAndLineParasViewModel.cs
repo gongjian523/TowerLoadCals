@@ -83,26 +83,6 @@ namespace TowerLoadCals.Modules
 
         private void InitializeData(string towerType)
         {
-            //if (towerType == "直线塔")
-            //{
-            //    Type = TowerType.LineTower;
-            //}
-            //else if (towerType == "直转塔")
-            //{
-            //    Type = TowerType.LineCornerTower;
-            //}
-            //else if (towerType == "转角塔")
-            //{
-            //    Type = TowerType.CornerTower;
-            //}
-            //else if (towerType == "分支塔")
-            //{
-            //    Type = TowerType.BranchTower;
-            //}
-            //else
-            //{
-            //    Type = TowerType.TerminalTower;
-            //}
 
             var globalInfo = GlobalInfo.GetInstance();
             int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);

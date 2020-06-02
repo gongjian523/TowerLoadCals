@@ -12,11 +12,10 @@ using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.ModulesViewModels;
-using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Modules
 {
-    public class HangingPointViewModel: IStruCalsBaseViewModel
+    public class HangingPointViewModel: ViewModelBase, IStruCalsBaseViewModel, INotifyPropertyChanged
     {
         protected int num = 0;
         protected TowerTemplate template;
@@ -28,9 +27,22 @@ namespace TowerLoadCals.Modules
         }
         protected HangingPointViewModel()
         {
-            TowerTemplateReader templateReader = new TowerTemplateReader(TowerType.LineTower);
-            template = templateReader.Read("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\塔库\\双回交流重冰区.dat");
-            //Template = templateReader.Read("D:\\智菲\\P-200325-杆塔负荷程序\\双回交流重冰区.dat");
+        }
+
+        protected override void OnParameterChanged(object parameter)
+        {
+            InitializeData((string)parameter);
+        }
+
+        private void InitializeData(string towerType)
+        {
+            var globalInfo = GlobalInfo.GetInstance();
+            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);
+
+            if (index < 0)
+                return;
+
+            var template = globalInfo.StruCalsParas[index].Template;
 
             HangingPoints = new ObservableCollection<HangingPoint>();
             for (num = 1; num < 2; num++)
@@ -314,7 +326,6 @@ namespace TowerLoadCals.Modules
             }
             );
         }
-
 
         public void AddInstallZPoint()
         {

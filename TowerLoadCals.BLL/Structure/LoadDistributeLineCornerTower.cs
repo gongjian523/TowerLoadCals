@@ -144,7 +144,7 @@ namespace TowerLoadCals.BLL
                     continue;
 
                 j = 1;
-                foreach (int wic in wd.WirdIndexCodes)
+                foreach (int wic in wd.WireIndexCodes)
                 {
                     LineParas = LineParasArr[j - 1];
                     formula.SetStrLineParas(LineParas);
@@ -263,7 +263,7 @@ namespace TowerLoadCals.BLL
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j-1];
+            int zhs = wd.WireIndexCodes[j-1];
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
 
@@ -372,7 +372,7 @@ namespace TowerLoadCals.BLL
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j-1];
+            int zhs = wd.WireIndexCodes[j-1];
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -531,7 +531,7 @@ namespace TowerLoadCals.BLL
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
+            int zhs = wd.WireIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -686,7 +686,7 @@ namespace TowerLoadCals.BLL
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
+            int zhs = wd.WireIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -900,7 +900,7 @@ namespace TowerLoadCals.BLL
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
+            int zhs = wd.WireIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
@@ -1092,7 +1092,7 @@ namespace TowerLoadCals.BLL
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
-            int zhs = wd.WirdIndexCodes[j-1], zhsAM;
+            int zhs = wd.WireIndexCodes[j-1], zhsAM;
             int angle = wd.WindDirectionCode;
             int mz1 = Template.WorkConditongs.Count;
             float fh = LineParas.WireExtraLoad / Paras.LoadRatio;

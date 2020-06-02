@@ -154,8 +154,9 @@ namespace TowerLoadCals
             else
                 type = TowerType.TerminalTower;
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(type);
-            TowerTemplate template = TemplateReader.Read(file);
+            TowerTemplateReader templateReader = new TowerTemplateReader(type);
+            TowerTemplate template = templateReader.Read(file);
+            List<WorkConditionComboSpec> workConditions = ConvertTemplateToSpec(template);
 
             var globalInfo = GlobalInfo.GetInstance();
             int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == ((MenuItemVM)menu).Title);
@@ -174,6 +175,7 @@ namespace TowerLoadCals
                     TowerName = ((MenuItemVM)menu).Title,
                     TablePath = openTableDialog.FileName,
                     Template = template,
+                    WorkConditions = workConditions,
                     BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010" , Type = TowerType.LineTower},
                     LineParas = lineParas
                 });
@@ -182,6 +184,7 @@ namespace TowerLoadCals
             {
                 globalInfo.StruCalsParas[index].TablePath = openTableDialog.FileName;
                 globalInfo.StruCalsParas[index].Template = template;
+                globalInfo.StruCalsParas[index].WorkConditions = workConditions;
                 globalInfo.StruCalsParas[index].BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010", Type = TowerType.LineTower };
                 globalInfo.StruCalsParas[index].LineParas = lineParas;
             }
@@ -221,6 +224,7 @@ namespace TowerLoadCals
 
             if (((MenuItemVM)menu).Title == "直线塔")
             {
+                ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
                 LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(paras.BaseParas, paras.LineParas.ToArray(), paras.Template, paras.TablePath);
                 loadLineTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
             }

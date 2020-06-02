@@ -37,7 +37,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 
         /// </summary>
-        public List<int> WirdIndexCodes { get; set; }
+        public List<int> WireIndexCodes { get; set; }
 
         /// <summary>
         /// 注释

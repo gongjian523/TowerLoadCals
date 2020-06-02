@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using TowerLoadCals.Mode;
@@ -138,7 +139,7 @@ namespace TowerLoadCals.DAL
         {
             combo = new WorkConditionCombo()
             {
-                WirdIndexCodes = new List<int>()
+                WireIndexCodes = new List<int>()
             };
 
             string[] aWords = Regex.Split(line.Trim(), "\\s+");
@@ -169,7 +170,7 @@ namespace TowerLoadCals.DAL
 
             for (int i = 1; i <= WireNum; i++)
             {
-                combo.WirdIndexCodes.Add(Convert.ToInt16(aWords[iIndex + i]));
+                combo.WireIndexCodes.Add(Convert.ToInt16(aWords[iIndex + i]));
             }
 
             iIndex++;
@@ -178,7 +179,7 @@ namespace TowerLoadCals.DAL
             combo.WorkComment = aWords[iIndex + WireNum].ToString();
         }
 
-        public List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
+        static public List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
         {
             List<WorkConditionComboSpec> listSpec = new List<WorkConditionComboSpec>();
 
@@ -199,38 +200,46 @@ namespace TowerLoadCals.DAL
                 spec.WindDirectionCode = item.WindDirectionCode;
                 spec.WorkCode = item.WorkCode;
 
-                if (item.WirdIndexCodes.Count >= 1)
-                    spec.Wire1 = item.WirdIndexCodes[0];
-                if (item.WirdIndexCodes.Count >= 2)
-                    spec.Wire2 = item.WirdIndexCodes[1];
-                if (item.WirdIndexCodes.Count >= 3)
-                    spec.Wire3 = item.WirdIndexCodes[2];
-                if (item.WirdIndexCodes.Count >= 4)
-                    spec.Wire4 = item.WirdIndexCodes[3];
-                if (item.WirdIndexCodes.Count >= 5)
-                    spec.Wire5 = item.WirdIndexCodes[4];
-                if (item.WirdIndexCodes.Count >= 6)
-                    spec.Wire6 = item.WirdIndexCodes[5];
-                if (item.WirdIndexCodes.Count >= 7)
-                    spec.Wire7 = item.WirdIndexCodes[6];
-                if (item.WirdIndexCodes.Count >= 8)
-                    spec.Wire8 = item.WirdIndexCodes[7];
-                if (item.WirdIndexCodes.Count >= 9)
-                    spec.Wire9 = item.WirdIndexCodes[8];
-                if (item.WirdIndexCodes.Count >= 10)
-                    spec.Wire10 = item.WirdIndexCodes[9];
-                if (item.WirdIndexCodes.Count >= 11)
-                    spec.Wire11 = item.WirdIndexCodes[10];
-                if (item.WirdIndexCodes.Count >= 12)
-                    spec.Wire12 = item.WirdIndexCodes[11];
-                if (item.WirdIndexCodes.Count >= 13)
-                    spec.Wire13 = item.WirdIndexCodes[12];
-                if (item.WirdIndexCodes.Count >= 14)
-                    spec.Wire14 = item.WirdIndexCodes[13];
-                if (item.WirdIndexCodes.Count >= 15)
-                    spec.Wire15 = item.WirdIndexCodes[14];
-                if (item.WirdIndexCodes.Count >= 16)
-                    spec.Wire16 = item.WirdIndexCodes[15];
+                //if (item.WireIndexCodes.Count >= 1)
+                //    spec.Wire1 = item.WireIndexCodes[0];
+                //if (item.WireIndexCodes.Count >= 2)
+                //    spec.Wire2 = item.WireIndexCodes[1];
+                //if (item.WireIndexCodes.Count >= 3)
+                //    spec.Wire3 = item.WireIndexCodes[2];
+                //if (item.WireIndexCodes.Count >= 4)
+                //    spec.Wire4 = item.WireIndexCodes[3];
+                //if (item.WireIndexCodes.Count >= 5)
+                //    spec.Wire5 = item.WireIndexCodes[4];
+                //if (item.WireIndexCodes.Count >= 6)
+                //    spec.Wire6 = item.WireIndexCodes[5];
+                //if (item.WireIndexCodes.Count >= 7)
+                //    spec.Wire7 = item.WireIndexCodes[6];
+                //if (item.WireIndexCodes.Count >= 8)
+                //    spec.Wire8 = item.WireIndexCodes[7];
+                //if (item.WireIndexCodes.Count >= 9)
+                //    spec.Wire9 = item.WireIndexCodes[8];
+                //if (item.WireIndexCodes.Count >= 10)
+                //    spec.Wire10 = item.WireIndexCodes[9];
+                //if (item.WireIndexCodes.Count >= 11)
+                //    spec.Wire11 = item.WireIndexCodes[10];
+                //if (item.WireIndexCodes.Count >= 12)
+                //    spec.Wire12 = item.WireIndexCodes[11];
+                //if (item.WireIndexCodes.Count >= 13)
+                //    spec.Wire13 = item.WireIndexCodes[12];
+                //if (item.WireIndexCodes.Count >= 14)
+                //    spec.Wire14 = item.WireIndexCodes[13];
+                //if (item.WireIndexCodes.Count >= 15)
+                //    spec.Wire15 = item.WireIndexCodes[14];
+                //if (item.WireIndexCodes.Count >= 16)
+                //    spec.Wire16 = item.WireIndexCodes[15];
+
+                for (int i = 1; i <= item.WireIndexCodes.Count; i++)
+                {
+                    Type specType = spec.GetType();
+                    PropertyInfo specPro = specType.GetProperty("Wire" + i.ToString(), BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
+                    if (specPro != null)
+                        specPro.SetValue(spec, item.WireIndexCodes[i - 1]);
+                }
 
                 spec.WorkComment = item.WorkComment;
 
@@ -238,6 +247,78 @@ namespace TowerLoadCals.DAL
             }
 
             return listSpec;
+        }
+
+
+        static public void ConvertSpeToWorkCondition(TowerTemplate template, List<WorkConditionComboSpec> workConditionSpecs)
+        {
+            List<WorkConditionCombo> workConditions = new List<WorkConditionCombo>();
+
+            foreach (var item in workConditionSpecs)
+            {
+                WorkConditionCombo wcc= new WorkConditionCombo();
+
+                wcc.Index = item.Index;
+                wcc.IsCalculate = item.IsCalculate;
+                wcc.WorkConditionCode = item.WorkConditionCode;
+                if (item.TensionAngleCode != null)
+                    wcc.TensionAngleCode = item.TensionAngleCode;
+                if (item.VertialLoadCode != null)
+                    wcc.VertialLoadCode = item.VertialLoadCode;
+                wcc.WindDirectionCode = item.WindDirectionCode;
+                wcc.WorkCode = item.WorkCode;
+
+                int wireIndexCodesNum = template.WorkConditionCombos[0].WireIndexCodes.Count;
+                wcc.WireIndexCodes = new List<int>();
+
+                //if (wireIndexCodesNum >= 1)
+                //    wcc.WireIndexCodes.Add(item.Wire1);
+                //if (wireIndexCodesNum >= 2)
+                //    wcc.WireIndexCodes.Add(item.Wire2);
+                //if (wireIndexCodesNum >= 3)
+                //    wcc.WireIndexCodes.Add(item.Wire3);
+                //if (wireIndexCodesNum >= 4)
+                //    wcc.WireIndexCodes.Add(item.Wire4);
+                //if (wireIndexCodesNum >= 5)
+                //    wcc.WireIndexCodes.Add(item.Wire5);
+                //if (wireIndexCodesNum >= 6)
+                //    wcc.WireIndexCodes.Add(item.Wire6);
+                //if (wireIndexCodesNum >= 7)
+                //    wcc.WireIndexCodes.Add(item.Wire7);
+                //if (wireIndexCodesNum >= 8)
+                //    wcc.WireIndexCodes.Add(item.Wire8);
+                //if (wireIndexCodesNum >= 9)
+                //    wcc.WireIndexCodes.Add(item.Wire9);
+                //if (wireIndexCodesNum >= 10)
+                //    wcc.WireIndexCodes.Add(item.Wire10);
+                //if (wireIndexCodesNum >= 11)
+                //    wcc.WireIndexCodes.Add(item.Wire11);
+                //if (wireIndexCodesNum >= 12)
+                //    wcc.WireIndexCodes.Add(item.Wire12);
+                //if (wireIndexCodesNum >= 13)
+                //    wcc.WireIndexCodes.Add(item.Wire13);
+                //if (wireIndexCodesNum >= 14)
+                //    wcc.WireIndexCodes.Add(item.Wire14);
+                //if (wireIndexCodesNum >= 15)
+                //    wcc.WireIndexCodes.Add(item.Wire15);
+                //if (wireIndexCodesNum >= 16)
+                //    wcc.WireIndexCodes.Add(item.Wire16);
+
+                for (int i = 1; i <= wireIndexCodesNum; i++)
+                {
+                    Type itemType = item.GetType();
+                    PropertyInfo itemPro = itemType.GetProperty("Wire" + i.ToString(), BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
+                    if (itemPro != null)
+                        wcc.WireIndexCodes.Add(Convert.ToInt16(itemPro.GetValue(item, null)));
+                }
+
+
+                wcc.WorkComment = item.WorkComment;
+
+                workConditions.Add(wcc);
+            }
+
+            template.WorkConditionCombos = workConditions;
         }
     }
 }
