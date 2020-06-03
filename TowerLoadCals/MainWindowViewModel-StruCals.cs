@@ -64,9 +64,9 @@ namespace TowerLoadCals
         private void OnSelectedStruCalsSubModuleChanged(MenuItemVM menuVm)
         {
             IStruCalsBaseViewModel viewModel = NavigationService.Current as IStruCalsBaseViewModel;
-            if (curSubModule != menuVm.Title || (viewModel != null && viewModel.GetTowerType() != menuVm.Title))
+            if (curSubModule != menuVm.Title || (viewModel != null && viewModel.GetTowerType() != menuVm.ParentNode.Title))
             {
-                menuVm.Show(viewModel.GetTowerType());
+                menuVm.Show(menuVm.ParentNode.Title);
                 curSubModule = menuVm.Title;
             }
         }

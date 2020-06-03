@@ -80,7 +80,7 @@ namespace TowerLoadCals.Modules
 
         string IStruCalsBaseViewModel.GetTowerType()
         {
-            throw new NotImplementedException();
+            return towerType;
         }
 
         void IBaseViewModel.Save()

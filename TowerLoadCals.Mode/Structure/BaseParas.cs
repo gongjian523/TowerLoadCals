@@ -2,8 +2,8 @@
 
 namespace TowerLoadCals.Mode
 {
-    //public class FormulaParas : BindableBase
-    public class FormulaParas
+    public class FormulaParas : BindableBase
+    //public class FormulaParas
     {
         protected string _selectedStandard = "GB50545-2010";
         public string SelectedStandard
@@ -15,7 +15,7 @@ namespace TowerLoadCals.Mode
             set
             {
                 _selectedStandard = value;
-                //RaisePropertyChanged("SelectedStandard");
+                RaisePropertyChanged("SelectedStandard");
             }
         }
 
@@ -89,7 +89,13 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Vload_A
         /// </summary>
-        public float RA { get; set; }
+        public float RA
+        {
+            get
+            {
+                return SelectedStandard == "GB50545-2010" ? RQ : 1;
+            }
+        }
 
         /// <summary>
         /// 可变荷载组合系数_运行 GB50545-2010
@@ -124,7 +130,18 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 
         /// 旧名字 Vcb_Y
         /// </summary>
-        public float VcFCheck { get; set; }
+        protected float _vcFCheck;
+        public float VcFCheck
+        {
+            get
+            {
+                return SelectedStandard == "GB50545-2010" ? _vcFCheck : 1;
+            }
+            set
+            {
+                _vcFCheck = value;
+            }
+        }
 
         /// <summary>
         /// 可变荷载组合系数_覆冰
@@ -138,23 +155,45 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Vcb_D
         /// </summary>
-        public float VcFCold { get; set; }
-
-
+        protected float _vcFCold;
+        public float VcFCold
+        {
+            get
+            {
+                return SelectedStandard == "GB50545-2010" ? VcFNormal : _vcFCold;
+            }
+            set
+            {
+                _vcFCold = value;
+            }
+        }
 
         /// <summary>
         /// 有利永久荷载分项系数_验算     
         /// GB50545-2010 DL/T5551-2018 
         /// 旧名字 Dload_Y1
         /// </summary>
-        public float RGCheck01 { get; set; }
+        public float RGCheck01
+        {
+            get
+            {
+                return SelectedStandard == "GB50545-2010" ? RGBad : 1;
+            }
+        }
+
 
         /// <summary>
         /// 有利永久荷载分项系数_验算     
         /// GB50545-2010 DL/T5551-2018 
         /// 旧名字 Dload_Y2
         /// </summary>
-        public float RGCheck02 { get; set; }
+        public float RGCheck02
+        {
+            get
+            {
+                return SelectedStandard == "GB50545-2010" ? RGGood : 1;
+            }
+        }
 
 
         /// <summary>

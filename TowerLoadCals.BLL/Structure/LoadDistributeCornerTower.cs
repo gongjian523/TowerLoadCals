@@ -62,60 +62,18 @@ namespace TowerLoadCals.BLL
         protected float[,] YTB { get; set; }
         protected float[,] ZTB { get; set; }
 
-        //protected List<string>  ProcessString { get; set; }
-
         protected FormulaCornerTower formula;
 
         protected RatioParas Ratio { get; set; }
 
-        public LoadDistributeCornerTower(FormulaParas para, StruLineParas[] lineParas, RatioParas ratioParas,  TowerTemplate template, float[][] table) : base(para, lineParas, template, table)
+        public LoadDistributeCornerTower(FormulaParas para, StruLineParas[] lineParas, RatioParas ratioParas, TowerTemplate template, string tablePath) : base(para, lineParas, template, tablePath)
         {
-
-            //ProcessString = new List<string>();
-            //formula = new FormulaLineTower(para);
-
-            //Paras = para;
-            //LineParasArr = lineParas;
-            //Template = template;
-
-            //ConvertTable(table);
             formula = new FormulaCornerTower(para);
             Ratio = ratioParas;
         }
 
-        public LoadDistributeCornerTower(FormulaParas para, StruLineParas[] lineParas, RatioParas ratioParas, TowerTemplate template) : base(para, lineParas, template)
+        protected override void GetTable(DataSet ds)
         {
-
-            //ProcessString = new List<string>();
-            //formula = new FormulaLineTower(para);
-
-            //Paras = para;
-            //LineParasArr = lineParas;
-            //Template = template;
-            formula = new FormulaCornerTower(para);
-            Ratio = ratioParas;
-            GetTable("D:\\00-项目\\P-200325-杆塔负荷程序\\21.xlsx");
-        }
-
-
-        protected override void ConvertTable(float[][] table)
-        {
-            
-        }
-
-        protected override void GetTable(string path)
-        {
-            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;" + path + ";" + "Extended Properties=Excel 12.0;";
-            OleDbConnection conn = new OleDbConnection(strConn);
-            conn.Open();
-            string strExcel = "";
-            OleDbDataAdapter myCommand = null;
-            DataSet ds = null;
-            strExcel = "select * from [sheet1$]";
-            myCommand = new OleDbDataAdapter(strExcel, strConn);
-            ds = new DataSet();
-            myCommand.Fill(ds, "table1");
-
             //后续计算的序号从1开始
             Wind = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
             GMax = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];

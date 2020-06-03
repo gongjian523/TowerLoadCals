@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
              xmlns:local="clr-namespace:TowerLoadCals.Modules"
              xmlns:cvt="clr-namespace:TowerLoadCals.Converter"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
@@ -215,11 +216,6 @@
                                 </ItemsPanelTemplate>
                             </dxe:ListBoxEdit.ItemsPanel>
                             <dxe:ListBoxEditItem  IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.IsMethod1Selected, Mode=TwoWay}">
-                                <!--<dxe:ListBoxEditItem.ToolTip>
-                                <InlineUIContainer>
-                                    <Image Source="pack://application:,,,/Images/TowerOption.png"/>
-                                </InlineUIContainer>
-                            </dxe:ListBoxEditItem.ToolTip>-->
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox Text="方式1" BorderThickness="0" VerticalAlignment="Center"/>
                                     <Image Source="pack://application:,,,/Images/TowerOption1.png" Width="300" Height="150"/>
@@ -244,15 +240,19 @@
             </StackPanel>
         </ScrollViewer>
 
-       <dxg:GridControl  Grid.Column="1" Margin="8,0,0,0"
-        EnableSmartColumnsGeneration="True" 
-        ItemsSource="{Binding LineParas}"
-        Visibility="{Binding BaseParas.IsTensionTowerVisible,Converter={StaticResource InverseBooleanVisibityConverter}}">
+       <dxg:GridControl  Grid.Column="1" Margin="8,0,0,0" Name="LineTowerGrid" EnableSmartColumnsGeneration="True" 
+                SelectionMode="Cell" ClipboardCopyMode="ExcludeHeader" ItemsSource="{Binding LineParas}" PreviewMouseDown="lineTowerGrid_PreviewMouseDown"
+                Visibility="{Binding BaseParas.IsTensionTowerVisible,Converter={StaticResource InverseBooleanVisibityConverter}}">
             <dxg:GridControl.View>
-                <dxg:TableView ShowGroupPanel="False"  AutoWidth="True"  EnableImmediatePosting="True" />
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}" Name="LineTowerView"  PasteMode="Update">
+                    <dxg:TableView.RowCellMenuCustomizations>
+                        <dxb:BarButtonItem Name="copyCellData" Content="复制" ItemClick="copyCellData_ItemClick" />
+                        <dxb:BarButtonItem Name="pasteCellData" Content="粘贴" ItemClick="pasteCellData_ItemClick" />
+                    </dxg:TableView.RowCellMenuCustomizations>
+                </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="WireType"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center"  AllowEditing="false"/>
+            <dxg:GridColumn FieldName="WireType"  Header="说明" HorizontalHeaderContentAlignment="Center" AllowEditing="false"/>
             <dxg:GridColumn FieldName="HoistingCoef"  Header="吊荷系数" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="WireExtraLoad"  Header="附加荷载" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="AnchorTension"  Header="锚线张力" HorizontalHeaderContentAlignment="Center"  Visible="{Binding BaseParas.IsLineTower}"/>
@@ -261,19 +261,23 @@
             <dxg:GridColumn FieldName="AngleMax"  Header="最大转角" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsLineCornerTower}"/>
             <dxg:GridColumn FieldName="DrawingCoef"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center" />
         </dxg:GridControl>
-        <dxg:GridControl Grid.Column="1" Margin="8,0"
-        EnableSmartColumnsGeneration="False" 
-        ItemsSource="{Binding LineParas}"
-        Visibility="{Binding BaseParas.IsTensionTowerVisible,Converter={StaticResource BooleanVisibityConverter}}" >
+        <dxg:GridControl Grid.Column="1" Margin="8,0,0,0" Name="TensionTowerGrid" EnableSmartColumnsGeneration="False"
+                SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" ItemsSource="{Binding LineParas}"  PreviewMouseDown="tensionTowerGrid_PreviewMouseDown"
+                Visibility="{Binding BaseParas.IsTensionTowerVisible,Converter={StaticResource BooleanVisibityConverter}}" >
             <dxg:GridControl.View>
-                <dxg:TableView ShowGroupPanel="False" AutoWidth="True" EnableImmediatePosting="True" />
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}" Name="TensionTowerView" PasteMode="Update">
+                    <dxg:TableView.RowCellMenuCustomizations>
+                        <dxb:BarButtonItem Content="复制" ItemClick="copyCellData_ItemClick" />
+                        <dxb:BarButtonItem Content="粘贴" ItemClick="pasteCellData_ItemClick" />
+                    </dxg:TableView.RowCellMenuCustomizations>
+                </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" >
+            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" AllowEditing="false">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-            <dxg:GridColumn FieldName="WireType"  Header="说明" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="WireType"  Header="说明" HorizontalHeaderContentAlignment="Center"  AllowEditing="false"/>
             <dxg:GridColumn FieldName="TstringNum"  Header="跳串数目" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="WireExtraLoad"  Header="线条附荷" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="TwireExtraLoad"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center"/>

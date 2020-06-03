@@ -13,71 +13,23 @@ namespace TowerLoadCals.BLL
     /// </summary>
     public class LoadDistributeLineTower:LoadDistributeBase
     {
-        ///// <summary>
-        ///// 从界面获取的公共参数
-        ///// </summary>
-        //protected FormulaParas Paras { get; set; }
-
-        ///// <summary>
-        ///// 从界面获取的先参数
-        ///// </summary>
-        //protected StruLineParas[] LineParasArr { get; set; }
-        //protected StruLineParas LineParas { get; set; }
-
-        ///// <summary>
-        ///// 模板参数
-        ///// </summary>
-        //protected TowerTemplate Template { get; set; }
-
         protected float[,] Wind { get; set; }
 
         protected float[,] GMax { get; set; }
-
         protected float[,] GMin { get; set; }
 
         protected float[,] TensionMax { get; set; }
-
         protected float[,] TensionMin { get; set; }
-
-        //protected float [,] XX { get; set; }
-        //protected float[,] YY { get; set; }
-        //protected float[,] ZZ { get; set; }
-
-        //protected List<string>  ProcessString { get; set; }
 
         protected FormulaLineTower formula;
 
-        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, string tablePath) : base(para, lineParas, template)
+        public LoadDistributeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, string tablePath) : base(para, lineParas, template, tablePath)
         {
-
-            //ProcessString = new List<string>();
-            //formula = new FormulaLineTower(para);
-
-            //Paras = para;
-            //LineParasArr = lineParas;
-            //Template = template;
             formula = new FormulaLineTower(para);
-            GetTable(tablePath);
         }
 
-        protected override void ConvertTable(float[][] table)
+        protected override void GetTable(DataSet ds)
         {
-            
-        }
-
-        protected override void GetTable(string path)
-        {
-            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + path + ";" + "Extended Properties=Excel 12.0";
-            OleDbConnection conn = new OleDbConnection(strConn);
-            conn.Open();
-            string strExcel = "";
-            OleDbDataAdapter myCommand = null;
-            DataSet ds = null;
-            strExcel = "select * from [sheet1$]";
-            myCommand = new OleDbDataAdapter(strExcel, strConn);
-            ds = new DataSet();
-            myCommand.Fill(ds, "table1");
-
             //后续计算的序号从1开始
             Wind = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
             GMax = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
