@@ -24,6 +24,7 @@ namespace TowerLoadCals.Modules
     public class WireViewModel: DaseDataBaseViewModel<Wire, List<WireType>>
     {
         public DelegateCommand CopyRowCommand { get; private set; }
+        public DelegateCommand PasteRowCommand { get; private set; }
 
         protected WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
 
@@ -35,6 +36,9 @@ namespace TowerLoadCals.Modules
             base.InitializeItemsSource();
 
             filePath = globalInfo.ProjectPath + "\\BaseData\\Wire.xml";
+
+            CopyRowCommand = new DelegateCommand(CopyRow);
+            PasteRowCommand = new DelegateCommand(PasteRow);
         }
 
         protected override void InitializeData()
@@ -42,6 +46,7 @@ namespace TowerLoadCals.Modules
             BaseData = WireReader.Read(filePath);
 
             UpdateCurrentSelectedWire("导线");
+
         
         }
 
@@ -77,6 +82,16 @@ namespace TowerLoadCals.Modules
             {
                 BaseData[index].Wires = SelectedItems.ToList();
             }
+        }
+
+        protected void CopyRow()
+        {
+            ;
+        }
+
+        protected void PasteRow()
+        {
+            ;
         }
 
 

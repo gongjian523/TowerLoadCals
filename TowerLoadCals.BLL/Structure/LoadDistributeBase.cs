@@ -23,16 +23,6 @@ namespace TowerLoadCals.BLL
         /// </summary>
         protected TowerTemplate Template { get; set; }
 
-        //protected float[,] Wind { get; set; }
-
-        //protected float[,] GMax { get; set; }
-
-        //protected float[,] GMin { get; set; }
-
-        //protected float[,] TensionMax { get; set; }
-
-        //protected float[,] TensionMin { get; set; }
-
         protected float[,] XX { get; set; }
         protected float[,] YY { get; set; }
         protected float[,] ZZ { get; set; }
@@ -53,15 +43,12 @@ namespace TowerLoadCals.BLL
 
         protected DataSet ReadExcel(string path)
         {
-            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + path + ";" + "Extended Properties=Excel 12.0";
+            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0";
             OleDbConnection conn = new OleDbConnection(strConn);
             conn.Open();
-            string strExcel = "";
-            OleDbDataAdapter myCommand = null;
-            DataSet ds = null;
-            strExcel = "select * from [sheet1$]";
-            myCommand = new OleDbDataAdapter(strExcel, strConn);
-            ds = new DataSet();
+            string strExcel = "select * from [sheet1$]";
+            OleDbDataAdapter myCommand = new OleDbDataAdapter(strExcel, strConn);
+            DataSet ds = new DataSet();
             myCommand.Fill(ds, "table1");
             return ds;
         }

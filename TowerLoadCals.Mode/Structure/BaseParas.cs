@@ -34,17 +34,7 @@ namespace TowerLoadCals.Mode
         /// </summary>
         //protected float _riInstall;
         public float R1Install { get; set; }
-        //{
-        //    get
-        //    {
-        //        return _riInstall;
-        //    }
-        //    set
-        //    {
-        //        _riInstall = value;
-        //        //RaisePropertyChanged("R1Install"); 
-        //    }
-        //}
+
 
         /// <summary>
         /// 结构重要性系数_其他     
@@ -311,13 +301,6 @@ namespace TowerLoadCals.Mode
             }
         }
 
-        public bool IsMethod1Selected { get
-            {
-                return SelectedMothed == "方式1";
-            }
-        }
-
-        public string SelectedMothed { get; set; }
-
+        public bool IsMethod1Selected { get; set; }
     }
 }

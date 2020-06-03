@@ -176,7 +176,7 @@ namespace TowerLoadCals
                     TablePath = openTableDialog.FileName,
                     Template = template,
                     WorkConditions = workConditions,
-                    BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010" , Type = TowerType.LineTower},
+                    BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010" , Type = type, IsMethod1Selected = true},
                     LineParas = lineParas
                 });
             }
@@ -185,7 +185,7 @@ namespace TowerLoadCals
                 globalInfo.StruCalsParas[index].TablePath = openTableDialog.FileName;
                 globalInfo.StruCalsParas[index].Template = template;
                 globalInfo.StruCalsParas[index].WorkConditions = workConditions;
-                globalInfo.StruCalsParas[index].BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010", Type = TowerType.LineTower };
+                globalInfo.StruCalsParas[index].BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010", Type = type, IsMethod1Selected = true };
                 globalInfo.StruCalsParas[index].LineParas = lineParas;
             }
 
@@ -245,6 +245,14 @@ namespace TowerLoadCals
                 type = TowerType.TerminalTower;
 
             }
+
+        }
+
+
+        public void NewMenuItem(MenuItemVM menu)
+        {
+
+            ;
 
         }
 

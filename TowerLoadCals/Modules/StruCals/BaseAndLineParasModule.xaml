@@ -165,7 +165,6 @@
                             <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,0,4"   Text="安装动力系数" VerticalAlignment="Center"  />
                             <dxe:TextEdit Grid.Row="2" Grid.Column="1"  Margin="0,0,0,4"   Text="{Binding BaseParas.DynamicCoef,  UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
-
                         <Grid Grid.Row="1" Visibility="{Binding BaseParas.IsOtherParasAngleVisible,Converter={StaticResource BooleanVisibityConverter}}" >
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -205,8 +204,7 @@
                 </GroupBox>
                 <GroupBox Header="耐张塔扭转计算组合方式" Margin="0,5,0,0" >
                     <StackPanel  Orientation="Vertical">
-                        <dxe:ListBoxEdit ShowBorder="False" Background="{x:Null}" SelectedIndex="0" Margin="0,0,0,4"  
-                                     SelectedItem = "{Binding SelectedMothed, UpdateSourceTrigger=PropertyChanged}">
+                        <dxe:ListBoxEdit ShowBorder="False" Margin="0,0,0,4">
                             <dxe:ListBoxEdit.StyleSettings>
                                 <dxe:RadioListBoxEditStyleSettings />
                             </dxe:ListBoxEdit.StyleSettings>
@@ -215,18 +213,13 @@
                                     <StackPanel Orientation="Vertical" />
                                 </ItemsPanelTemplate>
                             </dxe:ListBoxEdit.ItemsPanel>
-                            <dxe:ListBoxEditItem  IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.IsMethod1Selected, Mode=TwoWay}">
+                            <dxe:ListBoxEditItem  IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.BaseParas.IsMethod1Selected, Mode=TwoWay}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox Text="方式1" BorderThickness="0" VerticalAlignment="Center"/>
                                     <Image Source="pack://application:,,,/Images/TowerOption1.png" Width="300" Height="150"/>
                                 </StackPanel>
                             </dxe:ListBoxEditItem>
-                            <dxe:ListBoxEditItem IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.IsMethod2Selected, Mode=TwoWay}">
-                                <!--<dxe:ListBoxEditItem.ToolTip>
-                                <InlineUIContainer>
-                                    <Image Source="pack://application:,,,/Images/TowerOption.png"/>
-                                </InlineUIContainer>
-                            </dxe:ListBoxEditItem.ToolTip>-->
+                            <dxe:ListBoxEditItem IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.BaseParas.IsMethod1Selected, Mode=TwoWay, Converter={StaticResource InverseBooleanConverter}}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox Text="方式2" BorderThickness="0" VerticalAlignment="Center"/>
                                     <Image Source="pack://application:,,,/Images/TowerOption2.png" Width="300" Height="150"/>
@@ -235,7 +228,6 @@
                         </dxe:ListBoxEdit>
                         <TextBlock  TextWrapping="Wrap" Text="为与excel表格一致，在单回直流中采用方式1，在其它情况下采用方式2，注意上拔垂荷填写要求。"/>
                     </StackPanel>
-
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>

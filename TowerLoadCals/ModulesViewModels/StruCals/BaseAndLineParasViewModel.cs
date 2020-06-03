@@ -70,8 +70,6 @@ namespace TowerLoadCals.Modules
         public bool IsMethod1Selected { get; set; }
         public bool IsMethod2Selected { get; set; }
 
-        public string  SelectedMothed { get; set; }
-
         public BaseAndLineParasViewModel()
         {
         }
@@ -99,7 +97,9 @@ namespace TowerLoadCals.Modules
 
         public void Save()
         {
-            var sss  = LineParas; 
+            var sss  = IsMethod1Selected;
+            var sssw = IsMethod2Selected;
+            var ssss = BaseParas.IsMethod1Selected;
         }
 
         public void UpDateView(string para1, string para2)

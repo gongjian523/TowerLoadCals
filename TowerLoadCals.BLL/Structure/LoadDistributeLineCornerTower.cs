@@ -46,15 +46,15 @@ namespace TowerLoadCals.BLL
                     object obj = ds.Tables[0].Rows[4 + 7 * (i - 1)][j];
                     float.TryParse(obj.ToString(), out Wind[i, j]);
                     object obj2 = ds.Tables[0].Rows[5 + 7 * (i - 1)][j];
-                    float.TryParse(obj.ToString(), out Wind[i, j]);
+                    float.TryParse(obj2.ToString(), out Windx[i, j]);
                     object obj3 = ds.Tables[0].Rows[6 + 7 * (i - 1)][j];
-                    float.TryParse(obj2.ToString(), out GMax[i, j]);
+                    float.TryParse(obj3.ToString(), out GMax[i, j]);
                     object obj4 = ds.Tables[0].Rows[7 + 7 * (i - 1)][j];
-                    float.TryParse(obj3.ToString(), out GMin[i, j]);
+                    float.TryParse(obj4.ToString(), out GMin[i, j]);
                     object obj5 = ds.Tables[0].Rows[8 + 7 * (i - 1)][j];
-                    float.TryParse(obj4.ToString(), out TensionMax[i, j]);
+                    float.TryParse(obj5.ToString(), out TensionMax[i, j]);
                     object obj6 = ds.Tables[0].Rows[9 + 7 * (i - 1)][j];
-                    float.TryParse(obj5.ToString(), out TensionMin[i, j]);
+                    float.TryParse(obj6.ToString(), out TensionMin[i, j]);
                 }
             }
         }
