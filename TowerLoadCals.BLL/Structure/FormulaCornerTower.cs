@@ -22,7 +22,7 @@ namespace TowerLoadCals.BLL
         {
             float res = Paras.LoadRatio * Paras.RQ * a5 * (Paras.WindAdjustFactor * AngX(a1) * a3 + a4 * (float)Math.Sin(a2 * PI / 180)) * BL3;
 
-            str = Paras.LoadRatio + " x " +  Paras.RQ + " x " + a5 + " x (" + Paras.WindAdjustFactor + " x " +  AngX(a1) + " x " + a3 + " + " +  a4 + " x sin(" + a2 + ") x " + BL3;
+            str = Paras.LoadRatio + " x " +  Paras.RQ + " x " + a5 + " x (" + Paras.WindAdjustFactor + " x " +  AngX(a1) + " x " + a3 + " + " +  a4 + " x sin(" + a2 + ")) x " + BL3;
 
             if (nt.HasValue)
             {
@@ -52,7 +52,7 @@ namespace TowerLoadCals.BLL
         public float ZNY(out string str, float a1, float a2, float a3, float a4, float a5, int? nt = null, float? BLT = null)
         {
             float res = Paras.LoadRatio * Paras.RQ * a5 * (Paras.WindAdjustFactor * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + a5 + " x (" + Paras.WindAdjustFactor + " x " + AngY(a1) + " x " + a3 + " + " + a4 + " x cos(" + a2 + ")";
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + a5 + " x (" + Paras.WindAdjustFactor + " x " + AngY(a1) + " x " + a3 + " + " + a4 + " x cos(" + a2 + "))";
 
             if (nt.HasValue)
             {
@@ -122,7 +122,7 @@ namespace TowerLoadCals.BLL
         public float ZIBUYX(out string str, float a1, float a2, float a3, float a4, float a5, float a6,  int BL3, int? nt = null, float? BLT = null)
         {
             float res = Paras.LoadRatio * a6 * a5 * (Paras.OtherWindAdjustFactor * AngX(a1) * a3 + a4 * (float)Math.Sin(a2 * PI / 180)) * BL3;
-            str = Paras.LoadRatio + " x " + a6 + " x " + a5 + " x (" + Paras.OtherWindAdjustFactor + " x " + AngX(a1) + " x " + a3 + " + " + " x sin(" + a2 + ")) x " + BL3;
+            str = Paras.LoadRatio + " x " + a6 + " x " + a5 + " x (" + Paras.OtherWindAdjustFactor + " x " + AngX(a1) + " x " + a3 + " + " + a4 + " x sin(" + a2 + ")) x " + BL3;
 
             if (nt.HasValue)
             {
@@ -153,7 +153,16 @@ namespace TowerLoadCals.BLL
         public float ZIBUYY(out string str, float a1, float a2, float a3, float a4, float a5, float a6, int? nt = null, float? BLT = null)
         {
             float res =  Paras.LoadRatio * a6 * a5 * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 + a4 * (float)Math.Cos(a2 * PI / 180));
-            str = Paras.LoadRatio + " x " + a6 + " x " + a5 + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a3 + " + " + a4 + " x cos(" + a2 + ")";
+            str = Paras.LoadRatio + " x " + a6 + " x " + a5 + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a3;
+
+            if (a4 >= 0)
+            {
+                str = str  +" + " + a4 + " x cos(" + a2 + "))";
+            }
+            else
+            {
+                str = str + " - " + Math.Abs(a4) + " x cos(" + a2 + "))";
+            }
 
             if (nt.HasValue)
             {

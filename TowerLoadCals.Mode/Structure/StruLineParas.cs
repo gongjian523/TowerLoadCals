@@ -74,7 +74,7 @@ namespace TowerLoadCals.Mode
         /// 跳串数目
         /// 旧名称 nt 转角塔
         /// </summary>
-        public float TstringNum { get; set; }
+        public int TstringNum { get; set; }
 
         /// <summary>
         /// 跳线附加荷载   

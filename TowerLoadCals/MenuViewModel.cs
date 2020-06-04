@@ -230,11 +230,15 @@ namespace TowerLoadCals
             }
             else if (((MenuItemVM)menu).Title == "直转塔")
             {
-                type = TowerType.LineCornerTower;
+                ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
+                LoadDistributeLineCornerTower loadLineCornerTower = new LoadDistributeLineCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.Template, paras.TablePath);
+                loadLineCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
             }
             else if (((MenuItemVM)menu).Title == "转角塔")
             {
-                type = TowerType.CornerTower;
+                //ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
+                //LoadDistributeCornerTower loadCornerTower = new LoadDistributeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.Template, paras.TablePath);
+                //loadLineCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
             }
             else if (((MenuItemVM)menu).Title == "分支塔")
             {

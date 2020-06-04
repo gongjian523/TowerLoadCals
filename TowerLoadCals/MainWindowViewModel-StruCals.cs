@@ -32,7 +32,22 @@ namespace TowerLoadCals
             menu2.CalsBtnVisible = Visibility.Visible;
             menu2.LoadBtnVisible = Visibility.Visible;
             menuItems.Add(menu2);
-            
+
+            MenuItemVM menu3 = new MenuItemVM("", this, "转角塔", (e) => { OnSelectedStruCalsTowersChanged(e); }, Visibility.Visible);
+            menu3.CalsBtnVisible = Visibility.Visible;
+            menu3.LoadBtnVisible = Visibility.Visible;
+            menuItems.Add(menu3);
+
+            MenuItemVM menu4 = new MenuItemVM("", this, "分支塔", (e) => { OnSelectedStruCalsTowersChanged(e); }, Visibility.Visible);
+            menu4.CalsBtnVisible = Visibility.Visible;
+            menu4.LoadBtnVisible = Visibility.Visible;
+            menuItems.Add(menu4);
+
+            MenuItemVM menu5 = new MenuItemVM("", this, "终端塔", (e) => { OnSelectedStruCalsTowersChanged(e); }, Visibility.Visible);
+            menu5.CalsBtnVisible = Visibility.Visible;
+            menu5.LoadBtnVisible = Visibility.Visible;
+            menuItems.Add(menu5);
+
             baseDataMudule.MenuItems = menuItems;
 
             return baseDataMudule;

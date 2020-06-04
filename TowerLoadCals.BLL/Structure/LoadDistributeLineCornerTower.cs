@@ -285,9 +285,9 @@ namespace TowerLoadCals.BLL
             }
 
             //与直线塔有所差别，需要考虑角度力的影响，张力按角度在X向有所分离，在Y向存在荷载，下同
-            XX[i, j] = formula.ZZNX(angle, x1, y1, y2, zjiao, Vcb, out string strX);
-            YY[i, j] = formula.ZZNY(angle, x1, y1, y2, zjiao, Vcb, out string strY);
-            ZZ[i, j] = formula.ZZNZ(zg, rg, Vcb, out string strZ);
+            XX[i, j - 1] = formula.ZZNX(angle, x1, y1, y2, zjiao, Vcb, out string strX);
+            YY[i, j - 1] = formula.ZZNY(angle, x1, y1, y2, zjiao, Vcb, out string strY);
+            ZZ[i, j - 1] = formula.ZZNZ(zg, rg, Vcb, out string strZ);
 
             ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
             ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -319,13 +319,13 @@ namespace TowerLoadCals.BLL
             {
                 if( wd.TensionAngleCode == "D" )
                 {
-                    x1 = Wind[j, zhs];
+                    x1 = Wind[j, zhsM];
                     zjiao = LineParas.AngleMax;
                 } 
                 //else if( wd.TensionAngleCode == "X" )
                 else
                 {
-                    x1 = Windx[j, zhs];
+                    x1 = Windx[j, zhsM];
                     zjiao = LineParas.AngleMin;
                 }
 
@@ -340,20 +340,20 @@ namespace TowerLoadCals.BLL
             {
                 if( wd.TensionAngleCode == "D" )
                 {
-                    x1 = Wind[j, zhs];
+                    x1 = Wind[j, zhsM];
                     zjiao = LineParas.AngleMax;
                 }
                 //else if( wd.TensionAngleCode == "X" )
                 else
                 {
-                    x1 = Windx[j, zhs];
+                    x1 = Windx[j, zhsM];
                     zjiao = LineParas.AngleMin;
                 }
-                y1 = TensionMin[j, zhs];
-                y2 = TensionMax[j, zhs];
-                z1 = GMax[j, zhs];
+                y1 = TensionMin[j, zhsM];
+                y2 = TensionMax[j, zhsM];
+                z1 = GMax[j, zhsM];
                 z2 = GMax[j, 1];
-                z3 = GMin[j, zhs];
+                z3 = GMin[j, zhsM];
                 z4 = GMin[j, 1];
             }
             else 
@@ -445,9 +445,9 @@ namespace TowerLoadCals.BLL
                 Vloadx = Paras.RA;
             }
 
-            XX[i, j] = formula.ZZIYX(angle, x1, y1, y2, zjiao, fhn, Vloadx, out string strX);
-            YY[i, j] = formula.ZZIYY(angle, x1, y1, y2, zjiao, fhn, Vloadx, out string strY);
-            ZZ[i, j] = formula.ZZIYZ(zg1, zg, rg, fhn, Vloadx, out string strZ);
+            XX[i, j - 1] = formula.ZZIYX(angle, x1, y1, y2, zjiao, fhn, Vloadx, out string strX);
+            YY[i, j - 1] = formula.ZZIYY(angle, x1, y1, y2, zjiao, fhn, Vloadx, out string strY);
+            ZZ[i, j - 1] = formula.ZZIYZ(zg1, zg, rg, fhn, Vloadx, out string strZ);
 
             ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
             ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -518,9 +518,9 @@ namespace TowerLoadCals.BLL
 
 
                 //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i, j] = formula.ZZTX(angle, x1, y1, y2, zjiao, out string strX);
-                YY[i, j] = formula.ZZTY(angle, x1, y1, y2, zjiao, out string strY);
-                ZZ[i, j] = formula.ZZTZ2(z2, z1, out string strZ);
+                XX[i, j - 1] = formula.ZZTX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j - 1] = formula.ZZTY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j - 1] = formula.ZZTZ2(z2, z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -586,9 +586,9 @@ namespace TowerLoadCals.BLL
                     z4 = GMin[j, 1];
                 }
 
-                XX[i, j] = formula.ZZTX(angle, x1, y1, y2, zjiao, out string strX);
-                YY[i, j] = formula.ZZTY(angle, x1, y1, y2, zjiao, out string strY);
-                ZZ[i, j] = formula.ZZTZ1(z4, z3, out string strZ);
+                XX[i, j - 1] = formula.ZZTX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j - 1] = formula.ZZTY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j - 1] = formula.ZZTZ1(z4, z3, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -669,9 +669,9 @@ namespace TowerLoadCals.BLL
                 }
 
                 //j从1开始计数，但是XX YY ZZ 从0开始
-                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
-                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
-                ZZ[i, j] = formula.ZZLZ1(z1, out string strZ);
+                XX[i, j - 1] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j - 1] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j - 1] = formula.ZZLZ1(z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -683,8 +683,8 @@ namespace TowerLoadCals.BLL
                 // 包含检修提线和吊装
                 if (zhs > 1000)
                 {
-                    fhn = Math.Abs(zhs) / 100;
-                    zhsAM = Math.Abs(zhs) % 100;
+                    fhn = Math.Abs(zhs) / 1000;
+                    zhsAM = Math.Abs(zhs) % 1000;
 
                     if (zhsAM > mz1)
                     {
@@ -713,8 +713,8 @@ namespace TowerLoadCals.BLL
                 else if(zhs < -1000)
                 {
 
-                    fhn = Math.Abs(zhs) / 100;
-                    zhsAM = Math.Abs(zhs) % 100;
+                    fhn = Math.Abs(zhs) / 1000;
+                    zhsAM = Math.Abs(zhs) % 1000;
 
                     if (zhsAM > mz1)
                     {
@@ -800,9 +800,9 @@ namespace TowerLoadCals.BLL
                     zg = 1.0f;
                 }
 
-                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
-                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
-                ZZ[i, j] = formula.ZZLZ2(z1, zg, fh, fhn, out string strZ);
+                XX[i, j - 1] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j - 1] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j - 1] = formula.ZZLZ2(z1, zg, fh, fhn, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -886,9 +886,9 @@ namespace TowerLoadCals.BLL
                     fuhao = -1;
                 }
 
-                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
-                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
-                ZZ[i, j] = formula.ZZLZ1(z1, out string strZ);
+                XX[i, j - 1] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j - 1] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j - 1] = formula.ZZLZ1(z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -971,9 +971,9 @@ namespace TowerLoadCals.BLL
                 z4 = GMin[j, 1];
                 fuhao = -1;
 
-                XX[i, j] = formula.ZZGX(angle, x1, y1, y2, zjiao, LineParas.PulleyTensionDif,  out string strX);
-                YY[i, j] = formula.ZZGY(angle, x1, y1, y2, zjiao, LineParas.PulleyTensionDif * fuhao, out string strY);
-                ZZ[i, j] = formula.ZZGZ(z2, z1, fh, fhn, out string strZ);
+                XX[i, j - 1] = formula.ZZGX(angle, x1, y1, y2, zjiao, LineParas.PulleyTensionDif,  out string strX);
+                YY[i, j - 1] = formula.ZZGY(angle, x1, y1, y2, zjiao, LineParas.PulleyTensionDif * fuhao, out string strY);
+                ZZ[i, j - 1] = formula.ZZGZ(z2, z1, fh, fhn, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -983,23 +983,23 @@ namespace TowerLoadCals.BLL
                 {
                     float angf = 0;
                     //float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
-                    XX[i, j + lz - dxl] = (float)(-ZZ[i, j] * Math.Sin(angf * Math.PI / 180));
-                    YY[i, j + lz - dxl] = YY[i, j];
-                    ZZ[i, j + lz - dxl] = (float)(ZZ[i, j] + ZZ[i, j] * Math.Cos(angf * Math.PI / 180));
+                    XX[i, j - 1 + lz - dxl] = (float)(-ZZ[i, j - 1] * Math.Sin(angf * Math.PI / 180));
+                    YY[i, j - 1 + lz - dxl] = YY[i, j - 1];
+                    ZZ[i, j - 1 + lz - dxl] = (float)(ZZ[i, j - 1] + ZZ[i, j - 1] * Math.Cos(angf * Math.PI / 180));
 
-                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fx= -" + ZZ[i, j].ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j + lz - dxl].ToString("0.00"));
-                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fy= " + YY[i, j].ToString("0.00"));
-                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fz= " + ZZ[i, j].ToString("0.00") + " + " + ZZ[i, j].ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j + lz - dxl].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fx= -" + ZZ[i, j - 1].ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j + lz - dxl].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fy= " + YY[i, j - 1].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fz= " + ZZ[i, j - 1].ToString("0.00") + " + " + ZZ[i, j - 1].ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j - 1 + lz - dxl].ToString("0.00"));
 
-                    float fzz = XX[i, j];
-                    float fzz1 = ZZ[i, j];
-                    XX[i, j] = XX[i, j] + ZZ[i, j] * (float)Math.Sin(angf * Math.PI / 180);
-                    YY[i, j] = YY[i, j];
-                    ZZ[i, j] = ZZ[i, j] - ZZ[i, j] * (float)Math.Cos(angf * Math.PI / 180);
+                    float fzz = XX[i, j - 1];
+                    float fzz1 = ZZ[i, j - 1];
+                    XX[i, j - 1] = XX[i, j - 1] + ZZ[i, j - 1] * (float)Math.Sin(angf * Math.PI / 180);
+                    YY[i, j - 1] = YY[i, j - 1];
+                    ZZ[i, j - 1] = ZZ[i, j - 1] - ZZ[i, j - 1] * (float)Math.Cos(angf * Math.PI / 180);
 
-                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fx= " + fzz.ToString("0.00") + " + " + fzz1.ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j].ToString("0.00"));
-                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fy= " + YY[i, j].ToString("0.00"));
-                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fz= " + fzz1.ToString("0.00") + " - " + fzz1.ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fx= " + fzz.ToString("0.00") + " + " + fzz1.ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j - 1].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fy= " + YY[i, j - 1].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fz= " + fzz1.ToString("0.00") + " - " + fzz1.ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j - 1].ToString("0.00"));
                 }
             }
             else if (zhs == 0)
@@ -1076,9 +1076,9 @@ namespace TowerLoadCals.BLL
                 }
 
                 //已安装，无附加荷载
-                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
-                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
-                ZZ[i, j] = formula.ZZLZ1(z1, out string strZ);
+                XX[i, j - 1] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j - 1] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j - 1] = formula.ZZLZ1(z1, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1169,9 +1169,9 @@ namespace TowerLoadCals.BLL
                     fhn = 0;
                 }
 
-                XX[i, j] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
-                YY[i, j] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
-                ZZ[i, j] = formula.ZZCZ(z1, LineParas.HoistingCoef, fhn, fh, out string strZ);
+                XX[i, j - 1] = formula.ZZLX(angle, x1, y1, y2, zjiao, out string strX);
+                YY[i, j - 1] = formula.ZZLY(angle, x1, y1, y2, zjiao, out string strY);
+                ZZ[i, j - 1] = formula.ZZCZ(z1, LineParas.HoistingCoef, fhn, fh, out string strZ);
 
                 ProcessString.Add(Template.Wires[j-1] + " Fx= " + strX);
                 ProcessString.Add(Template.Wires[j-1] + " Fy= " + strY);
@@ -1181,23 +1181,23 @@ namespace TowerLoadCals.BLL
                 {
                     float angf = 0;
                     //float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
-                    XX[i, j + lz - dxl] = (float)(-ZZ[i, j] * Math.Sin(angf * Math.PI / 180));
-                    YY[i, j + lz - dxl] = YY[i, j];
-                    ZZ[i, j + lz - dxl] = (float)(ZZ[i, j] + ZZ[i, j] * Math.Cos(angf * Math.PI / 180));
+                    XX[i, j - 1 + lz - dxl] = (float)(-ZZ[i, j - 1] * Math.Sin(angf * Math.PI / 180));
+                    YY[i, j - 1 + lz - dxl] = YY[i, j - 1];
+                    ZZ[i, j - 1 + lz - dxl] = (float)(ZZ[i, j - 1] + ZZ[i, j - 1] * Math.Cos(angf * Math.PI / 180));
 
-                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fx= -" + ZZ[i, j].ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j + lz - dxl].ToString("0.00"));
-                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fy= " + YY[i, j].ToString("0.00"));
-                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fz= " + ZZ[i, j].ToString("0.00") + " + " + ZZ[i, j].ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j + lz - dxl].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fx= -" + ZZ[i, j - 1].ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j - 1 + lz - dxl].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fy= " + YY[i, j - 1].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "转向处 Fz= " + ZZ[i, j - 1].ToString("0.00") + " + " + ZZ[i, j - 1].ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j - 1 + lz - dxl].ToString("0.00"));
 
-                    float fzz = XX[i, j];
-                    float fzz1 = ZZ[i, j];
-                    XX[i, j] = XX[i, j] + ZZ[i, j] * (float)Math.Sin(angf * Math.PI / 180);
-                    YY[i, j] = YY[i, j];
-                    ZZ[i, j] = ZZ[i, j] - ZZ[i, j] * (float)Math.Cos(angf * Math.PI / 180);
+                    float fzz = XX[i, j - 1];
+                    float fzz1 = ZZ[i, j - 1];
+                    XX[i, j - 1] = XX[i, j - 1] + ZZ[i, j - 1] * (float)Math.Sin(angf * Math.PI / 180);
+                    YY[i, j - 1] = YY[i, j - 1];
+                    ZZ[i, j - 1] = ZZ[i, j - 1] - ZZ[i, j - 1] * (float)Math.Cos(angf * Math.PI / 180);
 
-                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fx= " + fzz.ToString("0.00") + " + " + fzz1.ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j].ToString("0.00"));
-                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fy= " + YY[i, j].ToString("0.00"));
-                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fz= " + fzz1.ToString("0.00") + " - " + fzz1.ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fx= " + fzz.ToString("0.00") + " + " + fzz1.ToString("0.00") + " * sin(" + angf + ") = " + XX[i, j - 1].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fy= " + YY[i, j - 1].ToString("0.00"));
+                    ProcessString.Add(Template.Wires[j - 1] + "导线处 Fz= " + fzz1.ToString("0.00") + " - " + fzz1.ToString("0.00") + " * cos(" + angf + ") = " + ZZ[i, j - 1].ToString("0.00"));
                 }
 
             }
