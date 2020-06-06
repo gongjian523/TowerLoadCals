@@ -396,7 +396,7 @@ namespace TowerLoadCals.BLL
         public float ZM1Y(out string str, float a1, float a2, float a3, float a4) 
         {
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 + (a4 * Paras.DynamicCoef * LineParas.DrawingCoef - LineParas.TemporaryTension) * (float)Math.Cos(a2 * PI / 180));
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a3 + " + (" + a4 * Paras.DynamicCoef + " x " + LineParas.DrawingCoef + " - " + LineParas.TemporaryTension + ") x sin(" + a2 + ") = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a3 + " + (" + a4 + " x " + Paras.DynamicCoef + " x " + LineParas.DrawingCoef + " - " + LineParas.TemporaryTension + ") x cos(" + a2 + ")) = " + res.ToString("0.00");
             return res;
         }
 
@@ -411,7 +411,7 @@ namespace TowerLoadCals.BLL
             if (a1 >= 0)
             {
                 float res = Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * (LineParas.TemporaryTension * (float)Math.Tan(Paras.TempStayWireAngle * PI / 180) + a21 * a22));
-                str = Paras.LoadRatio + " x (" + Paras.RGBad + " x " + a1 + " + " + Paras.RQ * Paras.VcFInstall + " x (" + LineParas.TemporaryTension + " x tan(" + Paras.TempStayWireAngle + ") + " + a21 + " + " + a22 + ")) = " + res.ToString("0.00");
+                str = Paras.LoadRatio + " x (" + Paras.RGBad + " x " + a1 + " + " + Paras.RQ + " + " + Paras.VcFInstall + " x (" + LineParas.TemporaryTension + " x tan(" + Paras.TempStayWireAngle + ") + " + a21 + " x " + a22 + ")) = " + res.ToString("0.00");
                 return res;
             }
             else
@@ -516,13 +516,13 @@ namespace TowerLoadCals.BLL
             if (a1 >= 0)
             {
                 float res = Paras.LoadRatio * (Paras.RGBad * a1 + Paras.RQ * Paras.VcFInstall * (a2 * Paras.DynamicCoef * LineParas.DrawingCoef * (float)Math.Sin(Paras.TractionAgnle * PI / 180) + a31 * a32));
-                str = Paras.LoadRatio + " x (" + Paras.RGBad + " x " + a1 + " + " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a2 * Paras.DynamicCoef + " x " + LineParas.DrawingCoef + " x sin(" + Paras.TractionAgnle * PI / 180 + ") x " + a31 + " x " + a32 + ")) = " + res.ToString("0.00");
+                str = Paras.LoadRatio + " x (" + Paras.RGBad + " x " + a1 + " + " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a2 + " x " + Paras.DynamicCoef + " x " + LineParas.DrawingCoef + " x sin(" + Paras.TractionAgnle + ") x " + a31 + " x " + a32 + ")) = " + res.ToString("0.00");
                 return res;
             }
             else
             {
                 float res = Paras.LoadRatio * (Paras.RQ * Paras.VcFInstall * a1 + Paras.RQ * Paras.VcFInstall * (a2 * Paras.DynamicCoef * LineParas.DrawingCoef * (float)Math.Sin(Paras.TractionAgnle * PI / 180) + a31 * a32));
-                str = Paras.LoadRatio + " x (" + Paras.RQ + " x " + Paras.VcFInstall + " x " + a1 + " + " + Paras.RQ * Paras.VcFInstall + " x (" + a2 * Paras.DynamicCoef + " x " + LineParas.DrawingCoef + " x sin(" + Paras.TractionAgnle + ") x " + a31 + " x " + a32 + ")) = " + res.ToString("0.00");
+                str = Paras.LoadRatio + " x (" + Paras.RQ + " x " + Paras.VcFInstall + " x " + a1 + " + " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a2 + " x " + Paras.DynamicCoef + " x " + LineParas.DrawingCoef + " x sin(" + Paras.TractionAgnle + ") x " + a31 + " x " + a32 + ")) = " + res.ToString("0.00");
                 return res;
             }
         }
@@ -553,7 +553,7 @@ namespace TowerLoadCals.BLL
         public float MQ2Y(out string str,  float a1, float a2, float a3, float a4) 
         {
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.OtherWindAdjustFactor * AngY(a1) * a3 - (a4 - LineParas.TemporaryTension) * (float)Math.Cos(a2 * PI / 180));
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a3 + " - (" + a4 + " - " + LineParas.TemporaryTension + ") x con(" + a2 + ")) = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.OtherWindAdjustFactor + " x " + AngY(a1) + " x " + a3 + " - (" + a4 + " - " + LineParas.TemporaryTension + ") x cos(" + a2 + ")) = " + res.ToString("0.00");
             return res;
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.Mode
 {
-    public class RatioParas
+    public class StruRatioParas
     {
         /// <summary>
         /// 常规情况跳线前比例

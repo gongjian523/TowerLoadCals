@@ -113,34 +113,34 @@
                                         <dxg:GridColumn FieldName="Angle"  Header="夹角" HorizontalHeaderContentAlignment="Center" />
                                     </dxg:GridControl>
                                 </GroupBox>
-                                <GroupBox  Grid.Column="1" Header="跳线荷载分配比例" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
+                                <GroupBox  Grid.Column="1" Header="跳线荷载分配比例" Margin="5,0,0,0" Visibility="{Binding BaseParas.IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
                                     <dxlc:LayoutGroup Orientation="Vertical">
                                         <dxlc:LayoutItem Label="前侧:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLTQ,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                         <dxlc:LayoutItem Label="后侧:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLTH,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
-                                        <dxlc:LayoutItem Label="前侧:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                        <dxlc:LayoutItem Label="中部:"  >
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLTZ,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                     </dxlc:LayoutGroup>
                                 </GroupBox>
-                                <GroupBox Header="跳线荷载分开吊装分配比例" Grid.Column="2" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
+                                <GroupBox Header="跳线荷载分开吊装分配比例" Grid.Column="2" Margin="5,0,0,0" Visibility="{Binding BaseParas.IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
                                     <dxlc:LayoutGroup Orientation="Vertical">
                                         <dxlc:LayoutItem Label="前侧:"  >
-                                            <dxe:TextEdit  Margin="5,0,0,0"/>
+                                            <dxe:TextEdit  Margin="5,0,0,0" Text="{Binding RatioParas.BLDZTQ,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                         <dxlc:LayoutItem Label="后侧:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLDZTH,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
-                                        <dxlc:LayoutItem Label="前侧:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0"/>
+                                        <dxlc:LayoutItem Label="中部:"  >
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLDZTZ,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                     </dxlc:LayoutGroup>
                                 </GroupBox>
 
-                                <GroupBox  Grid.Column="1" Header="地线挂点荷载分配比例" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource InverseBooleanVisibityConverter}}">
+                                <GroupBox  Grid.Column="1" Header="地线挂点荷载分配比例" Margin="5,0,0,0" Visibility="{Binding BaseParas.IsTensionTower, Converter={StaticResource InverseBooleanVisibityConverter}}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
@@ -165,7 +165,7 @@
                                         <dxe:TextEdit  Grid.Row="2"  Grid.Column="3"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
                                 </GroupBox>
-                                <GroupBox Header="导线挂点荷载分配比例" Grid.Column="2" Margin="5,0,0,0" Visibility="{Binding IsTensionTower, Converter={StaticResource InverseBooleanVisibityConverter}}">
+                                <GroupBox Header="导线挂点荷载分配比例" Grid.Column="2" Margin="5,0,0,0" Visibility="{Binding BaseParas.IsTensionTower, Converter={StaticResource InverseBooleanVisibityConverter}}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
@@ -183,27 +183,27 @@
                                         <TextBlock Grid.Column="1" Text="其他" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Grid.Column="2" Text="吊装" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Grid.Column="3" Text="锚线" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                                   Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                                   Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                         <TextBlock Grid.Row="1" Text="前侧风荷" Margin="0,5,0,0" VerticalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="1" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
-                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="2" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
-                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="3" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}"  
-                                                       Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="1" Margin="5,5,0,0" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="2" Margin="5,5,0,0" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="3" Margin="5,5,0,0"  
+                                                       Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                         <TextBlock Grid.Row="2" Text="后侧风荷" Margin="0,5,0,0" VerticalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="1" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
-                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="2" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
-                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="3" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" 
-                                                       Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="1" Margin="5,5,0,0" />
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="2" Margin="5,5,0,0" />
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="3" Margin="5,5,0,0" 
+                                                       Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                         <TextBlock Grid.Row="3" Text="前侧垂荷" Margin="0,5,0,0" VerticalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="1" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
-                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="2" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
-                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="3" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" 
-                                                       Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="1" Margin="5,5,0,0" />
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="2" Margin="5,5,0,0" />
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="3" Margin="5,5,0,0" 
+                                                       Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                         <TextBlock Grid.Row="4" Text="后侧垂荷" Margin="0,5,0,0" VerticalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="1" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
-                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="2" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
-                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="3" Margin="5,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" 
-                                                       Visibility="{Binding IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="1" Margin="5,5,0,0" />
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="2" Margin="5,5,0,0" />
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="3" Margin="5,5,0,0"  
+                                                       Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                     </Grid>
                                 </GroupBox>
 

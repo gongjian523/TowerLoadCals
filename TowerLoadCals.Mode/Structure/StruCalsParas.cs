@@ -15,7 +15,6 @@ namespace TowerLoadCals.Mode
         public TowerTemplate Template { get; set; }
         // 从Template转换而来，用于WorkConditionComboModule
         public List<WorkConditionComboSpec> WorkConditions { get; set;}
-        
 
         //基础参数，来自BaseAndLineParasModule
         public FormulaParas BaseParas { get; set; }
@@ -23,6 +22,6 @@ namespace TowerLoadCals.Mode
         //线参数，来自BaseAndLineParasModule
         public List<StruLineParas> LineParas { get; set; }
 
-        
+        public StruRatioParas RatioParas { get; set; }
     }
 }

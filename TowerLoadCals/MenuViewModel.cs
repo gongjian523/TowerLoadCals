@@ -176,8 +176,9 @@ namespace TowerLoadCals
                     TablePath = openTableDialog.FileName,
                     Template = template,
                     WorkConditions = workConditions,
-                    BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010" , Type = type, IsMethod1Selected = true},
-                    LineParas = lineParas
+                    BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010", Type = type, IsMethod1Selected = true },
+                    LineParas = lineParas,
+                    RatioParas = new StruRatioParas() { }
                 });
             }
             else
@@ -187,6 +188,7 @@ namespace TowerLoadCals
                 globalInfo.StruCalsParas[index].WorkConditions = workConditions;
                 globalInfo.StruCalsParas[index].BaseParas = new FormulaParas() { SelectedStandard = "GB50545-2010", Type = type, IsMethod1Selected = true };
                 globalInfo.StruCalsParas[index].LineParas = lineParas;
+                globalInfo.StruCalsParas[index].RatioParas = new StruRatioParas() { };
             }
 
 
@@ -234,21 +236,25 @@ namespace TowerLoadCals
                 LoadDistributeLineCornerTower loadLineCornerTower = new LoadDistributeLineCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.Template, paras.TablePath);
                 loadLineCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
             }
-            else if (((MenuItemVM)menu).Title == "转角塔")
-            {
-                //ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
-                //LoadDistributeCornerTower loadCornerTower = new LoadDistributeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.Template, paras.TablePath);
-                //loadLineCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
-            }
-            else if (((MenuItemVM)menu).Title == "分支塔")
-            {
-                type = TowerType.BranchTower;
-            }
+            //else if (((MenuItemVM)menu).Title == "转角塔")
             else
             {
-                type = TowerType.TerminalTower;
-
+                ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
+                LoadDistributeCornerTower loadCornerTower = new LoadDistributeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.RatioParas, paras.Template, paras.TablePath);
+                loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
             }
+            //else if (((MenuItemVM)menu).Title == "分支塔")
+            //{
+            //    ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
+            //    LoadDistributeCornerTower loadCornerTower = new LoadDistributeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.RatioParas, paras.Template, paras.TablePath);
+            //    loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
+            //}
+            //else
+            //{
+            //    ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
+            //    LoadDistributeCornerTower loadCornerTower = new LoadDistributeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.RatioParas, paras.Template, paras.TablePath);
+            //    loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
+            //}
 
         }
 

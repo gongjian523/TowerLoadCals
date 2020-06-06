@@ -183,7 +183,7 @@
                             <dxe:TextEdit Grid.Row="2" Grid.Column="1" Text="{Binding BaseParas.AnchorAngle,  UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
 
-                        <Grid Grid.Row="1" Visibility="{Binding BaseParas.IsTensionTowerVisible,Converter={StaticResource BooleanVisibityConverter}}">
+                        <Grid Grid.Row="1" Visibility="{Binding BaseParas.IsTensionTower,Converter={StaticResource BooleanVisibityConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -234,7 +234,7 @@
 
        <dxg:GridControl  Grid.Column="1" Margin="8,0,0,0" Name="LineTowerGrid" EnableSmartColumnsGeneration="True" 
                 SelectionMode="Cell" ClipboardCopyMode="ExcludeHeader" ItemsSource="{Binding LineParas}" PreviewMouseDown="lineTowerGrid_PreviewMouseDown"
-                Visibility="{Binding BaseParas.IsTensionTowerVisible,Converter={StaticResource InverseBooleanVisibityConverter}}">
+                Visibility="{Binding BaseParas.IsTensionTower,Converter={StaticResource InverseBooleanVisibityConverter}}">
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}" Name="LineTowerView"  PasteMode="Update">
                     <dxg:TableView.RowCellMenuCustomizations>
@@ -255,7 +255,7 @@
         </dxg:GridControl>
         <dxg:GridControl Grid.Column="1" Margin="8,0,0,0" Name="TensionTowerGrid" EnableSmartColumnsGeneration="False"
                 SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" ItemsSource="{Binding LineParas}"  PreviewMouseDown="tensionTowerGrid_PreviewMouseDown"
-                Visibility="{Binding BaseParas.IsTensionTowerVisible,Converter={StaticResource BooleanVisibityConverter}}" >
+                Visibility="{Binding BaseParas.IsTensionTower,Converter={StaticResource BooleanVisibityConverter}}" >
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}" Name="TensionTowerView" PasteMode="Update">
                     <dxg:TableView.RowCellMenuCustomizations>
@@ -274,6 +274,7 @@
             <dxg:GridColumn FieldName="WireExtraLoad"  Header="线条附荷" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="TwireExtraLoad"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="AnchorTension"  Header="锚线张力" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="TemporaryTension"  Header="临时拉张" HorizontalHeaderContentAlignment="Center" />
             <dxg:GridColumn FieldName="AngleMin"  Header="最小转角" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsBranchTower, Converter={StaticResource InverseBooleanConverter}}"/>
             <dxg:GridColumn FieldName="AngleMax"  Header="最大转角" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsBranchTower, Converter={StaticResource InverseBooleanConverter}}"/>
             <dxg:GridColumn FieldName="AngleFront"  Header="前侧转角" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsBranchTower}"/>

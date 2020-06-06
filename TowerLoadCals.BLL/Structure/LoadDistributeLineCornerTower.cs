@@ -61,23 +61,26 @@ namespace TowerLoadCals.BLL
 
         public override void CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, string path)
         {
-            int calNums = Template.WorkConditionCombos.Where(item => item.IsCalculate).ToList().Count;
+            int calNums = Template.WorkConditionCombos.Count;
 
             XX = new float[calNums, Template.Wires.Count];
             YY = new float[calNums, Template.Wires.Count];
             ZZ = new float[calNums, Template.Wires.Count];
 
-            int i = 0, j = 1;
+            int i = -1, j = 1;
+            int count = 0;
 
             ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));
 
             foreach (var wd in Template.WorkConditionCombos)
             {
-                ProcessString.Add("");
-                ProcessString.Add(wd.WorkComment);
-
+                i++;
                 if (!wd.IsCalculate)
                     continue;
+
+                count++;
+                ProcessString.Add("");
+                ProcessString.Add("No." + count.ToString() + " " + wd.WorkComment);
 
                 j = 1;
                 foreach (int wic in wd.WireIndexCodes)
@@ -164,7 +167,6 @@ namespace TowerLoadCals.BLL
                     }
                     j++;
                 }
-                i++;
             }
 
             xx = XX;

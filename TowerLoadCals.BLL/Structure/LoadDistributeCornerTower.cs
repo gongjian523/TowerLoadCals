@@ -56,9 +56,9 @@ namespace TowerLoadCals.BLL
 
         protected FormulaCornerTower formula;
 
-        protected RatioParas Ratio { get; set; }
+        protected StruRatioParas Ratio { get; set; }
 
-        public LoadDistributeCornerTower(FormulaParas para, StruLineParas[] lineParas, RatioParas ratioParas, TowerTemplate template, string tablePath) : base(para, lineParas, template, tablePath)
+        public LoadDistributeCornerTower(FormulaParas para, StruLineParas[] lineParas, StruRatioParas ratioParas, TowerTemplate template, string tablePath) : base(para, lineParas, template, tablePath)
         {
             formula = new FormulaCornerTower(para);
             Ratio = ratioParas;
@@ -149,7 +149,7 @@ namespace TowerLoadCals.BLL
 
         public override void CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, string path)
         {
-            int calNums = Template.WorkConditionCombos.Where(item => item.IsCalculate).ToList().Count;
+            int calNums = Template.WorkConditionCombos.Count;
 
             XLB = new float[calNums, Template.Wires.Count];
             YLB = new float[calNums, Template.Wires.Count];
@@ -175,17 +175,20 @@ namespace TowerLoadCals.BLL
             YY = new float[calNums, Template.Wires.Count];
             ZZ = new float[calNums, Template.Wires.Count];
 
-            int i = 0, j = 1;
+            int i = -1, j = 1;
+            int count = 0;
 
             ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));
 
             foreach (var wd in Template.WorkConditionCombos)
             {
-                ProcessString.Add("");
-                ProcessString.Add(wd.WorkComment);
-
+                i++;
                 if (!wd.IsCalculate)
                     continue;
+
+                count++;
+                ProcessString.Add("");
+                ProcessString.Add("No." + count.ToString() + " " + wd.WorkComment);
 
                 j = 1;
                 foreach (int wic in wd.WireIndexCodes)
@@ -246,7 +249,6 @@ namespace TowerLoadCals.BLL
                     }
                     j++;
                 }
-                i++;
             }
 
             xx = XX;
@@ -2210,8 +2212,8 @@ namespace TowerLoadCals.BLL
                     {
                         if (Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            y3 = y1;
-                            y4 = y2;
+                            y3 = y2;
+                            y4 = y1;
                         }
                         else
                         {
@@ -6412,7 +6414,7 @@ namespace TowerLoadCals.BLL
                     case "Y0":
                         if(Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z12;
+                            c[1] = e1 ; c[2] = Math.Max(y1, LineParas.AnchorTension) ; c[3] = z11;
                         }
                         else
                         {
@@ -6546,6 +6548,7 @@ namespace TowerLoadCals.BLL
             ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fx= 0.00");
             ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fy= 0.00");
             ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= 0.00");
+            ProcessString.Add(" ");
 
             XTF[i, j - 1] = 0.00f;
             YTF[i, j - 1] = 0.00f;
@@ -6568,6 +6571,7 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                ProcessString.Add(" ");
             }
             else if(nt % 3 == 0 && nt > 0)
             {
@@ -6582,6 +6586,7 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
+                ProcessString.Add(" ");
             }
         }
         

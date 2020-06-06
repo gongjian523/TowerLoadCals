@@ -293,7 +293,7 @@ namespace TowerLoadCals.Mode
             }
         }
 
-        public bool IsTensionTowerVisible
+        public bool IsTensionTower
         {
             get
             {

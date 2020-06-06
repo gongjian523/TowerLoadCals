@@ -20,6 +20,7 @@ namespace TowerLoadCals.Modules
         protected int num = 0;
         protected TowerTemplate template;
         protected string towerType;
+        protected StruCalsParas struCalsParas;
 
         public static HangingPointViewModel Create()
         {
@@ -42,12 +43,12 @@ namespace TowerLoadCals.Modules
             if (index < 0)
                 return;
 
-            var template = globalInfo.StruCalsParas[index].Template;
+            struCalsParas = globalInfo.StruCalsParas[index];
 
             HangingPoints = new ObservableCollection<HangingPoint>();
             for (num = 1; num < 2; num++)
             {
-                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), "直线塔", template));
+                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), "直线塔", struCalsParas));
             }
         }
 
@@ -67,14 +68,14 @@ namespace TowerLoadCals.Modules
             HangingPoints = new ObservableCollection<HangingPoint>();
             for (num = 1; num < 2; num++)
             {
-                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), towerType, template));
+                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), towerType, struCalsParas));
             }
         }
 
         public virtual ObservableCollection<HangingPoint> HangingPoints { get; protected set; }
         public void AddNewTab(TabControlTabAddingEventArgs e)
         {
-            e.Item = HangingPoint.Create("挂点方案" + num.ToString(), towerType, template);
+            e.Item = HangingPoint.Create("挂点方案" + num.ToString(), towerType, struCalsParas);
             num++;
         }
 
@@ -101,39 +102,41 @@ namespace TowerLoadCals.Modules
 
     public class HangingPoint:ViewModelBase,INotifyPropertyChanged
     {
-        public static HangingPoint Create(string title, string towerType, TowerTemplate template)
+        public static HangingPoint Create(string title, string towerType, StruCalsParas calsParas)
         {
-            return ViewModelSource.Create(() => new HangingPoint(title, towerType, template));
+            return ViewModelSource.Create(() => new HangingPoint(title, towerType, calsParas));
         }
-        protected HangingPoint(string title,  string towerType, TowerTemplate template)
+        protected HangingPoint(string title,  string towerType, StruCalsParas calsParas)
         {
             Title = title;
 
-            if (towerType == "直线塔")
-            {
-                Type = TowerType.LineTower;
-            }
-            else if (towerType == "直转塔")
-            {
-                Type = TowerType.LineCornerTower;
-            }
-            else if (towerType == "转角塔")
-            {
-                Type = TowerType.CornerTower;
-            }
-            else if (towerType == "分支塔")
-            {
-                Type = TowerType.BranchTower;
-            }
-            else
-            {
-                Type = TowerType.TerminalTower;
-            }
-            Type = TowerType.LineTower;
+            //if (towerType == "直线塔")
+            //{
+            //    Type = TowerType.LineTower;
+            //}
+            //else if (towerType == "直转塔")
+            //{
+            //    Type = TowerType.LineCornerTower;
+            //}
+            //else if (towerType == "转角塔")
+            //{
+            //    Type = TowerType.CornerTower;
+            //}
+            //else if (towerType == "分支塔")
+            //{
+            //    Type = TowerType.BranchTower;
+            //}
+            //else
+            //{
+            //    Type = TowerType.TerminalTower;
+            //}
+            //Type = TowerType.LineTower;
 
             VStrings = new ObservableCollection<VStringParas>();
 
-            Template = template;
+            Template = calsParas.Template;
+            RatioParas = calsParas.RatioParas;
+            BaseParas = calsParas.BaseParas;
 
             NormalXYPoints = new ObservableCollection<HangingPointParas>();
             NormalZPoints = new ObservableCollection<HangingPointParas>();
@@ -141,13 +144,13 @@ namespace TowerLoadCals.Modules
             InstallZPoints = new ObservableCollection<HangingPointParas>();
             TurningPoints = new ObservableCollection<HangingPointParas>();
 
-            for (int i = 0; i < template.Wires.Count; i++)
+            for (int i = 0; i < Template.Wires.Count; i++)
             {
-                NormalXYPoints.Add(new HangingPointParas { Index = i + 1, WireType = template.Wires[i] });
-                NormalZPoints.Add(new HangingPointParas { Index = i + 1, WireType = template.Wires[i] });
-                InstallXYPoints.Add(new HangingPointParas { Index = i + 1, WireType = template.Wires[i] });
-                InstallZPoints.Add(new HangingPointParas { Index = i + 1, WireType = template.Wires[i] });
-                TurningPoints.Add(new HangingPointParas { Index = i + 1, WireType = template.Wires[i] });
+                NormalXYPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
+                NormalZPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
+                InstallXYPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
+                InstallZPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
+                TurningPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
             }
 
             List<string> normalSource = new List<string> { "悬臂", "V1", "V2", "V3"};
@@ -193,31 +196,59 @@ namespace TowerLoadCals.Modules
 
         protected TowerTemplate Template;
 
+        protected StruRatioParas _ratioParas;
+        public StruRatioParas RatioParas
+        {
+            get
+            {
+                return _ratioParas;
+            }
+            set
+            {
+                _ratioParas = value;
+                RaisePropertyChanged("RatioParas");
+            }
+        }
+
+        protected FormulaParas _baseParas;
+        public FormulaParas BaseParas
+        {
+            get
+            {
+                return _baseParas;
+            }
+            set
+            {
+                _baseParas = value;
+                RaisePropertyChanged("BaseParas");
+            }
+        }
+
         public string Title { get; private set; }
 
-        public TowerType Type { get; set; }
+        //public TowerType Type { get; set; }
 
-        public bool IsLineTower
-        {
-            get
-            {
-                return Type == TowerType.LineTower;
-            }
-        }
+        //public bool IsLineTower
+        //{
+        //    get
+        //    {
+        //        return Type == TowerType.LineTower;
+        //    }
+        //}
 
-        public bool IsTensionTower
-        {
-            get
-            {
-                return(Type == TowerType.CornerTower || Type ==  TowerType.BranchTower || Type == TowerType.TerminalTower);
-            }
-        }
+        //public bool IsTensionTower
+        //{
+        //    get
+        //    {
+        //        return(Type == TowerType.CornerTower || Type ==  TowerType.BranchTower || Type == TowerType.TerminalTower);
+        //    }
+        //}
 
         public string HPColumnXYName
         {
             get
             {
-                return IsTensionTower ? "跳线吊装挂点 XY向" : "吊装挂点 XY向";
+                return BaseParas.IsTensionTower ? "跳线吊装挂点 XY向" : "吊装挂点 XY向";
             }
         }
 
@@ -225,7 +256,7 @@ namespace TowerLoadCals.Modules
         {
             get
             {
-                return IsTensionTower ? "跳线吊装挂点 Z向" : "吊装挂点 Z向";
+                return BaseParas.IsTensionTower ? "跳线吊装挂点 Z向" : "吊装挂点 Z向";
             }
         }
 
@@ -233,7 +264,7 @@ namespace TowerLoadCals.Modules
         {
             get
             {
-                return IsTensionTower ? "过滑车挂架挂点" : "转向挂点";
+                return BaseParas.IsTensionTower ? "过滑车挂架挂点" : "转向挂点";
             }
         }
 
