@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="TowerLoadCals.Modules.StruCalsResultModule"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <dxg:GridControl Margin="8,0" ItemsSource="{Binding Results}">
+            <dxg:GridControl.View>
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+            </dxg:GridControl.View>
+            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="TowerPosition"  Header="点位号" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="WorkCondition"  Header="工况" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Temperature"  Header="气温(℃)" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="WindSpeed"  Header="风速（m/s）" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="IceThickness"  Header="冰厚（mm）" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Fx"  Header="fx" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Fy"  Header="fy" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Fz"  Header="fz" HorizontalHeaderContentAlignment="Center"/>
+        </dxg:GridControl>
+    </Grid>
+</UserControl>

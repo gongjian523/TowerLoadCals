@@ -68,6 +68,10 @@ namespace TowerLoadCals
             hungingPointMenu.ParentNode = menuVm;
             subMenus.Add(hungingPointMenu);
 
+            var struCalsResultMenu = new MenuItemVM("StruCalsResultModule", this, "计算结果", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            struCalsResultMenu.ParentNode = menuVm;
+            subMenus.Add(struCalsResultMenu);
+
             menuVm.ChildItems = subMenus;
 
             MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);

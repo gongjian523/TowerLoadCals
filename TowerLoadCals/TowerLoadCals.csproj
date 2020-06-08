@@ -110,18 +110,46 @@
     <Compile Include="MainWindowViewModel-BaseData.cs" />
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\Column.cs" />
-    <Compile Include="ModulesViewModels\DaseDataBaseViewModel.cs" />
-    <Compile Include="ModulesViewModels\StrDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
-    <Compile Include="ModulesViewModels\FitDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\FitDataViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\BaseAndLineParasViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\HangingPointViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
-    <Compile Include="ModulesViewModels\TowerViewModel.cs" />
-    <Compile Include="ModulesViewModels\WireViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
+    <Compile Include="Modules\BaseData\BaseDataLibModule.xaml.cs">
+      <DependentUpon>BaseDataLibModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BaseData\IceCoverLibModule.xaml.cs">
+      <DependentUpon>IceCoverLibModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BaseData\ExtralLoadLibModule.xaml.cs">
+      <DependentUpon>ExtralLoadLibModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\StruCals\StruCalsResultModule.xaml.cs">
+      <DependentUpon>StruCalsResultModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\StruCals\HangingPointModule.xaml.cs">
       <DependentUpon>HangingPointModule.xaml</DependentUpon>
     </Compile>
+    <Page Include="Modules\BaseData\BaseDataLibModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\BaseData\IceCoverLibModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\BaseData\ExtralLoadLibModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\StruCals\StruCalsResultModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Style\TableViewStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,10 +159,10 @@
       <DependentUpon>BlankModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ColumnTemplateSelector.cs" />
-    <Compile Include="Modules\StrDataModule.xaml.cs">
+    <Compile Include="Modules\BaseData\StrDataModule.xaml.cs">
       <DependentUpon>StrDataModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\FitDataModule.xaml.cs">
+    <Compile Include="Modules\BaseData\FitDataModule.xaml.cs">
       <DependentUpon>FitDataModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\StruCals\BaseAndLineParasModule.xaml.cs">
@@ -143,10 +171,10 @@
     <Compile Include="Modules\StruCals\WorkConditionComboModule.xaml.cs">
       <DependentUpon>WorkConditionComboModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\TowerModule.xaml.cs">
+    <Compile Include="Modules\BaseData\TowerModule.xaml.cs">
       <DependentUpon>TowerModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\WireModule.xaml.cs">
+    <Compile Include="Modules\BaseData\WireModule.xaml.cs">
       <DependentUpon>WireModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="SplashScreen\ProgressWindow.xaml.cs">
@@ -171,11 +199,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\StrDataModule.xaml">
+    <Page Include="Modules\BaseData\StrDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\FitDataModule.xaml">
+    <Page Include="Modules\BaseData\FitDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -191,15 +219,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\TowerModule.xaml">
+    <Page Include="Modules\BaseData\TowerModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\WireModule.xaml">
+    <Page Include="Modules\BaseData\WireModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\WeatherConditionModule.xaml">
+    <Page Include="Modules\BaseData\WeatherConditionModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -214,8 +242,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="ModulesViewModels\WeatherConditionViewModel.cs" />
-    <Compile Include="Modules\WeatherConditionModule.xaml.cs">
+    <Compile Include="ModulesViewModels\BaseData\WeatherConditionViewModel.cs" />
+    <Compile Include="Modules\BaseData\WeatherConditionModule.xaml.cs">
       <DependentUpon>WeatherConditionModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
