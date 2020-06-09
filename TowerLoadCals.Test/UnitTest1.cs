@@ -142,7 +142,7 @@ namespace TowerLoadCals.Test
                 }
             };
 
-            LoadDistributeLineTower loadLineTower = new LoadDistributeLineTower(formulaParas, lineParas, template, openTemplateDialog.FileName);
+            LoadComposeLineTower loadLineTower = new LoadComposeLineTower(formulaParas, lineParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 
@@ -250,7 +250,7 @@ namespace TowerLoadCals.Test
                 }
             };
 
-            LoadDistributeLineCornerTower loadLineCornerTower = new LoadDistributeLineCornerTower(formulaParas, lineParas, template, openTemplateDialog.FileName);
+            LoadComposeLineCornerTower loadLineCornerTower = new LoadComposeLineCornerTower(formulaParas, lineParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 
@@ -434,7 +434,7 @@ namespace TowerLoadCals.Test
                 BLDZTZ = 0
             };
 
-            LoadDistributeCornerTower loadCornerTower = new LoadDistributeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 
@@ -578,7 +578,7 @@ namespace TowerLoadCals.Test
                 BLDZTZ = 0
             };
 
-            LoadDistributeCornerTower loadCornerTower = new LoadDistributeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 
@@ -762,7 +762,7 @@ namespace TowerLoadCals.Test
                 BLDZTZ = 0
             };
 
-            LoadDistributeCornerTower loadCornerTower = new LoadDistributeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 

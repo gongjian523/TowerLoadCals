@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TowerLoadCals.Modules.BaseData
+namespace TowerLoadCals.Modules
 {
     /// <summary>
     /// BaseDataLibModule.xaml 的交互逻辑

@@ -65,6 +65,20 @@ namespace TowerLoadCals
             fitDataMenu.ChildItems = fitDataSubList;
             menuItem.Add(fitDataMenu);
 
+            var struCalsLibMenu = new MenuItemVM("", this, "结构计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var struCalsLibSubList = new List<MenuItemVM>() { };
+            var baseDataLibMenu = new MenuItemVM("BaseDataLibModule", this, "基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            baseDataLibMenu.ParentNode = struCalsLibMenu;
+            struCalsLibSubList.Add(baseDataLibMenu);
+            var extralLoadLibMenu = new MenuItemVM("ExtralLoadLibModule", this, "附加荷载库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            extralLoadLibMenu.ParentNode = struCalsLibMenu;
+            struCalsLibSubList.Add(extralLoadLibMenu);
+            var IceCoverLibModule = new MenuItemVM("IceCoverLibModule", this, "覆冰参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            IceCoverLibModule.ParentNode = struCalsLibMenu;
+            struCalsLibSubList.Add(IceCoverLibModule);
+            struCalsLibMenu.ChildItems = struCalsLibSubList;
+            menuItem.Add(struCalsLibMenu);
+
             baseDataMudule.MenuItems = menuItem;
 
             return baseDataMudule;
@@ -72,6 +86,9 @@ namespace TowerLoadCals
 
         private void OnSelectedBaseDataSubModuleChanged(MenuItemVM vm)
         {
+            if (vm.Title == "结构计算库")
+                return;
+
             if (!UpdateSubModule(vm))
                 return;
 

@@ -48,10 +48,11 @@
     <Compile Include="Structure\FormulaLineCornerTower.cs" />
     <Compile Include="Structure\FormulaLineTower.cs" />
     <Compile Include="Structure\FormulaTower.cs" />
-    <Compile Include="Structure\LoadDistributeBase.cs" />
-    <Compile Include="Structure\LoadDistributeLineCornerTower.cs" />
-    <Compile Include="Structure\LoadDistributeCornerTower.cs" />
-    <Compile Include="Structure\LoadDistributeLineTower.cs" />
+    <Compile Include="Structure\LoadComposeBase.cs" />
+    <Compile Include="Structure\LoadComposeLineCornerTower.cs" />
+    <Compile Include="Structure\LoadComposeCornerTower.cs" />
+    <Compile Include="Structure\LoadComposeLineTower.cs" />
+    <Compile Include="Structure\VStringCompose.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Electric\" />

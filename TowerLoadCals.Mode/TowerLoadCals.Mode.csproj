@@ -72,6 +72,7 @@
     <Compile Include="Structure\BaseParas.cs" />
     <Compile Include="Structure\HangingPointParas.cs" />
     <Compile Include="Structure\RatioParas.cs" />
+    <Compile Include="Structure\StrCalsResult.cs" />
     <Compile Include="Structure\StruCalsParas.cs" />
     <Compile Include="Structure\StruLineParas.cs" />
     <Compile Include="Structure\TowerTemplate.cs" />
