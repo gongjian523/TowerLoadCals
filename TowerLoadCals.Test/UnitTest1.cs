@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using TowerLoadCals.BLL;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
@@ -768,6 +769,13 @@ namespace TowerLoadCals.Test
 
             loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
         }
+
+        [TestMethod]
+        public void TestMethod6()
+        {
+            List<StruCalsDicGroup> groups = StruLoadComposeDicReader.Read("D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml");
+        }
+            
     }
 
 

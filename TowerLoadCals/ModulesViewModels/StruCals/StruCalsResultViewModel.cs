@@ -12,8 +12,8 @@ namespace TowerLoadCals.Modules
 {
     public class StruCalsResultViewModel : ViewModelBase, IStruCalsBaseViewModel, INotifyPropertyChanged
     {
-        protected ObservableCollection<StrCalsResult> _results = new ObservableCollection<StrCalsResult>();
-        public ObservableCollection<StrCalsResult> Results
+        protected ObservableCollection<StruCalsResult> _results = new ObservableCollection<StruCalsResult>();
+        public ObservableCollection<StruCalsResult> Results
         {
             get
             {

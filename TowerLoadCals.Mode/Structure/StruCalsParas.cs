@@ -25,3 +25,4 @@ namespace TowerLoadCals.Mode
         public StruRatioParas RatioParas { get; set; }
     }
 }
+

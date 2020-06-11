@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.Mode
 {
-    public class BaseDataNameTreeItem
+    public class StruCalsDicComposeInfo
     {
-        public int ID { get; set; }
+        public string Orientation { get; set; }
 
-        public int ParentID { get; set; }
-
-        public string Name { get; set; }
+        public List<string> PointCompose { get; set; }
     }
 }

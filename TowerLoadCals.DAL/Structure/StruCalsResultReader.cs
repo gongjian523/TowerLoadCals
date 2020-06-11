@@ -10,9 +10,9 @@ namespace TowerLoadCals.DAL
 {
     public static class StruCalsResultReader
     {
-        public static List<StrCalsResult> Read(string path)
+        public static List<StruCalsResult> Read(string path)
         {
-            List<StrCalsResult> result = new List<StrCalsResult>();
+            List<StruCalsResult> result = new List<StruCalsResult>();
             string sLine = "";
 
             StreamReader file = new StreamReader(path, Encoding.Default);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.Mode
 {
-    public class StrCalsResult
+    public class StruCalsResult
     {
         /// <summary>
         /// 序号
