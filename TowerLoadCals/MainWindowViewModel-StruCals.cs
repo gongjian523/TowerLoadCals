@@ -64,9 +64,9 @@ namespace TowerLoadCals
             towerMenu.ParentNode = menuVm;
             subMenus.Add(towerMenu);
 
-            var hungingPointMenu = new MenuItemVM("HangingPointModule", this, "挂点设置", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
-            hungingPointMenu.ParentNode = menuVm;
-            subMenus.Add(hungingPointMenu);
+            var hangingPointMenu = new MenuItemVM("HangingPointModule", this, "挂点设置", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            hangingPointMenu.ParentNode = menuVm;
+            subMenus.Add(hangingPointMenu);
 
             var struCalsResultMenu = new MenuItemVM("StruCalsResultModule", this, "计算结果", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             struCalsResultMenu.ParentNode = menuVm;

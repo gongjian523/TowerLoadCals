@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using TowerLoadCals.Mode;
@@ -21,7 +22,8 @@ namespace TowerLoadCals.BLL
 
         protected FormulaLineTower formula;
 
-        public LoadComposeLineTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, string tablePath) : base(para, lineParas, template, tablePath)
+        public LoadComposeLineTower(FormulaParas para, StruLineParas[] lineParas, StruRatioParas ratioParas, List<List<HangingPointParas>> pointsLists, TowerTemplate template, string tablePath) 
+            : base(para, lineParas, ratioParas, template, tablePath)
         {
             formula = new FormulaLineTower(para);
         }
@@ -148,6 +150,7 @@ namespace TowerLoadCals.BLL
                         case "Gf":
                         case "Gg":
                         case "Gh":
+                        case "GL":
                         case "GLa":
                         case "GLb":
                         case "GLc":
@@ -167,6 +170,7 @@ namespace TowerLoadCals.BLL
                         case "Cf":
                         case "Cg":
                         case "Ch":
+                        case "CL":
                         case "CLa":
                         case "CLb":
                         case "CLc":

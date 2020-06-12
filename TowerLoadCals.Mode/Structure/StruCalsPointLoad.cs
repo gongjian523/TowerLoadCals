@@ -10,9 +10,15 @@ namespace TowerLoadCals.Mode
     {
         public string Name { get; set; }
 
+        public string Wire { get; set; }
+
+        public int WorkConditionId { get; set; }
+
         public string WorkCondition { get; set; }
 
-        public string  Orientation { get; set; }
+        public string Orientation { get; set; }
+
+        public float Proportion { get; set; }
 
         public float Load { get; set; }
     }

@@ -16,7 +16,7 @@ namespace TowerLoadCals.BLL
         protected FormulaParas Paras { get; set; }
 
         /// <summary>
-        /// 从界面获取的先参数
+        /// 从界面获取的线参数
         /// </summary>
         protected StruLineParas[] LineParasArr { get; set; }
         protected StruLineParas LineParas { get; set; }
@@ -25,6 +25,8 @@ namespace TowerLoadCals.BLL
         /// 模板参数
         /// </summary>
         protected TowerTemplate Template { get; set; }
+
+        protected StruRatioParas RatioParas { get; set; }
 
         //挂点参数
         protected List<HangingPointParas> NormalXYPoints { get; set; }
@@ -46,12 +48,14 @@ namespace TowerLoadCals.BLL
         protected List<string> ProcessString { get; set; }
         protected List<string> Process2String { get; set; }
 
-        public LoadComposeBase(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, string tablePath)
+        public LoadComposeBase(FormulaParas para, StruLineParas[] lineParas, StruRatioParas ratioParas, TowerTemplate template, string tablePath)
         {
             ProcessString = new List<string>();
+            Process2String = new List<string>();
 
             Paras = para;
             LineParasArr = lineParas;
+            RatioParas = ratioParas;
             Template = template;
 
             wireNum = Template.Wires.Count;
@@ -93,119 +97,184 @@ namespace TowerLoadCals.BLL
         {
             List<StruCalsPointLoad> pointsLoad = new List<StruCalsPointLoad>();
 
-            int i = 0;
-            foreach(var wireItem in Template.Wires)
+            Process2String.Add("荷载分配明细表 生成时间: " + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));
+
+            int j = 1;
+            foreach(var wdItem in Template.WorkConditionCombos)
             {
-                int j=1
-                foreach (var wdItem in Template.WorkConditionCombos)
+                int i = 0;
+                foreach (var wireItem in Template.Wires)
                 {
-                    if(wireItem.Contains("地"))
+                    string groupStr, linkStrXY, linkStrZ;
+                    List<HangingPointParas> pointsXY, pointsZ;
+
+
+                    if (wireItem.Contains("地"))
                     {
-                        HangingPointParas xyPara = NormalXYPoints.Where(item => item.WireType == wireItem).First();
-                        int xyPNum = GetPointNum(xyPara);
-
-                        StruCalsDicGroup xyGrp = DicGroup.Where(item => item.Group == "第一组" && item.Type == xyPara.StringType && item.Link == "[常规挂点XY向_dataTable]").First();
-                        List<StruCalsDicComposeInfo> xyOption = xyGrp.Options.Where(item => item.Num == xyPNum).First().ComposrInfos;
-
-                        HangingPointParas zPara = NormalZPoints.Where(item => item.WireType == wireItem).First();
-                        int zPNum = GetPointNum(zPara);
-
-                        StruCalsDicGroup zGrp = DicGroup.Where(item => item.Group == "第一组" && item.Type == zPara.StringType && item.Link == "[常规挂点Z向_dataTable]").First();
-                        List<StruCalsDicComposeInfo> zOption = zGrp.Options.Where(item => item.Num == zPNum).First().ComposrInfos;
-
-                        
-
+                        groupStr = "第一组";
+                        linkStrXY = "[常规挂点XY向_dataTable]";
+                        linkStrZ = "[常规挂点Z向_dataTable]";
+                        pointsXY = NormalXYPoints;
+                        pointsZ = NormalZPoints;
                     }
                     else
                     {
-                        
+                        //N1;N2;D1;D2;I1;I2;U1;U2;B1;B2;Y1;Y2;
+                        if (wdItem.WorkConditionCode.StartsWith("N") || wdItem.WorkConditionCode.StartsWith("D") || wdItem.WorkConditionCode.StartsWith("I")
+                            || wdItem.WorkConditionCode.StartsWith("U") || wdItem.WorkConditionCode.StartsWith("B") || wdItem.WorkConditionCode.StartsWith("Y"))
+                        {
+                            groupStr = "第二组";
+                            linkStrXY = "[常规挂点XY向_dataTable]";
+                            linkStrZ = "[常规挂点Z向_dataTable]";
+                            pointsXY = NormalXYPoints;
+                            pointsZ = NormalZPoints;
+                        }
+                        else if (wdItem.WorkConditionCode == "T")
+                        {
+                            if (Math.Abs(wdItem.WireIndexCodes[j]) < 10)
+                                groupStr = "第二组";
+                            else
+                                groupStr = "第七组";
+                            linkStrXY = "[常规挂点XY向_dataTable]";
+                            linkStrZ = "[常规挂点Z向_dataTable]";
+                            pointsXY = NormalXYPoints;
+                            pointsZ = NormalZPoints;
+
+                        }
+                        //L;La;Lb;Lc;Ld;Le;Lf;Lg;Lh
+                        else if (wdItem.WorkConditionCode.StartsWith("L"))
+                        {
+                            if (Math.Abs(wdItem.WireIndexCodes[j]) < 10)
+                            {
+                                groupStr = "第三组";
+                                linkStrXY = "[常规挂点XY向_dataTable]";
+                                linkStrZ = "[常规挂点Z向_dataTable]";
+                                pointsXY = NormalXYPoints;
+                                pointsZ = NormalZPoints;
+
+                            }
+                            else
+                            {
+                                groupStr = "第四组";
+                                linkStrXY = "[吊装挂点XY向_dataTable]";
+                                linkStrZ = "[吊装挂点Z向_dataTable]";
+                                pointsXY = InstallXYPoints;
+                                pointsZ = InstallZPoints;
+
+                            }
+                        }
+                        //C;Ca;Cb;Cc;Cd;Ce;Cf;Cg;Ch;CL;CLa;CLb;CLc;CLd;CLe;CLf;CL;CLa;CLb;CLc;CLd;CLe;CLf;CLg;CLh
+                        else if (wdItem.WorkConditionCode.StartsWith("C"))
+                        {
+                            if (Math.Abs(wdItem.WireIndexCodes[j]) < 10)
+                            {
+                                groupStr = "第三组";
+                                linkStrXY = "[常规挂点XY向_dataTable]";
+                                linkStrZ = "[常规挂点Z向_dataTable]";
+                                pointsXY = NormalXYPoints;
+                                pointsZ = NormalZPoints;
+
+                            }
+                            else
+                            {
+                                groupStr = "第四组";
+                                linkStrXY = "[吊装挂点XY向_dataTable]";
+                                linkStrZ = "[吊装挂点Z向_dataTable]";
+                                pointsXY = InstallXYPoints;
+                                pointsZ = InstallZPoints;
+
+                            }
+                        }
+                        //G;Ga;Gb;Gc;Gd;Ge;Gf;Gh;GL;GLa;GLb;GLc;GLd;GLe;GLf;GLg
+                        else if (wdItem.WorkConditionCode.StartsWith("G"))
+                        {
+                            if (Math.Abs(wdItem.WireIndexCodes[j]) < 10)
+                            {
+                                groupStr = "第三组";
+                                linkStrXY = "[常规挂点XY向_dataTable]";
+                                linkStrZ = "[常规挂点Z向_dataTable]";
+                                pointsXY = NormalXYPoints;
+                                pointsZ = NormalZPoints;
+
+                            }
+                            else
+                            {
+                                if (Math.Abs(wdItem.WireIndexCodes[j]) < 1000)
+                                    groupStr = "第五组";
+                                else
+                                    groupStr = "第六组";
+
+                                if (wdItem.WorkConditionCode == "G" || wdItem.WorkConditionCode == "GL")
+                                {
+                                    linkStrXY = "[常规挂点XY向_dataTable]";
+                                    linkStrZ = "[常规挂点Z向_dataTable]";
+                                    pointsXY = NormalXYPoints;
+                                    pointsZ = NormalZPoints;
+                                }
+                                else
+                                {
+                                    linkStrXY = "[吊装挂点XY向_dataTable]";
+                                    linkStrZ = "[吊装挂点Z向_dataTable]";
+                                    pointsXY = InstallXYPoints;
+                                    pointsZ = InstallZPoints;
+                                }
+
+                            }
+                        }
+                        //M;Ma;Mb;Mc;Md;Me;Mf;Mg;Mh
+                        if(wdItem.WorkConditionCode.StartsWith("M") && !wdItem.WorkConditionCode.StartsWith("MO"))
+                        {
+                            groupStr = "第五组";
+                            if (wdItem.WorkConditionCode == "M")
+                            {
+                                linkStrXY = "[常规挂点XY向_dataTable]";
+                                linkStrZ = "[常规挂点Z向_dataTable]";
+                                pointsXY = NormalXYPoints;
+                                pointsZ = NormalZPoints;
+                            }
+                            else
+                            {
+                                linkStrXY = "[吊装挂点XY向_dataTable]";
+                                linkStrZ = "[吊装挂点Z向_dataTable]";
+                                pointsXY = InstallXYPoints;
+                                pointsZ = InstallZPoints;
+                            }
+                        }
+                        // MO;MOa;MOb;MOc;MOd;MOe;MOf;MOh
+                        else
+                        {
+                            groupStr = "第二组";
+                            linkStrXY = "[常规挂点XY向_dataTable]";
+                            linkStrZ = "[常规挂点Z向_dataTable]";
+                            pointsXY = NormalXYPoints;
+                            pointsZ = NormalZPoints;
+                        }
                     }
-                    j++;
+
+                    HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XX, groupStr, linkStrXY, pointsXY, RatioParas, DicGroup);
+                    hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
+
+                    Process2String.Add(strX);
+                    pointsLoad.AddRange(pListX);
+
+                    HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", YY, groupStr, linkStrXY, pointsXY, RatioParas, DicGroup);
+                    hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
+
+                    Process2String.Add(strY);
+                    pointsLoad.AddRange(pListY);
+                    
+                    HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", ZZ, groupStr, linkStrZ, pointsZ, RatioParas, DicGroup);
+                    hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
+
+                    Process2String.Add(strZ);
+                    pointsLoad.AddRange(pListZ);
+
+                    i++;
                 }
-                i++;
+                j++;
             }
 
             return pointsLoad;
-        }
-
-
-        protected int GetPointNum(HangingPointParas point)
-        {
-            int result = 0;
-            //bool bOut = false ;
-            Type pointType = point.GetType();
-
-            for (int i = 0; i <= 8; i++)
-            {
-                //switch (i)
-                //{
-                //    case 1:
-                //        if (point.Point1 != null && point.Point1 == "")
-                //            result++;
-                //        else
-                //            bOut = true;
-                //        break;
-                //    case 2:
-                //        if (point.Point2 != null && point.Point2 == "")
-                //            result++;
-                //        else
-                //            bOut = true;
-                //        break;
-                //    case 3:
-                //        if (point.Point3 != null && point.Point3 == "")
-                //            result++;
-                //        else
-                //            bOut = true;
-                //        break;
-                //    case 4:
-                //        if (point.Point4 != null && point.Point4 == "")
-                //            result++;
-                //        else
-                //            bOut = true;
-                //        break;
-                //    case 5:
-                //        if (point.Point5 != null && point.Point5 == "")
-                //            result++;
-                //        else
-                //            bOut = true;
-                //        break;
-                //    case 6:
-                //        if (point.Point6 != null && point.Point6 == "")
-                //            result++;
-                //        else
-                //            bOut = true;
-                //        break;
-                //    case 7:
-                //        if (point.Point7 != null && point.Point7 == "")
-                //            result++;
-                //        else
-                //            bOut = true;
-                //        break;
-                //    case 8:
-                //        if (point.Point8 != null && point.Point8 == "")
-                //            result++;
-                //        else
-                //            bOut = true;
-                //        break;
-                //}
-
-                //if (bOut)
-                //    break;
-
-                PropertyInfo piontPro = pointType.GetProperty("Point" + i.ToString(), BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
-                if (piontPro != null)
-                {
-                    var pointName = piontPro.GetValue(point);
-
-                    if (pointName != null && (string)pointName != "")
-                        result++;
-                    else
-                        break;
-
-                }
-            }
-
-            return result;
         }
 
     }

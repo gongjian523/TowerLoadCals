@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using TowerLoadCals.Mode;
@@ -22,7 +23,8 @@ namespace TowerLoadCals.BLL
 
         protected FormulaLineCornerTower formula;
 
-        public LoadComposeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, TowerTemplate template, string tablePath) : base(para, lineParas, template, tablePath)
+        public LoadComposeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, StruRatioParas ratioParas, TowerTemplate template, string tablePath) 
+            : base(para, lineParas, ratioParas, template, tablePath)
         {
             formula = new FormulaLineCornerTower(para);
         }

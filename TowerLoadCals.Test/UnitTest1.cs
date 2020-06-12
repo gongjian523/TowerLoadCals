@@ -143,7 +143,141 @@ namespace TowerLoadCals.Test
                 }
             };
 
-            LoadComposeLineTower loadLineTower = new LoadComposeLineTower(formulaParas, lineParas, template, openTemplateDialog.FileName);
+            List<HangingPointParas> normalList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "常规",
+                    Points =  new string[] {"91", "93" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "常规",
+                    Points =  new string[] {"90", "92" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左上导",
+                    StringType = "I串",
+                    Points =  new string[] { "291"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右上导",
+                    StringType = "I串",
+                    Points =  new string[] {"290" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左中导",
+                    StringType = "I串",
+                    Points =  new string[] {"671", "673" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右中导",
+                    StringType = "I串",
+                    Points =  new string[] { "670", "672" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 7,
+                    WireType = "左下导",
+                    StringType = "I串",
+                    Points =  new string[] {"1111", "1113" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 8,
+                    WireType = "右下导",
+                    StringType = "I串",
+                    Points =  new string[] {"1112", "1114" }
+                },
+            };
+
+            List<HangingPointParas> installList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左上导",
+                    Array = "第a组",
+                    Points =  new string[] { "1", "2"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右上导",
+                    StringType = "第a组",
+                    Points =  new string[] {"3", "4"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左中导",
+                    StringType = "第a组",
+                    Points =  new string[] {"11", "22" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右中导",
+                    StringType = "第a组",
+                    Points =  new string[] { "33", "44" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左下导",
+                    StringType = "第a组",
+                    Points =  new string[] {"111", "222" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右下导",
+                    StringType = "第a组",
+                    Points =  new string[] {"333", "444" }
+                },
+            };
+
+            StruRatioParas ratioParas = new StruRatioParas()
+            {
+                GCQ = 0.5f,
+                GCH = 0.5f,
+                GXN = -1,
+                GXW = 2,
+
+                DQWQ = 0.5f,
+                DQWH = 0.5f,
+                DQCQ = 0.6f,
+                DQCH = 0.4f,
+
+                DDWQ = 0.5f,
+                DDWH = 0.5f,
+                DDCQ = 0.6f,
+                DDCH = 0.4f,
+
+                DMWQ = 0.5f,
+                DMWH = 0.5f,
+                DMCQ = 0.6f,
+                DMCH = 0.4f,
+
+                NormalXYPoints = normalList,
+                NormalZPoints = normalList,
+                InstallXYPoints = installList,
+                InstallZPoints = installList,
+            };
+
+            LoadComposeLineTower loadLineTower = new LoadComposeLineTower(formulaParas, lineParas, ratioParas,  template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 
@@ -251,7 +385,9 @@ namespace TowerLoadCals.Test
                 }
             };
 
-            LoadComposeLineCornerTower loadLineCornerTower = new LoadComposeLineCornerTower(formulaParas, lineParas, template, openTemplateDialog.FileName);
+            StruRatioParas ratioParas = new StruRatioParas();
+
+            LoadComposeLineCornerTower loadLineCornerTower = new LoadComposeLineCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
 
