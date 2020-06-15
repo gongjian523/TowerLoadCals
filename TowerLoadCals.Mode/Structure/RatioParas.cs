@@ -16,6 +16,8 @@ namespace TowerLoadCals.Mode
             InstallXYPoints = new List<HangingPointParas>();
             InstallZPoints = new List<HangingPointParas>();
             TurningPoints = new List<HangingPointParas>();
+
+            VStrings = new List<VStringParas>();
         }
 
         /// <summary>
@@ -142,6 +144,7 @@ namespace TowerLoadCals.Mode
 
         public List<HangingPointParas> TurningPoints { get; set; }
 
+        public List<VStringParas> VStrings { get; set; }
 
     }
 }

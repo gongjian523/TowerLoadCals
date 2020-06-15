@@ -136,7 +136,7 @@ namespace TowerLoadCals.BLL
                     float.TryParse(obj10.ToString(), out TensionX[dx + i, j]);
                     object obj11 = ds.Tables[0].Rows[14 + offset + 13 * (i - 1)][j];
                     float.TryParse(obj11.ToString(), out WindTX[dx + i, j]);
-                    object obj12 = ds.Tables[0].Rows[15 + offset + 13 * (i - 1)][j];
+                    object obj12 = ds.Tables[0].Rows[15 + offset + 13 * (i - 1)][j];  
                     float.TryParse(obj12.ToString(), out GTX[dx + i, j]);
                 }
             }
@@ -173,7 +173,7 @@ namespace TowerLoadCals.BLL
             int i = -1, j = 1;
             int count = 0;
 
-            ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));
+            ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
 
             foreach (var wd in Template.WorkConditionCombos)
             {

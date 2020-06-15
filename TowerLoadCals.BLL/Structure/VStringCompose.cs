@@ -139,7 +139,7 @@ namespace TowerLoadCals.BLL
             //else if(T1 < vc6 && T2 < vc6)
             else
             {
-                // 左侧
+                //左侧
                 xxx1 = 0;
                 yyy1 = 0;
                 zzz1 = 0;
@@ -147,7 +147,8 @@ namespace TowerLoadCals.BLL
                 xxx2 = 0;
                 yyy2 = 0;
                 zzz2 = 0;
-                throw new Exception("V串分配错误,存在V串两侧均受压失效的情况");
+                
+                //throw new Exception("V串分配错误,存在V串两侧均受压失效的情况");
             }
         }
     }

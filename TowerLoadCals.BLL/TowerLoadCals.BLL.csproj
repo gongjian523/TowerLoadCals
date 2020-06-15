@@ -48,6 +48,7 @@
     <Compile Include="Structure\FormulaLineCornerTower.cs" />
     <Compile Include="Structure\FormulaLineTower.cs" />
     <Compile Include="Structure\FormulaTower.cs" />
+    <Compile Include="Structure\HangingPointLoadComposeBase.cs" />
     <Compile Include="Structure\LoadComposeBase.cs" />
     <Compile Include="Structure\LoadComposeLineCornerTower.cs" />
     <Compile Include="Structure\LoadComposeCornerTower.cs" />
@@ -58,6 +59,10 @@
     <Folder Include="Electric\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TowerLoadCals.DAL\TowerLoadCals.DAL.csproj">
+      <Project>{05EA043D-3674-4359-8481-3619D35FA25C}</Project>
+      <Name>TowerLoadCals.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TowerLoadCals.Mode\TowerLoadCals.Mode.csproj">
       <Project>{80d39590-f862-4fec-b748-71aa47ba41c8}</Project>
       <Name>TowerLoadCals.Mode</Name>

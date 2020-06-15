@@ -12,7 +12,7 @@ namespace TowerLoadCals.Test
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestMethod1_LineTower()
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog()
             {
@@ -199,7 +199,7 @@ namespace TowerLoadCals.Test
                     Index = 8,
                     WireType = "右下导",
                     StringType = "I串",
-                    Points =  new string[] {"1112", "1114" }
+                    Points =  new string[] {"1110", "1112" }
                 },
             };
 
@@ -279,9 +279,12 @@ namespace TowerLoadCals.Test
 
             LoadComposeLineTower loadLineTower = new LoadComposeLineTower(formulaParas, lineParas, ratioParas,  template, openTemplateDialog.FileName);
 
-            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
+            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "cals";
 
             loadLineTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+
+            string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
+            loadLineTower.CalsPointsLoad(filePath2);
         }
 
         [TestMethod]
@@ -907,7 +910,7 @@ namespace TowerLoadCals.Test
         }
 
         [TestMethod]
-        public void TestMethod6()
+        public void TestMethod6_DicReader()
         {
             List<StruCalsDicGroup> groups = StruLoadComposeDicReader.Read("D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml");
         }

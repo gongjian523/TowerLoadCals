@@ -10,9 +10,13 @@ namespace TowerLoadCals.Mode
     {
         public string Group { get; set; }
 
-        public string WireType { get; set; }
+        public string Name { get; set; }
 
-        public string Type { get; set; }
+        public string Wire { get; set; }
+
+        public string FixedType { get; set; }
+
+        public string ForceDirection { get; set; }
 
         public string Link { get; set; }
 

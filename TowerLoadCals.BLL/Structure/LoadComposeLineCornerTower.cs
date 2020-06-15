@@ -70,7 +70,7 @@ namespace TowerLoadCals.BLL
             int i = -1, j = 1;
             int count = 0;
 
-            ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));
+            ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
 
             foreach (var wd in Template.WorkConditionCombos)
             {

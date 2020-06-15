@@ -22,7 +22,7 @@ namespace TowerLoadCals.BLL
 
         protected FormulaLineTower formula;
 
-        public LoadComposeLineTower(FormulaParas para, StruLineParas[] lineParas, StruRatioParas ratioParas, List<List<HangingPointParas>> pointsLists, TowerTemplate template, string tablePath) 
+        public LoadComposeLineTower(FormulaParas para, StruLineParas[] lineParas, StruRatioParas ratioParas, TowerTemplate template, string tablePath) 
             : base(para, lineParas, ratioParas, template, tablePath)
         {
             formula = new FormulaLineTower(para);
@@ -67,7 +67,7 @@ namespace TowerLoadCals.BLL
             int i = -1, j = 1;
             int count = 0;
 
-            ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));
+            ProcessString.Add(Template.Name + " " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
 
             foreach (var wd in Template.WorkConditionCombos)
             {

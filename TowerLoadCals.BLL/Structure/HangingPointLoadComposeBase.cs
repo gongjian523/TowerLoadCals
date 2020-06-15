@@ -17,8 +17,11 @@ namespace TowerLoadCals.BLL
 
         protected List<string> dicComposeInfo = new List<string>();
 
+        protected TowerTemplate towerTemplate = new TowerTemplate();
+
         protected int pointNum = 0;
 
+        //工况号
         protected int iIndex = 0;
 
         protected int jIndex = 0;
@@ -30,7 +33,7 @@ namespace TowerLoadCals.BLL
         protected float[,] lineLoad;
 
         public HangingPointLoadComposeBase(int i, int j, string orient, float[,] lLoad, string group, string link,  
-            List<HangingPointParas> pointsParas, StruRatioParas raios, List<StruCalsDicGroup> dicGrps)
+            List<HangingPointParas> pointsParas, StruRatioParas raios, TowerTemplate template, List<StruCalsDicGroup> dicGrps)
         {
             iIndex = i;
             jIndex = j;
@@ -38,13 +41,25 @@ namespace TowerLoadCals.BLL
             lineLoad = lLoad;
 
             ratioParas = raios;
+            towerTemplate = template;
 
-            wireType = pointsParas[i].WireType;
-            pointParas = pointsParas[i];
-            pointNum = GetPointNum();
+            wireType = towerTemplate.Wires[i];
+            int gWireNum = towerTemplate.Wires.Where(item => item.Contains("地")).Count();
+            pointParas = link.Contains("常规") ?  pointsParas[i] : pointsParas[i - gWireNum];
+            pointNum = pointParas.Points.Count();
 
-            StruCalsDicGroup dicGroup = link.Contains("常规") ? dicGrps.Where(item => item.Group == group && item.Type == pointParas.StringType && item.Link == link).First()
-                : dicGrps.Where(item => item.Group == group && item.Link == link).First();
+            StruCalsDicGroup dicGroup = new StruCalsDicGroup();
+
+            if(link.Contains("常规"))
+            {
+                string vStr = pointParas.StringType.Contains("V") ? "V串" : pointParas.StringType;
+                dicGroup = dicGrps.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
+            }
+            else
+            {
+                dicGroup = dicGrps.Where(item => item.Group == group && item.Link == link).First();
+            }
+
             List<StruCalsDicComposeInfo> Options = dicGroup.Options.Where(item => item.Num == pointNum).First().ComposrInfos;
             dicComposeInfo = Options.Where(item => item.Orientation == orientation).First().PointCompose;
         }
@@ -53,35 +68,44 @@ namespace TowerLoadCals.BLL
         {
             resList = new List<StruCalsPointLoad>();
 
-            string preStr = wireType.PadLeft(8) + ("工况" + jIndex.ToString()).PadLeft(8);
-            resStr = preStr + orientation.PadLeft(6) + lineLoad[iIndex, jIndex].ToString().PadLeft(10);
+            string preStr = wireType.PadLeft(8) + ("工况" + (jIndex+1).ToString()).PadLeft(8);
+            resStr = preStr + orientation.PadLeft(6) + lineLoad[jIndex, iIndex].ToString("0.00").PadLeft(10);
 
-            for (int k = 0; k <= pointNum; k++)
+            //导线V串
+            if(pointParas.StringType != null &&  pointParas.StringType.Contains("V"))
             {
-                GetPointProportionAndLoad(dicComposeInfo[k],  lineLoad[iIndex, jIndex],  out float proportion, out float laod);
+                int vIndex = Convert.ToInt16(pointParas.StringType.Substring(1));
 
-                resStr += pointParas.Points[k].PadLeft(10) + proportion.ToString().PadLeft(10) + laod.ToString().PadLeft(10);
-
-                resList.Add(new StruCalsPointLoad()
-                {
-                   Name = pointParas.Points[k],
-                   Wire = wireType,
-                   WorkConditionId = jIndex,
-                   Orientation = orientation,
-                   Proportion = proportion,
-                   Load = laod,
-                });
+                VStringParas vParas = ratioParas.VStrings.Where(item => item.Index == vIndex).First();
             }
+            else
+            // 针对地线（常规、悬臂）; 导线-I串: 吊装
+            {
+                for (int k = 0; k < pointNum; k++)
+                {
+                    GetPointProportionAndLoad(dicComposeInfo[k], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+
+                    resStr += pointParas.Points[k].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+
+                    resList.Add(new StruCalsPointLoad()
+                    {
+                        Name = pointParas.Points[k],
+                        Wire = wireType,
+                        WorkConditionId = jIndex,
+                        Orientation = orientation,
+                        Proportion = proportion,
+                        Load = laod,
+                    });
+                }
+            }
+
+
         }
 
         private void GetPointProportionAndLoad(string expressStr, float lineLoad, out float proportion, out float load)
         {
-            if(!expressStr.Contains("*"))
-            {
-                proportion = GetProportion(expressStr);
-                load = lineLoad * proportion;
-            }
-            else
+
+            if(expressStr.Contains("*"))
             {
                 string[] expressList = expressStr.Split('*');
                 proportion = 1;
@@ -93,7 +117,19 @@ namespace TowerLoadCals.BLL
                 
                 load = lineLoad * proportion;
             }
-            
+            else if (expressStr.Contains("/"))
+            {
+                string[] expressList = expressStr.Split('/');
+                proportion = GetProportion(expressList[0]) / GetProportion(expressList[1]);
+
+                load = lineLoad * proportion;
+            }
+            else 
+            {
+                proportion = GetProportion(expressStr);
+                load = lineLoad * proportion;
+            }
+
         }
 
         private float GetProportion(string expressStr)
@@ -167,8 +203,7 @@ namespace TowerLoadCals.BLL
         {
             int result = 0;
 
-            //bool bOut = false ;
-            //Type pointType = point.GetType();
+
 
             for (int i = 0; i < 8; i++)
             {

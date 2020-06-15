@@ -30,12 +30,12 @@ namespace TowerLoadCals.DAL
                 StruCalsDicGroup group = new StruCalsDicGroup()
                 {
                     Group = groupNode.Attributes["Group"].Value.ToString(),
-                    WireType = groupNode.Attributes["WireType"].Value.ToString(),
+                    Name = groupNode.Attributes["Name"].Value.ToString(),
+                    Wire = groupNode.Attributes["Wire"].Value.ToString(),
+                    FixedType = groupNode.Attributes["FixedType"].Value.ToString(),
+                    ForceDirection = groupNode.Attributes["ForceDirection"].Value.ToString(),
                     Link = groupNode.Attributes["Link"].Value.ToString()
                 };
-
-                if (groupNode.Attributes["Type"] != null)
-                    group.Type = groupNode.Attributes["Type"].Value.ToString();
 
                 group.Options = new List<StruCalsDicOption>();
 
