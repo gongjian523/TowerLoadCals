@@ -1072,6 +1072,7 @@ namespace TowerLoadCals.BLL
 
 
                 //If Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
+                if(false)
                 {
                     float angf = 0;
                     //float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);
@@ -1241,6 +1242,7 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j-1] + " Fz= " + strZ);
 
                 //If Abs(Val(Me.DataGridView7.Rows(i -1).Cells(j + 3).Value)) > 10000 And Me.truningPoint_CkBox.Checked = True Then
+                if(false)
                 {
                     float angf = 0;
                     //float angf = Trim(Me.DataGridView3.Rows(j - 1 - dxl).Cells(2).Value);

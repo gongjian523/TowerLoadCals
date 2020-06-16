@@ -485,9 +485,10 @@
     <Resource Include="Images\TowerOption2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\HPCompose-LineTower.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="UserData\HPCompose-TensionTower.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UserData\HPCompose-LineTower.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

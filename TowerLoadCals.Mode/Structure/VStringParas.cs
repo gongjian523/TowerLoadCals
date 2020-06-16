@@ -8,7 +8,7 @@ namespace TowerLoadCals.Mode
 {
     public class VStringParas
     {
-        public int Index { get; set; }
+        public String Index { get; set; }
 
         public float L1 { get; set; }
 

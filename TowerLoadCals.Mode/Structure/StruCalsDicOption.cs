@@ -9,7 +9,11 @@ namespace TowerLoadCals.Mode
     public class StruCalsDicOption
     {
         public int Num { get; set; }
-        
+
+        public String[] LeftPoints { get; set; }
+
+        public String[] RightPoints { get; set; }
+
         public List<StruCalsDicComposeInfo> ComposrInfos { get; set; }
     }
 }

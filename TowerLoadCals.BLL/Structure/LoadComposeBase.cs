@@ -136,7 +136,7 @@ namespace TowerLoadCals.BLL
                         //L;La;Lb;Lc;Ld;Le;Lf;Lg;Lh
                         else if (wdItem.WorkConditionCode.StartsWith("L"))
                         {
-                            if (Math.Abs(wdItem.WireIndexCodes[i]) < 10)
+                            if (Math.Abs(wdItem.WireIndexCodes[i]) < 10 && (wdItem.WorkConditionCode == "L"))
                             {
                                 groupStr = "第三组";
                                 linkStrXY = "[常规挂点XY向_dataTable]";
@@ -158,7 +158,7 @@ namespace TowerLoadCals.BLL
                         //C;Ca;Cb;Cc;Cd;Ce;Cf;Cg;Ch;CL;CLa;CLb;CLc;CLd;CLe;CLf;CL;CLa;CLb;CLc;CLd;CLe;CLf;CLg;CLh
                         else if (wdItem.WorkConditionCode.StartsWith("C"))
                         {
-                            if (Math.Abs(wdItem.WireIndexCodes[i]) < 10)
+                            if (Math.Abs(wdItem.WireIndexCodes[i]) < 10 && (wdItem.WorkConditionCode == "C" && wdItem.WorkConditionCode == "CL"))
                             {
                                 groupStr = "第三组";
                                 linkStrXY = "[常规挂点XY向_dataTable]";
@@ -182,11 +182,22 @@ namespace TowerLoadCals.BLL
                         {
                             if (Math.Abs(wdItem.WireIndexCodes[i]) < 10)
                             {
-                                groupStr = "第三组";
-                                linkStrXY = "[常规挂点XY向_dataTable]";
-                                linkStrZ = "[常规挂点Z向_dataTable]";
-                                pointsXY = RatioParas.NormalXYPoints;
-                                pointsZ = RatioParas.NormalZPoints;
+                                if (wdItem.WorkConditionCode == "G" || wdItem.WorkConditionCode == "GL")
+                                {
+                                    groupStr = "第三组";
+                                    linkStrXY = "[常规挂点XY向_dataTable]";
+                                    linkStrZ = "[常规挂点Z向_dataTable]";
+                                    pointsXY = RatioParas.NormalXYPoints;
+                                    pointsZ = RatioParas.NormalZPoints;
+                                }
+                                else
+                                {
+                                    groupStr = "第六组";
+                                    linkStrXY = "[吊装挂点XY向_dataTable]";
+                                    linkStrZ = "[吊装挂点XY向_dataTable]";
+                                    pointsXY = RatioParas.InstallXYPoints;
+                                    pointsZ = RatioParas.InstallXYPoints;
+                                }
 
                             }
                             else
@@ -258,19 +269,19 @@ namespace TowerLoadCals.BLL
                         }
                     }
 
-                    HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XX, groupStr, linkStrXY, pointsXY, RatioParas, Template, DicGroup);
+                    HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, RatioParas, Template, DicGroup);
                     hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
 
                     Process2String.Add(strX);
                     pointsLoad.AddRange(pListX);
 
-                    HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", YY, groupStr, linkStrXY, pointsXY, RatioParas, Template, DicGroup);
+                    HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, RatioParas, Template, DicGroup);
                     hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
 
                     Process2String.Add(strY);
                     pointsLoad.AddRange(pListY);
                     
-                    HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", ZZ, groupStr, linkStrZ, pointsZ, RatioParas, Template, DicGroup);
+                    HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XX, YY, ZZ, groupStr, linkStrZ, pointsZ, RatioParas, Template, DicGroup);
                     hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
 
                     Process2String.Add(strZ);

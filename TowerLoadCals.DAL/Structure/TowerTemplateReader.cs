@@ -200,38 +200,6 @@ namespace TowerLoadCals.DAL
                 spec.WindDirectionCode = item.WindDirectionCode;
                 spec.WorkCode = item.WorkCode;
 
-                //if (item.WireIndexCodes.Count >= 1)
-                //    spec.Wire1 = item.WireIndexCodes[0];
-                //if (item.WireIndexCodes.Count >= 2)
-                //    spec.Wire2 = item.WireIndexCodes[1];
-                //if (item.WireIndexCodes.Count >= 3)
-                //    spec.Wire3 = item.WireIndexCodes[2];
-                //if (item.WireIndexCodes.Count >= 4)
-                //    spec.Wire4 = item.WireIndexCodes[3];
-                //if (item.WireIndexCodes.Count >= 5)
-                //    spec.Wire5 = item.WireIndexCodes[4];
-                //if (item.WireIndexCodes.Count >= 6)
-                //    spec.Wire6 = item.WireIndexCodes[5];
-                //if (item.WireIndexCodes.Count >= 7)
-                //    spec.Wire7 = item.WireIndexCodes[6];
-                //if (item.WireIndexCodes.Count >= 8)
-                //    spec.Wire8 = item.WireIndexCodes[7];
-                //if (item.WireIndexCodes.Count >= 9)
-                //    spec.Wire9 = item.WireIndexCodes[8];
-                //if (item.WireIndexCodes.Count >= 10)
-                //    spec.Wire10 = item.WireIndexCodes[9];
-                //if (item.WireIndexCodes.Count >= 11)
-                //    spec.Wire11 = item.WireIndexCodes[10];
-                //if (item.WireIndexCodes.Count >= 12)
-                //    spec.Wire12 = item.WireIndexCodes[11];
-                //if (item.WireIndexCodes.Count >= 13)
-                //    spec.Wire13 = item.WireIndexCodes[12];
-                //if (item.WireIndexCodes.Count >= 14)
-                //    spec.Wire14 = item.WireIndexCodes[13];
-                //if (item.WireIndexCodes.Count >= 15)
-                //    spec.Wire15 = item.WireIndexCodes[14];
-                //if (item.WireIndexCodes.Count >= 16)
-                //    spec.Wire16 = item.WireIndexCodes[15];
 
                 for (int i = 1; i <= item.WireIndexCodes.Count; i++)
                 {

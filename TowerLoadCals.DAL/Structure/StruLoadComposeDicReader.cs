@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using TowerLoadCals.Mode;
@@ -43,8 +44,14 @@ namespace TowerLoadCals.DAL
                 {
                     StruCalsDicOption opt = new StruCalsDicOption()
                     {
-                        Num = Convert.ToInt16(optNode.Attributes["挂点个数"].Value.ToString())
+                        Num = Convert.ToInt16(optNode.Attributes["挂点个数"].Value.ToString()),
                     };
+
+                    if (optNode.Attributes["左侧挂点"] != null)
+                        opt.LeftPoints = Regex.Split(optNode.Attributes["左侧挂点"].Value.ToString().Trim(), "\\s+");
+
+                    if (optNode.Attributes["右侧挂点"] != null)
+                        opt.RightPoints = Regex.Split(optNode.Attributes["右侧挂点"].Value.ToString().Trim(), "\\s+");
 
                     opt.ComposrInfos = new List<StruCalsDicComposeInfo>();
 

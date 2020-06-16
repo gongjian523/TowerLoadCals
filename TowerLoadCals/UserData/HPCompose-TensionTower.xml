@@ -1,509 +1,99 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <Root>
-	<HangingPoint Group = "第一组"  Name="地线挂点" Wire = "地线" FixedType = "常规" ForceDirection="XY" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[地线常规前侧_txtbox]"  点2 = "[地线常规后侧_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[地线常规前侧_txtbox]"  点2 = "[地线常规后侧_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[地线常规前侧_txtbox] * 0.5"  点2 = "[地线常规后侧_txtbox] * 0.5" 点3 = "[地线常规前侧_txtbox] * 0.5"  点4 = "[地线常规后侧_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[地线常规前侧_txtbox] * 0.5"  点2 = "[地线常规后侧_txtbox] * 0.5" 点3 = "[地线常规前侧_txtbox] * 0.5"  点4 = "[地线常规后侧_txtbox] * 0.5"/>		
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[地线常规前侧_txtbox] /3"  点2 = "[地线常规后侧_txtbox] /3" 点3 = "[地线常规前侧_txtbox] /3"  点4 = "[地线常规后侧_txtbox] /3"
-				点5 = "[地线常规前侧_txtbox]/3"  点6 = "[地线常规后侧_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[地线常规前侧_txtbox] /3"  点2 = "[地线常规后侧_txtbox] /3" 点3 = "[地线常规前侧_txtbox] /3"  点4 = "[地线常规后侧_txtbox] /3"
-				点5 = "[地线常规前侧_txtbox] /3"  点6 = "[地线常规后侧_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[地线常规前侧_txtbox] * 0.25"  点2 = "[地线常规后侧_txtbox] * 0.25" 点3 = "[地线常规前侧_txtbox] * 0.25"  点4 = "[地线常规后侧_txtbox] * 0.25"
-				点5 = "[地线常规前侧_txtbox] * 0.25"  点6 = "[地线常规后侧_txtbox] * 0.25" 点7 = "[地线常规前侧_txtbox] * 0.25"  点8 = "[地线常规后侧_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[地线常规前侧_txtbox] * 0.25"  点2 = "[地线常规后侧_txtbox] * 0.25" 点3 = "[地线常规前侧_txtbox] * 0.25"  点4 = "[地线常规后侧_txtbox] * 0.25"
-				点5 = "[地线常规前侧_txtbox] * 0.25"  点6 = "[地线常规后侧_txtbox] * 0.25" 点7 = "[地线常规前侧_txtbox] * 0.25"  点8 = "[地线常规后侧_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第一组"  Name="地线挂点" Wire = "地线" FixedType = "悬臂" ForceDirection="XY" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "2" >
-			<ComposeInfo 方向 = "X" 点1 = "0.5"  点2 = "0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[地线悬臂内侧_txtbox]"  点2 = "[地线悬臂外侧_txtbox]"/>
-		</Option>
-		<Option	挂点个数 = "4" >
-			<ComposeInfo 方向 = "X" 点1 = "[地线常规前侧_txtbox] * 0.5" 点2 = "[地线常规后侧_txtbox] * 0.5" 点3 = "[地线常规前侧_txtbox] * 0.5" 点4 = "[地线常规后侧_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[地线常规前侧_txtbox] * [地线悬臂内侧_txtbox]"  点2 = "[地线常规后侧_txtbox] * [地线悬臂内侧_txtbox]" 点3 = "[地线常规前侧_txtbox] * [地线悬臂外侧_txtbox]" 点4 = "[地线常规后侧_txtbox] * [地线悬臂外侧_txtbox]"/>
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[地线常规前侧_txtbox] /3"  点2 = "[地线常规后侧_txtbox] /3" 点3 = "[地线常规前侧_txtbox] /3"  点4 = "[地线常规后侧_txtbox] /3"
-				点5 = "[地线常规前侧_txtbox] /3"  点6 = "[地线常规后侧_txtbox]  /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[地线悬臂内侧_txtbox] /3"  点2 = "[地线悬臂内侧_txtbox] /3" 点3 = "[地线悬臂内侧_txtbox] /3"  点4 = "[地线悬臂外侧_txtbox]  /3"
-				点5 = "[地线悬臂外侧_txtbox] /3"  点6 = "[地线悬臂外侧_txtbox] /3"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第一组"  Name="地线挂点" Wire = "地线" FixedType = "常规" ForceDirection="Z" Link = "[常规挂点Z向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "Z" 点1 = "[地线常规前侧_txtbox]"  点2 = "[地线常规后侧_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "Z" 点1 = "[地线常规前侧_txtbox] * 0.5"  点2 = "[地线常规后侧_txtbox] * 0.5" 点3 = "[地线常规前侧_txtbox] * 0.5"  点4 = "[地线常规后侧_txtbox] * 0.5"/>
-		
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "Z" 点1 = "[地线常规前侧_txtbox] /3"  点2 = "[地线常规后侧_txtbox] /3" 点3 = "[地线常规前侧_txtbox] /3"  点4 = "[地线常规后侧_txtbox] /3"
-				点5 = "[地线常规前侧_txtbox] /3"  点6 = "[地线常规后侧_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "Z" 点1 = "[地线常规前侧_txtbox] * 0.25"  点2 = "[地线常规后侧_txtbox] * 0.25" 点3 = "[地线常规前侧_txtbox] * 0.25"  点4 = "[地线常规后侧_txtbox] * 0.25"
-				点5 = "[地线常规前侧_txtbox] * 0.25"  点6 = "[地线常规后侧_txtbox] * 0.25" 点7 = "[地线常规前侧_txtbox] * 0.25"  点8 = "[地线常规后侧_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第一组"  Name="地线挂点" Wire = "地线" FixedType = "悬臂" ForceDirection="Z" Link = "[常规挂点Z向_dataTable]">
-		<Option	挂点个数 = "2" >
-			<ComposeInfo 方向 = "Z" 点1 = "[地线悬臂内侧_txtbox]"  点2 = "[地线悬臂外侧_txtbox]"/>
-		</Option>
-		<Option	挂点个数 = "4" >
-			<ComposeInfo 方向 = "Z" 点1 = "[地线常规前侧_txtbox] * [地线悬臂内侧_txtbox]"  点2 = "[地线常规后侧_txtbox] * [地线悬臂内侧_txtbox]" 点3 = "[地线常规前侧_txtbox] * [地线悬臂外侧_txtbox]" 
-				点4 = "[地线常规后侧_txtbox] * [地线悬臂外侧_txtbox]"/>
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "Y" 点1 = "[地线悬臂内侧_txtbox] /3"  点2 = "[地线悬臂内侧_txtbox] /3" 点3 = "[地线悬臂内侧_txtbox] /3"  点4 = "[地线悬臂外侧_txtbox]  /3"
-				点5 = "[地线悬臂外侧_txtbox] /3"  点6 = "[地线悬臂外侧_txtbox] /3"/>
-		</Option>
-	</HangingPoint>
+  <HangingPoint Group = "第一组"  Name="地线挂点" Wire = "地线" FixedType = "常规" ForceDirection="XYZ" Link = "[常规导线挂点_dataTable]">
+    <Option	挂点个数 = "1" 前侧挂点="点1" 后侧挂点="点1">
+      <ComposeInfo 方向 = "X" 点1 = "1" />
+      <ComposeInfo 方向 = "Y" 点1 = "1" />
+      <ComposeInfo 方向 = "Z" 点1 = "1" />
+    </Option>
+    <Option	挂点个数 = "2" 前侧挂点="点1" 后侧挂点="点2">
+      <ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
+      <ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
+      <ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
+    </Option>
+    <Option	挂点个数 = "4" 前侧挂点="点1 点3" 后侧挂点="点2 点4">
+      <ComposeInfo 方向 = "X" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+    </Option>
+    <Option	挂点个数 = "6" 前侧挂点="点1 点3 点5" 后侧挂点="点2 点4 点6">
+      <ComposeInfo 方向 = "X" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+    </Option>
+    <Option	挂点个数 = "8" 前侧挂点="点1 点3 点5 点7" 后侧挂点="点2 点4 点6 点8">
+      <ComposeInfo 方向 = "X" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+    </Option>
+  </HangingPoint>
 
-	<HangingPoint Group = "第二组"  Name="导线常规" Wire = "导线" FixedType = "I串" ForceDirection="XY" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox]"  点2 = "[后侧风荷其他_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox]"  点2 = "[后侧风荷其他_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox] * 0.5"  点2 = "[后侧风荷其他_txtbox] * 0.5" 点3 = "[前侧风荷其他_txtbox] * 0.5"  点4 = "[后侧风荷其他_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox] * 0.5"  点2 = "[后侧风荷其他_txtbox] * 0.5" 点3 = "[前侧风荷其他_txtbox] * 0.5"  点4 = "[后侧风荷其他_txtbox] * 0.5"/>		
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox] /3"  点2 = "[后侧风荷其他_txtbox] /3" 点3 = "[前侧风荷其他_txtbox] /3"  点4 = "[后侧风荷其他_txtbox] /3"
-				点5 = "[前侧风荷其他_txtbox] /3"  点6 = "[后侧风荷其他_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox] /3"  点2 = "[后侧风荷其他_txtbox] /3" 点3 = "[前侧风荷其他_txtbox] /3"  点4 = "[后侧风荷其他_txtbox] /3"
-				点5 = "[前侧风荷其他_txtbox] /3"  点6 = "[后侧风荷其他_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox] * 0.25"  点2 = "[后侧风荷其他_txtbox] * 0.25" 点3 = "[前侧风荷其他_txtbox] * 0.25"  点4 = "[后侧风荷其他_txtbox] * 0.25"
-				点5 = "[前侧风荷其他_txtbox] * 0.25"  点6 = "[后侧风荷其他_txtbox] * 0.25" 点7 = "[前侧风荷其他_txtbox] * 0.25"  点8 = "[后侧风荷其他_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox] * 0.25"  点2 = "[后侧风荷其他_txtbox] * 0.25" 点3 = "[前侧风荷其他_txtbox] * 0.25"  点4 = "[后侧风荷其他_txtbox] * 0.25"
-				点5 = "[前侧风荷其他_txtbox] * 0.25"  点6 = "[后侧风荷其他_txtbox] * 0.25" 点7 = "[前侧风荷其他_txtbox] * 0.25"  点8 = "[后侧风荷其他_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第二组"  Name="导线常规" Wire = "导线" FixedType = "V串" ForceDirection="XY" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox]"  点2 = "[后侧风荷其他_txtbox]" 点3 = "[前侧风荷其他_txtbox]"  点4 = "[后侧风荷其他_txtbox]"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox]"  点2 = "[后侧风荷其他_txtbox]" 点3 = "[前侧风荷其他_txtbox]"  点4 = "[后侧风荷其他_txtbox]"/>		
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第二组"  Name="导线常规" Wire = "导线" FixedType = "I串" ForceDirection="Z" Link = "[常规挂点Z向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox]"  点2 = "[后侧垂荷其他_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox] * 0.5"  点2 = "[后侧垂荷其他_txtbox] * 0.5" 点3 = "[前侧垂荷其他_txtbox] * 0.5"  点4 = "[后侧垂荷其他_txtbox] * 0.5"/>
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox] /3"  点2 = "[后侧垂荷其他_txtbox] /3" 点3 = "[前侧垂荷其他_txtbox] /3"  点4 = "[后侧垂荷其他_txtbox] /3"
-				点5 = "[前侧垂荷其他_txtbox] /3"  点6 = "[后侧垂荷其他_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox] * 0.25"  点2 = "[后侧垂荷其他_txtbox] * 0.25" 点3 = "[前侧垂荷其他_txtbox] * 0.25"  点4 = "[后侧垂荷其他_txtbox] * 0.25"
-				点5 = "[前侧垂荷其他_txtbox] * 0.25"  点6 = "[后侧垂荷其他_txtbox] * 0.25" 点7 = "[前侧垂荷其他_txtbox] * 0.25"  点8 = "[后侧垂荷其他_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第二组"  Name="导线常规" Wire = "导线" FixedType = "V串" ForceDirection="Z" Link = "[常规挂点Z向_dataTable]">
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox]"  点2 = "[后侧垂荷其他_txtbox]" 点3 = "[前侧垂荷其他_txtbox]"  点4 = "[后侧垂荷其他_txtbox]"/>
-		</Option>
-	</HangingPoint>
-	
-	<HangingPoint Group = "第三组"  Name="导线已吊" Wire = "导线" FixedType = "I串" ForceDirection="XY" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>		
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第三组"  Name="导线已吊" Wire = "导线" FixedType = "V串" ForceDirection="XY" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" 点3 = "[前侧风荷吊装_txtbox]"  点4 = "[后侧风荷吊装_txtbox]"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" 点3 = "[前侧风荷吊装_txtbox]"  点4 = "[后侧风荷吊装_txtbox]"/>		
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第三组"  Name="导线已吊" Wire = "导线" FixedType = "I串" ForceDirection="Z" Link = "[常规挂点Z向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox]"  点2 = "[后侧垂荷吊装_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.5"  点2 = "[后侧垂荷吊装_txtbox] * 0.5" 点3 = "[前侧垂荷吊装_txtbox] * 0.5"  点4 = "[后侧垂荷吊装_txtbox] * 0.5"/>
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] /3"  点2 = "[后侧垂荷吊装_txtbox] /3" 点3 = "[前侧垂荷吊装_txtbox] /3"  点4 = "[后侧垂荷吊装_txtbox] /3"
-				点5 = "[前侧垂荷吊装_txtbox] /3"  点6 = "[后侧垂荷吊装_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.25"  点2 = "[后侧垂荷吊装_txtbox] * 0.25" 点3 = "[前侧垂荷吊装_txtbox] * 0.25"  点4 = "[后侧垂荷吊装_txtbox] * 0.25"
-				点5 = "[前侧垂荷吊装_txtbox] * 0.25"  点6 = "[后侧垂荷吊装_txtbox] * 0.25" 点7 = "[前侧垂荷吊装_txtbox] * 0.25"  点8 = "[后侧垂荷吊装_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第三组"  Name="导线已吊" Wire = "导线" FixedType = "V串" ForceDirection="Z" Link = "[常规挂点Z向_dataTable]">
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox]"  点2 = "[后侧垂荷吊装_txtbox]" 点3 = "[前侧垂荷吊装_txtbox]"  点4 = "[后侧垂荷吊装_txtbox]"/>
-		</Option>
-	</HangingPoint>
-	
-	<HangingPoint Group = "第四组"  Name="导线正吊" Wire = "导线" FixedType = "" ForceDirection="XY" Link = "[吊装挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>		
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第四组"  Name="导线正吊" Wire = "导线" FixedType = "" ForceDirection="Z" Link = "[吊装挂点Z向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox]"  点2 = "[后侧垂荷吊装_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.5"  点2 = "[后侧垂荷吊装_txtbox] * 0.5" 点3 = "[前侧垂荷吊装_txtbox] * 0.5"  点4 = "[后侧垂荷吊装_txtbox] * 0.5"/>
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] /3"  点2 = "[后侧垂荷吊装_txtbox] /3" 点3 = "[前侧垂荷吊装_txtbox] /3"  点4 = "[后侧垂荷吊装_txtbox] /3"
-				点5 = "[前侧垂荷吊装_txtbox] /3"  点6 = "[后侧垂荷吊装_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.25"  点2 = "[后侧垂荷吊装_txtbox] * 0.25" 点3 = "[前侧垂荷吊装_txtbox] * 0.25"  点4 = "[后侧垂荷吊装_txtbox] * 0.25"
-				点5 = "[前侧垂荷吊装_txtbox] * 0.25"  点6 = "[后侧垂荷吊装_txtbox] * 0.25" 点7 = "[前侧垂荷吊装_txtbox] * 0.25"  点8 = "[后侧垂荷吊装_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	
-	<HangingPoint Group = "第五组"  Name="锚线挂点" Wire = "导线" FixedType = "I串" ForceDirection="XYZ" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox]"  点2 = "[后侧风荷锚线_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox]"  点2 = "[后侧风荷锚线_txtbox]" />
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox]"  点2 = "[后侧垂荷锚线_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox] * 0.5"  点2 = "[后侧风荷锚线_txtbox] * 0.5" 点3 = "[前侧风荷锚线_txtbox] * 0.5"  点4 = "[后侧风荷锚线_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox] * 0.5"  点2 = "[后侧风荷锚线_txtbox] * 0.5" 点3 = "[前侧风荷锚线_txtbox] * 0.5"  点4 = "[后侧风荷锚线_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox] * 0.5"  点2 = "[后侧垂荷锚线_txtbox] * 0.5" 点3 = "[前侧垂荷锚线_txtbox] * 0.5"  点4 = "[后侧垂荷锚线_txtbox] * 0.5"/>			
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox] /3"  点2 = "[后侧风荷锚线_txtbox] /3" 点3 = "[前侧风荷锚线_txtbox] /3"  点4 = "[后侧风荷锚线_txtbox] /3"
-				点5 = "[前侧风荷锚线_txtbox] /3"  点6 = "[后侧风荷锚线_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox] /3"  点2 = "[后侧风荷锚线_txtbox] /3" 点3 = "[前侧风荷锚线_txtbox] /3"  点4 = "[后侧风荷锚线_txtbox] /3"
-				点5 = "[前侧风荷锚线_txtbox] /3"  点6 = "[后侧风荷锚线_txtbox] /3"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox] /3"  点2 = "[后侧垂荷锚线_txtbox] /3" 点3 = "[前侧垂荷锚线_txtbox] /3"  点4 = "[后侧垂荷锚线_txtbox] /3"
-				点5 = "[前侧垂荷锚线_txtbox] /3"  点6 = "[后侧垂荷锚线_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox] * 0.25"  点2 = "[后侧风荷锚线_txtbox] * 0.25" 点3 = "[前侧风荷锚线_txtbox] * 0.25"  点4 = "[后侧风荷锚线_txtbox] * 0.25"
-				点5 = "[前侧风荷锚线_txtbox] * 0.25"  点6 = "[后侧风荷锚线_txtbox] * 0.25" 点7 = "[前侧风荷锚线_txtbox] * 0.25"  点8 = "[后侧风荷锚线_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox] * 0.25"  点2 = "[后侧风荷锚线_txtbox] * 0.25" 点3 = "[前侧风荷锚线_txtbox] * 0.25"  点4 = "[后侧风荷锚线_txtbox] * 0.25"
-				点5 = "[前侧风荷锚线_txtbox] * 0.25"  点6 = "[后侧风荷锚线_txtbox] * 0.25" 点7 = "[前侧风荷锚线_txtbox] * 0.25"  点8 = "[后侧风荷锚线_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox] * 0.25"  点2 = "[后侧垂荷锚线_txtbox] * 0.25" 点3 = "[前侧垂荷锚线_txtbox] * 0.25"  点4 = "[后侧垂荷锚线_txtbox] * 0.25"
-				点5 = "[前侧垂荷锚线_txtbox] * 0.25"  点6 = "[后侧垂荷锚线_txtbox] * 0.25" 点7 = "[前侧垂荷锚线_txtbox] * 0.25"  点8 = "[后侧垂荷锚线_txtbox] * 0.25"/>
-				
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第五组"  Name="锚线挂点" Wire=  "导线" FixedType = "V串" ForceDirection="XYZ" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
-			<ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox]"  点2 = "[后侧风荷锚线_txtbox]" 点3 = "[前侧风荷锚线_txtbox]"  点4 = "[后侧风荷锚线_txtbox]"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox]"  点2 = "[后侧风荷锚线_txtbox]" 点3 = "[前侧风荷锚线_txtbox]"  点4 = "[后侧风荷锚线_txtbox]"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox]"  点2 = "[后侧垂荷锚线_txtbox]" 点3 = "[前侧垂荷锚线_txtbox]"  点4 = "[后侧垂荷锚线_txtbox]"/>			
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第五组"  Name="锚线挂点" Wire = "导线" FixedType = "" ForceDirection="XYZ" Link = "[吊装挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox]"  点2 = "[后侧风荷锚线_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox]"  点2 = "[后侧风荷锚线_txtbox]" />
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox]"  点2 = "[后侧垂荷锚线_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox] * 0.5"  点2 = "[后侧风荷锚线_txtbox] * 0.5" 点3 = "[前侧风荷锚线_txtbox] * 0.5"  点4 = "[后侧风荷锚线_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox] * 0.5"  点2 = "[后侧风荷锚线_txtbox] * 0.5" 点3 = "[前侧风荷锚线_txtbox] * 0.5"  点4 = "[后侧风荷锚线_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox] * 0.5"  点2 = "[后侧垂荷锚线_txtbox] * 0.5" 点3 = "[前侧垂荷锚线_txtbox] * 0.5"  点4 = "[后侧垂荷锚线_txtbox] * 0.5"/>				
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox] /3"  点2 = "[后侧风荷锚线_txtbox] /3" 点3 = "[前侧风荷锚线_txtbox] /3"  点4 = "[后侧风荷锚线_txtbox] /3"
-				点5 = "[前侧风荷锚线_txtbox] /3"  点6 = "[后侧风荷锚线_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox] /3"  点2 = "[后侧风荷锚线_txtbox] /3" 点3 = "[前侧风荷锚线_txtbox] /3"  点4 = "[后侧风荷锚线_txtbox] /3"
-				点5 = "[前侧风荷锚线_txtbox] /3"  点6 = "[后侧风荷锚线_txtbox] /3"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox] /3"  点2 = "[后侧垂荷锚线_txtbox] /3" 点3 = "[前侧垂荷锚线_txtbox] /3"  点4 = "[后侧垂荷锚线_txtbox] /3"
-				点5 = "[前侧垂荷锚线_txtbox] /3"  点6 = "[后侧垂荷锚线_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷锚线_txtbox] * 0.25"  点2 = "[后侧风荷锚线_txtbox] * 0.25" 点3 = "[前侧风荷锚线_txtbox] * 0.25"  点4 = "[后侧风荷锚线_txtbox] * 0.25"
-				点5 = "[前侧风荷锚线_txtbox] * 0.25"  点6 = "[后侧风荷锚线_txtbox] * 0.25" 点7 = "[前侧风荷锚线_txtbox] * 0.25"  点8 = "[后侧风荷锚线_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷锚线_txtbox] * 0.25"  点2 = "[后侧风荷锚线_txtbox] * 0.25" 点3 = "[前侧风荷锚线_txtbox] * 0.25"  点4 = "[后侧风荷锚线_txtbox] * 0.25"
-				点5 = "[前侧风荷锚线_txtbox] * 0.25"  点6 = "[后侧风荷锚线_txtbox] * 0.25" 点7 = "[前侧风荷锚线_txtbox] * 0.25"  点8 = "[后侧风荷锚线_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷锚线_txtbox] * 0.25"  点2 = "[后侧垂荷锚线_txtbox] * 0.25" 点3 = "[前侧垂荷锚线_txtbox] * 0.25"  点4 = "[后侧垂荷锚线_txtbox] * 0.25"
-				点5 = "[前侧垂荷锚线_txtbox] * 0.25"  点6 = "[后侧垂荷锚线_txtbox] * 0.25" 点7 = "[前侧垂荷锚线_txtbox] * 0.25"  点8 = "[后侧垂荷锚线_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
+  <HangingPoint Group = "第二组"  Name="导线挂点" Wire = "导线" FixedType = "常规" ForceDirection="XYZ" Link = "[常规导线挂点_dataTable]">
+    <Option	挂点个数 = "1" 前侧挂点="点1" 后侧挂点="点1">
+      <ComposeInfo 方向 = "X" 点1 = "1" />
+      <ComposeInfo 方向 = "Y" 点1 = "1" />
+      <ComposeInfo 方向 = "Z" 点1 = "1" />
+    </Option>
+    <Option	挂点个数 = "2" 前侧挂点="点1" 后侧挂点="点2">
+      <ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
+      <ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
+      <ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
+    </Option>
+    <Option	挂点个数 = "4" 前侧挂点="点1 点3" 后侧挂点="点2 点4">
+      <ComposeInfo 方向 = "X" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+    </Option>
+    <Option	挂点个数 = "6" 前侧挂点="点1 点3 点5" 后侧挂点="点2 点4 点6">
+      <ComposeInfo 方向 = "X" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+    </Option>
+    <Option	挂点个数 = "8" 前侧挂点="点1 点3 点5 点7" 后侧挂点="点2 点4 点6 点8">
+      <ComposeInfo 方向 = "X" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+    </Option>
+  </HangingPoint>
 
-	<HangingPoint Group = "第六组"  Name="过滑车挂点" Wire = "导线" FixedType = "I串" ForceDirection="XYZ" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox]"  点2 = "[后侧垂荷吊装_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.5"  点2 = "[后侧垂荷吊装_txtbox] * 0.5" 点3 = "[前侧垂荷吊装_txtbox] * 0.5"  点4 = "[后侧垂荷吊装_txtbox] * 0.5"/>			
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] /3"  点2 = "[后侧垂荷吊装_txtbox] /3" 点3 = "[前侧垂荷吊装_txtbox] /3"  点4 = "[后侧垂荷吊装_txtbox] /3"
-				点5 = "[前侧垂荷吊装_txtbox] /3"  点6 = "[后侧垂荷吊装_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.25"  点2 = "[后侧垂荷吊装_txtbox] * 0.25" 点3 = "[前侧垂荷吊装_txtbox] * 0.25"  点4 = "[后侧垂荷吊装_txtbox] * 0.25"
-				点5 = "[前侧垂荷吊装_txtbox] * 0.25"  点6 = "[后侧垂荷吊装_txtbox] * 0.25" 点7 = "[前侧垂荷吊装_txtbox] * 0.25"  点8 = "[后侧垂荷吊装_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第六组"  Name="过滑车挂点" Wire = "导线" FixedType = "V串" ForceDirection="XYZ" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
-			<ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" 点3 = "[前侧风荷吊装_txtbox]"  点4 = "[后侧风荷吊装_txtbox]"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" 点3 = "[前侧风荷吊装_txtbox]"  点4 = "[后侧风荷吊装_txtbox]"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox]"  点2 = "[后侧垂荷吊装_txtbox]" 点3 = "[前侧垂荷吊装_txtbox]"  点4 = "[后侧垂荷吊装_txtbox]"/>			
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第六组"  Name="过滑车挂点" Wire = "导线" FixedType = "" ForceDirection="XYZ" Link = "[吊装挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox]"  点2 = "[后侧垂荷吊装_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.5"  点2 = "[后侧垂荷吊装_txtbox] * 0.5" 点3 = "[前侧垂荷吊装_txtbox] * 0.5"  点4 = "[后侧垂荷吊装_txtbox] * 0.5"/>				
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] /3"  点2 = "[后侧垂荷吊装_txtbox] /3" 点3 = "[前侧垂荷吊装_txtbox] /3"  点4 = "[后侧垂荷吊装_txtbox] /3"
-				点5 = "[前侧垂荷吊装_txtbox] /3"  点6 = "[后侧垂荷吊装_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.25"  点2 = "[后侧垂荷吊装_txtbox] * 0.25" 点3 = "[前侧垂荷吊装_txtbox] * 0.25"  点4 = "[后侧垂荷吊装_txtbox] * 0.25"
-				点5 = "[前侧垂荷吊装_txtbox] * 0.25"  点6 = "[后侧垂荷吊装_txtbox] * 0.25" 点7 = "[前侧垂荷吊装_txtbox] * 0.25"  点8 = "[后侧垂荷吊装_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-		
-	<HangingPoint Group = "第七组"  Name="脱冰跳跃挂点" Wire = "导线" FixedType = "I串" ForceDirection="XY" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox]"  点2 = "[后侧风荷其他_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox]"  点2 = "[后侧风荷其他_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox] * 0.5"  点2 = "[后侧风荷其他_txtbox] * 0.5" 点3 = "[前侧风荷其他_txtbox] * 0.5"  点4 = "[后侧风荷其他_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox] * 0.5"  点2 = "[后侧风荷其他_txtbox] * 0.5" 点3 = "[前侧风荷其他_txtbox] * 0.5"  点4 = "[后侧风荷其他_txtbox] * 0.5"/>		
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox] /3"  点2 = "[后侧风荷其他_txtbox] /3" 点3 = "[前侧风荷其他_txtbox] /3"  点4 = "[后侧风荷其他_txtbox] /3"
-				点5 = "[前侧风荷其他_txtbox] /3"  点6 = "[后侧风荷其他_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox] /3"  点2 = "[后侧风荷其他_txtbox] /3" 点3 = "[前侧风荷其他_txtbox] /3"  点4 = "[后侧风荷其他_txtbox] /3"
-				点5 = "[前侧风荷其他_txtbox] /3"  点6 = "[后侧风荷其他_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox] * 0.25"  点2 = "[后侧风荷其他_txtbox] * 0.25" 点3 = "[前侧风荷其他_txtbox] * 0.25"  点4 = "[后侧风荷其他_txtbox] * 0.25"
-				点5 = "[前侧风荷其他_txtbox] * 0.25"  点6 = "[后侧风荷其他_txtbox] * 0.25" 点7 = "[前侧风荷其他_txtbox] * 0.25"  点8 = "[后侧风荷其他_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox] * 0.25"  点2 = "[后侧风荷其他_txtbox] * 0.25" 点3 = "[前侧风荷其他_txtbox] * 0.25"  点4 = "[后侧风荷其他_txtbox] * 0.25"
-				点5 = "[前侧风荷其他_txtbox] * 0.25"  点6 = "[后侧风荷其他_txtbox] * 0.25" 点7 = "[前侧风荷其他_txtbox] * 0.25"  点8 = "[后侧风荷其他_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第七组"  Name="脱冰跳跃挂点" Wire = "导线" FixedType = "I串" ForceDirection="Z" Link = "[常规挂点Z向_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox]"  点2 = "[后侧垂荷其他_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox] * 0.5"  点2 = "[后侧垂荷其他_txtbox] * 0.5" 点3 = "[前侧垂荷其他_txtbox] * 0.5"  点4 = "[后侧垂荷其他_txtbox] * 0.5"/>
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox] /3"  点2 = "[后侧垂荷其他_txtbox] /3" 点3 = "[前侧垂荷其他_txtbox] /3"  点4 = "[后侧垂荷其他_txtbox] /3"
-				点5 = "[前侧垂荷其他_txtbox] /3"  点6 = "[后侧垂荷其他_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox] * 0.25"  点2 = "[后侧垂荷其他_txtbox] * 0.25" 点3 = "[前侧垂荷其他_txtbox] * 0.25"  点4 = "[后侧垂荷其他_txtbox] * 0.25"
-				点5 = "[前侧垂荷其他_txtbox] * 0.25"  点6 = "[后侧垂荷其他_txtbox] * 0.25" 点7 = "[前侧垂荷其他_txtbox] * 0.25"  点8 = "[后侧垂荷其他_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第七组"  Name="脱冰跳跃挂点" Wire = "导线" FixedType = "V串" ForceDirection="XY" Link = "[常规挂点XY向_dataTable]">
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷其他_txtbox]"  点2 = "[后侧风荷其他_txtbox]" 点3 = "[前侧风荷其他_txtbox]"  点4 = "[后侧风荷其他_txtbox]"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷其他_txtbox]"  点2 = "[后侧风荷其他_txtbox]" 点3 = "[前侧风荷其他_txtbox]"  点4 = "[后侧风荷其他_txtbox]"/>		
-		</Option>
-	</HangingPoint>
-	<HangingPoint Group = "第七组"  Name="脱冰跳跃挂点" Wire= "导线" FixedType = "V串" ForceDirection="Z" Link = "[常规挂点Z向_dataTable]">
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷其他_txtbox]"  点2 = "[后侧垂荷其他_txtbox]" 点3 = "[前侧垂荷其他_txtbox]"  点4 = "[后侧垂荷其他_txtbox]"/>
-		</Option>
-	</HangingPoint>
-	
-	<HangingPoint Group = "第八组"  Name="转向挂点" Wire = "导线" FixedType = "" ForceDirection="XYZ" Link = "[转向挂点_dataTable]">
-		<Option	挂点个数 = "1">
-			<ComposeInfo 方向 = "X" 点1 = "1" />
-			<ComposeInfo 方向 = "Y" 点1 = "1" />
-			<ComposeInfo 方向 = "Z" 点1 = "1" />
-		</Option>
-		<Option	挂点个数 = "2">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox]"  点2 = "[后侧风荷吊装_txtbox]" />
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox]"  点2 = "[后侧垂荷吊装_txtbox]" />
-		</Option>
-		<Option	挂点个数 = "4">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.5"  点2 = "[后侧风荷吊装_txtbox] * 0.5" 点3 = "[前侧风荷吊装_txtbox] * 0.5"  点4 = "[后侧风荷吊装_txtbox] * 0.5"/>	
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.5"  点2 = "[后侧垂荷吊装_txtbox] * 0.5" 点3 = "[前侧垂荷吊装_txtbox] * 0.5"  点4 = "[后侧垂荷吊装_txtbox] * 0.5"/>			
-		</Option>
-		<Option	挂点个数 = "6">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] /3"  点2 = "[后侧风荷吊装_txtbox] /3" 点3 = "[前侧风荷吊装_txtbox] /3"  点4 = "[后侧风荷吊装_txtbox] /3"
-				点5 = "[前侧风荷吊装_txtbox] /3"  点6 = "[后侧风荷吊装_txtbox] /3"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] /3"  点2 = "[后侧垂荷吊装_txtbox] /3" 点3 = "[前侧垂荷吊装_txtbox] /3"  点4 = "[后侧垂荷吊装_txtbox] /3"
-				点5 = "[前侧垂荷吊装_txtbox] /3"  点6 = "[后侧垂荷吊装_txtbox] /3"/>
-		</Option>
-		<Option	挂点个数 = "8">
-			<ComposeInfo 方向 = "X" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Y" 点1 = "[前侧风荷吊装_txtbox] * 0.25"  点2 = "[后侧风荷吊装_txtbox] * 0.25" 点3 = "[前侧风荷吊装_txtbox] * 0.25"  点4 = "[后侧风荷吊装_txtbox] * 0.25"
-				点5 = "[前侧风荷吊装_txtbox] * 0.25"  点6 = "[后侧风荷吊装_txtbox] * 0.25" 点7 = "[前侧风荷吊装_txtbox] * 0.25"  点8 = "[后侧风荷吊装_txtbox] * 0.25"/>
-			<ComposeInfo 方向 = "Z" 点1 = "[前侧垂荷吊装_txtbox] * 0.25"  点2 = "[后侧垂荷吊装_txtbox] * 0.25" 点3 = "[前侧垂荷吊装_txtbox] * 0.25"  点4 = "[后侧垂荷吊装_txtbox] * 0.25"
-				点5 = "[前侧垂荷吊装_txtbox] * 0.25"  点6 = "[后侧垂荷吊装_txtbox] * 0.25" 点7 = "[前侧垂荷吊装_txtbox] * 0.25"  点8 = "[后侧垂荷吊装_txtbox] * 0.25"/>
-		</Option>
-	</HangingPoint>
+  <HangingPoint Group = "第三组"  Name="跳线挂点" Wire = "跳线" FixedType = "I串" ForceDirection="XYZ" Link = "[常规跳线挂点_dataTable]">
+    <Option	挂点个数 = "1" 前侧挂点="点1" 后侧挂点="点1">
+      <ComposeInfo 方向 = "X" 点1 = "1" />
+      <ComposeInfo 方向 = "Y" 点1 = "1" />
+      <ComposeInfo 方向 = "Z" 点1 = "1" />
+    </Option>
+    <Option	挂点个数 = "2" 前侧挂点="点1" 后侧挂点="点2">
+      <ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
+      <ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
+      <ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
+    </Option>
+    <Option	挂点个数 = "4" 前侧挂点="点1 点3" 后侧挂点="点2 点4">
+      <ComposeInfo 方向 = "X" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.5"  点2 = "0.5" 点3 = "0.5"  点4 = "0.5"/>
+    </Option>
+    <Option	挂点个数 = "6" 前侧挂点="点1 点3 点5" 后侧挂点="点2 点4 点6">
+      <ComposeInfo 方向 = "X" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.3334"  点2 = "0.3334" 点3 = "0.3334"  点4 = "0.3334" 点5 = "0.3334"  点6 = "0.3334"/>
+    </Option>
+    <Option	挂点个数 = "8" 前侧挂点="点1 点3 点5 点7" 后侧挂点="点2 点4 点6 点8">
+      <ComposeInfo 方向 = "X" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+      <ComposeInfo 方向 = "Y" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+      <ComposeInfo 方向 = "Z" 点1 = "0.25"  点2 = "0.25" 点3 = "0.25"  点4 = "0.25" 点5 = "0.25"  点6 = "0.25" 点8="0.25"/>
+    </Option>
+  </HangingPoint>
+
+  <HangingPoint Group = "第三组"  Name="跳线挂点" Wire = "跳线" FixedType = "V串" ForceDirection="XYZ" Link = "[常规跳线挂点_dataTable]">
+    <Option	挂点个数 = "2" 前侧挂点="点1" 后侧挂点="点2" 左侧挂点="点1" 右侧挂点="点2">
+      <ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
+      <ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
+      <ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
+    </Option>
+    <Option	挂点个数 = "4" 前侧挂点="点1 点3" 后侧挂点="点2 点4" 左侧挂点="点1 点2" 右侧挂点="点3 点4">
+      <ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" 点3 = "1"  点4 = "1"/>
+      <ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" 点3 = "1"  点4 = "1"/>
+      <ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" 点3 = "1"  点4 = "1"/>
+    </Option>
+  </HangingPoint>
 </Root>
