@@ -136,14 +136,13 @@ namespace TowerLoadCals.BLL
                         //L;La;Lb;Lc;Ld;Le;Lf;Lg;Lh
                         else if (wdItem.WorkConditionCode.StartsWith("L"))
                         {
-                            if (Math.Abs(wdItem.WireIndexCodes[i]) < 10 && (wdItem.WorkConditionCode == "L"))
+                            if (Math.Abs(wdItem.WireIndexCodes[i]) <10 )
                             {
                                 groupStr = "第三组";
                                 linkStrXY = "[常规挂点XY向_dataTable]";
                                 linkStrZ = "[常规挂点Z向_dataTable]";
                                 pointsXY = RatioParas.NormalXYPoints;
                                 pointsZ = RatioParas.NormalZPoints;
-
                             }
                             else
                             {
