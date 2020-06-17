@@ -14,6 +14,12 @@ namespace TowerLoadCals.Mode
 
         public String[] RightPoints { get; set; }
 
+        public String[] FrontPoints { get; set; }
+
+        public String[] CentralPoints { get; set; }
+
+        public String[] BackPoints { get; set; }
+
         public List<StruCalsDicComposeInfo> ComposrInfos { get; set; }
     }
 }

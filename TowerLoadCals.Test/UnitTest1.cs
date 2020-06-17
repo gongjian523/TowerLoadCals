@@ -1307,6 +1307,12 @@ namespace TowerLoadCals.Test
         }
 
         [TestMethod]
+        public void TestMethod6_TensionTowerDicReader()
+        {
+            List<StruCalsDicGroup> groups = StruLoadComposeDicReader.Read("D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-TensionTower.xml");
+        }
+
+        [TestMethod]
         public void TestMethod7_VString()
         {
             VStringCompose vStringCompose = new VStringCompose(12202, 9748, 6271, 11617, 0, 341.24f, 0.00f, 252.48f);

@@ -16,6 +16,8 @@ namespace TowerLoadCals.Mode
 
         public string FixedType { get; set; }
 
+        public string TWireNum { get; set; }
+
         public string ForceDirection { get; set; }
 
         public string Link { get; set; }

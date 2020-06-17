@@ -31,7 +31,7 @@ namespace TowerLoadCals.BLL
         protected float[,] Tension45D { get; set; }
         protected float[,] Tension45X { get; set; }
 
-        protected float [,] XLB { get; set; }
+        protected float[,] XLB { get; set; }
         protected float[,] YLB { get; set; }
         protected float[,] ZLB { get; set; }
 
@@ -7582,5 +7582,221 @@ namespace TowerLoadCals.BLL
         }
 
 
+        public override List<StruCalsPointLoad> CalsPointsLoad(string path)
+        {
+            List<StruCalsPointLoad> pointsLoad = new List<StruCalsPointLoad>();
+
+            Process2String.Add("荷载分配明细表 生成时间: " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+            Process2String.Add(" ");
+
+            int i = 0;
+            foreach (var wireItem in Template.Wires)
+            {
+                pointsLoad.AddRange(CalsPointsLoadInWire(i));
+                i++;
+            }
+
+            i = 0;
+            foreach (var wireItem in Template.Wires)
+            {
+                pointsLoad.AddRange(CalsPointsLoadInTWire(i));
+                i++;
+            }
+
+            using (FileStream fileStream = File.OpenWrite(path))
+            {
+                using (StreamWriter writer = new StreamWriter(fileStream))
+                {
+                    foreach (string s in Process2String)
+                    {
+                        writer.WriteLine(s);
+                    }
+                    writer.Flush();
+                    writer.Close();
+                }
+            }
+
+            return pointsLoad;
+        }
+
+
+        protected List<StruCalsPointLoad> CalsPointsLoadInWire(int i)
+        {
+            List<StruCalsPointLoad> pointsLoad = new List<StruCalsPointLoad>();
+
+            int j = 0;
+
+            string wireItem = Template.Wires[i];
+
+            List<string> positions = new List<string> { "前侧", "后侧" };
+
+            foreach (var posItem in positions)
+            {
+                foreach (var wdItem in Template.WorkConditionCombos)
+                {
+                    string groupStr, linkStr;
+                    List<HangingPointParas> points;
+
+                    if (wireItem.Contains("地"))
+                    {
+                        groupStr = "第一组";
+                        linkStr = "[常规导线挂点_dataTable]";
+                        points = RatioParas.NormalXYPoints;
+                    }
+                    else
+                    {
+                        if ((wdItem.WorkConditionCode == "G1" || wdItem.WorkConditionCode == "G2") && Math.Abs(wdItem.WireIndexCodes[i]) > 100)
+                        {
+                            groupStr = "第五组";
+                            linkStr = "[过滑车挂点_dataTable]";
+                            points = RatioParas.TurningPoints;
+                        }
+                        else
+                        {
+                            groupStr = "第二组";
+                            linkStr = "[常规导线挂点_dataTable]";
+                            points = RatioParas.NormalXYPoints;
+                        }
+                    }
+
+                    float[,] xx, yy, zz;
+
+                    if(posItem == "前侧")
+                    {
+                        xx = XLF;
+                        yy = YLF;
+                        zz = ZLF;
+                    }
+                    else
+                    {
+                        xx = XLB;
+                        yy = YLB;
+                        zz = ZLB;
+                    }
+
+                    HangingPointLoadComposeCornerTower hPLoadComposeX = new HangingPointLoadComposeCornerTower(i, j, posItem, "X", xx, yy, zz, groupStr, linkStr, points, RatioParas, Template, DicGroup);
+                    hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
+
+                    Process2String.Add(strX);
+                    pointsLoad.AddRange(pListX);
+
+                    HangingPointLoadComposeCornerTower hPLoadComposeY = new HangingPointLoadComposeCornerTower(i, j, posItem, "Y", xx, yy, zz, groupStr, linkStr, points, RatioParas, Template, DicGroup);
+                    hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
+
+                    Process2String.Add(strY);
+                    pointsLoad.AddRange(pListY);
+
+                    HangingPointLoadComposeCornerTower hPLoadComposeZ = new HangingPointLoadComposeCornerTower(i, j, posItem, "Z", xx, yy, zz, groupStr, linkStr, points, RatioParas, Template, DicGroup);
+                    hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
+
+                    Process2String.Add(strZ);
+                    pointsLoad.AddRange(pListZ);
+
+                    j++;
+                }
+            }
+
+
+
+            return pointsLoad;
+        }
+
+        protected List<StruCalsPointLoad> CalsPointsLoadInTWire(int i)
+        {
+            List<StruCalsPointLoad> pointsLoad = new List<StruCalsPointLoad>();
+
+            int j = 0;
+
+            string wireItem = Template.Wires[i];
+
+            StruLineParas linePara = LineParasArr[i]; 
+
+            List<string> positions = new List<string> { "前侧", "后侧" };
+
+            if(linePara.TstringNum == 0)
+            {
+                return pointsLoad;
+            }
+            else if(linePara.TstringNum % 3 == 0)
+            {
+                positions = new List<string> { "前侧", "中部", "后侧" };
+            }
+            else
+            {
+                positions = new List<string> { "前侧", "后侧" };
+            }
+
+            foreach (var posItem in positions)
+            {
+                foreach (var wdItem in Template.WorkConditionCombos)
+                {
+                    string groupStr, linkStrXY, linkStrZ;
+                    List<HangingPointParas> pointsXY, pointsZ;
+
+
+                    if ((wdItem.WorkConditionCode == "L1" || wdItem.WorkConditionCode == "L2" || wdItem.WorkConditionCode == "L1a" || wdItem.WorkConditionCode == "L2a") 
+                        && Math.Abs(wdItem.WireIndexCodes[i]) > 1000)
+                    {
+                        groupStr = "第四组";
+                        linkStrXY = "[吊装跳线挂点XY向_dataTable]";
+                        pointsXY = RatioParas.InstallXYPoints;
+                        linkStrZ = "[吊装跳线挂点Z向_dataTable]";
+                        pointsZ = RatioParas.InstallZPoints;
+                    }
+                    else
+                    {
+                        groupStr = "第三组";
+                        linkStrXY = "[常规跳线挂点_dataTable]";
+                        pointsXY = RatioParas.NormalZPoints;
+                        linkStrZ = "[常规跳线挂点_dataTable]";
+                        pointsZ = RatioParas.NormalZPoints;
+                    }
+
+                    float[,] xx, yy, zz;
+
+                    if (posItem == "前侧")
+                    {
+                        xx = XTF;
+                        yy = YTF;
+                        zz = ZTF;
+                    }
+                    else if(posItem == "中部")
+                    {
+                        xx = XTC;
+                        yy = YTC;
+                        zz = ZTC;
+                    }
+                    else
+                    {
+                        xx = XTB;
+                        yy = YTB;
+                        zz = ZTB;
+                    }
+
+
+                    HangingPointLoadComposeCornerTower hPLoadComposeX = new HangingPointLoadComposeCornerTower(i, j, posItem, "X", xx, yy, zz, groupStr, linkStrXY, pointsXY, RatioParas, Template, DicGroup);
+                    hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
+
+                    Process2String.Add(strX);
+                    pointsLoad.AddRange(pListX);
+
+                    HangingPointLoadComposeCornerTower hPLoadComposeY = new HangingPointLoadComposeCornerTower(i, j, posItem, "Y", xx, yy, zz, groupStr, linkStrXY, pointsXY, RatioParas, Template, DicGroup);
+                    hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
+
+                    Process2String.Add(strY);
+                    pointsLoad.AddRange(pListY);
+
+                    HangingPointLoadComposeCornerTower hPLoadComposeZ = new HangingPointLoadComposeCornerTower(i, j, posItem, "Z", xx, yy, zz, groupStr, linkStrZ, pointsZ, RatioParas, Template, DicGroup);
+                    hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
+
+                    Process2String.Add(strZ);
+                    pointsLoad.AddRange(pListZ);
+
+                    j++;
+                }
+            }
+
+            return pointsLoad;
+        }
     }
 }

@@ -21,6 +21,8 @@ namespace TowerLoadCals.BLL
         /// 从界面获取的线参数
         /// </summary>
         protected StruLineParas[] LineParasArr { get; set; }
+
+        //这个参数用于线荷载分配，最好不要用于挂点分配
         protected StruLineParas LineParas { get; set; }
 
         /// <summary>

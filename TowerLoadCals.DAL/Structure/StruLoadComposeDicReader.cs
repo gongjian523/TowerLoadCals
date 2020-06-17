@@ -38,6 +38,9 @@ namespace TowerLoadCals.DAL
                     Link = groupNode.Attributes["Link"].Value.ToString()
                 };
 
+                if (groupNode.Attributes["TWireNum"] != null)
+                    group.TWireNum = groupNode.Attributes["TWireNum"].Value.ToString();
+
                 group.Options = new List<StruCalsDicOption>();
 
                 foreach (XmlNode optNode in groupNode.ChildNodes)
@@ -52,6 +55,15 @@ namespace TowerLoadCals.DAL
 
                     if (optNode.Attributes["右侧挂点"] != null)
                         opt.RightPoints = Regex.Split(optNode.Attributes["右侧挂点"].Value.ToString().Trim(), "\\s+");
+
+                    if (optNode.Attributes["前侧挂点"] != null)
+                        opt.LeftPoints = Regex.Split(optNode.Attributes["前侧挂点"].Value.ToString().Trim(), "\\s+");
+
+                    if (optNode.Attributes["后侧挂点"] != null)
+                        opt.RightPoints = Regex.Split(optNode.Attributes["后侧挂点"].Value.ToString().Trim(), "\\s+");
+
+                    if (optNode.Attributes["中部挂点"] != null)
+                        opt.LeftPoints = Regex.Split(optNode.Attributes["中部挂点"].Value.ToString().Trim(), "\\s+");
 
                     opt.ComposrInfos = new List<StruCalsDicComposeInfo>();
 
