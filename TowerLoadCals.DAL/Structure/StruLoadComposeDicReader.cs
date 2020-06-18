@@ -57,13 +57,13 @@ namespace TowerLoadCals.DAL
                         opt.RightPoints = Regex.Split(optNode.Attributes["右侧挂点"].Value.ToString().Trim(), "\\s+");
 
                     if (optNode.Attributes["前侧挂点"] != null)
-                        opt.LeftPoints = Regex.Split(optNode.Attributes["前侧挂点"].Value.ToString().Trim(), "\\s+");
+                        opt.FrontPoints = Regex.Split(optNode.Attributes["前侧挂点"].Value.ToString().Trim(), "\\s+");
 
                     if (optNode.Attributes["后侧挂点"] != null)
-                        opt.RightPoints = Regex.Split(optNode.Attributes["后侧挂点"].Value.ToString().Trim(), "\\s+");
+                        opt.BackPoints = Regex.Split(optNode.Attributes["后侧挂点"].Value.ToString().Trim(), "\\s+");
 
                     if (optNode.Attributes["中部挂点"] != null)
-                        opt.LeftPoints = Regex.Split(optNode.Attributes["中部挂点"].Value.ToString().Trim(), "\\s+");
+                        opt.CentralPoints = Regex.Split(optNode.Attributes["中部挂点"].Value.ToString().Trim(), "\\s+");
 
                     opt.ComposrInfos = new List<StruCalsDicComposeInfo>();
 

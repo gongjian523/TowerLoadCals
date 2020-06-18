@@ -789,7 +789,7 @@ namespace TowerLoadCals.Test
         }
 
         [TestMethod]
-        public void TestMethod3()
+        public void TestMethod3_CornerTower()
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog()
             {
@@ -955,6 +955,228 @@ namespace TowerLoadCals.Test
                 }
             };
 
+            List<HangingPointParas> normalList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "常规",
+                    Points =  new string[] {"11", "13" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "常规",
+                    Points =  new string[] {"10", "12" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左上导",
+                    StringType = "常规",
+                    Points =  new string[] { "321", "323"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右上导",
+                    StringType = "常规",
+                    Points =  new string[] {"320", "322"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左中导",
+                    StringType = "常规",
+                    Points =  new string[] { "601", "603"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右中导",
+                    StringType = "常规",
+                    Points =  new string[] {"600", "602"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 7,
+                    WireType = "左下导",
+                    StringType = "常规",
+                    Points =  new string[] { "921", "923"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 8,
+                    WireType = "右下导",
+                    StringType = "常规",
+                    Points =  new string[] {"920", "922"}
+                },
+            };
+
+            List<HangingPointParas> normalTList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "无跳线"
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "无跳线",
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左上导",
+                    StringType = "I串",
+                    Points =  new string[] { "301", "303"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右上导",
+                    StringType = "I串",
+                    Points =  new string[] {"300", "302"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左中导",
+                    StringType = "I串",
+                    Points =  new string[] { "601", "603"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右中导",
+                    StringType = "I串",
+                    Points =  new string[] {"600", "602"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 7,
+                    WireType = "左下导",
+                    StringType = "I串",
+                    Points =  new string[] { "901", "903"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 8,
+                    WireType = "右下导",
+                    StringType = "I串",
+                    Points =  new string[] {"900", "902"}
+                },
+            };
+
+            List<HangingPointParas> intallTXYList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左上导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "301", "303"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右上导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] {"300", "302"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左中导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "601", "603"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右中导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] {"600", "602"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左下导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "901", "903"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右下导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] {"900", "902"}
+                },
+            };
+
+            List<HangingPointParas> intallTZList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左上导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "311" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右上导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "310" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左中导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "611" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右中导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "610" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左下导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "911" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右下导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "910" }
+                },
+            };
+
             StruRatioParas ratioParas = new StruRatioParas
             {
                 BLTQ = 0.5f,
@@ -962,18 +1184,262 @@ namespace TowerLoadCals.Test
                 BLTZ = 0,
                 BLDZTQ = 0.5f,
                 BLDZTH = 0.5f,
-                BLDZTZ = 0
+                BLDZTZ = 0,
+
+                NormalXYPoints = normalList,
+                NormalZPoints = normalTList,
+                InstallXYPoints = intallTXYList,
+                InstallZPoints = intallTZList,
             };
 
             LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
-            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
-
+            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
             loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+
+            string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
+            loadCornerTower.CalsPointsLoad(filePath2);
         }
 
         [TestMethod]
-        public void TestMethod4()
+        public void TestMethod3_CornerTower_VString()
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "DLL Files (*.dll)|*.dll"
+            };
+
+            if (openFileDialog.ShowDialog() != true)
+                return;
+
+            var openTemplateDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Excel Files (*.xlsx)|*.xlsx"
+            };
+
+            if (openTemplateDialog.ShowDialog() != true)
+                return;
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Dat Files (*.dat)|*.dat",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
+
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.CornerTower);
+
+            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+
+            FormulaParas formulaParas = new FormulaParas();
+
+            formulaParas.Type = TowerType.CornerTower;
+            formulaParas.LoadRatio = 1;
+            formulaParas.IsMethod1Selected = false;
+
+            //结构重要性系数
+            formulaParas.R1Install = 1.0f;
+            formulaParas.R0Normal = 1.1f;
+
+            //荷载分项系数
+            formulaParas.RGBad = 1.2f;
+            formulaParas.RGGood = 1.00f;
+            formulaParas.RQ = 1.4f;
+
+            //可变荷载组合系数
+            formulaParas.VcFNormal = 1f;
+            formulaParas.VcFInstall = 0.9f;
+            formulaParas.VcFBroken = 0.9f;
+            formulaParas.VcFUnevenIce = 0.9f;
+            formulaParas.VcFCheck = 0.75f;
+
+            //其他参数
+            formulaParas.WindAdjustFactor = 1.2f;
+            formulaParas.OtherWindAdjustFactor = 1.00f;
+            formulaParas.DynamicCoef = 1.1f;
+            formulaParas.LiftCoefJumper = 2f;
+            formulaParas.TempStayWireAngle = 45f;
+            formulaParas.TractionAgnle = 20f;
+
+            formulaParas.IsMethod1Selected = true;
+
+            StruLineParas[] lineParas = new StruLineParas[] {
+                new StruLineParas
+                {
+                    TstringNum = 0,
+                    WireExtraLoad = 4,
+                    TwireExtraLoad = 0,
+                    AnchorTension = 78.47f,
+                    TemporaryTension = 5f,
+                    AngleMin = 0f,
+                    AngleMax = 20f,
+                    isTurnRight = true,
+                    DrawingCoef = 1f
+                },
+                new StruLineParas
+                {
+                    TstringNum = 0,
+                    WireExtraLoad = 4,
+                    TwireExtraLoad = 0,
+                    AnchorTension = 78.47f,
+                    TemporaryTension = 5f,
+                    AngleMin = 0f,
+                    AngleMax = 20f,
+                    isTurnRight = true,
+                    DrawingCoef = 1f
+                },
+                new StruLineParas
+                {
+                    TstringNum = 2,
+                    WireExtraLoad = 12,
+                    TwireExtraLoad = 6,
+                    AnchorTension = 292.18f,
+                    TemporaryTension = 40f,
+                    AngleMin = 0f,
+                    AngleMax = 20f,
+                    isTurnRight = true,
+                    DrawingCoef = 1f
+                },
+                new StruLineParas
+                {
+                    TstringNum = 2,
+                    WireExtraLoad = 12,
+                    TwireExtraLoad = 6,
+                    AnchorTension = 292.18f,
+                    TemporaryTension = 40f,
+                    AngleMin = 0f,
+                    AngleMax = 20f,
+                    isTurnRight = true,
+                    DrawingCoef = 1f
+                },
+            };
+
+            List<VStringParas> vStringList = new List<VStringParas>()
+            {
+                new VStringParas()
+                {
+                    Index = "V1",
+                    L1 = 9000,
+                    H1 = 8000,
+                    L2 = 7000,
+                    H2 = 8000,
+                    StressLimit = 0,
+                    Angle = 90
+                },
+            };
+
+            List<HangingPointParas> normalList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "常规",
+                    Points =  new string[] {"11", "13"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "常规",
+                    Points =  new string[] {"10", "12" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左导",
+                    StringType = "常规",
+                    Points =  new string[] { "641", "643", "681", "683"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右导",
+                    StringType = "常规",
+                    Points =  new string[] {"640", "642", "680", "682" }
+                },
+            };
+
+            List<HangingPointParas> normalTList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "无跳线"
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "无跳线",
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左导",
+                    StringType = "V1",
+                    Points =  new string[] { "1001", "1003"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右导",
+                    StringType = "V1",
+                    Points =  new string[] {"1000", "1002"}
+                },
+            };
+
+            List<HangingPointParas> intallTList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左导",
+                    StringType = "V1",
+                    Array = "第a组",
+                    Points =  new string[] { "1001", "1003"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右导",
+                    StringType = "V1",
+                    Array = "第a组",
+                    Points =  new string[] {"1000", "1002"}
+                },
+            };
+
+            StruRatioParas ratioParas = new StruRatioParas
+            {
+                BLTQ = 0.5f,
+                BLTH = 0.5f,
+                BLTZ = 0,
+                BLDZTQ = 0.5f,
+                BLDZTH = 0.5f,
+                BLDZTZ = 0,
+
+                NormalXYPoints = normalList,
+                NormalZPoints = normalTList,
+                InstallXYPoints = intallTList,
+                InstallZPoints = intallTList,
+                VStrings = vStringList,
+            };
+
+            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+
+            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
+            loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+
+            string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
+            loadCornerTower.CalsPointsLoad(filePath2);
+        }
+
+        [TestMethod]
+        public void TestMethod4_TerminalTower()
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog()
             {
@@ -1099,6 +1565,90 @@ namespace TowerLoadCals.Test
                 }
             };
 
+            List<HangingPointParas> normalList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "常规",
+                    Points =  new string[] {"11", "13" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "常规",
+                    Points =  new string[] {"10", "12" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左导",
+                    StringType = "常规",
+                    Points =  new string[] { "640", "642", "680", "682"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右导",
+                    StringType = "常规",
+                    Points =  new string[] {"641", "643", "681", "683"}
+                }
+            };
+
+
+            List<HangingPointParas> normalTList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "无跳线"
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "无跳线",
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左导",
+                    StringType = "I串",
+                    Points =  new string[] { "1001", "1003"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右导",
+                    StringType = "I串",
+                    Points =  new string[] {"1000", "1002"}
+                }
+            };
+
+            List<HangingPointParas> intallTList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] { "1001", "1003"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右导",
+                    StringType = "I串",
+                    Array = "第a组",
+                    Points =  new string[] {"1000", "1002"}
+                }
+            };
+
+
             StruRatioParas ratioParas = new StruRatioParas
             {
                 BLTQ = 0.5f,
@@ -1106,18 +1656,25 @@ namespace TowerLoadCals.Test
                 BLTZ = 0,
                 BLDZTQ = 0.5f,
                 BLDZTH = 0.5f,
-                BLDZTZ = 0
+                BLDZTZ = 0,
+
+                NormalXYPoints = normalList,
+                NormalZPoints = normalTList,
+                InstallXYPoints = intallTList,
+                InstallZPoints = intallTList,
             };
 
             LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
-            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
-
+            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
             loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+
+            string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
+            loadCornerTower.CalsPointsLoad(filePath2);
         }
 
         [TestMethod]
-        public void TestMethod5()
+        public void TestMethod5_BranchTower()
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog()
             {
@@ -1283,6 +1840,177 @@ namespace TowerLoadCals.Test
                 }
             };
 
+            List<HangingPointParas> normalList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "常规",
+                    Points =  new string[] {"11", "13" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "常规",
+                    Points =  new string[] {"10", "12" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左上导",
+                    StringType = "常规",
+                    Points =  new string[] { "361", "363", "431", "433"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右上导",
+                    StringType = "常规",
+                    Points =  new string[] {"360", "362", "430", "432"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左中导",
+                    StringType = "常规",
+                    Points =  new string[] { "761", "763", "831", "833"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右中导",
+                    StringType = "常规",
+                    Points =  new string[] {"760", "762", "830", "832"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 7,
+                    WireType = "左下导",
+                    StringType = "常规",
+                    Points =  new string[] { "1261", "1263", "1331", "1333"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 8,
+                    WireType = "右下导",
+                    StringType = "常规",
+                    Points =  new string[] {"1260", "1262", "1330", "1332"}
+                }
+            };
+
+            List<HangingPointParas> normalTList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左地",
+                    StringType = "无跳线",
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右地",
+                    StringType = "无跳线",
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左上导",
+                    StringType = "I串",
+                    Points =  new string[] { "211", "213" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右上导",
+                    StringType = "I串",
+                    Points =  new string[] {"210", "212" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左中导",
+                    StringType = "I串",
+                    Points =  new string[] { "811", "813" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右中导",
+                    StringType = "I串",
+                    Points =  new string[] {"810", "812" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 7,
+                    WireType = "左下导",
+                    StringType = "I串",
+                    Points =  new string[] { "1311", "1313"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 8,
+                    WireType = "右下导",
+                    StringType = "I串",
+                    Points =  new string[] {"1310", "1312"}
+                }
+            };
+
+            List<HangingPointParas> installTList = new List<HangingPointParas>()
+            {
+                new HangingPointParas()
+                {
+                    Index = 1,
+                    WireType = "左上导",
+                    Array = "第a组",
+                    StringType = "I串",
+                    Points =  new string[] { "211", "213" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 2,
+                    WireType = "右上导",
+                    Array = "第a组",
+                    StringType = "I串",
+                    Points =  new string[] {"210", "212" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 3,
+                    WireType = "左中导",
+                    Array = "第a组",
+                    StringType = "I串",
+                    Points =  new string[] { "811", "813" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 4,
+                    WireType = "右中导",
+                    Array = "第a组",
+                    StringType = "I串",
+                    Points =  new string[] {"810", "812" }
+                },
+                new HangingPointParas()
+                {
+                    Index = 5,
+                    WireType = "左下导",
+                    Array = "第a组",
+                    StringType = "I串",
+                    Points =  new string[] { "1311", "1312"}
+                },
+                new HangingPointParas()
+                {
+                    Index = 6,
+                    WireType = "右下导",
+                    Array = "第a组",
+                    StringType = "I串",
+                    Points =  new string[] {"1310", "1312"}
+                }
+            };
+
+
             StruRatioParas ratioParas = new StruRatioParas
             {
                 BLTQ = 0.5f,
@@ -1290,14 +2018,21 @@ namespace TowerLoadCals.Test
                 BLTZ = 0,
                 BLDZTQ = 0.5f,
                 BLDZTH = 0.5f,
-                BLDZTZ = 0
+                BLDZTZ = 0,
+
+                NormalXYPoints = normalList,
+                NormalZPoints = normalTList,
+                InstallXYPoints = installTList,
+                InstallZPoints = installTList,
             };
 
             LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
-            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "txt";
-
+            string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
             loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+
+            string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
+            loadCornerTower.CalsPointsLoad(filePath2);
         }
 
         [TestMethod]

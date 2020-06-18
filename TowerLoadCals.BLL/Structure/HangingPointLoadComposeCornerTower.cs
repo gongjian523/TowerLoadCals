@@ -83,9 +83,10 @@ namespace TowerLoadCals.BLL
             {
                 string wCC = template.WorkConditionCombos[jIndex].WorkConditionCode;
                 string array = wCC.Substring(wCC.Length - 1);
-
                 pointParas = pointsParas.Where(item => item.WireType == wireType && item.Array != null && item.Array.Contains(array)).First();
-                dicGroup = dicGrps.Where(item => item.Group == group && item.Link == link).First();
+
+                string vStr = pointParas.StringType.Contains("V") ? "V串" : pointParas.StringType;
+                dicGroup = dicGrps.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
             }
 
             pointNum = pointParas.Points.Count();
@@ -99,18 +100,29 @@ namespace TowerLoadCals.BLL
 
             resStr = pre.PadLeft(8) + ("工况" + (jIndex + 1).ToString()).PadLeft(8) + orientation.PadLeft(6) + lineLoad[jIndex, iIndex].ToString("0.00").PadLeft(10);
 
+            string[] points;
+            if (position == "前侧")
+                points = option.FrontPoints;
+            else if (position == "中部")
+                points = option.CentralPoints;
+            else
+                points = option.BackPoints;
+
             //V串
-            if(pointParas.StringType != null &&  pointParas.StringType.Contains("V"))
+            if (pointParas.StringType != null &&  pointParas.StringType.Contains("V"))
             {
                 VStringParas vParas = ratioParas.VStrings.Where(item => item.Index == pointParas.StringType).First();
 
                 VStringCompose vStringCompose = new VStringCompose(vParas.L1, vParas.L2, vParas.H1, vParas.H2, vParas.StressLimit, xLineLoad[jIndex, iIndex], yLineLoad[jIndex, iIndex], zLineLoad[jIndex, iIndex]);
 
-                for(int kl = 0; kl < option.LeftPoints.Count(); kl++)
+                for(int kl = 0; kl < points.Count(); kl++)
                 {
-                    int composeIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1));
+                    if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
+                        continue;
 
-                    GetPointProportionAndLoad(dicComposeInfo[composeIndex-1], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+                    int pointIndex = Convert.ToInt16(points[kl].Substring(1)) -1;
+
+                    GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
                     if(orientation == "X")
                     {
@@ -125,11 +137,11 @@ namespace TowerLoadCals.BLL
                         laod = vStringCompose.VCZ1 * proportion;
                     }
 
-                    resStr += pointParas.Points[composeIndex - 1].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+                    resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = pointParas.Points[kl],
+                        Name = pointParas.Points[pointIndex],
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,
@@ -138,11 +150,14 @@ namespace TowerLoadCals.BLL
                     });
                 }
 
-                for(int kr = 0; kr < option.RightPoints.Count(); kr++)
+                for(int kr = 0; kr < points.Count(); kr++)
                 {
-                    int composeIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1));
+                    if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
+                        continue;
 
-                    GetPointProportionAndLoad(dicComposeInfo[composeIndex - 1], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+                    int pointIndex = Convert.ToInt16(points[kr].Substring(1)) - 1;
+
+                    GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
                     if (orientation == "X")
                     {
@@ -157,11 +172,11 @@ namespace TowerLoadCals.BLL
                         laod = vStringCompose.VCZ2 * proportion;
                     }
 
-                    resStr += pointParas.Points[composeIndex - 1].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+                    resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = pointParas.Points[kr],
+                        Name = pointParas.Points[pointIndex],
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,
@@ -175,15 +190,18 @@ namespace TowerLoadCals.BLL
             }
             else
             {
-                for (int k = 0; k < pointNum; k++)
-                {
-                    GetPointProportionAndLoad(dicComposeInfo[k], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
-                    resStr += pointParas.Points[k].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+                for (int k = 0; k < points.Count(); k++)
+                {
+                    int pointIndex = Convert.ToInt16(points[k].Substring(1)) - 1;
+
+                    GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+
+                    resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = pointParas.Points[k],
+                        Name = pointParas.Points[pointIndex],
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,

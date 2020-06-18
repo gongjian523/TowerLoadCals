@@ -48,6 +48,7 @@
     <Compile Include="Structure\FormulaLineCornerTower.cs" />
     <Compile Include="Structure\FormulaLineTower.cs" />
     <Compile Include="Structure\FormulaTower.cs" />
+    <Compile Include="Structure\HangingPointLoadComposeCornerTower.cs" />
     <Compile Include="Structure\HangingPointLoadComposeBase.cs" />
     <Compile Include="Structure\LoadComposeBase.cs" />
     <Compile Include="Structure\LoadComposeLineCornerTower.cs" />

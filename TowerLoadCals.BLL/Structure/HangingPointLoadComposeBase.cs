@@ -101,9 +101,9 @@ namespace TowerLoadCals.BLL
 
                 for(int kl = 0; kl < option.LeftPoints.Count(); kl++)
                 {
-                    int composeIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1));
+                    int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
 
-                    GetPointProportionAndLoad(dicComposeInfo[composeIndex-1], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+                    GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
                     if(orientation == "X")
                     {
@@ -118,11 +118,11 @@ namespace TowerLoadCals.BLL
                         laod = vStringCompose.VCZ1 * proportion;
                     }
 
-                    resStr += pointParas.Points[composeIndex - 1].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+                    resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = pointParas.Points[kl],
+                        Name = pointParas.Points[pointIndex],
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,
@@ -133,9 +133,9 @@ namespace TowerLoadCals.BLL
 
                 for(int kr = 0; kr < option.RightPoints.Count(); kr++)
                 {
-                    int composeIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1));
+                    int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
 
-                    GetPointProportionAndLoad(dicComposeInfo[composeIndex - 1], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+                    GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
                     if (orientation == "X")
                     {
@@ -150,11 +150,11 @@ namespace TowerLoadCals.BLL
                         laod = vStringCompose.VCZ2 * proportion;
                     }
 
-                    resStr += pointParas.Points[composeIndex - 1].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+                    resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = pointParas.Points[kr],
+                        Name = pointParas.Points[pointIndex],
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,

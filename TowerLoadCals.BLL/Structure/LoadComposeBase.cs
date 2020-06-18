@@ -55,7 +55,8 @@ namespace TowerLoadCals.BLL
             RatioParas = ratioParas;
             Template = template;
 
-            DicGroup = StruLoadComposeDicReader.Read("D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml");
+            //DicGroup = StruLoadComposeDicReader.Read("D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml");
+            DicGroup = StruLoadComposeDicReader.Read(GetDicPath());
 
             wireNum = Template.Wires.Count;
             groudWireNum = Template.Wires.Where(item => item.Contains("地")).Count();
@@ -307,6 +308,12 @@ namespace TowerLoadCals.BLL
             }
 
             return pointsLoad;
+        }
+
+
+        protected virtual string GetDicPath()
+        {
+            return "D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml";
         }
 
     }

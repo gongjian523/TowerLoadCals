@@ -287,9 +287,7 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             int zhs = wd.WireIndexCodes[j - 1];
             int BL3 = LineParas.isTurnRight ? 1 : -1;
-            //跳线数 = 导线数
-            //int nt = LineParas.TstringNum;
-            int nt = LineParas.TstringNum;
+            int tStringNum = LineParas.TstringNum;
             float AngleMax = LineParas.AngleMax / 2;
             float AngleMin = LineParas.AngleMin / 2;
 
@@ -1483,26 +1481,26 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + strZLB);
                 ProcessString.Add(" ");
 
-                if (nt % 3 != 0 || nt == 0)
+                if (tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     //0,1,2个跳线的时候 前后
                     //跳线串始终为一种计算方法
-                    XTF[i, j - 1] = formula.ZNX(out string strXTF, angle, 0, c[7], 0, Vcb, BL3, nt, RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZNY(out string strYTF, angle, 0, c[7], 0, Vcb, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZNZ(out string strZTF, c[8], Vcb, nt, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZNX(out string strXTF, angle, 0, c[7], 0, Vcb, BL3, tStringNum, RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZNY(out string strYTF, angle, 0, c[7], 0, Vcb, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZNZ(out string strZTF, c[8], Vcb, tStringNum, RatioParas.BLTQ);
 
-                    if(nt != 0)
+                    if(tStringNum != 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
                     }
 
-                    XTB[i, j - 1] = formula.ZNX(out string strXTB, angle, 0, c[7], 0, Vcb, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZNY(out string strYTB, angle, 0, c[7], 0, Vcb, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZNZ(out string strZTB, c[8], Vcb, nt, RatioParas.BLTH);
+                    XTB[i, j - 1] = formula.ZNX(out string strXTB, angle, 0, c[7], 0, Vcb, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZNY(out string strYTB, angle, 0, c[7], 0, Vcb, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZNZ(out string strZTB, c[8], Vcb, tStringNum, RatioParas.BLTH);
 
-                    if (nt != 0)
+                    if (tStringNum != 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strYTB);
@@ -1510,27 +1508,27 @@ namespace TowerLoadCals.BLL
                         ProcessString.Add(" ");
                     }
                 }
-                else if (nt % 3 == 0 && nt > 0)
+                else if (tStringNum % 3 == 0 && tStringNum > 0)
                 {
-                    XTF[i, j - 1] = formula.ZNX(out string strXTF, angle, 0, c[7], 0, Vcb, BL3 , nt,  RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZNY(out string strYTF, angle, 0, c[7], 0, Vcb, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZNZ(out string strZTF, c[8], Vcb, nt, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZNX(out string strXTF, angle, 0, c[7], 0, Vcb, BL3 , tStringNum,  RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZNY(out string strYTF, angle, 0, c[7], 0, Vcb, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZNZ(out string strZTF, c[8], Vcb, tStringNum, RatioParas.BLTQ);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
 
-                    XTC[i, j - 1] = formula.ZNX(out string strXTC, angle, 0, c[7], 0, Vcb, BL3, nt, RatioParas.BLTZ);
-                    YTC[i, j - 1] = formula.ZNY(out string strYTC, angle, 0, c[7], 0, Vcb, nt, RatioParas.BLTZ);
-                    ZTC[i, j - 1] = formula.ZNZ(out string strZTC, c[8], Vcb, nt, RatioParas.BLTZ);
+                    XTC[i, j - 1] = formula.ZNX(out string strXTC, angle, 0, c[7], 0, Vcb, BL3, tStringNum, RatioParas.BLTZ);
+                    YTC[i, j - 1] = formula.ZNY(out string strYTC, angle, 0, c[7], 0, Vcb, tStringNum, RatioParas.BLTZ);
+                    ZTC[i, j - 1] = formula.ZNZ(out string strZTC, c[8], Vcb, tStringNum, RatioParas.BLTZ);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strXTC);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strYTC);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZTC);
 
-                    XTB[i, j - 1] = formula.ZNX(out string strXTB, angle, 0, c[7], 0, Vcb, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZNY(out string strYTB, angle, 0, c[7], 0, Vcb, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZNZ(out string strZTB, c[8], Vcb, nt, RatioParas.BLTH);
+                    XTB[i, j - 1] = formula.ZNX(out string strXTB, angle, 0, c[7], 0, Vcb, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZNY(out string strYTB, angle, 0, c[7], 0, Vcb, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZNZ(out string strZTB, c[8], Vcb, tStringNum, RatioParas.BLTH);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strYTB);
@@ -1580,25 +1578,25 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + ZLB[i, j - 1].ToString("0.00"));
                 ProcessString.Add(" ");
 
-                if ( nt % 3 != 0 || nt == 0)
+                if ( tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     //跳线串始终为一种计算方法
-                    XTF[i, j - 1] = formula.ZNX(out string strXTF, angle, 0, c[7], 0, Vcb, BL3, nt, RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZNY(out string strYTF, angle, 0, c[7], 0, Vcb, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZNZ(out string strZTF, c[8], Vcb, nt, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZNX(out string strXTF, angle, 0, c[7], 0, Vcb, BL3, tStringNum, RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZNY(out string strYTF, angle, 0, c[7], 0, Vcb, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZNZ(out string strZTF, c[8], Vcb, tStringNum, RatioParas.BLTQ);
 
-                    if(nt != 0)
+                    if(tStringNum != 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + XTF[i, j - 1].ToString("0.00"));
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + YTF[i, j - 1].ToString("0.00"));
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + ZTF[i, j - 1].ToString("0.00"));
                     }
 
-                    XTB[i, j - 1] = formula.ZNX(out string strXTB, angle, 0, c[7], 0, Vcb, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZNY(out string strYTB, angle, 0, c[7], 0, Vcb, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZNZ(out string strZTB, c[8], Vcb, nt, RatioParas.BLTH);
+                    XTB[i, j - 1] = formula.ZNX(out string strXTB, angle, 0, c[7], 0, Vcb, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZNY(out string strYTB, angle, 0, c[7], 0, Vcb, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZNZ(out string strZTB, c[8], Vcb, tStringNum, RatioParas.BLTH);
 
-                    if (nt != 0)
+                    if (tStringNum != 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + XTB[i, j - 1].ToString("0.00"));
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + YTB[i, j - 1].ToString("0.00"));
@@ -1606,27 +1604,27 @@ namespace TowerLoadCals.BLL
                         ProcessString.Add(" ");
                     }
                 }
-                else if( nt % 3 == 0 && nt > 0 )
+                else if( tStringNum % 3 == 0 && tStringNum > 0 )
                 {
-                    XTF[i, j - 1] = formula.ZNX(out string strXTF, angle, 0, c[7], 0, Vcb, BL3, nt, 0.33334f);
-                    YTF[i, j - 1] = formula.ZNY(out string strYTF, angle, 0, c[7], 0, Vcb, nt, 0.33334f);
-                    ZTF[i, j - 1] = formula.ZNZ(out string strZTF, c[8], Vcb, nt, 0.33334f);
+                    XTF[i, j - 1] = formula.ZNX(out string strXTF, angle, 0, c[7], 0, Vcb, BL3, tStringNum, 0.33334f);
+                    YTF[i, j - 1] = formula.ZNY(out string strYTF, angle, 0, c[7], 0, Vcb, tStringNum, 0.33334f);
+                    ZTF[i, j - 1] = formula.ZNZ(out string strZTF, c[8], Vcb, tStringNum, 0.33334f);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + XTF[i, j - 1].ToString("0.00"));
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + YTF[i, j - 1].ToString("0.00"));
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + ZTF[i, j - 1].ToString("0.00"));
 
-                    XTC[i, j - 1] = formula.ZNX(out string strXTC, angle, 0, c[7], 0, Vcb, BL3, nt, 0.33334f);
-                    YTC[i, j - 1] = formula.ZNY(out string strYTC, angle, 0, c[7], 0, Vcb, nt, 0.33334f);
-                    ZTC[i, j - 1] = formula.ZNZ(out string strZTC, c[8], Vcb, nt, 0.33334f);
+                    XTC[i, j - 1] = formula.ZNX(out string strXTC, angle, 0, c[7], 0, Vcb, BL3, tStringNum, 0.33334f);
+                    YTC[i, j - 1] = formula.ZNY(out string strYTC, angle, 0, c[7], 0, Vcb, tStringNum, 0.33334f);
+                    ZTC[i, j - 1] = formula.ZNZ(out string strZTC, c[8], Vcb, tStringNum, 0.33334f);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + XTC[i, j - 1].ToString("0.00"));
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + YTC[i, j - 1].ToString("0.00"));
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + ZTC[i, j - 1].ToString("0.00"));
 
-                    XTB[i, j - 1] = formula.ZNX(out string strXTB, angle, 0, c[7], 0, Vcb, BL3, nt, 0.33334f);
-                    YTB[i, j - 1] = formula.ZNY(out string strYTB, angle, 0, c[7], 0, Vcb, nt, 0.33334f);
-                    ZTB[i, j - 1] = formula.ZNZ(out string strZTB, c[8], Vcb, nt, 0.33334f);
+                    XTB[i, j - 1] = formula.ZNX(out string strXTB, angle, 0, c[7], 0, Vcb, BL3, tStringNum, 0.33334f);
+                    YTB[i, j - 1] = formula.ZNY(out string strYTB, angle, 0, c[7], 0, Vcb, tStringNum, 0.33334f);
+                    ZTB[i, j - 1] = formula.ZNZ(out string strZTB, c[8], Vcb, tStringNum, 0.33334f);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + XTB[i, j - 1].ToString("0.00"));
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + YTB[i, j - 1].ToString("0.00"));
@@ -1658,8 +1656,7 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             int zhs = wd.WireIndexCodes[j - 1];
             int BL3 = LineParas.isTurnRight ? 1 : -1;
-            //跳线数 = 导线数
-            int nt = LineParas.TstringNum;
+            int tStringNum = LineParas.TstringNum;
             float AngleMax = LineParas.AngleMax / 2;
             float AngleMin = LineParas.AngleMin / 2;
             int zhsx = Math.Abs(zhs) % 100;
@@ -4512,25 +4509,25 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "线条后侧 Fz= " + strZLB);
                 ProcessString.Add(" ");
 
-                if (nt % 3 != 0 || nt == 0)
+                if (tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     //跳线串始终为一种计算方法
-                    XTF[i, j - 1] = formula.ZIBUYX(out string strXTF, angle, 0, c[7], 0, e5, Vloadx, BL3, nt, RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZIBUYY(out string strYTF, angle, 0, c[7], 0, e5, Vloadx, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZIBUYZ(out string strZTF, c[11], c[8], e5, Vloadx, rg, nt, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZIBUYX(out string strXTF, angle, 0, c[7], 0, e5, Vloadx, BL3, tStringNum, RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZIBUYY(out string strYTF, angle, 0, c[7], 0, e5, Vloadx, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZIBUYZ(out string strZTF, c[11], c[8], e5, Vloadx, rg, tStringNum, RatioParas.BLTQ);
 
-                    if (nt != 0)
+                    if (tStringNum != 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
                     }
 
-                    XTB[i, j - 1] = formula.ZIBUYX(out string strXTB, angle, 0, c[7], 0, e5, Vloadx, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZIBUYY(out string strYTB, angle, 0, c[7], 0, e5, Vloadx, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZIBUYZ(out string strZTB, c[11], c[8], e5, Vloadx, rg, nt, RatioParas.BLTH);
+                    XTB[i, j - 1] = formula.ZIBUYX(out string strXTB, angle, 0, c[7], 0, e5, Vloadx, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZIBUYY(out string strYTB, angle, 0, c[7], 0, e5, Vloadx, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZIBUYZ(out string strZTB, c[11], c[8], e5, Vloadx, rg, tStringNum, RatioParas.BLTH);
 
-                    if (nt != 0)
+                    if (tStringNum != 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strYTB);
@@ -4540,25 +4537,25 @@ namespace TowerLoadCals.BLL
                 }
                 else
                 {
-                    XTF[i, j - 1] = formula.ZIBUYX(out string strXTF, angle, 0, c[7], 0, e5, Vloadx, BL3, nt, RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZIBUYY(out string strYTF, angle, 0, c[7], 0, e5, Vloadx, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZIBUYZ(out string strZTF, c[11], c[8], e5, Vloadx, rg, nt, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZIBUYX(out string strXTF, angle, 0, c[7], 0, e5, Vloadx, BL3, tStringNum, RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZIBUYY(out string strYTF, angle, 0, c[7], 0, e5, Vloadx, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZIBUYZ(out string strZTF, c[11], c[8], e5, Vloadx, rg, tStringNum, RatioParas.BLTQ);
                     
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
 
-                    XTC[i, j - 1] = formula.ZIBUYX(out string strXTC, angle, 0, c[7], 0, e5, Vloadx, BL3, nt, RatioParas.BLTZ);
-                    YTC[i, j - 1] = formula.ZIBUYY(out string strYTC, angle, 0, c[7], 0, e5, Vloadx, nt, RatioParas.BLTZ);
-                    ZTC[i, j - 1] = formula.ZIBUYZ(out string strZTC, c[11], c[8], e5, Vloadx, rg, nt, RatioParas.BLTZ);
+                    XTC[i, j - 1] = formula.ZIBUYX(out string strXTC, angle, 0, c[7], 0, e5, Vloadx, BL3, tStringNum, RatioParas.BLTZ);
+                    YTC[i, j - 1] = formula.ZIBUYY(out string strYTC, angle, 0, c[7], 0, e5, Vloadx, tStringNum, RatioParas.BLTZ);
+                    ZTC[i, j - 1] = formula.ZIBUYZ(out string strZTC, c[11], c[8], e5, Vloadx, rg, tStringNum, RatioParas.BLTZ);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strXTC);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strYTC);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZTC);
 
-                    XTB[i, j - 1] = formula.ZIBUYX(out string strXTB, angle, 0, c[7], 0, e5, Vloadx, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZIBUYY(out string strYTB, angle, 0, c[7], 0, e5, Vloadx, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZIBUYZ(out string strZTB, c[11], c[8], e5, Vloadx, rg, nt, RatioParas.BLTH);
+                    XTB[i, j - 1] = formula.ZIBUYX(out string strXTB, angle, 0, c[7], 0, e5, Vloadx, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZIBUYY(out string strYTB, angle, 0, c[7], 0, e5, Vloadx, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZIBUYZ(out string strZTB, c[11], c[8], e5, Vloadx, rg, tStringNum, RatioParas.BLTH);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strYTB);
@@ -4588,13 +4585,13 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(" ");
 
                 //跳线串始终为一种计算方法
-                if (nt % 3 != 0 || nt == 0)
+                if (tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
                     ZTF[i, j - 1] = 0.00f;
 
-                    if (nt != 0)
+                    if (tStringNum != 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -4605,7 +4602,7 @@ namespace TowerLoadCals.BLL
                     YTB[i, j - 1] = 0.00f;
                     ZTB[i, j - 1] = 0.00f;
 
-                    if (nt != 0)
+                    if (tStringNum != 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= 0.00");
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
@@ -4665,8 +4662,7 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int BL3 = LineParas.isTurnRight ? 1 : -1;
-            //跳线数 = 导线数
-            int nt = LineParas.TstringNum;
+            int tStringNum = LineParas.TstringNum;
             float AngleMax = LineParas.AngleMax / 2;
             float AngleMin = LineParas.AngleMin / 2;
             float fh_2 = LineParas.TwireExtraLoad / Paras.LoadRatio;
@@ -5533,7 +5529,7 @@ namespace TowerLoadCals.BLL
             {
                 //表该相跳线为不吊装，跳线荷载为0  i
                 //中间吊装未吊
-                if(nt % 3 != 0 || nt == 0)
+                if(tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
@@ -5543,7 +5539,7 @@ namespace TowerLoadCals.BLL
                     YTB[i, j - 1] = 0.00f;
                     ZTB[i, j - 1] = 0.00f;
 
-                    if (nt > 0)
+                    if (tStringNum > 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -5555,7 +5551,7 @@ namespace TowerLoadCals.BLL
                         ProcessString.Add(" ");
                     }
                 }
-                else if(nt % 3 == 0 || nt > 0)
+                else if(tStringNum % 3 == 0 || tStringNum > 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
@@ -5587,7 +5583,7 @@ namespace TowerLoadCals.BLL
             else if(zhs.ToString().Length == 5 && (zhs.ToString().Substring(0,3) == "200" || zhs.ToString().Substring(0, 3) == "100"))
             {
                 //单侧吊装未吊  双I 双V                             
-                if (nt % 3 != 0 || nt == 0)
+                if (tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
@@ -5597,7 +5593,7 @@ namespace TowerLoadCals.BLL
                     YTB[i, j - 1] = 0.00f;
                     ZTB[i, j - 1] = 0.00f;
 
-                    if (nt > 0)
+                    if (tStringNum > 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -5617,7 +5613,7 @@ namespace TowerLoadCals.BLL
             else if (zhs.ToString().Length == 6 && (zhs.ToString().Substring(0, 4) == "3000" || zhs.ToString().Substring(0, 4) == "1000"))
             {
                 //单侧吊装未吊  双I 双V                            
-                if (nt % 3 != 0 || nt == 0)
+                if (tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
@@ -5631,7 +5627,7 @@ namespace TowerLoadCals.BLL
                     YTB[i, j - 1] = 0.00f;
                     ZTB[i, j - 1] = 0.00f;
 
-                    if (nt % 3 == 0 && nt > 0)
+                    if (tStringNum % 3 == 0 && tStringNum > 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -5657,27 +5653,27 @@ namespace TowerLoadCals.BLL
                 fhn = 1;
 
                 //单侧吊装未吊  双I 双V                            
-                if (nt % 3 != 0 || nt == 0)
+                if (tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     //已吊，中间吊装
                     //20160903 单侧吊装按单个串荷考虑  中间吊装考虑前后侧比例  只针对跳线串数不为3的情况
 
-                    XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], nt, 0, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], tStringNum, 0, RatioParas.BLTQ);
 
-                    if (nt > 0)
+                    if (tStringNum > 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
                     }
 
-                    XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], nt, 0, RatioParas.BLTH);
+                    XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], tStringNum, 0, RatioParas.BLTH);
 
-                    if (nt > 0)
+                    if (tStringNum > 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strYTB);
@@ -5685,27 +5681,27 @@ namespace TowerLoadCals.BLL
                         ProcessString.Add(" ");
                     }
                 }
-                else if (nt % 3 == 0 && nt > 0)
+                else if (tStringNum % 3 == 0 && tStringNum > 0)
                 {
-                    XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], nt, 0, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], tStringNum, 0, RatioParas.BLTQ);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
 
-                    XTC[i, j - 1] = formula.ZLX(out string strXTC, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTZ);
-                    YTC[i, j - 1] = formula.ZLY(out string strYTC, angle, 0, c[7], 0, nt, RatioParas.BLTZ);
-                    ZTC[i, j - 1] = formula.ZLT2Z(out string strZTC, c[8], nt, 0, RatioParas.BLTZ);
+                    XTC[i, j - 1] = formula.ZLX(out string strXTC, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTZ);
+                    YTC[i, j - 1] = formula.ZLY(out string strYTC, angle, 0, c[7], 0, tStringNum, RatioParas.BLTZ);
+                    ZTC[i, j - 1] = formula.ZLT2Z(out string strZTC, c[8], tStringNum, 0, RatioParas.BLTZ);
                         
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strXTC);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strYTC);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZTC);
 
-                    XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], nt, 0, RatioParas.BLTH); 
+                    XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], tStringNum, 0, RatioParas.BLTH); 
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strYTB);
@@ -5716,29 +5712,29 @@ namespace TowerLoadCals.BLL
             else if (zhs > 2000 && zhs.ToString().Length == 4)
             {
                 //单侧吊装未吊  双I 双V                            
-                if (nt % 3 == 0 && nt > 0)
+                if (tStringNum % 3 == 0 && tStringNum > 0)
                 {
                     //'中间吊装正吊
                     fhn = 1;
-                    XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZLT1Z(out string strZTF, c[8], nt, fh_2, fhn, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZLT1Z(out string strZTF, c[8], tStringNum, fh_2, fhn, RatioParas.BLTQ);
                     
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
 
-                    XTC[i, j - 1] = formula.ZLX(out string strXTC, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTZ);
-                    YTC[i, j - 1] = formula.ZLY(out string strYTC, angle, 0, c[7], 0, nt, RatioParas.BLTZ);
-                    ZTC[i, j - 1] = formula.ZLT1Z(out string strZTC, c[8], nt, fh_2, fhn, RatioParas.BLTZ);
+                    XTC[i, j - 1] = formula.ZLX(out string strXTC, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTZ);
+                    YTC[i, j - 1] = formula.ZLY(out string strYTC, angle, 0, c[7], 0, tStringNum, RatioParas.BLTZ);
+                    ZTC[i, j - 1] = formula.ZLT1Z(out string strZTC, c[8], tStringNum, fh_2, fhn, RatioParas.BLTZ);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strXTC);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fy= " + strYTC);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fz= " + strZTC);
 
-                    XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZLT1Z(out string strZTB, c[8], nt, fh_2, fhn, RatioParas.BLTH);
+                    XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZLT1Z(out string strZTB, c[8], tStringNum, fh_2, fhn, RatioParas.BLTH);
 
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
                     ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strYTB);
@@ -5746,26 +5742,26 @@ namespace TowerLoadCals.BLL
                     ProcessString.Add(" ");
 
                 }
-                else if (nt % 3 != 0 || nt == 0)
+                else if (tStringNum % 3 != 0 || tStringNum == 0)
                 {
                     //20160903 单侧吊装按单个串荷考虑  中间吊装考虑前后侧比例  只针对跳线串数不为3的情况
                     fhn = 1;
-                    XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTQ);
-                    YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt, RatioParas.BLTQ);
-                    ZTF[i, j - 1] = formula.ZLT1Z(out string strZTF, c[8], nt, fh_2, fhn, RatioParas.BLTQ);
+                    XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTQ);
+                    YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, tStringNum, RatioParas.BLTQ);
+                    ZTF[i, j - 1] = formula.ZLT1Z(out string strZTF, c[8], tStringNum, fh_2, fhn, RatioParas.BLTQ);
 
-                    if(nt > 0)
+                    if(tStringNum > 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= " + strYTF);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fz= " + strZTF);
                     }
 
-                    XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt, RatioParas.BLTH);
-                    YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt, RatioParas.BLTH);
-                    ZTB[i, j - 1] = formula.ZLT1Z(out string strZTB, c[8], nt, fh_2, fhn, RatioParas.BLTH);
+                    XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLTH);
+                    YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum, RatioParas.BLTH);
+                    ZTB[i, j - 1] = formula.ZLT1Z(out string strZTB, c[8], tStringNum, fh_2, fhn, RatioParas.BLTH);
 
-                    if (nt > 0)
+                    if (tStringNum > 0)
                     {
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
                         ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= " + strYTB);
@@ -5778,7 +5774,7 @@ namespace TowerLoadCals.BLL
             {
                 //单侧集中吊装   1AB0i系列    注意AB不能同时取1或2  排他
                 fhn = 1;
-                if(nt == 0)
+                if(tStringNum == 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
@@ -5807,9 +5803,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "1":
                             //已吊
-                            XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt);
-                            YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt);
-                            ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], nt, 0);
+                            XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, tStringNum);
+                            ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], tStringNum, 0);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
@@ -5819,9 +5815,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "2":
                             //正吊
-                            XTF[i, j - 1] = formula.ZLX(out string strXTF2, angle, 0, c[7], 0, BL3, nt);
-                            YTF[i, j - 1] = formula.ZLY(out string strYTF2, angle, 0, c[7], 0, nt);
-                            ZTF[i, j - 1] = formula.ZLT1Z(out string strZTF2, c[8], nt, fh_2, fhn);
+                            XTF[i, j - 1] = formula.ZLX(out string strXTF2, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTF[i, j - 1] = formula.ZLY(out string strYTF2, angle, 0, c[7], 0, tStringNum);
+                            ZTF[i, j - 1] = formula.ZLT1Z(out string strZTF2, c[8], tStringNum, fh_2, fhn);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF2);
@@ -5848,9 +5844,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "1":
                             //已吊
-                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt);
-                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt);
-                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], nt, 0);
+                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum);
+                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], tStringNum, 0);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
@@ -5861,9 +5857,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "2":
                             //正吊
-                            XTB[i, j - 1] = formula.ZLX(out string strXTB1, angle, 0, c[7], 0, BL3, nt);
-                            YTB[i, j - 1] = formula.ZLY(out string strYTB1, angle, 0, c[7], 0, nt);
-                            ZTB[i, j - 1] = formula.ZLT1Z(out string strZTB1, c[8], nt, fh_2, fhn);
+                            XTB[i, j - 1] = formula.ZLX(out string strXTB1, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTB[i, j - 1] = formula.ZLY(out string strYTB1, angle, 0, c[7], 0, tStringNum);
+                            ZTB[i, j - 1] = formula.ZLT1Z(out string strZTB1, c[8], tStringNum, fh_2, fhn);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB1);
@@ -5879,7 +5875,7 @@ namespace TowerLoadCals.BLL
             {
                 //吊装荷载前后分开吊装  不区分吊串数  荷载直接按比例前后分配
                 fhn = 1;
-                if (nt == 0)
+                if (tStringNum == 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
@@ -5908,9 +5904,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "1":
                             //已吊
-                            XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTQ);
-                            YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt, RatioParas.BLDZTQ);
-                            ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], nt, 0, RatioParas.BLDZTQ);
+                            XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTQ);
+                            YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTQ);
+                            ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], tStringNum, 0, RatioParas.BLDZTQ);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
@@ -5920,9 +5916,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "2":
                             //正吊
-                            XTF[i, j - 1] = formula.ZLX(out strXTF, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTQ);
-                            YTF[i, j - 1] = formula.ZLY(out strYTF, angle, 0, c[7], 0, nt, RatioParas.BLDZTQ);
-                            ZTF[i, j - 1] = formula.ZLT1Z(out strZTF, c[8], nt, fh_2, fhn, RatioParas.BLDZTQ, true);
+                            XTF[i, j - 1] = formula.ZLX(out strXTF, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTQ);
+                            YTF[i, j - 1] = formula.ZLY(out strYTF, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTQ);
+                            ZTF[i, j - 1] = formula.ZLT1Z(out strZTF, c[8], tStringNum, fh_2, fhn, RatioParas.BLDZTQ, true);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
@@ -5949,9 +5945,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "1":
                             //已吊
-                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTH);
-                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt, RatioParas.BLDZTH);
-                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], nt * RatioParas.BLDZTH, 0);
+                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTH);
+                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTH);
+                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], tStringNum * RatioParas.BLDZTH, 0);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
@@ -5962,9 +5958,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "2":
                             //正吊
-                            XTB[i, j - 1] = formula.ZLX(out strXTB, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTH);
-                            YTB[i, j - 1] = formula.ZLY(out strYTB, angle, 0, c[7], 0, nt, RatioParas.BLDZTH);
-                            ZTB[i, j - 1] = formula.ZLT1Z(out strZTB, c[8], nt, fh_2, fhn, RatioParas.BLDZTH, true);
+                            XTB[i, j - 1] = formula.ZLX(out strXTB, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTH);
+                            YTB[i, j - 1] = formula.ZLY(out strYTB, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTH);
+                            ZTB[i, j - 1] = formula.ZLT1Z(out strZTB, c[8], tStringNum, fh_2, fhn, RatioParas.BLDZTH, true);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
@@ -5980,7 +5976,7 @@ namespace TowerLoadCals.BLL
             {
                 //3I或3V  单侧集中吊装
                 fhn = 1;
-                if (nt == 0)
+                if (tStringNum == 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
@@ -6015,9 +6011,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "1":
                             //已吊
-                            XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt);
-                            YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt);
-                            ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], nt, 0);
+                            XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, tStringNum);
+                            ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], tStringNum, 0);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
@@ -6028,9 +6024,9 @@ namespace TowerLoadCals.BLL
                         case "2":
                             //正吊
                             //  nt = 1   '此处错误
-                            XTF[i, j - 1] = formula.ZLX(out strXTF, angle, 0, c[7], 0, BL3, nt);
-                            YTF[i, j - 1] = formula.ZLY(out strYTF, angle, 0, c[7], 0, nt);
-                            ZTF[i, j - 1] = formula.ZLT1Z(out strZTF, c[8], nt, fh_2, fhn);
+                            XTF[i, j - 1] = formula.ZLX(out strXTF, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTF[i, j - 1] = formula.ZLY(out strYTF, angle, 0, c[7], 0, tStringNum);
+                            ZTF[i, j - 1] = formula.ZLT1Z(out strZTF, c[8], tStringNum, fh_2, fhn);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
@@ -6046,7 +6042,7 @@ namespace TowerLoadCals.BLL
                             XTB[i, j - 1] = 0.00f;
                             YTB[i, j - 1] = 0.00f;
                             ZTB[i, j - 1] = 0.00f;
-                            nt = 1;
+                            tStringNum = 1;
 
                             if (j > groudWireNum)
                             {
@@ -6058,9 +6054,9 @@ namespace TowerLoadCals.BLL
                         case "1":
                             //已吊
                             //   nt = 1    此处错误
-                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt);
-                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt);
-                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], nt, 0);
+                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum);
+                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], tStringNum, 0);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strXTB);
@@ -6071,9 +6067,9 @@ namespace TowerLoadCals.BLL
                         case "2":
                             //正吊         
                             //  nt = 1    '此处错误
-                            XTB[i, j - 1] = formula.ZLX(out strXTB, angle, 0, c[7], 0, BL3, nt);
-                            YTB[i, j - 1] = formula.ZLY(out strYTB, angle, 0, c[7], 0, nt);
-                            ZTB[i, j - 1] = formula.ZLT1Z(out strZTB, c[8], nt, fh_2, fhn);
+                            XTB[i, j - 1] = formula.ZLX(out strXTB, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTB[i, j - 1] = formula.ZLY(out strYTB, angle, 0, c[7], 0, tStringNum);
+                            ZTB[i, j - 1] = formula.ZLT1Z(out strZTB, c[8], tStringNum, fh_2, fhn);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strXTB);
@@ -6089,7 +6085,7 @@ namespace TowerLoadCals.BLL
                             XTB[i, j - 1] = 0.00f;
                             YTB[i, j - 1] = 0.00f;
                             ZTB[i, j - 1] = 0.00f;
-                            nt = 1;
+                            tStringNum = 1;
 
                             if (j > groudWireNum)
                             {
@@ -6102,9 +6098,9 @@ namespace TowerLoadCals.BLL
                         case "1":
                             //已吊
                             //   nt = 1    此处错误
-                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt);
-                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt);
-                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], nt, 0);
+                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum);
+                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], tStringNum, 0);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
@@ -6116,9 +6112,9 @@ namespace TowerLoadCals.BLL
                         case "2":
                             //正吊         
                             //  nt = 1    '此处错误
-                            XTB[i, j - 1] = formula.ZLX(out strXTB, angle, 0, c[7], 0, BL3, nt);
-                            YTB[i, j - 1] = formula.ZLY(out strYTB, angle, 0, c[7], 0, nt);
-                            ZTB[i, j - 1] = formula.ZLT1Z(out strZTB, c[8], nt, fh_2, fhn);
+                            XTB[i, j - 1] = formula.ZLX(out strXTB, angle, 0, c[7], 0, BL3, tStringNum);
+                            YTB[i, j - 1] = formula.ZLY(out strYTB, angle, 0, c[7], 0, tStringNum);
+                            ZTB[i, j - 1] = formula.ZLT1Z(out strZTB, c[8], tStringNum, fh_2, fhn);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
@@ -6134,7 +6130,7 @@ namespace TowerLoadCals.BLL
             {
                 //3I或3V   分开吊装
                 fhn = 1;
-                if (nt == 0)
+                if (tStringNum == 0)
                 {
                     XTF[i, j - 1] = 0.00f;
                     YTF[i, j - 1] = 0.00f;
@@ -6169,9 +6165,9 @@ namespace TowerLoadCals.BLL
                             break;
                         case "1":
                             //已吊
-                            XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTQ);
-                            YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, nt, RatioParas.BLDZTQ);
-                            ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], nt, 0, RatioParas.BLDZTQ);
+                            XTF[i, j - 1] = formula.ZLX(out string strXTF, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTQ);
+                            YTF[i, j - 1] = formula.ZLY(out string strYTF, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTQ);
+                            ZTF[i, j - 1] = formula.ZLT2Z(out string strZTF, c[8], tStringNum, 0, RatioParas.BLDZTQ);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
@@ -6182,9 +6178,9 @@ namespace TowerLoadCals.BLL
                         case "2":
                             //正吊
                             //  nt = 1   
-                            XTF[i, j - 1] = formula.ZLX(out strXTF, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTQ);
-                            YTF[i, j - 1] = formula.ZLY(out strYTF, angle, 0, c[7], 0, nt, RatioParas.BLDZTQ);
-                            ZTF[i, j - 1] = formula.ZLT1Z(out strZTF, c[8], nt, fh_2, fhn, RatioParas.BLDZTQ, true);
+                            XTF[i, j - 1] = formula.ZLX(out strXTF, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTQ);
+                            YTF[i, j - 1] = formula.ZLY(out strYTF, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTQ);
+                            ZTF[i, j - 1] = formula.ZLT1Z(out strZTF, c[8], tStringNum, fh_2, fhn, RatioParas.BLDZTQ, true);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= " + strXTF);
@@ -6212,9 +6208,9 @@ namespace TowerLoadCals.BLL
                         case "1":
                             //已吊
                             //   nt = 1 
-                            XTC[i, j - 1] = formula.ZLX(out string strXTC, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTZ);
-                            YTC[i, j - 1] = formula.ZLY(out string strYTC, angle, 0, c[7], 0, nt, RatioParas.BLDZTZ);
-                            ZTC[i, j - 1] = formula.ZLT2Z(out string strZTC, c[8], nt, 0, RatioParas.BLDZTZ);
+                            XTC[i, j - 1] = formula.ZLX(out string strXTC, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTZ);
+                            YTC[i, j - 1] = formula.ZLY(out string strYTC, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTZ);
+                            ZTC[i, j - 1] = formula.ZLT2Z(out string strZTC, c[8], tStringNum, 0, RatioParas.BLDZTZ);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strXTC);
@@ -6225,9 +6221,9 @@ namespace TowerLoadCals.BLL
                         case "2":
                             //正吊         
                             //  nt = 1    
-                            XTC[i, j - 1] = formula.ZLX(out strXTC, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTZ);
-                            YTC[i, j - 1] = formula.ZLY(out strYTC, angle, 0, c[7], 0, nt, RatioParas.BLDZTZ);
-                            ZTC[i, j - 1] = formula.ZLT1Z(out strZTC, c[8], nt, fh_2, fhn, RatioParas.BLDZTZ, true);
+                            XTC[i, j - 1] = formula.ZLX(out strXTC, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTZ);
+                            YTC[i, j - 1] = formula.ZLY(out strYTC, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTZ);
+                            ZTC[i, j - 1] = formula.ZLT1Z(out strZTC, c[8], tStringNum, fh_2, fhn, RatioParas.BLDZTZ, true);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线中部 Fx= " + strXTC);
@@ -6256,9 +6252,9 @@ namespace TowerLoadCals.BLL
                         case "1":
                             //已吊
                             //   nt = 1    此处错误
-                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTH);
-                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, nt, RatioParas.BLDZTH);
-                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], nt, 0, RatioParas.BLDZTH);
+                            XTB[i, j - 1] = formula.ZLX(out string strXTB, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTH);
+                            YTB[i, j - 1] = formula.ZLY(out string strYTB, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTH);
+                            ZTB[i, j - 1] = formula.ZLT2Z(out string strZTB, c[8], tStringNum, 0, RatioParas.BLDZTH);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
@@ -6270,9 +6266,9 @@ namespace TowerLoadCals.BLL
                         case "2":
                             //正吊         
                             //  nt = 1    '此处错误
-                            XTB[i, j - 1] = formula.ZLX(out strXTB, angle, 0, c[7], 0, BL3, nt, RatioParas.BLDZTH);
-                            YTB[i, j - 1] = formula.ZLY(out strYTB, angle, 0, c[7], 0, nt, RatioParas.BLDZTH);
-                            ZTB[i, j - 1] = formula.ZLT1Z(out strZTB, c[8], nt, fh_2, fhn, RatioParas.BLDZTH, true);
+                            XTB[i, j - 1] = formula.ZLX(out strXTB, angle, 0, c[7], 0, BL3, tStringNum, RatioParas.BLDZTH);
+                            YTB[i, j - 1] = formula.ZLY(out strYTB, angle, 0, c[7], 0, tStringNum, RatioParas.BLDZTH);
+                            ZTB[i, j - 1] = formula.ZLT1Z(out strZTB, c[8], tStringNum, fh_2, fhn, RatioParas.BLDZTH, true);
                             if (j > groudWireNum)
                             {
                                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fx= " + strXTB);
@@ -6300,7 +6296,6 @@ namespace TowerLoadCals.BLL
             float e1, e2, e3;
             float[] c = new float[12];
             int fhn = 0;
-            //int BL2;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -6308,8 +6303,7 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int BL3 = LineParas.isTurnRight ? 1 : -1;
-            //跳线数 = 导线数
-            int nt = LineParas.TstringNum;
+            int tStringNum = LineParas.TstringNum;
             float AngleMax = LineParas.AngleMax / 2;
             float AngleMin = LineParas.AngleMin / 2;
             float fh_1 = LineParas.WireExtraLoad / Paras.LoadRatio;
@@ -6554,7 +6548,7 @@ namespace TowerLoadCals.BLL
             YTB[i, j - 1] = 0.00f;
             ZTB[i, j - 1] = 0.00f;
 
-            if (nt % 3 != 0)
+            if (tStringNum % 3 != 0)
             {
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -6565,7 +6559,7 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
                 ProcessString.Add(" ");
             }
-            else if(nt % 3 == 0 && nt > 0)
+            else if(tStringNum % 3 == 0 && tStringNum > 0)
             {
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -6595,7 +6589,6 @@ namespace TowerLoadCals.BLL
             float e1, e2, e3;
             float[] c = new float[12];
             int fhn = 0, zhsx;
-            //int BL2;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -6603,8 +6596,7 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int BL3 = LineParas.isTurnRight ? 1 : -1;
-            //跳线数 = 导线数
-            int nt = LineParas.TstringNum;
+            int tStringNum = LineParas.TstringNum;
             float AngleMax = LineParas.AngleMax / 2;
             float AngleMin = LineParas.AngleMin / 2;
             float fh_1 = LineParas.WireExtraLoad / Paras.LoadRatio;
@@ -6850,7 +6842,7 @@ namespace TowerLoadCals.BLL
             YTB[i, j - 1] = 0.00f;
             ZTB[i, j - 1] = 0.00f;
 
-            if (nt % 3 != 0)
+            if (tStringNum % 3 != 0)
             {
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -6860,7 +6852,7 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
             }
-            else if (nt % 3 == 0 && nt > 0)
+            else if (tStringNum % 3 == 0 && tStringNum > 0)
             {
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -6891,7 +6883,6 @@ namespace TowerLoadCals.BLL
             float t1 = 0, t2 = 0;
             float[] c = new float[12];
             int fhn = 0, zhsx;
-            //int BL2;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -6899,8 +6890,7 @@ namespace TowerLoadCals.BLL
             int angle = wd.WindDirectionCode;
             string workConditionCode = wd.WorkConditionCode;
             int BL3 = LineParas.isTurnRight ? 1 : -1;
-            //跳线数 = 导线数
-            int nt = LineParas.TstringNum;
+            int tStringNum = LineParas.TstringNum;
             float AngleMax = LineParas.AngleMax / 2;
             float AngleMin = LineParas.AngleMin / 2;
             float fh_1 = LineParas.WireExtraLoad / Paras.LoadRatio;
@@ -7217,7 +7207,7 @@ namespace TowerLoadCals.BLL
             YTB[i, j - 1] = 0.00f;
             ZTB[i, j - 1] = 0.00f;
 
-            if (nt % 3 != 0)
+            if (tStringNum % 3 != 0)
             {
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -7227,7 +7217,7 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
             }
-            else if (nt % 3 == 0 && nt > 0)
+            else if (tStringNum % 3 == 0 && tStringNum > 0)
             {
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -7258,7 +7248,6 @@ namespace TowerLoadCals.BLL
             float t1, t2;
             float[] c = new float[12];
             int fhn, zhsx;
-            //int BL2;
 
             WorkConditionCombo wd = Template.WorkConditionCombos[i];
 
@@ -7267,8 +7256,7 @@ namespace TowerLoadCals.BLL
             string workConditionCode = wd.WorkConditionCode;
             int mz1 = Template.WorkConditongs.Count;
             int BL3 = LineParas.isTurnRight ? 1 : -1;
-            //跳线数 = 导线数
-            int nt = LineParas.TstringNum;
+            int tStringNum = LineParas.TstringNum;
             float AngleMax = LineParas.AngleMax / 2;
             float AngleMin = LineParas.AngleMin / 2;
 
@@ -7555,7 +7543,7 @@ namespace TowerLoadCals.BLL
             YTB[i, j - 1] = 0.00f;
             ZTB[i, j - 1] = 0.00f;
 
-            if (nt % 3 != 0)
+            if (tStringNum % 3 != 0)
             {
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -7565,7 +7553,7 @@ namespace TowerLoadCals.BLL
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fy= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线后侧 Fz= 0.00");
             }
-            else if (nt % 3 == 0 && nt > 0)
+            else if (tStringNum % 3 == 0 && tStringNum > 0)
             {
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fx= 0.00");
                 ProcessString.Add(Template.Wires[j - 1] + "跳线前侧 Fy= 0.00");
@@ -7624,14 +7612,13 @@ namespace TowerLoadCals.BLL
         {
             List<StruCalsPointLoad> pointsLoad = new List<StruCalsPointLoad>();
 
-            int j = 0;
-
             string wireItem = Template.Wires[i];
 
             List<string> positions = new List<string> { "前侧", "后侧" };
 
             foreach (var posItem in positions)
             {
+                int j = 0;
                 foreach (var wdItem in Template.WorkConditionCombos)
                 {
                     string groupStr, linkStr;
@@ -7705,8 +7692,6 @@ namespace TowerLoadCals.BLL
         {
             List<StruCalsPointLoad> pointsLoad = new List<StruCalsPointLoad>();
 
-            int j = 0;
-
             string wireItem = Template.Wires[i];
 
             StruLineParas linePara = LineParasArr[i]; 
@@ -7728,6 +7713,7 @@ namespace TowerLoadCals.BLL
 
             foreach (var posItem in positions)
             {
+                int j = 0;
                 foreach (var wdItem in Template.WorkConditionCombos)
                 {
                     string groupStr, linkStrXY, linkStrZ;
@@ -7797,6 +7783,11 @@ namespace TowerLoadCals.BLL
             }
 
             return pointsLoad;
+        }
+
+        protected override string GetDicPath()
+        {
+            return "D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-TensionTower.xml";
         }
     }
 }

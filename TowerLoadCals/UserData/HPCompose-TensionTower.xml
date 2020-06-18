@@ -84,7 +84,7 @@
     </Option>
   </HangingPoint>
   <HangingPoint Group = "第三组"  Name="跳线挂点" Wire = "跳线" FixedType = "V串" TWireNum ="1 2 4" ForceDirection="XYZ" Link = "[常规跳线挂点_dataTable]">
-    <Option	挂点个数 = "2" 前侧挂点="点1" 后侧挂点="点2" 左侧挂点="点1" 右侧挂点="点2">
+    <Option	挂点个数 = "2" 前侧挂点="点1 点2" 后侧挂点="点1 点2" 左侧挂点="点1" 右侧挂点="点2">
       <ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
       <ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
       <ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
@@ -155,7 +155,7 @@
     </Option>
   </HangingPoint>
   <HangingPoint Group = "第四组"  Name="跳线吊装挂点" Wire = "跳线" FixedType = "V串" TWireNum ="1 2 4" ForceDirection="XY" Link = "[吊装跳线挂点XY向_dataTable]">
-    <Option	挂点个数 = "2" 前侧挂点="点1" 后侧挂点="点2" 左侧挂点="点1" 右侧挂点=" 2">
+    <Option	挂点个数 = "2" 前侧挂点="点1 点2" 后侧挂点="点1 点2" 左侧挂点="点1" 右侧挂点="点2">
       <ComposeInfo 方向 = "X" 点1 = "1"  点2 = "1" />
       <ComposeInfo 方向 = "Y" 点1 = "1"  点2 = "1" />
     </Option>
@@ -165,7 +165,7 @@
     </Option>
   </HangingPoint>
   <HangingPoint Group = "第四组"  Name="跳线吊装挂点" Wire = "跳线" FixedType = "V串" TWireNum ="1 2 4" ForceDirection="Z" Link = "[吊装跳线挂点Z向_dataTable]">
-    <Option	挂点个数 = "2" 前侧挂点="点1" 后侧挂点="点2" 左侧挂点="点1" 右侧挂点=" 2">
+    <Option	挂点个数 = "2" 前侧挂点="点1 点2" 后侧挂点="点1 点2" 左侧挂点="点1" 右侧挂点="点2">
       <ComposeInfo 方向 = "Z" 点1 = "1"  点2 = "1" />
     </Option>
     <Option	挂点个数 = "4" 前侧挂点="点1 点3" 后侧挂点="点2 点4" 左侧挂点="点1 点2" 右侧挂点="点3 点4">
