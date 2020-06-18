@@ -310,6 +310,42 @@ namespace TowerLoadCals.BLL
             return pointsLoad;
         }
 
+        public void SumPointsLoad(string path, List<StruCalsPointLoad> pointLoads)
+        {
+            List<string> processString = new List<string>();
+            
+            List<string> points = pointLoads.Select(p => p.Name).ToList();
+
+            var p2 = points.Distinct();
+
+            foreach( var point in p2)
+            {
+                for(int j = 0; j < Template.WorkConditionCombos.Count; j++)
+                {
+                    string str = (j == 0) ? point.PadLeft(5) : (" ").PadLeft(5);
+                    float xLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "X").Sum(p => p.Load);
+                    float yLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "Y").Sum(p => p.Load);
+                    float zLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "Z").Sum(p => p.Load);
+
+                    str += xLoad.ToString("0.00").PadLeft(14) + yLoad.ToString("0.00").PadLeft(9) + zLoad.ToString("0.00").PadLeft(9);
+                    processString.Add(str);
+                }
+            }
+
+            using (FileStream fileStream = File.OpenWrite(path))
+            {
+                using (StreamWriter writer = new StreamWriter(fileStream))
+                {
+                    foreach (string s in processString)
+                    {
+                        writer.WriteLine(s);
+                    }
+                    writer.Flush();
+                    writer.Close();
+                }
+            }
+        }
+
 
         protected virtual string GetDicPath()
         {

@@ -283,7 +283,10 @@ namespace TowerLoadCals.Test
             loadLineTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
 
             string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
-            loadLineTower.CalsPointsLoad(filePath2);
+            List<StruCalsPointLoad>  loadList = loadLineTower.CalsPointsLoad(filePath2);
+
+            string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
+            loadLineTower.SumPointsLoad(filePath3, loadList);
         }
 
         [TestMethod]
