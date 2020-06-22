@@ -56,7 +56,7 @@ namespace TowerLoadCals
         public void NewTowerSubMenuItem(MenuItemVM menuVm)
         {
             var subMenus = new List<MenuItemVM>() { };
-            var weatherMenu = new MenuItemVM("BaseAndLineParasModule", this, "结构计算参数", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            var weatherMenu = new MenuItemVM("BaseAndLineParasModule", this, "计算参数", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             weatherMenu.ParentNode = menuVm;
             subMenus.Add(weatherMenu);
 

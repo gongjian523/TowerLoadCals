@@ -109,56 +109,23 @@ namespace TowerLoadCals.Modules
         protected HangingPoint(string title,  string towerType, StruCalsParas calsParas)
         {
             Title = title;
-
-            //if (towerType == "直线塔")
-            //{
-            //    Type = TowerType.LineTower;
-            //}
-            //else if (towerType == "直转塔")
-            //{
-            //    Type = TowerType.LineCornerTower;
-            //}
-            //else if (towerType == "转角塔")
-            //{
-            //    Type = TowerType.CornerTower;
-            //}
-            //else if (towerType == "分支塔")
-            //{
-            //    Type = TowerType.BranchTower;
-            //}
-            //else
-            //{
-            //    Type = TowerType.TerminalTower;
-            //}
-            //Type = TowerType.LineTower;
-
-            VStrings = new ObservableCollection<VStringParas>();
-
             Template = calsParas.Template;
-            RatioParas = calsParas.RatioParas;
+
+            HPSetitingParas = calsParas.HPSettingsParas.Where(item => item.HangingPointSettingName == title).First();
             BaseParas = calsParas.BaseParas;
 
-            NormalXYPoints = new ObservableCollection<HangingPointParas>();
-            NormalZPoints = new ObservableCollection<HangingPointParas>();
-            InstallXYPoints = new ObservableCollection<HangingPointParas>();
-            InstallZPoints = new ObservableCollection<HangingPointParas>();
-            TurningPoints = new ObservableCollection<HangingPointParas>();
+            NormalXYPoints = new ObservableCollection<HangingPointParas>(HPSetitingParas.NormalXYPoints);
+            NormalZPoints = new ObservableCollection<HangingPointParas>(HPSetitingParas.NormalZPoints);
+            InstallXYPoints = new ObservableCollection<HangingPointParas>(HPSetitingParas.InstallXYPoints);
+            InstallZPoints = new ObservableCollection<HangingPointParas>(HPSetitingParas.InstallZPoints);
+            TurningPoints = new ObservableCollection<HangingPointParas>(HPSetitingParas.TurningPoints);
+            VStrings = new ObservableCollection<VStringParas>(HPSetitingParas.VStrings);
 
-            for (int i = 0; i < Template.Wires.Count; i++)
-            {
-                NormalXYPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
-                NormalZPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
-                InstallXYPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
-                InstallZPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
-                TurningPoints.Add(new HangingPointParas { Index = i + 1, WireType = Template.Wires[i] });
-            }
-
-            List<string> normalSource = new List<string> { "悬臂", "V1", "V2", "V3"};
+            List<string> normalSource = new List<string> { "常规", "悬臂",  "I串", "V1", "V2", "V3"};
             List<Column> normalXYColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型",Source = normalSource },
-                //new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Point1", Header = "点1" }
+                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型", Source = normalSource },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
             };
             NormalXYColumns = new ObservableCollection<Column>(normalXYColumns);
@@ -166,25 +133,22 @@ namespace TowerLoadCals.Modules
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
                 new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型",Source = normalSource },
-                //new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Point1", Header = "点1" }
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
             };
             NormalZColumns = new ObservableCollection<Column>(normalZColumns);
 
-            List<string> installSource = new List<string> { "组a", "组b", "组c", "组d" };
+            
             List<Column> installXYColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "Array", Header = "组数",Source = installSource },
-                //new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Point1", Header = "点1" }
+                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Array", Header = "组数" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
             };
             InstallXYColumns = new ObservableCollection<Column>(installXYColumns);
             List<Column> intallZColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "Array", Header = "组数",Source = installSource },
-                //new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Point1", Header = "点1" }
+                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Array", Header = "组数" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
             };
             InstallZColumns = new ObservableCollection<Column>(intallZColumns);
@@ -193,7 +157,6 @@ namespace TowerLoadCals.Modules
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Angle", Header = "方向角"},
-                //new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Point1", Header = "点1" }
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
             };
             TurningColumns = new ObservableCollection<Column>(turningColumns);
@@ -201,17 +164,17 @@ namespace TowerLoadCals.Modules
 
         protected TowerTemplate Template;
 
-        protected StruRatioParas _ratioParas;
-        public StruRatioParas RatioParas
+        protected HangingPointSettingParas _hpSettingParas;
+        public HangingPointSettingParas HPSetitingParas
         {
             get
             {
-                return _ratioParas;
+                return _hpSettingParas;
             }
             set
             {
-                _ratioParas = value;
-                RaisePropertyChanged("RatioParas");
+                _hpSettingParas = value;
+                RaisePropertyChanged("HPSetitingParas");
             }
         }
 
@@ -315,7 +278,6 @@ namespace TowerLoadCals.Modules
             normalXYPointNum++;
             NormalXYColumns.Add(new HeaderColumn() { 
                 Settings = SettingsType.Binding,
-                //FieldName = "Point" + normalXYPointNum.ToString(),
                 FieldName = "Points[" + (normalXYPointNum-1).ToString() + "]", 
                 Header = "点" + normalXYPointNum.ToString()
             }
@@ -328,7 +290,6 @@ namespace TowerLoadCals.Modules
             NormalZColumns.Add(new HeaderColumn()
             {
                 Settings = SettingsType.Binding,
-                //FieldName = "Point" + normalZPointNum.ToString(),
                 FieldName = "Points[" + (normalZPointNum - 1).ToString() + "]",
                 Header = "点" + normalZPointNum.ToString()
             }
@@ -341,8 +302,7 @@ namespace TowerLoadCals.Modules
             InstallXYColumns.Add(new HeaderColumn()
             {
                 Settings = SettingsType.Binding,
-                FieldName = "Point" + installXYPointNum.ToString(),
-                //FieldName = "Points[" + (installXYPointNum - 1).ToString() + "]",
+                FieldName = "Points[" + (installXYPointNum - 1).ToString() + "]",
                 Header = "点" + installXYPointNum.ToString()
             }
             );
@@ -354,7 +314,6 @@ namespace TowerLoadCals.Modules
             InstallZColumns.Add(new HeaderColumn()
             {
                 Settings = SettingsType.Binding,
-                //FieldName = "Point" + installZPointNum.ToString(),
                 FieldName = "Points[" + (installZPointNum - 1).ToString() + "]",
                 Header = "点" + installZPointNum.ToString()
             }
@@ -367,7 +326,6 @@ namespace TowerLoadCals.Modules
             TurningColumns.Add(new HeaderColumn()
             {
                 Settings = SettingsType.Binding,
-                //FieldName = "Point" + turningPointNum.ToString(),
                 FieldName = "Points[" + (turningPointNum - 1).ToString() + "]",
                 Header = "点" + turningPointNum.ToString()
             }

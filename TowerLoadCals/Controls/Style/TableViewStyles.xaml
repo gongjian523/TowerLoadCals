@@ -8,3 +8,4 @@
         <Setter Property="EnableImmediatePosting" Value="True"/>
     </Style>
 </ResourceDictionary>
+    

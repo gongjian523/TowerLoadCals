@@ -99,7 +99,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="V串信息">
-                                    <dxg:GridControl EnableSmartColumnsGeneration="False" ItemsSource="{Binding VStrings}" MaxHeight="500"
+                                    <dxg:GridControl EnableSmartColumnsGeneration="False" ItemsSource="{Binding VStrings}" MaxHeight="500" 
                                         ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
                                         <dxg:GridControl.View>
                                             <dxg:TableView ShowGroupPanel="False" AutoWidth="True" EnableImmediatePosting="True"  NewItemRowPosition="Bottom" />
@@ -116,26 +116,26 @@
                                 <GroupBox  Grid.Column="1" Header="跳线荷载分配比例" Margin="5,0,0,0" Visibility="{Binding BaseParas.IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
                                     <dxlc:LayoutGroup Orientation="Vertical">
                                         <dxlc:LayoutItem Label="前侧:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLTQ,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding HPSetitingParas.BLTQ,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                         <dxlc:LayoutItem Label="后侧:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLTH,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding HPSetitingParas.BLTH,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                         <dxlc:LayoutItem Label="中部:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLTZ,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding HPSetitingParas.BLTZ,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                     </dxlc:LayoutGroup>
                                 </GroupBox>
                                 <GroupBox Header="跳线荷载分开吊装分配比例" Grid.Column="2" Margin="5,0,0,0" Visibility="{Binding BaseParas.IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
                                     <dxlc:LayoutGroup Orientation="Vertical">
                                         <dxlc:LayoutItem Label="前侧:"  >
-                                            <dxe:TextEdit  Margin="5,0,0,0" Text="{Binding RatioParas.BLDZTQ,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            <dxe:TextEdit  Margin="5,0,0,0" Text="{Binding HPSetitingParas.BLDZTQ,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                         <dxlc:LayoutItem Label="后侧:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLDZTH,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding HPSetitingParas.BLDZTH,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                         <dxlc:LayoutItem Label="中部:"  >
-                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding RatioParas.BLDZTZ,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            <dxe:TextEdit Margin="5,0,0,0" Text="{Binding HPSetitingParas.BLDZTZ,  UpdateSourceTrigger=PropertyChanged}"/>
                                         </dxlc:LayoutItem>
                                     </dxlc:LayoutGroup>
                                 </GroupBox>
@@ -156,13 +156,13 @@
                                         <TextBlock Grid.Column="1" Text="常规" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                         <TextBlock Grid.Column="3" Text="悬臂" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Grid.Row="1" Text="前侧" Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="1"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="1"  Margin="0,5,0,0" Text="{Binding HPSetitingParas.GCQ,  UpdateSourceTrigger=PropertyChanged}" />
                                         <TextBlock Grid.Row="1" Grid.Column="2" Text="外侧"  Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="3"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="3"  Margin="0,5,0,0" Text="{Binding HPSetitingParas.GXW,  UpdateSourceTrigger=PropertyChanged}" />
                                         <TextBlock Grid.Row="2" Text="后侧" VerticalAlignment="Center"  Margin="0,5,0,0" HorizontalAlignment="Center"/>
-                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="1"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="1"  Margin="0,5,0,0" Text="{Binding HPSetitingParas.GCH,  UpdateSourceTrigger=PropertyChanged}" />
                                         <TextBlock Grid.Row="2" Grid.Column="2"  Margin="0,5,0,0" Text="内侧" VerticalAlignment="Center"  HorizontalAlignment="Center"/>
-                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="3"  Margin="0,5,0,0" Text="{Binding BaseParas.RGBad,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="3"  Margin="0,5,0,0" Text="{Binding HPSetitingParas.GXN,  UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox Header="导线挂点荷载分配比例" Grid.Column="2" Margin="5,0,0,0" Visibility="{Binding BaseParas.IsTensionTower, Converter={StaticResource InverseBooleanVisibityConverter}}">
@@ -185,24 +185,24 @@
                                         <TextBlock Grid.Column="3" Text="锚线" VerticalAlignment="Center" HorizontalAlignment="Center" 
                                                    Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                         <TextBlock Grid.Row="1" Text="前侧风荷" Margin="0,5,0,0" VerticalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="1" Margin="5,5,0,0" />
-                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="2" Margin="5,5,0,0" />
-                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="3" Margin="5,5,0,0"  
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="1" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DQWQ,  UpdateSourceTrigger=PropertyChanged}" />
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="2" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DDWQ,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        <dxe:TextEdit  Grid.Row="1"  Grid.Column="3" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DMWQ,  UpdateSourceTrigger=PropertyChanged}"
                                                        Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                         <TextBlock Grid.Row="2" Text="后侧风荷" Margin="0,5,0,0" VerticalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="1" Margin="5,5,0,0" />
-                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="2" Margin="5,5,0,0" />
-                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="3" Margin="5,5,0,0" 
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="1" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DQWH,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="2" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DDWH,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        <dxe:TextEdit  Grid.Row="2"  Grid.Column="3" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DMWH,  UpdateSourceTrigger=PropertyChanged}"
                                                        Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                         <TextBlock Grid.Row="3" Text="前侧垂荷" Margin="0,5,0,0" VerticalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="1" Margin="5,5,0,0" />
-                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="2" Margin="5,5,0,0" />
-                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="3" Margin="5,5,0,0" 
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="1" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DQCQ,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="2" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DDCQ,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        <dxe:TextEdit  Grid.Row="3"  Grid.Column="3" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DMCQ,  UpdateSourceTrigger=PropertyChanged}"
                                                        Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                         <TextBlock Grid.Row="4" Text="后侧垂荷" Margin="0,5,0,0" VerticalAlignment="Center" />
-                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="1" Margin="5,5,0,0" />
-                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="2" Margin="5,5,0,0" />
-                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="3" Margin="5,5,0,0"  
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="1" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DQCH,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="2" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DDCH,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        <dxe:TextEdit  Grid.Row="4"  Grid.Column="3" Margin="5,5,0,0"  Text="{Binding HPSetitingParas.DMCH,  UpdateSourceTrigger=PropertyChanged}"
                                                        Visibility="{Binding BaseParas.IsLineTower, Converter={StaticResource BooleanVisibityConverter} }"/>
                                     </Grid>
                                 </GroupBox>
@@ -216,8 +216,8 @@
                                 <GroupBox Header="常规挂点 XY向">
                                     <StackPanel Orientation="Vertical">
                                         <Button  Content="增加挂点" Command="{DXCommand 'AddNormalXYPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
-                                        <dxg:GridControl ItemsSource="{Binding NormalXYPoints}"  MaxHeight="500" ColumnsSource="{Binding NormalXYColumns}"
-                                    ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
+                                        <dxg:GridControl ItemsSource="{Binding NormalXYPoints}"  MaxHeight="500"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader"  ColumnsSource="{Binding NormalXYColumns}"
+                                                ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
                                             <dxg:GridControl.View>
                                                 <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
                                                 ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
@@ -251,7 +251,7 @@
                                     <Button  Content="增加挂点" Command="{DXCommand 'AddInstallXYPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
                                     <dxg:GridControl ItemsSource="{Binding InstallXYPoints}"  MaxHeight="500" ColumnsSource="{Binding InstallXYColumns}"
                                 ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
-                                        <dxg:GridControl.View>
+                                            <dxg:GridControl.View>
                                             <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" 
                                             ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
                                         </dxg:GridControl.View>

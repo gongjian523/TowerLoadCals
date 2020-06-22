@@ -6,7 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/TowerLoadCals;component/Style/TableViewStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TowerLoadCals;component/Controls/Style/TableViewStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TowerLoadCals;component/Controls/DataTemplates/GridControlDataTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

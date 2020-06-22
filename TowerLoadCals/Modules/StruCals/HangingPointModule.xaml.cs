@@ -24,5 +24,13 @@ namespace TowerLoadCals.Modules
         {
             InitializeComponent();
         }
+
+
+        private void OnPaste(object sender, DataObjectPastingEventArgs e)
+        {
+
+   
+        }
+
     }
 }

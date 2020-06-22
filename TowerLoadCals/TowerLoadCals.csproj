@@ -102,13 +102,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converter\StringVisibityConverter.cs" />
-    <Compile Include="Converter\BooleanVisibityConverter .cs" />
-    <Compile Include="Converter\InverseBooleanConverter.cs" />
-    <Compile Include="Converter\InverseBooleanVisibityConverter.cs" />
+    <Compile Include="Controls\Converter\StringVisibityConverter.cs" />
+    <Compile Include="Controls\Converter\BooleanVisibityConverter .cs" />
+    <Compile Include="Controls\Converter\InverseBooleanConverter.cs" />
+    <Compile Include="Controls\Converter\InverseBooleanVisibityConverter.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
     <Compile Include="MainWindowViewModel-BaseData.cs" />
     <Compile Include="MenuViewModel.cs" />
+    <Compile Include="ModulesViewModels\Band.cs" />
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
@@ -135,6 +136,10 @@
     <Compile Include="Modules\StruCals\HangingPointModule.xaml.cs">
       <DependentUpon>HangingPointModule.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\DataTemplates\GridControlDataTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Modules\BaseData\BaseDataLibModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -151,15 +156,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Style\TableViewStyles.xaml">
+    <Page Include="Controls\Style\TableViewStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Utils\BindingHelper.cs" />
+    <Compile Include="Controls\Utils\BandTemplateSelector.cs" />
+    <Compile Include="Controls\Utils\BindingHelper.cs" />
     <Compile Include="Modules\BlankModule.xaml.cs">
       <DependentUpon>BlankModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\ColumnTemplateSelector.cs" />
+    <Compile Include="Controls\Utils\ColumnTemplateSelector.cs" />
     <Compile Include="Modules\BaseData\StrDataModule.xaml.cs">
       <DependentUpon>StrDataModule.xaml</DependentUpon>
     </Compile>
@@ -485,10 +491,14 @@
     <Resource Include="Images\TowerOption2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\HPCompose-TensionTower.xml" />
+    <EmbeddedResource Include="UserData\HPCompose-TensionTower.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\HPCompose-LineTower.xml" />
+    <EmbeddedResource Include="UserData\HPCompose-LineTower.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

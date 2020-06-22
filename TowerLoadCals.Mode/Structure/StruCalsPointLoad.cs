@@ -8,7 +8,7 @@ namespace TowerLoadCals.Mode
 {
     public class StruCalsPointLoad
     {
-        public string Name { get; set; }
+        public int Name { get; set; }
 
         public string Wire { get; set; }
 
@@ -21,5 +21,7 @@ namespace TowerLoadCals.Mode
         public float Proportion { get; set; }
 
         public float Load { get; set; }
+
+        public string HPSettingName { get; set; }
     }
 }

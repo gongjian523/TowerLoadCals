@@ -30,7 +30,7 @@ namespace TowerLoadCals.BLL
         /// </summary>
         protected TowerTemplate Template { get; set; }
 
-        protected StruRatioParas RatioParas { get; set; }
+        protected HangingPointSettingParas HPSettingParas { get; set; }
 
         protected List<StruCalsDicGroup> DicGroup { get; set; }
 
@@ -45,14 +45,14 @@ namespace TowerLoadCals.BLL
         protected List<string> ProcessString { get; set; }
         protected List<string> Process2String { get; set; }
 
-        public LoadComposeBase(FormulaParas para, StruLineParas[] lineParas, StruRatioParas ratioParas, TowerTemplate template, string tablePath)
+        public LoadComposeBase(FormulaParas para, StruLineParas[] lineParas, HangingPointSettingParas hpParas, TowerTemplate template, string tablePath)
         {
             ProcessString = new List<string>();
             Process2String = new List<string>();
 
             Paras = para;
             LineParasArr = lineParas;
-            RatioParas = ratioParas;
+            HPSettingParas = hpParas;
             Template = template;
 
             //DicGroup = StruLoadComposeDicReader.Read("D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml");
@@ -86,7 +86,18 @@ namespace TowerLoadCals.BLL
 
         abstract protected void GetTable(DataSet ds);
 
-        abstract public void CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, string path);
+        public List<StruCalsPointLoad> LoadCaculate(string path)
+        {
+            CalculateLoadDistribute(path + HPSettingParas.HangingPointSettingName + ".calc");
+
+            var loadList = CalsPointsLoad(path + HPSettingParas.HangingPointSettingName + ".div");
+
+            SumPointsLoad(path + HPSettingParas.HangingPointSettingName + ".load", loadList);
+
+            return loadList;
+        }
+
+        abstract public void CalculateLoadDistribute(string path);
 
         public virtual List<StruCalsPointLoad> CalsPointsLoad(string path)
         {
@@ -109,8 +120,8 @@ namespace TowerLoadCals.BLL
                         groupStr = "第一组";
                         linkStrXY = "[常规挂点XY向_dataTable]";
                         linkStrZ = "[常规挂点Z向_dataTable]";
-                        pointsXY = RatioParas.NormalXYPoints;
-                        pointsZ = RatioParas.NormalZPoints;
+                        pointsXY = HPSettingParas.NormalXYPoints;
+                        pointsZ = HPSettingParas.NormalZPoints;
                     }
                     else
                     {
@@ -121,8 +132,8 @@ namespace TowerLoadCals.BLL
                             groupStr = "第二组";
                             linkStrXY = "[常规挂点XY向_dataTable]";
                             linkStrZ = "[常规挂点Z向_dataTable]";
-                            pointsXY = RatioParas.NormalXYPoints;
-                            pointsZ = RatioParas.NormalZPoints;
+                            pointsXY = HPSettingParas.NormalXYPoints;
+                            pointsZ = HPSettingParas.NormalZPoints;
                         }
                         else if (wdItem.WorkConditionCode == "T")
                         {
@@ -132,8 +143,8 @@ namespace TowerLoadCals.BLL
                                 groupStr = "第七组";
                             linkStrXY = "[常规挂点XY向_dataTable]";
                             linkStrZ = "[常规挂点Z向_dataTable]";
-                            pointsXY = RatioParas.NormalXYPoints;
-                            pointsZ = RatioParas.NormalZPoints;
+                            pointsXY = HPSettingParas.NormalXYPoints;
+                            pointsZ = HPSettingParas.NormalZPoints;
 
                         }
                         //L;La;Lb;Lc;Ld;Le;Lf;Lg;Lh
@@ -144,16 +155,16 @@ namespace TowerLoadCals.BLL
                                 groupStr = "第三组";
                                 linkStrXY = "[常规挂点XY向_dataTable]";
                                 linkStrZ = "[常规挂点Z向_dataTable]";
-                                pointsXY = RatioParas.NormalXYPoints;
-                                pointsZ = RatioParas.NormalZPoints;
+                                pointsXY = HPSettingParas.NormalXYPoints;
+                                pointsZ = HPSettingParas.NormalZPoints;
                             }
                             else
                             {
                                 groupStr = "第四组";
                                 linkStrXY = "[吊装挂点XY向_dataTable]";
                                 linkStrZ = "[吊装挂点Z向_dataTable]";
-                                pointsXY = RatioParas.InstallXYPoints;
-                                pointsZ = RatioParas.InstallZPoints;
+                                pointsXY = HPSettingParas.InstallXYPoints;
+                                pointsZ = HPSettingParas.InstallZPoints;
 
                             }
                         }
@@ -165,8 +176,8 @@ namespace TowerLoadCals.BLL
                                 groupStr = "第三组";
                                 linkStrXY = "[常规挂点XY向_dataTable]";
                                 linkStrZ = "[常规挂点Z向_dataTable]";
-                                pointsXY = RatioParas.NormalXYPoints;
-                                pointsZ = RatioParas.NormalZPoints;
+                                pointsXY = HPSettingParas.NormalXYPoints;
+                                pointsZ = HPSettingParas.NormalZPoints;
 
                             }
                             else
@@ -174,8 +185,8 @@ namespace TowerLoadCals.BLL
                                 groupStr = "第四组";
                                 linkStrXY = "[吊装挂点XY向_dataTable]";
                                 linkStrZ = "[吊装挂点Z向_dataTable]";
-                                pointsXY = RatioParas.InstallXYPoints;
-                                pointsZ = RatioParas.InstallZPoints;
+                                pointsXY = HPSettingParas.InstallXYPoints;
+                                pointsZ = HPSettingParas.InstallZPoints;
 
                             }
                         }
@@ -189,16 +200,16 @@ namespace TowerLoadCals.BLL
                                     groupStr = "第三组";
                                     linkStrXY = "[常规挂点XY向_dataTable]";
                                     linkStrZ = "[常规挂点Z向_dataTable]";
-                                    pointsXY = RatioParas.NormalXYPoints;
-                                    pointsZ = RatioParas.NormalZPoints;
+                                    pointsXY = HPSettingParas.NormalXYPoints;
+                                    pointsZ = HPSettingParas.NormalZPoints;
                                 }
                                 else
                                 {
                                     groupStr = "第六组";
                                     linkStrXY = "[吊装挂点XY向_dataTable]";
                                     linkStrZ = "[吊装挂点XY向_dataTable]";
-                                    pointsXY = RatioParas.InstallXYPoints;
-                                    pointsZ = RatioParas.InstallXYPoints;
+                                    pointsXY = HPSettingParas.InstallXYPoints;
+                                    pointsZ = HPSettingParas.InstallXYPoints;
                                 }
 
                             }
@@ -217,15 +228,15 @@ namespace TowerLoadCals.BLL
                                     {
                                         linkStrXY = "[常规挂点XY向_dataTable]";
                                         linkStrZ = "[常规挂点XY向_dataTable]";
-                                        pointsXY = RatioParas.NormalXYPoints;
-                                        pointsZ = RatioParas.NormalXYPoints;
+                                        pointsXY = HPSettingParas.NormalXYPoints;
+                                        pointsZ = HPSettingParas.NormalXYPoints;
                                     }
                                     else
                                     {
                                         linkStrXY = "[吊装挂点XY向_dataTable]";
                                         linkStrZ = "[吊装挂点XY向_dataTable]";
-                                        pointsXY = RatioParas.InstallXYPoints;
-                                        pointsZ = RatioParas.InstallXYPoints;
+                                        pointsXY = HPSettingParas.InstallXYPoints;
+                                        pointsZ = HPSettingParas.InstallXYPoints;
                                     }
 
                                 }
@@ -235,8 +246,8 @@ namespace TowerLoadCals.BLL
                                     groupStr = "第七组";
                                     linkStrXY = "[常规挂点XY向_dataTable]";
                                     linkStrZ = "[常规挂点Z向_dataTable]";
-                                    pointsXY = RatioParas.NormalXYPoints;
-                                    pointsZ = RatioParas.NormalZPoints;
+                                    pointsXY = HPSettingParas.NormalXYPoints;
+                                    pointsZ = HPSettingParas.NormalZPoints;
                                 }
 
                             }
@@ -249,15 +260,15 @@ namespace TowerLoadCals.BLL
                             {
                                 linkStrXY = "[常规挂点XY向_dataTable]";
                                 linkStrZ = "[常规挂点XY向_dataTable]";
-                                pointsXY = RatioParas.NormalXYPoints;
-                                pointsZ = RatioParas.NormalXYPoints;
+                                pointsXY = HPSettingParas.NormalXYPoints;
+                                pointsZ = HPSettingParas.NormalXYPoints;
                             }
                             else
                             {
                                 linkStrXY = "[吊装挂点XY向_dataTable]";
                                 linkStrZ = "[吊装挂点XY向_dataTable]";
-                                pointsXY = RatioParas.InstallXYPoints;
-                                pointsZ = RatioParas.InstallXYPoints;
+                                pointsXY = HPSettingParas.InstallXYPoints;
+                                pointsZ = HPSettingParas.InstallXYPoints;
                             }
                         }
                         // MO;MOa;MOb;MOc;MOd;MOe;MOf;MOh
@@ -266,24 +277,24 @@ namespace TowerLoadCals.BLL
                             groupStr = "第二组";
                             linkStrXY = "[常规挂点XY向_dataTable]";
                             linkStrZ = "[常规挂点Z向_dataTable]";
-                            pointsXY = RatioParas.NormalXYPoints;
-                            pointsZ = RatioParas.NormalZPoints;
+                            pointsXY = HPSettingParas.NormalXYPoints;
+                            pointsZ = HPSettingParas.NormalZPoints;
                         }
                     }
 
-                    HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, RatioParas, Template, DicGroup);
+                    HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
                     hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
 
                     Process2String.Add(strX);
                     pointsLoad.AddRange(pListX);
 
-                    HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, RatioParas, Template, DicGroup);
+                    HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
                     hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
 
                     Process2String.Add(strY);
                     pointsLoad.AddRange(pListY);
                     
-                    HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XX, YY, ZZ, groupStr, linkStrZ, pointsZ, RatioParas, Template, DicGroup);
+                    HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XX, YY, ZZ, groupStr, linkStrZ, pointsZ, HPSettingParas, Template, DicGroup);
                     hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
 
                     Process2String.Add(strZ);
@@ -314,15 +325,15 @@ namespace TowerLoadCals.BLL
         {
             List<string> processString = new List<string>();
             
-            List<string> points = pointLoads.Select(p => p.Name).ToList();
+            List<int> points = pointLoads.Select(p => p.Name).Distinct().ToList();
 
-            var p2 = points.Distinct();
+            points.Sort();
 
-            foreach( var point in p2)
+            foreach( var point in points)
             {
                 for(int j = 0; j < Template.WorkConditionCombos.Count; j++)
                 {
-                    string str = (j == 0) ? point.PadLeft(5) : (" ").PadLeft(5);
+                    string str = (j == 0) ? point.ToString().PadLeft(9) : (" ").PadLeft(9);
                     float xLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "X").Sum(p => p.Load);
                     float yLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "Y").Sum(p => p.Load);
                     float zLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "Z").Sum(p => p.Load);
@@ -345,7 +356,6 @@ namespace TowerLoadCals.BLL
                 }
             }
         }
-
 
         protected virtual string GetDicPath()
         {

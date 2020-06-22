@@ -248,7 +248,7 @@ namespace TowerLoadCals.Test
                 },
             };
 
-            StruRatioParas ratioParas = new StruRatioParas()
+            HangingPointSettingParas ratioParas = new HangingPointSettingParas()
             {
                 GCQ = 0.5f,
                 GCH = 0.5f,
@@ -280,7 +280,7 @@ namespace TowerLoadCals.Test
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "cals";
 
-            loadLineTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+            loadLineTower.CalculateLoadDistribute(filePath);
 
             string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
             List<StruCalsPointLoad>  loadList = loadLineTower.CalsPointsLoad(filePath2);
@@ -517,7 +517,7 @@ namespace TowerLoadCals.Test
                 }
             };
 
-            StruRatioParas ratioParas = new StruRatioParas()
+            HangingPointSettingParas ratioParas = new HangingPointSettingParas()
             {
                 GCQ = 0.5f,
                 GCH = 0.5f,
@@ -550,10 +550,13 @@ namespace TowerLoadCals.Test
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "cals";
 
-            loadLineTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+            loadLineTower.CalculateLoadDistribute(filePath);
 
             string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
-            loadLineTower.CalsPointsLoad(filePath2);
+            List<StruCalsPointLoad> loadList = loadLineTower.CalsPointsLoad(filePath2);
+
+            string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
+            loadLineTower.SumPointsLoad(filePath3, loadList);
         }
 
         [TestMethod]
@@ -757,7 +760,7 @@ namespace TowerLoadCals.Test
                 }
             };
 
-            StruRatioParas ratioParas = new StruRatioParas()
+            HangingPointSettingParas ratioParas = new HangingPointSettingParas()
             {
                 GCQ = 0.5f,
                 GCH = 0.5f,
@@ -785,10 +788,13 @@ namespace TowerLoadCals.Test
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "cals";
 
-            loadLineCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+            loadLineCornerTower.CalculateLoadDistribute(filePath);
 
             string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
-            loadLineCornerTower.CalsPointsLoad(filePath2);
+            List<StruCalsPointLoad> loadList = loadLineCornerTower.CalsPointsLoad(filePath2);
+
+            string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
+            loadLineCornerTower.SumPointsLoad(filePath3, loadList);
         }
 
         [TestMethod]
@@ -1180,7 +1186,7 @@ namespace TowerLoadCals.Test
                 },
             };
 
-            StruRatioParas ratioParas = new StruRatioParas
+            HangingPointSettingParas ratioParas = new HangingPointSettingParas
             {
                 BLTQ = 0.5f,
                 BLTH = 0.5f,
@@ -1198,10 +1204,13 @@ namespace TowerLoadCals.Test
             LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
-            loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+            loadCornerTower.CalculateLoadDistribute(filePath);
 
             string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
-            loadCornerTower.CalsPointsLoad(filePath2);
+            List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
+
+            string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
+            loadCornerTower.SumPointsLoad(filePath3, loadList);
         }
 
         [TestMethod]
@@ -1416,7 +1425,7 @@ namespace TowerLoadCals.Test
                 },
             };
 
-            StruRatioParas ratioParas = new StruRatioParas
+            HangingPointSettingParas ratioParas = new HangingPointSettingParas
             {
                 BLTQ = 0.5f,
                 BLTH = 0.5f,
@@ -1435,10 +1444,13 @@ namespace TowerLoadCals.Test
             LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
-            loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+            loadCornerTower.CalculateLoadDistribute(filePath);
 
             string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
-            loadCornerTower.CalsPointsLoad(filePath2);
+            List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
+
+            string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
+            loadCornerTower.SumPointsLoad(filePath3, loadList);
         }
 
         [TestMethod]
@@ -1652,7 +1664,7 @@ namespace TowerLoadCals.Test
             };
 
 
-            StruRatioParas ratioParas = new StruRatioParas
+            HangingPointSettingParas ratioParas = new HangingPointSettingParas
             {
                 BLTQ = 0.5f,
                 BLTH = 0.5f,
@@ -1670,10 +1682,13 @@ namespace TowerLoadCals.Test
             LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
-            loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+            loadCornerTower.CalculateLoadDistribute(filePath);
 
             string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
-            loadCornerTower.CalsPointsLoad(filePath2);
+            List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
+
+            string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
+            loadCornerTower.SumPointsLoad(filePath3, loadList);
         }
 
         [TestMethod]
@@ -2014,7 +2029,7 @@ namespace TowerLoadCals.Test
             };
 
 
-            StruRatioParas ratioParas = new StruRatioParas
+            HangingPointSettingParas ratioParas = new HangingPointSettingParas
             {
                 BLTQ = 0.5f,
                 BLTH = 0.5f,
@@ -2032,10 +2047,13 @@ namespace TowerLoadCals.Test
             LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
-            loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, filePath);
+            loadCornerTower.CalculateLoadDistribute(filePath);
 
             string filePath2 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "div";
-            loadCornerTower.CalsPointsLoad(filePath2);
+            List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
+
+            string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
+            loadCornerTower.SumPointsLoad(filePath3, loadList);
         }
 
         [TestMethod]

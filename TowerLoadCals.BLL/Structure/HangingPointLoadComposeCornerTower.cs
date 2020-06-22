@@ -13,7 +13,7 @@ namespace TowerLoadCals.BLL
 
         protected StruCalsDicGroup dicGroup = new StruCalsDicGroup();
 
-        protected StruRatioParas ratioParas = new StruRatioParas();
+        protected HangingPointSettingParas ratioParas = new HangingPointSettingParas();
 
         protected List<string> dicComposeInfo = new List<string>();
         protected StruCalsDicOption option = new StruCalsDicOption();
@@ -42,7 +42,7 @@ namespace TowerLoadCals.BLL
 
 
         public HangingPointLoadComposeCornerTower(int i, int j, string pos, string orient, float[,] xLoad, float[,] yLoad, float[,] zLoad, string group, string link,  
-            List<HangingPointParas> pointsParas, StruRatioParas raios, TowerTemplate template, List<StruCalsDicGroup> dicGrps)
+            List<HangingPointParas> pointsParas, HangingPointSettingParas raios, TowerTemplate template, List<StruCalsDicGroup> dicGrps)
         {
             iIndex = i;
             jIndex = j;
@@ -141,12 +141,13 @@ namespace TowerLoadCals.BLL
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = pointParas.Points[pointIndex],
+                        Name = Convert.ToInt16(pointParas.Points[pointIndex]),
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,
                         Proportion = proportion,
                         Load = laod,
+                        HPSettingName = ratioParas.HangingPointSettingName,
                     });
                 }
 
@@ -176,12 +177,13 @@ namespace TowerLoadCals.BLL
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = pointParas.Points[pointIndex],
+                        Name = Convert.ToInt16(pointParas.Points[pointIndex]),
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,
                         Proportion = proportion,
                         Load = laod,
+                        HPSettingName = ratioParas.HangingPointSettingName,
                     });
                 }
 
@@ -201,12 +203,13 @@ namespace TowerLoadCals.BLL
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = pointParas.Points[pointIndex],
+                        Name = Convert.ToInt16(pointParas.Points[pointIndex]),
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,
                         Proportion = proportion,
                         Load = laod,
+                        HPSettingName = ratioParas.HangingPointSettingName,
                     });
                 }
             }

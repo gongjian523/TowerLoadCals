@@ -179,45 +179,6 @@ namespace TowerLoadCals.DAL
             combo.WorkComment = aWords[iIndex + WireNum].ToString();
         }
 
-        static public List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
-        {
-            List<WorkConditionComboSpec> listSpec = new List<WorkConditionComboSpec>();
-
-            if (template == null)
-                return listSpec;
-
-            foreach(var item in template.WorkConditionCombos)
-            {
-                WorkConditionComboSpec spec = new WorkConditionComboSpec();
-
-                spec.Index = item.Index;
-                spec.IsCalculate = item.IsCalculate;
-                spec.WorkConditionCode = item.WorkConditionCode;
-                if(item.TensionAngleCode != null)
-                    spec.TensionAngleCode = item.TensionAngleCode;
-                if (item.VertialLoadCode != null)
-                    spec.VertialLoadCode = item.VertialLoadCode;
-                spec.WindDirectionCode = item.WindDirectionCode;
-                spec.WorkCode = item.WorkCode;
-
-
-                for (int i = 1; i <= item.WireIndexCodes.Count; i++)
-                {
-                    Type specType = spec.GetType();
-                    PropertyInfo specPro = specType.GetProperty("Wire" + i.ToString(), BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
-                    if (specPro != null)
-                        specPro.SetValue(spec, item.WireIndexCodes[i - 1]);
-                }
-
-                spec.WorkComment = item.WorkComment;
-
-                listSpec.Add(spec);
-            }
-
-            return listSpec;
-        }
-
-
         static public void ConvertSpeToWorkCondition(TowerTemplate template, List<WorkConditionComboSpec> workConditionSpecs)
         {
             List<WorkConditionCombo> workConditions = new List<WorkConditionCombo>();

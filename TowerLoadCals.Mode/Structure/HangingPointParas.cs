@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TowerLoadCals.Mode
+﻿namespace TowerLoadCals.Mode
 {
     public class HangingPointParas
     {
@@ -24,21 +18,5 @@ namespace TowerLoadCals.Mode
         public int Angle { get; set; }
 
         public string[] Points { get; set; } 
-
-        //public string Point1 { get; set; }
-
-        //public string Point2 { get; set; }
-
-        //public string Point3 { get; set; }
-
-        //public string Point4 { get; set; }
-
-        //public string Point5 { get; set; }
-
-        //public string Point6 { get; set; }
-
-        //public string Point7 { get; set; }
-
-        //public string Point8 { get; set; }
     }
 }

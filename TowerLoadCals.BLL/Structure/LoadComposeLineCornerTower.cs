@@ -23,7 +23,7 @@ namespace TowerLoadCals.BLL
 
         protected FormulaLineCornerTower formula;
 
-        public LoadComposeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, StruRatioParas ratioParas, TowerTemplate template, string tablePath) 
+        public LoadComposeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, HangingPointSettingParas ratioParas, TowerTemplate template, string tablePath) 
             : base(para, lineParas, ratioParas, template, tablePath)
         {
             formula = new FormulaLineCornerTower(para);
@@ -59,7 +59,7 @@ namespace TowerLoadCals.BLL
             }
         }
 
-        public override void CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, string path)
+        public override void CalculateLoadDistribute(string path)
         {
             int calNums = Template.WorkConditionCombos.Count;
 
@@ -167,10 +167,6 @@ namespace TowerLoadCals.BLL
                     j++;
                 }
             }
-
-            xx = XX;
-            yy = YY;
-            zz = ZZ;
 
             using (FileStream fileStream = File.OpenWrite(path))
             {

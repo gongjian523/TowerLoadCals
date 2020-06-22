@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
-using TowerLoadCals.Modules;
 
 
 namespace TowerLoadCals.Modules
