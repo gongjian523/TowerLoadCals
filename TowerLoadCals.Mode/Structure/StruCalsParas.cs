@@ -95,7 +95,7 @@ namespace TowerLoadCals.Mode
             return listSpec;
         }
 
-        protected void NewHangingPointSetting()
+        public void NewHangingPointSetting()
         {
             HangingPointSettingParas paras = new HangingPointSettingParas();
 

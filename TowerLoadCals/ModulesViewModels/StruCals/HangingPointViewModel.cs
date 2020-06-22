@@ -75,6 +75,7 @@ namespace TowerLoadCals.Modules
         public virtual ObservableCollection<HangingPoint> HangingPoints { get; protected set; }
         public void AddNewTab(TabControlTabAddingEventArgs e)
         {
+            struCalsParas.NewHangingPointSetting();
             e.Item = HangingPoint.Create("挂点方案" + num.ToString(), towerType, struCalsParas);
             num++;
         }

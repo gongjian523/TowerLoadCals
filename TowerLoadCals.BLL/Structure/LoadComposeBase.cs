@@ -359,7 +359,8 @@ namespace TowerLoadCals.BLL
 
         protected virtual string GetDicPath()
         {
-            return "D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml";
+            return Directory.GetCurrentDirectory() + "\\UserData\\HPCompose-LineTower.xml";
+            //return "D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml";
         }
 
     }
