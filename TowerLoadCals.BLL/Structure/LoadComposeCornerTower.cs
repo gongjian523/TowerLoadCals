@@ -7570,6 +7570,13 @@ namespace TowerLoadCals.BLL
         {
             List<StruCalsPointLoad> pointsLoad = new List<StruCalsPointLoad>();
 
+            for(int wireIndex = 0; wireIndex < HPSettingParas.InstallXYPoints.Count; wireIndex++)
+            {
+                var stringType = HPSettingParas.NormalZPoints.Where(item => item.WireType == HPSettingParas.InstallXYPoints[wireIndex].WireType).First().StringType;
+                HPSettingParas.InstallXYPoints[wireIndex].StringType = stringType;
+                HPSettingParas.InstallZPoints[wireIndex].StringType = stringType;
+            } 
+
             Process2String.Add("荷载分配明细表 生成时间: " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
             Process2String.Add(" ");
 

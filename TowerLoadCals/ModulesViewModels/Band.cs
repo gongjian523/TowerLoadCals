@@ -7,6 +7,6 @@ namespace TowerLoadCals.Modules
     {
         // Specifies the band header. 
         public string Header { get; set; }
-        public ObservableCollection<Column> ChildColumns { get; set; }
+        public ObservableCollection<HeaderColumn> ChildColumns { get; set; }
     }
 }

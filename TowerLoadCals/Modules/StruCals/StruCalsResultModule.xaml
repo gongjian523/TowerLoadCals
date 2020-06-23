@@ -3,41 +3,81 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:local="clr-namespace:TowerLoadCals.Modules"
+             xmlns:dxci="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{dxmvvm:ViewModelSource local:StruCalsResultViewModel}">
     <UserControl.Resources>
+        <local:ColumnTemplateSelector x:Key="ColumnTemplateSelector"/>
         <local:BandTemplateSelector x:Key="BandTemplateSelector"/>
+        <Style x:Key="ColumnStyle" TargetType="dxg:GridColumn">
+            <Setter Property="FilterPopupMode" Value="CheckedList"/>
+        </Style>
+        <DataTemplate x:Key="DefaultColumnTemplate">
+            <ContentControl>
+                <dxg:GridColumn FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
+                                HorizontalHeaderContentAlignment="Center"/>
+            </ContentControl>
+        </DataTemplate>
+        <DataTemplate x:Key="BindingColumnTemplate">
+            <ContentControl>
+                <dxg:GridColumn local:BindingHelper.Path="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
+                                Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"
+                                HorizontalHeaderContentAlignment="Center"/>
+            </ContentControl>
+        </DataTemplate>
+        <DataTemplate x:Key="MultiColumnBandTemplate">
+            <ContentControl>
+                <dxg:GridControlBand Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}" 
+                                     HorizontalHeaderContentAlignment="Center"
+                                     ColumnsSource="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).ChildColumns, RelativeSource={RelativeSource Self} }" 
+                                     ColumnGeneratorTemplate="{StaticResource BindingColumnTemplate}">
+                </dxg:GridControlBand>
+            </ContentControl>
+        </DataTemplate>
+        <DataTemplate x:Key="SingleColumnBandTemplate">
+            <ContentControl>
+                <!-- For bands with a single child column. Setting the OverlayHeaderByChildren property to "True" makes a child column to overlay its parent band's header -->
+                <dxg:GridControlBand Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}" 
+                                     HorizontalHeaderContentAlignment="Center"
+                                     ColumnsSource="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).ChildColumns, RelativeSource={RelativeSource Self} }" 
+                                     ColumnGeneratorTemplate="{StaticResource BindingColumnTemplate}" 
+                                     OverlayHeaderByChildren="True" />
+            </ContentControl>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
-        <dxa:AccordionControl x:Name="subAccordion"
-            SelectedItem="{Binding SelectedMenuItem}"
-            ItemsSource="{Binding Path=Points}"
-            HeaderContent=""
-            SummaryItemHeader=""
-            IsCollapseButtonVisible="False"
-            RootItemDisplayMode="Group"
-            ExpandMode="MultipleOrNone"
-            AutoExpandAllItems="True">
+        <Border BorderThickness="1" BorderBrush="LightGray">
+            <StackPanel Orientation="Vertical">
+                <Label Content="塔位号" FontSize="18" Margin="1,0" />
+                <dxa:AccordionControl x:Name="subAccordion" Margin="1"
+                ItemsSource="{Binding Path=Points}"
+                HeaderContent=""
+                SummaryItemHeader=""
+                IsCollapseButtonVisible="False"
+                RootItemDisplayMode="Group"
+                ExpandMode="MultipleOrNone"
+                AutoExpandAllItems="True">
             <dxa:AccordionControl.ItemContainerStyle>
                 <Style TargetType="dxa:AccordionItem">
                     <Setter Property="Header" Value="{Binding Path=Title}" />
-                    <Setter Property="Glyph" Value="{Binding Path=Icon}" />
-                    <Setter Property="GlyphPosition" Value="Top" />
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
-                    <Setter Property="ExpandButtonPosition" Value="None" />
                     <Setter Property="Command" Value="{Binding Command}" />
                     <Setter Property="CommandParameter" Value="{Binding}" />
                 </Style>
             </dxa:AccordionControl.ItemContainerStyle>
-        </dxa:AccordionControl>
-        <dxg:GridControl Grid.Column="1" Margin="8,0" ItemsSource="{Binding Results}"  BandsSource="{Binding Bnads}"  BandGeneratorTemplateSelector="{StaticResource BandTemplateSelector}">
+                </dxa:AccordionControl>
+            </StackPanel>
+        </Border>
+        <dxg:GridControl Grid.Column="1" Margin="5,0" ItemsSource="{Binding Results}"  BandsSource="{Binding Bands}"  BandGeneratorTemplateSelector="{StaticResource BandTemplateSelector}">
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>

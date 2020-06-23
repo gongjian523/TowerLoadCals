@@ -122,7 +122,7 @@ namespace TowerLoadCals.Modules
             TurningPoints = new ObservableCollection<HangingPointParas>(HPSetitingParas.TurningPoints);
             VStrings = new ObservableCollection<VStringParas>(HPSetitingParas.VStrings);
 
-            List<string> normalSource = new List<string> { "常规", "悬臂",  "I串", "V1", "V2", "V3"};
+            List<string> normalSource = new List<string> { "无跳线", "常规", "悬臂",  "I串", "V1", "V2", "V3"};
             List<Column> normalXYColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
@@ -194,6 +194,22 @@ namespace TowerLoadCals.Modules
         }
 
         public string Title { get; private set; }
+
+        public string HPColumnNXYName
+        {
+            get
+            {
+                return BaseParas.IsTensionTower ? "常规导线挂点" : "常规挂点 XY向";
+            }
+        }
+
+        public string HPColumnNZName
+        {
+            get
+            {
+                return BaseParas.IsTensionTower ? "常规跳线挂点" : "常规挂点 Z向";
+            }
+        }
 
         public string HPColumnXYName
         {

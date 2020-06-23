@@ -213,30 +213,6 @@ namespace TowerLoadCals
 
                 paras.ResultPointLoad.AddRange(loadCompose.LoadCaculate(path));
             }
-
-            //if (((MenuItemVM)menu).Title == "直线塔")
-            //{
-            //    ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
-            //    LoadComposeLineTower loadLineTower = new LoadComposeLineTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas, paras.Template, paras.TablePath);
-            //    loadLineTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
-            //}
-            //else if (((MenuItemVM)menu).Title == "直转塔")
-            //{
-            //    ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
-            //    LoadComposeLineCornerTower loadLineCornerTower = new LoadComposeLineCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas, paras.Template, paras.TablePath);
-            //    loadLineCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
-            //}
-            ////else if (((MenuItemVM)menu).Title == "转角塔")
-            //else
-            //{
-            //    ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
-            //    LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas, paras.Template, paras.TablePath);
-            //    loadCornerTower.CalculateLoadDistribute(out float[,] xx, out float[,] yy, out float[,] zz, saveFileDialog.FileName);
-            //}
-
-
-
-            
         }
 
 

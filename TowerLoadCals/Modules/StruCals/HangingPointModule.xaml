@@ -213,7 +213,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <GroupBox Header="常规挂点 XY向">
+                                <GroupBox Header="{Binding HPColumnNXYName}">
                                     <StackPanel Orientation="Vertical">
                                         <Button  Content="增加挂点" Command="{DXCommand 'AddNormalXYPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
                                         <dxg:GridControl ItemsSource="{Binding NormalXYPoints}"  ColumnsSource="{Binding NormalXYColumns}" MaxHeight="500"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
@@ -225,7 +225,7 @@
                                         </dxg:GridControl>
                                     </StackPanel>
                                 </GroupBox>
-                                <GroupBox Grid.Column="1" Margin="5,0,0,0" Header="常规挂点 Z向">
+                                <GroupBox Grid.Column="1" Margin="5,0,0,0" Header="{Binding HPColumnNZName}">
                                     <StackPanel Orientation="Vertical">
                                         <Button  Content="增加挂点" Command="{DXCommand 'AddNormalZPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
                                         <dxg:GridControl ItemsSource="{Binding NormalZPoints}" ColumnsSource="{Binding NormalZColumns}" MaxHeight="500" SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 

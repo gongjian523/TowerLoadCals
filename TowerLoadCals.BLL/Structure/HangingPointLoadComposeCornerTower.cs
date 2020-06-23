@@ -89,7 +89,7 @@ namespace TowerLoadCals.BLL
                 dicGroup = dicGrps.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
             }
 
-            pointNum = pointParas.Points.Count();
+            pointNum = pointParas.Points.Where(item => item != null).Count();
             option = dicGroup.Options.Where(item => item.Num == pointNum).First();
             dicComposeInfo = option.ComposrInfos.Where(item => item.Orientation == orientation).First().PointCompose;
         }

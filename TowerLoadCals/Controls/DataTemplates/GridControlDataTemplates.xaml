@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:TowerLoadCals.Modules"
+                    xmlns:dxci="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
                     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-                    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
-                    xmlns:dxci="http://schemas.devexpress.com/winfx/2008/xaml/core/internal" >
+                    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid">
     <DataTemplate x:Key="ColumnTemplate">
         <ContentControl>
             <dxg:GridColumn FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}" />

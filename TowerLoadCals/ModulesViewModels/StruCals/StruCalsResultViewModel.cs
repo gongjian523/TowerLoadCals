@@ -13,28 +13,55 @@ namespace TowerLoadCals.Modules
 {
     public class StruCalsResultViewModel : ViewModelBase, IStruCalsBaseViewModel, INotifyPropertyChanged
     {
-        //protected ObservableCollection<StruCalsResult> _results = new ObservableCollection<StruCalsResult>();
-        //public ObservableCollection<StruCalsResult> Results
-        //{
-        //    get
-        //    {
-        //        return _results;
-        //    }
-        //    set
-        //    {
-        //        _results = value;
-        //        RaisePropertyChanged("Results");
-        //    }
-        //}
 
-        public List<StruCalsResult> Results { get; set; }
-        public ObservableCollection<Band> Bands { get; set; }
+        protected ObservableCollection<StruCalsResult> _results = new ObservableCollection<StruCalsResult>();
+        public ObservableCollection<StruCalsResult> Results
+        {
+            get
+            {
+                return _results;
+            }
+            set
+            {
+                _results = value;
+                RaisePropertyChanged("Results");
+            }
+        }
 
-        public List<int> Points { get; set; }
+        protected ObservableCollection<Band> _bands = new ObservableCollection<Band>();
+        public ObservableCollection<Band> Bands
+        {
+            get
+            {
+                return _bands;
+            }
+            set
+            {
+                _bands = value;
+                RaisePropertyChanged("Bands");
+            }
+        }
+
+        protected ObservableCollection<AccordionItem> _points = new ObservableCollection<AccordionItem>();
+        public ObservableCollection<AccordionItem> Points
+        {
+            get
+            {
+                return _points;
+            }
+            set
+            {
+                _points = value;
+                RaisePropertyChanged("Points");
+            }
+        }
+
 
         public TowerTemplate Template { get; set; }
 
         public FormulaParas BaseParas { get; set; }
+
+        protected List<StruCalsResult> pointlist = new List<StruCalsResult>();
 
         public StruCalsResultViewModel()
         {
@@ -65,10 +92,6 @@ namespace TowerLoadCals.Modules
 
             points.Sort();
 
-            Points = points;
-
-            Results = new List<StruCalsResult>();
-
             foreach (var point in points)
             {
                 for (int j = 0; j < Template.WorkConditionCombos.Count; j++)
@@ -78,6 +101,9 @@ namespace TowerLoadCals.Modules
                         Index = j + 1,
                         PointNum = point,
                         WorkCondition = Template.WorkConditionCombos[j].WorkComment,
+                        Fx = new float[hpSettingsParas.Count],
+                        Fy = new float[hpSettingsParas.Count],
+                        Fz = new float[hpSettingsParas.Count],
                     };
 
                     for (int k = 0; k < hpSettingsParas.Count; k++)
@@ -90,32 +116,34 @@ namespace TowerLoadCals.Modules
                             && p.HPSettingName == hpSettingsParas[k].HangingPointSettingName).Sum(p => p.Load);
                     }
 
-                    Results.Add(resultItem);
+                    pointlist.Add(resultItem);
                 }
+
+                _points.Add(new AccordionItem(point.ToString(), (e) => { SeletedPointChanged(e); }));
             }
 
-
+            if(Points.Count > 0)
+                SeletedPointChanged(Points[0]);
 
             Bands = new ObservableCollection<Band>() {
                 new Band() {
                     Header = " ",
-                    ChildColumns = new ObservableCollection<Column>() {
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "PointNum", Header = "挂点" },
+                    ChildColumns = new ObservableCollection<HeaderColumn>() {
                         new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                         new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkCondition", Header = "工况" },
                     }
                 }
             };
 
-            for(int i = 0; i < hpSettingsParas.Count;  i++)
+            for (int i = 0; i < hpSettingsParas.Count;  i++)
             {
                 Bands.Add(new Band()
                 {
                     Header = hpSettingsParas[i].HangingPointSettingName,
-                    ChildColumns = new ObservableCollection<Column>() {
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fx[" + (i+1).ToString() + "]", Header = "Fx" },
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fy[" + (i+1).ToString() + "]", Header = "Fy" },
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fz[" + (i+1).ToString() + "]", Header = "Fz" },
+                    ChildColumns = new ObservableCollection<HeaderColumn>() {
+                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fx[" + i.ToString() + "]", Header = "Fx" },
+                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fy[" + i.ToString() + "]", Header = "Fy" },
+                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fz[" + i.ToString() + "]", Header = "Fz" },
                     }
                 });
             }
@@ -140,5 +168,12 @@ namespace TowerLoadCals.Modules
         {
             throw new NotImplementedException();
         }
+
+        protected void SeletedPointChanged(AccordionItem point)
+        {
+            Results = new ObservableCollection<StruCalsResult>(pointlist.Where(item=> item.PointNum.ToString() == point.Title));
+        }
+             
     }
+    
 }
