@@ -7791,7 +7791,6 @@ namespace TowerLoadCals.BLL
         protected override string GetDicPath()
         {
             return Directory.GetCurrentDirectory() + "\\UserData\\HPCompose-TensionTower.xml";
-            //return "D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-TensionTower.xml";
         }
     }
 }

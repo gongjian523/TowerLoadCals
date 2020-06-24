@@ -110,10 +110,13 @@ namespace TowerLoadCals.Modules
                     {
                         resultItem.Fx[k] = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "X" 
                             && p.HPSettingName == hpSettingsParas[k].HangingPointSettingName).Sum(p => p.Load);
+                        resultItem.Fx[k] = (float)Math.Round(resultItem.Fx[k], 2);
                         resultItem.Fy[k] = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "Y"
                             && p.HPSettingName == hpSettingsParas[k].HangingPointSettingName).Sum(p => p.Load);
+                        resultItem.Fy[k] = (float)Math.Round(resultItem.Fy[k], 2);
                         resultItem.Fz[k] = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "Z"
                             && p.HPSettingName == hpSettingsParas[k].HangingPointSettingName).Sum(p => p.Load);
+                        resultItem.Fz[k] = (float)Math.Round(resultItem.Fz[k], 2);
                     }
 
                     pointlist.Add(resultItem);

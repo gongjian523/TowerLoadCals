@@ -501,5 +501,23 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UserData\HPDic-LineTower.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UserData\HPDic-TensionTower.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Menu_para.png" />
+    <Resource Include="Images\Menu_subString.png" />
+    <Resource Include="Images\Menu_tool.png" />
+    <Resource Include="Images\Menu_tower.png" />
+    <Resource Include="Images\Menu_weather.png" />
+    <Resource Include="Images\Menu_wire.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

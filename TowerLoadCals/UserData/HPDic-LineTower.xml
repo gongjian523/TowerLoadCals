@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+  <Dic Wire ="地线" Group ="第一组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="N1,N2,D1,D2,I1,I2,U1,U2,B1,B2,Y1,Y2"  Group ="第二组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="T"  WireIndexCodesMax="10"   Group ="第二组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="T"  WireIndexCodesMin="9"   Group ="第七组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="L,La,Lb,Lc,Ld,Le,Lf,Lg,Lh"  WireIndexCodesMax="10" Group ="第三组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="L,La,Lb,Lc,Ld,Le,Lf,Lg,Lh"  WireIndexCodesMin="9"  Group ="第四组" LinkXY="[吊装挂点XY向_dataTable]" LinkZ="[吊装挂点Z向_dataTable]" PointXY="InstallXYPoints" PointZ = "InstallZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="C,CL" Group ="第三组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ca,Cb,Cc,Cd,Ce,Cf,Cg,Ch,CLa,CLb,CLc,CLd,CLe,CLf,CLg,CLh"  WireIndexCodesMax="10"  Group ="第三组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ca,Cb,Cc,Cd,Ce,Cf,Cg,Ch,CLa,CLb,CLc,CLd,CLe,CLf,CLg,CLh"  WireIndexCodesMin="9"  Group ="第四组" LinkXY="[吊装挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="G,GL"  WireIndexCodesMax="10"  Tower="直线塔" Group ="第三组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="G,GL"  WireIndexCodesMin="9" WireIndexCodesMax="1000" Tower="直线塔" Group ="第五组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="G,GL"  WireIndexCodesMin="999" Tower="直线塔" Group ="第六组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ga,Gb,Gc,Gd,Ge,Gf,Gh,GL,GLa,GLb,GLc,GLd,GLe,GLf,GLg"  WireIndexCodesMax="10" Tower="直线塔" Group ="第六组" LinkXY="[吊装挂点XY向_dataTable]" LinkZ="[吊装挂点Z向_dataTable]" PointXY="InstallXYPoints" PointZ = "InstallZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ga,Gb,Gc,Gd,Ge,Gf,Gh,GL,GLa,GLb,GLc,GLd,GLe,GLf,GLg"  WireIndexCodesMin="9"  Tower="直线塔" WireIndexCodesMax="1000"  Group ="第五组" LinkXY="[吊装挂点XY向_dataTable]" LinkZ="[吊装挂点Z向_dataTable]" PointXY="InstallXYPoints" PointZ = "InstallZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ga,Gb,Gc,Gd,Ge,Gf,Gh,GL,GLa,GLb,GLc,GLd,GLe,GLf,GLg"  WireIndexCodesMin="999"  Tower="直线塔" Group ="第六组" LinkXY="[吊装挂点XY向_dataTable]" LinkZ="[吊装挂点Z向_dataTable]" PointXY="InstallXYPoints" PointZ = "InstallZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="G,GL"  WireIndexCodesMax="10"  Tower="直转塔" Group ="第三组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="G,GL"  WireIndexCodesMin="9" WireIndexCodesMax="1000" Tower="直转塔" Group ="第七组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="G,GL"  WireIndexCodesMin="999" Tower="直转塔" Group ="第七组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ga,Gb,Gc,Gd,Ge,Gf,Gh,GL,GLa,GLb,GLc,GLd,GLe,GLf,GLg"  WireIndexCodesMax="10" Tower="直转塔" Group ="第六组" LinkXY="[吊装挂点XY向_dataTable]" LinkZ="[吊装挂点Z向_dataTable]" PointXY="InstallXYPoints" PointZ = "InstallZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ga,Gb,Gc,Gd,Ge,Gf,Gh,GL,GLa,GLb,GLc,GLd,GLe,GLf,GLg"  WireIndexCodesMin="9"  WireIndexCodesMax="1000" Tower="直转塔"  Group ="第七组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ga,Gb,Gc,Gd,Ge,Gf,Gh,GL,GLa,GLb,GLc,GLd,GLe,GLf,GLg"  WireIndexCodesMin="999"  Tower="直转塔" Group ="第七组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="M"  Group ="第五组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="Ma,Mb,Mc,Md,Me,Mf,Mg,Mh"  Group ="第五组" LinkXY="[吊装挂点XY向_dataTable]" LinkZ="[吊装挂点Z向_dataTable]" PointXY="InstallXYPoints" PointZ = "InstallZPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="MO,MOa,MOb,MOc,MOd,MOe,MOf,MOh"  Group ="第二组" LinkXY="[常规挂点XY向_dataTable]" LinkZ="[常规挂点Z向_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalZPoints"/>
+</Root>

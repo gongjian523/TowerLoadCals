@@ -91,5 +91,58 @@ namespace TowerLoadCals.DAL
             }
             return groups;
         }
+
+        public static List<LoadDic> DicRead(string path)
+        {
+            List<LoadDic> groups = new List<LoadDic>();
+
+            if (!File.Exists(path))
+                return groups;
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
+            if (rootNode == null)
+                return groups;
+
+            foreach (XmlNode groupNode in rootNode.ChildNodes)
+            {
+                LoadDic group = new LoadDic()
+                {
+                    Wire = groupNode.Attributes["Wire"].Value.ToString(),
+                    Group = groupNode.Attributes["Group"].Value.ToString(),
+                    LinkXY = groupNode.Attributes["LinkXY"].Value.ToString(),
+                    LinkZ = groupNode.Attributes["LinkZ"].Value.ToString(),
+                    PointXY = groupNode.Attributes["PointXY"].Value.ToString(),
+                    PointZ = groupNode.Attributes["PointZ"].Value.ToString(),
+                };
+
+                if (groupNode.Attributes["WireIndexCodesMax"] != null)
+                    group.WireIndexCodesMax = Convert.ToInt16(groupNode.Attributes["WireIndexCodesMax"].Value.ToString());
+
+                if (groupNode.Attributes["WireIndexCodesMin"] != null)
+                    group.WireIndexCodesMin = Convert.ToInt16(groupNode.Attributes["WireIndexCodesMin"].Value.ToString());
+
+                if (groupNode.Attributes["WorkConditionCode"] != null)
+                {
+                    string wccStr = groupNode.Attributes["WorkConditionCode"].Value.ToString();
+                    group.WorkConditionCode = wccStr.Trim().Split(',').ToList();
+                }
+
+                if (groupNode.Attributes["GenerlType"] != null)
+                {
+                    group.IsGeneral = true;
+                }
+                else
+                {
+                    group.IsGeneral = false;
+                }
+
+                groups.Add(group);
+            }
+
+            return groups;
+        }
     }
 }

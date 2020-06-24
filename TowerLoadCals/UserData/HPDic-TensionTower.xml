@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+  <Dic Wire ="地线" Group ="第一组" LinkXY="[常规导线挂点_dataTable]" LinkZ="[常规导线挂点_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalXYPoints"/>
+  <Dic Wire ="导线" WorkConditionCode ="G1,G2"  WireIndexCodesMin="99"   Group ="第五组" LinkXY="[过滑车挂点_dataTable]" LinkZ="[过滑车挂点_dataTable]" PointXY="TurningPoints" PointZ = "TurningPoints"/>
+  <Dic Wire ="导线" GenerlType="true" Group ="第二组" LinkXY="[常规导线挂点_dataTable]" LinkZ="[常规导线挂点_dataTable]" PointXY="NormalXYPoints" PointZ = "NormalXYPoints"/>
+  <Dic Wire ="跳线" WorkConditionCode ="L1,L2,L1a,L2a"  WireIndexCodesMin="999"  Group ="第四组" LinkXY="[吊装跳线挂点XY向_dataTable]" LinkZ="[吊装跳线挂点Z向_dataTable]" PointXY="InstallXYPoints" PointZ = "InstallZPoints"/>
+  <Dic Wire ="跳线" GenerlType="true" Group ="第三组" LinkXY="[常规跳线挂点_dataTable]" LinkZ="[常规跳线挂点_dataTable]" PointXY="NormalZPoints" PointZ = "NormalZPoints"/>
+</Root>

@@ -21,59 +21,65 @@ namespace TowerLoadCals
             var menuItem = new List<MenuItemVM>() { };
 
             var weatherMenu = new MenuItemVM("WeatherConditionModule", this, "气象条件", (e) => { OnSelectedBaseDataSubModuleChanged(e); }, Visibility.Visible, Visibility.Visible);
+            weatherMenu.SetIcon("Menu_weather.png");
             menuItem.Add(weatherMenu);
 
             var towerMenu = new  MenuItemVM("TowerModule", this, "杆塔", (e) => { OnSelectedBaseDataSubModuleChanged(e); }, Visibility.Visible, Visibility.Visible);
+            towerMenu.SetIcon("Menu_tower.png");
             menuItem.Add(towerMenu);
 
             var wireMenu = new MenuItemVM("WireModule", this, "导地线", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            wireMenu.SetIcon("Menu_wire.png");
             var wireSubList = new List<MenuItemVM>() { };
-            var wireSubMenu1 = new MenuItemVM("", this, "导线", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var wireSubMenu1 = new MenuItemVM("", this, "  导线", (e) => { OnSelectedSubModuleItemChanged(e); });
             wireSubMenu1.ParentNode = wireMenu;
             wireSubList.Add(wireSubMenu1);
-            var wireSubMenu2 = new MenuItemVM("", this, "地线", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var wireSubMenu2 = new MenuItemVM("", this, "  地线", (e) => { OnSelectedSubModuleItemChanged(e); });
             wireSubMenu2.ParentNode = wireMenu;
             wireSubList.Add(wireSubMenu2);
             wireMenu.ChildItems = wireSubList;
             menuItem.Add(wireMenu);
 
             var strDataMenu = new MenuItemVM("StrDataModule", this, "绝缘子串", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            strDataMenu.SetIcon("Menu_subString.png");
             var strDataSubList = new List<MenuItemVM>() { };
-            var strDataSubMenu1 = new MenuItemVM("", this, "一般子串", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var strDataSubMenu1 = new MenuItemVM("", this, "  一般子串", (e) => { OnSelectedSubModuleItemChanged(e); });
             strDataSubMenu1.ParentNode = strDataMenu;
             strDataSubList.Add(strDataSubMenu1);
-            var strDataSubMenu2 = new MenuItemVM("", this, "硬跳线", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var strDataSubMenu2 = new MenuItemVM("", this, "  硬跳线", (e) => { OnSelectedSubModuleItemChanged(e); });
             strDataSubMenu2.ParentNode = strDataMenu;
             strDataSubList.Add(strDataSubMenu2);
             strDataMenu.ChildItems = strDataSubList;
             menuItem.Add(strDataMenu);
 
             var fitDataMenu = new MenuItemVM("FitDataModule", this, "其他金具", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            fitDataMenu.SetIcon("Menu_tool.png");
             var fitDataSubList = new List<MenuItemVM>() { };
-            var fitDataSubMenu1 = new MenuItemVM("", this, "防震锤", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var fitDataSubMenu1 = new MenuItemVM("", this, "  防震锤", (e) => { OnSelectedSubModuleItemChanged(e); });
             fitDataSubMenu1.ParentNode = fitDataMenu;
             fitDataSubList.Add(fitDataSubMenu1);
-            var fitDataSubMenu2 = new MenuItemVM("", this, "间隔棒", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var fitDataSubMenu2 = new MenuItemVM("", this, "  间隔棒", (e) => { OnSelectedSubModuleItemChanged(e); });
             fitDataSubMenu2.ParentNode = fitDataMenu;
             fitDataSubList.Add(fitDataSubMenu2);
-            var fitDataSubMenu3 = new MenuItemVM("", this, "警示装置", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var fitDataSubMenu3 = new MenuItemVM("", this, "  警示装置", (e) => { OnSelectedSubModuleItemChanged(e); });
             fitDataSubMenu3.ParentNode = fitDataMenu;
             fitDataSubList.Add(fitDataSubMenu3);
-            var fitDataSubMenu4 = new MenuItemVM("", this, "其他装置", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var fitDataSubMenu4 = new MenuItemVM("", this, "  其他装置", (e) => { OnSelectedSubModuleItemChanged(e); });
             fitDataSubMenu4.ParentNode = fitDataMenu;
             fitDataSubList.Add(fitDataSubMenu4);
             fitDataMenu.ChildItems = fitDataSubList;
             menuItem.Add(fitDataMenu);
 
             var struCalsLibMenu = new MenuItemVM("", this, "结构计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            struCalsLibMenu.SetIcon("Menu_para.png");
             var struCalsLibSubList = new List<MenuItemVM>() { };
-            var baseDataLibMenu = new MenuItemVM("BaseDataLibModule", this, "基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var baseDataLibMenu = new MenuItemVM("BaseDataLibModule", this, "  基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             baseDataLibMenu.ParentNode = struCalsLibMenu;
             struCalsLibSubList.Add(baseDataLibMenu);
-            var extralLoadLibMenu = new MenuItemVM("ExtralLoadLibModule", this, "附加荷载库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var extralLoadLibMenu = new MenuItemVM("ExtralLoadLibModule", this, "  附加荷载库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             extralLoadLibMenu.ParentNode = struCalsLibMenu;
             struCalsLibSubList.Add(extralLoadLibMenu);
-            var IceCoverLibModule = new MenuItemVM("IceCoverLibModule", this, "覆冰参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var IceCoverLibModule = new MenuItemVM("IceCoverLibModule", this, "  覆冰参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             IceCoverLibModule.ParentNode = struCalsLibMenu;
             struCalsLibSubList.Add(IceCoverLibModule);
             struCalsLibMenu.ChildItems = struCalsLibSubList;
@@ -161,7 +167,7 @@ namespace TowerLoadCals
             if (subVm == null)
                 return;
 
-            subVm.UpDateView(vm.Title);
+            subVm.UpDateView(vm.Title.Trim());
         }
 
         private void OnSelectedSubModuleSubTypeChanged(MenuItemVM vm)
@@ -174,7 +180,7 @@ namespace TowerLoadCals
             if (subVm == null)
                 return;
 
-            subVm.UpDateView(vm.ParentNode.Title, vm.Title);
+            subVm.UpDateView(vm.ParentNode.Title.Trim(), vm.Title.Trim());
         }
     }
 }

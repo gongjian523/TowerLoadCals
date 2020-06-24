@@ -34,6 +34,8 @@ namespace TowerLoadCals.BLL
 
         protected List<StruCalsDicGroup> DicGroup { get; set; }
 
+        protected List<LoadDic> LoadDics { get; set; }
+
         protected float[,] XX { get; set; }
         protected float[,] YY { get; set; }
         protected float[,] ZZ { get; set; }
@@ -55,8 +57,8 @@ namespace TowerLoadCals.BLL
             HPSettingParas = hpParas;
             Template = template;
 
-            //DicGroup = StruLoadComposeDicReader.Read("D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml");
             DicGroup = StruLoadComposeDicReader.Read(GetDicPath());
+            LoadDics = StruLoadComposeDicReader.DicRead(GetLoadDicPath());
 
             wireNum = Template.Wires.Count;
             groudWireNum = Template.Wires.Where(item => item.Contains("地")).Count();
@@ -150,7 +152,7 @@ namespace TowerLoadCals.BLL
                         //L;La;Lb;Lc;Ld;Le;Lf;Lg;Lh
                         else if (wdItem.WorkConditionCode.StartsWith("L"))
                         {
-                            if (Math.Abs(wdItem.WireIndexCodes[i]) <10 )
+                            if (Math.Abs(wdItem.WireIndexCodes[i]) < 10)
                             {
                                 groupStr = "第三组";
                                 linkStrXY = "[常规挂点XY向_dataTable]";
@@ -171,14 +173,13 @@ namespace TowerLoadCals.BLL
                         //C;Ca;Cb;Cc;Cd;Ce;Cf;Cg;Ch;CL;CLa;CLb;CLc;CLd;CLe;CLf;CL;CLa;CLb;CLc;CLd;CLe;CLf;CLg;CLh
                         else if (wdItem.WorkConditionCode.StartsWith("C"))
                         {
-                            if (Math.Abs(wdItem.WireIndexCodes[i]) < 10 && (wdItem.WorkConditionCode == "C" && wdItem.WorkConditionCode == "CL"))
+                            if (Math.Abs(wdItem.WireIndexCodes[i]) < 10 || (wdItem.WorkConditionCode == "C" || wdItem.WorkConditionCode == "CL"))
                             {
                                 groupStr = "第三组";
                                 linkStrXY = "[常规挂点XY向_dataTable]";
                                 linkStrZ = "[常规挂点Z向_dataTable]";
                                 pointsXY = HPSettingParas.NormalXYPoints;
                                 pointsZ = HPSettingParas.NormalZPoints;
-
                             }
                             else
                             {
@@ -216,7 +217,7 @@ namespace TowerLoadCals.BLL
                             else
                             {
                                 //只有直线塔和直转塔会使用基类
-                                if ( Paras.Type == TowerType.LineTower )
+                                if (Paras.Type == TowerType.LineTower)
                                 {
                                     //直线塔
                                     if (Math.Abs(wdItem.WireIndexCodes[i]) < 1000)
@@ -253,7 +254,7 @@ namespace TowerLoadCals.BLL
                             }
                         }
                         //M;Ma;Mb;Mc;Md;Me;Mf;Mg;Mh
-                        else if(wdItem.WorkConditionCode.StartsWith("M") && !wdItem.WorkConditionCode.StartsWith("MO"))
+                        else if (wdItem.WorkConditionCode.StartsWith("M") && !wdItem.WorkConditionCode.StartsWith("MO"))
                         {
                             groupStr = "第五组";
                             if (wdItem.WorkConditionCode == "M")
@@ -281,6 +282,9 @@ namespace TowerLoadCals.BLL
                             pointsZ = HPSettingParas.NormalZPoints;
                         }
                     }
+
+                    //string wireType = wireItem.Contains("地") ? "地线": "导线";
+                    //GetDicInfo(wireType, wdItem.WorkConditionCode, wdItem.WireIndexCodes[i], out string groupStr, out string linkStrXY, out string linkStrZ, out List<HangingPointParas> pointsXY, out List<HangingPointParas> pointsZ);
 
                     HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
                     hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
@@ -360,8 +364,34 @@ namespace TowerLoadCals.BLL
         protected virtual string GetDicPath()
         {
             return Directory.GetCurrentDirectory() + "\\UserData\\HPCompose-LineTower.xml";
-            //return "D:\\01-代码\\TowerLoadCals\\TowerLoadCals\\UserData\\HPCompose-LineTower.xml";
         }
 
+        protected virtual string GetLoadDicPath()
+        {
+            return Directory.GetCurrentDirectory() + "\\UserData\\HPDic-LineTower.xml";
+        }
+
+
+        protected virtual void GetDicInfo(string wire, string WorkConditionCode, int WireIndexCodes, out string groupStr, out string linkStrXY, out string linkStrZ, out List<HangingPointParas> pointsXY, out List<HangingPointParas> pointsZ)
+        {
+            LoadDic dic;
+
+            var CandiateList1 = LoadDics.Where(item => item.Wire == wire).ToList();
+
+
+            //if(CandiateList1.Count == 1)
+            {
+                groupStr = CandiateList1[0].Group;
+                linkStrXY = CandiateList1[0].LinkXY;
+                linkStrZ = CandiateList1[0].LinkZ;
+                pointsXY = HPString2List(CandiateList1[0].PointXY);
+                pointsZ = HPString2List(CandiateList1[0].PointZ);
+            }
+        }
+
+        protected List<HangingPointParas> HPString2List(string str)
+        {
+            return new List<HangingPointParas>();
+        }
     }
 }

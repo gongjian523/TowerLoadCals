@@ -2077,8 +2077,19 @@ namespace TowerLoadCals.Test
             Console.WriteLine("右侧 " + vStringCompose.VCX2.ToString("0.00").PadLeft(10) + vStringCompose.VCY2.ToString("0.00").PadLeft(10) + vStringCompose.VCZ2.ToString("0.00").PadLeft(10));
         }
 
-    }
+        [TestMethod]
+        public void TestMethod8_DicReader()
+        {
+            List<LoadDic> groups = StruLoadComposeDicReader.DicRead("D:\\01-代码\\TowerLoad\\TowerLoadCals\\UserData\\HPDic-LineTower.xml");
+        }
 
+        [TestMethod]
+        public void TestMethod8_TensionTowerDicReader()
+        {
+            List<LoadDic> groups = StruLoadComposeDicReader.DicRead("D:\\01-代码\\TowerLoad\\TowerLoadCals\\UserData\\HPDic-TensionTower.xml");
+        }
+
+    }
 
 
 }

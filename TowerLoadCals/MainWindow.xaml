@@ -28,7 +28,6 @@
         <dxmvvm:ObjectToObjectConverter x:Key="expandedToWidthConverter" DefaultTarget="183">
             <dxmvvm:MapItem Source="False" Target="Auto" />
         </dxmvvm:ObjectToObjectConverter>
-        <!--<sys:Double x:Key="{dxat:AccordionThemeKeys ResourceKey=PopupDefaultWidth, IsThemeIndependent=True}">1</sys:Double>-->
         <local:MainWindowViewModel x:Key="MainWinVM"/>
     </dx:ThemedWindow.Resources>
     <dxmvvm:Interaction.Behaviors>
@@ -219,7 +218,7 @@
                             </dxmvvm:Interaction.Triggers>
                         </dxa:AccordionControl>
                     </dxdo:LayoutPanel>
-                    <dxdo:LayoutPanel Caption="WPF Products" ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
+                    <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
                                       AllowClose="False" ShowCaption="False" Name="subLayoutPanel" AllowSizing="False">
                         <dxa:AccordionControl x:Name="subAccordion"
                                               SelectedItem="{Binding SelectedMenuItem}"
@@ -236,9 +235,9 @@
                                 <Style TargetType="dxa:AccordionItem">
                                     <Setter Property="Header" Value="{Binding Path=Title}" />
                                     <Setter Property="Glyph" Value="{Binding Path=Icon}" />
-                                    <Setter Property="GlyphPosition" Value="Top" />
+                                    <Setter Property="GlyphPosition" Value="Left" />
                                     <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                    <Setter Property="ExpandButtonPosition" Value="None" />
+                                    <Setter Property="ExpandButtonPosition" Value="Right" />
                                     <Setter Property="Command" Value="{Binding Command}" />
                                     <Setter Property="CommandParameter" Value="{Binding}" />
                                     <Setter Property="ContextMenu">
