@@ -2672,8 +2672,8 @@ namespace TowerLoadCals.BLL
                     {
                         if (Paras.IsCornerTower || Paras.IsBranchTower)
                         {
-                            y3 = y1;
-                            y4 = y2;
+                            y3 = y2;
+                            y4 = y1;
                         }
                         else
                         {
@@ -2690,7 +2690,7 @@ namespace TowerLoadCals.BLL
                         }
                         else
                         {
-                            y3 = y2;
+                            y3 = y1;
                             y4 = LineParas.PortalTensionMin;
                         }
                     }

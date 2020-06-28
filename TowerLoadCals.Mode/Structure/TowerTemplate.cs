@@ -10,6 +10,11 @@ namespace TowerLoadCals.Mode
         public string Name { get; set; }
 
         /// <summary>
+        /// 存储的路径
+        /// </summary>
+        public string Path { get; set; }
+
+        /// <summary>
         /// 塔型：直线塔、直线转角塔、转角塔、终端塔、分支塔
         /// </summary>
         public string TowerType { get; set; }

@@ -4,11 +4,23 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace TowerLoadCals.Mode
 {
     public class StruCalsParas
     {
+        public StruCalsParas()
+        {
+
+        }
+
+        public StruCalsParas(FormulaParas baseParas, List<StruLineParas> lineParas, List<HangingPointSettingParas> hpSettingParas)
+        {
+            BaseParas = baseParas;
+            LineParas = lineParas;
+            HPSettingsParas = hpSettingParas;
+        }
 
         public StruCalsParas(string name, string tablePath, TowerTemplate template)
         {
@@ -43,6 +55,7 @@ namespace TowerLoadCals.Mode
 
         public String TablePath { get; set; }
 
+        [XmlIgnore]
         public TowerTemplate Template { get; set; }
 
         // 从Template转换而来，用于WorkConditionComboModule

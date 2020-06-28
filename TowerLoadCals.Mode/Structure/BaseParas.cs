@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using System.Xml.Serialization;
 
 namespace TowerLoadCals.Mode
 {
@@ -6,6 +7,7 @@ namespace TowerLoadCals.Mode
     //public class FormulaParas
     {
         protected string _selectedStandard = "GB50545-2010";
+        [XmlAttribute]
         public string SelectedStandard
         {
             get
@@ -24,6 +26,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 BL1
         /// </summary>
+        [XmlAttribute]
         public float LoadRatio { get; set; }
 
 
@@ -33,6 +36,7 @@ namespace TowerLoadCals.Mode
         /// 旧名字 r1
         /// </summary>
         //protected float _riInstall;
+        [XmlAttribute]
         public float R1Install { get; set; }
 
 
@@ -41,6 +45,7 @@ namespace TowerLoadCals.Mode
         /// DL/T5551-2018 
         /// 旧名字 r0
         /// </summary>
+        [XmlAttribute]
         public float R0Normal { get; set; }
 
 
@@ -49,6 +54,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Dload_b
         /// </summary>
+        [XmlAttribute]
         public float RGBad { get; set; }
 
         /// <summary>
@@ -56,6 +62,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Dload_g
         /// </summary>
+        [XmlAttribute]
         public float RGGood { get; set; }
 
         /// <summary>
@@ -63,6 +70,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Vload
         /// </summary>
+        [XmlAttribute]
         public float RQ { get; set; }
 
 
@@ -71,6 +79,7 @@ namespace TowerLoadCals.Mode
         /// 旧名字 Dload_qh
         /// DL/T5551-2018
         /// </summary>
+        [XmlAttribute]
         public float RGOverturn { get; set; }
 
 
@@ -92,6 +101,7 @@ namespace TowerLoadCals.Mode
         /// 可变荷载组合系数_大风 DL/T5551-2018
         /// 旧名字 Vcb_N
         /// </summary>
+        [XmlAttribute]
         public float VcFNormal { get; set; }
 
         /// <summary>
@@ -99,6 +109,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Vcb_L
         /// </summary>
+        [XmlAttribute]
         public float VcFInstall { get; set; }
 
         /// <summary>
@@ -106,6 +117,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Vcb_B
         /// </summary>
+        [XmlAttribute]
         public float VcFBroken { get; set; }
 
         /// <summary>
@@ -113,6 +125,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018
         /// 旧名字 Vcb_U
         /// </summary>
+        [XmlAttribute]
         public float VcFUnevenIce { get; set; }
 
         /// <summary>
@@ -121,6 +134,7 @@ namespace TowerLoadCals.Mode
         /// 旧名字 Vcb_Y
         /// </summary>
         protected float _vcFCheck;
+        [XmlAttribute]
         public float VcFCheck
         {
             get
@@ -138,6 +152,7 @@ namespace TowerLoadCals.Mode
         /// DL/T5551-2018
         /// 旧名字 Vcb_I
         /// </summary>
+        [XmlAttribute]
         public float VcFIce { get; set; }
 
         /// <summary>
@@ -146,6 +161,7 @@ namespace TowerLoadCals.Mode
         /// 旧名字 Vcb_D
         /// </summary>
         protected float _vcFCold;
+        [XmlAttribute]
         public float VcFCold
         {
             get
@@ -163,6 +179,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018 
         /// 旧名字 Dload_Y1
         /// </summary>
+        [XmlAttribute]
         public float RGCheck01
         {
             get
@@ -177,6 +194,7 @@ namespace TowerLoadCals.Mode
         /// GB50545-2010 DL/T5551-2018 
         /// 旧名字 Dload_Y2
         /// </summary>
+        [XmlAttribute]
         public float RGCheck02
         {
             get
@@ -190,36 +208,42 @@ namespace TowerLoadCals.Mode
         ///  大风线条风压调整系数         
         /// 旧名字 Beta1
         /// </summary>
+        [XmlAttribute]
         public float WindAdjustFactor { get; set; }
 
         /// <summary>
         /// 其他情况线条风压调整系数         
         /// 旧名字 Beta2
         /// </summary>
+        [XmlAttribute]
         public float OtherWindAdjustFactor { get; set; }
 
         /// <summary>
         /// 动力系数         
         /// 旧名字 DX
         /// </summary>
+        [XmlAttribute]
         public float DynamicCoef { get; set; }
 
         /// <summary>
         /// 锚线风荷系数         
         /// 旧名字 cofw
         /// </summary>
+        [XmlAttribute]
         public float AnchorWindCoef { get; set; }
 
         /// <summary>
         /// 锚线垂荷系数         
         /// 旧名字 cofg
         /// </summary>
+        [XmlAttribute]
         public float AnchorGravityCoef { get; set; }
 
         /// <summary>
         /// 锚角         
         /// 旧名字 maojiao
         /// </summary>
+        [XmlAttribute]
         public float AnchorAngle { get; set; }
 
 
@@ -227,6 +251,7 @@ namespace TowerLoadCals.Mode
         /// 跳线吊装系数            
         /// 旧名字 tdx
         /// </summary>
+        [XmlAttribute]
         public float LiftCoefJumper { get; set; }   //cd修改
 
 
@@ -234,17 +259,20 @@ namespace TowerLoadCals.Mode
         /// 临时拉线对地夹角            
         /// 旧名字 dangle
         /// </summary>
+        [XmlAttribute]
         public float TempStayWireAngle { get; set; }
 
         /// <summary>
         /// 牵引角度           
         /// 旧名字 qangle
         /// </summary>
+        [XmlAttribute]
         public float TractionAgnle { get; set; }
 
+        [XmlAttribute]
         public TowerType Type { get; set; }
 
-
+        [XmlIgnore]
         public bool IsLineTower
         {
             get
@@ -253,6 +281,7 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        [XmlIgnore]
         public bool IsCornerTower
         {
             get
@@ -261,6 +290,7 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        [XmlIgnore]
         public bool IsLineCornerTower
         {
             get
@@ -269,6 +299,7 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        [XmlIgnore]
         public bool IsBranchTower
         {
             get
@@ -277,6 +308,7 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        [XmlIgnore]
         public bool IsTerminalTower
         {
             get
@@ -285,6 +317,7 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        [XmlIgnore]
         public bool IsOtherParasAngleVisible
         {
             get
@@ -293,6 +326,7 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        [XmlIgnore]
         public bool IsTensionTower
         {
             get
@@ -301,6 +335,7 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        [XmlAttribute]
         public bool IsMethod1Selected { get; set; }
     }
 }

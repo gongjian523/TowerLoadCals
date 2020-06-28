@@ -1,15 +1,54 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using System.Xml.Serialization;
 using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.Common
 {
     public class XmlUtils
     {
+
+        //使用XML原生的序列化函数保存XML文件
+        public static void Serializer<T>(string filePath, T sourceObj)
+        {
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+                if (!string.IsNullOrWhiteSpace(filePath) && sourceObj != null)
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+                    XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                    ns.Add("", "");
+                    xmlSerializer.Serialize(writer, sourceObj, ns);
+                }
+            }
+        }
+
+        //直接使用XML原生的反序列函数读取XML文件
+        public static T Deserializer<T>(string filePath)
+        {
+            T t = default(T);
+
+            if (File.Exists(filePath))
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+                    t = (T)xmlSerializer.Deserialize(reader);
+                }
+            }
+
+            return t;
+        }
+
+
         public static NodeXml ReadXml(string path)
         {
             XmlDocument doc = new XmlDocument();
@@ -56,38 +95,8 @@ namespace TowerLoadCals.Common
             return;
         }
 
-        //public static void Save<T>(string filePath, T sourceObj)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(filePath) && sourceObj != null)
-        //    {
-        //        using (StreamWriter writer = new StreamWriter(filePath))
-        //        {
-        //            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-        //            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-        //            ns.Add("", "");
-        //            xmlSerializer.Serialize(writer, sourceObj, ns);
-        //        }
-        //    }
-        //}
-
-        //public static T Read<T>(string filePath)
-        //{
-        //    T t = default(T);
-
-        //    if (File.Exists(filePath))
-        //    {
-        //        using (StreamReader reader = new StreamReader(filePath))
-        //        {
-        //            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-        //            t = (T)xmlSerializer.Deserialize(reader);
-        //        }
-        //    }
-
-        //    return t;
-        //}
 
         protected static XmlDocument doc;
-
 
         public static void Save<T>(string filePath, T sourceObj)
         {
