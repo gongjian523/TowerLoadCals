@@ -37,7 +37,6 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -187,7 +186,7 @@
                 </dxr:RibbonControl.ToolbarItemLinks>
             </dxr:RibbonControl>
 
-            <dxdo:DockLayoutManager Grid.Row="2" Margin="6">
+            <dxdo:DockLayoutManager Grid.Row="1" Margin="6">
                 <dxdo:LayoutGroup Caption="LayoutRoot">
                     <dxdo:LayoutPanel   ItemWidth="60" 
                                       AllowClose="False" ShowCaption="False" Name="layoutPanel" AllowSizing="False">
@@ -220,7 +219,15 @@
                     </dxdo:LayoutPanel>
                     <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
                                       AllowClose="False" ShowCaption="False" Name="subLayoutPanel" AllowSizing="False">
-                        <dxa:AccordionControl x:Name="subAccordion"
+                        <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="35"/>
+                            </Grid.ColumnDefinitions>
+                            <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.Column="1"
+                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}" 
+                                   Visibility="{Binding NewStruCalsTowerBtnVisibity}"/>
+                            <dxa:AccordionControl x:Name="subAccordion"
                                               SelectedItem="{Binding SelectedMenuItem}"
                                               ItemsSource="{Binding Path=MenuItems}"
                                               HeaderContent=""
@@ -231,29 +238,30 @@
                                               ChildrenPath="ChildItems"
                                               AutoExpandAllItems="True"
                                               >
-                            <dxa:AccordionControl.ItemContainerStyle>
-                                <Style TargetType="dxa:AccordionItem">
-                                    <Setter Property="Header" Value="{Binding Path=Title}" />
-                                    <Setter Property="Glyph" Value="{Binding Path=Icon}" />
-                                    <Setter Property="GlyphPosition" Value="Left" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                    <Setter Property="ExpandButtonPosition" Value="Right" />
-                                    <Setter Property="Command" Value="{Binding Command}" />
-                                    <Setter Property="CommandParameter" Value="{Binding}" />
-                                    <Setter Property="ContextMenu">
-                                        <Setter.Value>
-                                            <ContextMenu  Visibility="{Binding ContextVisible}">
-                                                <MenuItem Header="新增" Command="{DXCommand NewMenuItem(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
-                                                <MenuItem Header="编辑" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=DataContext.EditItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
-                                                <MenuItem Header="删除" Command="{Binding DelItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
-                                                <MenuItem Header="加载" Command="{Binding LoadCommand}"  CommandParameter="{Binding}" Visibility="{Binding LoadBtnVisible}"/>
-                                                <MenuItem Header="计算" Command="{Binding CalsCommand}"  CommandParameter="{Binding}" Visibility="{Binding CalsBtnVisible}"/>
-                                            </ContextMenu>
-                                        </Setter.Value>
-                                    </Setter >
-                                </Style>
-                            </dxa:AccordionControl.ItemContainerStyle>
-                        </dxa:AccordionControl>
+                                <dxa:AccordionControl.ItemContainerStyle>
+                                    <Style TargetType="dxa:AccordionItem">
+                                        <Setter Property="Header" Value="{Binding Path=Title}" />
+                                        <Setter Property="Glyph" Value="{Binding Path=Icon}" />
+                                        <Setter Property="GlyphPosition" Value="Left" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                        <Setter Property="ExpandButtonPosition" Value="Right" />
+                                        <Setter Property="Command" Value="{Binding Command}" />
+                                        <Setter Property="CommandParameter" Value="{Binding}" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu  Visibility="{Binding ContextVisible}">
+                                                    <MenuItem Header="新增" Command="{DXCommand NewMenuItem(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
+                                                    <MenuItem Header="编辑" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=DataContext.EditItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
+                                                    <MenuItem Header="删除" Command="{Binding DelItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
+                                                    <MenuItem Header="加载" Command="{Binding LoadCommand}"  CommandParameter="{Binding}" Visibility="{Binding LoadBtnVisible}"/>
+                                                    <MenuItem Header="计算" Command="{Binding CalsCommand}"  CommandParameter="{Binding}" Visibility="{Binding CalsBtnVisible}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter >
+                                    </Style>
+                                </dxa:AccordionControl.ItemContainerStyle>
+                            </dxa:AccordionControl>
+                        </Grid>
                     </dxdo:LayoutPanel>
                     <dxdo:LayoutPanel AllowClose="False" AllowFloat="False" AllowHide="False" ShowCaption="False" ShowBorder="False" ShowCloseButton="False">
                         <dxwui:NavigationFrame x:Name="documentFrame" Navigating="OnDocumentFrameNavigating" Navigated="OnDocumentFrameNavigated">
@@ -276,7 +284,7 @@
                     </dxdo:LayoutPanel>
                 </dxdo:LayoutGroup>
             </dxdo:DockLayoutManager>
-            <dxr:RibbonStatusBarControl x:Name="statusBar" Grid.Row="3">
+            <dxr:RibbonStatusBarControl x:Name="statusBar" Grid.Row="2">
                 <dxr:RibbonStatusBarControl.RightItems>
                     <dxb:BarCheckItem x:Name="layoutNormal" IsChecked="{Binding IsExpanded, ElementName=accordion, Mode=TwoWay}" />
                     <dxb:BarCheckItem x:Name="layoutReading" IsChecked="{Binding IsExpanded, ElementName=accordion, Mode=TwoWay, Converter={dxmvvm:BooleanNegationConverter}}" />

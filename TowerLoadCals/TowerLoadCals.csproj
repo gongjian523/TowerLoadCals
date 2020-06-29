@@ -118,6 +118,7 @@
     <Compile Include="ModulesViewModels\BaseData\FitDataViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\BaseAndLineParasViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\HangingPointViewModel.cs" />
+    <Compile Include="ModulesViewModels\StruCals\NewStruCalsTowerViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\StruCalsResultViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
@@ -130,6 +131,9 @@
     </Compile>
     <Compile Include="Modules\BaseData\ExtralLoadLibModule.xaml.cs">
       <DependentUpon>ExtralLoadLibModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\StruCals\NewStruCalsTowerWindow.xaml.cs">
+      <DependentUpon>NewStruCalsTowerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\StruCals\StruCalsResultModule.xaml.cs">
       <DependentUpon>StruCalsResultModule.xaml</DependentUpon>
@@ -152,6 +156,10 @@
     <Page Include="Modules\BaseData\ExtralLoadLibModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\StruCals\NewStruCalsTowerWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\StruCals\StruCalsResultModule.xaml">
       <Generator>MSBuild:Compile</Generator>

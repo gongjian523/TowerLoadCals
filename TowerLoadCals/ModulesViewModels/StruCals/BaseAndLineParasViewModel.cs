@@ -67,8 +67,6 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        public bool IsMethod1Selected { get; set; }
-        public bool IsMethod2Selected { get; set; }
 
         public BaseAndLineParasViewModel()
         {
@@ -97,8 +95,6 @@ namespace TowerLoadCals.Modules
 
         public void Save()
         {
-            var sss  = IsMethod1Selected;
-            var sssw = IsMethod2Selected;
             var ssss = BaseParas.IsMethod1Selected;
         }
 
@@ -114,16 +110,7 @@ namespace TowerLoadCals.Modules
 
         public string GetTowerType()
         {
-            if (BaseParas.Type == TowerType.LineTower)
-                return "直线塔";
-            else if (BaseParas.Type == TowerType.LineCornerTower)
-                return "直转塔";
-            else if (BaseParas.Type == TowerType.CornerTower)
-                return "转角塔";
-            else if (BaseParas.Type == TowerType.BranchTower)
-                return "分支塔";
-            else
-                return "终端塔"; 
+            return TowerTypeStringConvert.TowerTypeToString(BaseParas.Type);
         }
     }
 }

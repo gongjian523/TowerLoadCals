@@ -96,5 +96,12 @@ namespace TowerLoadCals.Common.Utils
             return true;
         }
 
+        public static bool NewStruCalsTower(string towerName, string towerType, string templatePath, string electricalLoadFilePath, out string result)
+        {
+            result = "aaa";
+            return false;
+        }
+        
+
     }
 }

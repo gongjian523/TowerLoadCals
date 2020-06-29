@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using System;
 
 namespace TowerLoadCals.Modules
 {
@@ -10,6 +11,11 @@ namespace TowerLoadCals.Modules
         public NewStruCalsTowerWindow()
         {
             InitializeComponent();
+        }
+
+        void ThemedWindow_Closed(object sender, EventArgs e)
+        {
+            ((NewStruCalsTowerViewModel)DataContext).onConcel();
         }
     }
 }

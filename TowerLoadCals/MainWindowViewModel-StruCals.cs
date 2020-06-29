@@ -101,7 +101,30 @@ namespace TowerLoadCals
             
         }
 
-        
+
+        NewStruCalsTowerWindow newStruCalsTowerWindow;
+        public void ShowNewStruCalsTowerWindow()
+        {
+            newStruCalsTowerWindow = new NewStruCalsTowerWindow();
+            ((NewStruCalsTowerViewModel)(newStruCalsTowerWindow.DataContext)).Closed += NewStruCalsTowerWindowClosed;
+            newStruCalsTowerWindow.ShowDialog();
+        }
+
+        public void NewStruCalsTowerWindowClosed(object sender, EventArgs e)
+        {
+            NewStruCalsTowerViewModel model = (NewStruCalsTowerViewModel)sender;
+            model.Closed -= NewStruCalsTowerWindowClosed;
+            if (newStruCalsTowerWindow != null) newStruCalsTowerWindow.Close();
+            newStruCalsTowerWindow = null;
+        }
+
+        public Visibility NewStruCalsTowerBtnVisibity
+        {
+            get
+            {
+                return (SelectedModuleInfo != null && SelectedModuleInfo.Title == "结构计算") ? Visibility.Visible : Visibility.Collapsed; 
+            }
+        }
 
 
     }
