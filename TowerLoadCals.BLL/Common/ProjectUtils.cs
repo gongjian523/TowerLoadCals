@@ -1,11 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Xml;
+using TowerLoadCals.DAL;
 
 namespace TowerLoadCals.Common.Utils
 {
@@ -24,7 +21,7 @@ namespace TowerLoadCals.Common.Utils
         {
             var saveFileDialog = new SaveFileDialog()
             {
-                Filter = "Lcp Files (*.lcp)|*.lcp"
+                Filter = "Dat Files (*.dat)|*.dat",
             };
 
             var result = saveFileDialog.ShowDialog();
@@ -38,10 +35,11 @@ namespace TowerLoadCals.Common.Utils
             System.IO.Directory.CreateDirectory(strDir);
             System.IO.Directory.CreateDirectory(strDir + "//" + prejectName);
             System.IO.Directory.CreateDirectory(strDir + "//" + prejectName + "//BaseData");
+            System.IO.Directory.CreateDirectory(strDir + "//" + prejectName + "//StruCals");
 
             if (!CreateProjetcFile(strDir + "//" + prejectName + "//" + saveFileDialog.SafeFileName))
             {
-                MessageBox.Show("新建工程Lcp文件失败");
+                System.Windows.Forms.MessageBox.Show("新建工程Lcp文件失败");
                 return false;
             }
 
@@ -63,6 +61,9 @@ namespace TowerLoadCals.Common.Utils
 
             XmlNode nodeBaseData = doc.CreateElement("BaseData");
             xmlNode.AppendChild(nodeBaseData);
+
+            XmlNode nodeStruCals = doc.CreateElement("StruCals");
+            xmlNode.AppendChild(nodeStruCals);
 
             doc.Save(path);
 
@@ -96,12 +97,28 @@ namespace TowerLoadCals.Common.Utils
             return true;
         }
 
-        public static bool NewStruCalsTower(string towerName, string towerType, string templatePath, string electricalLoadFilePath, out string result)
+        public static bool NewStruCalsTower(string towerName, string towerType, string templatePath, string electricalLoadFilePath)
         {
-            result = "aaa";
-            return false;
+            var struCalsParas = GlobalInfo.GetInstance().StruCalsParas;
+            
+            if(struCalsParas.Where(item=>item.TowerName == towerName).Count() > 0)
+            {
+                System.Windows.Forms.MessageBox.Show(towerName + "已经存在！");
+                return false;
+            }
+
+            StruCalsParas paras = new StruCalsParas(towerName, towerType, templatePath, electricalLoadFilePath, out string decodeTemplateStr);
+
+            if(decodeTemplateStr != "")
+            {
+                System.Windows.Forms.MessageBox.Show(towerName + decodeTemplateStr);
+                return false;
+            }
+
+            struCalsParas.Add(paras);
+
+            return true;
         }
-        
 
     }
 }
