@@ -171,7 +171,7 @@ namespace TowerLoadCals
 
             Modules = new List<ModuleInfo>();
 
-            ModuleInfo blankModule = new ModuleInfo("BlankModule", this, "空模板");
+            ModuleInfo blankModule = new ModuleInfo("BlankModule", this, "空模板" , (e) => { OnSelectedModuleChanged(e); });
             blankModule.Show();
         }
 
@@ -193,7 +193,7 @@ namespace TowerLoadCals
 
             moduleList.Add(IniBaseDataModule());
 
-            ModuleInfo towerMudule = new ModuleInfo("TowersModule", this, "塔杆排位");
+            ModuleInfo towerMudule = new ModuleInfo("TowersModule", this, "塔杆排位", (e) => { OnSelectedModuleChanged(e); });
             towerMudule.SetIcon("FolderList_32x32.png");
             moduleList.Add(towerMudule);
 

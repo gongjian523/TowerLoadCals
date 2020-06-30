@@ -99,19 +99,23 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="V串信息">
-                                    <dxg:GridControl EnableSmartColumnsGeneration="False" ItemsSource="{Binding VStrings}" MaxHeight="500" 
+                                    <StackPanel Orientation="Vertical">
+                                        <Button  Content="增加V串" Command="{DXCommand 'AddVString()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
+                                        <dxg:GridControl EnableSmartColumnsGeneration="False" ItemsSource="{Binding VStrings, Mode=TwoWay}" MaxHeight="500" SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
                                         ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
-                                        <dxg:GridControl.View>
-                                            <dxg:TableView ShowGroupPanel="False" AutoWidth="True" EnableImmediatePosting="True"  NewItemRowPosition="Bottom" />
-                                        </dxg:GridControl.View>
-                                        <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" />
-                                        <dxg:GridColumn FieldName="L1"  HorizontalHeaderContentAlignment="Center"/>
-                                        <dxg:GridColumn FieldName="H1"  HorizontalHeaderContentAlignment="Center"/>
-                                        <dxg:GridColumn FieldName="L2"  Header="L2" HorizontalHeaderContentAlignment="Center"/>
-                                        <dxg:GridColumn FieldName="H2"  Header="H2" HorizontalHeaderContentAlignment="Center"/>
-                                        <dxg:GridColumn FieldName="StressLimit"  Header="V串承压上限(N)" HorizontalHeaderContentAlignment="Center" />
-                                        <dxg:GridColumn FieldName="Angle"  Header="夹角" HorizontalHeaderContentAlignment="Center" />
-                                    </dxg:GridControl>
+                                            <dxg:GridControl.View>
+                                                <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" PasteMode="Update"
+                                                ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
+                                            </dxg:GridControl.View>
+                                            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" />
+                                            <dxg:GridColumn FieldName="L1"  HorizontalHeaderContentAlignment="Center"/>
+                                            <dxg:GridColumn FieldName="H1"  HorizontalHeaderContentAlignment="Center"/>
+                                            <dxg:GridColumn FieldName="L2"  Header="L2" HorizontalHeaderContentAlignment="Center"/>
+                                            <dxg:GridColumn FieldName="H2"  Header="H2" HorizontalHeaderContentAlignment="Center"/>
+                                            <dxg:GridColumn FieldName="StressLimit"  Header="V串承压上限(N)" HorizontalHeaderContentAlignment="Center" />
+                                            <dxg:GridColumn FieldName="Angle"  Header="夹角" HorizontalHeaderContentAlignment="Center" />
+                                        </dxg:GridControl>
+                                    </StackPanel>
                                 </GroupBox>
                                 <GroupBox  Grid.Column="1" Header="跳线荷载分配比例" Margin="5,0,0,0" Visibility="{Binding BaseParas.IsTensionTower, Converter={StaticResource BooleanVisibityConverter}}">
                                     <dxlc:LayoutGroup Orientation="Vertical">

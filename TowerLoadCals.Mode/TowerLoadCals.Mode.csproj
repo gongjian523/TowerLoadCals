@@ -77,7 +77,6 @@
     <Compile Include="Structure\StruCalsDicComposrInfo.cs" />
     <Compile Include="Structure\StruCalsDicGroup.cs" />
     <Compile Include="Structure\StruCalsDicOption.cs" />
-    <Compile Include="Structure\StruCalsParas.cs" />
     <Compile Include="Structure\StruCalsPointLoad.cs" />
     <Compile Include="Structure\StruLineParas.cs" />
     <Compile Include="Structure\TowerTemplate.cs" />
@@ -85,6 +84,12 @@
     <Compile Include="Common\WorkConditionCombo.cs" />
     <Compile Include="Structure\VStringParas.cs" />
     <Compile Include="xmlItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TowerLoadCals.Common\TowerLoadCals.Common.csproj">
+      <Project>{02D06C8A-7792-43EE-9C4A-CEBEF8377AAF}</Project>
+      <Name>TowerLoadCals.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -32,8 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\GlobalInfo.cs" />
+    <Compile Include="Common\ProjectUtils.cs" />
     <Compile Include="Common\WeatherConditionBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structure\FormulaCornerTower.cs" />
@@ -60,6 +64,10 @@
     <Folder Include="Electric\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TowerLoadCals.Common\TowerLoadCals.Common.csproj">
+      <Project>{02d06c8a-7792-43ee-9c4a-cebef8377aaf}</Project>
+      <Name>TowerLoadCals.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TowerLoadCals.DAL\TowerLoadCals.DAL.csproj">
       <Project>{05EA043D-3674-4359-8481-3619D35FA25C}</Project>
       <Name>TowerLoadCals.DAL</Name>

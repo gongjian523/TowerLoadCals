@@ -87,7 +87,10 @@ namespace TowerLoadCals.Modules
 
         void IBaseViewModel.Save()
         {
-            throw new NotImplementedException();
+            foreach(var item in HangingPoints)
+            {
+                item.Save();
+            }
         }
 
         void IBaseViewModel.UpDateView(string para1, string para2)
@@ -137,7 +140,6 @@ namespace TowerLoadCals.Modules
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
             };
             NormalZColumns = new ObservableCollection<Column>(normalZColumns);
-
             
             List<Column> installXYColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
@@ -161,6 +163,14 @@ namespace TowerLoadCals.Modules
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
             };
             TurningColumns = new ObservableCollection<Column>(turningColumns);
+        }
+
+        public void Save()
+        {
+            var aaa = VStrings;
+            var aa1 = HPSetitingParas.VStrings;
+            var bbb = NormalXYPoints;
+            var ccc = HPSetitingParas.NormalXYPoints;
         }
 
         protected TowerTemplate Template;
@@ -268,7 +278,20 @@ namespace TowerLoadCals.Modules
             IsNormalHangingPointVisible = isNormalVisible;
         }
 
-        public ObservableCollection<VStringParas> VStrings { get;  set; }
+        protected int vStringNum = 0;
+        protected ObservableCollection<VStringParas> _vStrings { get; set; }
+        public ObservableCollection<VStringParas> VStrings 
+        {
+            get
+            {
+                return _vStrings;
+            }
+            set
+            {
+                _vStrings = value;
+                RaisePropertyChanged("VStrings");
+            }
+        }
 
         protected int normalXYPointNum = 1;
         public ObservableCollection<Column> NormalXYColumns { get; private set; }
@@ -289,6 +312,13 @@ namespace TowerLoadCals.Modules
         protected int turningPointNum = 1;
         public ObservableCollection<Column> TurningColumns { get; private set; }
         public ObservableCollection<HangingPointParas> TurningPoints { get; set; }
+
+
+        public void AddVString()
+        {
+            HPSetitingParas.VStrings.Add(new VStringParas());
+            VStrings = new ObservableCollection<VStringParas>(HPSetitingParas.VStrings);
+        }
 
         public void AddNormalXYPoint()
         {

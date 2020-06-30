@@ -18,7 +18,7 @@ namespace TowerLoadCals
     {
         private ModuleInfo IniStruCalsModule()
         {
-            ModuleInfo baseDataMudule = new ModuleInfo("StruCalsModule", this, "结构计算");
+            ModuleInfo baseDataMudule = new ModuleInfo("StruCalsModule", this, "结构计算", (e) => { OnSelectedModuleChanged(e); });
             baseDataMudule.SetIcon("FolderList_32x32.png");
 
             var menuItems = new List<MenuItemVM>() { };
@@ -118,14 +118,19 @@ namespace TowerLoadCals
             newStruCalsTowerWindow = null;
         }
 
-        public Visibility NewStruCalsTowerBtnVisibity
+        protected Visibility _newStruCalsTowerBtnVisibity = Visibility.Collapsed;
+        public Visibility NewStruCalsTowerBtnVisibity 
         {
+            set
+            {
+                _newStruCalsTowerBtnVisibity = value;
+                RaisePropertyChanged("NewStruCalsTowerBtnVisibity");
+            }
             get
             {
-                return (SelectedModuleInfo != null && SelectedModuleInfo.Title == "结构计算") ? Visibility.Visible : Visibility.Collapsed; 
+                return _newStruCalsTowerBtnVisibity;
             }
         }
-
 
     }
 }

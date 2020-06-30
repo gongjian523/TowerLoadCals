@@ -208,6 +208,8 @@
                                     <Setter Property="GlyphPosition" Value="Top" />
                                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                                     <Setter Property="ExpandButtonPosition" Value="None" />
+                                    <Setter Property="Command" Value="{Binding Command}" />
+                                    <Setter Property="CommandParameter" Value="{Binding}" />
                                     <Setter Property="Width" Value="60"/>
                                     <Setter Property="Height" Value="56"/>
                                 </Style>
@@ -220,14 +222,14 @@
                     <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
                                       AllowClose="False" ShowCaption="False" Name="subLayoutPanel" AllowSizing="False">
                         <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="35"/>
-                            </Grid.ColumnDefinitions>
-                            <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.Column="1"
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Vertical" Visibility="{Binding NewStruCalsTowerBtnVisibity}">
+                                    <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
                                    Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}" 
-                                   Visibility="{Binding NewStruCalsTowerBtnVisibity}"/>
-                            <dxa:AccordionControl x:Name="subAccordion"
+                                   />
+                                    <Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>
+                                </StackPanel>
+                                <dxa:AccordionControl x:Name="subAccordion"
                                               SelectedItem="{Binding SelectedMenuItem}"
                                               ItemsSource="{Binding Path=MenuItems}"
                                               HeaderContent=""
@@ -237,30 +239,32 @@
                                               ExpandMode="MultipleOrNone"
                                               ChildrenPath="ChildItems"
                                               AutoExpandAllItems="True"
+                                              Grid.Row="1"
                                               >
-                                <dxa:AccordionControl.ItemContainerStyle>
-                                    <Style TargetType="dxa:AccordionItem">
-                                        <Setter Property="Header" Value="{Binding Path=Title}" />
-                                        <Setter Property="Glyph" Value="{Binding Path=Icon}" />
-                                        <Setter Property="GlyphPosition" Value="Left" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                        <Setter Property="ExpandButtonPosition" Value="Right" />
-                                        <Setter Property="Command" Value="{Binding Command}" />
-                                        <Setter Property="CommandParameter" Value="{Binding}" />
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu  Visibility="{Binding ContextVisible}">
-                                                    <MenuItem Header="新增" Command="{DXCommand NewMenuItem(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
-                                                    <MenuItem Header="编辑" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=DataContext.EditItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
-                                                    <MenuItem Header="删除" Command="{Binding DelItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
-                                                    <MenuItem Header="加载" Command="{Binding LoadCommand}"  CommandParameter="{Binding}" Visibility="{Binding LoadBtnVisible}"/>
-                                                    <MenuItem Header="计算" Command="{Binding CalsCommand}"  CommandParameter="{Binding}" Visibility="{Binding CalsBtnVisible}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter >
-                                    </Style>
-                                </dxa:AccordionControl.ItemContainerStyle>
-                            </dxa:AccordionControl>
+                                    <dxa:AccordionControl.ItemContainerStyle>
+                                        <Style TargetType="dxa:AccordionItem">
+                                            <Setter Property="Header" Value="{Binding Path=Title}" />
+                                            <Setter Property="Glyph" Value="{Binding Path=Icon}" />
+                                            <Setter Property="GlyphPosition" Value="Left" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                            <Setter Property="ExpandButtonPosition" Value="Right" />
+                                            <Setter Property="Command" Value="{Binding Command}" />
+                                            <Setter Property="CommandParameter" Value="{Binding}" />
+                                            <Setter Property="ContextMenu">
+                                                <Setter.Value>
+                                                    <ContextMenu  Visibility="{Binding ContextVisible}">
+                                                        <MenuItem Header="新增" Command="{DXCommand NewMenuItem(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
+                                                        <MenuItem Header="编辑" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=DataContext.EditItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
+                                                        <MenuItem Header="删除" Command="{Binding DelItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
+                                                        <MenuItem Header="加载" Command="{Binding LoadCommand}"  CommandParameter="{Binding}" Visibility="{Binding LoadBtnVisible}"/>
+                                                        <MenuItem Header="计算" Command="{Binding CalsCommand}"  CommandParameter="{Binding}" Visibility="{Binding CalsBtnVisible}"/>
+                                                    </ContextMenu>
+                                                </Setter.Value>
+                                            </Setter >
+                                        </Style>
+                                    </dxa:AccordionControl.ItemContainerStyle>
+                                </dxa:AccordionControl>
+                            </StackPanel>
                         </Grid>
                     </dxdo:LayoutPanel>
                     <dxdo:LayoutPanel AllowClose="False" AllowFloat="False" AllowHide="False" ShowCaption="False" ShowBorder="False" ShowCloseButton="False">

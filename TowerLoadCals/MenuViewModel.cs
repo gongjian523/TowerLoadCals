@@ -22,12 +22,17 @@ namespace TowerLoadCals
         protected ISupportServices parent;
         protected MainWindowViewModel parentVm;
 
-        public ModuleInfo(string _type, object parent, string _title)
+        public ICommand Command { get; set; }
+
+        public ModuleInfo(string _type, object parent, string _title, Action<ModuleInfo> func = null)
         {
             Type = _type;
             this.parent = (ISupportServices)parent;
             parentVm = (MainWindowViewModel)parent;
             Title = _title;
+
+            if(func != null)
+                Command = new DelegateCommand<ModuleInfo>(func);
         }
         public string Type { get; protected set; }
         public virtual bool IsSelected { get; set; }
@@ -54,7 +59,7 @@ namespace TowerLoadCals
 
     public class MenuItemVM : ModuleInfo
     {
-        public ICommand Command { get; set; }
+        public ICommand Command2 { get; set; }
 
         public MenuItemVM ParentNode { get; set; }
 
@@ -87,7 +92,7 @@ namespace TowerLoadCals
             Title = _title;
             this.parent = (ISupportServices)parent;
 
-            Command = new DelegateCommand<MenuItemVM>(func);
+            Command2 = new DelegateCommand<MenuItemVM>(func);
 
             ContextVisible = contextVisible;
             NewBtnVisible = bNewBtnVisible;
@@ -137,19 +142,19 @@ namespace TowerLoadCals
             if (openTableDialog.ShowDialog() != true)
                 return;
 
-            string file = openTemplateDialog.FileName.Substring(openTemplateDialog.FileName.Length - 3) + "dat";
+            //string file = openTemplateDialog.FileName.Substring(openTemplateDialog.FileName.Length - 3) + "dat";
 
-            DES.DesDecrypt(openTemplateDialog.FileName, file, "12345678");
+            //DES.DesDecrypt(openTemplateDialog.FileName, file, "12345678");
 
             TowerType type = TowerTypeStringConvert.TowerStringToType(((MenuItemVM)menu).Title);
 
-            TowerTemplateReader templateReader = new TowerTemplateReader(type);
-            TowerTemplate template = templateReader.Read(file);
+            //TowerTemplateReader templateReader = new TowerTemplateReader(type);
+            //TowerTemplate template = templateReader.Read(file);
 
             var globalInfo = GlobalInfo.GetInstance();
             int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == ((MenuItemVM)menu).Title);
 
-            StruCalsParas paras = new StruCalsParas(((MenuItemVM)menu).Title, openTableDialog.FileName, template);
+            StruCalsParas paras = new StruCalsParas(((MenuItemVM)menu).Title, ((MenuItemVM)menu).Title, openTableDialog.FileName, openTemplateDialog.FileName, out string decodeTremplateStr);
 
             if (index <  0)
             {
@@ -199,16 +204,16 @@ namespace TowerLoadCals
 
                 if (((MenuItemVM)menu).Title == "直线塔")
                 {
-                    loadCompose = new LoadComposeLineTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.TablePath);
+                    loadCompose = new LoadComposeLineTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
                 }
                 else if (((MenuItemVM)menu).Title == "直转塔")
                 {
-                    loadCompose = new LoadComposeLineCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.TablePath);
+                    loadCompose = new LoadComposeLineCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
                 }
                 //else if (((MenuItemVM)menu).Title == "转角塔")
                 else
                 {
-                    loadCompose = new LoadComposeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.TablePath);
+                    loadCompose = new LoadComposeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
                 }
 
                 paras.ResultPointLoad.AddRange(loadCompose.LoadCaculate(path));

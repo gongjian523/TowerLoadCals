@@ -15,7 +15,7 @@ namespace TowerLoadCals
     {
         private ModuleInfo IniBaseDataModule()
         {
-            ModuleInfo baseDataMudule = new ModuleInfo("BaseDataModule", this, "基础数据");
+            ModuleInfo baseDataMudule = new ModuleInfo("BaseDataModule", this, "基础数据", (e) => { OnSelectedModuleChanged(e);});
             baseDataMudule.SetIcon("FolderList_32x32.png");
 
             var menuItem = new List<MenuItemVM>() { };
@@ -88,6 +88,11 @@ namespace TowerLoadCals
             baseDataMudule.MenuItems = menuItem;
 
             return baseDataMudule;
+        }
+
+        private void OnSelectedModuleChanged(ModuleInfo mv)
+        {
+            NewStruCalsTowerBtnVisibity = (mv != null && mv.Title == "结构计算") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void OnSelectedBaseDataSubModuleChanged(MenuItemVM vm)

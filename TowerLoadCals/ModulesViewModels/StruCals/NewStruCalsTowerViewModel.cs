@@ -8,6 +8,7 @@ using System.Windows;
 using TowerLoadCals.Common.Utils;
 using System.Windows.Input;
 
+
 namespace TowerLoadCals.Modules
 {
     public class NewStruCalsTowerViewModel : ViewModelBase
@@ -92,11 +93,11 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        public ICommand ShowMessageCommand { get; private set; }
+        //public ICommand ShowMessageCommand { get; private set; }
 
         public NewStruCalsTowerViewModel()
         {
-            ShowMessageCommand = new DelegateCommand<string>(ShowMessage);
+            //ShowMessageCommand = new DelegateCommand<string>(ShowMessage);
         }
         
         public void ChooseWorkConditionTemplate()
@@ -129,13 +130,9 @@ namespace TowerLoadCals.Modules
 
         public void onConfirm()
         {
-            if(ProjectUtils.NewStruCalsTower(TowerName, TowerType, TemplatePath, ElectricalLoadFilePath, out string strResult))
+            if(ProjectUtils.NewStruCalsTower(TowerName, TowerType, TemplatePath, ElectricalLoadFilePath))
             {
                 close();
-            }
-            else
-            {
-                MessageBoxService.Show(strResult);
             }
         }
 
@@ -150,10 +147,10 @@ namespace TowerLoadCals.Modules
                 Closed(this, EventArgs.Empty);
         }
 
-        IMessageBoxService MessageBoxService { get { return GetService<IMessageBoxService>(); } }
-        void ShowMessage(string warnStr)
-        {
-            MessageBoxService.Show(warnStr);
-        }
+        //IMessageBoxService MessageBoxService { get { return GetService<IMessageBoxService>(); } }
+        //void ShowMessage(string warnStr)
+        //{
+        //    MessageBoxService.Show(warnStr);
+        //}
     }
 }
