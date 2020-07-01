@@ -46,7 +46,7 @@ namespace TowerLoadCals.BLL
 
             foreach (XmlNode towerNode in struCalsNode.ChildNodes)
             {
-                rstList.Add(towerNode.Name);
+                rstList.Add(towerNode.Attributes["Name"].Value.ToString());
             }
 
             return rstList;

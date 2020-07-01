@@ -44,11 +44,6 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        //public HangingPointViewModel(string name)
-        //{
-        //    InitializeData(name);
-        //}
-
         public virtual ObservableCollection<HangingPoint> HangingPoints { get; protected set; }
         public void AddNewTab(TabControlTabAddingEventArgs e)
         {
@@ -84,40 +79,73 @@ namespace TowerLoadCals.Modules
             List<Column> normalXYColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型", Source = normalSource },
-                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
+                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型", Source = normalSource }
             };
             NormalXYColumns = new ObservableCollection<Column>(normalXYColumns);
+            int hpNum = GetMaxHPNum(HPSetitingParas.NormalXYPoints);
+            if (hpNum == 0)
+                hpNum = 1;
+            for(int i = 0; i < hpNum; i++)
+            {
+                AddNormalXYPoint();
+            }
+
             List<Column> normalZColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型",Source = normalSource },
-                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
+                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型",Source = normalSource }
             };
             NormalZColumns = new ObservableCollection<Column>(normalZColumns);
+            hpNum = GetMaxHPNum(HPSetitingParas.NormalZPoints);
+            if (hpNum == 0)
+                hpNum = 1;
+            for (int i = 0; i < hpNum; i++)
+            {
+                AddNormalZPoint();
+            }
             
             List<Column> installXYColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Array", Header = "组数" },
-                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
+                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Array", Header = "组数" }
             };
             InstallXYColumns = new ObservableCollection<Column>(installXYColumns);
+            hpNum = GetMaxHPNum(HPSetitingParas.InstallXYPoints);
+            if (hpNum == 0)
+                hpNum = 1;
+            for (int i = 0; i < hpNum; i++)
+            {
+                AddInstallXYPoint();
+            }
+
             List<Column> intallZColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Array", Header = "组数" },
-                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
+                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Array", Header = "组数" }
             };
             InstallZColumns = new ObservableCollection<Column>(intallZColumns);
+            hpNum = GetMaxHPNum(HPSetitingParas.InstallZPoints);
+            if (hpNum == 0)
+                hpNum = 1;
+            for (int i = 0; i < hpNum; i++)
+            {
+                AddInstallZPoint();
+            }
 
             List<Column> turningColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Angle", Header = "方向角"},
-                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
+                new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Angle", Header = "方向角"}
             };
             TurningColumns = new ObservableCollection<Column>(turningColumns);
+            hpNum = GetMaxHPNum(HPSetitingParas.TurningPoints);
+            if (hpNum == 0)
+                hpNum = 1;
+            for (int i = 0; i < hpNum; i++)
+            {
+                AddTurningPoint();
+            }
+            
         }
 
         protected TowerTemplate Template;
@@ -225,7 +253,7 @@ namespace TowerLoadCals.Modules
             IsNormalHangingPointVisible = isNormalVisible;
         }
 
-        protected int vStringNum = 0;
+
         protected ObservableCollection<VStringParas> _vStrings { get; set; }
         public ObservableCollection<VStringParas> VStrings 
         {
@@ -240,23 +268,23 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        protected int normalXYPointNum = 1;
+        protected int normalXYPointNum;
         public ObservableCollection<Column> NormalXYColumns { get; private set; }
         public ObservableCollection<HangingPointParas> NormalXYPoints { get; set; }
 
-        protected int normalZPointNum = 1;
+        protected int normalZPointNum;
         public ObservableCollection<Column> NormalZColumns { get; private set; }
         public ObservableCollection<HangingPointParas> NormalZPoints { get; set; }
 
-        protected int installXYPointNum = 1;
+        protected int installXYPointNum;
         public ObservableCollection<Column> InstallXYColumns { get; private set; }
         public ObservableCollection<HangingPointParas> InstallXYPoints { get; set; }
 
-        protected int installZPointNum = 1;
+        protected int installZPointNum;
         public ObservableCollection<Column> InstallZColumns { get; private set; }
         public ObservableCollection<HangingPointParas> InstallZPoints { get; set; }
 
-        protected int turningPointNum = 1;
+        protected int turningPointNum;
         public ObservableCollection<Column> TurningColumns { get; private set; }
         public ObservableCollection<HangingPointParas> TurningPoints { get; set; }
 
@@ -326,6 +354,17 @@ namespace TowerLoadCals.Modules
             );
         }
 
+        protected int GetMaxHPNum(List<HangingPointParas> hpParas)
+        {
+            int max = 0;
+
+            foreach(var item in hpParas)
+            {
+                max = Math.Max(max, item.PointNum);
+            }
+
+            return max;
+        }
     }
 
 

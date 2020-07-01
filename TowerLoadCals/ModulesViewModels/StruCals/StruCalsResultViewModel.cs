@@ -83,6 +83,9 @@ namespace TowerLoadCals.Modules
 
             var hpSettingsParas = struCalsParas.HPSettingsParas;
 
+            if (struCalsParas.ResultPointLoad == null)
+                return;
+
             List<StruCalsPointLoad> pointLoads = struCalsParas.ResultPointLoad;
             List<int> points = pointLoads.Select(p => p.Name).Distinct().ToList();
 

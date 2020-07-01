@@ -45,7 +45,7 @@ namespace TowerLoadCals.DAL
             TowerName = towerName;
 
             TemplatePath = templatePath;
-            TemplateName = templatePath.Substring(templatePath.LastIndexOf('/')+1);
+            TemplateName = templatePath.Substring(templatePath.LastIndexOf('\\')+1);
 
             ElectricalLoadFilePath = electricalLaodFilePath;
 
@@ -75,24 +75,26 @@ namespace TowerLoadCals.DAL
             ResultPointLoad = new List<StruCalsPointLoad>();
         }
 
-        public String TowerName { get; set; }
+        [XmlAttribute]
+        public string TowerName { get; set; }
 
         /// <summary>
         /// 工况模块的路径，只是在新加入塔位，保存不在工程目录下的模块路径
         /// </summary>
         [XmlIgnore]
-        public String TemplatePath { get; set; }
+        public string TemplatePath { get; set; }
 
         [XmlAttribute]
-        public String TemplateName { get; set; }
+        public string TemplateName { get; set; }
 
         [XmlIgnore]
-        public String ElectricalLoadFilePath { get; set; }
+        public string ElectricalLoadFilePath { get; set; }
 
         [XmlIgnore]
         public TowerTemplate Template { get; set; }
 
         // 从Template转换而来，用于WorkConditionComboModule
+        [XmlIgnore]
         public List<WorkConditionComboSpec> WorkConditions { get; set;}
 
         //基础参数，来自BaseAndLineParasModule

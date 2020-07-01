@@ -1,14 +1,7 @@
-﻿using DevExpress.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using TowerLoadCals.Common;
-using TowerLoadCals.DAL;
-using TowerLoadCals.Mode;
 using TowerLoadCals.Modules;
 using TowerLoadCals.ModulesViewModels;
 
@@ -89,8 +82,6 @@ namespace TowerLoadCals
             AddStruClasTowerSubMenu(menuVm);
             MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
             menuVm.ChildItems[0].Show(menuVm.Title);
-
-            //paraMenu.Show(menuVm.Title);
         }
 
         private void OnSelectedStruCalsSubModuleChanged(MenuItemVM menuVm)

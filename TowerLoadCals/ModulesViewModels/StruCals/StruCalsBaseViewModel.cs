@@ -45,6 +45,8 @@ namespace TowerLoadCals.Modules
         /// <param name="towerName"></param>
         protected virtual void InitializeData(string towerName)
         {
+            TowerName = towerName;
+
             var globalInfo = GlobalInfo.GetInstance();
 
             if(globalInfo.StruCalsParas.Where(item => item.TowerName == towerName).Count() <= 0)

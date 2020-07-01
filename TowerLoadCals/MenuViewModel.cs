@@ -8,7 +8,6 @@ using TowerLoadCals.ModulesViewModels;
 using System.Windows.Media;
 using DevExpress.Xpf.Core.Native;
 using System.Windows.Input;
-using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using static TowerLoadCals.DAL.TowerTemplateReader;

@@ -2,30 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media.Imaging;
-using DevExpress.Images;
 using DevExpress.Mvvm;
-using DevExpress.Mvvm.Native;
-using DevExpress.Mvvm.POCO;
-using DevExpress.Mvvm.UI;
-using DevExpress.Utils;
-using DevExpress.Xpf.Bars;
-using DevExpress.Xpf.Core;
-using TowerLoadCals.Modules;
 using System.ComponentModel.DataAnnotations;
-using DevExpress.Mvvm.DataAnnotations;
-using TowerLoadCals.Common;
 using TowerLoadCals.ModulesViewModels;
-using System.Windows.Media;
-using TowerLoadCals.Common.Utils;
-using DevExpress.Xpf.Core.Native;
-using DevExpress.Xpf.Accordion;
-using TowerLoadCals.Mode;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
 using TowerLoadCals.BLL;
+using System.Windows;
 
 namespace TowerLoadCals
 {
@@ -62,7 +44,11 @@ namespace TowerLoadCals
         public virtual IEnumerable<ModuleInfo> Modules { get; protected set; }
         public virtual ModuleInfo SelectedModuleInfo { get; set; }
 
+
         private ObservableCollection<MenuItemVM> _menuItems = new ObservableCollection<MenuItemVM>();
+        /// <summary>
+        /// 保存每个模块下面的的子按钮
+        /// </summary>
         public ObservableCollection<MenuItemVM> MenuItems
         {
             get
@@ -171,6 +157,10 @@ namespace TowerLoadCals
             SaveCurrentModule();
 
             Modules = new List<ModuleInfo>();
+
+            MenuItems = new ObservableCollection<MenuItemVM>();
+
+            NewStruCalsTowerBtnVisibity = Visibility.Collapsed;
 
             ModuleInfo blankModule = new ModuleInfo("BlankModule", this, "空模板" , (e) => { OnSelectedModuleChanged(e); });
             blankModule.Show();

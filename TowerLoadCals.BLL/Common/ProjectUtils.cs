@@ -57,11 +57,11 @@ namespace TowerLoadCals.BLL
             string prejectName = saveFileDialog.SafeFileName.Substring(0, saveFileDialog.SafeFileName.Length - 4);
 
             Directory.CreateDirectory(strDir);
-            Directory.CreateDirectory(strDir + "//" + prejectName);
-            Directory.CreateDirectory(strDir + "//" + prejectName + "//" + ConstVar.DataBaseStr);
-            Directory.CreateDirectory(strDir + "//" + prejectName + "//" + ConstVar.StruCalsStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.StruCalsStr);
             
-            if (!ConfigFileUtils.CreateProjetcFile(strDir + "//" + prejectName + "//" + saveFileDialog.SafeFileName))
+            if (!ConfigFileUtils.CreateProjetcFile(strDir + "\\" + prejectName + "\\" + saveFileDialog.SafeFileName))
             {
                 System.Windows.Forms.MessageBox.Show("新建工程Lcp文件失败");
                 Directory.Delete(strDir, true);
@@ -69,10 +69,10 @@ namespace TowerLoadCals.BLL
                 return false;
             }
 
-            ProjectPath = strDir + "//" + prejectName;
+            ProjectPath = strDir + "\\" + prejectName;
             ProjectName = prejectName;
 
-            ConfigFilePath = strDir + "//" + prejectName + "//" + saveFileDialog.SafeFileName;
+            ConfigFilePath = strDir + "\\" + prejectName + "\\" + saveFileDialog.SafeFileName;
 
             globalInfo.ProjectPath = ProjectPath;
             globalInfo.ProjectName = prejectName;
@@ -148,15 +148,17 @@ namespace TowerLoadCals.BLL
         /// <param name="name"></param>
         public void ReadStruCalsTowerParas(string name)
         {
-            string electricalLaodFilePath = ProjectPath + "//" + name + "//" + ConstVar.StruCalsElecLoadFileName;
+            string dirPath = ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + name + "\\";
 
-            string parasSavedFilePath = ProjectPath + "//" + name + "//" + ConstVar.StruCalsParasFileName;
+            string electricalLaodFilePath = dirPath + ConstVar.StruCalsElecLoadFileName;
+
+            string parasSavedFilePath = dirPath + ConstVar.StruCalsParasFileName;
             StruCalsParas temp = XmlUtils.Deserializer<StruCalsParas>(parasSavedFilePath);
 
             if (temp == null || temp == default(StruCalsParas))
                 return;
 
-            string templatePath = ProjectPath + "//" + name + "//" + temp.TemplateName;
+            string templatePath = dirPath + temp.TemplateName;
 
             StruCalsParas paras = new StruCalsParas(name, electricalLaodFilePath, templatePath, temp);
 
@@ -181,17 +183,17 @@ namespace TowerLoadCals.BLL
 
             foreach(var item in towerParas)
             {
-                string dirPath = ProjectPath + "//" + ConstVar.StruCalsStr + "//" + item.TowerName;
+                string dirPath = ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + item.TowerName;
 
                 //配置文件中没有保存新建的塔位：
                 //1 把模板和电气荷载文件复制到工程文件下
                 //2 把塔位加入到配置文件中
                 if (!savedToewer.Contains(item.TowerName))
                 {
-                    string templatePath = dirPath + "//" + item.TemplateName;
-                    string elecLoadFilePath = dirPath + "//" + ConstVar.StruCalsElecLoadFileName;
+                    string templatePath = dirPath + "\\" + item.TemplateName;
+                    string elecLoadFilePath = dirPath + "\\" + ConstVar.StruCalsElecLoadFileName;
 
-                    if (Directory.Exists(dirPath))
+                    if (!Directory.Exists(dirPath))
                         Directory.CreateDirectory(dirPath);
 
                     if (File.Exists(templatePath))
@@ -204,7 +206,7 @@ namespace TowerLoadCals.BLL
                     InsertStrucTowerName(item.TowerName);
                 }
 
-                XmlUtils.Serializer(dirPath + "//" + ConstVar.StruCalsParasFileName, item);
+                XmlUtils.Serializer(dirPath + "\\" + ConstVar.StruCalsParasFileName, item);
             }
 
         }

@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Linq;
+using System.Xml.Serialization;
 
 namespace TowerLoadCals.Mode
 {
@@ -25,6 +26,15 @@ namespace TowerLoadCals.Mode
         public int Angle { get; set; }
 
         [XmlAttribute]
-        public string[] Points { get; set; } 
+        public string[] Points { get; set; }
+
+        [XmlIgnore]
+        public int PointNum 
+        { 
+            get
+            {
+                return Points.Where(p => p != null && p.Trim() != "").Count();
+            }
+        }
     }
 }
