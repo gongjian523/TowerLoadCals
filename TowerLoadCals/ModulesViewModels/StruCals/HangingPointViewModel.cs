@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.BLL;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
@@ -15,12 +16,9 @@ using TowerLoadCals.ModulesViewModels;
 
 namespace TowerLoadCals.Modules
 {
-    public class HangingPointViewModel: ViewModelBase, IStruCalsBaseViewModel, INotifyPropertyChanged
+    public class HangingPointViewModel: StruCalsBaseViewModel
     {
         protected int num = 0;
-        protected TowerTemplate template;
-        protected string towerType;
-        protected StruCalsParas struCalsParas;
 
         public static HangingPointViewModel Create()
         {
@@ -35,82 +33,39 @@ namespace TowerLoadCals.Modules
             InitializeData((string)parameter);
         }
 
-        private void InitializeData(string towerType)
+        protected override void InitializeData(string towerName)
         {
-            var globalInfo = GlobalInfo.GetInstance();
-            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);
-
-            if (index < 0)
-                return;
-
-            struCalsParas = globalInfo.StruCalsParas[index];
+            base.InitializeData(towerName);
 
             HangingPoints = new ObservableCollection<HangingPoint>();
             for (num = 1; num < 2; num++)
             {
-                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), "直线塔", struCalsParas));
+                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), struCalsParas));
             }
         }
 
-
-        public HangingPointViewModel(string type)
-        {
-
-            var globalInfo = GlobalInfo.GetInstance();
-            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);
-
-            if (index < 0)
-                return;
-
-            template = globalInfo.StruCalsParas[index].Template;
-            towerType = type;
-
-            HangingPoints = new ObservableCollection<HangingPoint>();
-            for (num = 1; num < 2; num++)
-            {
-                HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), towerType, struCalsParas));
-            }
-        }
+        //public HangingPointViewModel(string name)
+        //{
+        //    InitializeData(name);
+        //}
 
         public virtual ObservableCollection<HangingPoint> HangingPoints { get; protected set; }
         public void AddNewTab(TabControlTabAddingEventArgs e)
         {
             struCalsParas.NewHangingPointSetting();
-            e.Item = HangingPoint.Create("挂点方案" + num.ToString(), towerType, struCalsParas);
+            e.Item = HangingPoint.Create("挂点方案" + num.ToString(), struCalsParas);
             num++;
         }
 
-        string IStruCalsBaseViewModel.GetTowerType()
-        {
-            return towerType;
-        }
-
-        void IBaseViewModel.Save()
-        {
-            foreach(var item in HangingPoints)
-            {
-                item.Save();
-            }
-        }
-
-        void IBaseViewModel.UpDateView(string para1, string para2)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IBaseViewModel.DelSubItem(string itemName)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class HangingPoint:ViewModelBase,INotifyPropertyChanged
     {
-        public static HangingPoint Create(string title, string towerType, StruCalsParas calsParas)
+        public static HangingPoint Create(string title, StruCalsParas calsParas)
         {
-            return ViewModelSource.Create(() => new HangingPoint(title, towerType, calsParas));
+            return ViewModelSource.Create(() => new HangingPoint(title, calsParas));
         }
-        protected HangingPoint(string title,  string towerType, StruCalsParas calsParas)
+        protected HangingPoint(string title,  StruCalsParas calsParas)
         {
             Title = title;
             Template = calsParas.Template;
@@ -163,14 +118,6 @@ namespace TowerLoadCals.Modules
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Points[0]", Header = "点1" }
             };
             TurningColumns = new ObservableCollection<Column>(turningColumns);
-        }
-
-        public void Save()
-        {
-            var aaa = VStrings;
-            var aa1 = HPSetitingParas.VStrings;
-            var bbb = NormalXYPoints;
-            var ccc = HPSetitingParas.NormalXYPoints;
         }
 
         protected TowerTemplate Template;

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ConfigFileUtils.cs" />
     <Compile Include="Common\GlobalInfo.cs" />
     <Compile Include="Common\ProjectUtils.cs" />
     <Compile Include="Common\WeatherConditionBll.cs" />

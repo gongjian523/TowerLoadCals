@@ -18,6 +18,6 @@ namespace TowerLoadCals.ModulesViewModels
 
     public interface IStruCalsBaseViewModel: IBaseViewModel
     {
-        String GetTowerType();
+        String GetTowerName();
     }
 }

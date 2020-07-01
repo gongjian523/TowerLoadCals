@@ -25,6 +25,7 @@ using DevExpress.Xpf.Accordion;
 using TowerLoadCals.Mode;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using TowerLoadCals.BLL;
 
 namespace TowerLoadCals
 {
@@ -40,10 +41,10 @@ namespace TowerLoadCals
         {
             SplashScreenType = typeof(SplashScreenWindow);
 
-            projectUtils = new ProjectUtils();
-
+            projectUtils = ProjectUtils.GetInstance();
+       
             //MetadataLocator.Default = MetadataLocator.Create().AddMetadata<PrefixEnumWithExternalMetadata>();
-
+       
             Modules = new List<ModuleInfo>();
 
             CreateProjectCommand = new DelegateCommand(CreateProject);

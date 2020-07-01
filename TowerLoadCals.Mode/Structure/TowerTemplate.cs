@@ -34,10 +34,4 @@ namespace TowerLoadCals.Mode
         /// </summary>
         public List<WorkConditionCombo>  WorkConditionCombos { get; set; }
     }
-
-
-
-
-
-
 }

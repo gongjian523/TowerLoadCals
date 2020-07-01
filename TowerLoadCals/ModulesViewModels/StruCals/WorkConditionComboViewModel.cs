@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using TowerLoadCals.BLL;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
@@ -10,7 +11,7 @@ using TowerLoadCals.ModulesViewModels;
 
 namespace TowerLoadCals.Modules
 {
-    public class WorkConditionComboViewModel: ViewModelBase, IStruCalsBaseViewModel, INotifyPropertyChanged
+    public class WorkConditionComboViewModel: StruCalsBaseViewModel
     {
         protected ObservableCollection<WorkConditionComboSpec> _workConditions = new ObservableCollection<WorkConditionComboSpec>();
         public ObservableCollection<WorkConditionComboSpec> WorkConditions
@@ -54,19 +55,15 @@ namespace TowerLoadCals.Modules
             InitializeData((string)parameter);
         }
 
-        private void InitializeData(string towerType)
+        protected override void InitializeData(string towerName)
         {
-            var globalInfo = GlobalInfo.GetInstance();
-            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);
+            base.InitializeData(towerName);
 
-            if (index < 0)
-                return;
+            Template = struCalsParas.Template;
 
-            Template = globalInfo.StruCalsParas[index].Template;
+            BaseParas = struCalsParas.BaseParas;
 
-            BaseParas = globalInfo.StruCalsParas[index].BaseParas;
-
-            WorkConditions = new ObservableCollection<WorkConditionComboSpec>(globalInfo.StruCalsParas[index].WorkConditions);
+            WorkConditions = new ObservableCollection<WorkConditionComboSpec>(struCalsParas.WorkConditions);
 
             List<Column> columns = new List<Column>();
             columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" });
@@ -87,26 +84,6 @@ namespace TowerLoadCals.Modules
 
             Columns = new ObservableCollection<Column>(columns);
 
-        }
-
-        public string GetTowerType()
-        {
-            return Template.TowerType;
-        }
-
-        public void Save()
-        {
-            var sss = WorkConditions;
-        }
-
-        public void UpDateView(string para1, string para2 = "")
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DelSubItem(string itemName)
-        {
-            throw new NotImplementedException();
         }
     }
 }

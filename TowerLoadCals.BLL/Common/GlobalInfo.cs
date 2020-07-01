@@ -2,7 +2,7 @@
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 
-namespace TowerLoadCals.Common
+namespace TowerLoadCals.BLL
 {
     public class GlobalInfo
     {

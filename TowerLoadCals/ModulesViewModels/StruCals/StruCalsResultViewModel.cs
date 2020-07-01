@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using TowerLoadCals.BLL;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
@@ -11,9 +12,8 @@ using TowerLoadCals.ModulesViewModels;
 
 namespace TowerLoadCals.Modules
 {
-    public class StruCalsResultViewModel : ViewModelBase, IStruCalsBaseViewModel, INotifyPropertyChanged
+    public class StruCalsResultViewModel : StruCalsBaseViewModel
     {
-
         protected ObservableCollection<StruCalsResult> _results = new ObservableCollection<StruCalsResult>();
         public ObservableCollection<StruCalsResult> Results
         {
@@ -73,21 +73,17 @@ namespace TowerLoadCals.Modules
             InitializeData((string)parameter);
         }
 
-        private void InitializeData(string towerType)
+        protected override void InitializeData(string towerName)
         {
-            var globalInfo = GlobalInfo.GetInstance();
-            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);
+            base.InitializeData(towerName);
 
-            if (index < 0)
-                return;
+            Template = struCalsParas.Template;
 
-            Template = globalInfo.StruCalsParas[index].Template;
+            BaseParas = struCalsParas.BaseParas;
 
-            BaseParas = globalInfo.StruCalsParas[index].BaseParas;
+            var hpSettingsParas = struCalsParas.HPSettingsParas;
 
-            var hpSettingsParas = globalInfo.StruCalsParas[index].HPSettingsParas;
-
-            List<StruCalsPointLoad> pointLoads = globalInfo.StruCalsParas[index].ResultPointLoad;
+            List<StruCalsPointLoad> pointLoads = struCalsParas.ResultPointLoad;
             List<int> points = pointLoads.Select(p => p.Name).Distinct().ToList();
 
             points.Sort();
@@ -150,26 +146,6 @@ namespace TowerLoadCals.Modules
                     }
                 });
             }
-        }
-
-        public string GetTowerType()
-        {
-            return Template.TowerType;
-        }
-
-        public void Save()
-        {
-            var sss = Results;
-        }
-
-        public void UpDateView(string para1, string para2 = "")
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DelSubItem(string itemName)
-        {
-            throw new NotImplementedException();
         }
 
         protected void SeletedPointChanged(AccordionItem point)

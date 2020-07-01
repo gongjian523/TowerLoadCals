@@ -3,16 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using TowerLoadCals.Common;
+using TowerLoadCals.BLL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.ModulesViewModels;
 
 
 namespace TowerLoadCals.Modules
 {
-    public class BaseAndLineParasViewModel: ViewModelBase, IStruCalsBaseViewModel, INotifyPropertyChanged
+    public class BaseAndLineParasViewModel: StruCalsBaseViewModel
     {
-        //protected string _selectedStandard = "GB50545-2010";
         public String SelectedStandard {
             get
             {
@@ -77,40 +76,17 @@ namespace TowerLoadCals.Modules
             InitializeData((string)parameter);
         }
 
-        private void InitializeData(string towerType)
+        protected override void  InitializeData(string towerName)
         {
+            base.InitializeData(towerName);
 
-            var globalInfo = GlobalInfo.GetInstance();
-            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerType);
+            var template = struCalsParas.Template;
+            LineParas = new ObservableCollection<StruLineParas>(struCalsParas.LineParas);
 
-            if (index < 0)
-                return;
-
-            var template = globalInfo.StruCalsParas[index].Template;
-            LineParas = new ObservableCollection<StruLineParas>(globalInfo.StruCalsParas[index].LineParas);
-
-            BaseParas = globalInfo.StruCalsParas[index].BaseParas;
+            BaseParas = struCalsParas.BaseParas;
             SelectedStandard = BaseParas.SelectedStandard;
         }
 
-        public void Save()
-        {
-            var ssss = BaseParas.IsMethod1Selected;
-        }
 
-        public void UpDateView(string para1, string para2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DelSubItem(string itemName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetTowerType()
-        {
-            return TowerTypeStringConvert.TowerTypeToString(BaseParas.Type);
-        }
     }
 }

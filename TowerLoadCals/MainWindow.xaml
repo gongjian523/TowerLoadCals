@@ -248,7 +248,7 @@
                                             <Setter Property="GlyphPosition" Value="Left" />
                                             <Setter Property="HorizontalContentAlignment" Value="Left" />
                                             <Setter Property="ExpandButtonPosition" Value="Right" />
-                                            <Setter Property="Command" Value="{Binding Command}" />
+                                            <Setter Property="Command" Value="{Binding Command2}" />
                                             <Setter Property="CommandParameter" Value="{Binding}" />
                                             <Setter Property="ContextMenu">
                                                 <Setter.Value>

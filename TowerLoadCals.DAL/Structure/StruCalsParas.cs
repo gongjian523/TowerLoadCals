@@ -25,12 +25,10 @@ namespace TowerLoadCals.DAL
 
 
         //此构造函数用于从配置文件中获取已经保存的塔位参数，所有参数都来做保存文件
-        public StruCalsParas(string towerName, string electricalLaodFilePath, string templatePath, string parasSavedFilePath)
+        public StruCalsParas(string towerName, string electricalLaodFilePath, string templatePath, StruCalsParas temp)
         {
             TowerName = towerName;
             ElectricalLoadFilePath = electricalLaodFilePath;
-
-            StruCalsParas temp = XmlUtils.Deserializer<StruCalsParas>(parasSavedFilePath);
 
             BaseParas = temp.BaseParas;
             LineParas = temp.LineParas;
@@ -40,11 +38,15 @@ namespace TowerLoadCals.DAL
         }
 
         //此构造函数用于新增塔位，线条相关的初始化信息主要来自于Template，
-        public StruCalsParas(string towerName, string towerType, string electricalLaodFilePath, string templatePath, out string decodeTemolateStr)
+        public StruCalsParas(string towerName, string towerType,  string templatePath, string electricalLaodFilePath, out string decodeTemolateStr)
         {
             decodeTemolateStr = "";
 
             TowerName = towerName;
+
+            TemplatePath = templatePath;
+            TemplateName = templatePath.Substring(templatePath.LastIndexOf('/')+1);
+
             ElectricalLoadFilePath = electricalLaodFilePath;
 
             BaseParas = new FormulaParas() {
@@ -75,6 +77,16 @@ namespace TowerLoadCals.DAL
 
         public String TowerName { get; set; }
 
+        /// <summary>
+        /// 工况模块的路径，只是在新加入塔位，保存不在工程目录下的模块路径
+        /// </summary>
+        [XmlIgnore]
+        public String TemplatePath { get; set; }
+
+        [XmlAttribute]
+        public String TemplateName { get; set; }
+
+        [XmlIgnore]
         public String ElectricalLoadFilePath { get; set; }
 
         [XmlIgnore]

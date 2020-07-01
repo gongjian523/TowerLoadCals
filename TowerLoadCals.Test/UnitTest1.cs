@@ -2604,7 +2604,21 @@ namespace TowerLoadCals.Test
 
         }
 
-    }
+        [TestMethod]
+        public void TestMethod10_CreatProjectConfigFile()
+        {
+            ProjectUtils pro = ProjectUtils.GetInstance();
 
+            pro.CreateProject();
+
+            pro.InsertStrucTowerNames(new List<string>(){ "tower1", "tower2", "tower3", "tower5"});
+            pro.InsertStrucTowerName("tower4");
+
+            pro.DeleteStrucTowerName("tower5");
+            pro.DeleteStrucTowerNames(new List<string>() { "tower1", "tower3" });
+
+        }
+
+    }
 
 }

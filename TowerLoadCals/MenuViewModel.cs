@@ -51,7 +51,7 @@ namespace TowerLoadCals
             navigationService.Navigate(Type, parameter, parent);
         }
 
-        public virtual IEnumerable<MenuItemVM> MenuItems { get; set; }
+        public virtual List<MenuItemVM> MenuItems { get; set; }
 
         public virtual MenuItemVM SelectedMenuItem { get; set; }
 
@@ -142,19 +142,12 @@ namespace TowerLoadCals
             if (openTableDialog.ShowDialog() != true)
                 return;
 
-            //string file = openTemplateDialog.FileName.Substring(openTemplateDialog.FileName.Length - 3) + "dat";
-
-            //DES.DesDecrypt(openTemplateDialog.FileName, file, "12345678");
-
             TowerType type = TowerTypeStringConvert.TowerStringToType(((MenuItemVM)menu).Title);
-
-            //TowerTemplateReader templateReader = new TowerTemplateReader(type);
-            //TowerTemplate template = templateReader.Read(file);
 
             var globalInfo = GlobalInfo.GetInstance();
             int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == ((MenuItemVM)menu).Title);
 
-            StruCalsParas paras = new StruCalsParas(((MenuItemVM)menu).Title, ((MenuItemVM)menu).Title, openTableDialog.FileName, openTemplateDialog.FileName, out string decodeTremplateStr);
+            StruCalsParas paras = new StruCalsParas(((MenuItemVM)menu).Title, ((MenuItemVM)menu).Title, openTemplateDialog.FileName, openTableDialog.FileName, out string decodeTremplateStr);
 
             if (index <  0)
             {

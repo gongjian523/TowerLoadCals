@@ -1,27 +1,51 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.IO;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using TowerLoadCals.DAL;
+using TowerLoadCals.Common;
+using TowerLoadCals.Mode;
 
-namespace TowerLoadCals.Common.Utils
+namespace TowerLoadCals.BLL
 {
     public class ProjectUtils
     {
+        private static ProjectUtils singleton;
+
+        private static readonly object locker = new object();
+
         public string ProjectPath { get; set; }
+        public string ProjectName { get; set; }
+        protected string ConfigFilePath { get; set; }
 
-        protected GlobalInfo globalInfo;
+        protected GlobalInfo globalInfo = GlobalInfo.GetInstance();
 
-        public ProjectUtils()
+        public static ProjectUtils GetInstance()
         {
-            globalInfo = GlobalInfo.GetInstance();
+            if (singleton == null)
+            {
+                lock (locker)
+                {
+                    if (singleton == null)
+                    {
+                        singleton = new ProjectUtils();
+                    }
+                }
+            }
+            return singleton;
+        }
+
+        private ProjectUtils()
+        {
+
         }
 
         public bool CreateProject()
         {
             var saveFileDialog = new SaveFileDialog()
             {
-                Filter = "Dat Files (*.dat)|*.dat",
+                Filter = "Dat Files (*.lcp)|*.lcp",
             };
 
             var result = saveFileDialog.ShowDialog();
@@ -32,43 +56,30 @@ namespace TowerLoadCals.Common.Utils
             String strDir = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 1 - saveFileDialog.SafeFileName.Length);
             string prejectName = saveFileDialog.SafeFileName.Substring(0, saveFileDialog.SafeFileName.Length - 4);
 
-            System.IO.Directory.CreateDirectory(strDir);
-            System.IO.Directory.CreateDirectory(strDir + "//" + prejectName);
-            System.IO.Directory.CreateDirectory(strDir + "//" + prejectName + "//BaseData");
-            System.IO.Directory.CreateDirectory(strDir + "//" + prejectName + "//StruCals");
-
-            if (!CreateProjetcFile(strDir + "//" + prejectName + "//" + saveFileDialog.SafeFileName))
+            Directory.CreateDirectory(strDir);
+            Directory.CreateDirectory(strDir + "//" + prejectName);
+            Directory.CreateDirectory(strDir + "//" + prejectName + "//" + ConstVar.DataBaseStr);
+            Directory.CreateDirectory(strDir + "//" + prejectName + "//" + ConstVar.StruCalsStr);
+            
+            if (!ConfigFileUtils.CreateProjetcFile(strDir + "//" + prejectName + "//" + saveFileDialog.SafeFileName))
             {
                 System.Windows.Forms.MessageBox.Show("新建工程Lcp文件失败");
+                Directory.Delete(strDir, true);
+
                 return false;
             }
 
-            globalInfo.ProjectPath = strDir + "//" + prejectName;
+            ProjectPath = strDir + "//" + prejectName;
+            ProjectName = prejectName;
+
+            ConfigFilePath = strDir + "//" + prejectName + "//" + saveFileDialog.SafeFileName;
+
+            globalInfo.ProjectPath = ProjectPath;
             globalInfo.ProjectName = prejectName;
 
             return true;
         }
 
-        protected bool CreateProjetcFile(string path)
-        {
-            XmlDocument doc = new XmlDocument();
-
-            XmlNode decNode = doc.CreateXmlDeclaration("1.0", "UTF-8", "");
-            doc.AppendChild(decNode);
-
-            XmlNode xmlNode = doc.CreateElement("Project");
-            doc.AppendChild(xmlNode);
-
-            XmlNode nodeBaseData = doc.CreateElement("BaseData");
-            xmlNode.AppendChild(nodeBaseData);
-
-            XmlNode nodeStruCals = doc.CreateElement("StruCals");
-            xmlNode.AppendChild(nodeStruCals);
-
-            doc.Save(path);
-
-            return true;
-        }
 
         public void  AddFileToProject(string module,string file)
         {
@@ -87,16 +98,27 @@ namespace TowerLoadCals.Common.Utils
             if (result != true)
                 return false;
 
-            String strDir = openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 1 - openFileDialog.SafeFileName.Length);
+            ConfigFilePath = openFileDialog.FileName;
 
-            string prejectName = openFileDialog.SafeFileName.Substring(0, openFileDialog.SafeFileName.Length - 4);
+            ProjectPath = openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 1 - openFileDialog.SafeFileName.Length);
+            ProjectName = openFileDialog.SafeFileName.Substring(0, openFileDialog.SafeFileName.Length - 4);
 
-            globalInfo.ProjectPath = strDir;
-            globalInfo.ProjectName = prejectName;
+            globalInfo.ProjectPath = ProjectPath;
+            globalInfo.ProjectName = ProjectName;
 
             return true;
         }
 
+
+        #region 结构计算 塔位相关函数
+        /// <summary>
+        /// 将新增的塔位参数添加的GlobalInfo中
+        /// </summary>
+        /// <param name="towerName"></param>
+        /// <param name="towerType"></param>
+        /// <param name="templatePath"></param>
+        /// <param name="electricalLoadFilePath"></param>
+        /// <returns></returns>
         public static bool NewStruCalsTower(string towerName, string towerType, string templatePath, string electricalLoadFilePath)
         {
             var struCalsParas = GlobalInfo.GetInstance().StruCalsParas;
@@ -120,5 +142,99 @@ namespace TowerLoadCals.Common.Utils
             return true;
         }
 
+        /// <summary>
+        /// 在结构计算的参数的保存文件读取参数，并保存在GlobalInfo中
+        /// </summary>
+        /// <param name="name"></param>
+        public void ReadStruCalsTowerParas(string name)
+        {
+            string electricalLaodFilePath = ProjectPath + "//" + name + "//" + ConstVar.StruCalsElecLoadFileName;
+
+            string parasSavedFilePath = ProjectPath + "//" + name + "//" + ConstVar.StruCalsParasFileName;
+            StruCalsParas temp = XmlUtils.Deserializer<StruCalsParas>(parasSavedFilePath);
+
+            if (temp == null || temp == default(StruCalsParas))
+                return;
+
+            string templatePath = ProjectPath + "//" + name + "//" + temp.TemplateName;
+
+            StruCalsParas paras = new StruCalsParas(name, electricalLaodFilePath, templatePath, temp);
+
+            GlobalInfo.GetInstance().StruCalsParas.Add(paras);
+        }
+
+        public void SaveStruCalsTower(List<string> towers = null)
+        {
+            List<StruCalsParas> towerParas;
+            
+            if(towers == null || towers.Count == 0)
+            {
+                towerParas = globalInfo.StruCalsParas;
+            }
+            else
+            {
+                towerParas = globalInfo.StruCalsParas.Where(item => towers.Contains(item.TowerName)).ToList();
+            }
+
+
+            List<string> savedToewer = GetAllStrucTowerNames();
+
+            foreach(var item in towerParas)
+            {
+                string dirPath = ProjectPath + "//" + ConstVar.StruCalsStr + "//" + item.TowerName;
+
+                //配置文件中没有保存新建的塔位：
+                //1 把模板和电气荷载文件复制到工程文件下
+                //2 把塔位加入到配置文件中
+                if (!savedToewer.Contains(item.TowerName))
+                {
+                    string templatePath = dirPath + "//" + item.TemplateName;
+                    string elecLoadFilePath = dirPath + "//" + ConstVar.StruCalsElecLoadFileName;
+
+                    if (Directory.Exists(dirPath))
+                        Directory.CreateDirectory(dirPath);
+
+                    if (File.Exists(templatePath))
+                        File.Delete(templatePath);
+                    File.Copy(item.TemplatePath, templatePath);
+                    if (File.Exists(elecLoadFilePath))
+                        File.Delete(elecLoadFilePath);
+                    File.Copy(item.ElectricalLoadFilePath, elecLoadFilePath);
+
+                    InsertStrucTowerName(item.TowerName);
+                }
+
+                XmlUtils.Serializer(dirPath + "//" + ConstVar.StruCalsParasFileName, item);
+            }
+
+        }
+
+
+        public List<string> GetAllStrucTowerNames()
+        {
+            return ConfigFileUtils.GetAllStrucTowerNames(ConfigFilePath);
+        }
+
+        public bool InsertStrucTowerName(string towerName)
+        {
+            return ConfigFileUtils.InsertStrucTowerNames(ConfigFilePath, new List<String> { towerName });
+        }
+
+        public bool InsertStrucTowerNames(List<string> towerNames)
+        {
+            return ConfigFileUtils.InsertStrucTowerNames(ConfigFilePath, towerNames);
+        }
+
+        public bool DeleteStrucTowerName(string towerName)
+        {
+            return ConfigFileUtils.DeleteStrucTowerNames(ConfigFilePath, new List<String> { towerName });
+        }
+
+        public bool DeleteStrucTowerNames(List<string> towerNames)
+        {
+            return ConfigFileUtils.DeleteStrucTowerNames(ConfigFilePath, towerNames);
+        }
+
+        #endregion
     }
 }

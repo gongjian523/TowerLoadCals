@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using TowerLoadCals.Common.Utils;
 using System.Windows.Input;
-
+using TowerLoadCals.BLL;
 
 namespace TowerLoadCals.Modules
 {
@@ -126,25 +126,28 @@ namespace TowerLoadCals.Modules
             ElectricalLoadFilePath = openTemplateDialog.FileName;
         }
 
-        public event EventHandler Closed;
+        //public event EventHandler Closed;
+
+        public delegate void NewStruCalsTowerHandler(object sender, string strNewTowerName);
+        public event NewStruCalsTowerHandler NewStruCalsTowerEvent;
 
         public void onConfirm()
         {
             if(ProjectUtils.NewStruCalsTower(TowerName, TowerType, TemplatePath, ElectricalLoadFilePath))
             {
-                close();
+                close(TowerName);
             }
         }
 
         public void onConcel()
         {
-            close();
+            close("");
         }
 
-        protected void close()
+        protected void close(string strNewTowerName)
         {
-            if (Closed != null)
-                Closed(this, EventArgs.Empty);
+            if (NewStruCalsTowerEvent != null)
+                NewStruCalsTowerEvent(this, strNewTowerName);
         }
 
         //IMessageBoxService MessageBoxService { get { return GetService<IMessageBoxService>(); } }
