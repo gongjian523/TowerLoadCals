@@ -335,7 +335,20 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        protected bool _IsMethod1Selected = true;
         [XmlAttribute]
-        public bool IsMethod1Selected { get; set; }
+        public bool IsMethod1Selected
+        {
+            get
+            {
+                return _IsMethod1Selected;
+            }
+            set
+            {
+                _IsMethod1Selected = value;
+                RaisePropertyChanged("IsMethod1Selected");
+            }
+        }
+
     }
 }

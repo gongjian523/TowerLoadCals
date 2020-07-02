@@ -74,11 +74,15 @@
     <Compile Include="Structure\HangingPointParas.cs" />
     <Compile Include="Structure\HangingPointSettingParas.cs" />
     <Compile Include="Structure\LoadDic.cs" />
+    <Compile Include="Structure\StruCalsLibBaseParas.cs" />
+    <Compile Include="Structure\StruCalsLibIceCoverParas.cs" />
+    <Compile Include="Structure\StruCalsLibWireExtraLoadParas.cs" />
     <Compile Include="Structure\StruCalsResult.cs" />
     <Compile Include="Structure\StruCalsDicComposrInfo.cs" />
     <Compile Include="Structure\StruCalsDicGroup.cs" />
     <Compile Include="Structure\StruCalsDicOption.cs" />
     <Compile Include="Structure\StruCalsPointLoad.cs" />
+    <Compile Include="Structure\StruCalsLib.cs" />
     <Compile Include="Structure\StruLineParas.cs" />
     <Compile Include="Structure\TowerTemplate.cs" />
     <Compile Include="Common\WorkCondition.cs" />

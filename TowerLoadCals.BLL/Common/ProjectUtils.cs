@@ -111,6 +111,23 @@ namespace TowerLoadCals.BLL
 
 
         #region 结构计算 塔位相关函数
+
+        /// <summary>
+        /// 在结构计算的参数库的保存文件读取参数，并保存在GlobalInfo中
+        /// </summary>
+        /// <param name="name"></param>
+        public void ReadStruCalsLibParas()
+        {
+            string path = Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.StruCalsLibFileName;
+
+            StruCalsLib paras = XmlUtils.Deserializer<StruCalsLib>(path);
+
+            if (paras == null || paras == default(StruCalsLib))
+                return;
+
+            GlobalInfo.GetInstance().StruCalsLibParas = paras;
+        }
+
         /// <summary>
         /// 将新增的塔位参数添加的GlobalInfo中
         /// </summary>

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace TowerLoadCals.Modules
 {
     /// <summary>
-    /// BaseDataLibModule.xaml 的交互逻辑
+    /// IceCoverLibModule.xaml 的交互逻辑
     /// </summary>
-    public partial class BaseDataLibModule : UserControl
+    public partial class StruCalsLibIceCoverModule : UserControl
     {
-        public BaseDataLibModule()
+        public StruCalsLibIceCoverModule()
         {
             InitializeComponent();
         }

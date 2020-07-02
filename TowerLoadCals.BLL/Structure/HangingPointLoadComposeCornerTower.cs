@@ -20,8 +20,6 @@ namespace TowerLoadCals.BLL
 
         protected TowerTemplate towerTemplate = new TowerTemplate();
 
-        protected int pointNum = 0;
-
         //工况号
         protected int iIndex = 0;
 

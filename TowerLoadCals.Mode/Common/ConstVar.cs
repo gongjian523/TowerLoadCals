@@ -21,6 +21,11 @@ namespace TowerLoadCals.Mode
             get { return "电气负荷.xlsx"; }
         }
 
+        public static string StruCalsLibFileName
+        {
+            get { return "StruCalsParasLib.xml"; }
+        }
+
         public static string DataBaseStr
         {
             get { return "BaseData"; }
@@ -29,6 +34,11 @@ namespace TowerLoadCals.Mode
         public static string StruCalsStr
         {
             get { return "StruCals"; }
+        }
+
+        public static string UserDataStr
+        {
+            get { return "UserData"; }
         }
     }
 }

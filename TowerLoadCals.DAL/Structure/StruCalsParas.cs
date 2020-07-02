@@ -35,6 +35,8 @@ namespace TowerLoadCals.DAL
             HPSettingsParas = temp.HPSettingsParas;
 
             DecodeTemplate(BaseParas.Type, templatePath);
+
+            ResultPointLoad = new List<StruCalsPointLoad>();
         }
 
         //此构造函数用于新增塔位，线条相关的初始化信息主要来自于Template，

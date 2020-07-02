@@ -18,7 +18,7 @@ namespace TowerLoadCals.Common
             if (File.Exists(filePath))
                 File.Delete(filePath);
 
-                if (!string.IsNullOrWhiteSpace(filePath) && sourceObj != null)
+            if (!string.IsNullOrWhiteSpace(filePath) && sourceObj != null)
             {
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {

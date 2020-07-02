@@ -182,6 +182,13 @@ namespace TowerLoadCals
 
             GlobalInfo globalInfo = GlobalInfo.GetInstance();
 
+            //StruCalsParas中塔位数据，是在点击这个塔位的页面后才加载的GlobalInfo中，
+            //下面代码针对的是，没有打开这个塔位的页面而直接进行计算的情况
+            if (globalInfo.StruCalsParas.Where(item => item.TowerName == ((MenuItemVM)menu).Title).Count() <= 0)
+            {
+                ProjectUtils.GetInstance().ReadStruCalsTowerParas(((MenuItemVM)menu).Title);
+            }
+
             StruCalsParas paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((MenuItemVM)menu).Title).First();
             if (paras == null)
                 return;
@@ -194,15 +201,15 @@ namespace TowerLoadCals
             {
                 LoadComposeBase loadCompose;
 
-                if (((MenuItemVM)menu).Title == "直线塔")
+                if (paras.BaseParas.Type == TowerType.LineTower)
                 {
                     loadCompose = new LoadComposeLineTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
                 }
-                else if (((MenuItemVM)menu).Title == "直转塔")
+                else if (paras.BaseParas.Type == TowerType.LineCornerTower)
                 {
                     loadCompose = new LoadComposeLineCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
                 }
-                //else if (((MenuItemVM)menu).Title == "转角塔")
+                //剩下的都属于耐张塔
                 else
                 {
                     loadCompose = new LoadComposeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);

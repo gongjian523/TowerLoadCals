@@ -17,7 +17,7 @@ namespace TowerLoadCals.Modules
 
         public virtual void Save()
         {
-            ProjectUtils.GetInstance().SaveStruCalsTower(new List<string> { TowerName });
+            ProjectUtils.GetInstance().SaveStruCalsTower();
         }
 
         public virtual void UpDateView(string para1, string para2)

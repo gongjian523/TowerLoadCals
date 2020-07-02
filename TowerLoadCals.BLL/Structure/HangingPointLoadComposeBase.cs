@@ -20,8 +20,6 @@ namespace TowerLoadCals.BLL
 
         protected TowerTemplate towerTemplate = new TowerTemplate();
 
-        protected int pointNum = 0;
-
         //工况号
         protected int iIndex = 0;
 
@@ -170,7 +168,7 @@ namespace TowerLoadCals.BLL
             else
             // 针对地线（常规、悬臂）; 导线-I串: 吊装
             {
-                for (int k = 0; k < pointNum; k++)
+                for (int k = 0; k < pointParas.PointNum; k++)
                 {
                     GetPointProportionAndLoad(dicComposeInfo[k], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 

@@ -35,5 +35,17 @@ namespace TowerLoadCals.BLL
         public string ProjectName { get; set; }
 
         public List<StruCalsParas> StruCalsParas { get; set; }
+
+        public StruCalsLib StruCalsLibParas { get; set; }
+
+        public StruCalsLib GetStruCalsLibParas()
+        {
+            if( StruCalsLibParas == null )
+            {
+                ProjectUtils.GetInstance().ReadStruCalsLibParas();
+            }
+
+            return StruCalsLibParas;
+        }
     }
 }

@@ -111,6 +111,9 @@
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\AccordionItem.cs" />
     <Compile Include="ModulesViewModels\Band.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruCalsLibBaseDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruCalsLibExtralLoadViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruCalsLibIceCoverModuleV.cs" />
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
@@ -124,14 +127,14 @@
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
-    <Compile Include="Modules\BaseData\BaseDataLibModule.xaml.cs">
-      <DependentUpon>BaseDataLibModule.xaml</DependentUpon>
+    <Compile Include="Modules\BaseData\StruCalsLibBaseDataModule.xaml.cs">
+      <DependentUpon>StruCalsLibBaseDataModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\BaseData\IceCoverLibModule.xaml.cs">
-      <DependentUpon>IceCoverLibModule.xaml</DependentUpon>
+    <Compile Include="Modules\BaseData\StruCalsLibIceCoverModule.xaml.cs">
+      <DependentUpon>StruCalsLibIceCoverModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\BaseData\ExtralLoadLibModule.xaml.cs">
-      <DependentUpon>ExtralLoadLibModule.xaml</DependentUpon>
+    <Compile Include="Modules\BaseData\StruCalsLibExtralLoadModule.xaml.cs">
+      <DependentUpon>StruCalsLibExtralLoadModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\StruCals\NewStruCalsTowerWindow.xaml.cs">
       <DependentUpon>NewStruCalsTowerWindow.xaml</DependentUpon>
@@ -146,15 +149,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\BaseData\BaseDataLibModule.xaml">
+    <Page Include="Modules\BaseData\StruCalsLibBaseDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\BaseData\IceCoverLibModule.xaml">
+    <Page Include="Modules\BaseData\StruCalsLibIceCoverModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\BaseData\ExtralLoadLibModule.xaml">
+    <Page Include="Modules\BaseData\StruCalsLibExtralLoadModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -527,6 +530,11 @@
     <Resource Include="Images\Menu_tower.png" />
     <Resource Include="Images\Menu_weather.png" />
     <Resource Include="Images\Menu_wire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UserData\StruCalsParasLib.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
