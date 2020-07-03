@@ -2,23 +2,32 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:local="clr-namespace:TowerLoadCals.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StruCalsLibExtralLoadViewModel}}">
     <Grid>
-        <dxg:GridControl Margin="8,0" ItemsSource="{Binding SelectedItems}">
-            <dxg:GridControl.View>
-                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+        <Grid.Resources>
+            <DataTemplate x:Key="HeaderTemplate" >
+                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"/>
+            </DataTemplate>
+        </Grid.Resources>
+        <dxg:GridControl Margin="8,0" ItemsSource="{Binding WireExtraLoadParas}"  >
+            <dxg:GridControl.View  >
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}" />
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Name"  Header="电压等级(kv)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Value"  Header="安装重要性系数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Index"  Header="其他重要性系数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Name"  Header="直线塔地线附加荷载" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Value"  Header="直线塔导线附加荷载" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Index"  Header="耐张塔导线附加荷载" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Name"  Header="耐张塔跳线附加荷载" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="Voltage"  Header="电压等级(kv)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="InstallImportanceCoef"  Header="安装重要性系数" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="OtherImportanceCoef"  Header="其他重要性系数" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="OverhangingTowerEarthWireExtraLoad"   Header="悬垂塔地线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="OverhangingTowerWireExtraLoad"  Header="悬垂塔导线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="TensionTowerEarthWireExtraLoad"  Header="耐张塔地线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="TensionTowerWireExtraLoad"  Header="耐张塔导线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="TensionTowerJumperWireExtraLoad"  Header="耐张塔跳线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

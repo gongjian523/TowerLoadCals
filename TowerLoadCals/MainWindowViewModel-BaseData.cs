@@ -69,13 +69,13 @@ namespace TowerLoadCals
             var struCalsLibMenu = new MenuItemVM("", this, "结构计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             struCalsLibMenu.SetIcon("Menu_para.png");
             var struCalsLibSubList = new List<MenuItemVM>() { };
-            var baseDataLibMenu = new MenuItemVM("BaseDataLibModule", this, "  基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var baseDataLibMenu = new MenuItemVM("StruCalsLibBaseDataModule", this, "  基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             baseDataLibMenu.ParentNode = struCalsLibMenu;
             struCalsLibSubList.Add(baseDataLibMenu);
-            var extralLoadLibMenu = new MenuItemVM("ExtralLoadLibModule", this, "  附加荷载库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var extralLoadLibMenu = new MenuItemVM("StruCalsLibExtralLoadModule", this, "  附加荷载库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             extralLoadLibMenu.ParentNode = struCalsLibMenu;
             struCalsLibSubList.Add(extralLoadLibMenu);
-            var IceCoverLibModule = new MenuItemVM("IceCoverLibModule", this, "  覆冰参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var IceCoverLibModule = new MenuItemVM("StruCalsLibIceCoverModule", this, "  覆冰参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             IceCoverLibModule.ParentNode = struCalsLibMenu;
             struCalsLibSubList.Add(IceCoverLibModule);
             struCalsLibMenu.ChildItems = struCalsLibSubList;

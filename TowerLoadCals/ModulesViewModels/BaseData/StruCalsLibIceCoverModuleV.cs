@@ -4,7 +4,7 @@ using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.Modules
 {
-    class StruCalsLibIceCoverModuleVodel
+    public class StruCalsLibIceCoverModuleVodel
     {
         public ObservableCollection<StruCalsLibIceCoverParas> IceCoverParas { get; set; }
 

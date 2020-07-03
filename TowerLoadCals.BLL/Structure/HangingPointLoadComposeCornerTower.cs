@@ -29,6 +29,7 @@ namespace TowerLoadCals.BLL
         protected string orientation;
 
         protected string wireType;
+        protected WorkConditionCombo wd;
 
         protected float[,] lineLoad;
 
@@ -62,6 +63,7 @@ namespace TowerLoadCals.BLL
             towerTemplate = template;
 
             wireType = towerTemplate.Wires[i];
+            wd = towerTemplate.WorkConditionCombos[j];
 
             StruCalsDicGroup dicGroup = new StruCalsDicGroup();
 
@@ -108,84 +110,137 @@ namespace TowerLoadCals.BLL
             //V串
             if (pointParas.StringType != null &&  pointParas.StringType.Contains("V"))
             {
-                VStringParas vParas = ratioParas.VStrings.Where(item => item.Index == pointParas.StringType).First();
-
-                VStringCompose vStringCompose = new VStringCompose(vParas.L1, vParas.L2, vParas.H1, vParas.H2, vParas.StressLimit, xLineLoad[jIndex, iIndex], yLineLoad[jIndex, iIndex], zLineLoad[jIndex, iIndex]);
-
-                for(int kl = 0; kl < points.Count(); kl++)
+                //跳跃脱冰工况
+                if (wd.WorkConditionCode == "T" && wd.WireIndexCodes[iIndex] > 10)
                 {
-                    if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
-                        continue;
-
-                    int pointIndex = Convert.ToInt16(points[kl].Substring(1)) -1;
-
-                    GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
-
-                    if(orientation == "X")
+                    if (!wireType.Contains("右"))
                     {
-                        laod = vStringCompose.VCX1 * proportion;
-                    }
-                    else if(orientation == "Y")
-                    {
-                        laod = vStringCompose.VCY1 * proportion;
+                        //左边和中间的导线，获取左侧挂点
+                        for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
+                        {
+                            int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+
+                            GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+
+                            resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+
+                            resList.Add(new StruCalsPointLoad()
+                            {
+                                Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                                Wire = wireType,
+                                WorkConditionId = jIndex,
+                                Orientation = orientation,
+                                Proportion = proportion,
+                                Load = laod,
+                                HPSettingName = ratioParas.HangingPointSettingName,
+                            });
+                        }
                     }
                     else
                     {
-                        laod = vStringCompose.VCZ1 * proportion;
+                        for (int kr = 0; kr < option.RightPoints.Count(); kr++)
+                        {
+                            int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+
+                            GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+
+                            resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+
+                            resList.Add(new StruCalsPointLoad()
+                            {
+                                Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                                Wire = wireType,
+                                WorkConditionId = jIndex,
+                                Orientation = orientation,
+                                Proportion = proportion,
+                                Load = laod,
+                                HPSettingName = ratioParas.HangingPointSettingName,
+                            });
+                        }
                     }
-
-                    resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
-
-                    resList.Add(new StruCalsPointLoad()
-                    {
-                        Name = Convert.ToInt16(pointParas.Points[pointIndex]),
-                        Wire = wireType,
-                        WorkConditionId = jIndex,
-                        Orientation = orientation,
-                        Proportion = proportion,
-                        Load = laod,
-                        HPSettingName = ratioParas.HangingPointSettingName,
-                    });
                 }
-
-                for(int kr = 0; kr < points.Count(); kr++)
+                else
                 {
-                    if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
-                        continue;
+                    VStringParas vParas = ratioParas.VStrings.Where(item => item.Index == pointParas.StringType).First();
 
-                    int pointIndex = Convert.ToInt16(points[kr].Substring(1)) - 1;
+                    VStringCompose vStringCompose = new VStringCompose(vParas.L1, vParas.L2, vParas.H1, vParas.H2, vParas.StressLimit, xLineLoad[jIndex, iIndex], yLineLoad[jIndex, iIndex], zLineLoad[jIndex, iIndex]);
 
-                    GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
-
-                    if (orientation == "X")
+                    for (int kl = 0; kl < points.Count(); kl++)
                     {
-                        laod = vStringCompose.VCX2 * proportion;
+                        if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
+                            continue;
+
+                        int pointIndex = Convert.ToInt16(points[kl].Substring(1)) - 1;
+
+                        GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+
+                        if (orientation == "X")
+                        {
+                            laod = vStringCompose.VCX1 * proportion;
+                        }
+                        else if (orientation == "Y")
+                        {
+                            laod = vStringCompose.VCY1 * proportion;
+                        }
+                        else
+                        {
+                            laod = vStringCompose.VCZ1 * proportion;
+                        }
+
+                        resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+
+                        resList.Add(new StruCalsPointLoad()
+                        {
+                            Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                            Wire = wireType,
+                            WorkConditionId = jIndex,
+                            Orientation = orientation,
+                            Proportion = proportion,
+                            Load = laod,
+                            HPSettingName = ratioParas.HangingPointSettingName,
+                        });
                     }
-                    else if (orientation == "Y")
+
+                    for (int kr = 0; kr < points.Count(); kr++)
                     {
-                        laod = vStringCompose.VCY2 * proportion;
-                    }
-                    else
-                    {
-                        laod = vStringCompose.VCZ2 * proportion;
+                        if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
+                            continue;
+
+                        int pointIndex = Convert.ToInt16(points[kr].Substring(1)) - 1;
+
+                        GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
+
+                        if (orientation == "X")
+                        {
+                            laod = vStringCompose.VCX2 * proportion;
+                        }
+                        else if (orientation == "Y")
+                        {
+                            laod = vStringCompose.VCY2 * proportion;
+                        }
+                        else
+                        {
+                            laod = vStringCompose.VCZ2 * proportion;
+                        }
+
+                        resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+
+                        resList.Add(new StruCalsPointLoad()
+                        {
+                            Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                            Wire = wireType,
+                            WorkConditionId = jIndex,
+                            Orientation = orientation,
+                            Proportion = proportion,
+                            Load = laod,
+                            HPSettingName = ratioParas.HangingPointSettingName,
+                        });
                     }
 
-                    resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
-
-                    resList.Add(new StruCalsPointLoad()
-                    {
-                        Name = Convert.ToInt16(pointParas.Points[pointIndex]),
-                        Wire = wireType,
-                        WorkConditionId = jIndex,
-                        Orientation = orientation,
-                        Proportion = proportion,
-                        Load = laod,
-                        HPSettingName = ratioParas.HangingPointSettingName,
-                    });
+                    resStr = resStr + "     V串    左侧" + vStringCompose.VCX1.ToString("0.00").PadLeft(10) + vStringCompose.VCY1.ToString("0.00").PadLeft(10) + vStringCompose.VCZ1.ToString("0.00").PadLeft(10);
+                    resStr = resStr + "    右侧" + vStringCompose.VCX2.ToString("0.00").PadLeft(10) + vStringCompose.VCY2.ToString("0.00").PadLeft(10) + vStringCompose.VCZ2.ToString("0.00").PadLeft(10);
                 }
 
-                resStr = resStr + "     V串    左侧" + vStringCompose.VCX1.ToString("0.00").PadLeft(10) + vStringCompose.VCY1.ToString("0.00").PadLeft(10) + vStringCompose.VCZ1.ToString("0.00").PadLeft(10);
-                resStr = resStr + "    右侧" + vStringCompose.VCX2.ToString("0.00").PadLeft(10) + vStringCompose.VCY2.ToString("0.00").PadLeft(10) + vStringCompose.VCZ2.ToString("0.00").PadLeft(10);
             }
             else
             {

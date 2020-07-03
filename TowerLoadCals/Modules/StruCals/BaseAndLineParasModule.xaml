@@ -264,15 +264,15 @@
                     </dxg:TableView.RowCellMenuCustomizations>
                 </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" AllowEditing="false">
+            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" AllowEditing="false" >
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-            <dxg:GridColumn FieldName="WireType"  Header="说明" HorizontalHeaderContentAlignment="Center"  AllowEditing="false"/>
-            <dxg:GridColumn FieldName="TstringNum"  Header="跳串数目" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="WireExtraLoad"  Header="线条附荷" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="TwireExtraLoad"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="WireType"  Header="说明" HorizontalHeaderContentAlignment="Center"  AllowEditing="false" />
+            <dxg:GridColumn FieldName="TstringNum"  Header="跳串数目" HorizontalHeaderContentAlignment="Center"  />
+            <dxg:GridColumn FieldName="WireExtraLoad"  Header="线条附荷" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="TwireExtraLoad"  Header="跳线附荷" HorizontalHeaderContentAlignment="Center" />
             <dxg:GridColumn FieldName="AnchorTension"  Header="锚线张力" HorizontalHeaderContentAlignment="Center" />
             <dxg:GridColumn FieldName="TemporaryTension"  Header="临时拉张" HorizontalHeaderContentAlignment="Center" />
             <dxg:GridColumn FieldName="AngleMin"  Header="最小转角" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsBranchTower, Converter={StaticResource InverseBooleanConverter}}"/>
