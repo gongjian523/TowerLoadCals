@@ -43,7 +43,7 @@ namespace TowerLoadCals.Modules
 
         public TowerTemplate Template { get; set; }
 
-        public FormulaParas BaseParas { get; set; }
+        public StruCalseBaseParas BaseParas { get; set; }
 
         public WorkConditionComboViewModel()
         {

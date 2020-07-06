@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TowerLoadCals.BLL;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
@@ -21,7 +22,7 @@ namespace TowerLoadCals.Test
             if (saveFileDialog.ShowDialog() != true)
                 return;
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.LineTower;
             formulaParas.LoadRatio = 1;
@@ -253,13 +254,11 @@ namespace TowerLoadCals.Test
             };
 
 
-            XmlUtils.Serializer(saveFileDialog.FileName, new StruCalsParas(formulaParas, new List<StruLineParas>(lineParas), new List<HangingPointSettingParas> {
+            XmlUtils.Serializer(saveFileDialog.FileName, new StruCalsParasCompose(formulaParas, new List<StruLineParas>(lineParas), new List<HangingPointSettingParas> {
                 ratioParas,
             }));
 
-
-            StruCalsParas calsParas = XmlUtils.Deserializer<StruCalsParas>(saveFileDialog.FileName);
-
+            StruCalsParasCompose calsParas = XmlUtils.Deserializer<StruCalsParasCompose>(saveFileDialog.FileName);
         }
 
 

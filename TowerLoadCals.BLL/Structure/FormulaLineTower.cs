@@ -6,7 +6,7 @@ namespace TowerLoadCals.BLL
 {
     public class FormulaLineTower: FormulaTower
     {
-        public FormulaLineTower(FormulaParas paras) : base(paras)
+        public FormulaLineTower(StruCalseBaseParas paras) : base(paras)
         {
         }
 

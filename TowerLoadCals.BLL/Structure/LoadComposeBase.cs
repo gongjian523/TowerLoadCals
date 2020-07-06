@@ -15,7 +15,7 @@ namespace TowerLoadCals.BLL
         /// <summary>
         /// 从界面获取的公共参数
         /// </summary>
-        protected FormulaParas Paras { get; set; }
+        protected StruCalseBaseParas Paras { get; set; }
 
         /// <summary>
         /// 从界面获取的线参数
@@ -47,7 +47,7 @@ namespace TowerLoadCals.BLL
         protected List<string> ProcessString { get; set; }
         protected List<string> Process2String { get; set; }
 
-        public LoadComposeBase(FormulaParas para, StruLineParas[] lineParas, HangingPointSettingParas hpParas, TowerTemplate template, string tablePath)
+        public LoadComposeBase(StruCalseBaseParas para, StruLineParas[] lineParas, HangingPointSettingParas hpParas, TowerTemplate template, string tablePath)
         {
             ProcessString = new List<string>();
             Process2String = new List<string>();

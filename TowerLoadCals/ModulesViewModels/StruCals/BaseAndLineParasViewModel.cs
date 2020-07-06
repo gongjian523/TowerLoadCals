@@ -39,8 +39,8 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        protected FormulaParas _baseParas;
-        public FormulaParas BaseParas
+        protected StruCalseBaseParas _baseParas;
+        public StruCalseBaseParas BaseParas
         {
             get
             {

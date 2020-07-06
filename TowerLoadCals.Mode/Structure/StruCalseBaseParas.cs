@@ -3,8 +3,7 @@ using System.Xml.Serialization;
 
 namespace TowerLoadCals.Mode
 {
-    public class FormulaParas : BindableBase
-    //public class FormulaParas
+    public class StruCalseBaseParas : BindableBase
     {
         protected string _selectedStandard = "GB50545-2010";
         [XmlAttribute]

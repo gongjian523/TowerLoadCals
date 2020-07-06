@@ -23,7 +23,7 @@ namespace TowerLoadCals.BLL
 
         protected FormulaLineCornerTower formula;
 
-        public LoadComposeLineCornerTower(FormulaParas para, StruLineParas[] lineParas, HangingPointSettingParas ratioParas, TowerTemplate template, string tablePath) 
+        public LoadComposeLineCornerTower(StruCalseBaseParas para, StruLineParas[] lineParas, HangingPointSettingParas ratioParas, TowerTemplate template, string tablePath) 
             : base(para, lineParas, ratioParas, template, tablePath)
         {
             formula = new FormulaLineCornerTower(para);

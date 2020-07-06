@@ -45,7 +45,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.LineTower;
             formulaParas.LoadRatio = 1;
@@ -322,7 +322,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.LineTower;
             formulaParas.LoadRatio = 1;
@@ -592,7 +592,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.LineCornerTower;
             formulaParas.LoadRatio = 1;
@@ -830,7 +830,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.CornerTower;
             formulaParas.LoadRatio = 1;
@@ -1246,7 +1246,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.CornerTower;
             formulaParas.LoadRatio = 1;
@@ -1486,7 +1486,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.CornerTower;
             formulaParas.LoadRatio = 1;
@@ -1749,7 +1749,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.TerminalTower;
             formulaParas.LoadRatio = 1;
@@ -1986,7 +1986,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
-            FormulaParas formulaParas = new FormulaParas();
+            StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
             formulaParas.Type = TowerType.BranchTower;
             formulaParas.LoadRatio = 1;

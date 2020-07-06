@@ -5,7 +5,7 @@ namespace TowerLoadCals.BLL
 {
     public class FormulaTower
     {
-        protected FormulaParas Paras { get; set; }
+        protected StruCalseBaseParas Paras { get; set; }
 
         protected StruLineParas LineParas { get; set; }
 
@@ -15,7 +15,7 @@ namespace TowerLoadCals.BLL
             }
         }
 
-        public FormulaTower(FormulaParas paras)
+        public FormulaTower(StruCalseBaseParas paras)
         {
             Paras = paras;
         }

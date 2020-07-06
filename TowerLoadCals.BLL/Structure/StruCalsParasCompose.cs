@@ -1,22 +1,24 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using TowerLoadCals.Common;
+using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 
-namespace TowerLoadCals.DAL
+namespace TowerLoadCals.BLL
 {
-    public class StruCalsParas
+    public class StruCalsParasCompose: StruCalsParas
     {
-        public StruCalsParas()
+        public StruCalsParasCompose()
         {
 
         }
         
         //此构造函数用于单元测试
-        public StruCalsParas(FormulaParas baseParas, List<StruLineParas> lineParas, List<HangingPointSettingParas> hpSettingParas)
+        public StruCalsParasCompose(StruCalseBaseParas baseParas, List<StruLineParas> lineParas, List<HangingPointSettingParas> hpSettingParas)
         {
             BaseParas = baseParas;
             LineParas = lineParas;
@@ -25,7 +27,7 @@ namespace TowerLoadCals.DAL
 
 
         //此构造函数用于从配置文件中获取已经保存的塔位参数，所有参数都来做保存文件
-        public StruCalsParas(string towerName, string electricalLaodFilePath, string templatePath, StruCalsParas temp)
+        public StruCalsParasCompose(string towerName, string electricalLaodFilePath, string templatePath, StruCalsParasCompose temp)
         {
             TowerName = towerName;
             ElectricalLoadFilePath = electricalLaodFilePath;
@@ -40,7 +42,7 @@ namespace TowerLoadCals.DAL
         }
 
         //此构造函数用于新增塔位，线条相关的初始化信息主要来自于Template，
-        public StruCalsParas(string towerName, string towerType,  string templatePath, string electricalLaodFilePath, out string decodeTemolateStr)
+        public StruCalsParasCompose(string towerName, string towerType,  string templatePath, string electricalLaodFilePath, out string decodeTemolateStr)
         {
             decodeTemolateStr = "";
 
@@ -51,7 +53,7 @@ namespace TowerLoadCals.DAL
 
             ElectricalLoadFilePath = electricalLaodFilePath;
 
-            BaseParas = new FormulaParas() {
+            BaseParas = new StruCalseBaseParas() {
                 SelectedStandard = "GB50545-2010",
                 Type = TowerTypeStringConvert.TowerStringToType(towerType),
                 IsMethod1Selected = true
@@ -63,13 +65,10 @@ namespace TowerLoadCals.DAL
                 return;
             }
 
+            LineParas = new List<StruLineParas>();
 
-            List<StruLineParas> lineParas = new List<StruLineParas>();
-            for (int i = 0; i < Template.Wires.Count; i++)
-            {
-                lineParas.Add(new StruLineParas { Index = i + 1, WireType = Template.Wires[i] });
-            }
-            LineParas = lineParas;
+            SetDefaultValue();
+
 
             HPSettingsParas = new List<HangingPointSettingParas>();
             NewHangingPointSetting();
@@ -77,36 +76,6 @@ namespace TowerLoadCals.DAL
             ResultPointLoad = new List<StruCalsPointLoad>();
         }
 
-        [XmlAttribute]
-        public string TowerName { get; set; }
-
-        /// <summary>
-        /// 工况模块的路径，只是在新加入塔位，保存不在工程目录下的模块路径
-        /// </summary>
-        [XmlIgnore]
-        public string TemplatePath { get; set; }
-
-        [XmlAttribute]
-        public string TemplateName { get; set; }
-
-        [XmlIgnore]
-        public string ElectricalLoadFilePath { get; set; }
-
-        [XmlIgnore]
-        public TowerTemplate Template { get; set; }
-
-        // 从Template转换而来，用于WorkConditionComboModule
-        [XmlIgnore]
-        public List<WorkConditionComboSpec> WorkConditions { get; set;}
-
-        //基础参数，来自BaseAndLineParasModule
-        public FormulaParas BaseParas { get; set; }
-
-        //线参数，来自BaseAndLineParasModule
-        public List<StruLineParas> LineParas { get; set; }
-
-        //挂点参数，来自HangingPointModule
-        public List<HangingPointSettingParas> HPSettingsParas { get; set; }
 
         protected List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
         {
@@ -192,6 +161,59 @@ namespace TowerLoadCals.DAL
                 paras.TurningPoints.Add(new HangingPointParas { Index = i - numGW + 1, WireType = Template.Wires[i] });
             }
 
+
+            //配置默认参数
+            if(BaseParas.Type == TowerType.LineTower)
+            {
+                paras.GCQ = 0.5f;
+                paras.GCH = 0.5f;
+                paras.GXW = 2;
+                paras.GXN = -1;
+
+                paras.DQWQ = 0.7f;
+                paras.DQWH = 0.3f;
+                paras.DQCQ = 0.7f;
+                paras.DQCH = 0.3f;
+
+                paras.DDWQ = 0.7f;
+                paras.DDWH = 0.3f;
+                paras.DDCQ = 0.7f;
+                paras.DDCH = 0.3f;
+
+                paras.DMWQ = 0.7f;
+                paras.DMWH = 0.3f;
+                paras.DMCQ = 0.7f;
+                paras.DMCH = 0.3f;
+            }
+            else if(BaseParas.Type == TowerType.LineCornerTower)
+            {
+                paras.GCQ = 0.5f;
+                paras.GCH = 0.5f;
+                paras.GXW = 1;
+                paras.GXN = 0;
+
+                paras.DQWQ = 0.5f;
+                paras.DQWH = 0.5f;
+                paras.DQCQ = 0.5f;
+                paras.DQCH = 0.5f;
+
+                paras.DDWQ = 0.5f;
+                paras.DDWH = 0.5f;
+                paras.DDCQ = 0.5f;
+                paras.DDCH = 0.5f;
+            }
+            else
+            {
+                paras.BLTQ = 0.5f;
+                paras.BLTH = 0.5f;
+                paras.BLTZ = 0;
+
+                paras.BLDZTQ = 0.5f;
+                paras.BLDZTH = 0.5f;
+                paras.BLDZTZ = 0;
+            }
+
+
             HPSettingsParas.Add(paras);
         }
 
@@ -241,6 +263,47 @@ namespace TowerLoadCals.DAL
             return true;
         }
 
+        /// <summary>
+        /// 从配置文件中获取默认参数
+        /// </summary>
+        protected void SetDefaultValue()
+        {
+            var libParas = GlobalInfo.GetInstance().GetStruCalsLibParas();
+            if (libParas == null)
+                return;
+            
+            var config = new MapperConfiguration(x => x.CreateMap<StruCalsLibBaseParas, StruCalseBaseParas>());
+            IMapper mapper = new Mapper(config);
+
+
+
+            if (!BaseParas.IsTensionTower)
+            {
+                BaseParas = mapper.Map<StruCalseBaseParas>(libParas.OverhangingTowerBaseParas);
+            }
+            else
+            {
+                BaseParas = mapper.Map<StruCalseBaseParas>(libParas);
+            }
+
+            BaseParas.LoadRatio = 1;
+            BaseParas.R1Install = 1;
+            BaseParas.R0Normal = 1;
+
+            List<StruLineParas> lineParas = new List<StruLineParas>();
+            for (int i = 0; i < Template.Wires.Count; i++)
+            {
+                lineParas.Add(new StruLineParas()
+                {
+                    Index = i + 1,
+                    WireType = Template.Wires[i],
+                    DrawingCoef = ((!BaseParas.IsTensionTower) ? libParas.OverhangingTowerBaseParas.DrawingCoef 
+                    : libParas.TensionTowerBaseParas.DrawingCoef)
+
+                }); 
+            }
+            LineParas = lineParas;
+        }
     }
 }
 

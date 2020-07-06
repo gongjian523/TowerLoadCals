@@ -56,11 +56,11 @@ namespace TowerLoadCals.Modules
 
     public class HangingPoint:ViewModelBase,INotifyPropertyChanged
     {
-        public static HangingPoint Create(string title, StruCalsParas calsParas)
+        public static HangingPoint Create(string title, StruCalsParasCompose calsParas)
         {
             return ViewModelSource.Create(() => new HangingPoint(title, calsParas));
         }
-        protected HangingPoint(string title,  StruCalsParas calsParas)
+        protected HangingPoint(string title,  StruCalsParasCompose calsParas)
         {
             Title = title;
             Template = calsParas.Template;
@@ -164,8 +164,8 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        protected FormulaParas _baseParas;
-        public FormulaParas BaseParas
+        protected StruCalseBaseParas _baseParas;
+        public StruCalseBaseParas BaseParas
         {
             get
             {

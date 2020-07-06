@@ -27,14 +27,14 @@ namespace TowerLoadCals.BLL
 
         private GlobalInfo()
         {
-            StruCalsParas = new List<StruCalsParas>();
+            StruCalsParas = new List<StruCalsParasCompose>();
         }
 
         public string ProjectPath { get; set; }
 
         public string ProjectName { get; set; }
 
-        public List<StruCalsParas> StruCalsParas { get; set; }
+        public List<StruCalsParasCompose> StruCalsParas { get; set; }
 
         public StruCalsLib StruCalsLibParas { get; set; }
 

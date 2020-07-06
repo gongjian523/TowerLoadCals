@@ -5,7 +5,7 @@ namespace TowerLoadCals.BLL
 {
     public class FormulaCornerTower : FormulaTower
     {
-        public FormulaCornerTower(FormulaParas paras) : base(paras)
+        public FormulaCornerTower(StruCalseBaseParas paras) : base(paras)
         {
         }
 

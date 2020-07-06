@@ -13,7 +13,7 @@ namespace TowerLoadCals.Modules
     {
         public string TowerName { get; set; }
 
-        protected StruCalsParas struCalsParas;
+        protected StruCalsParasCompose struCalsParas;
 
         public virtual void Save()
         {

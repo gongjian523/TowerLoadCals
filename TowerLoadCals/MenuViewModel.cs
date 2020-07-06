@@ -146,7 +146,7 @@ namespace TowerLoadCals
             var globalInfo = GlobalInfo.GetInstance();
             int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == ((MenuItemVM)menu).Title);
 
-            StruCalsParas paras = new StruCalsParas(((MenuItemVM)menu).Title, ((MenuItemVM)menu).Title, openTemplateDialog.FileName, openTableDialog.FileName, out string decodeTremplateStr);
+            StruCalsParasCompose paras = new StruCalsParasCompose(((MenuItemVM)menu).Title, ((MenuItemVM)menu).Title, openTemplateDialog.FileName, openTableDialog.FileName, out string decodeTremplateStr);
 
             if (index <  0)
             {
@@ -189,7 +189,7 @@ namespace TowerLoadCals
                 ProjectUtils.GetInstance().ReadStruCalsTowerParas(((MenuItemVM)menu).Title);
             }
 
-            StruCalsParas paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((MenuItemVM)menu).Title).First();
+            StruCalsParasCompose paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((MenuItemVM)menu).Title).First();
             if (paras == null)
                 return;
 

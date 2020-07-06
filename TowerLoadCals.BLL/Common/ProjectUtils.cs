@@ -146,7 +146,7 @@ namespace TowerLoadCals.BLL
                 return false;
             }
 
-            StruCalsParas paras = new StruCalsParas(towerName, towerType, templatePath, electricalLoadFilePath, out string decodeTemplateStr);
+            StruCalsParasCompose paras = new StruCalsParasCompose(towerName, towerType, templatePath, electricalLoadFilePath, out string decodeTemplateStr);
 
             if(decodeTemplateStr != "")
             {
@@ -170,21 +170,21 @@ namespace TowerLoadCals.BLL
             string electricalLaodFilePath = dirPath + ConstVar.StruCalsElecLoadFileName;
 
             string parasSavedFilePath = dirPath + ConstVar.StruCalsParasFileName;
-            StruCalsParas temp = XmlUtils.Deserializer<StruCalsParas>(parasSavedFilePath);
+            StruCalsParasCompose temp = XmlUtils.Deserializer<StruCalsParasCompose>(parasSavedFilePath);
 
-            if (temp == null || temp == default(StruCalsParas))
+            if (temp == null || temp == default(StruCalsParasCompose))
                 return;
 
             string templatePath = dirPath + temp.TemplateName;
 
-            StruCalsParas paras = new StruCalsParas(name, electricalLaodFilePath, templatePath, temp);
+            StruCalsParasCompose paras = new StruCalsParasCompose(name, electricalLaodFilePath, templatePath, temp);
 
             GlobalInfo.GetInstance().StruCalsParas.Add(paras);
         }
 
         public void SaveStruCalsTower(List<string> towers = null)
         {
-            List<StruCalsParas> towerParas;
+            List<StruCalsParasCompose> towerParas;
             
             if(towers == null || towers.Count == 0)
             {

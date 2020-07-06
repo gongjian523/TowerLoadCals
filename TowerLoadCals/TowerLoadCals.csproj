@@ -149,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Style\TextViewStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Modules\BaseData\StruCalsLibBaseDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
