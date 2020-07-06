@@ -16,14 +16,14 @@ using System.Linq;
 
 namespace TowerLoadCals
 {
-    public class ModuleInfo
+    public class ModuleMenu
     {
         protected ISupportServices parent;
         protected MainWindowViewModel parentVm;
 
         public ICommand Command { get; set; }
 
-        public ModuleInfo(string _type, object parent, string _title, Action<ModuleInfo> func = null)
+        public ModuleMenu(string _type, object parent, string _title, Action<ModuleMenu> func = null)
         {
             Type = _type;
             this.parent = (ISupportServices)parent;
@@ -31,7 +31,7 @@ namespace TowerLoadCals
             Title = _title;
 
             if(func != null)
-                Command = new DelegateCommand<ModuleInfo>(func);
+                Command = new DelegateCommand<ModuleMenu>(func);
         }
         public string Type { get; protected set; }
         public virtual bool IsSelected { get; set; }
@@ -41,7 +41,7 @@ namespace TowerLoadCals
         public void SetIcon(string icon)
         {
             //一定要把image文件加入到工程中
-            Icon = ImageSourceHelper.GetImageSource(AssemblyHelper.GetResourceUri(typeof(ModuleInfo).Assembly, string.Format("Images/{0}", icon)));
+            Icon = ImageSourceHelper.GetImageSource(AssemblyHelper.GetResourceUri(typeof(ModuleMenu).Assembly, string.Format("Images/{0}", icon)));
         }
 
         public virtual void Show(object parameter = null)
@@ -50,127 +50,114 @@ namespace TowerLoadCals
             navigationService.Navigate(Type, parameter, parent);
         }
 
-        public virtual List<MenuItemVM> MenuItems { get; set; }
+        public virtual List<SubMenuBase> MenuItems { get; set; }
 
-        public virtual MenuItemVM SelectedMenuItem { get; set; }
+        public virtual SubMenuBase SelectedMenuItem { get; set; }
 
     }
 
-    public class MenuItemVM : ModuleInfo
+    public class SubMenuBase : ModuleMenu
     {
-        public ICommand Command2 { get; set; }
+        public ICommand CommandClick { get; set; }
 
-        public MenuItemVM ParentNode { get; set; }
+        public SubMenuBase ParentNode { get; set; }
 
-        public IList<MenuItemVM> ChildItems { get; set; }
+        public IList<SubMenuBase> ChildItems { get; set; }
 
-        public Visibility ContextVisible { get; set; }
+        public virtual Visibility ContextVisible { get; set; }
 
-        public Visibility NewBtnVisible { get; set; }
+        public virtual string Command1Name { get; set; }
+        public virtual Visibility Command1BtnVisible { get; set; }
 
-        public Visibility EditBtnVisible { get; set; }
+        public virtual string Command2Name { get; set; }
+        public virtual Visibility Command2BtnVisible { get; set; }
 
-        public Visibility DelBtnVisible { get; set; }
+        public virtual string Command3Name { get; set; }
+        public virtual Visibility Command3BtnVisible { get; set; }
 
-        public Visibility LoadBtnVisible { get; set; }
+        public virtual string Command4Name { get; set; }
+        public virtual Visibility Command4BtnVisible { get; set; }
 
-        public Visibility CalsBtnVisible { get; set; }
 
-        public MenuItemVM(string _type,
+        public SubMenuBase(string _type,
                         object parent,
                         string _title,
-                        Action<MenuItemVM> func,
-                        Visibility contextVisible = Visibility.Collapsed,
-                        Visibility bNewBtnVisible = Visibility.Collapsed,
-                        Visibility bEditBtnVisible = Visibility.Collapsed,
-                        Visibility bDelBtnVisible = Visibility.Collapsed,
-                        IList<MenuItemVM> children = null)
+                        Action<SubMenuBase> func,
+                        IList<SubMenuBase> children = null)
                         : base(_type, parent, _title)
         {
             Type = _type;
             Title = _title;
             this.parent = (ISupportServices)parent;
 
-            Command2 = new DelegateCommand<MenuItemVM>(func);
+            if(func != null)
+                CommandClick = new DelegateCommand<SubMenuBase>(func);
 
-            ContextVisible = contextVisible;
-            NewBtnVisible = bNewBtnVisible;
-            EditBtnVisible = bEditBtnVisible;
-            DelBtnVisible = bDelBtnVisible;
+            ContextVisible = Visibility.Collapsed;
 
-            LoadBtnVisible = Visibility.Collapsed;
-            CalsBtnVisible = Visibility.Collapsed;
+            Command1BtnVisible = Visibility.Collapsed;
+            Command2BtnVisible = Visibility.Collapsed;
+            Command3BtnVisible = Visibility.Collapsed;
+            Command4BtnVisible = Visibility.Collapsed;
 
             ChildItems = children;
-
-            DelItemCommand = new DelegateCommand<object>(DelMenuItem);
-            LoadCommand = new DelegateCommand<object>(Load);
-            CalsCommand = new DelegateCommand<object>(Cals);
         }
 
-        public DelegateCommand<object> DelItemCommand { get; private set; }
-        void DelMenuItem(object menu)
+        public virtual void Command1(SubMenuBase menu)
         {
-            INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
-            IBaseViewModel curViewMode = navigationService.Current as IBaseViewModel;
-            if (curViewMode == null)
-                return;
-
-            ((MenuItemVM)menu).ParentNode.ChildItems.Remove((MenuItemVM)menu);
-            parentVm.UpdateNavigationBar();
-
-            curViewMode.DelSubItem(((MenuItemVM)menu).Title);
+            ;
         }
 
-        public DelegateCommand<object> LoadCommand { get; private set; }
-        void Load(object menu)
+        public virtual void Command2(SubMenuBase menu)
         {
-            var openTemplateDialog = new Microsoft.Win32.OpenFileDialog()
-            {
-                Filter = "DLL Files (*.dll)|*.dll"
-            };
-
-            if (openTemplateDialog.ShowDialog() != true)
-                return;
-
-            var openTableDialog = new Microsoft.Win32.OpenFileDialog()
-            {
-                Filter = "Excel Files (*.xlsx)|*.xlsx"
-            };
-
-            if (openTableDialog.ShowDialog() != true)
-                return;
-
-            TowerType type = TowerTypeStringConvert.TowerStringToType(((MenuItemVM)menu).Title);
-
-            var globalInfo = GlobalInfo.GetInstance();
-            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == ((MenuItemVM)menu).Title);
-
-            StruCalsParasCompose paras = new StruCalsParasCompose(((MenuItemVM)menu).Title, ((MenuItemVM)menu).Title, openTemplateDialog.FileName, openTableDialog.FileName, out string decodeTremplateStr);
-
-            if (index <  0)
-            {
-                globalInfo.StruCalsParas.Add(paras);
-            }
-            else
-            {
-                globalInfo.StruCalsParas[index] = paras;
-            }
-
-            if (((MenuItemVM)menu).MenuItems == null)
-            {
-                ((MenuItemVM)menu).MenuItems = new List<MenuItemVM>();
-            }
-
-            if (((MenuItemVM)menu).MenuItems.Count() == 0)
-            {
-                parentVm.NewTowerSubMenuItem(((MenuItemVM)menu));
-            }
-
+            ;
         }
 
-        public DelegateCommand<object> CalsCommand { get; private set; }
-        void Cals(object menu)
+        public virtual void Command3(SubMenuBase menu)
+        {
+            ;
+        }
+
+        public virtual void Command4(SubMenuBase menu)
+        {
+            ;
+        }
+    }
+
+    public class StrCalsModuleSubMenu : SubMenuBase
+        {
+
+        public StrCalsModuleSubMenu(string _type,
+                        object parent,
+                        string _title,
+                        Action<StrCalsModuleSubMenu> func,
+                        IList<SubMenuBase> children = null)
+                        : base(_type, parent, _title, null)
+            {
+            Type = _type;
+            Title = _title;
+            this.parent = (ISupportServices)parent;
+
+            CommandClick = new DelegateCommand<StrCalsModuleSubMenu>(func);
+
+            SetIcon("Menu_tower.png");
+
+            ContextVisible = Visibility.Visible;
+
+            Command1Name = "计算";
+            Command1BtnVisible = Visibility.Visible;
+
+            Command2Name = "重新加载";
+            Command2BtnVisible = Visibility.Visible;
+
+            Command3Name = "删除";
+            Command3BtnVisible = Visibility.Visible;
+
+            ChildItems = children;
+            }
+
+
+        public override void Command1(SubMenuBase menu)
         {
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
             {
@@ -184,18 +171,17 @@ namespace TowerLoadCals
 
             //StruCalsParas中塔位数据，是在点击这个塔位的页面后才加载的GlobalInfo中，
             //下面代码针对的是，没有打开这个塔位的页面而直接进行计算的情况
-            if (globalInfo.StruCalsParas.Where(item => item.TowerName == ((MenuItemVM)menu).Title).Count() <= 0)
+            if (globalInfo.StruCalsParas.Where(item => item.TowerName == ((SubMenuBase)menu).Title).Count() <= 0)
             {
-                ProjectUtils.GetInstance().ReadStruCalsTowerParas(((MenuItemVM)menu).Title);
+                ProjectUtils.GetInstance().ReadStruCalsTowerParas(((SubMenuBase)menu).Title);
             }
 
-            StruCalsParasCompose paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((MenuItemVM)menu).Title).First();
+            StruCalsParasCompose paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((SubMenuBase)menu).Title).First();
             if (paras == null)
                 return;
 
             ConvertSpeToWorkCondition(paras.Template, paras.WorkConditions);
             string path = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 5);
-
 
             for (int i = 0; i < paras.HPSettingsParas.Count(); i++)
             {
@@ -219,13 +205,25 @@ namespace TowerLoadCals
             }
         }
 
-
-        public void NewMenuItem(MenuItemVM menu)
+        public override void Command2(SubMenuBase menu)
         {
-
             ;
-
         }
 
+        public override void Command3(SubMenuBase menu)
+        {
+            INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
+            IBaseViewModel curViewMode = navigationService.Current as IBaseViewModel;
+            if (curViewMode == null)
+                return;
+
+            menu.ParentNode.ChildItems.Remove(menu);
+            parentVm.UpdateNavigationBar();
+
+            curViewMode.DelSubItem(menu.Title);
+        }
     }
+
+
+
 }

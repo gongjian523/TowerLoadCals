@@ -19,36 +19,49 @@
         <cvt:StringVisibityConverter x:Key="StringVisibityConverter"/>
     </Control.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Orientation="Vertical"    >
-                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
-                    <TextBlock Grid.Column="0" Text="设计标准" VerticalAlignment="Center" Margin="0,5"   FontSize="16"/>
-                    <dxe:ComboBoxEdit ItemsSource="{Binding Standards}"  SelectedItem="{Binding SelectedStandard}" Width="130" Margin="5,0">
-                        <dxe:ComboBoxEdit.StyleSettings>
-                            <dxe:ComboBoxStyleSettings />
-                        </dxe:ComboBoxEdit.StyleSettings>
-                    </dxe:ComboBoxEdit>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,5,0,0">
-                    <TextBlock   Text="荷载比例"  FontSize="16" VerticalAlignment="Center"  ToolTipService.ShowDuration="10000">
-                        <TextBlock.ToolTip >
-                            <TextBlock >
-                            荷载比例设置请注意：<LineBreak/>
-                            (1) 一般只建议输入1.00或0.98，其他比例慎用。<LineBreak/>
-                            (2) 需根据各工程设计原则确定按0.98或1.00考虑。<LineBreak/>
-                            (3) 附加荷载和临时拉线张力根据规定输入，输入单位为kN。<LineBreak/>
-                            (4) 其余负荷按电气提资输入，按kN输入时比例设为1.00；按 <LineBreak/>
-                                100kg输入时比例为1.00或0.98；按kg输入时比例设为0.01<LineBreak/>
-                                或0.0098；按N输入时比例设为0.001。
-                            </TextBlock>
-                        </TextBlock.ToolTip>
-                </TextBlock>
-                    <dxe:TextEdit   Margin="5,0,0,0" Text="{Binding BaseParas.LoadRatio,  UpdateSourceTrigger=PropertyChanged}" Width="130" Height="30"/>
-                </StackPanel>
+        <ScrollViewer  Margin="3,0,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Vertical">
+                <GroupBox Header="设计标准和荷载比例" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Text="设计标准" VerticalAlignment="Center" Margin="0,5" />
+                        <dxe:ComboBoxEdit  Grid.Column="1" ItemsSource="{Binding Standards}"  SelectedItem="{Binding SelectedStandard}" >
+                            <dxe:ComboBoxEdit.StyleSettings>
+                                <dxe:ComboBoxStyleSettings />
+                            </dxe:ComboBoxEdit.StyleSettings>
+                        </dxe:ComboBoxEdit>
+                        <TextBlock  Grid.Row="1" Text="荷载比例"  VerticalAlignment="Center" Margin="0,5,0,0" ToolTipService.ShowDuration="10000">
+                            <TextBlock.ToolTip >
+                                <TextBlock >
+                                荷载比例设置请注意：<LineBreak/>
+                                (1) 一般只建议输入1.00或0.98，其他比例慎用。<LineBreak/>
+                                (2) 需根据各工程设计原则确定按0.98或1.00考虑。<LineBreak/>
+                                (3) 附加荷载和临时拉线张力根据规定输入，输入单位为kN。<LineBreak/>
+                                (4) 其余负荷按电气提资输入，按kN输入时比例设为1.00；按 <LineBreak/>
+                                    100kg输入时比例为1.00或0.98；按kg输入时比例设为0.01<LineBreak/>
+                                    或0.0098；按N输入时比例设为0.001。
+                                </TextBlock>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="1"  Margin="0,5,0,0" Text="{Binding BaseParas.LoadRatio,  UpdateSourceTrigger=PropertyChanged}" Height="20"/>
+                    </Grid>
+                </GroupBox>
                 <GroupBox Header="结构重要性参数" Margin="0,5,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -142,7 +155,11 @@
                         <dxe:TextEdit  Grid.Row="2" Grid.Column="3"  Text="{Binding BaseParas.VcFInstall,  UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox  Header="其他系数" Margin="0,5,0,0" >
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="1"  Margin="5,0,0,0"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Vertical">
+                <GroupBox Header="其他系数" Margin="0,5,0,0" >
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -202,37 +219,39 @@
                         </Grid>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="耐张塔扭转计算组合方式" Margin="0,5,0,0" >
-                    <StackPanel  Orientation="Vertical">
-                        <dxe:ListBoxEdit ShowBorder="False" Margin="0,0,0,4">
-                            <dxe:ListBoxEdit.StyleSettings>
-                                <dxe:RadioListBoxEditStyleSettings />
-                            </dxe:ListBoxEdit.StyleSettings>
-                            <dxe:ListBoxEdit.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </dxe:ListBoxEdit.ItemsPanel>
-                            <dxe:ListBoxEditItem  IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.BaseParas.IsMethod1Selected, Mode=TwoWay}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox Text="方式1" BorderThickness="0" VerticalAlignment="Center"/>
-                                    <Image Source="pack://application:,,,/Images/TowerOption1.png" Width="300" Height="150"/>
-                                </StackPanel>
-                            </dxe:ListBoxEditItem>
-                            <dxe:ListBoxEditItem IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.BaseParas.IsMethod1Selected, Mode=TwoWay, Converter={StaticResource InverseBooleanConverter}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox Text="方式2" BorderThickness="0" VerticalAlignment="Center"/>
-                                    <Image Source="pack://application:,,,/Images/TowerOption2.png" Width="300" Height="150"/>
-                                </StackPanel>
-                            </dxe:ListBoxEditItem>
-                        </dxe:ListBoxEdit>
-                        <TextBlock  TextWrapping="Wrap" Text="为与excel表格一致，在单回直流中采用方式1，在其它情况下采用方式2，注意上拔垂荷填写要求。"/>
-                    </StackPanel>
-                </GroupBox>
             </StackPanel>
         </ScrollViewer>
+        <ScrollViewer Grid.Column="2" Margin="5,0,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <GroupBox Header="耐张塔扭转计算组合方式" Margin="0,5,0,0" >
+                <StackPanel  Orientation="Vertical">
+                    <dxe:ListBoxEdit ShowBorder="False" Margin="0,0,0,4">
+                        <dxe:ListBoxEdit.StyleSettings>
+                            <dxe:RadioListBoxEditStyleSettings />
+                        </dxe:ListBoxEdit.StyleSettings>
+                        <dxe:ListBoxEdit.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </dxe:ListBoxEdit.ItemsPanel>
+                        <dxe:ListBoxEditItem  IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.BaseParas.IsMethod1Selected, Mode=TwoWay}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="方式1" BorderThickness="0" VerticalAlignment="Center"/>
+                                <Image  Grid.Column="1" Source="pack://application:,,,/Images/TowerOption1.png" Stretch="UniformToFill" StretchDirection="DownOnly"  Width="280" Height="140"/>
+                            </StackPanel>
+                        </dxe:ListBoxEditItem>
+                        <dxe:ListBoxEditItem IsSelected="{Binding RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type local:BaseAndLineParasModule}}, Path=DataContext.BaseParas.IsMethod1Selected, Mode=TwoWay, Converter={StaticResource InverseBooleanConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="方式2" BorderThickness="0" VerticalAlignment="Center"/>
+                                <Image Source="pack://application:,,,/Images/TowerOption2.png" Stretch="UniformToFill" StretchDirection="DownOnly"  Width="280" Height="140"/>
+                            </StackPanel>
+                        </dxe:ListBoxEditItem>
+                    </dxe:ListBoxEdit>
+                    <TextBlock  TextWrapping="Wrap" Text="为与excel表格一致，在单回直流中采用方式1，在其它情况下采用方式2，注意上拔垂荷填写要求。"/>
+                </StackPanel>
+            </GroupBox>
+        </ScrollViewer>
 
-       <dxg:GridControl  Grid.Column="1" Margin="8,0,0,0" Name="LineTowerGrid" EnableSmartColumnsGeneration="True" 
+        <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="3" Margin="3,5,0,0" Name="LineTowerGrid" EnableSmartColumnsGeneration="True" 
                 SelectionMode="Cell" ClipboardCopyMode="ExcludeHeader" ItemsSource="{Binding LineParas}" PreviewMouseDown="lineTowerGrid_PreviewMouseDown"
                 Visibility="{Binding BaseParas.IsTensionTower,Converter={StaticResource InverseBooleanVisibityConverter}}">
             <dxg:GridControl.View>
@@ -253,7 +272,7 @@
             <dxg:GridColumn FieldName="AngleMax"  Header="最大转角" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsLineCornerTower}"/>
             <dxg:GridColumn FieldName="DrawingCoef"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center" />
         </dxg:GridControl>
-        <dxg:GridControl Grid.Column="1" Margin="8,0,0,0" Name="TensionTowerGrid" EnableSmartColumnsGeneration="False"
+        <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="3"  Margin="3,5,0,0" Name="TensionTowerGrid" EnableSmartColumnsGeneration="False"
                 SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" ItemsSource="{Binding LineParas}"  PreviewMouseDown="tensionTowerGrid_PreviewMouseDown"
                 Visibility="{Binding BaseParas.IsTensionTower,Converter={StaticResource BooleanVisibityConverter}}" >
             <dxg:GridControl.View>

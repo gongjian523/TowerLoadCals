@@ -174,7 +174,7 @@ namespace TowerLoadCals.DAL
             }
 
             iIndex++;
-            combo.WorkCode = aWords[iIndex + WireNum].ToString();
+            combo.WorkCode = Convert.ToInt16(aWords[iIndex + WireNum]);
             iIndex++;
             combo.WorkComment = aWords[iIndex + WireNum].ToString();
         }
@@ -200,39 +200,6 @@ namespace TowerLoadCals.DAL
                 int wireIndexCodesNum = template.WorkConditionCombos[0].WireIndexCodes.Count;
                 wcc.WireIndexCodes = new List<int>();
 
-                //if (wireIndexCodesNum >= 1)
-                //    wcc.WireIndexCodes.Add(item.Wire1);
-                //if (wireIndexCodesNum >= 2)
-                //    wcc.WireIndexCodes.Add(item.Wire2);
-                //if (wireIndexCodesNum >= 3)
-                //    wcc.WireIndexCodes.Add(item.Wire3);
-                //if (wireIndexCodesNum >= 4)
-                //    wcc.WireIndexCodes.Add(item.Wire4);
-                //if (wireIndexCodesNum >= 5)
-                //    wcc.WireIndexCodes.Add(item.Wire5);
-                //if (wireIndexCodesNum >= 6)
-                //    wcc.WireIndexCodes.Add(item.Wire6);
-                //if (wireIndexCodesNum >= 7)
-                //    wcc.WireIndexCodes.Add(item.Wire7);
-                //if (wireIndexCodesNum >= 8)
-                //    wcc.WireIndexCodes.Add(item.Wire8);
-                //if (wireIndexCodesNum >= 9)
-                //    wcc.WireIndexCodes.Add(item.Wire9);
-                //if (wireIndexCodesNum >= 10)
-                //    wcc.WireIndexCodes.Add(item.Wire10);
-                //if (wireIndexCodesNum >= 11)
-                //    wcc.WireIndexCodes.Add(item.Wire11);
-                //if (wireIndexCodesNum >= 12)
-                //    wcc.WireIndexCodes.Add(item.Wire12);
-                //if (wireIndexCodesNum >= 13)
-                //    wcc.WireIndexCodes.Add(item.Wire13);
-                //if (wireIndexCodesNum >= 14)
-                //    wcc.WireIndexCodes.Add(item.Wire14);
-                //if (wireIndexCodesNum >= 15)
-                //    wcc.WireIndexCodes.Add(item.Wire15);
-                //if (wireIndexCodesNum >= 16)
-                //    wcc.WireIndexCodes.Add(item.Wire16);
-
                 for (int i = 1; i <= wireIndexCodesNum; i++)
                 {
                     Type itemType = item.GetType();
@@ -240,7 +207,6 @@ namespace TowerLoadCals.DAL
                     if (itemPro != null)
                         wcc.WireIndexCodes.Add(Convert.ToInt16(itemPro.GetValue(item, null)));
                 }
-
 
                 wcc.WorkComment = item.WorkComment;
 

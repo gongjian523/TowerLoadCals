@@ -35,14 +35,18 @@ namespace TowerLoadCals.Mode
         public int WindDirectionCode { get; set; }
 
         /// <summary>
-        /// 
+        /// 也是一个工况代号
+        /// 表明用的是Template.WorkConditongs的那个工况
+        /// 使用的工况详情（温度，冰厚和风向在电气荷载文件中读出）
         /// </summary>
-        public string WorkCode { get; set; }
+        public int WorkCode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        //public List<int> WirdIndexCodes { get; set; }
+        //public List<int> WirdIndexCodes { get; set; } 
+
+       
 
         /// <summary>
         /// 注释

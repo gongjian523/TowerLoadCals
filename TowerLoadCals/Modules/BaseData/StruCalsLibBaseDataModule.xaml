@@ -36,8 +36,9 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBox Text="序号" BorderThickness="1" Style="{StaticResource MockTalbeItemStyle} "/>
-            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="悬垂塔" BorderThickness="0,1,1,1" CaretBrush="AliceBlue"  Style="{StaticResource MockTalbeItemStyle} "/>
+
+            <TextBox Text="序号" BorderThickness="1" Style="{StaticResource MockTalbeItemStyle}"/>
+            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="耐张塔" BorderThickness="0,1,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
             <TextBox Grid.Column="3" Grid.ColumnSpan="2" Text="耐张塔" BorderThickness="0,1,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
             
             <TextBox Grid.Row="1" Text="1" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>

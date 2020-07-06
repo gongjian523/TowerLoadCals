@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using TowerLoadCals.Common;
 using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.BLL
@@ -59,7 +60,7 @@ namespace TowerLoadCals.BLL
             formula = new FormulaCornerTower(para);
         }
 
-        protected override void GetTable(DataSet ds)
+        protected override void ReadElectricLoad(DataSet ds)
         {
             //后续计算的序号从1开始
             WindDF = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
@@ -246,18 +247,7 @@ namespace TowerLoadCals.BLL
                 }
             }
 
-            using (FileStream fileStream = File.OpenWrite(path))
-            {
-                using (StreamWriter writer = new StreamWriter(fileStream))
-                {
-                    foreach (string s in ProcessString)
-                    {
-                        writer.WriteLine(s);
-                    }
-                    writer.Flush();
-                    writer.Close();
-                }
-            }
+            TextUtils.TextSaveByLine(path, ProcessString);
         }
 
         /// <summary>
@@ -7594,18 +7584,7 @@ namespace TowerLoadCals.BLL
                 i++;
             }
 
-            using (FileStream fileStream = File.OpenWrite(path))
-            {
-                using (StreamWriter writer = new StreamWriter(fileStream))
-                {
-                    foreach (string s in Process2String)
-                    {
-                        writer.WriteLine(s);
-                    }
-                    writer.Flush();
-                    writer.Close();
-                }
-            }
+            TextUtils.TextSaveByLine(path, Process2String);
 
             return pointsLoad;
         }
