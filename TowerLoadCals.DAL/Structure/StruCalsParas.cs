@@ -129,7 +129,6 @@ namespace TowerLoadCals.DAL
                 spec.WindDirectionCode = item.WindDirectionCode;
                 spec.WorkCode = item.WorkCode;
 
-
                 for (int i = 1; i <= item.WireIndexCodes.Count; i++)
                 {
                     Type specType = spec.GetType();

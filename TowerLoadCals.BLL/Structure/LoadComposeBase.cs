@@ -5,6 +5,7 @@ using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 
@@ -39,13 +40,19 @@ namespace TowerLoadCals.BLL
         protected float[,] XX { get; set; }
         protected float[,] YY { get; set; }
         protected float[,] ZZ { get; set; }
- 
+
         protected int wireNum;
         protected int groudWireNum;
         protected int workConditionNum;
 
         protected List<string> ProcessString { get; set; }
         protected List<string> Process2String { get; set; }
+
+        //下面三个数组保存的是从电气荷载文件读取的工况，
+        //用于生成Load的输出文件
+        protected float[] WorkConditionWind;
+        protected float[] WorkConditionTemperate;
+        protected float[] WorkConditionIceThickness;
 
         public LoadComposeBase(FormulaParas para, StruLineParas[] lineParas, HangingPointSettingParas hpParas, TowerTemplate template, string tablePath)
         {
@@ -64,29 +71,31 @@ namespace TowerLoadCals.BLL
             groudWireNum = Template.Wires.Where(item => item.Contains("地")).Count();
             workConditionNum = Template.WorkConditongs.Count;
 
-            GetTable(ReadExcel(tablePath));
+            DataSet ds = ExcelUtils.ReadExcel(tablePath);
+            ReadWorkCondition(ds);
+            ReadElectricLoad(ds);
         }
 
-        protected DataSet ReadExcel(string path)
-        {
-            string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0";
-            OleDbConnection conn = new OleDbConnection(strConn);
+        //protected DataSet ReadExcel(string path)
+        //{
+        //    string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0";
+        //    OleDbConnection conn = new OleDbConnection(strConn);
 
-            conn.Open();
+        //    conn.Open();
 
-            DataTable dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-            string sheetName = dt.Rows[0]["TABLE_NAME"].ToString().Trim();//sheet默认排序
-            string strExcel = string.Format("select * from [{0}]", sheetName);
+        //    DataTable dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+        //    string sheetName = dt.Rows[0]["TABLE_NAME"].ToString().Trim();//sheet默认排序
+        //    string strExcel = string.Format("select * from [{0}]", sheetName);
 
-            OleDbDataAdapter myCommand = new OleDbDataAdapter(strExcel, strConn);
+        //    OleDbDataAdapter myCommand = new OleDbDataAdapter(strExcel, strConn);
 
-            DataSet ds = new DataSet();
-            myCommand.Fill(ds);
+        //    DataSet ds = new DataSet();
+        //    myCommand.Fill(ds);
 
-            return ds;
-        }
+        //    return ds;
+        //}
 
-        abstract protected void GetTable(DataSet ds);
+        abstract protected void ReadElectricLoad(DataSet ds);
 
         public List<StruCalsPointLoad> LoadCaculate(string path)
         {
@@ -94,7 +103,7 @@ namespace TowerLoadCals.BLL
 
             var loadList = CalsPointsLoad(path + HPSettingParas.HangingPointSettingName + ".div");
 
-            SumPointsLoad(path + HPSettingParas.HangingPointSettingName + ".load", loadList);
+            GenerateLoadFile(path + HPSettingParas.HangingPointSettingName + ".load", loadList);
 
             return loadList;
         }
@@ -297,7 +306,7 @@ namespace TowerLoadCals.BLL
 
                     Process2String.Add(strY);
                     pointsLoad.AddRange(pListY);
-                    
+
                     HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XX, YY, ZZ, groupStr, linkStrZ, pointsZ, HPSettingParas, Template, DicGroup);
                     hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
 
@@ -309,33 +318,67 @@ namespace TowerLoadCals.BLL
                 i++;
             }
 
-            using (FileStream fileStream = File.OpenWrite(path))
-            {
-                using (StreamWriter writer = new StreamWriter(fileStream))
-                {
-                    foreach (string s in Process2String)
-                    {
-                        writer.WriteLine(s);
-                    }
-                    writer.Flush();
-                    writer.Close();
-                }
-            }
+            TextUtils.TextSaveByLine(path, Process2String);
 
             return pointsLoad;
         }
 
-        public void SumPointsLoad(string path, List<StruCalsPointLoad> pointLoads)
+        public void GenerateLoadFile(string path, List<StruCalsPointLoad> pointLoads)
         {
             List<string> processString = new List<string>();
-            
+
+            StruCalsLib libParas = GlobalInfo.GetInstance().GetStruCalsLibParas();
+            if (libParas == null)
+                return;
+
+            if (libParas.IceCoverParas == null || libParas.IceCoverParas.Count == 0)
+                return;
+
+            #region 保存工况
+            for(int i = 0; i < Template.WorkConditionCombos.Count; i++)
+            {
+                WorkConditionCombo wcCombo = Template.WorkConditionCombos[i];
+
+                float wcWind = WorkConditionWind[wcCombo.WorkCode-1];
+
+                float wdIceThickness = WorkConditionIceThickness[wcCombo.WorkCode - 1];
+
+                float windLoad = 1, gravityLoad = 1;
+                
+                if(libParas.IceCoverParas.Where(item => item.IceThickness == wdIceThickness).Count() > 0)
+                {
+                    windLoad = libParas.IceCoverParas.Where(item => item.IceThickness == wdIceThickness).First().TowerWindLoadAmplifyCoef;
+                    gravityLoad = libParas.IceCoverParas.Where(item => item.IceThickness == wdIceThickness).First().TowerGravityLoadAmplifyCoef;
+                }
+
+                //Todo
+                float comboCoef = Paras.VcFNormal * windLoad;
+
+                float windAngle = wcCombo.WindDirectionCode;
+
+                //Todo
+                float importanceCoef = Paras.R1Install;
+
+                float temperature = WorkConditionTemperate[wcCombo.WorkCode - 1];
+
+                string str = wcWind.ToString("0.000").PadLeft(8) + comboCoef.ToString("0.000").PadLeft(8) + windAngle.ToString("0.000").PadLeft(8)
+                    + importanceCoef.ToString("0.000").PadLeft(8) + gravityLoad.ToString("0.000").PadLeft(8) + temperature.ToString("0.000").PadLeft(8)
+                    + "   " + (i + 1).ToString() + "-" + wcCombo.WorkComment;
+
+                processString.Add(str);
+
+            }
+
+            #endregion
+
+            #region 保存挂点荷载
             List<int> points = pointLoads.Select(p => p.Name).Distinct().ToList();
 
             points.Sort();
 
-            foreach( var point in points)
+            foreach (var point in points)
             {
-                for(int j = 0; j < Template.WorkConditionCombos.Count; j++)
+                for (int j = 0; j < Template.WorkConditionCombos.Count; j++)
                 {
                     string str = (j == 0) ? point.ToString().PadLeft(9) : (" ").PadLeft(9);
                     float xLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "X").Sum(p => p.Load);
@@ -346,19 +389,9 @@ namespace TowerLoadCals.BLL
                     processString.Add(str);
                 }
             }
+            #endregion
 
-            using (FileStream fileStream = File.OpenWrite(path))
-            {
-                using (StreamWriter writer = new StreamWriter(fileStream))
-                {
-                    foreach (string s in processString)
-                    {
-                        writer.WriteLine(s);
-                    }
-                    writer.Flush();
-                    writer.Close();
-                }
-            }
+            TextUtils.TextSaveByLine(path, processString);
         }
 
         protected virtual string GetDicPath()
@@ -393,5 +426,29 @@ namespace TowerLoadCals.BLL
         {
             return new List<HangingPointParas>();
         }
+
+        /// <summary>
+        /// 从电气荷载文件中读取工况参数
+        /// </summary>
+        /// <param name="ds"></param>
+        protected void ReadWorkCondition(DataSet ds)
+        {
+            WorkConditionTemperate = new float[Template.WorkConditongs.Count];
+            WorkConditionWind = new float[Template.WorkConditongs.Count];
+            WorkConditionIceThickness = new float[Template.WorkConditongs.Count];
+
+            for (int i = 0; i < Template.WorkConditongs.Count; i++)
+            {
+                object obj = ds.Tables[0].Rows[0][i+1];
+                float.TryParse(obj.ToString(), out WorkConditionTemperate[i]);
+
+                object obj2 = ds.Tables[0].Rows[1][i+1];
+                float.TryParse(obj.ToString(), out WorkConditionWind[i]);
+
+                object obj3 = ds.Tables[0].Rows[1][i+1];
+                float.TryParse(obj.ToString(), out WorkConditionIceThickness[i]);
+            }
+        }
     }
 }
+ 

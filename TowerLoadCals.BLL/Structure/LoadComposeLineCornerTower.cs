@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using TowerLoadCals.Common;
 using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.BLL
@@ -29,7 +30,7 @@ namespace TowerLoadCals.BLL
             formula = new FormulaLineCornerTower(para);
         }
 
-        protected override void GetTable(DataSet ds)
+        protected override void ReadElectricLoad(DataSet ds)
         {
             //后续计算的序号从1开始
             Wind = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
@@ -168,18 +169,7 @@ namespace TowerLoadCals.BLL
                 }
             }
 
-            using (FileStream fileStream = File.OpenWrite(path))
-            {
-                using (StreamWriter writer = new StreamWriter(fileStream))
-                {
-                    foreach (string s in ProcessString)
-                    {
-                        writer.WriteLine(s);
-                    }
-                    writer.Flush();
-                    writer.Close();
-                }
-            }
+            TextUtils.TextSaveByLine(path, ProcessString);
         }
 
         /// <summary>

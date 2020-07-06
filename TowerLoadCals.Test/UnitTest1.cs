@@ -286,7 +286,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad>  loadList = loadLineTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadLineTower.SumPointsLoad(filePath3, loadList);
+            loadLineTower.GenerateLoadFile(filePath3, loadList);
         }
 
         [TestMethod]
@@ -556,7 +556,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadLineTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadLineTower.SumPointsLoad(filePath3, loadList);
+            loadLineTower.GenerateLoadFile(filePath3, loadList);
         }
 
         [TestMethod]
@@ -794,7 +794,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadLineCornerTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadLineCornerTower.SumPointsLoad(filePath3, loadList);
+            loadLineCornerTower.GenerateLoadFile(filePath3, loadList);
         }
 
         [TestMethod]
@@ -1210,7 +1210,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadCornerTower.SumPointsLoad(filePath3, loadList);
+            loadCornerTower.GenerateLoadFile(filePath3, loadList);
         }
 
         [TestMethod]
@@ -1450,7 +1450,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadCornerTower.SumPointsLoad(filePath3, loadList);
+            loadCornerTower.GenerateLoadFile(filePath3, loadList);
         }
 
         [TestMethod]
@@ -1713,7 +1713,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadCornerTower.SumPointsLoad(filePath3, loadList);
+            loadCornerTower.GenerateLoadFile(filePath3, loadList);
         }
 
         [TestMethod]
@@ -1950,7 +1950,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadCornerTower.SumPointsLoad(filePath3, loadList);
+            loadCornerTower.GenerateLoadFile(filePath3, loadList);
         }
 
         [TestMethod]
@@ -2315,7 +2315,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadCornerTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadCornerTower.SumPointsLoad(filePath3, loadList);
+            loadCornerTower.GenerateLoadFile(filePath3, loadList);
         }
 
         [TestMethod]

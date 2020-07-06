@@ -225,7 +225,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadLineTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadLineTower.SumPointsLoad(filePath3, loadList);
+            loadLineTower.GenerateLoadFile(filePath3, loadList);
         }
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace TowerLoadCals.Test
             List<StruCalsPointLoad> loadList = loadLineTower.CalsPointsLoad(filePath2);
 
             string filePath3 = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "load";
-            loadLineTower.SumPointsLoad(filePath3, loadList);
+            loadLineTower.GenerateLoadFile(filePath3, loadList);
         }
     }
 }

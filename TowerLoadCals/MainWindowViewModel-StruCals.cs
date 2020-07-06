@@ -14,9 +14,9 @@ namespace TowerLoadCals
         /// 为了节省操作工程的时间，不初始下这个按钮的子菜单
         /// </summary>
         /// <returns></returns>
-        private ModuleInfo IniStruCalsModule()
+        private ModuleMenu IniStruCalsModule()
         {
-            ModuleInfo struCalsMudule = new ModuleInfo("StruCalsModule", this, "结构计算", (e) => { OnStruCalsModuleSeleced(e); });
+            ModuleMenu struCalsMudule = new ModuleMenu("StruCalsModule", this, "结构计算", (e) => { OnStruCalsModuleSeleced(e); });
             struCalsMudule.SetIcon("FolderList_32x32.png");
 
             return struCalsMudule;
@@ -26,65 +26,60 @@ namespace TowerLoadCals
         /// 点击结构计算按钮时的操作
         /// </summary>
         /// <param name="mv"></param>
-        private void OnStruCalsModuleSeleced(ModuleInfo mv)
+        private void OnStruCalsModuleSeleced(ModuleMenu mv)
         {
             NewStruCalsTowerBtnVisibity = Visibility.Visible;
 
             //以前没有加载过子菜单，从配置文件中读出所有塔位名称
             if(mv.MenuItems == null || mv.MenuItems.Count() == 0)
             {
-                var menuItems = new List<MenuItemVM>() { };
+                var menuItems = new List<SubMenuBase>() { };
 
                 var towers = projectUtils.GetAllStrucTowerNames();
 
                 foreach (var tower in towers)
                 {
-                    MenuItemVM menu = new MenuItemVM("", this, tower, (e) => { OnSelectedStruCalsTowersChanged(e); }, Visibility.Visible);
-                    menu.SetIcon("Menu_tower.png");
-                    menu.CalsBtnVisible = Visibility.Visible;
-                    menu.LoadBtnVisible = Visibility.Visible;
-
+                    StrCalsModuleSubMenu menu = new StrCalsModuleSubMenu("", this, tower, (e) => { OnSelectedStruCalsTowersChanged(e); });
                     AddStruClasTowerSubMenu(menu);
-
                     menuItems.Add(menu);
                 }
 
                 mv.MenuItems = menuItems;
             }
 
-            MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
+            MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
         }
 
-        protected void AddStruClasTowerSubMenu(MenuItemVM menuVm)
+        protected void AddStruClasTowerSubMenu(SubMenuBase menuVm)
         {
-            var subMenus = new List<MenuItemVM>() { };
-            var paraMenu = new MenuItemVM("BaseAndLineParasModule", this, "  计算参数", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            var subMenus = new List<SubMenuBase>() { };
+            var paraMenu = new SubMenuBase("BaseAndLineParasModule", this, "  计算参数", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             paraMenu.ParentNode = menuVm;
             subMenus.Add(paraMenu);
 
-            var towerMenu = new MenuItemVM("WorkConditionComboModule", this, "  工况组合", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            var towerMenu = new SubMenuBase("WorkConditionComboModule", this, "  工况组合", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             towerMenu.ParentNode = menuVm;
             subMenus.Add(towerMenu);
 
-            var hangingPointMenu = new MenuItemVM("HangingPointModule", this, "  挂点设置", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            var hangingPointMenu = new SubMenuBase("HangingPointModule", this, "  挂点设置", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             hangingPointMenu.ParentNode = menuVm;
             subMenus.Add(hangingPointMenu);
 
-            var struCalsResultMenu = new MenuItemVM("StruCalsResultModule", this, "  计算结果", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            var struCalsResultMenu = new SubMenuBase("StruCalsResultModule", this, "  计算结果", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             struCalsResultMenu.ParentNode = menuVm;
             subMenus.Add(struCalsResultMenu);
 
             menuVm.ChildItems = subMenus;
         }
 
-        public void NewTowerSubMenuItem(MenuItemVM menuVm)
+        public void NewTowerSubMenuItem(SubMenuBase menuVm)
         {
             AddStruClasTowerSubMenu(menuVm);
-            MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
+            MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
             menuVm.ChildItems[0].Show(menuVm.Title);
         }
 
-        private void OnSelectedStruCalsSubModuleChanged(MenuItemVM menuVm)
+        private void OnSelectedStruCalsSubModuleChanged(SubMenuBase menuVm)
         {
             IStruCalsBaseViewModel viewModel = NavigationService.Current as IStruCalsBaseViewModel;
             if (curSubModule != menuVm.Title || (viewModel != null && viewModel.GetTowerName() != menuVm.ParentNode.Title))
@@ -94,7 +89,7 @@ namespace TowerLoadCals
             }
         }
 
-        private void OnSelectedStruCalsTowersChanged(MenuItemVM menuVm)
+        private void OnSelectedStruCalsTowersChanged(SubMenuBase menuVm)
         {
          
             
@@ -120,16 +115,13 @@ namespace TowerLoadCals
                 return;
             }
 
-            MenuItemVM newTowerMenu = new MenuItemVM("", this, newTowerName, (e) => { OnSelectedStruCalsTowersChanged(e); }, Visibility.Visible);
-            newTowerMenu.SetIcon("Menu_tower.png");
-            newTowerMenu.CalsBtnVisible = Visibility.Visible;
-            newTowerMenu.LoadBtnVisible = Visibility.Visible;
+            StrCalsModuleSubMenu newTowerMenu = new StrCalsModuleSubMenu("", this, newTowerName, (e) => { OnSelectedStruCalsTowersChanged(e); });
 
             SelectedModuleInfo.MenuItems.Add(newTowerMenu);
 
             NewTowerSubMenuItem(newTowerMenu);
 
-            MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
+            MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
         }
 
         protected Visibility _newStruCalsTowerBtnVisibity = Visibility.Collapsed;

@@ -248,16 +248,15 @@
                                             <Setter Property="GlyphPosition" Value="Left" />
                                             <Setter Property="HorizontalContentAlignment" Value="Left" />
                                             <Setter Property="ExpandButtonPosition" Value="Right" />
-                                            <Setter Property="Command" Value="{Binding Command2}" />
+                                            <Setter Property="Command" Value="{Binding CommandClick}" />
                                             <Setter Property="CommandParameter" Value="{Binding}" />
                                             <Setter Property="ContextMenu">
                                                 <Setter.Value>
                                                     <ContextMenu  Visibility="{Binding ContextVisible}">
-                                                        <MenuItem Header="新增" Command="{DXCommand NewMenuItem(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding NewBtnVisible}"/>
-                                                        <MenuItem Header="编辑" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=DataContext.EditItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding EditBtnVisible}"/>
-                                                        <MenuItem Header="删除" Command="{Binding DelItemCommand}"  CommandParameter="{Binding}" Visibility="{Binding DelBtnVisible}"/>
-                                                        <MenuItem Header="加载" Command="{Binding LoadCommand}"  CommandParameter="{Binding}" Visibility="{Binding LoadBtnVisible}"/>
-                                                        <MenuItem Header="计算" Command="{Binding CalsCommand}"  CommandParameter="{Binding}" Visibility="{Binding CalsBtnVisible}"/>
+                                                        <MenuItem Header="{Binding Command1Name}" Command="{DXCommand Command1(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding Command1BtnVisible}"/>
+                                                        <MenuItem Header="{Binding Command2Name}" Command="{DXCommand Command2(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding Command2BtnVisible}"/>
+                                                        <MenuItem Header="{Binding Command3Name}" Command="{DXCommand Command3(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding Command3BtnVisible}"/>
+                                                        <MenuItem Header="{Binding Command4Name}" Command="{DXCommand Command4(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding Command4BtnVisible}"/>
                                                     </ContextMenu>
                                                 </Setter.Value>
                                             </Setter >

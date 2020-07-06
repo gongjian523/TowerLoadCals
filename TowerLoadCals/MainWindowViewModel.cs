@@ -27,7 +27,7 @@ namespace TowerLoadCals
        
             //MetadataLocator.Default = MetadataLocator.Create().AddMetadata<PrefixEnumWithExternalMetadata>();
        
-            Modules = new List<ModuleInfo>();
+            Modules = new List<ModuleMenu>();
 
             CreateProjectCommand = new DelegateCommand(CreateProject);
             OpenProjectCommand = new DelegateCommand(OpenProject);
@@ -41,15 +41,15 @@ namespace TowerLoadCals
 
         }
 
-        public virtual IEnumerable<ModuleInfo> Modules { get; protected set; }
-        public virtual ModuleInfo SelectedModuleInfo { get; set; }
+        public virtual IEnumerable<ModuleMenu> Modules { get; protected set; }
+        public virtual ModuleMenu SelectedModuleInfo { get; set; }
 
 
-        private ObservableCollection<MenuItemVM> _menuItems = new ObservableCollection<MenuItemVM>();
+        private ObservableCollection<SubMenuBase> _menuItems = new ObservableCollection<SubMenuBase>();
         /// <summary>
         /// 保存每个模块下面的的子按钮
         /// </summary>
-        public ObservableCollection<MenuItemVM> MenuItems
+        public ObservableCollection<SubMenuBase> MenuItems
         {
             get
             {
@@ -63,7 +63,7 @@ namespace TowerLoadCals
             }
         }
 
-        public virtual MenuItemVM SelectedMenuItem { get; set; }
+        public virtual SubMenuBase SelectedMenuItem { get; set; }
 
         public virtual Type SplashScreenType { get; set; }
         public virtual int DefaultBackstatgeIndex { get; set; }
@@ -105,10 +105,10 @@ namespace TowerLoadCals
             //SelectedModuleInfo.IsSelected = true;
             if (SelectedModuleInfo.MenuItems == null)
             {
-                SelectedModuleInfo.MenuItems = new List<MenuItemVM>();
+                SelectedModuleInfo.MenuItems = new List<SubMenuBase>();
             }
 
-            MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
+            MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
 
             if (MenuItems == null || MenuItems.Count() == 0)
                 return;
@@ -156,13 +156,13 @@ namespace TowerLoadCals
         {
             SaveCurrentModule();
 
-            Modules = new List<ModuleInfo>();
+            Modules = new List<ModuleMenu>();
 
-            MenuItems = new ObservableCollection<MenuItemVM>();
+            MenuItems = new ObservableCollection<SubMenuBase>();
 
             NewStruCalsTowerBtnVisibity = Visibility.Collapsed;
 
-            ModuleInfo blankModule = new ModuleInfo("BlankModule", this, "空模板" , (e) => { OnSelectedModuleChanged(e); });
+            ModuleMenu blankModule = new ModuleMenu("BlankModule", this, "空模板" , (e) => { OnSelectedModuleChanged(e); });
             blankModule.Show();
         }
 
@@ -180,11 +180,11 @@ namespace TowerLoadCals
 
         protected void LoadModules()
         {
-            List<ModuleInfo> moduleList = new List<ModuleInfo>() { };
+            List<ModuleMenu> moduleList = new List<ModuleMenu>() { };
 
             moduleList.Add(IniBaseDataModule());
 
-            ModuleInfo towerMudule = new ModuleInfo("TowersModule", this, "塔杆排位", (e) => { OnSelectedModuleChanged(e); });
+            ModuleMenu towerMudule = new ModuleMenu("TowersModule", this, "塔杆排位", (e) => { OnSelectedModuleChanged(e); });
             towerMudule.SetIcon("FolderList_32x32.png");
             moduleList.Add(towerMudule);
 
@@ -226,7 +226,7 @@ namespace TowerLoadCals
 
             if (curViewMode == null)
                 return;
-            curViewMode.DelSubItem(((MenuItemVM)menu).Title);
+            curViewMode.DelSubItem(((SubMenuBase)menu).Title);
         }
 
         protected IBaseViewModel GetCurSubModuleVM()
@@ -238,7 +238,7 @@ namespace TowerLoadCals
         }
 
         //更新子模块，返回true； 不更新子模块，返回false
-        protected bool UpdateSubModule(MenuItemVM subVm)
+        protected bool UpdateSubModule(SubMenuBase subVm)
         {
             if (curSubModule == subVm.Title)
                 return false;
@@ -253,7 +253,7 @@ namespace TowerLoadCals
 
         public void UpdateNavigationBar()
         {
-            MenuItems = new ObservableCollection<MenuItemVM>(SelectedModuleInfo.MenuItems);
+            MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
         }
     }
 

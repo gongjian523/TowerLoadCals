@@ -86,7 +86,5 @@ namespace TowerLoadCals.Modules
             BaseParas = struCalsParas.BaseParas;
             SelectedStandard = BaseParas.SelectedStandard;
         }
-
-
     }
 }
