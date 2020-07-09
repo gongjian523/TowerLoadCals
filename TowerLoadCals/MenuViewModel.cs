@@ -51,6 +51,7 @@ namespace TowerLoadCals
         }
 
         public virtual List<SubMenuBase> MenuItems { get; set; }
+        public virtual List<SubMenuBase> InternetMenuItems { get; set; }
 
         public virtual SubMenuBase SelectedMenuItem { get; set; }
 
@@ -198,7 +199,7 @@ namespace TowerLoadCals
                 //剩下的都属于耐张塔
                 else
                 {
-                    loadCompose = new LoadComposeCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
+                    loadCompose = new LoadComposeTensionTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
                 }
 
                 paras.ResultPointLoad.AddRange(loadCompose.LoadCaculate(path));

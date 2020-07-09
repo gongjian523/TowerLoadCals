@@ -1,0 +1,39 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TowerLoadCals.Modules"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    x:Class="TowerLoadCals.Modules.Internet.WeatherConditionModule_Internet"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WeatherConditionViewModel}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" Name="g_heard"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40" Name="g_footer" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0"  TextAlignment="Right"  VerticalAlignment="Center"  Text="工况名称:" />
+        <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Height="27" Margin="5 0 5 0" ></TextBox>
+        <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" />
+
+        <Button Grid.Row="2"   Grid.ColumnSpan="4" Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" />
+
+        <dxg:GridControl  Grid.Row="1"   Grid.ColumnSpan="4" AutoGenerateColumns="AddNew" Margin="8,0"
+                EnableSmartColumnsGeneration="True" 
+                ItemsSource="{Binding SelectedItems}">
+            <dxg:GridControl.View>
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+            </dxg:GridControl.View>
+            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center" AllowEditing="false" />
+            <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" HorizontalHeaderContentAlignment="Center"/>
+        </dxg:GridControl>
+    </Grid>
+</UserControl>

@@ -22,7 +22,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -75,9 +75,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
@@ -119,6 +121,7 @@
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\FitDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\Login\LoginHelpers.cs" />
     <Compile Include="ModulesViewModels\StruCals\BaseAndLineParasViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\HangingPointViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\NewStruCalsTowerViewModel.cs" />
@@ -127,6 +130,12 @@
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
+    <Compile Include="Modules\Internet\FitDataModule_Internet.xaml.cs">
+      <DependentUpon>FitDataModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\StrDataModule_Internet.xaml.cs">
+      <DependentUpon>StrDataModule_Internet.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\BaseData\StruCalsLibBaseDataModule.xaml.cs">
       <DependentUpon>StruCalsLibBaseDataModule.xaml</DependentUpon>
     </Compile>
@@ -135,6 +144,15 @@
     </Compile>
     <Compile Include="Modules\BaseData\StruCalsLibExtralLoadModule.xaml.cs">
       <DependentUpon>StruCalsLibExtralLoadModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\WeatherConditionModule_Internet.xaml.cs">
+      <DependentUpon>WeatherConditionModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\WireModule_Internet.xaml.cs">
+      <DependentUpon>WireModule_Internet.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\StruCals\NewStruCalsTowerWindow.xaml.cs">
       <DependentUpon>NewStruCalsTowerWindow.xaml</DependentUpon>
@@ -149,7 +167,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Style\GroupboxViewStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Style\TextViewStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\FitDataModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\StrDataModule_Internet.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -164,6 +194,18 @@
     <Page Include="Modules\BaseData\StruCalsLibExtralLoadModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Internet\WeatherConditionModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\WireModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\StruCals\NewStruCalsTowerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -319,6 +361,10 @@
     <ProjectReference Include="..\TowerLoadCals.Mode\TowerLoadCals.Mode.csproj">
       <Project>{80D39590-F862-4FEC-B748-71AA47BA41C8}</Project>
       <Name>TowerLoadCals.Mode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TowerLoadCals.Service\TowerLoadCals.Service.csproj">
+      <Project>{f37fcfb9-3a00-4250-a4d4-29bee7d8d525}</Project>
+      <Name>TowerLoadCals.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -538,7 +584,9 @@
   <ItemGroup>
     <Resource Include="UserData\StruCalsParasLib.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

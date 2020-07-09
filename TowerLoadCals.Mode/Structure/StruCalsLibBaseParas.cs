@@ -1,62 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace TowerLoadCals.Mode
 {
     public class StruCalsLibBaseParas
     {
-        [XmlAttribute("恒荷载分项系数-不利")]
-        public float RGBad { get; set; }
-
-        [XmlIgnore]
-        public string RGBadName { get { return "恒荷载分项系数-不利"; } }
-
-        [XmlAttribute("恒荷载分项系数-有利")]
-        public float RGGood { get; set; }
-
-        [XmlIgnore]
-        public string RGGoodName { get { return "恒荷载分项系数-有利"; } }
-
-        [XmlAttribute("活荷载分项系数")]
-        public float RQ { get; set; }
-
-        [XmlIgnore]
-        public string RQName { get { return "活荷载分项系数"; } }
-
-        [XmlAttribute("可变荷载组合系数-运行")]
-        public float VcFNormal { get; set; }
-
-        [XmlIgnore]
-        public string VcFNormalName { get { return "可变荷载组合系数-运行"; } }
-
-        [XmlAttribute("可变荷载组合系数-安装")]
-        public float VcFInstall { get; set; }
-
-        [XmlIgnore]
-        public string VcFInstallName { get { return "可变荷载组合系数-安装"; } }
-
-        [XmlAttribute("可变荷载组合系数-断线")]
-        public float VcFBroken { get; set; }
-
-        [XmlIgnore]
-        public string VcFBrokenName { get { return "可变荷载组合系数-断线"; } }
-
-        [XmlAttribute("可变荷载组合系数-不均匀冰")]
-        public float VcFUnevenIce { get; set; }
-
-        [XmlIgnore]
-        public string VcFUnevenIceName { get { return "可变荷载组合系数-不均匀冰"; } }
-
-        [XmlAttribute("可变荷载组合系数-验算")]
-        public float VcFCheck { get; set; }
-
-        [XmlIgnore]
-        public string VcFCheckName { get { return "可变荷载组合系数-验算"; } }
-
         [XmlAttribute("大风线条风压调整系数")]
         public float WindAdjustFactor { get; set; }
 
@@ -116,5 +63,11 @@ namespace TowerLoadCals.Mode
 
         [XmlIgnore]
         public string TractionAgnleName { get { return "牵引角度（°）"; } }
+
+        [XmlElement("GB50545-2010")]
+        public StruCalsLibGB50545BaseParas BaseParasGB50545 { get; set; }
+            
+        [XmlElement("DLT5551-2018")]
+        public StruCalsLibDLT5551BaseParas BaseParasDLT5551 { get; set; }
     }
 }

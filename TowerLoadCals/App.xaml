@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TowerLoad"
              StartupUri="MainWindow.xaml">
+    <!--MainWindow.xaml-->
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/TowerLoadCals;component/Controls/Style/TableViewStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TowerLoadCals;component/Controls/Style/TextViewStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TowerLoadCals;component/Controls/Style/GroupboxViewStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TowerLoadCals;component/Controls/DataTemplates/GridControlDataTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

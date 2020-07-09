@@ -8,11 +8,14 @@ using System.Windows.Data;
 
 namespace TowerLoadCals.Modules
 {
-    public static class BindingHelper {
-        public static string GetPath(GridColumn obj) {
+    public static class BindingHelper
+    {
+        public static string GetPath(GridColumn obj)
+        {
             return (string)obj.GetValue(PathProperty);
         }
-        public static void SetPath(GridColumn obj, string value) {
+        public static void SetPath(GridColumn obj, string value)
+        {
             obj.SetValue(PathProperty, value);
         }
 

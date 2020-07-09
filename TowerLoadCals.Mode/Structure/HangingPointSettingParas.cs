@@ -15,6 +15,8 @@ namespace TowerLoadCals.Mode
             TurningPoints = new List<HangingPointParas>();
 
             VStrings = new List<VStringParas>();
+
+            IsTuringPointSeleced = false;
         }
 
         //挂点方案名字
@@ -154,6 +156,12 @@ namespace TowerLoadCals.Mode
         /// </summary>
         [XmlAttribute]
         public float BLDZTH { get; set; }
+
+        /// <summary>
+        /// 是否选择转向挂点
+        /// </summary>
+        [XmlAttribute]
+        public bool IsTuringPointSeleced { get; set; }
 
         public List<HangingPointParas> NormalXYPoints { get; set; }
 

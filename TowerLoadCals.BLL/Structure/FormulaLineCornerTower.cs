@@ -3,9 +3,9 @@ using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.BLL
 {
-    public class FormulaLineCornerTower : FormulaTower
+    public class FormulaLineLineCornerTower : FormulaTower
     {
-        public FormulaLineCornerTower(StruCalseBaseParas paras) : base(paras)
+        public FormulaLineLineCornerTower(StruCalseBaseParas paras) : base(paras)
         {
         }
 

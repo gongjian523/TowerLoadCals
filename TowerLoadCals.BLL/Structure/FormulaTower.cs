@@ -87,6 +87,89 @@ namespace TowerLoadCals.BLL
         }
         #endregion
 
+
+        /// <summary>
+        /// 转向挂点转向处X
+        /// </summary>
+        /// <param name="z"></param>
+        /// <param name="angle"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public float TPTuringX(float z, float angle, out string str)
+        {
+            float res = (float)(-z * Math.Sin(angle * Math.PI / 180));
+            str = "-" + z.ToString("0.00") + " x sin(" + angle + ") = " + res.ToString("0.00");
+            return res;
+        }
+
+        /// <summary>
+        /// 转向挂点转向处Y
+        /// </summary>
+        /// <param name="z"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public float TPTuringY(float y, out string str)
+        {
+            float res = y;
+            str = res.ToString("0.00");
+            return res;
+        }
+
+        /// <summary>
+        /// 转向挂点转向处Z
+        /// </summary>
+        /// <param name="z"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public float TPTuringZ(float z, float angle, out string str)
+        {
+            float res = (float)(z + z * Math.Cos(angle * Math.PI / 180));
+            str = z.ToString("0.00") + " + " + z.ToString("0.00") + " x cos(" + angle + ") = " + res.ToString("0.00");
+            return res;
+        }
+
+
+        /// <summary>
+        /// 转向挂点导线处X
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="z"></param>
+        /// <param name="angle"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public float TPWireX(float x, float z, float angle, out string str)
+        {
+            float res = x + z * (float)Math.Sin(angle * Math.PI / 180);
+            str = x.ToString("0.00") + " + " + z.ToString("0.00") + " x sin(" + angle + ") = " + res.ToString("0.00");
+            return res;
+        }
+
+        /// <summary>
+        /// 转向挂点导线处Y
+        /// </summary>
+        /// <param name="z"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public float TPWireY(float y, out string str)
+        {
+            float res = y;
+            str = res.ToString("0.00");
+            return res;
+        }
+
+        /// <summary>
+        /// 转向挂点导线处Z
+        /// </summary>
+        /// <param name="z"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public float TPWireZ(float z, float angle, out string str)
+        {
+            float res = z - z * (float)Math.Cos(angle * Math.PI / 180);
+            str = z.ToString("0.00") + " - " + z.ToString("0.00") + " x cos(" + angle + ") = " + res.ToString("0.00");
+            return res;
+        }
+
     }
 
 }

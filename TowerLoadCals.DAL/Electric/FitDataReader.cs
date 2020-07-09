@@ -35,6 +35,8 @@ namespace TowerLoadCals.DAL
                 {
                     FitData fitData = new FitData();
 
+                    if (node.Attributes["Model"] != null)
+                        fitData.Model = node.Attributes["Model"].Value.ToString();
                     if (node.Attributes["Name"] != null)
                         fitData.Name = node.Attributes["Name"].Value.ToString();
                     if (node.Attributes["Weight"] != null)

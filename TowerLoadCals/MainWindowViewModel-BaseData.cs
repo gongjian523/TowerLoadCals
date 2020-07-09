@@ -11,20 +11,45 @@ namespace TowerLoadCals
     {
         private ModuleMenu IniBaseDataModule()
         {
-            ModuleMenu baseDataMudule = new ModuleMenu("BaseDataModule", this, "基础数据", (e) => { OnSelectedModuleChanged(e);});
+            ModuleMenu baseDataMudule = new ModuleMenu("BaseDataModule", this, "基础数据", (e) => { OnSelectedModuleChanged(e); });
             baseDataMudule.SetIcon("FolderList_32x32.png");
 
+            //左侧基础菜单列表
             var menuItem = new List<SubMenuBase>() { };
+            GetMenuList(menuItem,true);
+            baseDataMudule.MenuItems = menuItem;
 
-            var towerMenu = new SubMenuBase("TowerModule", this, "杆塔", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
-            towerMenu.SetIcon("Menu_tower.png");
-            menuItem.Add(towerMenu);
+            //右侧网络菜单列表
+            //var InternetMenuItem = new List<SubMenuBase>() { };
+            //GetMenuList(InternetMenuItem,false);
+            //baseDataMudule.InternetMenuItems = InternetMenuItem;
 
-            var weatherMenu = new SubMenuBase("WeatherConditionModule", this, "气象条件", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var rightMemuItem = new List<SubMenuBase> { };
+            GetMenuList(rightMemuItem, false);
+            InternetMenuItems = new ObservableCollection<SubMenuBase>(rightMemuItem);
+
+            return baseDataMudule;
+        }
+
+        #region 菜单列表
+        /// <summary>
+        /// 菜单列表
+        /// </summary>
+        /// <param name="menuItem"></param>
+        private void GetMenuList(List<SubMenuBase> menuItem, bool IsBaseMenu)
+        {
+            if (IsBaseMenu)//左侧主菜单
+            {
+                var towerMenu = new SubMenuBase("TowerModule", this, "杆塔", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+                towerMenu.SetIcon("Menu_tower.png");
+                menuItem.Add(towerMenu);
+            }
+
+            var weatherMenu = new SubMenuBase(IsBaseMenu ? "WeatherConditionModule" : "WeatherConditionModule_Internet", this, "气象条件", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             weatherMenu.SetIcon("Menu_weather.png");
             menuItem.Add(weatherMenu);
 
-            var wireMenu = new SubMenuBase("WireModule", this, "导地线", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var wireMenu = new SubMenuBase(IsBaseMenu ? "WireModule" : "WireModule_Internet", this, "导地线", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             wireMenu.SetIcon("Menu_wire.png");
             var wireSubList = new List<SubMenuBase>() { };
             var wireSubMenu1 = new SubMenuBase("", this, "  导线", (e) => { OnSelectedSubModuleItemChanged(e); });
@@ -36,7 +61,7 @@ namespace TowerLoadCals
             wireMenu.ChildItems = wireSubList;
             menuItem.Add(wireMenu);
 
-            var strDataMenu = new SubMenuBase("StrDataModule", this, "绝缘子串", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var strDataMenu = new SubMenuBase(IsBaseMenu ? "StrDataModule" : "StrDataModule_Internet", this, "绝缘子串", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             strDataMenu.SetIcon("Menu_subString.png");
             var strDataSubList = new List<SubMenuBase>() { };
             var strDataSubMenu1 = new SubMenuBase("", this, "  一般子串", (e) => { OnSelectedSubModuleItemChanged(e); });
@@ -48,7 +73,7 @@ namespace TowerLoadCals
             strDataMenu.ChildItems = strDataSubList;
             menuItem.Add(strDataMenu);
 
-            var fitDataMenu = new SubMenuBase("FitDataModule", this, "其他金具", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var fitDataMenu = new SubMenuBase(IsBaseMenu ? "FitDataModule" : "FitDataModule_Internet", this, "其他金具", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             fitDataMenu.SetIcon("Menu_tool.png");
             var fitDataSubList = new List<SubMenuBase>() { };
             var fitDataSubMenu1 = new SubMenuBase("", this, "  防震锤", (e) => { OnSelectedSubModuleItemChanged(e); });
@@ -66,25 +91,25 @@ namespace TowerLoadCals
             fitDataMenu.ChildItems = fitDataSubList;
             menuItem.Add(fitDataMenu);
 
-            var struCalsLibMenu = new SubMenuBase("", this, "结构计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
-            struCalsLibMenu.SetIcon("Menu_para.png");
-            var struCalsLibSubList = new List<SubMenuBase>() { };
-            var baseDataLibMenu = new SubMenuBase("StruCalsLibBaseDataModule", this, "  基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
-            baseDataLibMenu.ParentNode = struCalsLibMenu;
-            struCalsLibSubList.Add(baseDataLibMenu);
-            var extralLoadLibMenu = new SubMenuBase("StruCalsLibExtralLoadModule", this, "  附加荷载库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
-            extralLoadLibMenu.ParentNode = struCalsLibMenu;
-            struCalsLibSubList.Add(extralLoadLibMenu);
-            var IceCoverLibModule = new SubMenuBase("StruCalsLibIceCoverModule", this, "  覆冰参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
-            IceCoverLibModule.ParentNode = struCalsLibMenu;
-            struCalsLibSubList.Add(IceCoverLibModule);
-            struCalsLibMenu.ChildItems = struCalsLibSubList;
-            menuItem.Add(struCalsLibMenu);
-
-            baseDataMudule.MenuItems = menuItem;
-
-            return baseDataMudule;
-        }
+            if (IsBaseMenu)//左侧主菜单
+            {
+                var struCalsLibMenu = new SubMenuBase("", this, "结构计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+                struCalsLibMenu.SetIcon("Menu_para.png");
+                var struCalsLibSubList = new List<SubMenuBase>() { };
+                var baseDataLibMenu = new SubMenuBase("StruCalsLibBaseDataModule", this, "  基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+                baseDataLibMenu.ParentNode = struCalsLibMenu;
+                struCalsLibSubList.Add(baseDataLibMenu);
+                var extralLoadLibMenu = new SubMenuBase("StruCalsLibExtralLoadModule", this, "  附加荷载库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+                extralLoadLibMenu.ParentNode = struCalsLibMenu;
+                struCalsLibSubList.Add(extralLoadLibMenu);
+                var IceCoverLibModule = new SubMenuBase("StruCalsLibIceCoverModule", this, "  覆冰参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+                IceCoverLibModule.ParentNode = struCalsLibMenu;
+                struCalsLibSubList.Add(IceCoverLibModule);
+                struCalsLibMenu.ChildItems = struCalsLibSubList;
+                menuItem.Add(struCalsLibMenu);
+            }
+        } 
+        #endregion
 
         private void OnSelectedModuleChanged(ModuleMenu mv)
         {

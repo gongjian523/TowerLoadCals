@@ -274,16 +274,26 @@ namespace TowerLoadCals.BLL
             var config = new MapperConfiguration(x => x.CreateMap<StruCalsLibBaseParas, StruCalseBaseParas>());
             IMapper mapper = new Mapper(config);
 
+            StruCalsLibBaseParas libBaseParas = !BaseParas.IsTensionTower ? libParas.OverhangingTowerBaseParas: libParas.TensionTowerBaseParas;
 
+            BaseParas = mapper.Map<StruCalseBaseParas>(libBaseParas);
 
-            if (!BaseParas.IsTensionTower)
-            {
-                BaseParas = mapper.Map<StruCalseBaseParas>(libParas.OverhangingTowerBaseParas);
-            }
-            else
-            {
-                BaseParas = mapper.Map<StruCalseBaseParas>(libParas);
-            }
+            //这种初始化有点问题，当两种标准的共同参数的值取不一样时会有错误
+            //正确的做法是应该是在加入库时，就选择标准。
+            //但这种做法两种标准切换时，两种标准共同参数取值不一样时，仍然无法切换到正确的值，
+            //故维持现在的做法。
+            BaseParas.RGBad = libBaseParas.BaseParasGB50545.RGBad;
+            BaseParas.RGGood = libBaseParas.BaseParasGB50545.RGGood;
+            BaseParas.RQ = libBaseParas.BaseParasGB50545.RQ;
+            BaseParas.VcFInstall = libBaseParas.BaseParasGB50545.VcFInstall;
+            BaseParas.VcFBroken = libBaseParas.BaseParasGB50545.VcFBroken;
+            BaseParas.VcFUnevenIce = libBaseParas.BaseParasGB50545.VcFUnevenIce;
+            BaseParas.VcFNormal = libBaseParas.BaseParasGB50545.VcFNormal;
+            BaseParas.VcFCheck = libBaseParas.BaseParasGB50545.VcFCheck;
+
+            BaseParas.RGOverturn = libBaseParas.BaseParasDLT5551.RGOverturn;
+            BaseParas.VcFIce = libBaseParas.BaseParasDLT5551.VcFIce;
+            BaseParas.VcFCold = libBaseParas.BaseParasDLT5551.VcFCold;
 
             BaseParas.LoadRatio = 1;
             BaseParas.R1Install = 1;
@@ -298,7 +308,6 @@ namespace TowerLoadCals.BLL
                     WireType = Template.Wires[i],
                     DrawingCoef = ((!BaseParas.IsTensionTower) ? libParas.OverhangingTowerBaseParas.DrawingCoef 
                     : libParas.TensionTowerBaseParas.DrawingCoef)
-
                 }); 
             }
             LineParas = lineParas;

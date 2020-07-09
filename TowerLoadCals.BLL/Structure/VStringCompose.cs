@@ -1,7 +1,12 @@
 ﻿using System;
 
+
 namespace TowerLoadCals.BLL
 {
+    /// <summary>
+    /// 结构计算  V串的计算类
+    /// 
+    /// </summary>
     public class VStringCompose
     {
         protected float xxx1;

@@ -71,6 +71,11 @@ namespace TowerLoadCals.BLL
                 string vStr = pointParas.StringType.Contains("V") ? "V串" : pointParas.StringType;
                 dicGroup = dicGrps.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
             }
+            else if(link.Contains("转向"))
+            {
+                pointParas = pointsParas.Where(item => item.WireType == wireType).First();
+                dicGroup = dicGrps.Where(item => item.Group == group && item.Link == link).First();
+            }
             else
             {
                 string wCC = template.WorkConditionCombos[jIndex].WorkConditionCode;
@@ -85,11 +90,16 @@ namespace TowerLoadCals.BLL
         }
 
 
-        public void ComposeHangingPointsLoad(out string resStr, out List<StruCalsPointLoad> resList)
+        public void ComposeHangingPointsLoad(out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
         {
             resList = new List<StruCalsPointLoad>();
 
-            string preStr = wireType.PadLeft(8) + ("工况" + (jIndex+1).ToString()).PadLeft(8);
+            string preStr = "  " + wireType;
+
+            if (isTurningPoint)
+                preStr += "转向荷载";
+
+            preStr += ("工况" + (jIndex+1).ToString()).PadLeft(8);
             resStr = preStr + orientation.PadLeft(6) + lineLoad[jIndex, iIndex].ToString("0.00").PadLeft(10);
 
             //导线V串

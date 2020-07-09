@@ -108,7 +108,7 @@ namespace TowerLoadCals.DAL
 
                 Weather weather = new Weather()
                 {
-                    Name = node.Attributes["Name"].Value.ToString(),
+                    Name = node.Attributes["SName"].Value.ToString(),
                     WorkConditions = listWd
                 };
                 list.Add(weather);

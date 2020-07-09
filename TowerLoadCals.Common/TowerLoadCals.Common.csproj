@@ -53,7 +53,7 @@
     <Compile Include="Utils\ExcelUtils.cs" />
     <Compile Include="Utils\HttpUtils.cs" />
     <Compile Include="Utils\MemoryCacheUtil.cs" />
-    <Compile Include="Utils\TextUtils.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\XmlHelper.cs" />
     <Compile Include="Utils\XmlUtils.cs" />
   </ItemGroup>

@@ -42,9 +42,8 @@ namespace TowerLoadCals.Modules
 
         protected override void InitializeData()
         {
-            //Weathers = _weatherXmlReader.ReadLocal(filePath);
-            BaseData = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
-            //BaseData = _weatherXmlReader.ReadLocal("D:\\智菲\\P-200325-杆塔负荷程序\\数据资源示例\\3.xml");
+            BaseData = _weatherXmlReader.ReadLocal(filePath);
+            //BaseData = _weatherXmlReader.ReadLocal("D:\\00-项目\\P-200325-杆塔负荷程序\\数据资源示例\\test-weather.xml");
 
             UpdateCurrentWeatherCondition(BaseData.Count == 0 ? "" : BaseData[0].Name);
         }

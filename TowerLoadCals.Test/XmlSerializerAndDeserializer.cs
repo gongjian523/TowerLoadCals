@@ -275,14 +275,6 @@ namespace TowerLoadCals.Test
 
             StruCalsLibBaseParas baseParasOverhanging = new StruCalsLibBaseParas
             {
-                RGBad = 1.2f,
-                RGGood = 1f,
-                RQ = 1.4f,
-                VcFNormal = 1,
-                VcFInstall = 0.9f,
-                VcFBroken = 0.9f,
-                VcFUnevenIce = 0.9f,
-                VcFCheck = 0.75f,
                 WindAdjustFactor = 1.2f,
                 OtherWindAdjustFactor = 1,
                 DynamicCoef = 1.1f,
@@ -290,25 +282,65 @@ namespace TowerLoadCals.Test
                 AnchorWindCoef = 0.8f,
                 AnchorGravityCoef = 0.8f,
                 AnchorAngle = 20,
+                BaseParasGB50545 = new StruCalsLibGB50545BaseParas
+                {
+                    RGBad = 1.2f,
+                    RGGood = 1,
+                    RQ = 1.4f,
+                    VcFNormal = 1,
+                    VcFInstall = 0.9f,
+                    VcFBroken = 0.9f,
+                    VcFUnevenIce = 0.9f,
+                    VcFCheck = 0.75f,
+                },
+                BaseParasDLT5551 = new StruCalsLibDLT5551BaseParas
+                {
+                    RGBad = 1.2f,
+                    RGGood = 1,
+                    RQ = 1.4f,
+                    RGOverturn = 0.9f,
+                    VcFNormal = 1,
+                    VcFIce = 1,
+                    VcFCold = 1,
+                    VcFBroken = 0.9f,
+                    VcFInstall = 0.9f,
+                    VcFUnevenIce = 0.9f,
+                }
             };
 
             StruCalsLibBaseParas baseParasTension = new StruCalsLibBaseParas
             {
-                RGBad = 1.2f,
-                RGGood = 1f,
-                RQ = 1.4f,
-                VcFNormal = 1,
-                VcFInstall = 0.9f,
-                VcFBroken = 0.9f,
-                VcFUnevenIce = 0.9f,
-                VcFCheck = 0.75f,
                 WindAdjustFactor = 1.2f,
                 OtherWindAdjustFactor = 1,
                 DynamicCoef = 1.1f,
                 DrawingCoef = 1.2f,
-                LiftCoefJumper = 2f,
+                LiftCoefJumper = 2,
                 TempStayWireAngle = 45,
                 TractionAgnle = 20,
+                BaseParasGB50545 = new StruCalsLibGB50545BaseParas
+                {
+                    RGBad = 1.2f,
+                    RGGood = 1,
+                    RQ = 1.4f,
+                    VcFNormal = 1,
+                    VcFInstall = 0.9f,
+                    VcFBroken = 0.9f,
+                    VcFUnevenIce = 0.9f,
+                    VcFCheck = 0.75f,
+                },
+                BaseParasDLT5551 = new StruCalsLibDLT5551BaseParas
+                {
+                    RGBad = 1.2f,
+                    RGGood = 1,
+                    RQ = 1.4f,
+                    RGOverturn = 0.9f,
+                    VcFNormal = 1,
+                    VcFIce = 1,
+                    VcFCold = 1,
+                    VcFBroken = 0.9f,
+                    VcFInstall = 0.9f,
+                    VcFUnevenIce = 0.9f,
+                }
             };
 
             List<StruCalsLibWireExtraLoadParas> wireExtraLoadParas = new List<StruCalsLibWireExtraLoadParas>
@@ -481,6 +513,45 @@ namespace TowerLoadCals.Test
             XmlUtils.Serializer(saveFileDialog.FileName, paras);
 
             var paras2 = XmlUtils.Deserializer<StruCalsLib>(saveFileDialog.FileName);
+        }
+
+        [TestMethod]
+        public void TestMethod03_BaseDataWeatherCondition()
+        {
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            List<Weather> paras = new List<Weather>
+            {
+                new Weather()
+                {
+                    Name = "20mm冰区",
+                    WorkConditions = new List<WorkCondition>
+                    {
+                        new WorkCondition()
+                        {
+                            SWorkConditionName = "最高温度",
+                            SWindSpeed = "1",
+                            STemperature = "50",
+                            SIceThickness = "0"
+                        }
+
+                    }
+
+                }
+
+            };
+
+
+            XmlUtils.Serializer(saveFileDialog.FileName, paras);
+
+            var paras2 = XmlUtils.Deserializer<List<Weather>>(saveFileDialog.FileName);
+
         }
     }
 }

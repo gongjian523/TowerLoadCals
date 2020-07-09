@@ -1201,7 +1201,7 @@ namespace TowerLoadCals.Test
                 InstallZPoints = intallTZList,
             };
 
-            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+            LoadComposeTensionTower loadCornerTower = new LoadComposeTensionTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
             loadCornerTower.CalculateLoadDistribute(filePath);
@@ -1441,7 +1441,7 @@ namespace TowerLoadCals.Test
                 VStrings = vStringList,
             };
 
-            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+            LoadComposeTensionTower loadCornerTower = new LoadComposeTensionTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
             loadCornerTower.CalculateLoadDistribute(filePath);
@@ -1704,7 +1704,7 @@ namespace TowerLoadCals.Test
                 VStrings = vStringList,
             };
 
-            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+            LoadComposeTensionTower loadCornerTower = new LoadComposeTensionTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
             loadCornerTower.CalculateLoadDistribute(filePath);
@@ -1941,7 +1941,7 @@ namespace TowerLoadCals.Test
                 InstallZPoints = intallTList,
             };
 
-            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+            LoadComposeTensionTower loadCornerTower = new LoadComposeTensionTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
             loadCornerTower.CalculateLoadDistribute(filePath);
@@ -2306,7 +2306,7 @@ namespace TowerLoadCals.Test
                 InstallZPoints = installTList,
             };
 
-            LoadComposeCornerTower loadCornerTower = new LoadComposeCornerTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
+            LoadComposeTensionTower loadCornerTower = new LoadComposeTensionTower(formulaParas, lineParas, ratioParas, template, openTemplateDialog.FileName);
 
             string filePath = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 3) + "calc";
             loadCornerTower.CalculateLoadDistribute(filePath);
@@ -2352,8 +2352,6 @@ namespace TowerLoadCals.Test
         }
 
 
-
-
         [TestMethod]
         public void TestMethod10_CreatProjectConfigFile()
         {
@@ -2366,6 +2364,13 @@ namespace TowerLoadCals.Test
 
             pro.DeleteStrucTowerName("tower5");
             pro.DeleteStrucTowerNames(new List<string>() { "tower1", "tower3" });
+
+        }
+
+        [TestMethod]
+        public void TestMethod11_ArrayInit()
+        {
+            float[,] arr = new float[5, 3];
 
         }
 

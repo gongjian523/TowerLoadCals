@@ -28,7 +28,6 @@ namespace TowerLoadCals.Modules
         protected override void InitializeData()
         {
             BaseData = FitDataReader.Read(filePath);
-
             UpdateCurrentSelectedFitData("防震锤");                
         }
 

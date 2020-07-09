@@ -46,8 +46,6 @@ namespace TowerLoadCals.Modules
             BaseData = WireReader.Read(filePath);
 
             UpdateCurrentSelectedWire("导线");
-
-        
         }
 
         protected void UpdateCurrentSelectedWire(string type)
@@ -98,7 +96,6 @@ namespace TowerLoadCals.Modules
         public override void Save()
         {
             UpdateLastSelectedWire();
-
             WireReader.Save(filePath, BaseData);
         }
 

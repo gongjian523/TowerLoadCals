@@ -14,14 +14,14 @@ namespace TowerLoadCals.Mode
         //public int ID { get; set; }
 
         /// <summary>
-        /// 名字/型号
+        /// 名称
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// 类型 
+        /// 型号 
         /// </summary>
-        //public string Type { get; set; }
+        public string Model { get; set; }
 
         /// <summary>
         /// 重量

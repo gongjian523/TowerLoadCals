@@ -41,11 +41,30 @@ namespace TowerLoadCals.BLL
         protected float[,] YY { get; set; }
         protected float[,] ZZ { get; set; }
 
+        /// <summary>
+        /// 以下三个数组保存转向处的线荷载
+        /// </summary>
+        protected float[,] XXT { get; set; }
+        protected float[,] YYT { get; set; }
+        protected float[,] ZZT { get; set; }
+
+        /// <summary>
+        /// 地线和导线总数
+        /// </summary>
         protected int wireNum;
-        protected int groudWireNum;
+        /// <summary>
+        /// 地线数
+        /// </summary>
+        protected int earthWireNum;
         protected int workConditionNum;
 
+        /// <summary>
+        /// 保存线荷载的输出语句
+        /// </summary>
         protected List<string> ProcessString { get; set; }
+        /// <summary>
+        /// 保存挂点荷载的输出语句
+        /// </summary>
         protected List<string> Process2String { get; set; }
 
         //下面三个数组保存的是从电气荷载文件读取的工况，
@@ -53,6 +72,8 @@ namespace TowerLoadCals.BLL
         protected float[] WorkConditionWind;
         protected float[] WorkConditionTemperate;
         protected float[] WorkConditionIceThickness;
+
+        protected FormulaTower formula;
 
         public LoadComposeBase(StruCalseBaseParas para, StruLineParas[] lineParas, HangingPointSettingParas hpParas, TowerTemplate template, string tablePath)
         {
@@ -68,32 +89,13 @@ namespace TowerLoadCals.BLL
             LoadDics = StruLoadComposeDicReader.DicRead(GetLoadDicPath());
 
             wireNum = Template.Wires.Count;
-            groudWireNum = Template.Wires.Where(item => item.Contains("地")).Count();
+            earthWireNum = Template.Wires.Where(item => item.Contains("地")).Count();
             workConditionNum = Template.WorkConditongs.Count;
 
             DataSet ds = ExcelUtils.ReadExcel(tablePath);
             ReadWorkCondition(ds);
             ReadElectricLoad(ds);
         }
-
-        //protected DataSet ReadExcel(string path)
-        //{
-        //    string strConn = "Provider=Microsoft.Ace.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0";
-        //    OleDbConnection conn = new OleDbConnection(strConn);
-
-        //    conn.Open();
-
-        //    DataTable dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-        //    string sheetName = dt.Rows[0]["TABLE_NAME"].ToString().Trim();//sheet默认排序
-        //    string strExcel = string.Format("select * from [{0}]", sheetName);
-
-        //    OleDbDataAdapter myCommand = new OleDbDataAdapter(strExcel, strConn);
-
-        //    DataSet ds = new DataSet();
-        //    myCommand.Fill(ds);
-
-        //    return ds;
-        //}
 
         abstract protected void ReadElectricLoad(DataSet ds);
 
@@ -120,9 +122,13 @@ namespace TowerLoadCals.BLL
             int i = 0;
             foreach (var wireItem in Template.Wires)
             {
-                int j = 0;
+                int j = -1;
                 foreach (var wdItem in Template.WorkConditionCombos)
                 {
+                    j++;
+                    if (!wdItem.IsCalculate)
+                        continue;
+
                     string groupStr, linkStrXY, linkStrZ;
                     List<HangingPointParas> pointsXY, pointsZ;
 
@@ -312,19 +318,19 @@ namespace TowerLoadCals.BLL
 
                     Process2String.Add(strZ);
                     pointsLoad.AddRange(pListZ);
-
-                    j++;
                 }
                 i++;
             }
 
-            TextUtils.TextSaveByLine(path, Process2String);
+            TurningPointsLoadCompose(pointsLoad);
+
+            FileUtils.TextSaveByLine(path, Process2String);
 
             return pointsLoad;
         }
 
         public void GenerateLoadFile(string path, List<StruCalsPointLoad> pointLoads)
-            {
+        {
             List<string> processString = new List<string>();
 
             StruCalsLib libParas = GlobalInfo.GetInstance().GetStruCalsLibParas();
@@ -336,7 +342,7 @@ namespace TowerLoadCals.BLL
 
             #region 保存工况
             for(int i = 0; i < Template.WorkConditionCombos.Count; i++)
-                {
+            {
                 WorkConditionCombo wcCombo = Template.WorkConditionCombos[i];
 
                 float wcWind = WorkConditionWind[wcCombo.WorkCode-1];
@@ -345,19 +351,80 @@ namespace TowerLoadCals.BLL
 
                 float windLoad = 1, gravityLoad = 1;
                 
+                //对于冰厚，首先寻找和工况中指定冰厚一样，没有的情况下向下取最大的值
                 if(libParas.IceCoverParas.Where(item => item.IceThickness == wdIceThickness).Count() > 0)
-                    {
+                {
                     windLoad = libParas.IceCoverParas.Where(item => item.IceThickness == wdIceThickness).First().TowerWindLoadAmplifyCoef;
                     gravityLoad = libParas.IceCoverParas.Where(item => item.IceThickness == wdIceThickness).First().TowerGravityLoadAmplifyCoef;
+                }
+                else
+                {
+                    for(int j = libParas.IceCoverParas.Count - 1; j >=0; j --)
+                    {
+                        if(wdIceThickness  - libParas.IceCoverParas[j].IceThickness > 0)
+                        {
+                            windLoad = libParas.IceCoverParas[j].TowerWindLoadAmplifyCoef;
+                            gravityLoad = libParas.IceCoverParas[j].TowerGravityLoadAmplifyCoef;
+                            break;
+                        }
                     }
+                }
 
-                //Todo
-                float comboCoef = Paras.VcFNormal * windLoad;
+                float installCoef = 1, otherCoef = 1.1f;
+                if(libParas.WireExtraLoadParas.Where(item => item.Voltage == Paras.Voltage).Count() > 0)
+                {
+                    installCoef = libParas.WireExtraLoadParas.Where(item => item.Voltage == Paras.Voltage).First().InstallImportanceCoef;
+                    otherCoef = libParas.WireExtraLoadParas.Where(item => item.Voltage == Paras.Voltage).First().OtherImportanceCoef;
+                }
+
+                float comboCoef, importanceCoef;
+                if(wcCombo.WorkConditionCode.StartsWith("N"))  
+                {
+                    comboCoef = Paras.VcFNormal * windLoad;
+                    importanceCoef = otherCoef;
+                }
+                else if (wcCombo.WorkConditionCode.StartsWith("D"))
+                {
+                    comboCoef = Paras.VcFCold * windLoad;
+                    importanceCoef = otherCoef;
+                }
+                else if (wcCombo.WorkConditionCode.StartsWith("I"))
+                {
+                    comboCoef = (Paras.SelectedStandard == "GB50545-2010" ? Paras.VcFNormal : Paras.VcFIce) * windLoad;
+                    importanceCoef = otherCoef;
+                }
+                else if(wcCombo.WorkConditionCode.StartsWith("L") || wcCombo.WorkConditionCode.StartsWith("G") || wcCombo.WorkConditionCode.StartsWith("M")
+                    || wcCombo.WorkConditionCode.StartsWith("C") || wcCombo.WorkConditionCode.StartsWith("J"))
+                {
+                    comboCoef = Paras.VcFInstall * windLoad;
+                    importanceCoef = installCoef;
+                }
+                else if(wcCombo.WorkConditionCode.StartsWith("B"))
+                {
+                    comboCoef = Paras.VcFBroken * windLoad;
+                    importanceCoef = installCoef;
+                }
+                else if (wcCombo.WorkConditionCode.StartsWith("U"))
+                {
+                    comboCoef = Paras.VcFUnevenIce * windLoad;
+                    importanceCoef = installCoef;
+
+                }
+                else if (wcCombo.WorkConditionCode.StartsWith("T") || wcCombo.WorkConditionCode.StartsWith("Y"))
+                {
+                    comboCoef = Paras.VcFCheck * windLoad;
+                    importanceCoef = installCoef;
+
+                }
+                else
+                {
+                    //不应该走到此分支
+                    comboCoef = 1 * windLoad;
+                    importanceCoef = 1;
+                    throw new Exception("生成Load文件出错：1；工况代号" + wcCombo.WorkConditionCode);
+                }
 
                 float windAngle = wcCombo.WindDirectionCode;
-
-                //Todo
-                float importanceCoef = Paras.R1Install;
 
                 float temperature = WorkConditionTemperate[wcCombo.WorkCode - 1];
 
@@ -367,7 +434,7 @@ namespace TowerLoadCals.BLL
 
                 processString.Add(str);
 
-        }
+            }
 
             #endregion
 
@@ -391,8 +458,8 @@ namespace TowerLoadCals.BLL
             }
             #endregion
 
-            TextUtils.TextSaveByLine(path, processString);
-                    }
+            FileUtils.TextSaveByLine(path, processString);
+        }
 
         protected virtual string GetDicPath()
         {
@@ -447,8 +514,118 @@ namespace TowerLoadCals.BLL
 
                 object obj3 = ds.Tables[0].Rows[1][i+1];
                 float.TryParse(obj.ToString(), out WorkConditionIceThickness[i]);
-    }
+            }
         }
+
+        /// <summary>
+        /// 计算转向挂点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        protected void CalsTurningPointsLoad(int i, int j)
+        {
+            float angf = HPSettingParas.TurningPoints.Where(item => item.WireType == Template.Wires[j-1]).First().Angle;
+
+            //XXT[i, j - 1] = (float)(-ZZ[i, j - 1] * Math.Sin(angf * Math.PI / 180));
+            //YYT[i, j - 1] = YY[i, j - 1];
+            //ZZT[i, j - 1] = (float)(ZZ[i, j - 1] + ZZ[i, j - 1] * Math.Cos(angf * Math.PI / 180));
+
+            //ProcessString.Add(Template.Wires[j - 1] + "转向处 Fx= " + ZZ[i, j - 1].ToString("0.00") + " x sin(" + angf + ") = " + XXT[i, j - 1].ToString("0.00"));
+            //ProcessString.Add(Template.Wires[j - 1] + "转向处 Fy= " + YY[i, j - 1].ToString("0.00"));
+            //ProcessString.Add(Template.Wires[j - 1] + "转向处 Fz= " + ZZ[i, j - 1].ToString("0.00") + " + " + ZZ[i, j - 1].ToString("0.00") + " x cos(" + angf + ") = " + ZZ[i, j - 1].ToString("0.00"));
+
+            XXT[i, j - 1] = formula.TPTuringX(ZZ[i, j - 1], angf, out string strTX);
+            YYT[i, j - 1] = formula.TPTuringY(YY[i, j - 1], out string strTY);
+            ZZT[i, j - 1] = formula.TPTuringZ(ZZ[i, j - 1], angf, out string strTZ);
+
+            ProcessString.Add(Template.Wires[j - 1] + "转向处 Fx= " + strTX);
+            ProcessString.Add(Template.Wires[j - 1] + "转向处 Fy= " + strTY);
+            ProcessString.Add(Template.Wires[j - 1] + "转向处 Fz= " + strTZ);
+
+            //float fzz = XX[i, j - 1];
+            //float fzz1 = ZZ[i, j - 1];
+            //XX[i, j - 1] = XX[i, j - 1] + ZZ[i, j - 1] * (float)Math.Sin(angf * Math.PI / 180);
+            //YY[i, j - 1] = YY[i, j - 1];
+            //ZZ[i, j - 1] = ZZ[i, j - 1] - ZZ[i, j - 1] * (float)Math.Cos(angf * Math.PI / 180);
+
+            //ProcessString.Add(Template.Wires[j - 1] + "导线处 Fx= " + fzz.ToString("0.00") + " + " + fzz1.ToString("0.00") + " x sin(" + angf + ") = " + XX[i, j - 1].ToString("0.00"));
+            //ProcessString.Add(Template.Wires[j - 1] + "导线处 Fy= " + YY[i, j - 1].ToString("0.00"));
+            //ProcessString.Add(Template.Wires[j - 1] + "导线处 Fz= " + fzz1.ToString("0.00") + " - " + fzz1.ToString("0.00") + " x cos(" + angf + ") = " + ZZ[i, j - 1].ToString("0.00"));
+
+
+            XX[i, j - 1] = formula.TPWireX(XX[i, j - 1], ZZ[i, j - 1], angf, out string strWX);
+            YY[i, j - 1] = formula.TPWireY(YY[i, j - 1], out string strWY);
+            ZZ[i, j - 1] = formula.TPWireZ(ZZ[i, j - 1], angf, out string strWZ);
+
+            ProcessString.Add(Template.Wires[j - 1] + "导线处 Fx= " + strWX);
+            ProcessString.Add(Template.Wires[j - 1] + "导线处 Fy= " + strWY);
+            ProcessString.Add(Template.Wires[j - 1] + "导线处 Fz= " + strWZ);
+        }
+
+        protected void GenerateLineLoadString(int j, string xLoadStr, string yLoadStr, string zLoadStr, string oritationStr = null)
+        {
+            if(oritationStr == null)
+            {
+                ProcessString.Add(Template.Wires[j - 1] + " Fx= " + xLoadStr);
+                ProcessString.Add(Template.Wires[j - 1] + " Fy= " + yLoadStr);
+                ProcessString.Add(Template.Wires[j - 1] + " Fz= " + zLoadStr);
+            }
+            else
+            {
+                ProcessString.Add(Template.Wires[j - 1] + oritationStr + " Fx= " + xLoadStr);
+                ProcessString.Add(Template.Wires[j - 1] + oritationStr + " Fy= " + yLoadStr);
+                ProcessString.Add(Template.Wires[j - 1] + oritationStr + " Fz= " + zLoadStr);
+            }
+        }
+
+        /// <summary>
+        /// 给转向挂点分配荷载
+        /// </summary>
+        protected virtual void TurningPointsLoadCompose(List<StruCalsPointLoad>  loads)
+        {
+            int i = -1;
+            foreach(var wire in Template.Wires)
+            {
+                i++;
+                //地线不用计算转向挂点
+                if (wire.Contains("地"))
+                    continue;
+
+                int j = -1;
+                foreach(var wdItem in Template.WorkConditionCombos)
+                {
+                    j++;
+                    if (!wdItem.IsCalculate)
+                        continue;
+
+                    string groupStr = "第八组";
+                    string linkStr = "[转向挂点_dataTable]";
+                    List<HangingPointParas> points = HPSettingParas.TurningPoints;
+
+                    HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX, true);
+
+                    Process2String.Add(strX);
+                    loads.AddRange(pListX);
+
+                    HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY, true);
+
+                    Process2String.Add(strY);
+                    loads.AddRange(pListY);
+
+                    HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ, true);
+
+                    Process2String.Add(strZ);
+                    loads.AddRange(pListZ);
+                }
+                
+            }
+
+
+        }
+
     }
 }
  

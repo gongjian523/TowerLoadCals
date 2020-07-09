@@ -25,7 +25,7 @@
                     </dxg:TableView.RowCellMenuCustomizations>
                 </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Name"  Header="名字" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="StrType"  Header="串类型" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="FitLength"  Header="长度" HorizontalHeaderContentAlignment="Center"/>

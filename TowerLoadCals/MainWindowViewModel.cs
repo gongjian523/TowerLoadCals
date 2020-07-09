@@ -63,6 +63,25 @@ namespace TowerLoadCals
             }
         }
 
+
+        private ObservableCollection<SubMenuBase> _internetMenuItems = new ObservableCollection<SubMenuBase>();
+        /// <summary>
+        /// 保存每个模块下面的的子按钮
+        /// </summary>
+        public ObservableCollection<SubMenuBase> InternetMenuItems
+        {
+            get
+            {
+                return _internetMenuItems;
+            }
+
+            protected set
+            {
+                _internetMenuItems = value;
+                RaisePropertyChanged("InternetMenuItems");
+            }
+        }
+
         public virtual SubMenuBase SelectedMenuItem { get; set; }
 
         public virtual Type SplashScreenType { get; set; }

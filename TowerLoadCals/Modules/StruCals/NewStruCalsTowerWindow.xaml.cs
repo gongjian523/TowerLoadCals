@@ -17,5 +17,7 @@ namespace TowerLoadCals.Modules
         {
             ((NewStruCalsTowerViewModel)DataContext).onConcel();
         }
+
+
     }
 }

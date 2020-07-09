@@ -220,16 +220,16 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        private bool _isTensionHPCheck = false;
+        //private bool _isTensionHPCheck = false;
         public bool IsTurnHPChecked
         {
             get
             {
-                return _isTensionHPCheck;
+                return HPSetitingParas.IsTuringPointSeleced;
             }
             set
             {
-                _isTensionHPCheck = value;
+                HPSetitingParas.IsTuringPointSeleced = value;
                 RaisePropertyChanged("IsTurnHPChecked");
             }
         }

@@ -79,6 +79,11 @@ namespace TowerLoadCals.BLL
                 string vStr = pointParas.StringType.Contains("V") ? "V串" : pointParas.StringType;
                 dicGroup = dicGrps.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
             }
+            else if (link.Contains("过滑车"))
+            {
+                pointParas = pointsParas.Where(item => item.WireType == wireType).First();
+                dicGroup = dicGrps.Where(item => item.Group == group && item.Link == link).First();
+            }
             else
             {
                 string wCC = template.WorkConditionCombos[jIndex].WorkConditionCode;

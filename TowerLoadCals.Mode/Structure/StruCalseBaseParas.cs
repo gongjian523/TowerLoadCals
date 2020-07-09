@@ -349,5 +349,11 @@ namespace TowerLoadCals.Mode
             }
         }
 
+        /// <summary>
+        /// 这个参数应该从电气计算而来，现在为了生成load文件暂时恒定为110
+        /// </summary>
+        [XmlIgnore]
+        public float Voltage { get { return 110; } }
+
     }
 }

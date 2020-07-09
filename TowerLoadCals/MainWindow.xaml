@@ -188,16 +188,9 @@
 
             <dxdo:DockLayoutManager Grid.Row="1" Margin="6">
                 <dxdo:LayoutGroup Caption="LayoutRoot">
-                    <dxdo:LayoutPanel   ItemWidth="60" 
-                                      AllowClose="False" ShowCaption="False" Name="layoutPanel" AllowSizing="False">
-                        <dxa:AccordionControl x:Name="accordion"
-                                              SelectedItem="{Binding SelectedModuleInfo}"
-                                              ItemsSource="{Binding Path=Modules}"
-                                              HeaderContent=""
-                                              SummaryItemHeader=""
-                                              IsCollapseButtonVisible="False"
-                                              RootItemDisplayMode="Item"
-                                              >
+                    <dxdo:LayoutPanel  ItemWidth="60" AllowClose="False" ShowCaption="False" Name="layoutPanel" AllowSizing="False">
+                        <dxa:AccordionControl x:Name="accordion" SelectedItem="{Binding SelectedModuleInfo}" ItemsSource="{Binding Path=Modules}"
+                                              HeaderContent="" SummaryItemHeader="" IsCollapseButtonVisible="False" RootItemDisplayMode="Item">
                             <!--<dxmvvm:Interaction.Behaviors>
                                 <dxwuin:FrameNavigationService Frame="{Binding ElementName=documentFrame}" />
                             </dxmvvm:Interaction.Behaviors>-->
@@ -285,7 +278,48 @@
                             </dxmvvm:Interaction.Behaviors>
                         </dxwui:NavigationFrame>
                     </dxdo:LayoutPanel>
+
+
+                    <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
+                                      AllowClose="False" ShowCaption="False" Name="subLayoutRightPanel" AllowSizing="False">
+                        <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}">
+                            <!--<StackPanel Orientation="Vertical">-->
+                                <!--<StackPanel Orientation="Vertical" Visibility="{Binding NewStruCalsTowerBtnVisibity}">
+                                    <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
+                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}" 
+                                   />
+                                    <Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>
+                                </StackPanel>-->
+                                <dxa:AccordionControl x:Name="subRightAccordion" ItemsSource="{Binding Path=InternetMenuItems}" HeaderContent="" SummaryItemHeader="" IsCollapseButtonVisible="False"
+                                              RootItemDisplayMode="Group"  ExpandMode="MultipleOrNone"  ChildrenPath="ChildItems" AutoExpandAllItems="True" >
+                                    <dxa:AccordionControl.ItemContainerStyle>
+                                        <Style TargetType="dxa:AccordionItem">
+                                            <Setter Property="Header" Value="{Binding Path=Title}" />
+                                            <Setter Property="Glyph" Value="{Binding Path=Icon}" />
+                                            <Setter Property="GlyphPosition" Value="Left" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                            <Setter Property="ExpandButtonPosition" Value="Right" />
+                                            <Setter Property="Command" Value="{Binding CommandClick}" />
+                                            <Setter Property="CommandParameter" Value="{Binding}" />
+                                            <Setter Property="ContextMenu">
+                                                <Setter.Value>
+                                                    <ContextMenu  Visibility="{Binding ContextVisible}">
+                                                        <MenuItem Header="{Binding Command1Name}" Command="{DXCommand Command1(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding Command1BtnVisible}"/>
+                                                        <MenuItem Header="{Binding Command2Name}" Command="{DXCommand Command2(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding Command2BtnVisible}"/>
+                                                        <MenuItem Header="{Binding Command3Name}" Command="{DXCommand Command3(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding Command3BtnVisible}"/>
+                                                        <MenuItem Header="{Binding Command4Name}" Command="{DXCommand Command4(@parameter)}"  CommandParameter="{Binding}" Visibility="{Binding Command4BtnVisible}"/>
+                                                    </ContextMenu>
+                                                </Setter.Value>
+                                            </Setter >
+                                        </Style>
+                                    </dxa:AccordionControl.ItemContainerStyle>
+                                </dxa:AccordionControl>
+                            <!--</StackPanel>-->
+                        </Grid>
+                    </dxdo:LayoutPanel>
+
                 </dxdo:LayoutGroup>
+
             </dxdo:DockLayoutManager>
             <dxr:RibbonStatusBarControl x:Name="statusBar" Grid.Row="2">
                 <dxr:RibbonStatusBarControl.RightItems>
@@ -293,6 +327,8 @@
                     <dxb:BarCheckItem x:Name="layoutReading" IsChecked="{Binding IsExpanded, ElementName=accordion, Mode=TwoWay, Converter={dxmvvm:BooleanNegationConverter}}" />
                 </dxr:RibbonStatusBarControl.RightItems>
             </dxr:RibbonStatusBarControl>
+            <Label Content="欢迎您：张三 " Name="txt_UserName" HorizontalAlignment="Right" Margin="0,10,120,0" VerticalAlignment="Top"/>
+            <Button Content="更换用户" Name="btn_exit" Click="btn_exit_Click" HorizontalAlignment="Right" Margin="0,10,30,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
     </dxb:BarManager>
 </dx:ThemedWindow>
