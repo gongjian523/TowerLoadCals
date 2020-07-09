@@ -7,6 +7,9 @@ using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.BLL
 {
+    /// <summary>
+    /// 结构计算-挂点荷载分配
+    /// </summary>
     public class HangingPointLoadCompose
     {
         protected HangingPointParas pointParas = new HangingPointParas();
@@ -89,8 +92,22 @@ namespace TowerLoadCals.BLL
             dicComposeInfo = option.ComposrInfos.Where(item => item.Orientation == orientation).First().PointCompose;
         }
 
+        public void ComposeHangingXPointsLoad(out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
+        {
+            ComposeHangingPointsLoad()
+        }
 
-        public void ComposeHangingPointsLoad(out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
+        public void ComposeHangingYPointsLoad(out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
+        {
+
+        }
+
+        public void ComposeHangingZPointsLoad(out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
+        {
+
+        }
+
+        public void ComposeHangingPointsLoad(float load, out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
         {
             resList = new List<StruCalsPointLoad>();
 
