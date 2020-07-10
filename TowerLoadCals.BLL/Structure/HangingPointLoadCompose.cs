@@ -15,8 +15,9 @@ namespace TowerLoadCals.BLL
         protected HangingPointParas pointParas = new HangingPointParas();
 
         protected StruCalsDicGroup dicGroup = new StruCalsDicGroup();
+        protected List<StruCalsDicGroup> dicGroupOptions = new List<StruCalsDicGroup>();
 
-        protected HangingPointSettingParas ratioParas = new HangingPointSettingParas();
+        protected HangingPointSettingParas hpPointsParas = new HangingPointSettingParas();
 
         protected List<string> dicComposeInfo = new List<string>();
         protected StruCalsDicOption option = new StruCalsDicOption();
@@ -25,67 +26,65 @@ namespace TowerLoadCals.BLL
 
         //工况号
         protected int iIndex = 0;
-
+        //线的序号
         protected int jIndex = 0;
-
-        protected string orientation;
 
         protected string wireType;
 
         protected WorkConditionCombo wd;
 
-        protected float[,] lineLoad;
-
         protected float[,] xLineLoad;
         protected float[,] yLineLoad;
         protected float[,] zLineLoad;
 
+        protected string xyLink;
+        protected string zLink;
 
-        public HangingPointLoadCompose(int i, int j, string orient, float[,] xLoad, float[,] yLoad, float[,] zLoad, string group, string link,  
-            List<HangingPointParas> pointsParas, HangingPointSettingParas raios, TowerTemplate template, List<StruCalsDicGroup> dicGrps)
+        protected string group;
+
+
+        public HangingPointLoadCompose(int i, int j, float[,] xLoad, float[,] yLoad, float[,] zLoad, string grp, string linkXY, string linkZ, 
+            HangingPointSettingParas hpSetting, TowerTemplate template, List<StruCalsDicGroup> dicGrps)
         {
             iIndex = i;
             jIndex = j;
-            orientation = orient;
 
             xLineLoad = xLoad;
             yLineLoad = yLoad;
             zLineLoad = zLoad;
 
-            if (orient == "X")
-                lineLoad = xLoad;
-            else if (orient == "Y")
-                lineLoad = yLoad;
-            else
-                lineLoad = zLoad;
+            group = grp;
 
-            ratioParas = raios;
+            hpPointsParas = hpSetting;
             towerTemplate = template;
 
             wireType = towerTemplate.Wires[i];
             wd = towerTemplate.WorkConditionCombos[j];
+        }
 
+        protected void SetParas(string link, string orientation)
+        {
             StruCalsDicGroup dicGroup = new StruCalsDicGroup();
 
-            if(link.Contains("常规"))
+            if (link.Contains("常规"))
             {
                 pointParas = pointsParas.Where(item => item.WireType == wireType).First();
 
                 string vStr = pointParas.StringType.Contains("V") ? "V串" : pointParas.StringType;
-                dicGroup = dicGrps.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
+                dicGroup = dicGroupOptions.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
             }
-            else if(link.Contains("转向"))
+            else if (link.Contains("转向") || link.Contains("过滑车"))
             {
                 pointParas = pointsParas.Where(item => item.WireType == wireType).First();
-                dicGroup = dicGrps.Where(item => item.Group == group && item.Link == link).First();
+                dicGroup = dicGroupOptions.Where(item => item.Group == group && item.Link == link).First();
             }
             else
             {
-                string wCC = template.WorkConditionCombos[jIndex].WorkConditionCode;
+                string wCC = towerTemplate.WorkConditionCombos[jIndex].WorkConditionCode;
                 string array = wCC.Substring(wCC.Length - 1);
 
                 pointParas = pointsParas.Where(item => item.WireType == wireType && item.Array != null && item.Array.Contains(array)).First();
-                dicGroup = dicGrps.Where(item => item.Group == group && item.Link == link).First();
+                dicGroup = dicGroupOptions.Where(item => item.Group == group && item.Link == link).First();
             }
 
             option = dicGroup.Options.Where(item => item.Num == pointParas.PointNum).First();
@@ -94,20 +93,23 @@ namespace TowerLoadCals.BLL
 
         public void ComposeHangingXPointsLoad(out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
         {
-            ComposeHangingPointsLoad()
+            SetParas(xyLink, "X");
+            ComposeHangingPointsLoad(xLineLoad[jIndex, iIndex], "X", out resStr, out resList, isTurningPoint);
         }
 
         public void ComposeHangingYPointsLoad(out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
         {
-
+            SetParas(xyLink, "Y");
+            ComposeHangingPointsLoad(yLineLoad[jIndex, iIndex], "Y", out resStr, out resList, isTurningPoint);
         }
 
         public void ComposeHangingZPointsLoad(out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
         {
-
+            SetParas(zLink, "Z");
+            ComposeHangingPointsLoad(zLineLoad[jIndex, iIndex], "Z", out resStr, out resList, isTurningPoint);
         }
 
-        public void ComposeHangingPointsLoad(float load, out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
+        public void ComposeHangingPointsLoad(float load, string orientation,  out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
         {
             resList = new List<StruCalsPointLoad>();
 
@@ -144,7 +146,7 @@ namespace TowerLoadCals.BLL
                                 Orientation = orientation,
                                 Proportion = proportion,
                                 Load = laod,
-                                HPSettingName = ratioParas.HangingPointSettingName,
+                                HPSettingName = hpPointsParas.HangingPointSettingName,
                             });
                         }
                     }
@@ -166,14 +168,14 @@ namespace TowerLoadCals.BLL
                                 Orientation = orientation,
                                 Proportion = proportion,
                                 Load = laod,
-                                HPSettingName = ratioParas.HangingPointSettingName,
+                                HPSettingName = hpPointsParas.HangingPointSettingName,
                             });
                         }
                     }
                 }
                 else
                 {
-                    VStringParas vParas = ratioParas.VStrings.Where(item => item.Index == pointParas.StringType).First();
+                    VStringParas vParas = hpPointsParas.VStrings.Where(item => item.Index == pointParas.StringType).First();
 
                     VStringCompose vStringCompose = new VStringCompose(vParas.L1, vParas.L2, vParas.H1, vParas.H2, vParas.StressLimit, xLineLoad[jIndex, iIndex], yLineLoad[jIndex, iIndex], zLineLoad[jIndex, iIndex]);
 
@@ -206,7 +208,7 @@ namespace TowerLoadCals.BLL
                             Orientation = orientation,
                             Proportion = proportion,
                             Load = laod,
-                            HPSettingName = ratioParas.HangingPointSettingName,
+                            HPSettingName = hpPointsParas.HangingPointSettingName,
                         });
                     }
 
@@ -239,7 +241,7 @@ namespace TowerLoadCals.BLL
                             Orientation = orientation,
                             Proportion = proportion,
                             Load = laod,
-                            HPSettingName = ratioParas.HangingPointSettingName,
+                            HPSettingName = hpPointsParas.HangingPointSettingName,
                         });
                     }
 
@@ -265,7 +267,7 @@ namespace TowerLoadCals.BLL
                         Orientation = orientation,
                         Proportion = proportion,
                         Load = laod,
-                        HPSettingName = ratioParas.HangingPointSettingName,
+                        HPSettingName = hpPointsParas.HangingPointSettingName,
                     });
                 }
             }
@@ -308,52 +310,52 @@ namespace TowerLoadCals.BLL
             switch (expressStr.Trim())
             {
                 case "[地线常规前侧_txtbox]":
-                    result = ratioParas.GCQ;
+                    result = hpPointsParas.GCQ;
                     break;
                 case "[地线常规后侧_txtbox]":
-                    result = ratioParas.GCH;
+                    result = hpPointsParas.GCH;
                     break;
                 case "[地线悬臂内侧_txtbox]":
-                    result = ratioParas.GXN;
+                    result = hpPointsParas.GXN;
                     break;
                 case "[地线悬臂外侧_txtbox]":
-                    result = ratioParas.GXW;
+                    result = hpPointsParas.GXW;
                     break;
                 case "[前侧风荷其他_txtbox]":
-                    result = ratioParas.DQWQ;
+                    result = hpPointsParas.DQWQ;
                     break;
                 case "[后侧风荷其他_txtbox]":
-                    result = ratioParas.DQWH;
+                    result = hpPointsParas.DQWH;
                     break;
                 case "[前侧垂荷其他_txtbox]":
-                    result = ratioParas.DQCQ;
+                    result = hpPointsParas.DQCQ;
                     break;
                 case "[后侧垂荷其他_txtbox]":
-                    result = ratioParas.DQCH;
+                    result = hpPointsParas.DQCH;
                     break;
                 case "[前侧风荷吊装_txtbox]":
-                    result = ratioParas.DDWQ;
+                    result = hpPointsParas.DDWQ;
                     break;
                 case "[后侧风荷吊装_txtbox]":
-                    result = ratioParas.DDWH;
+                    result = hpPointsParas.DDWH;
                     break;
                 case "[前侧垂荷吊装_txtbox]":
-                    result = ratioParas.DDCQ;
+                    result = hpPointsParas.DDCQ;
                     break;
                 case "[后侧垂荷吊装_txtbox]":
-                    result = ratioParas.DDCH;
+                    result = hpPointsParas.DDCH;
                     break;
                 case "[前侧风荷锚线_txtbox]":
-                    result = ratioParas.DMWQ;
+                    result = hpPointsParas.DMWQ;
                     break;
                 case "[后侧风荷锚线_txtbox]":
-                    result = ratioParas.DMWH;
+                    result = hpPointsParas.DMWH;
                     break;
                 case "[前侧垂荷锚线_txtbox]":
-                    result = ratioParas.DMCQ;
+                    result = hpPointsParas.DMCQ;
                     break;
                 case "[后侧垂荷锚线_txtbox]":
-                    result = ratioParas.DMCH;
+                    result = hpPointsParas.DMCH;
                     break;
                 default:
                     result = (float)Convert.ToDecimal(expressStr);
