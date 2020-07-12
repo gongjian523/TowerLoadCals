@@ -301,28 +301,36 @@ namespace TowerLoadCals.BLL
                     //string wireType = wireItem.Contains("地") ? "地线": "导线";
                     //GetDicInfo(wireType, wdItem.WorkConditionCode, wdItem.WireIndexCodes[i], out string groupStr, out string linkStrXY, out string linkStrZ, out List<HangingPointParas> pointsXY, out List<HangingPointParas> pointsZ);
 
-                    HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
+                    HangingPointLoadCompose hpLoadCompose = new HangingPointLoadCompose(i, j, XX, YY, ZZ, groupStr, linkStrXY, linkStrZ, HPSettingParas, Template, DicGroup);
 
+                    //HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
+
+                    hpLoadCompose.ComposeHangingXPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
                     Process2String.Add(strX);
                     pointsLoad.AddRange(pListX);
 
-                    HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
+                    //HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", XX, YY, ZZ, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
 
+                    hpLoadCompose.ComposeHangingYPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
                     Process2String.Add(strY);
                     pointsLoad.AddRange(pListY);
 
-                    HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XX, YY, ZZ, groupStr, linkStrZ, pointsZ, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
+                    //HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XX, YY, ZZ, groupStr, linkStrZ, pointsZ, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
 
+                    hpLoadCompose.ComposeHangingZPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
                     Process2String.Add(strZ);
                     pointsLoad.AddRange(pListZ);
                 }
                 i++;
             }
 
-            TurningPointsLoadCompose(pointsLoad);
+            if(HPSettingParas.IsTuringPointSeleced)
+            {
+                TurningPointsLoadCompose(pointsLoad);
+            }
 
             FileUtils.TextSaveByLine(path, Process2String);
 
@@ -602,21 +610,24 @@ namespace TowerLoadCals.BLL
                     string linkStr = "[转向挂点_dataTable]";
                     List<HangingPointParas> points = HPSettingParas.TurningPoints;
 
-                    HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX, true);
+                    HangingPointLoadCompose hpLoadCompose = new HangingPointLoadCompose(i, j, XXT, YYT, ZZT, groupStr, linkStr, linkStr, HPSettingParas, Template, DicGroup);
 
+                    //HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX, true);
+
+                    hpLoadCompose.ComposeHangingXPointsLoad(out string strX, out List<StruCalsPointLoad> pListX, true);
                     Process2String.Add(strX);
                     loads.AddRange(pListX);
 
-                    HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY, true);
-
+                    //HangingPointLoadComposeBase hPLoadComposeY = new HangingPointLoadComposeBase(i, j, "Y", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY, true);
+                    hpLoadCompose.ComposeHangingYPointsLoad(out string strY, out List<StruCalsPointLoad> pListY, true);
                     Process2String.Add(strY);
                     loads.AddRange(pListY);
 
-                    HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ, true);
-
+                    //HangingPointLoadComposeBase hPLoadComposeZ = new HangingPointLoadComposeBase(i, j, "Z", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ, true);
+                    hpLoadCompose.ComposeHangingZPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ, true);
                     Process2String.Add(strZ);
                     loads.AddRange(pListZ);
                 }

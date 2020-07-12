@@ -42,9 +42,11 @@ namespace TowerLoadCals.BLL
 
         protected string group;
 
+        protected string position;
+        protected bool isTensionTower;
 
-        public HangingPointLoadCompose(int i, int j, float[,] xLoad, float[,] yLoad, float[,] zLoad, string grp, string linkXY, string linkZ, 
-            HangingPointSettingParas hpSetting, TowerTemplate template, List<StruCalsDicGroup> dicGrps)
+        public HangingPointLoadCompose(int i, int j, float[,] xLoad, float[,] yLoad, float[,] zLoad, string grp, string linkXY, string linkZ,
+            HangingPointSettingParas hpSetting, TowerTemplate template, List<StruCalsDicGroup> dicGrps, string pos = null)
         {
             iIndex = i;
             jIndex = j;
@@ -53,6 +55,19 @@ namespace TowerLoadCals.BLL
             yLineLoad = yLoad;
             zLineLoad = zLoad;
 
+            xyLink = linkXY;
+            zLink = linkZ;
+
+            if (pos == null)
+            {
+                isTensionTower = false;
+            }
+            else
+            {
+                isTensionTower = true;
+                position = pos;
+            }
+
             group = grp;
 
             hpPointsParas = hpSetting;
@@ -60,31 +75,74 @@ namespace TowerLoadCals.BLL
 
             wireType = towerTemplate.Wires[i];
             wd = towerTemplate.WorkConditionCombos[j];
+
+            dicGroupOptions = dicGrps;
         }
 
         protected void SetParas(string link, string orientation)
         {
-            StruCalsDicGroup dicGroup = new StruCalsDicGroup();
+            StruCalsDicGroup dicGroup;
 
+
+            //常规挂点
             if (link.Contains("常规"))
             {
-                pointParas = pointsParas.Where(item => item.WireType == wireType).First();
+                //悬垂塔常规挂点XY和Z向分别来自NormalXYPoints和NormalZPoints
+                if (!isTensionTower)
+                {
+                    if (orientation == "X" || orientation == "Y")
+                        pointParas = hpPointsParas.NormalXYPoints.Where(item => item.WireType == wireType).First();
+                    else
+                        pointParas = hpPointsParas.NormalZPoints.Where(item => item.WireType == wireType).First();
+                }
+                //耐张塔常规导线挂点XYZ向全部来做NormalXYPoints， 常规跳线挂点XYZ向全部来做NormalZPoints
+                else
+                {
+                    if (!link.Contains("跳线"))
+                        pointParas = hpPointsParas.NormalXYPoints.Where(item => item.WireType == wireType).First();
+                    else
+                        pointParas = hpPointsParas.NormalZPoints.Where(item => item.WireType == wireType).First();
+                }
 
                 string vStr = pointParas.StringType.Contains("V") ? "V串" : pointParas.StringType;
                 dicGroup = dicGroupOptions.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
             }
+            //转向和过滑车挂点
             else if (link.Contains("转向") || link.Contains("过滑车"))
             {
-                pointParas = pointsParas.Where(item => item.WireType == wireType).First();
+                //转向和过滑车挂点XYZ向都来自TurningPoints
+                pointParas = hpPointsParas.TurningPoints.Where(item => item.WireType == wireType).First();
                 dicGroup = dicGroupOptions.Where(item => item.Group == group && item.Link == link).First();
             }
+            //吊装挂点
             else
             {
+                List<HangingPointParas> pointsParas;
+
+                //悬垂塔吊装挂点XY和Z向分别来自InstallXYPoints和InstallZPoints
+                //耐张塔跳线吊装挂点XY和Z向分别来自InstallXYPoints和InstallZPoints
+                if (orientation == "X" || orientation == "Y")
+                    pointsParas = hpPointsParas.InstallXYPoints;
+                else
+                    pointsParas = hpPointsParas.InstallZPoints;
+
+
+                //吊装挂点会分a/b/c组,需要找到对应组别的挂点信息
                 string wCC = towerTemplate.WorkConditionCombos[jIndex].WorkConditionCode;
                 string array = wCC.Substring(wCC.Length - 1);
-
                 pointParas = pointsParas.Where(item => item.WireType == wireType && item.Array != null && item.Array.Contains(array)).First();
-                dicGroup = dicGroupOptions.Where(item => item.Group == group && item.Link == link).First();
+
+                if (!isTensionTower)
+                {
+                    //悬垂塔的吊装挂点全部按照I串
+                    dicGroup = dicGroupOptions.Where(item => item.Group == group && item.Link == link).First();
+                }
+                else
+                {
+                    //耐张塔需要区分I串V串两种情况
+                    string vStr = pointParas.StringType.Contains("V") ? "V串" : pointParas.StringType;
+                    dicGroup = dicGroupOptions.Where(item => item.Group == group && item.FixedType == vStr && item.Link == link).First();
+                }
             }
 
             option = dicGroup.Options.Where(item => item.Num == pointParas.PointNum).First();
@@ -109,67 +167,101 @@ namespace TowerLoadCals.BLL
             ComposeHangingPointsLoad(zLineLoad[jIndex, iIndex], "Z", out resStr, out resList, isTurningPoint);
         }
 
-        public void ComposeHangingPointsLoad(float load, string orientation,  out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
+        public void ComposeHangingPointsLoad(float load, string orientation, out string resStr, out List<StruCalsPointLoad> resList, bool isTurningPoint = false)
         {
             resList = new List<StruCalsPointLoad>();
 
-            string preStr = "  " + wireType;
+            resStr = "  " + wireType;
+            if (orientation == "X" || orientation == "Y")
+            {
+                if (xyLink.Contains("跳线"))
+                    resStr += "跳线";
+            }
+            else
+            {
+                if (zLink.Contains("跳线"))
+                    resStr += "跳线";
+            }
+
+            if (position != null)
+                resStr += position;
 
             if (isTurningPoint)
-                preStr += "转向荷载";
+                resStr += "转向荷载";
 
-            preStr += ("工况" + (jIndex+1).ToString()).PadLeft(8);
-            resStr = preStr + orientation.PadLeft(6) + lineLoad[jIndex, iIndex].ToString("0.00").PadLeft(10);
+            resStr += ("工况" + (jIndex + 1).ToString()).PadLeft(8);
+            resStr = resStr + orientation.PadLeft(6) + load.ToString("0.00").PadLeft(10);
 
             //导线V串
-            if(pointParas.StringType != null &&  pointParas.StringType.Contains("V"))
+            if (pointParas.StringType != null && pointParas.StringType.Contains("V"))
             {
-                //跳跃脱冰工况
-                if(wd.WorkConditionCode == "T" && wd.WireIndexCodes[iIndex] > 10)
+                //V串的跳跃冰工况，并且工况代号大于10000），不按照常规的V串规则分配荷载;
+                //分配的规则是：
+                //左边和中间的导线，荷载按照I串规则全部分配在V串左侧挂点;
+                //右边的导线，荷载按照I串规则全部分配在V串右侧挂点;
+                if (wd.WorkConditionCode == "T" && wd.WireIndexCodes[iIndex] > 10000)
                 {
-                    if(!wireType.Contains("右"))
+                    //悬垂塔根据导线的方向遍历这个线左边或者右边的所有点
+                    if (!isTensionTower)
                     {
                         //左边和中间的导线，获取左侧挂点
-                        for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
+                        if (!wireType.Contains("右"))
                         {
-                            int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
-
-                            GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
-
-                            resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
-
-                            resList.Add(new StruCalsPointLoad()
+                            for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
                             {
-                                Name = Convert.ToInt16(pointParas.Points[pointIndex]),
-                                Wire = wireType,
-                                WorkConditionId = jIndex,
-                                Orientation = orientation,
-                                Proportion = proportion,
-                                Load = laod,
-                                HPSettingName = hpPointsParas.HangingPointSettingName,
-                            });
+                                int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+
+                                GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
+                                resStr += loadStr;
+                                resList.Add(pLoad);
+                            }
+                        }
+                        //右边的导线，获取右侧挂点;
+                        else
+                        {
+                            for (int kr = 0; kr < option.RightPoints.Count(); kr++)
+                            {
+                                int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+
+                                GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
+                                resStr += loadStr;
+                                resList.Add(pLoad);
+                            }
                         }
                     }
+                    //悬垂塔根据导线的方向遍历指定位置上左边或者右边的所有点
                     else
                     {
-                        for (int kr = 0; kr < option.RightPoints.Count(); kr++)
+                        string[] points = GetPositionPointsInTensionTower();
+
+                        //左边和中间的导线，获取左侧挂点
+                        if (!wireType.Contains("右"))
                         {
-                            int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
-
-                            GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
-
-                            resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
-
-                            resList.Add(new StruCalsPointLoad()
+                            for (int kl = 0; kl < points.Count(); kl++)
                             {
-                                Name = Convert.ToInt16(pointParas.Points[pointIndex]),
-                                Wire = wireType,
-                                WorkConditionId = jIndex,
-                                Orientation = orientation,
-                                Proportion = proportion,
-                                Load = laod,
-                                HPSettingName = hpPointsParas.HangingPointSettingName,
-                            });
+                                //不在指定位置上的点不用分配荷载
+                                if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
+                                    continue;
+                                int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+
+                                GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
+                                resStr += loadStr;
+                                resList.Add(pLoad);
+                            }
+                        }
+                        else
+                        {
+                            for (int kr = 0; kr < points.Count(); kr++)
+                            {
+                                //不在指定位置上的点不用分配荷载
+                                if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
+                                    continue;
+                                int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+
+                                GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
+                                resStr += loadStr;
+                                resList.Add(pLoad);
+                            }
                         }
                     }
                 }
@@ -179,70 +271,63 @@ namespace TowerLoadCals.BLL
 
                     VStringCompose vStringCompose = new VStringCompose(vParas.L1, vParas.L2, vParas.H1, vParas.H2, vParas.StressLimit, xLineLoad[jIndex, iIndex], yLineLoad[jIndex, iIndex], zLineLoad[jIndex, iIndex]);
 
-                    for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
+                    //悬垂塔先后遍历这个线左边和右边的所有点
+                    if (!isTensionTower)
                     {
-                        int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+                        //左侧挂点
+                        for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
+                        {
+                            int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
 
-                        GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
-
-                        if (orientation == "X")
-                        {
-                            laod = vStringCompose.VCX1 * proportion;
-                        }
-                        else if (orientation == "Y")
-                        {
-                            laod = vStringCompose.VCY1 * proportion;
-                        }
-                        else
-                        {
-                            laod = vStringCompose.VCZ1 * proportion;
+                            //非跳跃冰工况的V串需要按照V串的的规则计算比例
+                            GeneratePointsLoadVString(pointIndex, orientation, true, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
+                            resStr += loadStr;
+                            resList.Add(pLoad);
                         }
 
-                        resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
-
-                        resList.Add(new StruCalsPointLoad()
+                        //右侧挂点
+                        for (int kr = 0; kr < option.RightPoints.Count(); kr++)
                         {
-                            Name = Convert.ToInt16(pointParas.Points[pointIndex]),
-                            Wire = wireType,
-                            WorkConditionId = jIndex,
-                            Orientation = orientation,
-                            Proportion = proportion,
-                            Load = laod,
-                            HPSettingName = hpPointsParas.HangingPointSettingName,
-                        });
+                            int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+
+                            //非跳跃冰工况的V串需要按照V串的的规则计算比例
+                            GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
+                            resStr += loadStr;
+                            resList.Add(pLoad);
+                        }
                     }
-
-                    for (int kr = 0; kr < option.RightPoints.Count(); kr++)
+                    //耐张塔先后遍历这个线左边和右边的指定方向上的点
+                    else
                     {
-                        int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+                        string[] points = GetPositionPointsInTensionTower();
 
-                        GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
-
-                        if (orientation == "X")
+                        //左侧挂点
+                        for (int kl = 0; kl < points.Count(); kl++)
                         {
-                            laod = vStringCompose.VCX2 * proportion;
+                            //不在指定位置上的点不用分配荷载
+                            if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
+                                continue;
+                            int pointIndex = Convert.ToInt16(points[kl].Substring(1)) - 1;
+
+                            //非跳跃冰工况的V串需要按照V串的的规则计算比例
+                            GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
+                            resStr += loadStr;
+                            resList.Add(pLoad);
                         }
-                        else if (orientation == "Y")
-                        {
-                            laod = vStringCompose.VCY2 * proportion;
-                        }
-                        else
-                        {
-                            laod = vStringCompose.VCZ2 * proportion;
-                        }
 
-                        resStr += pointParas.Points[pointIndex].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
-
-                        resList.Add(new StruCalsPointLoad()
+                        //右侧挂点
+                        for (int kr = 0; kr < points.Count(); kr++)
                         {
-                            Name = Convert.ToInt16(pointParas.Points[pointIndex]),
-                            Wire = wireType,
-                            WorkConditionId = jIndex,
-                            Orientation = orientation,
-                            Proportion = proportion,
-                            Load = laod,
-                            HPSettingName = hpPointsParas.HangingPointSettingName,
-                        });
+                            //不在指定位置上的点不用分配荷载
+                            if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
+                                continue;
+                            int pointIndex = Convert.ToInt16(points[kr].Substring(1)) - 1;
+
+                            //非跳跃冰工况的V串需要按照V串的的规则计算比例
+                            GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
+                            resStr += loadStr;
+                            resList.Add(pLoad);
+                        }
                     }
 
                     resStr = resStr + "     V串    左侧" + vStringCompose.VCX1.ToString("0.00").PadLeft(10) + vStringCompose.VCY1.ToString("0.00").PadLeft(10) + vStringCompose.VCZ1.ToString("0.00").PadLeft(10);
@@ -253,59 +338,80 @@ namespace TowerLoadCals.BLL
             else
             // 针对地线（常规、悬臂）; 导线-I串: 吊装
             {
-                for (int k = 0; k < pointParas.PointNum; k++)
+                //悬垂塔遍历这个线条上面的所有点
+                if(!isTensionTower)
                 {
-                    GetPointProportionAndLoad(dicComposeInfo[k], lineLoad[jIndex, iIndex], out float proportion, out float laod);
-
-                    resStr += pointParas.Points[k].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
-
-                    resList.Add(new StruCalsPointLoad()
+                    for (int k = 0; k < pointParas.PointNum; k++)
                     {
-                        Name = Convert.ToInt16(pointParas.Points[k]),
-                        Wire = wireType,
-                        WorkConditionId = jIndex,
-                        Orientation = orientation,
-                        Proportion = proportion,
-                        Load = laod,
-                        HPSettingName = hpPointsParas.HangingPointSettingName,
-                    });
+                        GeneratePointsLoadNormal(k, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
+                        resStr += loadStr;
+                        resList.Add(pLoad);
+                    }
+                }
+                //耐张塔遍历指定位置上的所有点
+                else
+                {
+                    string[] points = GetPositionPointsInTensionTower();
+
+                    for (int k = 0; k < points.Count(); k++)
+                    {
+                        int pointIndex = Convert.ToInt16(points[k].Substring(1)) - 1;
+
+                        GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
+                        resStr += loadStr;
+                        resList.Add(pLoad);
+                    }
                 }
             }
         }
 
-        private void GetPointProportionAndLoad(string expressStr, float lineLoad, out float proportion, out float load)
+        /// <summary>
+        /// 获取不同位置上的点
+        /// </summary>
+        /// <returns></returns>
+        protected string[] GetPositionPointsInTensionTower()
         {
+            if (position == "前侧")
+                return option.FrontPoints;
+            else if (position == "中部")
+                return option.CentralPoints;
+            else
+                return option.BackPoints;
+        }
 
-            if(expressStr.Contains("*"))
+        private void GetPointProportion(string expressStr, out float proportion)
+        {
+            if (expressStr.Contains("*"))
             {
                 string[] expressList = expressStr.Split('*');
                 proportion = 1;
 
                 foreach (string expressItem in expressList)
                 {
-                    proportion *= GetProportion(expressItem);
+                    proportion *= DecodeProportion(expressItem);
                 }
-                
-                load = lineLoad * proportion;
             }
             else if (expressStr.Contains("/"))
             {
                 string[] expressList = expressStr.Split('/');
-                proportion = GetProportion(expressList[0]) / GetProportion(expressList[1]);
-
-                load = lineLoad * proportion;
+                proportion = DecodeProportion(expressList[0]) / DecodeProportion(expressList[1]);
             }
-            else 
+            else
             {
-                proportion = GetProportion(expressStr);
-                load = lineLoad * proportion;
+                proportion = DecodeProportion(expressStr);
             }
-
         }
 
-        private float GetProportion(string expressStr)
+        private void GetPointProportionAndLoad(string expressStr, float lineLoad, out float proportion, out float load)
         {
-            float result = 0;
+            GetPointProportion(expressStr, out proportion);
+
+            load = lineLoad * proportion;
+        }
+
+        private float DecodeProportion(string expressStr)
+        {
+            float result;
 
             switch (expressStr.Trim())
             {
@@ -364,5 +470,67 @@ namespace TowerLoadCals.BLL
 
             return result;
         }
+
+
+        /// <summary>
+        /// 平常挂点的分配
+        /// </summary>
+        protected void GeneratePointsLoadNormal(int index, float lineload, string orientation,  out string loadStr, out StruCalsPointLoad pointLoad)
+        {
+            GetPointProportionAndLoad(dicComposeInfo[index], lineload, out float proportion, out float laod);
+
+            loadStr = pointParas.Points[index].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + laod.ToString("0.00").PadLeft(10);
+
+            pointLoad = new StruCalsPointLoad()
+            {
+                Name = Convert.ToInt16(pointParas.Points[index]),
+                Wire = wireType,
+                WorkConditionId = jIndex,
+                Orientation = orientation,
+                Proportion = proportion,
+                Load = laod,
+                HPSettingName = hpPointsParas.HangingPointSettingName,
+            };
+        }
+
+        /// <summary>
+        /// V串挂点的分配
+        /// </summary>
+        protected void GeneratePointsLoadVString(int index, string orientation, bool isLeft, VStringCompose vString, out string loadStr, out StruCalsPointLoad pointLoad)
+        {
+            GetPointProportion(dicComposeInfo[index], out float proportion);
+
+            float load;
+            if (orientation == "X")
+            {
+                load = (isLeft ? vString.VCX1: vString.VCX2) * proportion;
+            }
+            else if (orientation == "Y" && isLeft)
+            {
+                load = (isLeft ? vString.VCY1 : vString.VCY2) * proportion;
+            }
+            else
+            {
+                load = (isLeft ? vString.VCZ1 : vString.VCZ2) * proportion;
+            }
+
+            loadStr = pointParas.Points[index].PadLeft(10) + proportion.ToString("0.00").PadLeft(10) + load.ToString("0.00").PadLeft(10);
+
+            pointLoad = new StruCalsPointLoad()
+            {
+                Name = Convert.ToInt16(pointParas.Points[index]),
+                Wire = wireType,
+                WorkConditionId = jIndex,
+                Orientation = orientation,
+                Proportion = proportion,
+                Load = load,
+                HPSettingName = hpPointsParas.HangingPointSettingName,
+            };
+        }
     }
+
+
+
+
+
 }

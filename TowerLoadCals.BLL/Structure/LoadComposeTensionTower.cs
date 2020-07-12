@@ -7370,21 +7370,23 @@ namespace TowerLoadCals.BLL
                         zz = ZLB;
                     }
 
-                    HangingPointLoadComposeCornerTower hPLoadComposeX = new HangingPointLoadComposeCornerTower(i, j, posItem, "X", xx, yy, zz, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
+                    HangingPointLoadCompose hpLoadCompose = new HangingPointLoadCompose(i, j, xx, yy, zz, groupStr, linkStr, linkStr, HPSettingParas, Template, DicGroup, posItem);
 
+                    //HangingPointLoadComposeCornerTower hPLoadComposeX = new HangingPointLoadComposeCornerTower(i, j, posItem, "X", xx, yy, zz, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
+                    hpLoadCompose.ComposeHangingXPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
                     Process2String.Add(strX);
                     pointsLoad.AddRange(pListX);
 
-                    HangingPointLoadComposeCornerTower hPLoadComposeY = new HangingPointLoadComposeCornerTower(i, j, posItem, "Y", xx, yy, zz, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
-
+                    //HangingPointLoadComposeCornerTower hPLoadComposeY = new HangingPointLoadComposeCornerTower(i, j, posItem, "Y", xx, yy, zz, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
+                    hpLoadCompose.ComposeHangingYPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
                     Process2String.Add(strY);
                     pointsLoad.AddRange(pListY);
 
-                    HangingPointLoadComposeCornerTower hPLoadComposeZ = new HangingPointLoadComposeCornerTower(i, j, posItem, "Z", xx, yy, zz, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
-
+                    //HangingPointLoadComposeCornerTower hPLoadComposeZ = new HangingPointLoadComposeCornerTower(i, j, posItem, "Z", xx, yy, zz, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
+                    hpLoadCompose.ComposeHangingZPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
                     Process2String.Add(strZ);
                     pointsLoad.AddRange(pListZ);
                 }
@@ -7464,22 +7466,23 @@ namespace TowerLoadCals.BLL
                         zz = ZTB;
                     }
 
+                    HangingPointLoadCompose hpLoadCompose = new HangingPointLoadCompose(i, j, xx, yy, zz, groupStr, linkStrXY, linkStrZ, HPSettingParas, Template, DicGroup, posItem);
 
-                    HangingPointLoadComposeCornerTower hPLoadComposeX = new HangingPointLoadComposeCornerTower(i, j, posItem, "X", xx, yy, zz, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
-
+                    //HangingPointLoadComposeCornerTower hPLoadComposeX = new HangingPointLoadComposeCornerTower(i, j, posItem, "X", xx, yy, zz, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
+                    hpLoadCompose.ComposeHangingXPointsLoad(out string strX, out List<StruCalsPointLoad> pListX);
                     Process2String.Add(strX);
                     pointsLoad.AddRange(pListX);
 
-                    HangingPointLoadComposeCornerTower hPLoadComposeY = new HangingPointLoadComposeCornerTower(i, j, posItem, "Y", xx, yy, zz, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
-
+                    //HangingPointLoadComposeCornerTower hPLoadComposeY = new HangingPointLoadComposeCornerTower(i, j, posItem, "Y", xx, yy, zz, groupStr, linkStrXY, pointsXY, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeY.ComposeHangingPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
+                    hpLoadCompose.ComposeHangingYPointsLoad(out string strY, out List<StruCalsPointLoad> pListY);
                     Process2String.Add(strY);
                     pointsLoad.AddRange(pListY);
 
-                    HangingPointLoadComposeCornerTower hPLoadComposeZ = new HangingPointLoadComposeCornerTower(i, j, posItem, "Z", xx, yy, zz, groupStr, linkStrZ, pointsZ, HPSettingParas, Template, DicGroup);
-                    hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
-
+                    //HangingPointLoadComposeCornerTower hPLoadComposeZ = new HangingPointLoadComposeCornerTower(i, j, posItem, "Z", xx, yy, zz, groupStr, linkStrZ, pointsZ, HPSettingParas, Template, DicGroup);
+                    //hPLoadComposeZ.ComposeHangingPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
+                    hpLoadCompose.ComposeHangingZPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
                     Process2String.Add(strZ);
                     pointsLoad.AddRange(pListZ);
 
