@@ -19,14 +19,13 @@ namespace TowerLoadCals.Modules.Internet
     /// <summary>
     /// WeatherConditionModule.xaml 的交互逻辑
     /// </summary>
-    public partial class WeatherConditionModule_Internet : UserControl
+    public partial class EarthWireModule_Internet : UserControl
     {
-
-        public WeatherConditionModule_Internet()
+        
+        public EarthWireModule_Internet()
         {
             InitializeComponent();
         }
-
 
     }
 }

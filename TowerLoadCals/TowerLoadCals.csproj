@@ -123,6 +123,12 @@
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\FitDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\FitData_InternetViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\GeneralInsulatorViewModule.cs" />
+    <Compile Include="ModulesViewModels\Internet\RigidJumperInsulatorViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\WeatherCondition_InternetViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\EarthWire_InternetViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\Wire_InternetViewModel.cs" />
     <Compile Include="ModulesViewModels\Login\LoginHelpers.cs" />
     <Compile Include="ModulesViewModels\StruCals\BaseAndLineParasViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\HangingPointViewModel.cs" />
@@ -135,8 +141,11 @@
     <Compile Include="Modules\Internet\FitDataModule_Internet.xaml.cs">
       <DependentUpon>FitDataModule_Internet.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Internet\StrDataModule_Internet.xaml.cs">
-      <DependentUpon>StrDataModule_Internet.xaml</DependentUpon>
+    <Compile Include="Modules\Internet\GeneralInsulatorModule.xaml.cs">
+      <DependentUpon>GeneralInsulatorModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\RigidJumperInsulatorModule.xaml.cs">
+      <DependentUpon>RigidJumperInsulatorModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\BaseData\StruCalsLibBaseDataModule.xaml.cs">
       <DependentUpon>StruCalsLibBaseDataModule.xaml</DependentUpon>
@@ -152,6 +161,9 @@
     </Compile>
     <Compile Include="Modules\Internet\WeatherConditionModule_Internet.xaml.cs">
       <DependentUpon>WeatherConditionModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\EarthWireModule_Internet.xaml.cs">
+      <DependentUpon>EarthWireModule_Internet.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Internet\WireModule_Internet.xaml.cs">
       <DependentUpon>WireModule_Internet.xaml</DependentUpon>
@@ -181,7 +193,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\Internet\StrDataModule_Internet.xaml">
+    <Page Include="Modules\Internet\GeneralInsulatorModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\RigidJumperInsulatorModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -202,6 +218,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Internet\WeatherConditionModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\EarthWireModule_Internet.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

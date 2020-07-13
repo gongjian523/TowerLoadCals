@@ -1,4 +1,4 @@
-﻿<Window x:Class="TowerLoadCals.LoginPage"
+﻿<dx:ThemedWindow  xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" x:Class="TowerLoadCals.LoginPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,7 +16,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -35,7 +35,7 @@
             </LinearGradientBrush>
         </Grid.Background>
         <TextBlock Grid.Row="2" Grid.ColumnSpan="3" 
-                   Text="欢迎使用杆塔负荷管理系统" TextAlignment="Center" 
+                   Text="欢迎使用杆塔负荷设计系统" TextAlignment="Center" 
                    VerticalAlignment="Center" FontSize="22"></TextBlock>
         <TextBlock Grid.Row="3" TextAlignment="Right"  VerticalAlignment="Center"
                    Text="用户名:"/>
@@ -53,4 +53,4 @@
                     Name="btn_exit" Click="btn_exit_Click" Background="Transparent" Foreground="White" />
         </StackPanel>
     </Grid>
-</Window>
+</dx:ThemedWindow>

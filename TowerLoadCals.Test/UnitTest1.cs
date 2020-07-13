@@ -270,8 +270,6 @@ namespace TowerLoadCals.Test
                 DMCQ = 0.6f,
                 DMCH = 0.4f,
 
-                IsTuringPointSeleced = false,
-
                 NormalXYPoints = normalList,
                 NormalZPoints = normalList,
                 InstallXYPoints = installList,
@@ -778,8 +776,6 @@ namespace TowerLoadCals.Test
                 DDWH = 0.3f,
                 DDCQ = 0.7f,
                 DDCH = 0.3f,
-
-                IsTuringPointSeleced = false,
 
                 NormalXYPoints = normalList,
                 NormalZPoints = normalList,

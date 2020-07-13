@@ -5,8 +5,8 @@
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    x:Class="TowerLoadCals.Modules.Internet.StrDataModule_Internet"
-    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StrData_InternetViewModel}}">
+    x:Class="TowerLoadCals.Modules.Internet.GeneralInsulatorModule"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:GeneralInsulatorViewModule}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>
@@ -27,7 +27,7 @@
         
         <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
-                ItemsSource="{Binding SelectedItems}"
+                ItemsSource="{Binding DataSource}"
                 ScrollViewer.VerticalScrollBarVisibility="Auto" 
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 >

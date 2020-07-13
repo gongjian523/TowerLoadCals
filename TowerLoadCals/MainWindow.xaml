@@ -231,7 +231,7 @@
                                               RootItemDisplayMode="Group"
                                               ExpandMode="MultipleOrNone"
                                               ChildrenPath="ChildItems"
-                                              AutoExpandAllItems="True"
+                                              AutoExpandAllItems="False"
                                               Grid.Row="1"
                                               >
                                     <dxa:AccordionControl.ItemContainerStyle>
@@ -281,16 +281,9 @@
 
 
                     <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
-                                      AllowClose="False" ShowCaption="False" Name="subLayoutRightPanel" AllowSizing="False">
-                        <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}">
-                            <!--<StackPanel Orientation="Vertical">-->
-                                <!--<StackPanel Orientation="Vertical" Visibility="{Binding NewStruCalsTowerBtnVisibity}">
-                                    <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
-                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}" 
-                                   />
-                                    <Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>
-                                </StackPanel>-->
-                                <dxa:AccordionControl x:Name="subRightAccordion" ItemsSource="{Binding Path=InternetMenuItems}" HeaderContent="" SummaryItemHeader="" IsCollapseButtonVisible="False"
+                                      AllowClose="False" ShowCaption="False" Name="subLayoutRightPanel" AllowSizing="False" >
+                        <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" >
+                            <dxa:AccordionControl x:Name="subRightAccordion" ItemsSource="{Binding Path=InternetMenuItems}" HeaderContent="" SummaryItemHeader="" IsCollapseButtonVisible="False"
                                               RootItemDisplayMode="Group"  ExpandMode="MultipleOrNone"  ChildrenPath="ChildItems" AutoExpandAllItems="True" >
                                     <dxa:AccordionControl.ItemContainerStyle>
                                         <Style TargetType="dxa:AccordionItem">

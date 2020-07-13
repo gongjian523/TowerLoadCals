@@ -1,12 +1,12 @@
 ﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:TowerLoadCals.Modules"
+    xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.Internet"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     x:Class="TowerLoadCals.Modules.Internet.FitDataModule_Internet"
-    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:FitDataViewModel}}">
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:FitData_InternetViewModel}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>
@@ -20,10 +20,10 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" TextAlignment="Right"  VerticalAlignment="Center"  Text="型号:" />
-        <TextBox Grid.Row="0" Grid.Column="1"  Name="Filter" Height="27" Margin="5 0 5 0" ></TextBox>
-        <Button Grid.Row="0" Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" />
+        <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Text="{Binding SearchInfo}" Height="27" Margin="5 0 5 0" ></TextBox>
+        <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" Command="{Binding SearchCommand}"/>
 
-        <Button Grid.Row="2"   Grid.ColumnSpan="4" Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" />
+        <Button Grid.Row="2"   Grid.ColumnSpan="4" Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" Command="{Binding ExportCommand}"/>
 
         <dxg:GridControl  Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="AddNew" Margin="8,0"         EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"

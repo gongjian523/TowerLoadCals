@@ -17,16 +17,15 @@ using System.Windows.Shapes;
 namespace TowerLoadCals.Modules.Internet
 {
     /// <summary>
-    /// WeatherConditionModule.xaml 的交互逻辑
+    /// RigidJumperInsulatorModule.xaml 的交互逻辑
     /// </summary>
-    public partial class WeatherConditionModule_Internet : UserControl
+    public partial class RigidJumperInsulatorModule : UserControl
     {
-
-        public WeatherConditionModule_Internet()
+        
+        public RigidJumperInsulatorModule()
         {
             InitializeComponent();
         }
-
 
     }
 }

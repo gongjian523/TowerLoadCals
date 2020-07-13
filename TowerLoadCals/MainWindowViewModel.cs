@@ -8,6 +8,7 @@ using TowerLoadCals.ModulesViewModels;
 using System.Collections.ObjectModel;
 using TowerLoadCals.BLL;
 using System.Windows;
+using TowerLoadCals.Service.Helpers;
 
 namespace TowerLoadCals
 {
@@ -38,6 +39,12 @@ namespace TowerLoadCals
             NewItemCommand = new DelegateCommand<object>(NewMenuItem);
             EditItemCommand = new DelegateCommand<object>(EditMenuItem);
             DelItemCommand = new DelegateCommand<object>(DelMenuItem);
+
+            var rightMemuItem = new List<SubMenuBase> { };
+            GetRightMenuList(rightMemuItem);
+            InternetMenuItems = new ObservableCollection<SubMenuBase>(rightMemuItem);
+
+            InternetLinkEnabled = InternetLinkHelper.GetInternetLink();
 
         }
 
@@ -88,6 +95,8 @@ namespace TowerLoadCals
         public virtual int DefaultBackstatgeIndex { get; set; }
         public virtual bool HasPrinting { get; set; }
         public virtual bool IsBackstageOpen { get; set; }
+
+        public virtual bool InternetLinkEnabled { get; set; }
         public void Exit()
         {
             CurrentWindowService.Close();
@@ -203,11 +212,19 @@ namespace TowerLoadCals
 
             moduleList.Add(IniBaseDataModule());
 
-            ModuleMenu towerMudule = new ModuleMenu("TowersModule", this, "塔杆排位", (e) => { OnSelectedModuleChanged(e); });
+            ModuleMenu towerMudule = new ModuleMenu("TowersModule", this, "塔杆序列", (e) => { OnSelectedModuleChanged(e); });
             towerMudule.SetIcon("FolderList_32x32.png");
             moduleList.Add(towerMudule);
 
             moduleList.Add(IniStruCalsModule());
+
+            ModuleMenu elecCalsMudule = new ModuleMenu("ElecCalsModule", this, "电气计算", (e) => { OnSelectedModuleChanged(e); });
+            elecCalsMudule.SetIcon("FolderList_32x32.png");
+            moduleList.Add(elecCalsMudule);
+
+            ModuleMenu resultMudule = new ModuleMenu("ResultModule", this, "成功输出", (e) => { OnSelectedModuleChanged(e); });
+            resultMudule.SetIcon("FolderList_32x32.png");
+            moduleList.Add(resultMudule);
 
             Modules = moduleList;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Core;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -14,7 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TowerLoadCals.Mode.Login;
+using TowerLoadCals.Mode.Internet;
 using TowerLoadCals.Modules.Login;
 using TowerLoadCals.Service.Login;
 
@@ -23,9 +24,8 @@ namespace TowerLoadCals
     /// <summary>
     /// LoginPage.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginPage : Window
+    public partial class LoginPage : ThemedWindow
     {
-        string key = "";//
         public LoginPage()
         {
             InitializeComponent();
@@ -40,13 +40,13 @@ namespace TowerLoadCals
             txtUsername.Text = LoginHelpers.GetSettingString("userName");
             txtPassword.Password = LoginHelpers.GetSettingString("password");
 
-            if (LoginHelpers.GetSettingString("isRemember") == "true")
+            if (!string.IsNullOrEmpty(txtUsername.Text) && LoginHelpers.GetSettingString("isRemember") == "true")
             {
                 ckbRemember.IsChecked = true;
 
                 MainWindow mainWindow = new MainWindow();
-                this.Close();
                 mainWindow.Show();
+                this.Close();
             }
             else
             {
@@ -55,10 +55,20 @@ namespace TowerLoadCals
         }
         private void btn_login_Click(object sender, RoutedEventArgs e)
         {
+            //判断用户名不能为空
+            if (string.IsNullOrEmpty(txtUsername.Text))
+            {
+                MessageBox.Show("用户名不能为空！");
+            }
+            //判断密码不能为空
+            if (string.IsNullOrEmpty(txtPassword.Password))
+            {
+                MessageBox.Show("密码不能为空！");
+            }
+
             UserInfo info = new UserInfo();
             info.UserName = txtUsername.Text;//用户名
             info.Password = txtPassword.Password;//密码
-
             bool IsSaveLoginInfo = ckbRemember.IsChecked == true;//是否保存登陆账号密码
             //验证用户名和密码
             bool result = new LoginService().doLogin(info);
@@ -68,18 +78,20 @@ namespace TowerLoadCals
                 if (Convert.ToBoolean(ckbRemember.IsChecked))
                 {
                     LoginHelpers.UpdateSettingString("userName", info.UserName);
+                    LoginHelpers.UpdateSettingString("nickName", info.NickName);
                     LoginHelpers.UpdateSettingString("password", info.Password);
                     LoginHelpers.UpdateSettingString("isRemember", "true");
                 }
                 else
                 {
                     LoginHelpers.UpdateSettingString("userName", "");
+                    LoginHelpers.UpdateSettingString("nickName", "");
                     LoginHelpers.UpdateSettingString("password", "");
                     LoginHelpers.UpdateSettingString("isRemember", "");
                 }
                 MainWindow mainWindow = new MainWindow();
-                this.Close();
                 mainWindow.Show();
+                this.Close();
             }
             else
             {

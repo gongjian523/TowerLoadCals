@@ -126,7 +126,7 @@ namespace TowerLoadCals
     }
 
     public class StrCalsModuleSubMenu : SubMenuBase
-        {
+    {
 
         public StrCalsModuleSubMenu(string _type,
                         object parent,

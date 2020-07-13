@@ -13,12 +13,12 @@ namespace TowerLoadCals
     {
         public MainWindow()
         {
-            InitializeComponent();
+          InitializeComponent();
             if (Height > SystemParameters.VirtualScreenHeight || Width > SystemParameters.VirtualScreenWidth)
                 WindowState = WindowState.Maximized;
             DevExpress.Utils.About.UAlgo.Default.DoEventObject(DevExpress.Utils.About.UAlgo.kDemo, DevExpress.Utils.About.UAlgo.pWPF, this);
 
-            this.txt_UserName.Content = "欢迎您："+ LoginHelpers.GetSettingString("userName");
+            this.txt_UserName.Content = "欢迎您："+ LoginHelpers.GetSettingString("nickName");
          
         }
 
@@ -45,19 +45,20 @@ namespace TowerLoadCals
         }
 
         /// <summary>
-        /// 退出系统 事件
+        /// 更换用户信息
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btn_exit_Click(object sender, RoutedEventArgs e)
         {
             LoginHelpers.UpdateSettingString("userName", "");
+            LoginHelpers.UpdateSettingString("nickName", "");
             LoginHelpers.UpdateSettingString("password", "");
             LoginHelpers.UpdateSettingString("isRemember", "");
 
-            this.Close();
             LoginPage loginPage = new LoginPage();
             loginPage.Show();
+            this.Close();
         }
     }
 }

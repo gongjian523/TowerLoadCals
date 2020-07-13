@@ -5,8 +5,8 @@
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    x:Class="TowerLoadCals.Modules.Internet.WireModule_Internet"
-    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:Wire_InternetViewModel}}">
+    x:Class="TowerLoadCals.Modules.Internet.EarthWireModule_Internet"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:EarthWire_InternetViewModel}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>
@@ -25,14 +25,14 @@
 
         <Button Grid.Row="2"   Grid.ColumnSpan="4" Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" Command="{Binding ExportCommand}"/>
 
-        <dxg:GridControl Grid.Row="1"  Grid.ColumnSpan="4"  AutoGenerateColumns="AddNew" Margin="8,0" 
+
+        <dxg:GridControl  Grid.Row="1"   Grid.ColumnSpan="4" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
-                ItemsSource="{Binding DataSource}"
-                >
+                ItemsSource="{Binding DataSource}">
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="IsChosen"  Header="是否下载" HorizontalHeaderContentAlignment="Center" />
+
             <dxg:GridColumn FieldName="Id"  Header="Id" HorizontalHeaderContentAlignment="Center" />
             <dxg:GridColumn FieldName="ModelSpecification"  Header="型号规格" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
             <dxg:GridColumn FieldName="WireType"  Header="线类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
