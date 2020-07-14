@@ -123,7 +123,8 @@
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\FitDataViewModel.cs" />
-    <Compile Include="ModulesViewModels\Internet\FitData_InternetViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\SpacerViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\CounterWeightViewModel.cs" />
     <Compile Include="ModulesViewModels\Internet\GeneralInsulatorViewModule.cs" />
     <Compile Include="ModulesViewModels\Internet\RigidJumperInsulatorViewModel.cs" />
     <Compile Include="ModulesViewModels\Internet\WeatherCondition_InternetViewModel.cs" />
@@ -138,8 +139,11 @@
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
-    <Compile Include="Modules\Internet\FitDataModule_Internet.xaml.cs">
-      <DependentUpon>FitDataModule_Internet.xaml</DependentUpon>
+    <Compile Include="Modules\Internet\SpacerModule.xaml.cs">
+      <DependentUpon>SpacerModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\CounterWeightModule.xaml.cs">
+      <DependentUpon>CounterWeightModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Internet\GeneralInsulatorModule.xaml.cs">
       <DependentUpon>GeneralInsulatorModule.xaml</DependentUpon>
@@ -189,7 +193,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\Internet\FitDataModule_Internet.xaml">
+    <Page Include="Modules\Internet\SpacerModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\CounterWeightModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -609,6 +617,8 @@
       <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\LoginBg.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

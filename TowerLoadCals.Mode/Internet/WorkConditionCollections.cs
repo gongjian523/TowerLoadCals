@@ -1,5 +1,4 @@
-﻿using SqlSugar;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +7,29 @@ using System.Threading.Tasks;
 namespace TowerLoadCals.Mode.Internet
 {
     /// <summary>
-    /// 气象条件
+    /// 绝缘子串表
     /// </summary>
-    [SugarTable("workcondition")]
-    public class WorkConditionInternet
+    public class WorkConditionCollections
     {
+        /// <summary>
+        /// IsChosen
+        /// </summary>
+        public bool IsSelected { get; set; }
+
         /// <summary>
         /// ID
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// CategoryId
+        ///冰区类别
         /// </summary>
-        public int CategoryId { get; set; }
+        public int  CategoryId { get; set; }
+
+        /// <summary>
+        ///冰区类别名称
+        /// </summary>
+        public string CategoryName { get; set; }
 
         /// <summary>
         /// 工况名称

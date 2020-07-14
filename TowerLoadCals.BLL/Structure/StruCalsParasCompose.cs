@@ -51,15 +51,11 @@ namespace TowerLoadCals.BLL
             TemplatePath = templatePath;
             TemplateName = templatePath.Substring(templatePath.LastIndexOf('\\')+1);
 
+            TowerType type = TowerTypeStringConvert.TowerStringToType(towerType);
+
             ElectricalLoadFilePath = electricalLaodFilePath;
 
-            BaseParas = new StruCalseBaseParas() {
-                SelectedStandard = "GB50545-2010",
-                Type = TowerTypeStringConvert.TowerStringToType(towerType),
-                IsMethod1Selected = true
-            };
-
-            if(!DecodeTemplate(BaseParas.Type, templatePath))
+            if(!DecodeTemplate(type, templatePath))
             {
                 decodeTemolateStr = "解码模块错误！";
                 return;
@@ -67,8 +63,7 @@ namespace TowerLoadCals.BLL
 
             LineParas = new List<StruLineParas>();
 
-            SetDefaultValue();
-
+            SetDefaultValue(type);
 
             HPSettingsParas = new List<HangingPointSettingParas>();
             NewHangingPointSetting();
@@ -266,17 +261,17 @@ namespace TowerLoadCals.BLL
         /// <summary>
         /// 从配置文件中获取默认参数
         /// </summary>
-        protected void SetDefaultValue()
+        protected void SetDefaultValue(TowerType towerType)
         {
             var libParas = GlobalInfo.GetInstance().GetStruCalsLibParas();
 
             //有配置文件就从配置文件中读出
             if (libParas != null)
             {
-                var config = new MapperConfiguration(x => x.CreateMap<StruCalsLibBaseParas, StruCalseBaseParas>());
+                var config = new MapperConfiguration(x => x.CreateMap<StruCalsLibBaseParas, StruCalseBaseParas>().ForMember(des=>des.Type, item =>item.Ignore()));
                 IMapper mapper = new Mapper(config);
 
-                StruCalsLibBaseParas libBaseParas = !BaseParas.IsTensionTower ? libParas.OverhangingTowerBaseParas : libParas.TensionTowerBaseParas;
+                StruCalsLibBaseParas libBaseParas = (towerType == TowerType.LineTower || towerType == TowerType.LineCornerTower) ? libParas.OverhangingTowerBaseParas : libParas.TensionTowerBaseParas;
 
                 BaseParas = mapper.Map<StruCalseBaseParas>(libBaseParas);
 
@@ -308,7 +303,7 @@ namespace TowerLoadCals.BLL
                     {
                         Index = i + 1,
                         WireType = Template.Wires[i],
-                        DrawingCoef = ((!BaseParas.IsTensionTower) ? libParas.OverhangingTowerBaseParas.DrawingCoef
+                        DrawingCoef = ((towerType == TowerType.LineTower || towerType == TowerType.LineCornerTower) ? libParas.OverhangingTowerBaseParas.DrawingCoef
                         : libParas.TensionTowerBaseParas.DrawingCoef)
                     });
                 }
@@ -328,6 +323,12 @@ namespace TowerLoadCals.BLL
                 }
                 LineParas = lineParas;
             }
+
+            //BaseParas下列参数中在映射后赋值的原因在于：
+            //如果先复制，在前面的映射过程中，会导致某些值会改变
+            BaseParas.SelectedStandard = "GB50545-2010";
+            BaseParas.Type = towerType;
+            BaseParas.IsMethod1Selected = true;
 
         }
     }

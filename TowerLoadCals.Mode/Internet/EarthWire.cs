@@ -15,6 +15,12 @@ namespace TowerLoadCals.Mode.Internet
     {
 
         /// <summary>
+        /// 页面是否选中
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public bool IsSelected { get; set; }
+
+        /// <summary>
         /// ID
         /// </summary>
         public int Id { get; set; }

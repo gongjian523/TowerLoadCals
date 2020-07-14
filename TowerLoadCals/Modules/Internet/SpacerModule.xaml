@@ -5,12 +5,12 @@
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    x:Class="TowerLoadCals.Modules.Internet.GeneralInsulatorModule"
-    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:GeneralInsulatorViewModule}}">
+    x:Class="TowerLoadCals.Modules.Internet.SpacerModule"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:SpacerViewModel}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"  />
             <RowDefinition Height="40" Name="g_footer"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -19,14 +19,13 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0"  TextAlignment="Right"  VerticalAlignment="Center"  Text="名称:" />
+        <TextBlock Grid.Row="0" TextAlignment="Right"  VerticalAlignment="Center"  Text="型号:" />
         <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Text="{Binding SearchInfo}" Height="27" Margin="5 0 5 0" ></TextBox>
         <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" Command="{Binding SearchCommand}"/>
 
         <Button Grid.Row="2"   Grid.ColumnSpan="4" Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" Command="{Binding ExportCommand}" IsEnabled="{Binding IsEnabledExport}"/>
 
-        <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="AddNew" Margin="8,0"
-                EnableSmartColumnsGeneration="True" 
+        <dxg:GridControl  Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="AddNew" Margin="8,0"         EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding DataSource}"
                 ScrollViewer.VerticalScrollBarVisibility="Auto" 
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -37,14 +36,10 @@
             <dxg:GridColumn FieldName="IsSelected"  Header="是否下载" HorizontalHeaderContentAlignment="Center" />
 
             <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="StrType"  Header="串类型" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Model"  Header="型号" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="FitLength"  Header="长度" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="PieceNum"  Header="片数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="GoldPieceNum"  Header="金具换算片数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="LNum"  Header="联数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="DampLength"  Header="阻尼线长度" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="Voltage"  Header="电压等级" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SecWind"  Header="受风面积" HorizontalHeaderContentAlignment="Center"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

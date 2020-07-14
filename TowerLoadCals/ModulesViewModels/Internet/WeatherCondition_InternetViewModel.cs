@@ -2,10 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
+using TowerLoadCals.BLL;
 using TowerLoadCals.Mode.Internet;
 using TowerLoadCals.Service.Internet;
 
@@ -25,11 +28,19 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         /// </summary>
         public DelegateCommand ExportCommand { get; private set; }
 
+        /// <summary>
+        /// 选中按钮事件
+        /// </summary>
+        public DelegateCommand CheckCommand { get; private set; }
+
+        GlobalInfo globalInfo;//获取文件保存地址
         public WeatherCondition_InternetViewModel()
         {
             doSearch();
             SearchCommand = new DelegateCommand(doSearch);
             ExportCommand = new DelegateCommand(doExportData);
+            //ExportCommand = new DelegateCommand(doCheckData);
+            globalInfo = GlobalInfo.GetInstance();
 
         }
         /// <summary>
@@ -38,60 +49,96 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<WorkConditionInternet>(weatherConditionService.GetList().Where(item => item.SWorkConditionName.Contains(searchInfo)).ToList());
-            else 
-                this.DataSource = new ObservableCollection<WorkConditionInternet>(weatherConditionService.GetList());
+                this.DataSource = new ObservableCollection<WorkConditionCollections>(weatherConditionService.GetList().Where(item => item.CategoryName.Contains(searchInfo)).ToList());
+            else
+                this.DataSource = new ObservableCollection<WorkConditionCollections>(weatherConditionService.GetList());
         }
+
+        /// <summary>
+        /// 选中按钮
+        /// </summary>
+        public void doCheckData()
+        {
+            IList<WorkConditionCollections> list = DataSource.Where(item => item.IsSelected == true).ToList();
+            var groups = list.GroupBy(item => item.CategoryName);
+
+            IList<WorkConditionCollections> groupList = null;
+
+            IList<WorkConditionCollections> resultList = new List<WorkConditionCollections>();
+            foreach (var group in groups)
+            {
+                groupList = weatherConditionService.GetList().Where(item => item.CategoryName == group.Key).ToList();
+
+                foreach (var item in groupList)
+                {
+                    item.IsSelected = true;
+                    resultList.Add(item);
+                }
+            }
+            this.dataSource = new ObservableCollection<WorkConditionCollections>(resultList);
+        }
+
 
         public void doExportData()
         {
+            try
+            {
+                //需要下载的数据
+                IList<WorkConditionCollections> list = DataSource.Where(item => item.IsSelected == true).ToList();
+                var groups = list.GroupBy(item => item.CategoryName);
 
-            //int[] idStr = { 1, 2, 3 };
+                //文件地址
+                string path = globalInfo.ProjectPath + "\\BaseData\\WeatherCondition.xml";
 
-            //IList<WorkConditionInternet> list = weatherConditionService.GetList().Where(item => idStr.Contains(item.CategoryId)).ToList();//需要下载的数据
+                //加载xml文件
+                XmlDocument doc = new XmlDocument();
+                doc.Load(path);
 
-            ////加载xml文件
-            //XmlDocument doc = new XmlDocument();
-            //doc.Load(@"C:\Users\Administrator\Desktop\杆塔负荷协同程序\BaseData\WeatherCondition.xml");
+                XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
+                IList<WorkConditionCollections> groupList = null;
+               
+                foreach (var group in groups)
+                {
+                    foreach (XmlNode xmlNode in rootNode.ChildNodes)//循环冰区大类，查找是否已经存在大类
+                    {
+                        if (xmlNode.Attributes.GetNamedItem("SName").InnerText == group.Key)
+                        {
+                                DialogResult dr = MessageBox.Show(string.Format("已经存在冰区为【{0}】相同的信息，是否替换？", group.Key), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            if (dr == DialogResult.OK)
+                            {
+                                rootNode.RemoveChild(xmlNode);
+                                break;
+                            }
+                        }
+                    }
+                    groupList = weatherConditionService.GetList().Where(item => item.CategoryName == group.Key).ToList();
+                    XmlElement parentElement = doc.CreateElement("KNode");
+                    parentElement.SetAttribute("SName", group.Key);
+                    foreach (var item in groupList)
+                    {
+                        XmlElement childElement = doc.CreateElement("KNode");
+                        childElement.SetAttribute("SIceThickness", item.SIceThickness.ToString());
+                        childElement.SetAttribute("STemperature", item.STemperature.ToString());
+                        childElement.SetAttribute("SWindSpeed", item.SWindSpeed.ToString());
+                        childElement.SetAttribute("SWorkConditionName", item.SWorkConditionName.ToString());
+                        parentElement.AppendChild(childElement);
+                    }
+                    rootNode.AppendChild(parentElement);
+                }
+                doc.Save(path);
 
-            //XmlElement ele = doc.DocumentElement;
-            ////2：得到导线节点
-            ////3：判断是否存在相同型号 不重复直接新增
-            ////4：保存新文件
+                MessageBox.Show("下载成功!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("下载失败，具体原因如下:{0}!", ex.Message));
+            }
 
-            //for(int i=0;i<idStr.Length;i++)
-            //{
-            //    XmlElement categoryElement = doc.CreateElement("KNode");
-
-            //    foreach (WorkConditionInternet wire in list)
-            //    {
-            //        XmlElement row = doc.CreateElement("KNode");
-            //        row.SetAttribute("SIceThickness", wire.SIceThickness.ToString());
-            //        row.SetAttribute("STemperature", wire.STemperature.ToString());
-            //        row.SetAttribute("SWindSpeed", wire.SWindSpeed.ToString());
-            //        row.SetAttribute("SWorkConditionName", wire.SWorkConditionName);
-            //        wireNode.AppendChild(row);
-            //    }
-
-
-
-            //}
-            //XmlNode wireNode = doc.GetElementsByTagName("WireType")[0];
-
-            //XmlElement xmlElement = doc.CreateElement("KNode");
-
-            //foreach (WorkConditionInternet wire in list)
-            //{ 
-            //    XmlElement row = doc.CreateElement("KNode");
-            //    row.SetAttribute("SIceThickness", wire.SIceThickness.ToString());
-            //    row.SetAttribute("STemperature", wire.STemperature.ToString());
-            //    row.SetAttribute("SWindSpeed", wire.SWindSpeed.ToString());
-            //    row.SetAttribute("SWorkConditionName", wire.SWorkConditionName);
-            //    wireNode.AppendChild(row);
-            //}
-            //doc.Save(@"C:\Users\Administrator\Desktop\杆塔负荷协同程序\BaseData\WeatherCondition.xml");
 
         }
+
+     
+
         #region 属性
         private String searchInfo;
         /// <summary>
@@ -104,9 +151,24 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         }
 
         /// <summary>
+        /// 数据源
+        /// </summary>
+        private ObservableCollection<WorkConditionCollections> dataSource;
+
+        public ObservableCollection<WorkConditionCollections> DataSource
+        {
+            get { return dataSource; }
+            set { dataSource = value; RaisePropertyChanged(() => DataSource); }
+        }
+        /// <summary>
         /// 发送消息
         /// </summary>
-        public ObservableCollection<WorkConditionInternet> DataSource { get; set; }
+        private bool isEnabledExport;
+        public bool IsEnabledExport
+        {
+            get { return isEnabledExport = File.Exists(globalInfo.ProjectPath + "\\BaseData\\WeatherCondition.xml"); }
+            set { isEnabledExport = value; RaisePropertyChanged(() => IsEnabledExport); }
+        }
 
         #endregion
 

@@ -130,10 +130,11 @@ namespace TowerLoadCals.Modules
             Bands = new ObservableCollection<Band>() {
                 new Band() {
                     Header = " ",
+
                     ChildColumns = new ObservableCollection<HeaderColumn>() {
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkCondition", Header = "工况" },
-                    }
+                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号", Width="50"},
+                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkCondition", Header = "工况", Width="270"},
+                    }, Width="30"
                 }
             };
 
@@ -142,10 +143,11 @@ namespace TowerLoadCals.Modules
                 Bands.Add(new Band()
                 {
                     Header = hpSettingsParas[i].HangingPointSettingName,
+  
                     ChildColumns = new ObservableCollection<HeaderColumn>() {
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fx[" + i.ToString() + "]", Header = "Fx" },
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fy[" + i.ToString() + "]", Header = "Fy" },
-                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fz[" + i.ToString() + "]", Header = "Fz" },
+                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fx[" + i.ToString() + "]", Header = "Fx" , Width="50"},
+                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fy[" + i.ToString() + "]", Header = "Fy" , Width="50"},
+                        new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Fz[" + i.ToString() + "]", Header = "Fz" , Width="50"},
                     }
                 });
             }

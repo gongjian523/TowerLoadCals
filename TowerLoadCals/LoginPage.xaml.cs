@@ -24,11 +24,13 @@ namespace TowerLoadCals
     /// <summary>
     /// LoginPage.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginPage : ThemedWindow
+    public partial class LoginPage : Window
     {
         public LoginPage()
         {
             InitializeComponent();
+            btn_Login.Background = new SolidColorBrush(Colors.Red);
+            btn_Cancel.Background = new SolidColorBrush(Colors.Red);
             AutoLogin();//是否已经保存cookie 自动登录到主界面
         }
 
@@ -74,18 +76,17 @@ namespace TowerLoadCals
             bool result = new LoginService().doLogin(info);
             if (result)
             {
+                LoginHelpers.UpdateSettingString("nickName", info.NickName);
                 //判断是否记住用户信息
                 if (Convert.ToBoolean(ckbRemember.IsChecked))
                 {
                     LoginHelpers.UpdateSettingString("userName", info.UserName);
-                    LoginHelpers.UpdateSettingString("nickName", info.NickName);
                     LoginHelpers.UpdateSettingString("password", info.Password);
                     LoginHelpers.UpdateSettingString("isRemember", "true");
                 }
                 else
                 {
                     LoginHelpers.UpdateSettingString("userName", "");
-                    LoginHelpers.UpdateSettingString("nickName", "");
                     LoginHelpers.UpdateSettingString("password", "");
                     LoginHelpers.UpdateSettingString("isRemember", "");
                 }

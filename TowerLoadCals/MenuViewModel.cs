@@ -13,6 +13,7 @@ using TowerLoadCals.Mode;
 using static TowerLoadCals.DAL.TowerTemplateReader;
 using TowerLoadCals.BLL;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace TowerLoadCals
 {
@@ -125,6 +126,9 @@ namespace TowerLoadCals
         }
     }
 
+    /// <summary>
+    /// 结构计算模块的按钮
+    /// </summary>
     public class StrCalsModuleSubMenu : SubMenuBase
     {
 
@@ -148,11 +152,8 @@ namespace TowerLoadCals
             Command1Name = "计算";
             Command1BtnVisible = Visibility.Visible;
 
-            Command2Name = "重新加载";
-            Command2BtnVisible = Visibility.Visible;
-
-            Command3Name = "删除";
-            Command3BtnVisible = Visibility.Visible;
+            //Command3Name = "删除";
+            //Command3BtnVisible = Visibility.Visible;
 
             ChildItems = children;
             }
@@ -211,20 +212,30 @@ namespace TowerLoadCals
             ;
         }
 
+        /// <summary>
+        /// 删除命令
+        /// </summary>
+        /// <param name="menu"></param>
         public override void Command3(SubMenuBase menu)
         {
-            INavigationService navigationService = parent.ServiceContainer.GetRequiredService<INavigationService>();
-            IBaseViewModel curViewMode = navigationService.Current as IBaseViewModel;
-            if (curViewMode == null)
+            var  struCalsList =  GlobalInfo.GetInstance().StruCalsParas;
+
+            if (struCalsList == null)
                 return;
 
-            menu.ParentNode.ChildItems.Remove(menu);
-            parentVm.UpdateNavigationBar();
+            int index = struCalsList.FindIndex(item => item.TowerName == menu.Title.Trim());
+            if (index == -1)
+                return;
 
-            curViewMode.DelSubItem(menu.Title);
+            struCalsList.RemoveAt(index);
+
+            if (parentVm == null)
+                return;
+
+            parentVm.SelectedModuleInfo.MenuItems.Add(menu);
+
+            parentVm.MenuItems = new ObservableCollection<SubMenuBase>(parentVm.SelectedModuleInfo.MenuItems);
         }
     }
-
-
 
 }

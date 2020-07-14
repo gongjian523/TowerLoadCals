@@ -9,129 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StruCalsLibBaseDataViewModel}}">
-    <!--<StackPanel>
-        <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <TextBox Text="序号" BorderThickness="1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="悬垂塔" BorderThickness="0,1,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Column="3" Grid.ColumnSpan="2" Text="耐张塔" BorderThickness="0,1,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            
-            <TextBox Grid.Row="1" Text="1" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding OverhangingTowerParas.RGBadName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding OverhangingTowerParas.RGBad}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding TensionTowerParas.RGBadName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding TensionTowerParas.RGBad}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="2" Text="2" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding OverhangingTowerParas.RGGoodName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding OverhangingTowerParas.RGGood}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding TensionTowerParas.RGGoodName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding TensionTowerParas.RGGood}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="3" Text="3" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding OverhangingTowerParas.RQName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding OverhangingTowerParas.RQ}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding TensionTowerParas.RQName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="3" Grid.Column="4" Text="{Binding TensionTowerParas.RQ}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="4" Text="4" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding OverhangingTowerParas.VcFNormalName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding OverhangingTowerParas.VcFNormal}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding TensionTowerParas.VcFNormalName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding TensionTowerParas.VcFNormal}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}" />
-
-            <TextBox Grid.Row="5" Text="5" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OverhangingTowerParas.VcFInstallName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding OverhangingTowerParas.VcFInstall}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding TensionTowerParas.VcFInstallName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="5" Grid.Column="4" Text="{Binding TensionTowerParas.VcFInstall}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="6" Text="6" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding OverhangingTowerParas.VcFBrokenName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding OverhangingTowerParas.VcFBroken}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding TensionTowerParas.VcFBrokenName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding TensionTowerParas.VcFBroken}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="7" Text="7" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding OverhangingTowerParas.VcFUnevenIceName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="7" Grid.Column="2" Text="{Binding OverhangingTowerParas.VcFUnevenIce}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="7" Grid.Column="3" Text="{Binding TensionTowerParas.VcFUnevenIceName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="7" Grid.Column="4" Text="{Binding TensionTowerParas.VcFUnevenIce}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="8" Text="8" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding OverhangingTowerParas.VcFCheckName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="8" Grid.Column="2" Text="{Binding OverhangingTowerParas.VcFCheck}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="8" Grid.Column="3" Text="{Binding TensionTowerParas.VcFCheckName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="8" Grid.Column="4" Text="{Binding TensionTowerParas.VcFCheck}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="9" Text="9" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding OverhangingTowerParas.WindAdjustFactorName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="9" Grid.Column="2" Text="{Binding OverhangingTowerParas.WindAdjustFactor}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="9" Grid.Column="3" Text="{Binding TensionTowerParas.WindAdjustFactorName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="9" Grid.Column="4" Text="{Binding TensionTowerParas.WindAdjustFactor}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="10" Text="10" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding OverhangingTowerParas.OtherWindAdjustFactorName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="10" Grid.Column="2" Text="{Binding OverhangingTowerParas.OtherWindAdjustFactor}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="10" Grid.Column="3" Text="{Binding TensionTowerParas.OtherWindAdjustFactorName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="10" Grid.Column="4" Text="{Binding TensionTowerParas.OtherWindAdjustFactor}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="11" Text="11" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="11" Grid.Column="1" Text="{Binding OverhangingTowerParas.DynamicCoefName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="11" Grid.Column="2" Text="{Binding OverhangingTowerParas.DynamicCoef}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="11" Grid.Column="3" Text="{Binding TensionTowerParas.DynamicCoefName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="11" Grid.Column="4" Text="{Binding TensionTowerParas.DynamicCoef}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="12" Text="12" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding OverhangingTowerParas.DrawingCoefName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="12" Grid.Column="2" Text="{Binding OverhangingTowerParas.DrawingCoef}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="12" Grid.Column="3" Text="{Binding TensionTowerParas.DrawingCoefName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="12" Grid.Column="4" Text="{Binding TensionTowerParas.DrawingCoef}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="13" Text="13" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="13" Grid.Column="1" Text="{Binding OverhangingTowerParas.AnchorWindCoefName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="13" Grid.Column="2" Text="{Binding OverhangingTowerParas.AnchorWindCoef}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="13" Grid.Column="3" Text="{Binding TensionTowerParas.LiftCoefJumperName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="13" Grid.Column="4" Text="{Binding TensionTowerParas.LiftCoefJumper}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="14" Text="14" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="14" Grid.Column="1" Text="{Binding OverhangingTowerParas.AnchorGravityCoefName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="14" Grid.Column="2" Text="{Binding OverhangingTowerParas.AnchorGravityCoef}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="14" Grid.Column="3" Text="{Binding TensionTowerParas.TempStayWireAngleName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="14" Grid.Column="4" Text="{Binding TensionTowerParas.TempStayWireAngle}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-
-            <TextBox Grid.Row="15" Text="15" BorderThickness="1,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="15" Grid.Column="1" Text="{Binding OverhangingTowerParas.AnchorAngleName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="15" Grid.Column="2" Text="{Binding OverhangingTowerParas.AnchorAngle}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="15" Grid.Column="3" Text="{Binding TensionTowerParas.TractionAgnleName, Mode=OneWay}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-            <TextBox Grid.Row="15" Grid.Column="4" Text="{Binding TensionTowerParas.TractionAgnle}" BorderThickness="0,0,1,1" Style="{StaticResource MockTalbeItemStyle}"/>
-        </Grid>
-    </StackPanel>-->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -189,14 +66,14 @@
                         <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.RGGood}"  Margin="0,0,0,4" IsReadOnly="True" />
                         <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.RQName}" Margin="0,0,0,4" />
                         <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.RQ}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFInstallName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFNormalName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
                         <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFBrokenName}" Margin="0,0,0,4" />
                         <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFUnevenIceName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.VcFUnevenIce}"  Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFNormalName}" Margin="0,0,0,0" />
-                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.VcFNormal}" Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFInstallName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFUnevenIceName}" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.VcFUnevenIce}"  Margin="0,0,0,0" IsReadOnly="True" />
                         <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFCheckName}" Margin="8,0,0,0" />
                         <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasGB50545.VcFCheck}" Margin="0,0,0,0" IsReadOnly="True" />
                     </Grid>
@@ -222,20 +99,20 @@
                         <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.RGGood}"  Margin="0,0,0,4" IsReadOnly="True" />
                         <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.RQName}" Margin="0,0,0,4" />
                         <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.RQ}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFInstallName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFBrokenName}" Margin="0,0,0,4" />
-                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFUnevenIceName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFUnevenIce}"  Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.RGOverturnName}" Margin="0,0,0,4" />
-                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.RGOverturn}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFNormalName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFIceName}" Margin="0,0,0,0" />
-                        <dxe:TextEdit Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFIce}" Margin="0,0,0,0" IsReadOnly="True" />
-                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFColdName}" Margin="8,0,0,0" />
-                        <dxe:TextEdit Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFCold}" Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasGB50545.VcFNormalName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFIceName}" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFIce}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFColdName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFCold}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFBrokenName}" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFInstallName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFUnevenIceName}" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.VcFUnevenIce}"  Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding OverhangingTowerParas.BaseParasDLT5551.RGOverturnName}" Margin="8,0,0,0" />
+                        <dxe:TextEdit Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTowerParas.BaseParasDLT5551.RGOverturn}" Margin="0,0,0,0" IsReadOnly="True" />
                     </Grid>
                 </GroupBox>
             </StackPanel>
@@ -293,14 +170,14 @@
                         <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.RGGood}"  Margin="0,0,0,4" IsReadOnly="True" />
                         <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.RQName}" Margin="0,0,0,4" />
                         <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.RQ}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFInstallName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFNormalName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
                         <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFBrokenName}" Margin="0,0,0,4" />
                         <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFUnevenIceName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.VcFUnevenIce}"  Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFNormalName}" Margin="0,0,0,0" />
-                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.VcFNormal}" Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFInstallName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFUnevenIceName}" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.VcFUnevenIce}"  Margin="0,0,0,0" IsReadOnly="True" />
                         <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFCheckName}" Margin="8,0,0,0" />
                         <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasGB50545.VcFCheck}" Margin="0,0,0,0" IsReadOnly="True" />
                     </Grid>
@@ -326,20 +203,20 @@
                         <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.RGGood}"  Margin="0,0,0,4" IsReadOnly="True" />
                         <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.RQName}" Margin="0,0,0,4" />
                         <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.RQ}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFInstallName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFBrokenName}" Margin="0,0,0,4" />
-                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFUnevenIceName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFUnevenIce}"  Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.RGOverturnName}" Margin="0,0,0,4" />
-                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.RGOverturn}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFNormalName}" Margin="8,0,0,4" />
-                        <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
-                        <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFIceName}" Margin="0,0,0,0" />
-                        <dxe:TextEdit Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFIce}" Margin="0,0,0,0" IsReadOnly="True" />
-                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFColdName}" Margin="8,0,0,0" />
-                        <dxe:TextEdit Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFCold}" Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasGB50545.VcFNormalName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFIceName}" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFIce}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFColdName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFCold}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFBrokenName}" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFInstallName}" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.VcFUnevenIceName}" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.VcFUnevenIce}"  Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding TensionTowerParas.BaseParasDLT5551.RGOverturnName}" Margin="8,0,0,0" />
+                        <dxe:TextEdit Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTowerParas.BaseParasDLT5551.RGOverturn}" Margin="0,0,0,0" IsReadOnly="True" />
                     </Grid>
                 </GroupBox>
             </StackPanel>

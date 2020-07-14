@@ -20,5 +20,7 @@ namespace TowerLoadCals.Modules
     public class HeaderColumn : Column
     {
         public string Header { get; set; }
+
+        public string Width { get; set; }
     }
 }

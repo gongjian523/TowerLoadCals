@@ -175,6 +175,7 @@ namespace TowerLoadCals.BLL
             if (temp == null || temp == default(StruCalsParasCompose))
                 return;
 
+
             string templatePath = dirPath + temp.TemplateName;
 
             StruCalsParasCompose paras = new StruCalsParasCompose(name, electricalLaodFilePath, templatePath, temp);
@@ -194,7 +195,6 @@ namespace TowerLoadCals.BLL
             {
                 towerParas = globalInfo.StruCalsParas.Where(item => towers.Contains(item.TowerName)).ToList();
             }
-
 
             List<string> savedToewer = GetAllStrucTowerNames();
 

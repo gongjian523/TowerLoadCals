@@ -52,7 +52,7 @@ namespace TowerLoadCals
         public virtual ModuleMenu SelectedModuleInfo { get; set; }
 
 
-        private ObservableCollection<SubMenuBase> _menuItems = new ObservableCollection<SubMenuBase>();
+        private ObservableCollection<SubMenuBase> _menuItems = new ObservableCollection<SubMenuBase> ();
         /// <summary>
         /// 保存每个模块下面的的子按钮
         /// </summary>
@@ -63,7 +63,7 @@ namespace TowerLoadCals
                 return _menuItems;
             }
 
-            protected set
+            set
             {
                 _menuItems = value;
                 RaisePropertyChanged("MenuItems");
@@ -216,11 +216,11 @@ namespace TowerLoadCals
             towerMudule.SetIcon("FolderList_32x32.png");
             moduleList.Add(towerMudule);
 
-            moduleList.Add(IniStruCalsModule());
-
             ModuleMenu elecCalsMudule = new ModuleMenu("ElecCalsModule", this, "电气计算", (e) => { OnSelectedModuleChanged(e); });
             elecCalsMudule.SetIcon("FolderList_32x32.png");
             moduleList.Add(elecCalsMudule);
+
+            moduleList.Add(IniStruCalsModule());
 
             ModuleMenu resultMudule = new ModuleMenu("ResultModule", this, "成功输出", (e) => { OnSelectedModuleChanged(e); });
             resultMudule.SetIcon("FolderList_32x32.png");

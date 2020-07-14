@@ -98,8 +98,9 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Helpers\dbConfig.cs" />
     <Compile Include="Helpers\DbContext.cs" />
+    <Compile Include="Internet\SpacerService.cs" />
     <Compile Include="Internet\EarthWireService.cs" />
-    <Compile Include="Internet\FitDataService.cs" />
+    <Compile Include="Internet\CounterWeightService.cs" />
     <Compile Include="Helpers\InternetLinkHelper.cs" />
     <Compile Include="Helpers\MD5Help.cs" />
     <Compile Include="Internet\GeneralInsulatorService.cs" />

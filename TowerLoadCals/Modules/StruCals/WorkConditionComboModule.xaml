@@ -23,7 +23,9 @@
         <DataTemplate x:Key="BindingColumnTemplate">
             <ContentControl>
                 <dxg:GridColumn local:BindingHelper.Path="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
-                                Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"/>
+                                Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"
+                                Width="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Width, RelativeSource={RelativeSource Self}}"
+                                HorizontalHeaderContentAlignment="Center"/>
             </ContentControl>
         </DataTemplate>
     </UserControl.Resources>
@@ -36,12 +38,7 @@
                         ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}"
                         ColumnGeneratorStyle="{StaticResource ColumnStyle}">
             <dxg:GridControl.View>
-                <dxg:TableView x:Name="view" 
-                    NavigationStyle="Cell" 
-                    AutoWidth="True"
-                    EnableImmediatePosting="True"
-                    AllowPerPixelScrolling="True" 
-                    ShowGroupPanel="False"/>
+                <dxg:TableView x:Name="view"  NavigationStyle="Cell" EnableImmediatePosting="True" AllowPerPixelScrolling="True" ShowGroupPanel="False"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
 

@@ -1,17 +1,32 @@
-﻿using System;
+﻿using MySqlX.XDevAPI.Relational;
+using SqlSugar;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TowerLoadCals.Mode
+namespace TowerLoadCals.Mode.Internet
 {
-    public class FitData
+
+    /// <summary>
+    /// 间隔棒
+    /// </summary>
+    [SugarTable("kb_jinjufanghujgb")]
+    public class Spacer
     {
+
+        /// <summary>
+        /// 页面是否选中
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public bool IsSelected { get; set; }
+
+
         /// <summary>
         /// ID 
         /// </summary>
-        //public int ID { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// 名称
@@ -21,6 +36,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 型号 
         /// </summary>
+        [SugarColumn(ColumnName= "categorysub")]
         public string Model { get; set; }
 
         /// <summary>

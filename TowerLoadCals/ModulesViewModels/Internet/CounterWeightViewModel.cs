@@ -15,11 +15,11 @@ using TowerLoadCals.Service.Internet;
 namespace TowerLoadCals.ModulesViewModels.Internet
 {
     /// <summary>
-    /// 硬跳线
+    /// 防震锤
     /// </summary>
-    public class RigidJumperInsulatorViewModel : ViewModelBase
+    public class CounterWeightViewModel : ViewModelBase
     {
-        RigidJumperInsulatorService rigidJumperInsulatorService = new RigidJumperInsulatorService();//数据交互层
+        CounterWeightService counterWeightService = new CounterWeightService();//数据交互层
 
         /// <summary>
         /// 查询事件
@@ -32,7 +32,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public DelegateCommand ExportCommand { get; private set; }
 
         GlobalInfo globalInfo;//获取文件保存地址
-        public RigidJumperInsulatorViewModel()
+        public CounterWeightViewModel()
         {
             doSearch();
             SearchCommand = new DelegateCommand(doSearch);
@@ -46,10 +46,9 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<RigidJumperInsulator>(rigidJumperInsulatorService.GetList().Where(item => item.Name.Contains(searchInfo)).ToList());
+                this.DataSource = new ObservableCollection<CounterWeight>(counterWeightService.GetList().Where(item => item.Name.Contains(searchInfo)).ToList());
             else
-                this.DataSource = new ObservableCollection<RigidJumperInsulator>(rigidJumperInsulatorService.GetList());
-
+                this.DataSource = new ObservableCollection<CounterWeight>(counterWeightService.GetList());
         }
 
         public void doExportData()
@@ -57,19 +56,22 @@ namespace TowerLoadCals.ModulesViewModels.Internet
             try
             {
                 //需要下载的数据
-                IList<RigidJumperInsulator> list = DataSource.Where(item => item.IsSelected == true).ToList();
+                IList<CounterWeight> list = DataSource.Where(item => item.IsSelected == true).ToList();
 
                 //文件地址
-                string path = globalInfo.ProjectPath + "\\BaseData\\StrData.xml";
+                string path = globalInfo.ProjectPath + "\\BaseData\\FitData.xml";
 
                 //加载xml文件
                 XmlDocument doc = new XmlDocument();
                 doc.Load(path);
 
+                //2：得到导线节点
+                //3：判断是否存在相同型号 不重复直接新增
+                //4：保存新文件
 
-                XmlNode rootNode = doc.GetElementsByTagName("FitDataCollection")[1];
+                XmlNode rootNode = doc.GetElementsByTagName("FitDataCollection")[0];
                 bool notExists = true;
-                foreach (RigidJumperInsulator item in list)
+                foreach (CounterWeight item in list)
                 {
                     notExists = true;
                     XmlNodeList abc = rootNode.ChildNodes;
@@ -82,14 +84,10 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                             {
                                 notExists = false;
                                 xmlNode.Attributes.GetNamedItem("Name").InnerText = item.Name;
-                                xmlNode.Attributes.GetNamedItem("StrType").InnerText = item.StrType;
+                                xmlNode.Attributes.GetNamedItem("Model").InnerText = item.Model;
                                 xmlNode.Attributes.GetNamedItem("Weight").InnerText = item.Weight.ToString();
-                                xmlNode.Attributes.GetNamedItem("FitLength").InnerText = item.FitLength.ToString();
-                                xmlNode.Attributes.GetNamedItem("PieceLength").InnerText = item.PieceLength.ToString();
-                                xmlNode.Attributes.GetNamedItem("PieceNum").InnerText = item.PieceNum.ToString();
-                                xmlNode.Attributes.GetNamedItem("GoldPieceNum").InnerText = item.GoldPieceNum.ToString();
-                                xmlNode.Attributes.GetNamedItem("LNum").InnerText = item.LNum.ToString();
-                                xmlNode.Attributes.GetNamedItem("DampLength").InnerText = item.DampLength.ToString();
+                                xmlNode.Attributes.GetNamedItem("Voltage").InnerText = item.Voltage.ToString();
+                                xmlNode.Attributes.GetNamedItem("SecWind").InnerText = item.SecWind.ToString();
                                 break;
                             }
 
@@ -97,16 +95,12 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     }
                     if (notExists)
                     {
-                        XmlElement row = doc.CreateElement("StrData");
+                        XmlElement row = doc.CreateElement("FitData");
                         row.SetAttribute("Name", item.Name);//名称
-                        row.SetAttribute("StrType", item.StrType);//串类型
+                        row.SetAttribute("Model", item.Model);//型号
                         row.SetAttribute("Weight", item.Weight.ToString());//重量
-                        row.SetAttribute("FitLength", item.FitLength.ToString());//长度
-                        row.SetAttribute("PieceLength", item.PieceLength.ToString());//单片绝缘子长度
-                        row.SetAttribute("PieceNum", item.PieceNum.ToString());//片数
-                        row.SetAttribute("GoldPieceNum", item.GoldPieceNum.ToString());//金具换算片数
-                        row.SetAttribute("LNum", item.LNum.ToString());//联数
-                        row.SetAttribute("DampLength", item.DampLength.ToString());//阻尼线长度
+                        row.SetAttribute("Voltage", item.Voltage.ToString());//电压等级
+                        row.SetAttribute("SecWind", item.SecWind.ToString());//受风面积
                         rootNode.AppendChild(row);
                     }
                 }
@@ -135,20 +129,21 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         /// <summary>
         /// 数据源
         /// </summary>
-        private ObservableCollection<RigidJumperInsulator> dataSource;
+        private ObservableCollection<CounterWeight> dataSource;
 
-        public ObservableCollection<RigidJumperInsulator> DataSource
+        public ObservableCollection<CounterWeight> DataSource
         {
             get { return dataSource; }
             set { dataSource = value; RaisePropertyChanged(() => DataSource); }
         }
+
         /// <summary>
         /// 发送消息
         /// </summary>
         private bool isEnabledExport;
         public bool IsEnabledExport
         {
-            get { return isEnabledExport = File.Exists(globalInfo.ProjectPath + "\\BaseData\\StrData.xml"); }
+            get { return isEnabledExport = File.Exists(globalInfo.ProjectPath + "\\BaseData\\FitData.xml"); }
             set { isEnabledExport = value; RaisePropertyChanged(() => IsEnabledExport); }
         }
 

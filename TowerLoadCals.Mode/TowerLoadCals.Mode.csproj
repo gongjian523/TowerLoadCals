@@ -119,10 +119,14 @@
     <Compile Include="Electric\Wire.cs" />
     <Compile Include="Internet\EarthWire.cs" />
     <Compile Include="Internet\GeneralInsulator.cs" />
+    <Compile Include="Internet\CounterWeight.cs" />
     <Compile Include="Internet\RigidJumperInsulator.cs" />
+    <Compile Include="Internet\Spacer.cs" />
     <Compile Include="Internet\Wire.cs" />
     <Compile Include="Internet\WorkCondition.cs" />
     <Compile Include="Internet\UserInfo.cs" />
+    <Compile Include="Internet\WorkConditionCategory.cs" />
+    <Compile Include="Internet\WorkConditionCollections.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structure\StruCalseBaseParas.cs" />
     <Compile Include="Structure\HangingPointParas.cs" />
