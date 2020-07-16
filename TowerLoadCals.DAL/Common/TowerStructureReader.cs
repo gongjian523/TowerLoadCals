@@ -23,8 +23,8 @@ namespace TowerLoadCals.DAL
                 return null;
 
             taStructure.Name = xmlNode.Attributes["Name"].Value.ToString();
-            taStructure.CircuitNum  = Convert.ToInt16(xmlNode.Attributes["Circuit"].Value.ToString());
-            taStructure.Type = Convert.ToInt16(xmlNode.Attributes["Type"].Value.ToString());
+            taStructure.CircuitNum  = Convert.ToInt32(xmlNode.Attributes["Circuit"].Value.ToString());
+            taStructure.Type = Convert.ToInt32(xmlNode.Attributes["Type"].Value.ToString());
             taStructure.Category = xmlNode.Attributes["Category"].Value.ToString();
             taStructure.AppearanceType = xmlNode.Attributes["AppearanceType"].Value.ToString();
 
@@ -32,8 +32,8 @@ namespace TowerLoadCals.DAL
             XmlNode circuitZBaseNode = doc.GetElementsByTagName("CircuitZBase")[0];
             if (circuitZBaseNode == null)
                 return null;
-            taStructure.ZBaseCircuitId = Convert.ToInt16(circuitZBaseNode.Attributes["Circuit"].Value.ToString());
-            taStructure.ZBasePhaseId = Convert.ToInt16(circuitZBaseNode.Attributes["PhaseId"].Value.ToString());
+            taStructure.ZBaseCircuitId = Convert.ToInt32(circuitZBaseNode.Attributes["Circuit"].Value.ToString());
+            taStructure.ZBasePhaseId = Convert.ToInt32(circuitZBaseNode.Attributes["PhaseId"].Value.ToString());
 
             //解析CircuitSet节点
             XmlNode circuitSetNode = doc.GetElementsByTagName("CircuitSet")[0];
@@ -45,7 +45,7 @@ namespace TowerLoadCals.DAL
             {
                 Circuit cs = new Circuit();
                 cs.Name = csNode.Attributes["Name"].Value.ToString();
-                cs.Id = Convert.ToInt16(csNode.Attributes["Id"].Value.ToString());
+                cs.Id = Convert.ToInt32(csNode.Attributes["Id"].Value.ToString());
 
                 if(csNode.Attributes["Current"] == null)
                 {
@@ -64,7 +64,7 @@ namespace TowerLoadCals.DAL
                 else
                 {
                     cs.IsVoltageExist = true;
-                    cs.Voltage = Convert.ToInt16(csNode.Attributes["Voltage"].Value.ToString());
+                    cs.Voltage = Convert.ToInt32(csNode.Attributes["Voltage"].Value.ToString());
                 }
 
                 cs.PhaseWires = new List<PhaseWire>();
@@ -73,7 +73,7 @@ namespace TowerLoadCals.DAL
                 {
                     PhaseWire wire = new PhaseWire();
                     wire.Name = wireNode.Attributes["PhaseName"].Value.ToString();
-                    wire.Id = Convert.ToInt16(wireNode.Attributes["PhaseId"].Value.ToString());
+                    wire.Id = Convert.ToInt32(wireNode.Attributes["PhaseId"].Value.ToString());
                     wire.Postions = new List<CircuitPostion>();
 
                     cs.PhaseWires.Add(wire);
@@ -88,8 +88,8 @@ namespace TowerLoadCals.DAL
 
             foreach(XmlNode csPosNode in CircuitPosNodeList)
             {
-                int csId = Convert.ToInt16(csPosNode.Attributes["Circuit"].Value.ToString());
-                int phaseId = Convert.ToInt16(csPosNode.Attributes["PhaseId"].Value.ToString());
+                int csId = Convert.ToInt32(csPosNode.Attributes["Circuit"].Value.ToString());
+                int phaseId = Convert.ToInt32(csPosNode.Attributes["PhaseId"].Value.ToString());
 
                 XmlNode posNode = csPosNode.FirstChild;
                 
@@ -98,9 +98,9 @@ namespace TowerLoadCals.DAL
                     CircuitPostion pos = new CircuitPostion
                     {
                         FunctionType = csPosNode.Attributes["FunctionType"].Value.ToString(),
-                        Px = Convert.ToInt16(posNode.Attributes["Px"].Value.ToString()),
-                        Py = Convert.ToInt16(posNode.Attributes["Py"].Value.ToString()),
-                        Pz = Convert.ToInt16(posNode.Attributes["Pz"].Value.ToString())
+                        Px = Convert.ToInt32(posNode.Attributes["Px"].Value.ToString()),
+                        Py = Convert.ToInt32(posNode.Attributes["Py"].Value.ToString()),
+                        Pz = Convert.ToInt32(posNode.Attributes["Pz"].Value.ToString())
                     };
 
                     Circuit circuit = taStructure.CircuitSet.Where(item => item.Id == csId).ToList().First();

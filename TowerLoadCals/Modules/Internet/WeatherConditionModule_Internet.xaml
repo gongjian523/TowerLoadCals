@@ -42,6 +42,7 @@
                 <dxg:GridSummaryItem FieldName="CategoryName" />
             </dxg:GridControl.GroupSummary>
             <dxg:GridColumn FieldName="IsSelected"  Header="是否选择" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="CategoryName"  Header="气象区分类" HorizontalHeaderContentAlignment="Center"  />
             <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center"  />
             <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center"/>

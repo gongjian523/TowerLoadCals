@@ -54,7 +54,6 @@
     <Compile Include="Common\ConfigFileUtils.cs" />
     <Compile Include="Common\GlobalInfo.cs" />
     <Compile Include="Common\ProjectUtils.cs" />
-    <Compile Include="Common\WeatherConditionBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structure\FormulaTensionTower.cs" />
     <Compile Include="Structure\FormulaLineCornerTower.cs" />

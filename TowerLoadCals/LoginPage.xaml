@@ -17,13 +17,49 @@
         <!--故事版-->
         <Storyboard x:Key="Storyboard1" BeginTime="0:0:0">
             <!--控制窗体透明度-->
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" From="0" To="1" Duration="0:0:2" Storyboard.TargetName="dp"/>
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" From="0" To="1" Duration="0:0:0.1" Storyboard.TargetName="dp"/>
             <!--控制窗体放大和缩小-->
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleX" From="0" To="1" Duration="0:0:2" Storyboard.TargetName="dp"/>
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleY" From="0" To="1" Duration="0:0:2" Storyboard.TargetName="dp"/>
-            <!--设置RotateTransform(旋转变化):属性Angle（旋转角度）从50到0历时2秒--><!--
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleX" From="0" To="1" Duration="0:0:0.01" Storyboard.TargetName="dp"/>
+            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleY" From="0" To="1" Duration="0:0:0.01" Storyboard.TargetName="dp"/>
+            <!--设置RotateTransform(旋转变化):属性Angle（旋转角度）从50到0历时2秒-->
+            <!--
             <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].Angle" From="0" To="360" Duration="0:0:0.1" SpeedRatio="0.1" Storyboard.TargetName="dp"/>-->
         </Storyboard>
+        <!--自定义button控件-->
+        <Style x:Key="NewButton" TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Cursor="Hand">
+                            <Border x:Name="_Border" Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            </Border>
+                            <!--ContentPresenter的作用就是显示内容，但Control类没有这个Content属性，所以在Control类之上写了一个ContentControl类，然后ContentPresenter(其显示依赖于ContentControl类)负责将ContentControl的Content属性显示出来。每个控件都有一个默认的ContentPresenter用于显示Content内容，这种控件为内容控件-->
+                            <!--SnapsToDevicePixels获取或设置一个值，该值确定在呈现过程中，此元素的呈现是否应使用特定于设备的像素设置。 这是依赖项属性。-->
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <!--定义触发器-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="_Border">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="#ef3c62"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" TargetName="_Border">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="Gray"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                        <!--定义触发器_End-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <!--窗体触发器-->
     <Window.Triggers>
@@ -49,10 +85,10 @@
         <Grid >
             <Image Source="Images/LoginBg.jpg" Stretch="Fill"/>
             <TextBlock  Height="30" VerticalAlignment="Top"  FontSize="18"  Margin="-290,20,-290,0" Text="欢迎使用杆塔负荷设计系统" TextAlignment="Center" Padding="8"/>
-            
+
             <!--<Image Source="Images/TowerOption.png" Width="180" Height="30" VerticalAlignment="Top" Margin="-290,20,-290,0"/>-->
             <Rectangle Fill="#fcfcfb" Opacity="0.3" Width="350" Height="180" RadiusX="5" RadiusY="5" Stroke="Gray" VerticalAlignment="Top" Margin="-290,65,-290,0"/>
-            
+
             <TextBlock  Background="#eeeeee" Width="50" Height="30" VerticalAlignment="Top" Margin="-490,95,-290,0" Text="帐号" TextAlignment="Center" Padding="8"/>
             <!--MaxLength属性：输入值的最大长度，不包含硬编码中Text的字符长度
             TextWrapping：如果设置成wrap ，就表示当文本长度超过容器长度时可以自动换行。
@@ -62,33 +98,33 @@
                             TextWrapping="NoWrap" FontSize="16" Margin="55,-80,0,0" Padding="4"/>
             <TextBlock  Background="#eeeeee" Width="50" Height="30" VerticalAlignment="Top" Margin="-490,140,-290,0" Text="密码" TextAlignment="Center" Padding="8"/>
             <PasswordBox Name="txtPassword" Background="White" Width="200" Height="30" FontSize="16" Margin="55,10,0,0" MaxLength="20" Padding="4"></PasswordBox>
-            <CheckBox Content="记住账号密码" Name="ckbRemember" Margin="120,190,290,91" ></CheckBox>
+            <CheckBox Content="记住我" Name="ckbRemember" Margin="134,185,307,91"  ></CheckBox>
             <!--Content：作用与TextBox的Text属性一样，但其数据类型为object，即可放任何对象，但只能存放一个对象-->
-            <Button Name="btn_Login"  
+            <Button Name="btn_Login"  Style="{StaticResource NewButton}"    
                     Content="登录" 
-                    Height="35"
+                    Height="32"
                     Width="70"
-                    FontSize="19"                    
+                    FontSize="18"                    
                     Cursor="Hand"
                     Background="#fe0338"
                     Foreground="White"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top" 
-                    Margin="215,180,0,0" 
+                    Margin="204,180,0,0" 
                     FontFamily="Vivaldi" Click="btn_login_Click" >
             </Button>
             <!--Cursor：当光标进入控件范围时使用的鼠标指针-->
             <Button                  
-                    Name="btn_Cancel" 
+                    Name="btn_Cancel" Style="{StaticResource NewButton}"    
                     Content="退出" 
-                    Height="35" 
+                    Height="32" 
                     Width="70" 
-                    FontSize="19"                   
+                    FontSize="18"                   
                     Foreground="White"
                     Background="#fe0338" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" 
-                    Margin="300,180,-290,0"
+                    Margin="299,180,0,0"
                     Cursor="Hand"
                     FontFamily="Vivaldi"
                     Click="btn_exit_Click"/>

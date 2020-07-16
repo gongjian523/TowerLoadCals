@@ -280,7 +280,7 @@
                     </dxdo:LayoutPanel>
 
 
-                    <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
+                    <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" 
                                       AllowClose="False" ShowCaption="False" Name="subLayoutRightPanel" AllowSizing="False" >
                         <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" >
                             <dxa:AccordionControl x:Name="subRightAccordion" ItemsSource="{Binding Path=InternetMenuItems}" HeaderContent="" SummaryItemHeader="" IsCollapseButtonVisible="False"

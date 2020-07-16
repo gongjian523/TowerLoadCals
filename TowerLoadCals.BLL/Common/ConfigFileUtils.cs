@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.BLL
 {
@@ -22,10 +23,16 @@ namespace TowerLoadCals.BLL
             XmlNode xmlNode = doc.CreateElement("Project");
             doc.AppendChild(xmlNode);
 
-            XmlNode nodeBaseData = doc.CreateElement("BaseData");
+            XmlNode nodeBaseData = doc.CreateElement(ConstVar.DataBaseStr);
             xmlNode.AppendChild(nodeBaseData);
 
-            XmlNode nodeStruCals = doc.CreateElement("StruCals");
+            XmlNode generalTemplateNode = doc.CreateElement(ConstVar.GeneralStruTemplateStr);
+            nodeBaseData.AppendChild(generalTemplateNode);
+
+            XmlNode projectTemplateNode = doc.CreateElement(ConstVar.ProjectStruTemplateStr);
+            nodeBaseData.AppendChild(projectTemplateNode);
+
+            XmlNode nodeStruCals = doc.CreateElement(ConstVar.StruCalsStr);
             xmlNode.AppendChild(nodeStruCals);
 
             doc.Save(path);
@@ -33,6 +40,7 @@ namespace TowerLoadCals.BLL
             return true;
         }
 
+        #region 结构计算塔位信息操作函数
         public static List<string> GetAllStrucTowerNames(string path)
         {
             List<string> rstList = new List<string>();
@@ -40,7 +48,7 @@ namespace TowerLoadCals.BLL
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
 
-            XmlNode struCalsNode = doc.GetElementsByTagName("StruCals")[0];
+            XmlNode struCalsNode = doc.GetElementsByTagName(ConstVar.StruCalsStr)[0];
             if (struCalsNode == null)
                 return rstList;
 
@@ -117,6 +125,102 @@ namespace TowerLoadCals.BLL
 
             return true;
         }
+        #endregion
+
+
+        #region 结构计算塔库模板操作函数
+        public static List<TowerTemplateStorageInfo> GetAllTowerTemplates(string path, bool isGeneralTemplate = true)
+        {
+            List<TowerTemplateStorageInfo> rstList = new List<TowerTemplateStorageInfo>();
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            XmlNode templateNode = doc.GetElementsByTagName(isGeneralTemplate ? ConstVar.GeneralStruTemplateStr : ConstVar.ProjectStruTemplateStr)[0];
+            if (templateNode == null)
+                return rstList;
+
+            foreach (XmlNode subNode in templateNode.ChildNodes)
+            {
+                rstList.Add( new TowerTemplateStorageInfo() {
+                    Name = subNode.Attributes["Name"].Value.ToString(),
+                    TowerType = subNode.Attributes[ConstVar.TowerTypeStr].Value.ToString(),
+                });
+            }
+
+            return rstList;
+        }
+
+        public static bool InsertTowerTemplates(string path, List<TowerTemplateStorageInfo> templates, bool isGeneralTemplate = true)
+        {
+            List<string> rstList = new List<string>();
+
+            XmlDocument doc = new XmlDocument();
+            try
+            {
+                doc.Load(path);
+
+                XmlNode templatesNode = doc.GetElementsByTagName(isGeneralTemplate ? ConstVar.GeneralStruTemplateStr : ConstVar.ProjectStruTemplateStr)[0];
+                if (templatesNode == null)
+                    return false;
+
+                foreach (var item in templates)
+                {
+                    XmlAttribute nameAttribute = doc.CreateAttribute("Name");
+                    nameAttribute.Value = item.Name;
+
+                    XmlAttribute towerTypeAttribute = doc.CreateAttribute(ConstVar.TowerTypeStr);
+                    towerTypeAttribute.Value = item.TowerType;
+
+                    XmlNode templateNode = doc.CreateElement(ConstVar.TowerTemplateStr);
+                    templateNode.Attributes.Append(nameAttribute);
+                    templateNode.Attributes.Append(towerTypeAttribute);
+
+                    templatesNode.AppendChild(templateNode);
+                }
+
+                doc.Save(path);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool DeleteTowerTemplates(string path, List<TowerTemplateStorageInfo> templates, bool isGeneralTemplate = true)
+        {
+            List<string> rstList = new List<string>();
+
+            XmlDocument doc = new XmlDocument();
+
+            try
+            {
+                doc.Load(path);
+
+                XmlNode templatesNode = doc.GetElementsByTagName(isGeneralTemplate ? ConstVar.GeneralStruTemplateStr : ConstVar.ProjectStruTemplateStr)[0];
+                if (templatesNode == null)
+                    return false;
+
+                foreach (XmlNode subNode in templatesNode.ChildNodes)
+                {
+                    if (subNode.Attributes["Name"] != null && templates.Where(item => item.Name == subNode.Attributes["Name"].Value.ToString()).Count() > 0)
+                    {
+                        templatesNode.RemoveChild(subNode);
+                    }
+                }
+
+                doc.Save(path);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
 
     }
 }

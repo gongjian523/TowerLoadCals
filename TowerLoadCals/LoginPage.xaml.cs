@@ -29,8 +29,7 @@ namespace TowerLoadCals
         public LoginPage()
         {
             InitializeComponent();
-            btn_Login.Background = new SolidColorBrush(Colors.Red);
-            btn_Cancel.Background = new SolidColorBrush(Colors.Red);
+
             AutoLogin();//是否已经保存cookie 自动登录到主界面
         }
 

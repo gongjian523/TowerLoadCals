@@ -40,5 +40,27 @@ namespace TowerLoadCals.Mode
         {
             get { return "UserData"; }
         }
+
+
+        public static string GeneralStruTemplateStr
+        {
+            get { return "GeneralStruTemplate"; }
+        }
+
+        public static string ProjectStruTemplateStr
+        {
+            get { return "ProjectStruTemplate"; }
+        }
+
+        public static string TowerTypeStr
+        {
+            get { return "TowerType"; }
+        }
+
+        public static string TowerTemplateStr
+        {
+            get { return "TowerTemplate"; }
+        }
+
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using TowerLoadCals.DAL;
 using TowerLoadCals.Common;
 using TowerLoadCals.Mode;
 
@@ -225,7 +224,6 @@ namespace TowerLoadCals.BLL
 
                 XmlUtils.Serializer(dirPath + "\\" + ConstVar.StruCalsParasFileName, item);
             }
-
         }
 
 
@@ -253,6 +251,61 @@ namespace TowerLoadCals.BLL
         {
             return ConfigFileUtils.DeleteStrucTowerNames(ConfigFilePath, towerNames);
         }
+
+        #endregion
+
+        #region 基本参数 结构模板库相关
+
+        public List<TowerTemplateStorageInfo> GetGeneralTowerTemplate()
+        {
+            return ConfigFileUtils.GetAllTowerTemplates(ConfigFilePath);
+        }
+
+        public List<TowerTemplateStorageInfo> GetProjectTowerTemplate()
+        {
+            return ConfigFileUtils.GetAllTowerTemplates(ConfigFilePath, false);
+        }
+
+        public bool InsertGeneralTowerTemplate(TowerTemplateStorageInfo template)
+        {
+            return ConfigFileUtils.InsertTowerTemplates(ConfigFilePath, new List<TowerTemplateStorageInfo> { template });
+        }
+
+        public bool InsertGeneralTowerTemplates(List<TowerTemplateStorageInfo> templates)
+        {
+            return ConfigFileUtils.InsertTowerTemplates(ConfigFilePath, templates);
+        }
+
+        public bool InsertProjectTowerTemplate(TowerTemplateStorageInfo template)
+        {
+            return ConfigFileUtils.InsertTowerTemplates(ConfigFilePath, new List<TowerTemplateStorageInfo> { template }, false);
+        }
+
+        public bool InsertProjectTowerTemplates(List<TowerTemplateStorageInfo> templates)
+        {
+            return ConfigFileUtils.InsertTowerTemplates(ConfigFilePath, templates, false);
+        }
+
+        public bool DeleteGeneralTowerTemplate(TowerTemplateStorageInfo template)
+        {
+            return ConfigFileUtils.DeleteTowerTemplates(ConfigFilePath, new List<TowerTemplateStorageInfo> { template });
+        }
+
+        public bool DeleteGeneralTowerTemplates(List<TowerTemplateStorageInfo> templates)
+        {
+            return ConfigFileUtils.DeleteTowerTemplates(ConfigFilePath, templates);
+        }
+
+        public bool DeleteProjectTowerTemplate(TowerTemplateStorageInfo template)
+        {
+            return ConfigFileUtils.DeleteTowerTemplates(ConfigFilePath, new List<TowerTemplateStorageInfo> { template }, false);
+        }
+
+        public bool DeleteProjectTowerTemplates(List<TowerTemplateStorageInfo> templates)
+        {
+            return ConfigFileUtils.DeleteTowerTemplates(ConfigFilePath, templates, false);
+        }
+
 
         #endregion
     }

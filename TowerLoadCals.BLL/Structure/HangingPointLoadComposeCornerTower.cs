@@ -123,7 +123,7 @@ namespace TowerLoadCals.BLL
                         //左边和中间的导线，获取左侧挂点
                         for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
                         {
-                            int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(option.LeftPoints[kl].Substring(1)) - 1;
 
                             GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
@@ -131,7 +131,7 @@ namespace TowerLoadCals.BLL
 
                             resList.Add(new StruCalsPointLoad()
                             {
-                                Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                                Name = Convert.ToInt32(pointParas.Points[pointIndex]),
                                 Wire = wireType,
                                 WorkConditionId = jIndex,
                                 Orientation = orientation,
@@ -145,7 +145,7 @@ namespace TowerLoadCals.BLL
                     {
                         for (int kr = 0; kr < option.RightPoints.Count(); kr++)
                         {
-                            int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(option.RightPoints[kr].Substring(1)) - 1;
 
                             GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
@@ -153,7 +153,7 @@ namespace TowerLoadCals.BLL
 
                             resList.Add(new StruCalsPointLoad()
                             {
-                                Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                                Name = Convert.ToInt32(pointParas.Points[pointIndex]),
                                 Wire = wireType,
                                 WorkConditionId = jIndex,
                                 Orientation = orientation,
@@ -175,7 +175,7 @@ namespace TowerLoadCals.BLL
                         if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
                             continue;
 
-                        int pointIndex = Convert.ToInt16(points[kl].Substring(1)) - 1;
+                        int pointIndex = Convert.ToInt32(points[kl].Substring(1)) - 1;
 
                         GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
@@ -196,7 +196,7 @@ namespace TowerLoadCals.BLL
 
                         resList.Add(new StruCalsPointLoad()
                         {
-                            Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                            Name = Convert.ToInt32(pointParas.Points[pointIndex]),
                             Wire = wireType,
                             WorkConditionId = jIndex,
                             Orientation = orientation,
@@ -211,7 +211,7 @@ namespace TowerLoadCals.BLL
                         if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
                             continue;
 
-                        int pointIndex = Convert.ToInt16(points[kr].Substring(1)) - 1;
+                        int pointIndex = Convert.ToInt32(points[kr].Substring(1)) - 1;
 
                         GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
@@ -232,7 +232,7 @@ namespace TowerLoadCals.BLL
 
                         resList.Add(new StruCalsPointLoad()
                         {
-                            Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                            Name = Convert.ToInt32(pointParas.Points[pointIndex]),
                             Wire = wireType,
                             WorkConditionId = jIndex,
                             Orientation = orientation,
@@ -252,7 +252,7 @@ namespace TowerLoadCals.BLL
 
                 for (int k = 0; k < points.Count(); k++)
                 {
-                    int pointIndex = Convert.ToInt16(points[k].Substring(1)) - 1;
+                    int pointIndex = Convert.ToInt32(points[k].Substring(1)) - 1;
 
                     GetPointProportionAndLoad(dicComposeInfo[pointIndex], lineLoad[jIndex, iIndex], out float proportion, out float laod);
 
@@ -260,7 +260,7 @@ namespace TowerLoadCals.BLL
 
                     resList.Add(new StruCalsPointLoad()
                     {
-                        Name = Convert.ToInt16(pointParas.Points[pointIndex]),
+                        Name = Convert.ToInt32(pointParas.Points[pointIndex]),
                         Wire = wireType,
                         WorkConditionId = jIndex,
                         Orientation = orientation,

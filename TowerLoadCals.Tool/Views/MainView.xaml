@@ -1,0 +1,67 @@
+﻿<UserControl 
+    x:Class="TowerLoadCals.Tool.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:ViewModels="clr-namespace:TowerLoadCals.Tool.ViewModels"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type ViewModels:MainViewModel}}"
+    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <!--<UserControl.DataContext>
+        <ViewModels:MainViewModel/>
+    </UserControl.DataContext>-->
+    <UserControl.Resources>
+        <Style x:Key="DefaultTableViewStyle" TargetType="dxg:TableView">
+            <Setter Property="ShowGroupPanel" Value="False"/>
+            <Setter Property="AutoWidth" Value="True"/>
+            <Setter Property="VerticalScrollbarVisibility" Value="Auto"/>
+            <Setter Property="EnableImmediatePosting" Value="True"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <dxlc:LayoutGroup Orientation="Vertical" >
+            <dxlc:LayoutGroup Orientation="Horizontal" Margin="5,7">
+
+                <Button Content="添加模板" Width="100" Height="20" Command="{DXCommand 'ChooseWorkConditionTemplate()'}"/>
+                <dxlc:LayoutItem Label="塔型: " Margin="5,0,0,0">
+                    <dxe:ComboBoxEdit ItemsSource="{Binding TowerTypes}"  SelectedItem="{Binding TowerType}" Width="100" HorizontalAlignment="Left">
+                        <dxe:ComboBoxEdit.StyleSettings>
+                            <dxe:ComboBoxStyleSettings />
+                        </dxe:ComboBoxEdit.StyleSettings>
+                    </dxe:ComboBoxEdit>
+                </dxlc:LayoutItem>
+                <Button Content="转换"  Margin="5,0,0,0" Width="100" Height="20" Command="{DXCommand 'ConvertTemplate()'}"/>
+                <Button Content="删除当前模板"  Margin="5,0,0,0" Width="100" Height="20" Command="{DXCommand 'ClearTemplate()'}"/>
+            </dxlc:LayoutGroup>
+            <dxg:GridControl Grid.Column="1" Margin="8,0" MaxHeight="600" ItemsSource="{Binding Templates}"  >
+                <dxg:GridControl.View>
+                    <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+                </dxg:GridControl.View>
+                <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" Width="30"/>
+                <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center" />
+                <dxg:GridColumn FieldName="TowerType"  Header="塔型" HorizontalHeaderContentAlignment="Center" Width="50" >
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:ComboBoxEditSettings ItemsSource="{Binding TowerTypes}"/>
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Operator"  Header="操作" HorizontalHeaderContentAlignment="Center" Width="50">
+                    <dxg:GridColumn.DisplayTemplate>
+                        <ControlTemplate>
+                            <Button Content="删除" Command="{DXCommand DeleteTemplate}" CommandParameter="{Binding}"/>
+                        </ControlTemplate>
+                    </dxg:GridColumn.DisplayTemplate>
+                </dxg:GridColumn>
+            </dxg:GridControl>
+        </dxlc:LayoutGroup>
+    </Grid>
+</UserControl>

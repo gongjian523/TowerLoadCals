@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals.Mode", "TowerLoadCals.Mode\TowerLoadCals.Mode.csproj", "{80D39590-F862-4FEC-B748-71AA47BA41C8}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals", "TowerLoadCals\TowerLoadCals.csproj", "{188B3232-C106-4E4D-9EDF-359DBE55B7BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals.Service", "TowerLoadCals.Service\TowerLoadCals.Service.csproj", "{F37FCFB9-3A00-4250-A4D4-29BEE7D8D525}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals.Tool", "TowerLoadCals.Tool\TowerLoadCals.Tool.csproj", "{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,16 @@ Global
 		{F37FCFB9-3A00-4250-A4D4-29BEE7D8D525}.DebugTest|Any CPU.Build.0 = Debug|Any CPU
 		{F37FCFB9-3A00-4250-A4D4-29BEE7D8D525}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F37FCFB9-3A00-4250-A4D4-29BEE7D8D525}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.ClickOnce Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.ClickOnce Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.ClickOnce Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.ClickOnce Release|Any CPU.Build.0 = Release|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.DebugTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.DebugTest|Any CPU.Build.0 = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

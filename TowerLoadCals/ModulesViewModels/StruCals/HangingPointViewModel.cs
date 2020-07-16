@@ -291,7 +291,16 @@ namespace TowerLoadCals.Modules
 
         public void AddVString()
         {
-            HPSetitingParas.VStrings.Add(new VStringParas());
+            int num = HPSetitingParas.VStrings.Count;
+
+            string newName = "V" + (++num).ToString();
+
+            while(HPSetitingParas.VStrings.Where(item => item.Index == newName).Count() > 0)
+            {
+                newName = "V" + (++num).ToString();
+            }
+
+            HPSetitingParas.VStrings.Add(new VStringParas() { Index = newName });
             VStrings = new ObservableCollection<VStringParas>(HPSetitingParas.VStrings);
         }
 

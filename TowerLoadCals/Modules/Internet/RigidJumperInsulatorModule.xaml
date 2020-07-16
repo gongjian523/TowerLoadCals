@@ -24,8 +24,8 @@
         <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" Command="{Binding SearchCommand}"/>
 
         <Button Grid.Row="2"   Grid.ColumnSpan="4" Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" Command="{Binding ExportCommand}" IsEnabled="{Binding IsEnabledExport}"/>
-        
-        <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="AddNew" Margin="8,0"
+
+        <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="None" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding DataSource}"
                 ScrollViewer.VerticalScrollBarVisibility="Auto" 

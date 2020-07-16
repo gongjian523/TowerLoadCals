@@ -97,6 +97,18 @@ namespace TowerLoadCals
             struCalsLibMenu.ChildItems = struCalsLibSubList;
             menuItem.Add(struCalsLibMenu);
 
+            var struTemplateLibMenu = new SubMenuBase("", this, "结构模板库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            struTemplateLibMenu.SetIcon("Menu_para.png");
+            var struTemplateLibSubList = new List<SubMenuBase>() { };
+            var generalTemplateLibMenu = new SubMenuBase("StruTemplateLibGeneralModule", this, "  通用模板库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            generalTemplateLibMenu.ParentNode = struTemplateLibMenu;
+            struTemplateLibSubList.Add(generalTemplateLibMenu);
+            var projectTemplateLibMenu = new SubMenuBase("StruTemplateLibGeneralModule", this, "  工程模板库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            projectTemplateLibMenu.ParentNode = struTemplateLibMenu;
+            struTemplateLibSubList.Add(projectTemplateLibMenu);
+            struTemplateLibMenu.ChildItems = struTemplateLibSubList;
+            menuItem.Add(struTemplateLibMenu);
+
         }
         #endregion
 

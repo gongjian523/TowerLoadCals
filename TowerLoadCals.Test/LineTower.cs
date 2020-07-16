@@ -42,7 +42,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -262,7 +262,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -482,7 +482,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 

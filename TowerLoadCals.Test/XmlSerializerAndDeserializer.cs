@@ -261,7 +261,6 @@ namespace TowerLoadCals.Test
             StruCalsParasCompose calsParas = XmlUtils.Deserializer<StruCalsParasCompose>(saveFileDialog.FileName);
         }
 
-
         [TestMethod]
         public void TestMethod02_StruCalsLibParasSerializer()
         {
@@ -552,6 +551,57 @@ namespace TowerLoadCals.Test
 
             var paras2 = XmlUtils.Deserializer<List<Weather>>(saveFileDialog.FileName);
 
+        }
+
+        [TestMethod]
+        public void TestMethod04_InsertTowerTemplage()
+        {
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Lcp Files (*.lcp)|*.lcp",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            ConfigFileUtils.InsertTowerTemplates(saveFileDialog.FileName, new List<TowerTemplateStorageInfo>
+            {
+                new TowerTemplateStorageInfo()
+                {
+                    Name = "单回交流轻冰区(三跨验算)",
+                    TowerType = "直线塔"
+                },
+                new TowerTemplateStorageInfo()
+                {
+                    Name = "单回交流轻冰区",
+                    TowerType = "直线塔"
+                },
+                new TowerTemplateStorageInfo()
+                {
+                    Name = "单回交流轻中冰区",
+                    TowerType = "直转塔"
+                },
+                new TowerTemplateStorageInfo()
+                {
+                    Name = "单回直流轻中冰区(8分裂)",
+                    TowerType = "直转塔"
+                },
+                new TowerTemplateStorageInfo()
+                {
+                    Name = "单回交流轻中冰区",
+                    TowerType = "转角塔"
+                },
+                new TowerTemplateStorageInfo()
+                {
+                    Name = "单回交流轻中冰区",
+                    TowerType = "分支塔"
+                },
+                new TowerTemplateStorageInfo()
+                {
+                    Name = "单回交流轻中冰区",
+                    TowerType = "终端塔"
+                },
+            });
         }
     }
 }

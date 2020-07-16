@@ -21,35 +21,9 @@ namespace TowerLoadCals.Service.Helpers
             StringBuilder sBuilder = new StringBuilder();
             for (int i = 0; i < data.Length; i++)
             {
-                sBuilder.Append(data[i].ToString("x2"));//转化为小写的16进制
+                sBuilder.Append(data[i].ToString("x2"));//转化为小写的32进制
             }
             return sBuilder.ToString();
-
-            //using (MD5 md5 = new MD5CryptoServiceProvider())
-            //{
-            //    StringBuilder sb = new StringBuilder(32);
-            //    var res = md5.ComputeHash(Encoding.UTF8.GetBytes(value));
-            //    for (int i = 0; i < res.Length; i++)
-            //    {
-            //        sb.Append(res[i].ToString("x2"));
-            //    }
-            //    return sb.ToString();
-            //}
-
-
-
-            //using (MD5 mi = MD5.Create())
-            //{
-            //    byte[] buffer = Encoding.Default.GetBytes(value);
-            //    //开始加密
-            //    byte[] newBuffer = mi.ComputeHash(buffer);
-            //    StringBuilder sb = new StringBuilder();
-            //    for (int i = 0; i < newBuffer.Length; i++)
-            //    {
-            //        sb.Append(newBuffer[i].ToString("x2"));
-            //    }
-            //    return sb.ToString();
-            //}
         }
     }
 }

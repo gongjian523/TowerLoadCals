@@ -115,6 +115,8 @@
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\AccordionItem.cs" />
     <Compile Include="ModulesViewModels\Band.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruTemplateLibProjectViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruTemplateLibGeneralViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruCalsLibBaseDataViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruCalsLibExtralLoadViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruCalsLibIceCoverModuleV.cs" />
@@ -139,6 +141,12 @@
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
+    <Compile Include="Modules\BaseData\StruTemplateLibProjectModule.xaml.cs">
+      <DependentUpon>StruTemplateLibProjectModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BaseData\StruTemplateLibGeneralModule.xaml.cs">
+      <DependentUpon>StruTemplateLibGeneralModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Internet\SpacerModule.xaml.cs">
       <DependentUpon>SpacerModule.xaml</DependentUpon>
     </Compile>
@@ -190,6 +198,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Style\TextViewStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\BaseData\StruTemplateLibProjectModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\BaseData\StruTemplateLibGeneralModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -258,7 +274,7 @@
     <Compile Include="Modules\BaseData\StrDataModule.xaml.cs">
       <DependentUpon>StrDataModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\BaseData\FitDataModule.xaml.cs">
+    <Compile Include="FitDataModule.xaml.cs">
       <DependentUpon>FitDataModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\StruCals\BaseAndLineParasModule.xaml.cs">
@@ -299,7 +315,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\BaseData\FitDataModule.xaml">
+    <Page Include="FitDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

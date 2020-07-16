@@ -28,7 +28,7 @@
         <dxg:GridControl  Grid.Row="1" Grid.ColumnSpan="4"  Margin="8,0"         EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding DataSource}"
                 ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"  AutoGenerateColumns="None"
                 >
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>

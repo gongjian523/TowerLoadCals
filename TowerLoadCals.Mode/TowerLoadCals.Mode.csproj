@@ -97,6 +97,7 @@
     <Compile Include="Common\TowerSeri.cs" />
     <Compile Include="Common\TowerStPra.cs" />
     <Compile Include="Common\TowerStructure.cs" />
+    <Compile Include="Common\TowerTemplateStorageInfo.cs" />
     <Compile Include="Common\TowerType.cs" />
     <Compile Include="Common\Weather.cs" />
     <Compile Include="Common\WeatherCollection.cs" />

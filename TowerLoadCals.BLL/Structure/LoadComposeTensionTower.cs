@@ -1738,7 +1738,7 @@ namespace TowerLoadCals.BLL
                                     //'特意针对垂荷组合为12情况
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                    int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                    int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                     float zzz11 = GMaxF[j, zhs1] * BL2;
                                     float zzz12 = GMinF[j, zhs1] * BL2;
                                     float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -1967,7 +1967,7 @@ namespace TowerLoadCals.BLL
                                     //'特意针对垂荷组合为12情况
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                    int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                    int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                     float zzz11 = GMaxF[j, zhs1] * BL2;
                                     float zzz12 = GMinF[j, zhs1] * BL2;
                                     float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -2224,7 +2224,7 @@ namespace TowerLoadCals.BLL
                                     //'特意针对垂荷组合为12情况
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                    int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                    int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                     float zzz11 = GMaxF[j, zhs1] * BL2;
                                     float zzz12 = GMinF[j, zhs1] * BL2;
                                     float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -2452,7 +2452,7 @@ namespace TowerLoadCals.BLL
                                     //'特意针对垂荷组合为12情况
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                    int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                    int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                     float zzz11 = GMaxF[j, zhs1] * BL2;
                                     float zzz12 = GMinF[j, zhs1] * BL2;
                                     float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -2709,7 +2709,7 @@ namespace TowerLoadCals.BLL
                                     //'特意针对垂荷组合为12情况
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                    int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                    int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                     float zzz11 = GMaxF[j, zhs1] * BL2;
                                     float zzz12 = GMinF[j, zhs1] * BL2;
                                     float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -2937,7 +2937,7 @@ namespace TowerLoadCals.BLL
                                     //'特意针对垂荷组合为12情况
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                    int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                    int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                     float zzz11 = GMaxF[j, zhs1] * BL2;
                                     float zzz12 = GMinF[j, zhs1] * BL2;
                                     float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -3178,7 +3178,7 @@ namespace TowerLoadCals.BLL
                                     //'特意针对垂荷组合为12情况
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                    int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                    int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                     float zzz11 = GMaxF[j, zhs1] * BL2;
                                     float zzz12 = GMinF[j, zhs1] * BL2;
                                     float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -3406,7 +3406,7 @@ namespace TowerLoadCals.BLL
                                     //'特意针对垂荷组合为12情况
                                     //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                    int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                    int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                     float zzz11 = GMaxF[j, zhs1] * BL2;
                                     float zzz12 = GMinF[j, zhs1] * BL2;
                                     float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -3618,7 +3618,7 @@ namespace TowerLoadCals.BLL
                                 //'特意针对垂荷组合为12情况
                                 //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                 float zzz11 = GMaxF[j, zhs1] * BL2;
                                 float zzz12 = GMinF[j, zhs1] * BL2;
                                 float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -3832,7 +3832,7 @@ namespace TowerLoadCals.BLL
                                 //'特意针对垂荷组合为12情况
                                 //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                 float zzz11 = GMaxF[j, zhs1] * BL2;
                                 float zzz12 = GMinF[j, zhs1] * BL2;
                                 float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -4046,7 +4046,7 @@ namespace TowerLoadCals.BLL
                                 //'特意针对垂荷组合为12情况
                                 //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                 float zzz11 = GMaxF[j, zhs1] * BL2;
                                 float zzz12 = GMinF[j, zhs1] * BL2;
                                 float zzz21 = GMaxB[j, zhs1] * BL2;
@@ -4260,7 +4260,7 @@ namespace TowerLoadCals.BLL
                                 //'特意针对垂荷组合为12情况
                                 //仅适用于不均匀冰和验算不均匀冰工况，其余工况不适用。在检查模式中判断报错
 
-                                int zhs1 = Convert.ToInt16(Math.Abs(zhs).ToString().Substring(1, 2));
+                                int zhs1 = Convert.ToInt32(Math.Abs(zhs).ToString().Substring(1, 2));
                                 float zzz11 = GMaxF[j, zhs1] * BL2;
                                 float zzz12 = GMinF[j, zhs1] * BL2;
                                 float zzz21 = GMaxB[j, zhs1] * BL2;

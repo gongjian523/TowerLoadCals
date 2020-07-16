@@ -209,7 +209,7 @@ namespace TowerLoadCals.BLL
                         {
                             for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
                             {
-                                int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+                                int pointIndex = Convert.ToInt32(option.LeftPoints[kl].Substring(1)) - 1;
 
                                 GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                                 resStr += loadStr;
@@ -221,7 +221,7 @@ namespace TowerLoadCals.BLL
                         {
                             for (int kr = 0; kr < option.RightPoints.Count(); kr++)
                             {
-                                int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+                                int pointIndex = Convert.ToInt32(option.RightPoints[kr].Substring(1)) - 1;
 
                                 GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                                 resStr += loadStr;
@@ -242,7 +242,7 @@ namespace TowerLoadCals.BLL
                                 //不在指定位置上的点不用分配荷载
                                 if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
                                     continue;
-                                int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+                                int pointIndex = Convert.ToInt32(option.LeftPoints[kl].Substring(1)) - 1;
 
                                 GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                                 resStr += loadStr;
@@ -256,7 +256,7 @@ namespace TowerLoadCals.BLL
                                 //不在指定位置上的点不用分配荷载
                                 if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
                                     continue;
-                                int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+                                int pointIndex = Convert.ToInt32(option.RightPoints[kr].Substring(1)) - 1;
 
                                 GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                                 resStr += loadStr;
@@ -277,7 +277,7 @@ namespace TowerLoadCals.BLL
                         //左侧挂点
                         for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
                         {
-                            int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(option.LeftPoints[kl].Substring(1)) - 1;
 
                             //非跳跃冰工况的V串需要按照V串的的规则计算比例
                             GeneratePointsLoadVString(pointIndex, orientation, true, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
@@ -288,7 +288,7 @@ namespace TowerLoadCals.BLL
                         //右侧挂点
                         for (int kr = 0; kr < option.RightPoints.Count(); kr++)
                         {
-                            int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(option.RightPoints[kr].Substring(1)) - 1;
 
                             //非跳跃冰工况的V串需要按照V串的的规则计算比例
                             GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
@@ -307,7 +307,7 @@ namespace TowerLoadCals.BLL
                             //不在指定位置上的点不用分配荷载
                             if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
                                 continue;
-                            int pointIndex = Convert.ToInt16(points[kl].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(points[kl].Substring(1)) - 1;
 
                             //非跳跃冰工况的V串需要按照V串的的规则计算比例
                             GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
@@ -321,7 +321,7 @@ namespace TowerLoadCals.BLL
                             //不在指定位置上的点不用分配荷载
                             if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
                                 continue;
-                            int pointIndex = Convert.ToInt16(points[kr].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(points[kr].Substring(1)) - 1;
 
                             //非跳跃冰工况的V串需要按照V串的的规则计算比例
                             GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
@@ -355,7 +355,7 @@ namespace TowerLoadCals.BLL
 
                     for (int k = 0; k < points.Count(); k++)
                     {
-                        int pointIndex = Convert.ToInt16(points[k].Substring(1)) - 1;
+                        int pointIndex = Convert.ToInt32(points[k].Substring(1)) - 1;
 
                         GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                         resStr += loadStr;
@@ -483,7 +483,7 @@ namespace TowerLoadCals.BLL
 
             pointLoad = new StruCalsPointLoad()
             {
-                Name = Convert.ToInt16(pointParas.Points[index]),
+                Name = Convert.ToInt32(pointParas.Points[index]),
                 Wire = wireType,
                 WorkConditionId = jIndex,
                 Orientation = orientation,
@@ -518,7 +518,7 @@ namespace TowerLoadCals.BLL
 
             pointLoad = new StruCalsPointLoad()
             {
-                Name = Convert.ToInt16(pointParas.Points[index]),
+                Name = Convert.ToInt32(pointParas.Points[index]),
                 Wire = wireType,
                 WorkConditionId = jIndex,
                 Orientation = orientation,
