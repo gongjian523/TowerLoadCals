@@ -93,7 +93,7 @@ namespace TowerLoadCals.Modules
             List<Column> normalZColumns = new List<Column>() {
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号" },
                 new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WireType", Header = "项目" },
-                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型",Source = normalSource }
+                new ComboColumn() { Settings = SettingsType.Combo, FieldName = "StringType", Header = "串型",Source = normalSource  }
             };
             NormalZColumns = new ObservableCollection<Column>(normalZColumns);
             hpNum = GetMaxHPNum(HPSetitingParas.NormalZPoints);

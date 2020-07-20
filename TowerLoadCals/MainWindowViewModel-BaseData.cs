@@ -156,14 +156,33 @@ namespace TowerLoadCals
             var fitDataSubMenu2 = new SubMenuBase("SpacerModule", this, "        间隔棒", (e) => { OnSelectedMenuChanged(e); });
             fitDataSubMenu2.ParentNode = fitDataMenu;
             fitDataSubList.Add(fitDataSubMenu2);
-            //var fitDataSubMenu3 = new SubMenuBase("", this, "  警示装置", (e) => { OnSelectedSubModuleItemChanged(e); });
-            //fitDataSubMenu3.ParentNode = fitDataMenu;
-            //fitDataSubList.Add(fitDataSubMenu3);
-            //var fitDataSubMenu4 = new SubMenuBase("", this, "  其他装置", (e) => { OnSelectedSubModuleItemChanged(e); });
-            //fitDataSubMenu4.ParentNode = fitDataMenu;
-            //fitDataSubList.Add(fitDataSubMenu4);
             fitDataMenu.ChildItems = fitDataSubList;
             menuItem.Add(fitDataMenu);
+
+
+            var struCalsLibMenu = new SubMenuBase("", this, "结构计算库", (e) => { OnSelectedMenuChanged(e); });
+            struCalsLibMenu.SetIcon("Menu_para.png");
+            var struCalsLibSubList = new List<SubMenuBase>() { };
+            var baseDataLibMenu = new SubMenuBase("StruCalsLibBaseDataModule_Internet", this, "        基本参数库", (e) => { OnSelectedMenuChanged(e); });
+            baseDataLibMenu.ParentNode = struCalsLibMenu;
+            struCalsLibSubList.Add(baseDataLibMenu);
+            var extralLoadLibMenu = new SubMenuBase("StruCalsLibExtralLoadModule_Internet", this, "        附加荷载库", (e) => { OnSelectedMenuChanged(e); });
+            extralLoadLibMenu.ParentNode = struCalsLibMenu;
+            struCalsLibSubList.Add(extralLoadLibMenu);
+            var IceCoverLibModule = new SubMenuBase("StruCalsLibIceCoverModule_Internet", this, "        覆冰参数库", (e) => { OnSelectedMenuChanged(e); });
+            IceCoverLibModule.ParentNode = struCalsLibMenu;
+            struCalsLibSubList.Add(IceCoverLibModule);
+            struCalsLibMenu.ChildItems = struCalsLibSubList;
+            menuItem.Add(struCalsLibMenu);
+
+            var struTemplateLibMenu = new SubMenuBase("", this, "结构模板库", (e) => { OnSelectedMenuChanged(e); });
+            struTemplateLibMenu.SetIcon("Menu_para.png");
+            var struTemplateLibSubList = new List<SubMenuBase>() { };
+            var generalTemplateLibMenu = new SubMenuBase("StruTemplateLibGeneralModule_Internet", this, "        通用模板库", (e) => { OnSelectedMenuChanged(e); });
+            generalTemplateLibMenu.ParentNode = struTemplateLibMenu;
+            struTemplateLibSubList.Add(generalTemplateLibMenu);
+            struTemplateLibMenu.ChildItems = struTemplateLibSubList;
+            menuItem.Add(struTemplateLibMenu);
 
         }
 

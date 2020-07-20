@@ -9,9 +9,9 @@ using TowerLoadCals.Service.Helpers;
 namespace TowerLoadCals.Service.Internet
 {
     /// <summary>
-    /// 绝缘子串
+    /// #附加荷载库
     /// </summary>
-    public class StrDataService : DbContext
+    public class StruCalsLibExtralLoadDataService : DbContext
     {
 
         /// <summary>
@@ -19,9 +19,9 @@ namespace TowerLoadCals.Service.Internet
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public IList<Insulator> GetList()
+        public IList<StruCalsLibExtralLoad> GetList()
         {
-            return StrDataDb.GetList();
+            return StruCalsLibExtralLoadDb.GetList();
         }
 
     }

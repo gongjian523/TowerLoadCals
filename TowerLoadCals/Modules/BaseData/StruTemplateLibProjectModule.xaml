@@ -14,18 +14,26 @@
             <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"  Width="5*"/>
             <dxg:GridColumn FieldName="TowerType"  Header="塔型" HorizontalHeaderContentAlignment="Center" Width="*" />
             <dxg:GridColumn FieldName="Operator"  Header="操作" HorizontalHeaderContentAlignment="Center" Width="2*">
-                <dxg:GridColumn.DisplayTemplate>
-                    <ControlTemplate>
+                <dxg:GridColumn.CellTemplate>
+                    <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Button Content="编辑" Command="{DXCommand EditTemplate}" CommandParameter="{Binding}"/>
-                            <Button Content="删除" Command="{DXCommand DeleletTemplate}" CommandParameter="{Binding}"/>
+                            <Button Content="编辑" BorderThickness="0" Background="Transparent"  Width="60" Height="20" >
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.EditTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Name}"/>
+                                </dxmvvm:Interaction.Behaviors>
+                            </Button>
+                            <Button Content="删除" Grid.Column="1" BorderThickness="0" Background="Transparent"  Width="60" Height="20" >
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.DeleletTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Name}"/>
+                                </dxmvvm:Interaction.Behaviors>
+                            </Button>
                         </Grid>
-                    </ControlTemplate>
-                </dxg:GridColumn.DisplayTemplate>
+                    </DataTemplate>
+                </dxg:GridColumn.CellTemplate>
             </dxg:GridColumn>
         </dxg:GridControl>
     </Grid>

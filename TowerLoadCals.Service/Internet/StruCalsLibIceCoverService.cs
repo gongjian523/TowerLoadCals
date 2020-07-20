@@ -9,18 +9,17 @@ using TowerLoadCals.Service.Helpers;
 namespace TowerLoadCals.Service.Internet
 {
     /// <summary>
-    /// 五金类
+    /// 覆冰参数库
     /// </summary>
-    public class FitDataService:DbContext
+    public class StruCalsLibIceCoverDataService : DbContext
     {
         /// <summary>
         /// 查询所有信息
         /// </summary>
-        /// <param name="filter"></param>
         /// <returns></returns>
-        public IList<GeneralInsulator> GetList()
+        public IList<StruCalsLibIceCover> GetList()
         {
-            return FitDataDb.GetList();
+            return StruCalsLibIceCoverDb.GetList();
         }
 
 

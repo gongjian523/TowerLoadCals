@@ -41,7 +41,7 @@
                     </dxe:ComboBoxEdit>
                 </dxlc:LayoutItem>
                 <Button Content="转换"  Margin="5,0,0,0" Width="100" Height="20" Command="{DXCommand 'ConvertTemplate()'}"/>
-                <Button Content="删除当前模板"  Margin="5,0,0,0" Width="100" Height="20" Command="{DXCommand 'ClearTemplate()'}"/>
+                <Button Content="清除所有模板"  Margin="5,0,0,0" Width="100" Height="20" Command="{DXCommand 'ClearTemplate()'}"/>
             </dxlc:LayoutGroup>
             <dxg:GridControl Grid.Column="1" Margin="8,0" MaxHeight="600" ItemsSource="{Binding Templates}"  >
                 <dxg:GridControl.View>
@@ -55,11 +55,15 @@
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
                 <dxg:GridColumn FieldName="Operator"  Header="操作" HorizontalHeaderContentAlignment="Center" Width="50">
-                    <dxg:GridColumn.DisplayTemplate>
-                        <ControlTemplate>
-                            <Button Content="删除" Command="{DXCommand DeleteTemplate}" CommandParameter="{Binding}"/>
-                        </ControlTemplate>
-                    </dxg:GridColumn.DisplayTemplate>
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="删除" BorderThickness="0" Background="Transparent"  Width="40" Height="20" >
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.DeleteTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Name}"/>
+                                </dxmvvm:Interaction.Behaviors>
+                            </Button>
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
                 </dxg:GridColumn>
             </dxg:GridControl>
         </dxlc:LayoutGroup>

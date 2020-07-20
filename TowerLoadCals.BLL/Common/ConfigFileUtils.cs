@@ -220,6 +220,40 @@ namespace TowerLoadCals.BLL
 
             return true;
         }
+
+        public static bool UpdateTowerTemplateName(string path, string oldName, string newName, bool isGeneralTemplate = true)
+        {
+            List<string> rstList = new List<string>();
+
+            XmlDocument doc = new XmlDocument();
+
+            try
+            {
+                doc.Load(path);
+
+                XmlNode templatesNode = doc.GetElementsByTagName(isGeneralTemplate ? ConstVar.GeneralStruTemplateStr : ConstVar.ProjectStruTemplateStr)[0];
+                if (templatesNode == null)
+                    return false;
+
+                foreach (XmlNode subNode in templatesNode.ChildNodes)
+                {
+                    if (subNode.Attributes["Name"] != null && subNode.Attributes["Name"].ToString() == oldName)
+                    {
+                        XmlElement subXe = (XmlElement)subNode;
+                        subXe.SetAttribute("Name", newName);
+                        break;
+                    }
+                }
+
+                doc.Save(path);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
         #endregion
 
     }

@@ -13,12 +13,16 @@
             </dxg:GridControl.View>
             <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"  Width="5*"/>
             <dxg:GridColumn FieldName="TowerType"  Header="塔型" HorizontalHeaderContentAlignment="Center" Width="*" />
-            <dxg:GridColumn FieldName="Operator"  Header="操作" HorizontalHeaderContentAlignment="Center" Width="2*">
-                <dxg:GridColumn.DisplayTemplate>
-                    <ControlTemplate>
-                        <Button Content="查看" Command="{DXCommand DetailTemplate}" />
-                    </ControlTemplate>
-                </dxg:GridColumn.DisplayTemplate>
+            <dxg:GridColumn FieldName="Operator"  Header="操作" HorizontalHeaderContentAlignment="Center" Width="150">
+                <dxg:GridColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="查看"  BorderThickness="0"  Background="Transparent"  Width="60" Height="20" >
+                            <dxmvvm:Interaction.Behaviors>
+                                <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.EidtTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Name}"/>
+                            </dxmvvm:Interaction.Behaviors>
+                        </Button>
+                    </DataTemplate>
+                </dxg:GridColumn.CellTemplate>
             </dxg:GridColumn>
         </dxg:GridControl>
     </Grid>

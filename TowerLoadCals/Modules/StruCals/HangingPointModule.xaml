@@ -221,10 +221,10 @@
                                     <StackPanel Orientation="Vertical">
                                         <Button  Content="增加挂点" Command="{DXCommand 'AddNormalXYPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
                                         <dxg:GridControl ItemsSource="{Binding NormalXYPoints}"  ColumnsSource="{Binding NormalXYColumns}" MaxHeight="500"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
-                                                ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}">
+                                                ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}" >
                                             <dxg:GridControl.View>
                                                 <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" PasteMode="Update"
-                                                ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False"/>
+                                                ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False" />
                                             </dxg:GridControl.View>
                                         </dxg:GridControl>
                                     </StackPanel>

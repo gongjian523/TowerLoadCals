@@ -50,9 +50,26 @@ namespace TowerLoadCals.Service.Helpers
 
         //气象条件类别
         public SimpleClient<WorkConditionCategory> WorkConditionCategoryDb => new SimpleClient<WorkConditionCategory>(Db);
+
+        //导线
         public SimpleClient<Wire> WireDb => new SimpleClient<Wire>(Db);
+        //地线
         public SimpleClient<EarthWire> EarthWireDb => new SimpleClient<EarthWire>(Db);
 
+        //覆冰参数库
+        public SimpleClient<StruCalsLibIceCover> StruCalsLibIceCoverDb => new SimpleClient<StruCalsLibIceCover>(Db);
+
+        //覆冰参数库
+        public SimpleClient<StruCalsLibExtralLoad> StruCalsLibExtralLoadDb => new SimpleClient<StruCalsLibExtralLoad>(Db);
+
+        //基本参数库
+        public SimpleClient<StruCalsLibBaseData> StruCalsLibBaseDataDb => new SimpleClient<StruCalsLibBaseData>(Db);
+
+        //基本参数库 明细
+        public SimpleClient<StruCalsLibBaseData_Detail> StruCalsLibBaseData_DetailDb => new SimpleClient<StruCalsLibBaseData_Detail>(Db);
+
+        //结构模板库 通用模板库
+        public SimpleClient<StruTemplateLibGeneral> StruTemplateLibGeneralDb => new SimpleClient<StruTemplateLibGeneral>(Db);
 
     }
 }

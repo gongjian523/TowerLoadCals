@@ -62,5 +62,30 @@ namespace TowerLoadCals.Mode
             get { return "TowerTemplate"; }
         }
 
+        public static string LineCornerTowerStr
+        {
+            get { return "LineCornerTower"; }
+        }
+
+        public static string LineTowerStr
+        {
+            get { return "LineTower"; }
+        }
+
+        public static string CornerTowerStr
+        {
+            get { return "CornerTower"; }
+        }
+
+        public static string BranchTowerStr
+        {
+            get { return "BranchTower"; }
+        }
+
+        public static string TerminalTowerStr
+        {
+            get { return "TerminalTower"; }
+        }
+
     }
 }

@@ -110,6 +110,11 @@ namespace TowerLoadCals.Tool.ViewModels
         {
             Templates.Clear();
         }
+
+        public void DeleteTemplate(string a)
+        {
+            
+        }
     }
 
 
@@ -120,5 +125,10 @@ namespace TowerLoadCals.Tool.ViewModels
         public string Name { get; set; }
         
         public string TowerType { get; set; }
+
+        public void DeleteTemplate()
+        {
+
+        }
     }
 }

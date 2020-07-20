@@ -123,6 +123,11 @@
     <Compile Include="Internet\CounterWeight.cs" />
     <Compile Include="Internet\RigidJumperInsulator.cs" />
     <Compile Include="Internet\Spacer.cs" />
+    <Compile Include="Internet\StruCalsLibBaseData_Detail.cs" />
+    <Compile Include="Internet\StruCalsLibBaseData.cs" />
+    <Compile Include="Internet\StruTemplateLibGeneral.cs" />
+    <Compile Include="Internet\StruCalsLibExtralLoad.cs" />
+    <Compile Include="Internet\StruCalsLibIceCover.cs" />
     <Compile Include="Internet\Wire.cs" />
     <Compile Include="Internet\WorkCondition.cs" />
     <Compile Include="Internet\UserInfo.cs" />

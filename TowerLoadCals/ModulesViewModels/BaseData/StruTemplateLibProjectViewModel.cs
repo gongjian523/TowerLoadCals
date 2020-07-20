@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using TowerLoadCals.BLL;
@@ -6,25 +7,21 @@ using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.Modules
 {
-    public class StruTemplateLibProjectViewModel: ViewModelBase
+    public class StruTemplateLibProjectViewModel:StruTemplateLibBaseViewModel
     {
-        protected ObservableCollection<TowerTemplateStorageInfo> _towerTemplates = new ObservableCollection<TowerTemplateStorageInfo>();
-        public ObservableCollection<TowerTemplateStorageInfo> TowerTemplates
+        protected override List<TowerTemplateStorageInfo> GetTemplate()
         {
-            get
-            {
-                return _towerTemplates;
-            }
-            set
-            {
-                _towerTemplates = value;
-                RaisePropertyChanged(() => "TowerTemplates");
-            }
+            return ProjectUtils.GetInstance().GetProjectTowerTemplate();
         }
 
-        public StruTemplateLibProjectViewModel()
+        public void EidtTemplate(string name)
         {
-            TowerTemplates = new ObservableCollection<TowerTemplateStorageInfo>( ProjectUtils.GetInstance().GetProjectTowerTemplate());
+            //ShowTemplateEditWindow(template, false);
+        }
+
+        public void NewTemplate()
+        {
+            ShowTemplateEditWindow(null, false);
         }
 
     }

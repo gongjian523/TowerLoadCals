@@ -10,7 +10,7 @@ namespace TowerLoadCals.Mode.Internet
     /// <summary>
     /// 气象条件
     /// </summary>
-    [SugarTable("workcondition")]
+    [SugarTable("kb_workcondition")]
     public class WorkConditionInternet
     {
         /// <summary>

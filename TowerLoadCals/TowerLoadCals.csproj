@@ -115,11 +115,13 @@
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\AccordionItem.cs" />
     <Compile Include="ModulesViewModels\Band.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruTemplateEditViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruTemplateLibBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruTemplateLibProjectViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruTemplateLibGeneralViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruCalsLibBaseDataViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruCalsLibExtralLoadViewModel.cs" />
-    <Compile Include="ModulesViewModels\BaseData\StruCalsLibIceCoverModuleV.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruCalsLibIceCoverViewModel.cs" />
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
@@ -129,6 +131,10 @@
     <Compile Include="ModulesViewModels\Internet\CounterWeightViewModel.cs" />
     <Compile Include="ModulesViewModels\Internet\GeneralInsulatorViewModule.cs" />
     <Compile Include="ModulesViewModels\Internet\RigidJumperInsulatorViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\StruCalsLibBaseDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\StruCalsLibExtralLoadViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\StruCalsLibIceCoverViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\StruTemplateLibGeneralViewModel.cs" />
     <Compile Include="ModulesViewModels\Internet\WeatherCondition_InternetViewModel.cs" />
     <Compile Include="ModulesViewModels\Internet\EarthWire_InternetViewModel.cs" />
     <Compile Include="ModulesViewModels\Internet\Wire_InternetViewModel.cs" />
@@ -141,6 +147,9 @@
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
+    <Compile Include="Modules\BaseData\StruTemplateEditWindow.xaml.cs">
+      <DependentUpon>StruTemplateEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\BaseData\StruTemplateLibProjectModule.xaml.cs">
       <DependentUpon>StruTemplateLibProjectModule.xaml</DependentUpon>
     </Compile>
@@ -171,6 +180,18 @@
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Internet\StruCalsLibBaseDataModule_Internet.xaml.cs">
+      <DependentUpon>StruCalsLibBaseDataModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\StruCalsLibExtralLoadModule_Internet.xaml.cs">
+      <DependentUpon>StruCalsLibExtralLoadModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\StruCalsLibIceCoverModule_Internet.xaml.cs">
+      <DependentUpon>StruCalsLibIceCoverModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\StruTemplateLibGeneralModule_Internet.xaml.cs">
+      <DependentUpon>StruTemplateLibGeneralModule_Internet.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Internet\WeatherConditionModule_Internet.xaml.cs">
       <DependentUpon>WeatherConditionModule_Internet.xaml</DependentUpon>
     </Compile>
@@ -198,6 +219,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Style\TextViewStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\BaseData\StruTemplateEditWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -240,6 +265,22 @@
     <Page Include="LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Internet\StruCalsLibBaseDataModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\StruCalsLibExtralLoadModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\StruCalsLibIceCoverModule_Internet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Modules\Internet\StruTemplateLibGeneralModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\Internet\WeatherConditionModule_Internet.xaml">
       <Generator>MSBuild:Compile</Generator>

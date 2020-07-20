@@ -104,6 +104,11 @@
     <Compile Include="Helpers\InternetLinkHelper.cs" />
     <Compile Include="Helpers\MD5Help.cs" />
     <Compile Include="Internet\GeneralInsulatorService.cs" />
+    <Compile Include="Internet\StruCalsLibExtralLoadDataService.cs" />
+    <Compile Include="Internet\StruCalsLibBaseData_DetailService.cs" />
+    <Compile Include="Internet\StruCalsLibBaseDataService.cs" />
+    <Compile Include="Internet\StruCalsLibIceCoverService.cs" />
+    <Compile Include="Internet\StruTemplateLibGeneralService.cs" />
     <Compile Include="Internet\UserInfoService.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -58,6 +58,21 @@ namespace TowerLoadCals.BLL
             Directory.CreateDirectory(strDir);
             Directory.CreateDirectory(strDir + "\\" + prejectName);
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);
+
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.LineTowerStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.LineCornerTowerStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.CornerTowerStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.BranchTowerStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.TerminalTowerStr);
+
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr + "\\" + ConstVar.LineTowerStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr + "\\" + ConstVar.LineCornerTowerStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr + "\\" + ConstVar.CornerTowerStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr + "\\" + ConstVar.BranchTowerStr);
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr + "\\" + ConstVar.TerminalTowerStr);
+
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.StruCalsStr);
             
             if (!ConfigFileUtils.CreateProjetcFile(strDir + "\\" + prejectName + "\\" + saveFileDialog.SafeFileName))
@@ -306,6 +321,25 @@ namespace TowerLoadCals.BLL
             return ConfigFileUtils.DeleteTowerTemplates(ConfigFilePath, templates, false);
         }
 
+        public bool UpdateGeneralTowerTemplateName(string oldName, string newName)
+        {
+            return ConfigFileUtils.UpdateTowerTemplateName(ConfigFilePath, oldName, newName, true);
+        }
+
+        public bool UpdateProjectTowerTemplateName(string oldName, string newName)
+        {
+            return ConfigFileUtils.UpdateTowerTemplateName(ConfigFilePath, oldName, newName, false);
+        }
+
+        public string GetGeneralTowerTemplatePath(string name, string towerType)
+        {
+            return ProjectPath + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + TowerCHENStringConvert.CH2EN(towerType) + "\\" + name + ".dat";
+        }
+
+        public string GetProjectlTowerTemplatePath(string name, string towerType)
+        {
+            return ProjectPath + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr + "\\" + TowerCHENStringConvert.CH2EN(towerType) + "\\" + name + ".dat";
+        }
 
         #endregion
     }

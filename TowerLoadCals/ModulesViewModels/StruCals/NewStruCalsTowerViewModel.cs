@@ -150,10 +150,5 @@ namespace TowerLoadCals.Modules
                 NewStruCalsTowerEvent(this, strNewTowerName);
         }
 
-        //IMessageBoxService MessageBoxService { get { return GetService<IMessageBoxService>(); } }
-        //void ShowMessage(string warnStr)
-        //{
-        //    MessageBoxService.Show(warnStr);
-        //}
     }
 }
