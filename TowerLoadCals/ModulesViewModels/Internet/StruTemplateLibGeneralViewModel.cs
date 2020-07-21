@@ -53,13 +53,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void CheckTemplate(int id)
         {
 
-            TowerTemplate template = new TowerTemplate();
 
-            StruTemplateEditViewModel model = ViewModelSource.Create(() => new StruTemplateEditViewModel(template,tu));
-            model.CloseEditTemplateWindowEvent += CloseTemplateEditWindow;
-            editWindow = new StruTemplateEditWindow();
-            editWindow.DataContext = model;
-            editWindow.ShowDialog();
         }
         #endregion
 

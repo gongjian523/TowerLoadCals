@@ -192,7 +192,7 @@ namespace TowerLoadCals.BLL
 
             string templatePath = dirPath + temp.TemplateName;
 
-            StruCalsParasCompose paras = new StruCalsParasCompose(name, electricalLaodFilePath, templatePath, temp);
+            StruCalsParasCompose paras = new StruCalsParasCompose(electricalLaodFilePath, templatePath, temp);
 
             GlobalInfo.GetInstance().StruCalsParas.Add(paras);
         }

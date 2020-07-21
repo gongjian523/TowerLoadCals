@@ -27,9 +27,10 @@ namespace TowerLoadCals.BLL
 
 
         //此构造函数用于从配置文件中获取已经保存的塔位参数，所有参数都来做保存文件
-        public StruCalsParasCompose(string towerName, string electricalLaodFilePath, string templatePath, StruCalsParasCompose temp)
+        public StruCalsParasCompose(string electricalLaodFilePath, string templatePath, StruCalsParasCompose temp)
         {
-            TowerName = towerName;
+            TowerName = temp.TowerName;
+            TemplateName = temp.TemplateName;
             ElectricalLoadFilePath = electricalLaodFilePath;
 
             BaseParas = temp.BaseParas;
@@ -72,7 +73,7 @@ namespace TowerLoadCals.BLL
         }
 
 
-        protected List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
+        public static List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
         {
             List<WorkConditionComboSpec> listSpec = new List<WorkConditionComboSpec>();
 

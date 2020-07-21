@@ -28,7 +28,7 @@
                             </Button>
                             <Button Content="删除" Grid.Column="1" BorderThickness="0" Background="Transparent"  Width="60" Height="20" >
                                 <dxmvvm:Interaction.Behaviors>
-                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.DeleletTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Name}"/>
+                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.DeleteTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Name}"/>
                                 </dxmvvm:Interaction.Behaviors>
                             </Button>
                         </Grid>

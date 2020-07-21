@@ -199,7 +199,7 @@ namespace TowerLoadCals.BLL
                 //分配的规则是：
                 //左边和中间的导线，荷载按照I串规则全部分配在V串左侧挂点;
                 //右边的导线，荷载按照I串规则全部分配在V串右侧挂点;
-                if (wd.WorkConditionCode == "T" && wd.WireIndexCodes[iIndex] > 10000)
+                if (wd.WorkConditionCode == "T" && wd.WireIndexCodes[iIndex] > 1000)
                 {
                     //悬垂塔根据导线的方向遍历这个线左边或者右边的所有点
                     if (!isTensionTower)
@@ -505,7 +505,7 @@ namespace TowerLoadCals.BLL
             {
                 load = (isLeft ? vString.VCX1: vString.VCX2) * proportion;
             }
-            else if (orientation == "Y" && isLeft)
+            else if (orientation == "Y")
             {
                 load = (isLeft ? vString.VCY1 : vString.VCY2) * proportion;
             }

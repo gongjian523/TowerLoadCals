@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.BLL;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 
@@ -44,25 +45,27 @@ namespace TowerLoadCals.Modules
 
         protected StruTemplateEditWindow editWindow;
 
-        protected void ShowTemplateEditWindow(TowerTemplateStorageInfo template, bool isReadOnly)
+        protected void ShowTemplateEditWindow(TowerTemplateStorageInfo templateInfo, bool isReadOnly)
         {
-            //TowerTemplate template = new TowerTemplate();
+            TowerTemplate template = new TowerTemplate();
 
-            //if(template == null)
-            //{ 
-            //    NewTowerTemplateReader newTemplateReader = new NewTowerTemplateReader(template.LineTower);
-            //    template = newTemplateReader.Read(filePath),
-            //}
+            //templateInfo 不是null，需要从project中读取模板
+            if (templateInfo != null)
+            {
+                var proInstance = ProjectUtils.GetInstance();
 
+                string path = isReadOnly ? proInstance.GetGeneralTowerTemplatePath(templateInfo.Name, templateInfo.TowerType) 
+                    : proInstance.GetProjectlTowerTemplatePath(templateInfo.Name, templateInfo.TowerType);
 
-            
+                NewTowerTemplateReader newTemplateReader = new NewTowerTemplateReader( TowerTypeStringConvert.TowerStringToType(templateInfo.TowerType));
+                template = newTemplateReader.Read(path);
+            }
 
-
-            //StruTemplateEditViewModel model = ViewModelSource.Create(() => new StruTemplateEditViewModel(template, isReadOnly));
-            //model.CloseEditTemplateWindowEvent += CloseTemplateEditWindow;
-            //editWindow = new StruTemplateEditWindow();
-            //editWindow.DataContext = model;
-            //editWindow.ShowDialog();
+            StruTemplateEditViewModel model = ViewModelSource.Create(() => new StruTemplateEditViewModel(template, isReadOnly));
+            model.CloseEditTemplateWindowEvent += CloseTemplateEditWindow;
+            editWindow = new StruTemplateEditWindow();
+            editWindow.DataContext = model;
+            editWindow.ShowDialog();
         }
 
         protected void CloseTemplateEditWindow(object sender, bool isSave)
