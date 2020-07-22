@@ -62,22 +62,28 @@ namespace TowerLoadCals.ModulesViewModels.Internet
 
                 //文件地址
                 string path = Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.StruCalsLibFileName;
+                if (File.Exists(path))
+                {
+                    DialogResult dr = MessageBox.Show(string.Format("请确认是否替换现有基本参数裤数据？"), "替换确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (dr == DialogResult.OK)
+                    {//加载xml文件
+                        XmlDocument doc = new XmlDocument();
+                        doc.Load(path);
 
-                //加载xml文件
-                XmlDocument doc = new XmlDocument();
-                doc.Load(path);
+                        //2：得到导线节点
+                        //3：判断是否存在相同型号 不重复直接新增
+                        //4：保存新文件
 
-                //2：得到导线节点
-                //3：判断是否存在相同型号 不重复直接新增
-                //4：保存新文件
+                        XmlNode overhanging_Node = doc.GetElementsByTagName("悬垂塔基础参数")[0];
+                        ModifyRootNode(overhanging_Node, "overhanging");
+                        XmlNode tension_Node = doc.GetElementsByTagName("耐张塔基础参数")[0];
+                        ModifyRootNode(tension_Node, "tension");
+                        doc.Save(path);
 
-                XmlNode overhanging_Node = doc.GetElementsByTagName("悬垂塔基础参数")[0];
-                ModifyRootNode(overhanging_Node, "overhanging");
-                XmlNode tension_Node = doc.GetElementsByTagName("耐张塔基础参数")[0];
-                ModifyRootNode(tension_Node, "tension");
-                doc.Save(path);
+                        MessageBox.Show("下载成功!");
+                    }
+                }
 
-                MessageBox.Show("下载成功!");
             }
             catch (Exception ex)
             {
@@ -161,7 +167,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 row.Attributes.GetNamedItem("可变荷载组合系数-低温").InnerText = detail.VcFCold.ToString();
             }
 
-        } 
+        }
         #endregion
 
 
@@ -178,7 +184,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         private bool isEnabledExport;
         public bool IsEnabledExport
         {
-            get { return isEnabledExport = File.Exists(globalInfo.ProjectPath + "\\BaseData\\Wire.xml"); }
+            get { return isEnabledExport = File.Exists(Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.StruCalsLibFileName); }
             set { isEnabledExport = value; RaisePropertyChanged(() => IsEnabledExport); }
         }
 

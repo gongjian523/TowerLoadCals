@@ -33,8 +33,7 @@ namespace TowerLoadCals.Mode.Internet
         /// <summary>
         /// 串类型
         /// </summary>
-        [SugarColumn(ColumnName = "type")]
-        public string StrType { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// 重量

@@ -27,11 +27,9 @@
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
             <dxg:GridColumn FieldName="IsSelected"  Header="是否下载" HorizontalHeaderContentAlignment="Center" />
-
-            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="IceThickness"  Header="覆冰厚度(mm)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="TowerWindLoadAmplifyCoef"  Header="塔身风荷增大系数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="TowerGravityLoadAmplifyCoef"  Header="塔身垂荷增大系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="IceThickness"  Header="覆冰厚度(mm)" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="TowerWindLoadAmplifyCoef"  Header="塔身风荷增大系数" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="TowerGravityLoadAmplifyCoef"  Header="塔身垂荷增大系数" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

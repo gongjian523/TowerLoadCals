@@ -31,6 +31,7 @@
                 <dxg:GridColumn local:BindingHelper.Path="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
                                 Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"
                                 Width="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Width, RelativeSource={RelativeSource Self}}"
+
                                 HorizontalHeaderContentAlignment="Center"/>
             </ContentControl>
         </DataTemplate>

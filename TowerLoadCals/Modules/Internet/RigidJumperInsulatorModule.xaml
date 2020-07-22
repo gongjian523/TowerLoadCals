@@ -14,12 +14,12 @@
             <RowDefinition Height="40" Name="g_footer"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0"  TextAlignment="Right"  VerticalAlignment="Center"  Text="名称:" />
+        <TextBlock Grid.Row="0"  TextAlignment="Right"  VerticalAlignment="Center"  Text="名称/串类型：" />
         <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Text="{Binding SearchInfo}" Height="27" Margin="5 0 5 0" ></TextBox>
         <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" Command="{Binding SearchCommand}"/>
 
@@ -32,25 +32,18 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 >
             <dxg:GridControl.View>
-                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}">
-                    <dxg:TableView.RowCellMenuCustomizations>
-                        <dxb:BarButtonItem Name="viewCopyRow" Content="复制行" />
-                        <dxb:BarButtonItem Name="viewPasteRow" Content="粘贴行"  />
-                        <dxb:BarButtonItem Name="viewDeleteRow" Content="删除行"  />
-                        <dxb:BarButtonItem Name="viewEmptyRow" Content="清空行"  />
-                        <dxb:BarButtonItem Name="viewAddRow" Content="新增行" />
-                    </dxg:TableView.RowCellMenuCustomizations>
-                </dxg:TableView>
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="StrType"  Header="串类型" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="FitLength"  Header="长度" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="PieceNum"  Header="片数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="GoldPieceNum"  Header="金具换算片数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="LNum"  Header="联数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="DampLength"  Header="阻尼线长度" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="IsSelected"  Header="是否下载" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="Type"  Header="串类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="FitLength"  Header="长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="PieceNum"  Header="片数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="GoldPieceNum"  Header="金具换算片数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="LNum"  Header="联数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="DampLength"  Header="阻尼线长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
         </dxg:GridControl>
     </Grid>
 </UserControl>

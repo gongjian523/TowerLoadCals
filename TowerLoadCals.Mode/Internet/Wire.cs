@@ -30,58 +30,49 @@ namespace TowerLoadCals.Mode.Internet
         /// <summary>
         /// 线类型 db:分类
         /// </summary>
-        [SugarColumn(ColumnName = "Category")]
-        public string WireType { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// 型号规格 db:型号
         /// </summary>
-        [SugarColumn(ColumnName = "name")]
-        public string ModelSpecification { get; set; }
+        public string Name { get; set; }
 
 
         /// <summary>
         /// 截面积(mm²) db:截面(mm2)-合计
         /// </summary>
 
-        [SugarColumn(ColumnName = "TotCroSection")]
-        public double SectionArea { get; set; }
+        public double TotCroSection { get; set; }
 
         /// <summary>
         /// 外径(mm)
         /// </summary>
-        [SugarColumn(ColumnName = "TotDiaConductor")]
-        public double ExternalDiameter { get; set; }
+        public double TotDiaConductor { get; set; }
 
         /// <summary>
         /// 单位长度质量(kg/km)
         /// </summary>
-        [SugarColumn(ColumnName = "ConWeight")]
-        public string UnitLengthMass { get; set; }
+        public string ConWeight { get; set; }
 
 
         /// <summary>
         /// 20℃时直流电阻(Ω/km)
         /// </summary>
-        [SugarColumn(ColumnName = "DCRes")]
-        public string DCResistor { get; set; }
+        public string DCRes { get; set; }
 
         /// <summary>
         /// 额定拉断力(kN)
         /// </summary>
-        [SugarColumn(ColumnName = "UltTenStrength")]
-        public string RatedBreakingForce { get; set; }
+        public string UltTenStrength { get; set; }
 
         /// <summary>
         /// 弹性模量(Gpa)
         /// </summary>
-        [SugarColumn(ColumnName = "ModElastioity")]
-        public double ModulusElasticity { get; set; }
+        public double ModElastioity { get; set; }
 
         /// <summary>
         /// 线膨胀系数(1/℃)
         /// </summary>
-        [SugarColumn(ColumnName = "CoeExpansion")]
-        public string LineCoefficient { get; set; }
+        public string CoeExpansion { get; set; }
     }
 }

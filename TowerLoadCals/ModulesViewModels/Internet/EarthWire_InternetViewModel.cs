@@ -46,7 +46,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<EarthWire>(earthWireService.GetList().Where(item => item.ModelSpecification.Contains(searchInfo)).ToList());
+                this.DataSource = new ObservableCollection<EarthWire>(earthWireService.GetList().Where(item => item.Name.Contains(searchInfo)|| item.Category.Contains(searchInfo)).ToList());
             else
                 this.DataSource = new ObservableCollection<EarthWire>(earthWireService.GetList());
         }
@@ -77,21 +77,21 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     XmlNodeList abc = rootNode.ChildNodes;
                     foreach (XmlNode xmlNode in abc)
                     {
-                        if (xmlNode.Attributes.GetNamedItem("ModelSpecification").InnerText == item.ModelSpecification)
+                        if (xmlNode.Attributes.GetNamedItem("ModelSpecification").InnerText == item.Name)
                         {
-                            DialogResult dr = MessageBox.Show(string.Format("已经存在型号规格为【{0}】相同的信息，是否替换？", item.ModelSpecification), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            DialogResult dr = MessageBox.Show(string.Format("已经存在型号规格为【{0}】相同的信息，是否替换？", item.Name), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
                                 notExists = false;
-                                xmlNode.Attributes.GetNamedItem("ModelSpecification").InnerText = item.ModelSpecification;
-                                xmlNode.Attributes.GetNamedItem("WireType").InnerText = item.WireType;
-                                xmlNode.Attributes.GetNamedItem("SectionArea").InnerText = item.SectionArea.ToString();
-                                xmlNode.Attributes.GetNamedItem("ExternalDiameter").InnerText = item.ExternalDiameter.ToString();
-                                xmlNode.Attributes.GetNamedItem("UnitLengthMass").InnerText = item.UnitLengthMass.ToString();
-                                xmlNode.Attributes.GetNamedItem("DCResistor").InnerText = item.DCResistor.ToString();
-                                xmlNode.Attributes.GetNamedItem("RatedBreakingForce").InnerText = item.RatedBreakingForce.ToString();
-                                xmlNode.Attributes.GetNamedItem("ModulusElasticity").InnerText = item.ModulusElasticity.ToString();
-                                xmlNode.Attributes.GetNamedItem("LineCoefficient").InnerText = item.LineCoefficient.ToString();
+                                xmlNode.Attributes.GetNamedItem("ModelSpecification").InnerText = item.Name;
+                                xmlNode.Attributes.GetNamedItem("WireType").InnerText = item.Category;
+                                xmlNode.Attributes.GetNamedItem("SectionArea").InnerText = item.TotCroSection.ToString();
+                                xmlNode.Attributes.GetNamedItem("ExternalDiameter").InnerText = item.TotDiaConductor.ToString();
+                                xmlNode.Attributes.GetNamedItem("UnitLengthMass").InnerText = item.ConWeight.ToString();
+                                xmlNode.Attributes.GetNamedItem("DCResistor").InnerText = item.DCRes.ToString();
+                                xmlNode.Attributes.GetNamedItem("RatedBreakingForce").InnerText = item.UltTenStrength.ToString();
+                                xmlNode.Attributes.GetNamedItem("ModulusElasticity").InnerText = item.ModElastioity.ToString();
+                                xmlNode.Attributes.GetNamedItem("LineCoefficient").InnerText = item.CoeExpansion.ToString();
                                 break;
                             }
 
@@ -100,19 +100,18 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     if (notExists)
                     {
                         XmlElement row = doc.CreateElement("Wire");
-                        row.SetAttribute("ModelSpecification", item.ModelSpecification);
-                        row.SetAttribute("WireType", item.WireType);
-                        row.SetAttribute("SectionArea", item.SectionArea.ToString());
-                        row.SetAttribute("ExternalDiameter", item.ExternalDiameter.ToString());
-                        row.SetAttribute("UnitLengthMass", item.UnitLengthMass.ToString());
-                        row.SetAttribute("DCResistor", item.DCResistor.ToString());
-                        row.SetAttribute("RatedBreakingForce", item.RatedBreakingForce.ToString());
-                        row.SetAttribute("ModulusElasticity", item.ModulusElasticity.ToString());
-                        row.SetAttribute("LineCoefficient", item.LineCoefficient.ToString());
+                        row.SetAttribute("ModelSpecification", item.Name);
+                        row.SetAttribute("WireType", item.Category);
+                        row.SetAttribute("SectionArea", item.TotCroSection.ToString());
+                        row.SetAttribute("ExternalDiameter", item.TotDiaConductor.ToString());
+                        row.SetAttribute("UnitLengthMass", item.ConWeight.ToString());
+                        row.SetAttribute("DCResistor", item.DCRes.ToString());
+                        row.SetAttribute("RatedBreakingForce", item.UltTenStrength.ToString());
+                        row.SetAttribute("ModulusElasticity", item.ModElastioity.ToString());
+                        row.SetAttribute("LineCoefficient", item.CoeExpansion.ToString());
                         rootNode.AppendChild(row);
                     }
                 }
-
                 doc.Save(path);
 
 

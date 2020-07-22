@@ -21,16 +21,16 @@
             <RowDefinition Height="40" Name="g_footer" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0"  TextAlignment="Right"  VerticalAlignment="Center"  Text="冰区分类:" />
+        <TextBlock Grid.Row="0"  TextAlignment="Right"  VerticalAlignment="Center"  Text="冰区分类：" />
         <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Text="{Binding SearchInfo}" Height="27" Margin="5 0 5 0" ></TextBox>
         <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" Command="{Binding SearchCommand}"/>
 
-        <Button Grid.Row="2"   Grid.ColumnSpan="4" Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" Command="{Binding ExportCommand}"/>
+        <Button Grid.Row="2"   Grid.ColumnSpan="4" Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" Command="{Binding ExportCommand}" IsEnabled="{Binding IsEnabledExport}"/>
 
         <dxg:GridControl  Grid.Row="1"   Grid.ColumnSpan="4"  Margin="8,0"
                 AutoGenerateColumns="None"
@@ -42,11 +42,11 @@
                 <dxg:GridSummaryItem FieldName="CategoryName" />
             </dxg:GridControl.GroupSummary>
             <dxg:GridColumn FieldName="IsSelected"  Header="是否选择" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="CategoryName"  Header="气象区分类" HorizontalHeaderContentAlignment="Center"  />
-            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center"  />
-            <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="CategoryName"  Header="" HorizontalHeaderContentAlignment="Center"   ReadOnly="True"/>
+            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center"   ReadOnly="True"/>
+            <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn Width="*"  GroupIndex="0" FieldName="CategoryName" SortMode="Value"  AllowEditing="False"  GroupValueTemplate="{StaticResource colGroupNameGroupValueTemplate}" />
         </dxg:GridControl>
     </Grid>

@@ -46,7 +46,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<GeneralInsulator>(generalInsulatorService.GetList().Where(item => item.Name.Contains(searchInfo)).ToList());
+                this.DataSource = new ObservableCollection<GeneralInsulator>(generalInsulatorService.GetList().Where(item => item.Name.Contains(searchInfo)|| item.StrType.Contains(searchInfo)).ToList());
             else
                 this.DataSource = new ObservableCollection<GeneralInsulator>(generalInsulatorService.GetList());
 

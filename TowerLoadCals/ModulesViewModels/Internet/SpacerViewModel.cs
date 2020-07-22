@@ -46,7 +46,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<Spacer>(spacerService.GetList().Where(item => item.Name.Contains(searchInfo)).ToList());
+                this.DataSource = new ObservableCollection<Spacer>(spacerService.GetList().Where(item => item.Name.Contains(searchInfo)|| item.CategorySub.Contains(searchInfo)).ToList());
             else
                 this.DataSource = new ObservableCollection<Spacer>(spacerService.GetList());
         }
@@ -82,7 +82,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                             {
                                 notExists = false;
                                 xmlNode.Attributes.GetNamedItem("Name").InnerText = item.Name;
-                                xmlNode.Attributes.GetNamedItem("Model").InnerText = item.Model;
+                                xmlNode.Attributes.GetNamedItem("Model").InnerText = item.CategorySub;
                                 xmlNode.Attributes.GetNamedItem("Weight").InnerText = item.Weight.ToString();
                                 xmlNode.Attributes.GetNamedItem("Voltage").InnerText = item.Voltage.ToString();
                                 xmlNode.Attributes.GetNamedItem("SecWind").InnerText = item.SecWind.ToString();
@@ -95,7 +95,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     {
                         XmlElement row = doc.CreateElement("FitData");
                         row.SetAttribute("Name", item.Name);//名称
-                        row.SetAttribute("Model", item.Model);//型号
+                        row.SetAttribute("Model", item.CategorySub);//型号
                         row.SetAttribute("Weight", item.Weight.ToString());//重量
                         row.SetAttribute("Voltage", item.Voltage.ToString());//电压等级
                         row.SetAttribute("SecWind", item.SecWind.ToString());//受风面积

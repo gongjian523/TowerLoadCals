@@ -65,7 +65,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     {
                         if (xmlNode.Attributes.GetNamedItem("序号").InnerText == item.Index.ToString())
                         {
-                            DialogResult dr = MessageBox.Show(string.Format("已经存在序号为【{0}】相同的信息，是否替换？", item.Index), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            DialogResult dr = MessageBox.Show(string.Format("已经存在覆冰厚度(mm)为【{0}】相同的信息，是否替换？", item.IceThickness), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
                                 notExists = false;
@@ -116,7 +116,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         private bool isEnabledExport;
         public bool IsEnabledExport
         {
-            get { return isEnabledExport = File.Exists(globalInfo.ProjectPath + "\\BaseData\\Wire.xml"); }
+            get { return isEnabledExport = File.Exists(Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.StruCalsLibFileName); }
             set { isEnabledExport = value; RaisePropertyChanged(() => IsEnabledExport); }
         }
 

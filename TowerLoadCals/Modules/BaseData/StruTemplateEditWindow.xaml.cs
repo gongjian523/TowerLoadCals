@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Grid;
 using System;
 
 namespace TowerLoadCals.Modules
@@ -11,6 +12,8 @@ namespace TowerLoadCals.Modules
         public StruTemplateEditWindow()
         {
             InitializeComponent();
+
+            //WireGird.CellValueChanged += WireGird_CellValueChanged;
         }
 
         void ThemedWindow_Closed(object sender, EventArgs e)
@@ -19,6 +22,10 @@ namespace TowerLoadCals.Modules
             
         }
 
+        void WireGird_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            ((StruTemplateEditViewModel)DataContext).WiresGridChanged(e.Column.Header.ToString());
+        }
 
     }
 }

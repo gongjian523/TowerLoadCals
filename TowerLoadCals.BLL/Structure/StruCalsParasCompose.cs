@@ -77,7 +77,7 @@ namespace TowerLoadCals.BLL
         {
             List<WorkConditionComboSpec> listSpec = new List<WorkConditionComboSpec>();
 
-            if (template == null)
+            if (template == null || template.WorkConditionCombos == null)
                 return listSpec;
 
             foreach (var item in template.WorkConditionCombos)

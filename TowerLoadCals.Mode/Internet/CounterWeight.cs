@@ -34,8 +34,7 @@ namespace TowerLoadCals.Mode.Internet
         /// <summary>
         /// 型号 
         /// </summary>
-        [SugarColumn(ColumnName = "categorysub")]
-        public string Model { get; set; }
+        public string CategorySub { get; set; }
 
         /// <summary>
         /// 重量

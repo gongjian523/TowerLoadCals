@@ -4,6 +4,15 @@ namespace TowerLoadCals.Mode
 {
     public class TowerTemplate
     {
+        public TowerTemplate()
+        {
+            Wires = new List<string>();
+
+            WorkConditongs = new Dictionary<int, string>();
+
+            WorkConditionCombos = new List<WorkConditionCombo>();
+        }
+
         /// <summary>
         /// 塔模板名字
         /// </summary>

@@ -26,15 +26,14 @@
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
             <dxg:GridColumn FieldName="IsSelected"  Header="是否下载" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="Voltage"  Header="电压等级(kv)" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="InstallImportanceCoef"  Header="安装重要性系数" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="OtherImportanceCoef"  Header="其他重要性系数" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="OverhangingTowerEarthWireExtraLoad"   Header="悬垂塔地线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="OverhangingTowerWireExtraLoad"  Header="悬垂塔导线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="TensionTowerEarthWireExtraLoad"  Header="耐张塔地线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="TensionTowerWireExtraLoad"  Header="耐张塔导线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="TensionTowerJumperWireExtraLoad"  Header="耐张塔跳线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="Voltage"  Header="电压等级(kv)" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="InstallImportanceCoef"  Header="安装重要性系数" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+            <dxg:GridColumn FieldName="OtherImportanceCoef"  Header="其他重要性系数" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+            <dxg:GridColumn FieldName="OverhangingTowerEarthWireExtraLoad"   Header="悬垂塔地线附加荷载(kN)" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="OverhangingTowerWireExtraLoad"  Header="悬垂塔导线附加荷载(kN)" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="TensionTowerEarthWireExtraLoad"  Header="耐张塔地线附加荷载(kN)" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="TensionTowerWireExtraLoad"  Header="耐张塔导线附加荷载(kN)" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="TensionTowerJumperWireExtraLoad"  Header="耐张塔跳线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
         </dxg:GridControl>
     </Grid>
 </UserControl>

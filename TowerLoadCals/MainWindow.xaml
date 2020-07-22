@@ -279,11 +279,11 @@
                         </dxwui:NavigationFrame>
                     </dxdo:LayoutPanel>
 
-
-                    <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" 
-                                      AllowClose="False" ShowCaption="False" Name="subLayoutRightPanel" AllowSizing="False" >
-                        <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" >
-                            <dxa:AccordionControl x:Name="subRightAccordion" ItemsSource="{Binding Path=InternetMenuItems}" HeaderContent="" SummaryItemHeader="" IsCollapseButtonVisible="False"
+                    
+                    <dxdo:LayoutPanel  AllowClose="False"  AllowFloat="True" AllowHide="True" ShowCaption="True" Caption="网络资源" ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" 
+                                       Name="subLayoutRightPanel" AllowSizing="False" >
+                            <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" >
+                                <dxa:AccordionControl x:Name="subRightAccordion" ItemsSource="{Binding Path=InternetMenuItems}" HeaderContent="" SummaryItemHeader="" IsCollapseButtonVisible="False"
                                               RootItemDisplayMode="Group"  ExpandMode="MultipleOrNone"  ChildrenPath="ChildItems" AutoExpandAllItems="True" >
                                     <dxa:AccordionControl.ItemContainerStyle>
                                         <Style TargetType="dxa:AccordionItem">
@@ -307,10 +307,10 @@
                                         </Style>
                                     </dxa:AccordionControl.ItemContainerStyle>
                                 </dxa:AccordionControl>
-                            <!--</StackPanel>-->
-                        </Grid>
-                    </dxdo:LayoutPanel>
-
+                                <!--</StackPanel>-->
+                            </Grid>
+                        </dxdo:LayoutPanel>
+                    
                 </dxdo:LayoutGroup>
 
             </dxdo:DockLayoutManager>

@@ -40,7 +40,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList().Where(item => item.FileName.Contains(searchInfo)).ToList());
+                this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList().Where(item => item.FileName.Contains(searchInfo)||item.Category.Contains(searchInfo)).ToList());
             else
                 this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList());
         }
@@ -53,7 +53,13 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void CheckTemplate(int id)
         {
 
+            //    TowerTemplate template = new TowerTemplate();
 
+            //    StruTemplateEditViewModel model = ViewModelSource.Create(() => new StruTemplateEditViewModel(template,tu));
+            //    model.CloseEditTemplateWindowEvent += CloseTemplateEditWindow;
+            //    editWindow = new StruTemplateEditWindow();
+            //    editWindow.DataContext = model;
+            //    editWindow.ShowDialog();
         }
         #endregion
 
@@ -72,6 +78,11 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 //文件地址
                 string path = globalInfo.ProjectPath + @"\" + globalInfo.ProjectName + @".lcp";
 
+                if (path== @"\.lcp")
+                {
+                    MessageBox.Show("选择工程后才允许下载!");
+                    return;
+                }
                 //加载xml文件
                 XmlDocument doc = new XmlDocument();
                 doc.Load(path);
@@ -141,9 +152,15 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         }
 
         /// <summary>
-        /// 发送消息
+        /// 数据源
         /// </summary>
-        public ObservableCollection<StruTemplateLibGeneral> DataSource { get; set; }
+        private ObservableCollection<StruTemplateLibGeneral> dataSource;
+
+        public ObservableCollection<StruTemplateLibGeneral> DataSource
+        {
+            get { return dataSource; }
+            set { dataSource = value; RaisePropertyChanged(() => DataSource); }
+        }
 
 
         /// <summary>

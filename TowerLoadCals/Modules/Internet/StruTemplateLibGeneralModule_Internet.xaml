@@ -15,15 +15,16 @@
             <RowDefinition Height="*"  />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="90"/>
             <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" TextAlignment="Right"  VerticalAlignment="Center"  Text="模板名称:" />
-        <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Text="{Binding SearchInfo}" Height="27" Margin="5 0 5 0" ></TextBox>
+        <TextBlock Grid.Row="0" TextAlignment="Right"  VerticalAlignment="Center"  Text="文件名称/塔型:" />
+        <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Text="{Binding SearchInfo}" Height="27" Margin="5 0 5 0"></TextBox>
         <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" Command="{Binding SearchCommand}"/>
 
-        <dxg:GridControl  Grid.Row="1" Grid.ColumnSpan="3" AutoGenerateColumns="None" Margin="8,0"         EnableSmartColumnsGeneration="True" 
+        <dxg:GridControl  Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="None" Margin="8,0"         EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding DataSource}"
                 ScrollViewer.VerticalScrollBarVisibility="Auto" 
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -31,9 +32,9 @@
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="FileName"  Header="文件名称" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="Category"  Header="塔型" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn   Header="操作" HorizontalHeaderContentAlignment="Center" Width="150">
+            <dxg:GridColumn FieldName="FileName"  Header="文件名称" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+            <dxg:GridColumn FieldName="Category"  Header="塔型" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+            <dxg:GridColumn   Header="操作" HorizontalHeaderContentAlignment="Center" >
                 <dxg:GridColumn.CellTemplate>
                     <DataTemplate>
                         <Grid>
@@ -49,7 +50,7 @@
                             </Button>
                             <Button Content="下载" Grid.Column="1" BorderThickness="0" Background="Transparent"  Width="60" Height="20" >
                                 <dxmvvm:Interaction.Behaviors>
-                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.ExportTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Id}" /> <!--IsEnabled="{Binding IsEnabledExport}"-->
+                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.ExportTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Id}" />
                                 </dxmvvm:Interaction.Behaviors>
                             </Button>
                         </Grid>

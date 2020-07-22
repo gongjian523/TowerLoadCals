@@ -66,7 +66,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                         //< 附加荷载参数 序号 = "8" 电压等级 = "1100" 铁塔安装重要性系数 = "1" 铁塔其他重要性系数 = "1.1" 悬垂塔地线附加荷载 = "4" 悬垂塔导线附加荷载 = "8" 耐张塔地线附加荷载 = "4" 耐张塔导线附加荷载 = "12" 耐张塔跳线附加荷载 = "6" />
                         if (xmlNode.Attributes.GetNamedItem("序号").InnerText == item.Index.ToString())
                         {
-                            DialogResult dr = MessageBox.Show(string.Format("已经存在序号为【{0}】相同的信息，是否替换？", item.Index), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            DialogResult dr = MessageBox.Show(string.Format("已经存在电压等级(kv)为【{0}】相同的信息，是否替换？", item.Voltage), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
                                 notExists = false;
@@ -125,7 +125,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         private bool isEnabledExport;
         public bool IsEnabledExport
         {
-            get { return isEnabledExport = File.Exists(globalInfo.ProjectPath + "\\BaseData\\Wire.xml"); }
+            get { return isEnabledExport = File.Exists(Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.StruCalsLibFileName); }
             set { isEnabledExport = value; RaisePropertyChanged(() => IsEnabledExport); }
         }
 

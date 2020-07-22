@@ -46,7 +46,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<RigidJumperInsulator>(rigidJumperInsulatorService.GetList().Where(item => item.Name.Contains(searchInfo)).ToList());
+                this.DataSource = new ObservableCollection<RigidJumperInsulator>(rigidJumperInsulatorService.GetList().Where(item => item.Name.Contains(searchInfo)|| item.Type.Contains(searchInfo)).ToList());
             else
                 this.DataSource = new ObservableCollection<RigidJumperInsulator>(rigidJumperInsulatorService.GetList());
 
@@ -82,7 +82,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                             {
                                 notExists = false;
                                 xmlNode.Attributes.GetNamedItem("Name").InnerText = item.Name;
-                                xmlNode.Attributes.GetNamedItem("StrType").InnerText = item.StrType;
+                                xmlNode.Attributes.GetNamedItem("StrType").InnerText = item.Type;
                                 xmlNode.Attributes.GetNamedItem("Weight").InnerText = item.Weight.ToString();
                                 xmlNode.Attributes.GetNamedItem("FitLength").InnerText = item.FitLength.ToString();
                                 xmlNode.Attributes.GetNamedItem("PieceLength").InnerText = item.PieceLength.ToString();
@@ -99,7 +99,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     {
                         XmlElement row = doc.CreateElement("StrData");
                         row.SetAttribute("Name", item.Name);//名称
-                        row.SetAttribute("StrType", item.StrType);//串类型
+                        row.SetAttribute("StrType", item.Type);//串类型
                         row.SetAttribute("Weight", item.Weight.ToString());//重量
                         row.SetAttribute("FitLength", item.FitLength.ToString());//长度
                         row.SetAttribute("PieceLength", item.PieceLength.ToString());//单片绝缘子长度

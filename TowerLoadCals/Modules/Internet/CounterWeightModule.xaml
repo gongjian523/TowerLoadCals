@@ -14,12 +14,12 @@
             <RowDefinition Height="40" Name="g_footer"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" TextAlignment="Right"  VerticalAlignment="Center"  Text="型号:" />
+        <TextBlock Grid.Row="0" TextAlignment="Right"  VerticalAlignment="Center"  Text="名称/型号：" />
         <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Text="{Binding SearchInfo}" Height="27" Margin="5 0 5 0" ></TextBox>
         <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" Command="{Binding SearchCommand}"/>
 
@@ -34,11 +34,11 @@
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
             <dxg:GridColumn FieldName="IsSelected"  Header="是否下载" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Model"  Header="型号" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Voltage"  Header="电压等级" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SecWind"  Header="受风面积" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="CategorySub"  Header="型号" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="Voltage"  Header="电压等级" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="SecWind"  Header="受风面积" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

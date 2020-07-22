@@ -20,6 +20,9 @@
         <Style x:Key="ColumnStyle" TargetType="dxg:GridColumn">
             <Setter Property="FilterPopupMode" Value="CheckedList"/>
         </Style>
+        <Style x:Key="ColumnStyle2" TargetType="dxg:GridColumn">
+            <Setter Property="FilterPopupMode" Value="CheckedList"/>
+        </Style>
         <DataTemplate x:Key="DefaultColumnTemplate">
             <ContentControl>
                 <dxg:GridColumn FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"/>
@@ -38,7 +41,9 @@
         <DataTemplate x:Key="BindingColumnTemplate">
             <ContentControl>
                 <dxg:GridColumn local:BindingHelper.Path="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
-                                Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"/>
+                                Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"
+                                Visible="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Visible, RelativeSource={RelativeSource Self}}"
+                                AllowEditing="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).AllowEditing, RelativeSource={RelativeSource Self}}"/>
             </ContentControl>
         </DataTemplate>
         <cvt:BooleanVisibityConverter x:Key="BooleanVisibityConverter"/>
@@ -72,18 +77,18 @@
                 <dxe:TextEdit EditValue="{Binding TowerType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
-        
+
         <Grid Grid.Row="1" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button  Content="增加电线" Command="{DXCommand 'AddWire()'}"  Width="80" Height="20" VerticalAlignment="Top"
+            <Button  Content="增加电线" Command="{DXCommand 'AddWire()'}"  Width="90" Height="25" Padding="0"  VerticalAlignment="Top"
                      Visibility="{Binding IsReadOnly, Converter={StaticResource InverseBooleanVisibityConverter}}"/>
-            <dxg:GridControl  Grid.Column="1" ItemsSource="{Binding Wires}"  ColumnsSource="{Binding WireColumns}" MaxHeight="500"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
+            <dxg:GridControl  Grid.Column="1" Margin="8,0,0,0" ItemsSource="{Binding Wires}" ColumnsSource="{Binding WireColumns}"   MaxHeight="500"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
                                                 ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}" >
-                <dxg:GridControl.View>
-                    <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" PasteMode="Update"
+                <dxg:GridControl.View Editable="False">
+                    <dxg:TableView  Name="WireGird"  CellValueChanged ="WireGird_CellValueChanged" NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" PasteMode="Update"
                                                 ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False" HorizontalAlignment="Left"  />
                 </dxg:GridControl.View>
             </dxg:GridControl>
@@ -94,14 +99,15 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button  Content="增加工况" Command="{DXCommand 'AddWorkCondition()'}"  Width="80" Height="20" VerticalAlignment="Top"
+            <Button  Content="增加工况" Command="{DXCommand 'AddWorkCondition()'}"  Width="90" Height="25" Padding="0"  VerticalAlignment="Top"
                      Visibility="{Binding IsReadOnly, Converter={StaticResource InverseBooleanVisibityConverter}}"/>
-            <dxg:GridControl  Grid.Column="1" ItemsSource="{Binding WorkConditions}"  ColumnsSource="{Binding WorkConditionColumns}" MaxHeight="500"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
+            <dxg:GridControl  Grid.Column="1" Margin="8,0,0,0" ItemsSource="{Binding WorkConditions}"  ColumnsSource="{Binding WorkConditionColumns}" MaxHeight="500"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
                                                 ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}" >
                 <dxg:GridControl.View>
                     <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" PasteMode="Update"
                                                 ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False" />
                 </dxg:GridControl.View>
+
             </dxg:GridControl>
         </Grid>
 
@@ -110,14 +116,62 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button  Content="增加工况组合" Command="{DXCommand 'AddWorkConditionCombo()'}"  Width="80" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"
+            <Button  Content="增加工况组合" Command="{DXCommand 'AddWorkConditionCombo()'}"  Width="90" Height="25" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top"
                      Visibility="{Binding IsReadOnly, Converter={StaticResource InverseBooleanVisibityConverter}}"/>
-            <dxg:GridControl  Grid.Column="1" ItemsSource="{Binding WorkConditionCombos}"  ColumnsSource="{Binding WorkConditionComboColumns}" MaxHeight="500"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
+            <dxg:GridControl  Grid.Column="1" Margin="8,0,0,0" ItemsSource="{Binding WorkConditionCombos}"  MaxHeight="2000"    SelectionMode="Cell"  ClipboardCopyMode="ExcludeHeader" 
                                                 ColumnGeneratorTemplateSelector="{StaticResource ColumnTemplateSelector}" ColumnGeneratorStyle="{StaticResource ColumnStyle}"  VerticalAlignment="Top">
-                <dxg:GridControl.View>
-                    <dxg:TableView NavigationStyle="Cell" AutoWidth="True" EnableImmediatePosting="True" AllowPerPixelScrolling="True" PasteMode="Update"
-                                                ShowGroupPanel="False" IsTotalSummaryMenuEnabled="False" />
+                <dxg:GridControl.View >
+                    <dxg:TableView NavigationStyle="Cell" EnableImmediatePosting="True" AllowPerPixelScrolling="True" PasteMode="Update"
+                                                ShowGroupPanel="False"  />
                 </dxg:GridControl.View>
+                <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center"  Width="60" AllowEditing = "false" />
+                <dxg:GridColumn FieldName="IsCalculate"  Header="选择与否" HorizontalHeaderContentAlignment="Center"  Width="60" 
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}" />
+                <dxg:GridColumn FieldName="WorkConditionCode"  Header="工况" HorizontalHeaderContentAlignment="Center"  Width="60" 
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}" />
+                <dxg:GridColumn FieldName="TensionAngleCode"  Header="张力角" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding IsTensionAngleVisible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="VertialLoadCode"  Header="垂直载荷" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding IsVertialLoadVisible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="WindDirectionCode"  Header="风向" HorizontalHeaderContentAlignment="Center" Width="60"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="WireIndexCodes[0]"  Header="{Binding Wire1Name}" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding Wire1Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="WireIndexCodes[1]"  Header="{Binding Wire2Name}" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding Wire2Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="WireIndexCodes[2]"  Header="{Binding Wire3Name}" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding Wire3Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire4"  Header="{Binding Wire4Name}" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding Wire4Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire5"  Header="{Binding Wire5Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire5Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire6"  Header="{Binding Wire6Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire6Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire7"  Header="{Binding Wire7Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire7Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire8"  Header="{Binding Wire8Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire8Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire9"  Header="{Binding Wire9Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire9Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire10"  Header="{Binding Wire10Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire10Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire11"  Header="{Binding Wire11Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire11Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire12"  Header="{Binding Wire12Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire12Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire13"  Header="{Binding Wire13Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire13Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire14"  Header="{Binding Wire14Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire14Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire15"  Header="{Binding Wire15Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire15Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="Wire16"  Header="{Binding Wire16Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire16Visible}"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="WorkCode"  Header="工况代码" HorizontalHeaderContentAlignment="Center" Width="60"
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+                <dxg:GridColumn FieldName="WorkComment"  Header="注释" HorizontalHeaderContentAlignment="Center" Width="360" 
+                                AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
+
             </dxg:GridControl>
         </Grid>
 
