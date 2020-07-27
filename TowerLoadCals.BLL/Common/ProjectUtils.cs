@@ -150,7 +150,7 @@ namespace TowerLoadCals.BLL
         /// <param name="templatePath"></param>
         /// <param name="electricalLoadFilePath"></param>
         /// <returns></returns>
-        public static bool NewStruCalsTower(string towerName, string towerType, string templatePath, string electricalLoadFilePath)
+        public static bool NewStruCalsTower(string towerName, string towerType, string templatePath, string electricalLoadFilePath, List<string> fullStressTemplatePaths)
         {
             var struCalsParas = GlobalInfo.GetInstance().StruCalsParas;
             
@@ -160,7 +160,7 @@ namespace TowerLoadCals.BLL
                 return false;
             }
 
-            StruCalsParasCompose paras = new StruCalsParasCompose(towerName, towerType, templatePath, electricalLoadFilePath, out string decodeTemplateStr);
+            StruCalsParasCompose paras = new StruCalsParasCompose(towerName, towerType, templatePath, electricalLoadFilePath, fullStressTemplatePaths, out string decodeTemplateStr);
 
             if(decodeTemplateStr != "")
             {
@@ -179,20 +179,25 @@ namespace TowerLoadCals.BLL
         /// <param name="name"></param>
         public void ReadStruCalsTowerParas(string name)
         {
-            string dirPath = ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + name + "\\";
+            string struCalsDirPath = StruCalsDirForTower(name) + "\\";
+            string fullStessDirPath = FullStressDirForTower(name) + "\\";
+            string electricalLaodFilePath = struCalsDirPath + ConstVar.StruCalsElecLoadFileName;
 
-            string electricalLaodFilePath = dirPath + ConstVar.StruCalsElecLoadFileName;
-
-            string parasSavedFilePath = dirPath + ConstVar.StruCalsParasFileName;
+            string parasSavedFilePath = struCalsDirPath + ConstVar.StruCalsParasFileName;
             StruCalsParasCompose temp = XmlUtils.Deserializer<StruCalsParasCompose>(parasSavedFilePath);
 
             if (temp == null || temp == default(StruCalsParasCompose))
                 return;
 
+            string templatePath = struCalsDirPath + temp.TemplateName;
 
-            string templatePath = dirPath + temp.TemplateName;
+            List<string> fullStressTemplatePaths = new List<string>();
+            foreach(var tempName in temp.FullStressTemplateNames)
+            {
+                fullStressTemplatePaths.Add(fullStessDirPath + tempName);
+            }
 
-            StruCalsParasCompose paras = new StruCalsParasCompose(electricalLaodFilePath, templatePath, temp);
+            StruCalsParasCompose paras = new StruCalsParasCompose(electricalLaodFilePath, templatePath, fullStressTemplatePaths, temp);
 
             GlobalInfo.GetInstance().StruCalsParas.Add(paras);
         }
@@ -214,18 +219,22 @@ namespace TowerLoadCals.BLL
 
             foreach(var item in towerParas)
             {
-                string dirPath = ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + item.TowerName;
+                string dirStruCalsPath = StruCalsDirForTower(item.TowerName);
+                string dirFullStressPath = FullStressDirForTower(item.TowerName);
 
                 //配置文件中没有保存新建的塔位：
                 //1 把模板和电气荷载文件复制到工程文件下
                 //2 把塔位加入到配置文件中
+                //3 把满应力分析模板和复制到工程文件目录下
                 if (!savedToewer.Contains(item.TowerName))
                 {
-                    string templatePath = dirPath + "\\" + item.TemplateName;
-                    string elecLoadFilePath = dirPath + "\\" + ConstVar.StruCalsElecLoadFileName;
+                    #region 复制结构计算的文件
 
-                    if (!Directory.Exists(dirPath))
-                        Directory.CreateDirectory(dirPath);
+                    string templatePath = dirStruCalsPath + "\\" + item.TemplateName;
+                    string elecLoadFilePath = dirStruCalsPath + "\\" + ConstVar.StruCalsElecLoadFileName;
+
+                    if (!Directory.Exists(dirStruCalsPath))
+                        Directory.CreateDirectory(dirStruCalsPath);
 
                     if (File.Exists(templatePath))
                         File.Delete(templatePath);
@@ -235,9 +244,26 @@ namespace TowerLoadCals.BLL
                     File.Copy(item.ElectricalLoadFilePath, elecLoadFilePath);
 
                     InsertStrucTowerName(item.TowerName);
+                    #endregion
+
+                    #region 复制满应力分析的文件
+                    if (!Directory.Exists(dirFullStressPath))
+                        Directory.CreateDirectory(dirFullStressPath);
+
+                    string soureDir = item.FullStressTemplatePaths[0].Substring(0, item.FullStressTemplatePaths[0].LastIndexOf("\\"));
+
+                    foreach (var path in item.FullStressTemplatePaths)
+                    {
+                        string name = path.Substring(path.LastIndexOf("\\")+1);
+                        File.Copy(path, dirFullStressPath + "\\" + name);
+                    }
+
+                    File.Copy(soureDir + "\\" + ConstVar.SmartTowerIntFileName, dirFullStressPath + "\\" + ConstVar.SmartTowerIntFileName);
+                    File.Copy(soureDir + "\\" + ConstVar.SmartTowerIntCHFileName, dirFullStressPath + "\\" + ConstVar.SmartTowerIntCHFileName);
+                    #endregion
                 }
 
-                XmlUtils.Serializer(dirPath + "\\" + ConstVar.StruCalsParasFileName, item);
+                XmlUtils.Serializer(dirStruCalsPath + "\\" + ConstVar.StruCalsParasFileName, item);
             }
         }
 
@@ -267,7 +293,57 @@ namespace TowerLoadCals.BLL
             return ConfigFileUtils.DeleteStrucTowerNames(ConfigFilePath, towerNames);
         }
 
+        public string StruCalsDirForTower(string towerName)
+        {
+            return  ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + towerName + "\\" + ConstVar.StruCalsStr;
+        }
+
+        public string FullStressDirForTower(string towerName)
+        {
+            return ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + towerName + "\\" + ConstVar.FullStressStr;
+        }
+
+        //默认这两个文件和满应力模板在同一个目录下
+        public void SmartToweIniPath(string templatePath, out string iniPath, out string iniCHPath)
+        {
+            string dir = templatePath.Substring(0, templatePath.LastIndexOf("\\"));
+
+            iniPath = dir + ConstVar.SmartTowerIntFileName;
+            iniCHPath = dir + ConstVar.SmartTowerIntCHFileName;
+
+            return;
+        }
+
         #endregion
+
+        #region 满应力分析相关函数
+        public string ReadSmartTowerPath()
+        {
+            return ConfigSettingsFileUtis.GetSmartTowerSetting(ConfigSettingsFilePath, "Path");
+        }
+
+        public int ReadSmartTowerMode()
+        {
+            return Convert.ToInt32(ConfigSettingsFileUtis.GetSmartTowerSetting(ConfigSettingsFilePath, "Mode"));
+        }
+
+        public void SaveSmartTowerPath(string path)
+        {
+            ConfigSettingsFileUtis.SaveSmartTowerSetting(ConfigSettingsFilePath, "Path", path);
+        }
+
+        public void SaveSmartTowerMode(int mode)
+        {
+            ConfigSettingsFileUtis.SaveSmartTowerSetting(ConfigSettingsFilePath, "Mode", mode.ToString());
+        }
+
+        public string ConfigSettingsFilePath
+        {
+            get { return Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.ConfigSettingsFileName; }
+        }
+
+        #endregion
+
 
         #region 基本参数 结构模板库相关
 
@@ -321,14 +397,14 @@ namespace TowerLoadCals.BLL
             return ConfigFileUtils.DeleteTowerTemplates(ConfigFilePath, templates, false);
         }
 
-        public bool UpdateGeneralTowerTemplateName(string oldName, string newName)
+        public bool UpdateGeneralTowerTemplateName(string oldName, string oldType, string newName, string newType)
         {
-            return ConfigFileUtils.UpdateTowerTemplateName(ConfigFilePath, oldName, newName, true);
+            return ConfigFileUtils.UpdateTowerTemplateName(ConfigFilePath, oldName, oldType, newName, newType, true);
         }
 
-        public bool UpdateProjectTowerTemplateName(string oldName, string newName)
+        public bool UpdateProjectTowerTemplateName(string oldName, string oldType, string newName, string newType)
         {
-            return ConfigFileUtils.UpdateTowerTemplateName(ConfigFilePath, oldName, newName, false);
+            return ConfigFileUtils.UpdateTowerTemplateName(ConfigFilePath, oldName, oldType, newName, newType, false);
         }
 
         public string GetGeneralTowerTemplatePath(string name, string towerType)
@@ -340,6 +416,8 @@ namespace TowerLoadCals.BLL
         {
             return ProjectPath + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr + "\\" + TowerCHENStringConvert.CH2EN(towerType) + "\\" + name + ".dat";
         }
+
+
 
         #endregion
     }

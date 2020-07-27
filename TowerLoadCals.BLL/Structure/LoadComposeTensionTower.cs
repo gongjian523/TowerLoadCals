@@ -7420,9 +7420,13 @@ namespace TowerLoadCals.BLL
 
             foreach (var posItem in positions)
             {
-                int j = 0;
+                int j = -1;
                 foreach (var wdItem in Template.WorkConditionCombos)
                 {
+                    j++;
+                    if (!wdItem.IsCalculate)
+                        continue;
+
                     string groupStr, linkStrXY, linkStrZ;
                     List<HangingPointParas> pointsXY, pointsZ;
 
@@ -7485,8 +7489,6 @@ namespace TowerLoadCals.BLL
                     hpLoadCompose.ComposeHangingZPointsLoad(out string strZ, out List<StruCalsPointLoad> pListZ);
                     Process2String.Add(strZ);
                     pointsLoad.AddRange(pListZ);
-
-                    j++;
                 }
             }
 

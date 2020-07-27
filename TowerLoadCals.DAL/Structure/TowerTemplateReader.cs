@@ -163,13 +163,22 @@ namespace TowerLoadCals.DAL
 
             if (Type == TowerType.LineTower)
             {
+                
                 combo.WindDirectionCode = Convert.ToInt32(aWords[iIndex]);
+
+                //在直线塔中用不着以下两个字段，主要是为了在编译模板中，
+                //塔型转换后保存时占位
+                combo.TensionAngleCode = "None";
+                combo.VertialLoadCode = "None";
             }
             else if (Type == TowerType.LineCornerTower)
             {
                 combo.TensionAngleCode = aWords[iIndex];
                 iIndex++;
                 combo.WindDirectionCode = Convert.ToInt32(aWords[iIndex]);
+
+                //赋值理由同上
+                combo.VertialLoadCode = "None";
             }
             else
             {
@@ -191,7 +200,7 @@ namespace TowerLoadCals.DAL
             combo.WorkComment = aWords[iIndex + WireNum].ToString();
         }
 
-        static public void ConvertSpeToWorkCondition(TowerTemplate template, List<WorkConditionComboSpec> workConditionSpecs)
+        public static void ConvertSpecToWorkCondition(TowerTemplate template, List<WorkConditionComboSpec> workConditionSpecs)
         {
             List<WorkConditionCombo> workConditions = new List<WorkConditionCombo>();
 
@@ -209,7 +218,8 @@ namespace TowerLoadCals.DAL
                 wcc.WindDirectionCode = item.WindDirectionCode;
                 wcc.WorkCode = item.WorkCode;
 
-                int wireIndexCodesNum = template.WorkConditionCombos[0].WireIndexCodes.Count;
+                //int wireIndexCodesNum = template.WorkConditionCombos[0].WireIndexCodes.Count;
+                int wireIndexCodesNum = template.Wires.Count;
                 wcc.WireIndexCodes = new List<int>();
 
                 for (int i = 1; i <= wireIndexCodesNum; i++)

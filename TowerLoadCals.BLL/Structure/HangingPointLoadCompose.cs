@@ -83,7 +83,6 @@ namespace TowerLoadCals.BLL
         {
             StruCalsDicGroup dicGroup;
 
-
             //常规挂点
             if (link.Contains("常规"))
             {

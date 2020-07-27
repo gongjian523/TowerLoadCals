@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using DevExpress.Mvvm.POCO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using TowerLoadCals.BLL;
+using TowerLoadCals.DAL;
+using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Internet;
+using TowerLoadCals.Modules;
 using TowerLoadCals.Service.Internet;
 
 namespace TowerLoadCals.ModulesViewModels.Internet
@@ -44,22 +48,36 @@ namespace TowerLoadCals.ModulesViewModels.Internet
             else
                 this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList());
         }
-
         #region 文件查看
+
+        protected StruTemplateEditWindow editWindow;
+
         /// <summary>
         /// 文件查看
         /// </summary>
         /// <param name="id"></param>
         public void CheckTemplate(int id)
         {
+            StruTemplateLibGeneral item = this.DataSource.Where(data => data.Id == id).SingleOrDefault();
 
-            //    TowerTemplate template = new TowerTemplate();
+            TowerTemplate template = new NewTowerTemplateReader(TowerTypeStringConvert.TowerStringToType(item.Category)).Read(@"D:\杆塔项目\other\【0715】结构计算\Tower library\"+ item.Category +@"\"+ item.FileName+item.FileExtension);
 
-            //    StruTemplateEditViewModel model = ViewModelSource.Create(() => new StruTemplateEditViewModel(template,tu));
-            //    model.CloseEditTemplateWindowEvent += CloseTemplateEditWindow;
-            //    editWindow = new StruTemplateEditWindow();
-            //    editWindow.DataContext = model;
-            //    editWindow.ShowDialog();
+
+            StruTemplateEditViewModel model = ViewModelSource.Create(() => new StruTemplateEditViewModel(template,true));
+            model.CloseEditTemplateWindowEvent += CloseTemplateEditWindow;
+            editWindow = new StruTemplateEditWindow();
+            editWindow.DataContext = model;
+            editWindow.ShowDialog();
+
+
+        }
+
+        protected void CloseTemplateEditWindow(object sender, bool isSave=false)
+        {
+            StruTemplateEditViewModel model = (StruTemplateEditViewModel)sender;
+            model.CloseEditTemplateWindowEvent -= CloseTemplateEditWindow;
+            if (editWindow != null) editWindow.Close();
+            editWindow = null;
         }
         #endregion
 

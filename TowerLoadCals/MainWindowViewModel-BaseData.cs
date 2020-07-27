@@ -181,6 +181,9 @@ namespace TowerLoadCals
             var generalTemplateLibMenu = new SubMenuBase("StruTemplateLibGeneralModule_Internet", this, "        通用模板库", (e) => { OnSelectedMenuChanged(e); });
             generalTemplateLibMenu.ParentNode = struTemplateLibMenu;
             struTemplateLibSubList.Add(generalTemplateLibMenu);
+            var test = new SubMenuBase("TowerMemberModule", this, "        读取文件", (e) => { OnSelectedMenuChanged(e); });
+            test.ParentNode = struTemplateLibMenu;
+            struTemplateLibSubList.Add(test);
             struTemplateLibMenu.ChildItems = struTemplateLibSubList;
             menuItem.Add(struTemplateLibMenu);
 

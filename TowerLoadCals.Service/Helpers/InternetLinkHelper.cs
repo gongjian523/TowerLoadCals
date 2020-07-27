@@ -17,6 +17,7 @@ namespace TowerLoadCals.Service.Helpers
         /// <returns></returns>
         public static bool GetInternetLink()
         {
+            return false;
             string strBuff = "";
             Uri httpURL = new Uri("http://137.168.101.235:8885/index-checkifonline.html");
 

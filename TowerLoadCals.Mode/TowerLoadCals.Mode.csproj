@@ -150,6 +150,7 @@
     <Compile Include="Structure\StruCalsPointLoad.cs" />
     <Compile Include="Structure\StruCalsLib.cs" />
     <Compile Include="Structure\StruLineParas.cs" />
+    <Compile Include="Structure\TowerMember.cs" />
     <Compile Include="Structure\TowerTemplate.cs" />
     <Compile Include="Common\WorkCondition.cs" />
     <Compile Include="Common\WorkConditionCombo.cs" />

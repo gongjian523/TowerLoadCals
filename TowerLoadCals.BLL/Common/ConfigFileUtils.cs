@@ -221,7 +221,7 @@ namespace TowerLoadCals.BLL
             return true;
         }
 
-        public static bool UpdateTowerTemplateName(string path, string oldName, string newName, bool isGeneralTemplate = true)
+        public static bool UpdateTowerTemplateName(string path, string oldName, string oldType, string newName, string newType, bool isGeneralTemplate = true)
         {
             List<string> rstList = new List<string>();
 
@@ -237,10 +237,12 @@ namespace TowerLoadCals.BLL
 
                 foreach (XmlNode subNode in templatesNode.ChildNodes)
                 {
-                    if (subNode.Attributes["Name"] != null && subNode.Attributes["Name"].ToString() == oldName)
-                    {
+                    if (subNode.Attributes["Name"] != null && subNode.Attributes["Name"].Value.ToString() == oldName 
+                        && subNode.Attributes["TowerType"] != null && subNode.Attributes["TowerType"].Value.ToString() == oldType)
+                    { 
                         XmlElement subXe = (XmlElement)subNode;
                         subXe.SetAttribute("Name", newName);
+                        subXe.SetAttribute("TowerType", newType);
                         break;
                     }
                 }

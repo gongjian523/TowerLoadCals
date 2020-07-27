@@ -107,6 +107,7 @@ namespace TowerLoadCals.Modules
 
 
         protected string oldName;
+        protected string oldType;
 
         protected int WireNum = 0;
         public ObservableCollection<Column> WireColumns { get; private set; }
@@ -117,18 +118,15 @@ namespace TowerLoadCals.Modules
         public ObservableCollection<TemplateWorkCondition> WorkConditions { get; set; }
 
         //public ObservableCollection<Column> WorkConditionComboColumns { get; private set; }
-        //public ObservableCollection<WorkConditionComboSpec> WorkConditionCombos { get; set; }
-        public ObservableCollection<WorkConditionCombo> WorkConditionCombos { get; set; }
-
-        
+        public ObservableCollection<WorkConditionComboSpec> WorkConditionCombos { get; set; }
 
         public StruTemplateEditViewModel(TowerTemplate template,  bool isReadOnly = true)
         {
-            oldName =  template.Name;
+            oldName = template.Name;
+            oldType = template.TowerType;
 
             _template = template;
             IsReadOnly = isReadOnly;
-            
 
             #region 导地线的初始化
             TemplateWire wire = new TemplateWire();
@@ -165,8 +163,6 @@ namespace TowerLoadCals.Modules
             Wires.Add(wire);
 
             WireColumns = new ObservableCollection<Column>(wireColumns);
-
-
 
             #endregion
 
@@ -211,10 +207,7 @@ namespace TowerLoadCals.Modules
 
             #region 工况的初始化
 
-            //WorkConditionCombos = new ObservableCollection<WorkConditionComboSpec>(StruCalsParasCompose.ConvertTemplateToSpec(template));
-
-            WorkConditionCombos = new ObservableCollection<WorkConditionCombo>(template.WorkConditionCombos);
-
+            WorkConditionCombos = new ObservableCollection<WorkConditionComboSpec>(StruCalsParasCompose.ConvertTemplateToSpec(template));
 
             //List<Column> workConditionComboColumns = new List<Column>();
             //workConditionComboColumns.Add(new HeaderColumn() {
@@ -301,6 +294,33 @@ namespace TowerLoadCals.Modules
         {
             var proUtils = ProjectUtils.GetInstance();
 
+            //新增模板时工程中已经在同类型的塔中塔名已经存在
+            if(proUtils.GetProjectTowerTemplate().Where(item=>item.Name == _template.Name && item.TowerType == _template.TowerType).Count() > 0 
+                &&(oldName == null || oldName.Trim() == "") )
+            {
+                MessageBox.Show("同名模板已经存在，请更换一个名字");
+                return;
+            }
+
+
+            for(int i = 0; i < WireNum; i++)
+            {
+                if (Wires[0].Wire[i]== null || Wires[0].Wire[i].Trim() == "")
+                {
+                    MessageBox.Show("请完善导地线信息");
+                    return;
+                }
+            }
+
+            for (int i = 0; i < WorkConditionNum; i++)
+            {
+                if (WorkConditions[0].WorkCondition[i] == null || WorkConditions[0].WorkCondition[i].Trim() == "")
+                {
+                    MessageBox.Show("请完善工况信息");
+                    return;
+                }
+            }
+
             //新增模板
             if (oldName == null || oldName == "")
             {
@@ -313,9 +333,9 @@ namespace TowerLoadCals.Modules
             else
             {
                 //旧模板改了新名字
-                if (oldName != _template.Name)
+                if (oldName != _template.Name || oldType != _template.TowerType)
                 {
-                    proUtils.UpdateProjectTowerTemplateName(oldName, _template.Name);
+                    proUtils.UpdateProjectTowerTemplateName(oldName, oldType, _template.Name, _template.TowerType);
                 }
                 //删除旧模板
                 string oldTemplatePath = proUtils.GetProjectlTowerTemplatePath(_template.Name, _template.TowerType);
@@ -326,6 +346,22 @@ namespace TowerLoadCals.Modules
             }
 
             //保存模板
+            _template.Wires.Clear();
+            int wireCnt = Wires[0].Wire.Where(w => w != null && w.Trim() != "").Count();
+            for (int i = 0; i < wireCnt; i++)
+            {
+                _template.Wires.Add(Wires[0].Wire[i]);
+            }
+
+            _template.WorkConditongs.Clear();
+            int wdCnt = WorkConditions[0].WorkCondition.Where(wd => wd != null && wd.Trim() != "").Count();
+            for (int i = 1; i <= wdCnt; i++)
+            {
+                _template.WorkConditongs[i] = WorkConditions[0].WorkCondition[i - 1];
+            }
+
+            TowerTemplateReader.ConvertSpecToWorkCondition(_template, WorkConditionCombos.ToList());
+
             string newTemplatePath = proUtils.GetProjectlTowerTemplatePath(_template.Name, _template.TowerType);
             NewTowerTemplateReader templateReader = new NewTowerTemplateReader(TowerTypeStringConvert.TowerStringToType(_template.TowerType));
             templateReader.Save(newTemplatePath, _template);
@@ -367,6 +403,11 @@ namespace TowerLoadCals.Modules
 
         public void AddWorkCondition()
         {
+            if(WorkConditionNum == 0)
+            {
+                WorkConditions[0].WorkCondition[0] = "大风";
+            }
+
             WorkConditionColumns.Add(new HeaderColumn() {
                 Settings = SettingsType.Binding,
                 FieldName = "WorkCondition[" + WorkConditionNum.ToString() + "]",
@@ -379,8 +420,13 @@ namespace TowerLoadCals.Modules
         public void AddWorkConditionCombo()
         {
             int index = WorkConditionCombos.Count + 1;
-            //WorkConditionCombos.Add(new WorkConditionComboSpec() {  Index = index });
-            WorkConditionCombos.Add(new WorkConditionCombo() { Index = index });
+            WorkConditionCombos.Add(new WorkConditionComboSpec()
+            {   Index = index,
+                IsCalculate = false,
+                TensionAngleCode = "None",
+                VertialLoadCode = "None",
+                WorkConditionCode  = "None",
+                WorkComment = "None"});
         }
 
         public void WiresGridChanged(string index)

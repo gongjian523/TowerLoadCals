@@ -109,10 +109,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Modules\SmartTowerModeEditWindow.xaml.cs">
+      <DependentUpon>SmartTowerModeEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Modules\SmartTowerPathEditWindow.xaml.cs">
+      <DependentUpon>SmartTowerPathEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ViewModels\SmartTowerModeEditViewModel.cs" />
+    <Compile Include="Common\ViewModels\SmartTowerPathEditViewModel.cs" />
+    <Compile Include="Controls\Converter\SmartTowerModeStringConvert.cs" />
     <Compile Include="Controls\Converter\StringVisibityConverter.cs" />
     <Compile Include="Controls\Converter\BooleanVisibityConverter .cs" />
     <Compile Include="Controls\Converter\InverseBooleanConverter.cs" />
     <Compile Include="Controls\Converter\InverseBooleanVisibityConverter.cs" />
+    <Compile Include="MainWindowViewModel-RibbonCommand.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
     <Compile Include="MainWindowViewModel-BaseData.cs" />
     <Compile Include="MenuViewModel.cs" />
@@ -147,6 +157,7 @@
     <Compile Include="ModulesViewModels\StruCals\NewStruCalsTowerViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\StruCalsBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\StruCalsResultViewModel.cs" />
+    <Compile Include="ModulesViewModels\StruCals\TowerMemberViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
@@ -213,6 +224,14 @@
     <Compile Include="Modules\StruCals\HangingPointModule.xaml.cs">
       <DependentUpon>HangingPointModule.xaml</DependentUpon>
     </Compile>
+    <Page Include="Common\Modules\SmartTowerModeEditWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\Modules\SmartTowerPathEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\DataTemplates\GridControlDataTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -324,6 +343,9 @@
     <Compile Include="Modules\StruCals\BaseAndLineParasModule.xaml.cs">
       <DependentUpon>BaseAndLineParasModule.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\StruCals\TowerMemberModule.xaml.cs">
+      <DependentUpon>TowerMemberModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\StruCals\WorkConditionComboModule.xaml.cs">
       <DependentUpon>WorkConditionComboModule.xaml</DependentUpon>
     </Compile>
@@ -368,6 +390,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\StruCals\HangingPointModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\StruCals\TowerMemberModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -654,14 +680,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\HPDic-LineTower.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="UserData\HPDic-LineTower.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\HPDic-TensionTower.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="UserData\HPDic-TensionTower.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Menu_para.png" />
@@ -672,10 +694,10 @@
     <Resource Include="Images\Menu_wire.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\StruCalsParasLib.xml">
+    <EmbeddedResource Include="UserData\StruCalsParasLib.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Resource>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\LoginBg.jpg" />
@@ -688,6 +710,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UserData\ConfigSettings.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SmartTower_Console.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

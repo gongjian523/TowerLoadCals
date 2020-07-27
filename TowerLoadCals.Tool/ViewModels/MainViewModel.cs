@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using DevExpress.Mvvm;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
@@ -114,6 +116,31 @@ namespace TowerLoadCals.Tool.ViewModels
         public void DeleteTemplate(string a)
         {
             
+        }
+
+        public void RunSmartTower()
+        {
+            try
+            {
+                string path = string.Format(@"D:\00-项目\P-200325-杆塔负荷程序\01塔库满应力分析\SmartTower\SmartTower_Console.exe");
+                //string path = string.Format(@"E:\software\SmartTower-2019-10-29-西南院\SmartTower-2019-10-29-西南院\SmartTower_Console.exe");
+                string fileName = path;
+                if (File.Exists(fileName))
+                {
+                    Process process = new Process();
+                    //string[] pathfile = { "", path };   //路径中不能有空格
+                    string paras = "C:\\Users\\zhifei\\Desktop\\测试\\StruCals\\直线塔7\\满应力分析\\Z31.dat 0";      //0: 正常计算 1:基础作用力BetaZ=1 2：基础作用力betaZ=-1/2+1 不容许有空格   
+                    //string paras = "C:\\Users\\zhifei\\Desktop\\测试\\Z32.dat 0";
+                    // params 为 string 类型的参数，多个参数以空格分隔，如果某个参数为空，可以传入””
+                    ProcessStartInfo startInfo = new ProcessStartInfo(fileName, paras);
+                    process.StartInfo = startInfo;
+                    process.Start();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("调用失败");
+            }
         }
     }
 

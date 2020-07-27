@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
+using TowerLoadCals.DAL.Structure;
 using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.Test
@@ -35,6 +36,28 @@ namespace TowerLoadCals.Test
 
             TowerTemplate newTemplate = newTemplateReader.Read(newDatPath);
 
+        }
+
+        [TestMethod]
+        public void TestMethod2_SmartTowerGenerator()
+        {
+            var openLoadDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Load Files (*.load)|*.load"
+            };
+
+            if (openLoadDialog.ShowDialog() != true)
+                return;
+
+            var openTemplateDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Dat Files (*.dat)|*.dat"
+            };
+
+            if (openTemplateDialog.ShowDialog() != true)
+                return;
+
+            string rlt = SmartTowerInputGenerator.InputGenerator(openLoadDialog.FileName, openTemplateDialog.FileName);
         }
     }
 }

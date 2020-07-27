@@ -60,6 +60,7 @@
     <Compile Include="Electric\WireReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structure\NewTowerTemplateReader.cs" />
+    <Compile Include="Structure\SmartTowerInputGenerator.cs" />
     <Compile Include="Structure\StruCalsResultReader.cs" />
     <Compile Include="Structure\StruLoadComposeDicReader.cs" />
     <Compile Include="Structure\TowerTemplateReader.cs" />

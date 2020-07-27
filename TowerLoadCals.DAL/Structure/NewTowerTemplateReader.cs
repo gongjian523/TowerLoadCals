@@ -26,6 +26,8 @@ namespace TowerLoadCals.DAL
 
         public NewTowerTemplateReader(TowerType type):base()
         {
+            Type = type;
+
             template.TowerType = TowerTypeStringConvert.TowerTypeToString(type);
             template.Wires = new List<string>();
             template.WorkConditongs = new Dictionary<int, string>();

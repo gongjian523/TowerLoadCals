@@ -128,6 +128,25 @@
                     Cursor="Hand"
                     FontFamily="Vivaldi"
                     Click="btn_exit_Click"/>
+
+            <ProgressBar Name="pb_import" Margin="8,30,0,0" OverridesDefaultStyle="True" RenderTransformOrigin="0.5,0.5" Visibility="Hidden" Width="300" Height="30" >
+                    <ProgressBar.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ProgressBar.RenderTransform>
+                    <ProgressBar.Foreground>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FF24EE27" Offset="0"/>
+                            <GradientStop Color="#FF5434AC" Offset="0.5"/>
+                            <GradientStop Color="#FFB371EA" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ProgressBar.Foreground>
+                </ProgressBar>
+
         </Grid>
     </DockPanel>
 </Window>

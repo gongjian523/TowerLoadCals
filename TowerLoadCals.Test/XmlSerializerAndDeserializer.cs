@@ -554,7 +554,7 @@ namespace TowerLoadCals.Test
         }
 
         [TestMethod]
-        public void TestMethod04_InsertTowerTemplage()
+        public void TestMethod04_InsertTowerTemplate()
         {
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
             {
@@ -602,6 +602,20 @@ namespace TowerLoadCals.Test
                     TowerType = "终端塔"
                 },
             });
+        }
+
+        [TestMethod]
+        public void TestMethod05_UpdateTowerTemplate()
+        {
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Lcp Files (*.lcp)|*.lcp",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            ConfigFileUtils.UpdateTowerTemplateName(saveFileDialog.FileName, "单回交流轻冰区(三跨验算)1", "直线塔", "单回交流轻冰区(三跨验算)2", "直转塔");
         }
     }
 }

@@ -25,6 +25,31 @@ namespace TowerLoadCals.Mode
         {
             get { return "StruCalsParasLib.xml"; }
         }
+        
+        public static string ConfigSettingsFileName
+        {
+            get { return "ConfigSettings.xml"; }
+        }
+
+        public static string SmartTowerQTName
+        {
+            get { return "SmartTower_QT.exe"; }
+        }
+
+        public static string SmartTowerConsoleName
+        {
+            get { return "SmartTower_Console.exe"; }
+        }
+
+        public static string SmartTowerIntFileName
+        {
+            get { return "data.ini"; }
+        }
+
+        public static string SmartTowerIntCHFileName
+        {
+            get { return "DataCh.ini"; }
+        }
 
         public static string DataBaseStr
         {
@@ -41,6 +66,10 @@ namespace TowerLoadCals.Mode
             get { return "UserData"; }
         }
 
+        public static string FullStressStr
+        {
+            get { return "FullStress"; }
+        }
 
         public static string GeneralStruTemplateStr
         {
@@ -87,5 +116,24 @@ namespace TowerLoadCals.Mode
             get { return "TerminalTower"; }
         }
 
+        public static string SmartTowerStr
+        {
+            get { return "SmartTower";  }
+        }
+
+        public static string SmartTowerMode1Str
+        {
+            get { return "正常计算"; }
+        }
+
+        public static string SmartTowerMode2Str
+        {
+            get { return "基础作用力BetaZ=1"; }
+        }
+
+        public static string SmartTowerMode3Str
+        {
+            get { return "基础作用力betaZ=-1/2+1"; }
+        }
     }
 }

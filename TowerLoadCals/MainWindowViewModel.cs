@@ -44,7 +44,7 @@ namespace TowerLoadCals
             GetRightMenuList(rightMemuItem);
             InternetMenuItems = new ObservableCollection<SubMenuBase>(rightMemuItem);
 
-            InternetLinkEnabled = InternetLinkHelper.GetInternetLink();
+            //InternetLinkEnabled = InternetLinkHelper.GetInternetLink();
 
         }
 

@@ -1,0 +1,39 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.StruCals"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    x:Class="TowerLoadCals.Modules.StruCals.TowerMemberModule"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:TowerMemberViewModel}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" Name="g_heard"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0"   Grid.Column="0" Content="全部显示" Height="30" Width="78"  Name="btnShowAll" Command="{ Binding SearchAllCommand }" />
+        <Button Grid.Row="0"   Grid.Column="1" Content="问题显示" Height="30" Width="78"  Name="btnShowError" Command="{ Binding SearchErrorCommand }" />
+        
+        <dxg:GridControl  Grid.Row="1" Grid.ColumnSpan="3"   Margin="8,0"
+                EnableSmartColumnsGeneration="True"    AutoGenerateColumns="None"
+                ItemsSource="{Binding DataSource}">
+            <dxg:GridControl.View>
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+
+            </dxg:GridControl.View>
+            <dxg:GridColumn FieldName="Member"  Header="杆件编号" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="Section"  Header="截面" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+            <dxg:GridColumn FieldName="Material"  Header="材质" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="WSTR"  Header="最大应力" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="EFFIC"  Header="效率(%)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="Bolt"  Header="螺栓" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="BoltNum"  Header="螺栓个数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+        </dxg:GridControl>
+    </Grid>
+</UserControl>

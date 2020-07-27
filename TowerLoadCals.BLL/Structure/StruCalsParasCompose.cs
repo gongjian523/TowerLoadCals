@@ -27,11 +27,15 @@ namespace TowerLoadCals.BLL
 
 
         //此构造函数用于从配置文件中获取已经保存的塔位参数，所有参数都来做保存文件
-        public StruCalsParasCompose(string electricalLaodFilePath, string templatePath, StruCalsParasCompose temp)
+        public StruCalsParasCompose(string electricalLaodFilePath, string templatePath, List<string> fullStressTemplatePaths, StruCalsParasCompose temp)
         {
             TowerName = temp.TowerName;
             TemplateName = temp.TemplateName;
+            
             ElectricalLoadFilePath = electricalLaodFilePath;
+
+            FullStressTemplateNames = temp.FullStressTemplateNames;
+            FullStressTemplatePaths = fullStressTemplatePaths;
 
             BaseParas = temp.BaseParas;
             LineParas = temp.LineParas;
@@ -43,7 +47,7 @@ namespace TowerLoadCals.BLL
         }
 
         //此构造函数用于新增塔位，线条相关的初始化信息主要来自于Template，
-        public StruCalsParasCompose(string towerName, string towerType,  string templatePath, string electricalLaodFilePath, out string decodeTemolateStr)
+        public StruCalsParasCompose(string towerName, string towerType,  string templatePath, string electricalLaodFilePath, List<string> fullStressTemplatePaths,  out string decodeTemolateStr)
         {
             decodeTemolateStr = "";
 
@@ -51,6 +55,13 @@ namespace TowerLoadCals.BLL
 
             TemplatePath = templatePath;
             TemplateName = templatePath.Substring(templatePath.LastIndexOf('\\')+1);
+
+            FullStressTemplatePaths = fullStressTemplatePaths;
+            FullStressTemplateNames = new List<string>();
+            foreach(var path in FullStressTemplatePaths)
+            {
+                FullStressTemplateNames.Add(path.Substring(path.LastIndexOf('\\') + 1));
+            }
 
             TowerType type = TowerTypeStringConvert.TowerStringToType(towerType);
 

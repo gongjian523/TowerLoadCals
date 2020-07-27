@@ -28,6 +28,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <dxlc:LayoutGroup Orientation="Vertical" >
             <dxlc:LayoutGroup Orientation="Horizontal" Margin="5,7">
@@ -67,5 +68,6 @@
                 </dxg:GridColumn>
             </dxg:GridControl>
         </dxlc:LayoutGroup>
+        <Button Grid.Row="2" Content="运行SmatTower" Width="100" Height="20" Command="{DXCommand 'RunSmartTower()'}" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

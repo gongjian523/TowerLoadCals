@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ConfigFileUtils.cs" />
+    <Compile Include="Common\ConfigSettingsFileUtis.cs" />
     <Compile Include="Common\GlobalInfo.cs" />
     <Compile Include="Common\ProjectUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Structure\LoadComposeTensionTower.cs" />
     <Compile Include="Structure\LoadComposeLineTower.cs" />
     <Compile Include="Structure\StruCalsParasCompose.cs" />
+    <Compile Include="Structure\TowerMemberBLL.cs" />
     <Compile Include="Structure\VStringCompose.cs" />
   </ItemGroup>
   <ItemGroup>

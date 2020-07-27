@@ -471,12 +471,12 @@ namespace TowerLoadCals.BLL
 
         protected virtual string GetDicPath()
         {
-            return Directory.GetCurrentDirectory() + "\\UserData\\HPCompose-LineTower.xml";
+            return Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\HPCompose-LineTower.xml";
         }
 
         protected virtual string GetLoadDicPath()
         {
-            return Directory.GetCurrentDirectory() + "\\UserData\\HPDic-LineTower.xml";
+            return Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\HPDic -LineTower.xml";
         }
 
 

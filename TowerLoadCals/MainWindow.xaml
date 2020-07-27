@@ -129,6 +129,18 @@
                                LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
                                RibbonStyle="Large"/>
                         </dxr:RibbonPageGroup>
+                        <dxr:RibbonPageGroup Name="pgSetting" Caption="设置" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bSTPathSetting" Content="计算设置" 
+                               Glyph="{dxc:DXImage Image=CalculateSheet_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculateSheet_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{DXCommand 'ShowSmartTowerModeEditWindow()'}"/>
+                            <dxb:BarButtonItem Name="bSTModeSetting" Content="系统设置" 
+                               Glyph="{dxc:DXImage Image=CalculationOptions_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{DXCommand 'ShowSmartTowerPathEditWindow()'}"/>
+                        </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                     <dxr:RibbonPage Caption="分析及报告">
                         <dxr:RibbonPageGroup Name="pgAnalysis" Caption="分析" ShowCaptionButton="False">
