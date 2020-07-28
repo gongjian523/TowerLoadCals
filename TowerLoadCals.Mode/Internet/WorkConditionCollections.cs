@@ -19,7 +19,7 @@ namespace TowerLoadCals.Mode.Internet
         /// <summary>
         /// ID
         /// </summary>
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         ///冰区类别

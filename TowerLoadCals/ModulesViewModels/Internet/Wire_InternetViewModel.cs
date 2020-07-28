@@ -52,8 +52,12 @@ namespace TowerLoadCals.ModulesViewModels.Internet
 
         public void doSearch()
         {
-            if (!string.IsNullOrEmpty(SearchInfo))
-                this.DataSource = new ObservableCollection<Wire>(wireService.GetList().Where(item => item.Name.Contains(SearchInfo) ||item.Category.Contains(SearchInfo)).ToList());
+            if (!string.IsNullOrEmpty(searchInfo))
+            {
+                searchInfo = searchInfo.Trim();
+
+                this.DataSource = new ObservableCollection<Wire>(wireService.GetList().Where(item => item.Name.Contains(SearchInfo) || item.Category.Contains(SearchInfo)).ToList());
+            }
             else
                 this.DataSource = new ObservableCollection<Wire>(wireService.GetList());
         }
@@ -86,10 +90,10 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     {
                         if (xmlNode.Attributes.GetNamedItem("ModelSpecification").InnerText == item.Name)
                         {
+                            notExists = false;
                             DialogResult dr = MessageBox.Show(string.Format("已经存在型号规格为【{0}】相同的信息，是否替换？", item.Name), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
-                                notExists = false;
                                 xmlNode.Attributes.GetNamedItem("ModelSpecification").InnerText = item.Name;
                                 xmlNode.Attributes.GetNamedItem("WireType").InnerText = item.Category;
                                 xmlNode.Attributes.GetNamedItem("SectionArea").InnerText = item.TotCroSection.ToString();
@@ -99,9 +103,8 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                                 xmlNode.Attributes.GetNamedItem("RatedBreakingForce").InnerText = item.UltTenStrength.ToString();
                                 xmlNode.Attributes.GetNamedItem("ModulusElasticity").InnerText = item.ModElastioity.ToString();
                                 xmlNode.Attributes.GetNamedItem("LineCoefficient").InnerText = item.CoeExpansion.ToString();
-                                break;
                             }
-
+                            break;
                         }
                     }
                     if (notExists)
@@ -121,7 +124,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 }
                 doc.Save(path);
 
-                MessageBox.Show("下载成功!");
+                MessageBox.Show("批量下载成功!");
             }
             catch (Exception ex)
             {

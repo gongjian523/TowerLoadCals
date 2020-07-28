@@ -13,7 +13,7 @@
         xmlns:cvt="clr-namespace:TowerLoadCals.Converter"
         xmlns:local="clr-namespace:TowerLoadCals.Modules"
         mc:Ignorable="d"
-        Title="工况模板" Height="800" Width="1200"
+        Title="工况模板" Height="720" Width="1200"
         Closed="ThemedWindow_Closed">
     <dx:ThemedWindow.Resources>
         <local:ColumnTemplateSelector x:Key="ColumnTemplateSelector"/>

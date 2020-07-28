@@ -65,17 +65,16 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     {
                         if (xmlNode.Attributes.GetNamedItem("序号").InnerText == item.Index.ToString())
                         {
+                            notExists = false;
                             DialogResult dr = MessageBox.Show(string.Format("已经存在覆冰厚度(mm)为【{0}】相同的信息，是否替换？", item.IceThickness), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
-                                notExists = false;
                                 xmlNode.Attributes.GetNamedItem("序号").InnerText = item.Index.ToString();
                                 xmlNode.Attributes.GetNamedItem("覆冰厚度").InnerText = item.IceThickness.ToString();
                                 xmlNode.Attributes.GetNamedItem("塔身风荷载增大系数").InnerText = item.TowerWindLoadAmplifyCoef.ToString();
                                 xmlNode.Attributes.GetNamedItem("塔身垂荷增大系数").InnerText = item.TowerGravityLoadAmplifyCoef.ToString();
-                                break;
                             }
-
+                            break;
                         }
                     }
                     if (notExists)
@@ -90,7 +89,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 }
                 doc.Save(path);
 
-                MessageBox.Show("下载成功!");
+                MessageBox.Show("批量下载成功!");
             }
             catch (Exception ex)
             {

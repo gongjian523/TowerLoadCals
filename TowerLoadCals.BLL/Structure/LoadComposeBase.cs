@@ -349,8 +349,15 @@ namespace TowerLoadCals.BLL
                 return;
 
             #region 保存工况
+            int wccNumTemp = 0;
             for(int i = 0; i < Template.WorkConditionCombos.Count; i++)
             {
+				//gongjian 200728 没有选择的工况在load文件也不用计算
+                if (!Template.WorkConditionCombos[i].IsCalculate)
+                    continue;
+
+                wccNumTemp++;
+
                 WorkConditionCombo wcCombo = Template.WorkConditionCombos[i];
 
                 float wcWind = WorkConditionWind[wcCombo.WorkCode-1];
@@ -433,12 +440,18 @@ namespace TowerLoadCals.BLL
                 }
 
                 float windAngle = wcCombo.WindDirectionCode;
+				//gongjian 200728  修改风向角小于0，将负号挪到组合系统
+                if (windAngle < 0)
+                {
+                    windAngle = Math.Abs(windAngle);
+                    comboCoef = -1 * comboCoef;
+                }
 
                 float temperature = WorkConditionTemperate[wcCombo.WorkCode - 1];
 
                 string str = wcWind.ToString("0.000").PadLeft(8) + comboCoef.ToString("0.000").PadLeft(8) + windAngle.ToString("0.000").PadLeft(8)
                     + importanceCoef.ToString("0.000").PadLeft(8) + gravityLoad.ToString("0.000").PadLeft(8) + temperature.ToString("0.000").PadLeft(8)
-                    + "   " + (i + 1).ToString() + "-" + wcCombo.WorkComment;
+                    + "   " + wccNumTemp.ToString() + "-" + wcCombo.WorkComment;
 
                 processString.Add(str);
 
@@ -453,9 +466,16 @@ namespace TowerLoadCals.BLL
 
             foreach (var point in points)
             {
+                int wdNumTmep = 0;
                 for (int j = 0; j < Template.WorkConditionCombos.Count; j++)
                 {
-                    string str = (j == 0) ? point.ToString().PadLeft(9) : (" ").PadLeft(9);
+					//gongjian 200728  没有选择的工况在load文件也不用计算
+                    if (!Template.WorkConditionCombos[j].IsCalculate)
+                        continue;
+
+                    wdNumTmep++;
+
+                    string str = (wdNumTmep == 1) ? point.ToString().PadLeft(9) : (" ").PadLeft(9);
                     float xLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "X").Sum(p => p.Load);
                     float yLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "Y").Sum(p => p.Load);
                     float zLoad = pointLoads.Where(p => p.Name == point && p.WorkConditionId == j && p.Orientation == "Z").Sum(p => p.Load);
@@ -514,14 +534,15 @@ namespace TowerLoadCals.BLL
 
             for (int i = 0; i < Template.WorkConditongs.Count; i++)
             {
+				//gongjian 200728  修复读取电荷文件的错误
                 object obj = ds.Tables[0].Rows[0][i+1];
                 float.TryParse(obj.ToString(), out WorkConditionTemperate[i]);
 
                 object obj2 = ds.Tables[0].Rows[1][i+1];
-                float.TryParse(obj.ToString(), out WorkConditionWind[i]);
+                float.TryParse(obj2.ToString(), out WorkConditionWind[i]);
 
-                object obj3 = ds.Tables[0].Rows[1][i+1];
-                float.TryParse(obj.ToString(), out WorkConditionIceThickness[i]);
+                object obj3 = ds.Tables[0].Rows[2][i+1];
+                float.TryParse(obj3.ToString(), out WorkConditionIceThickness[i]);
             }
         }
 

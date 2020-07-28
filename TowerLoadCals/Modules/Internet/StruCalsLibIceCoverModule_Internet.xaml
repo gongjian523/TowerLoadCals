@@ -6,7 +6,7 @@
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     x:Class="TowerLoadCals.Modules.Internet.StruCalsLibIceCoverModule_Internet"
-    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StruCalsLibIceCoverViewModel}}">
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StruCalsLibIceCoverViewModel}}" Background="AliceBlue">
 
     <Grid>
         <Grid.RowDefinitions>

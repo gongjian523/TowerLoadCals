@@ -44,7 +44,11 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList().Where(item => item.FileName.Contains(searchInfo)||item.Category.Contains(searchInfo)).ToList());
+            {
+                searchInfo = searchInfo.Trim();
+
+                this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList().Where(item => item.FileName.Contains(searchInfo) || item.Category.Contains(searchInfo)).ToList());
+            }
             else
                 this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList());
         }
@@ -60,10 +64,10 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         {
             StruTemplateLibGeneral item = this.DataSource.Where(data => data.Id == id).SingleOrDefault();
 
-            TowerTemplate template = new NewTowerTemplateReader(TowerTypeStringConvert.TowerStringToType(item.Category)).Read(@"D:\杆塔项目\other\【0715】结构计算\Tower library\"+ item.Category +@"\"+ item.FileName+item.FileExtension);
+            TowerTemplate template = new NewTowerTemplateReader(TowerTypeStringConvert.TowerStringToType(item.Category)).ReadContentStream(item.Content, item.FileName);
 
 
-            StruTemplateEditViewModel model = ViewModelSource.Create(() => new StruTemplateEditViewModel(template,true));
+            StruTemplateEditViewModel model = ViewModelSource.Create(() => new StruTemplateEditViewModel(template, true));
             model.CloseEditTemplateWindowEvent += CloseTemplateEditWindow;
             editWindow = new StruTemplateEditWindow();
             editWindow.DataContext = model;
@@ -72,7 +76,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
 
         }
 
-        protected void CloseTemplateEditWindow(object sender, bool isSave=false)
+        protected void CloseTemplateEditWindow(object sender, bool isSave = false)
         {
             StruTemplateEditViewModel model = (StruTemplateEditViewModel)sender;
             model.CloseEditTemplateWindowEvent -= CloseTemplateEditWindow;
@@ -96,7 +100,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 //文件地址
                 string path = globalInfo.ProjectPath + @"\" + globalInfo.ProjectName + @".lcp";
 
-                if (path== @"\.lcp")
+                if (path == @"\.lcp")
                 {
                     MessageBox.Show("选择工程后才允许下载!");
                     return;
@@ -109,25 +113,24 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 XmlNode rootNode = doc.GetElementsByTagName("GeneralStruTemplate")[0];
                 if (rootNode == null)
                 {
-                    XmlNode rootBase = doc.SelectSingleNode("BaseData");
+                    XmlNode rootBase = doc.GetElementsByTagName("BaseData")[0];
                     rootNode = doc.CreateElement("GeneralStruTemplate");
                     rootBase.AppendChild(rootNode);
-
                 }
                 bool notExists = true;//是否已经存在该模板
                 foreach (XmlNode xmlNode in rootNode.ChildNodes)
                 {
                     if (xmlNode.Attributes.GetNamedItem("Name").InnerText == item.FileName)
                     {
+                        notExists = false;
                         DialogResult dr = MessageBox.Show(string.Format("已经存在模板名称【{0}】相同的信息，是否替换？", item.FileName), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                         if (dr == DialogResult.OK)
                         {
-                            notExists = false;
                             xmlNode.Attributes.GetNamedItem("Name").InnerText = item.FileName;
                             xmlNode.Attributes.GetNamedItem("TowerType").InnerText = item.Category;
-                            break;
                         }
                     }
+                    break;
                 }
                 if (notExists)
                 {
@@ -135,18 +138,20 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     row.SetAttribute("Name", item.FileName);
                     row.SetAttribute("TowerType", item.Category);
                     rootNode.AppendChild(row);
+
+                    //下载具体文件
+                    string NewFilePath = proUtils.GetGeneralTowerTemplatePath(item.FileName, item.Category);
+                    if (File.Exists(NewFilePath))
+                        File.Delete(NewFilePath);
+                    using (FileStream fsWrite = new FileStream(NewFilePath, FileMode.Create, FileAccess.Write))
+                    {
+                        byte[] buffer = Encoding.Default.GetBytes(item.Content);
+                        //使用utf-8编码格式
+                        fsWrite.Write(buffer, 0, buffer.Length);
+                    };
                 }
                 doc.Save(path);
 
-                string NewFilePath = proUtils.GetGeneralTowerTemplatePath(item.FileName, item.Category);
-                if (File.Exists(NewFilePath))
-                    File.Delete(NewFilePath);
-                using (FileStream fsWrite = new FileStream(NewFilePath, FileMode.Create, FileAccess.Write))
-                {
-                    byte[] buffer = Encoding.Default.GetBytes(item.Content);
-                    //使用utf-8编码格式
-                    fsWrite.Write(buffer, 0, buffer.Length);
-                };
 
                 MessageBox.Show("下载成功!");
             }

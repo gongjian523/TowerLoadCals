@@ -11,17 +11,41 @@ using TowerLoadCals.Modules;
 
 namespace TowerLoadCals.ModulesViewModels.StruCals
 {
-    public class TowerMemberViewModel : ViewModelBase
+    public class TowerMemberViewModel : StruCalsBaseViewModel
     {
-        TowerMemberBLL memberBLL = new TowerMemberBLL();
+        
         public DelegateCommand SearchAllCommand { get; private set; }
         public DelegateCommand SearchErrorCommand { get; private set; }
+
+        
+
         public TowerMemberViewModel()
         {
-            memberBLL.UnionTextFile();
-            doSearchAll();//初始数据加载所有信息
+            //memberBLL.UnionTextFile();
+            //doSearchAll();//初始数据加载所有信息
             SearchAllCommand = new DelegateCommand(doSearchAll);
             SearchErrorCommand = new DelegateCommand(doSearchError);
+        }
+
+
+        protected override void OnParameterChanged(object parameter)
+        {
+            InitializeData((string)parameter);
+        }
+
+        protected override void InitializeData(string towerName)
+        {
+            base.InitializeData(towerName);
+
+            if(struCalsParas.ResultFullStess == null)
+            {
+                DataSource = new ObservableCollection<TowerMember>();
+            }
+            else
+            {
+                DataSource = new ObservableCollection<TowerMember>(struCalsParas.ResultFullStess);
+            }
+
         }
 
         /// <summary>
@@ -29,7 +53,8 @@ namespace TowerLoadCals.ModulesViewModels.StruCals
         /// </summary>
         public void doSearchAll()
         {
-            this.DataSource = new ObservableCollection<TowerMember>(memberBLL.TextFileReadAll());
+            //memberBLL.TextFileReadAll())
+            DataSource = new ObservableCollection<TowerMember>(struCalsParas.ResultFullStess);
 
         }
         /// <summary>
@@ -37,7 +62,7 @@ namespace TowerLoadCals.ModulesViewModels.StruCals
         /// </summary>
         public void doSearchError()
         {
-            this.DataSource = new ObservableCollection<TowerMember>(memberBLL.TextFileReadAll().Where(item => item.EFFIC > 100));
+            DataSource = new ObservableCollection<TowerMember>(struCalsParas.ResultFullStess.Where(item => item.EFFIC > 100));
         }
 
         /// <summary>

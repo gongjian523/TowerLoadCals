@@ -63,13 +63,12 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     notExists = true;
                     foreach (XmlNode xmlNode in rootNode.ChildNodes)
                     {
-                        //< 附加荷载参数 序号 = "8" 电压等级 = "1100" 铁塔安装重要性系数 = "1" 铁塔其他重要性系数 = "1.1" 悬垂塔地线附加荷载 = "4" 悬垂塔导线附加荷载 = "8" 耐张塔地线附加荷载 = "4" 耐张塔导线附加荷载 = "12" 耐张塔跳线附加荷载 = "6" />
                         if (xmlNode.Attributes.GetNamedItem("序号").InnerText == item.Index.ToString())
                         {
+                            notExists = false;
                             DialogResult dr = MessageBox.Show(string.Format("已经存在电压等级(kv)为【{0}】相同的信息，是否替换？", item.Voltage), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
-                                notExists = false;
                                 xmlNode.Attributes.GetNamedItem("序号").InnerText = item.Index.ToString();
                                 xmlNode.Attributes.GetNamedItem("电压等级").InnerText = item.Voltage.ToString();
                                 xmlNode.Attributes.GetNamedItem("铁塔安装重要性系数").InnerText = item.InstallImportanceCoef.ToString();
@@ -79,9 +78,8 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                                 xmlNode.Attributes.GetNamedItem("耐张塔地线附加荷载").InnerText = item.TensionTowerEarthWireExtraLoad.ToString();
                                 xmlNode.Attributes.GetNamedItem("耐张塔导线附加荷载").InnerText = item.TensionTowerWireExtraLoad.ToString();
                                 xmlNode.Attributes.GetNamedItem("耐张塔跳线附加荷载").InnerText = item.TensionTowerJumperWireExtraLoad.ToString();
-                                break;
                             }
-
+                            break;
                         }
                     }
                     if (notExists)
@@ -101,7 +99,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 }
                 doc.Save(path);
 
-                MessageBox.Show("下载成功!");
+                MessageBox.Show("批量下载成功!");
             }
             catch (Exception ex)
             {

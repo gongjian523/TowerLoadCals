@@ -22,18 +22,26 @@
         
         <dxg:GridControl  Grid.Row="1" Grid.ColumnSpan="3"   Margin="8,0"
                 EnableSmartColumnsGeneration="True"    AutoGenerateColumns="None"
-                ItemsSource="{Binding DataSource}">
+                ItemsSource="{Binding DataSource}" 
+                ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                         >
             <dxg:GridControl.View>
-                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
-
+                <dxg:TableView NavigationStyle="Row"   UseLegacyFilterPanel="False" AllowConditionalFormattingMenu="True" AllowEditing="False" >
+                    <dxg:TableView.FormatConditions>
+                        <dxg:FormatCondition FieldName="EFFIC" ValueRule="Greater" Value1="100" PredefinedFormatName="LightRedFillWithDarkRedText"  ApplyToRow="True"/>
+                    </dxg:TableView.FormatConditions>
+                </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Member"  Header="杆件编号" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="Section"  Header="截面" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
-            <dxg:GridColumn FieldName="Material"  Header="材质" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="WSTR"  Header="最大应力" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="EFFIC"  Header="效率(%)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="Bolt"  Header="螺栓" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="BoltNum"  Header="螺栓个数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="Member"  Header="杆件编号" HorizontalHeaderContentAlignment="Center" />
+                <dxg:GridColumn FieldName="Section"  Header="截面" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+                <dxg:GridColumn FieldName="Material"  Header="材质" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                <dxg:GridColumn FieldName="WSTR"  Header="最大应力" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                <dxg:GridColumn FieldName="EFFIC"  Header="应力比(%)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                <dxg:GridColumn FieldName="Bolt"  Header="螺栓" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+                <dxg:GridColumn FieldName="BoltNum"  Header="螺栓个数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            </dxg:GridControl.Columns>
         </dxg:GridControl>
     </Grid>
 </UserControl>

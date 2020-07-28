@@ -180,6 +180,7 @@ namespace TowerLoadCals.BLL
             }
         }
 
+        //gongjian 200728 修改a31的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 吊装Z2
         /// 工况代码："L", "La", "Lb", "Lc", "Ld", "Le", "Lf", "Lg", "Lh"
@@ -192,7 +193,7 @@ namespace TowerLoadCals.BLL
         {
             //a2 a3 为吊装系数和附加荷载，导地线不同
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a1 * Paras.DynamicCoef * a2 + a31*a32);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a1 + " x " + Paras.DynamicCoef + " x " + a2 + " + " + a31 + " x " + a32  + ") = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a1 + " x " + Paras.DynamicCoef + " x " + a2 + " + " + a31.ToString("0.##") + " x " + a32  + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -226,6 +227,7 @@ namespace TowerLoadCals.BLL
             return res;
         }
 
+        //gongjian 200728 修改a21的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 针对锚线工况Z 已锚
         /// 工况代码"M", "Ma", "Mb", "Mc", "Md", "Me", "Mf", "Mg", "Mh"
@@ -238,7 +240,7 @@ namespace TowerLoadCals.BLL
         public float ZXMZ2(float a1, float a21, float a22, float a3, float a4, out string str)
         {
             float res =  Paras.LoadRatio * Paras.RGBad * Paras.AnchorGravityCoef * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * (float)Math.Sin(a4 * PI /180) + a21 * a22);
-            str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + Paras.AnchorGravityCoef + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " +  Paras.VcFInstall + " x (" + a3 + " x sin(" + a4 + ") + " + a21 + " x " + a22  + ") = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + Paras.AnchorGravityCoef + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " +  Paras.VcFInstall + " x (" + a3 + " x sin(" + a4 + ") + " + a21.ToString("0.##") + " x " + a22  + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -271,6 +273,8 @@ namespace TowerLoadCals.BLL
             return res;
         }
 
+
+        //gongjian 200728 修改a31的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 过滑车Z
         /// 工况代码"G", "Ga", "Gb", "Gc", "Gd", "Ge", "Gf", "Gg", "Gh", "GLa", "GLb", "GLc", "GLd", "GLe", "GLf", "GLg", "GLh"
@@ -284,13 +288,13 @@ namespace TowerLoadCals.BLL
             if (a1 >= 0)
             {
                 float res = Paras.LoadRatio * Paras.RGBad * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * ((a2 - a1) + a31 * a32);
-                str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x ((" + a2 + " - " + a1 + " ) +  " + a31 + " x " + a32 + ") = " + res.ToString("0.00");
+                str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x ((" + a2 + " - " + a1 + " ) +  " + a31.ToString("0.##") + " x " + a32 + ") = " + res.ToString("0.00");
                 return res;
             }
             else
             {
                 float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a2 - 0) + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a31 * a32;
-                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a2 + " - 0) + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a31 + " x " + a32 + " = " + res.ToString("0.00");
+                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a2 + " - 0) + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a31.ToString("0.##") + " x " + a32 + " = " + res.ToString("0.00");
                 return res;
             }
                 
@@ -326,7 +330,7 @@ namespace TowerLoadCals.BLL
             return res;
         }
 
-
+        //gongjian 200728  将a2拆分成a21，a22， 修改a21的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 针对施工提线工况 Z
         /// 工况代码"C", "Ca", "Cb", "Cc", "Cd", "Ce", "Cf", "Cg", "Ch", "CLa", "CLb", "CLc", "CLd", "CLe", "CLf", "CLg", "CLh"
@@ -335,10 +339,10 @@ namespace TowerLoadCals.BLL
         /// <param name="a3"></param>
         /// <param name="a4"></param>
         /// <returns></returns>
-        public float ZXCZ(float a2, float a3, float a4, out string str)
+        public float ZXCZ(float a21, float a22, float a3, float a4, out string str)
         {
-            float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a3 * a4 * (float)Math.Sin(90 * PI / 180) + a2);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a3 + " x " + a4 + " x  sin(" + 90 + ") + " + a2 + ") = " + res.ToString("0.00");
+            float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a3 * a4 * (float)Math.Sin(90 * PI / 180) + a21 * a22);
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a3 + " x " + a4 + " x  sin(" + 90 + ") + " + a21.ToString("0.##") + " x " + a22 + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -372,6 +376,7 @@ namespace TowerLoadCals.BLL
             return res;
         }
 
+        //gongjian 200728 修改a21的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 针对锚线工况Z 正锚
         /// 工况代码"M", "Ma", "Mb", "Mc", "Md", "Me", "Mf", "Mg", "Mh"
@@ -384,7 +389,7 @@ namespace TowerLoadCals.BLL
         public float ZXMZ1(float a1, float a21, float a22, float a3, float a4, out string str)
         {
             float res = Paras.LoadRatio * Paras.RGBad * Paras.AnchorGravityCoef * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a3 * (float)Math.Sin(a4 * PI / 180) + a21 * a22);
-            str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + Paras.AnchorGravityCoef + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a3 + " x sin(" + a4  + ") + "+ a21 + " x " + a22 + ") = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + Paras.AnchorGravityCoef + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a3 + " x sin(" + a4  + ") + "+ a21.ToString("0.##") + " x " + a22 + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -421,6 +426,7 @@ namespace TowerLoadCals.BLL
             return res;
         }
 
+        //gongjian 200728 修改a51的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 针对OPGW锚线工况Z
         /// 工况代码"MO", "MOa", "MOb", "MOc", "MOd", "MOe", "MOf", "MOg", "MOh"
@@ -436,13 +442,13 @@ namespace TowerLoadCals.BLL
             if (a1 >= 0)
             {
                 float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * Paras.DynamicCoef * a4 * (float)Math.Sin(Paras.AnchorAngle * PI / 180) + a51 * a52) + Paras.LoadRatio * Paras.RGBad * a1;
-                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " x " + Paras.DynamicCoef + " x " + a4 + " x sin(" + Paras.AnchorAngle  +") + "  + a51 + " x " + a52  + ") + " +  Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " = " + res.ToString("0.00");
+                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " x " + Paras.DynamicCoef + " x " + a4 + " x sin(" + Paras.AnchorAngle  +") + "  + a51.ToString("0.##") + " x " + a52  + ") + " +  Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " = " + res.ToString("0.00");
                 return res;
             }
             else
             {
                 float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a3 * Paras.DynamicCoef * a4 * (float)Math.Sin(Paras.AnchorAngle * PI / 180) + a51 * a52) + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a1;
-                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " x " + Paras.DynamicCoef + " x " + a4 + " x sin(" + Paras.AnchorAngle  + ") + " + a51 + " x " + a52 + ") + "  + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a1 + " = " + res.ToString("0.00");
+                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a3 + " x " + Paras.DynamicCoef + " x " + a4 + " x sin(" + Paras.AnchorAngle  + ") + " + a51.ToString("0.##") + " x " + a52 + ") + "  + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a1 + " = " + res.ToString("0.00");
                 return res;
             }
         }

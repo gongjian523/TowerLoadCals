@@ -69,8 +69,7 @@ namespace TowerLoadCals
             struCalsResultMenu.ParentNode = menuVm;
             subMenus.Add(struCalsResultMenu);
 
-
-            var fullStressRstMenu = new SubMenuBase("TowerMemberModule", this, "  满应力分析结果", (e) => { OnSelectedMenuChanged(e); });
+            var fullStressRstMenu = new SubMenuBase("TowerMemberModule", this, "  满应力分析结果", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             fullStressRstMenu.ParentNode = menuVm;
             subMenus.Add(fullStressRstMenu);
 

@@ -853,11 +853,12 @@ namespace TowerLoadCals.BLL
                 //左地线
                 if( y1 > 0)
                 {
+					//gongjian 200728  修复错误，将负载全部复制给XX
                     //j从1开始计数，但是XX YY ZZ 从0开始
                     deta1 = LineParas.DrawingCoef;
                     XX[i,j-1] = ((FormulaLineTower)formula).MO1X(angle, x1, out string strX);
-                    XX[i,j-1] = ((FormulaLineTower)formula).MO1Y(angle, x1, y1, deta1, y2, out string strY);
-                    XX[i,j-1] = ((FormulaLineTower)formula).MO1Z(z1, y1, deta1, fh , fhn, out string strZ);
+                    YY[i,j-1] = ((FormulaLineTower)formula).MO1Y(angle, x1, y1, deta1, y2, out string strY);
+                    ZZ[i,j-1] = ((FormulaLineTower)formula).MO1Z(z1, y1, deta1, fh , fhn, out string strZ);
 
                     GenerateLineLoadString(j, strX, strY, strZ);
                 }
@@ -1155,7 +1156,7 @@ namespace TowerLoadCals.BLL
                 //j从1开始计数，但是XX YY ZZ 从0开始
                 XX[i,j-1] = ((FormulaLineTower)formula).ZXCX(angle, x1, out string strX);
                 YY[i,j-1] = ((FormulaLineTower)formula).ZXCY(angle, x1, LineParas.HoistingCoef, z1, out string strY);
-                ZZ[i,j-1] = ((FormulaLineTower)formula).ZXCZ(fh * fhn, LineParas.HoistingCoef, z1, out string strZ);
+                ZZ[i,j-1] = ((FormulaLineTower)formula).ZXCZ(fh, fhn, LineParas.HoistingCoef, z1, out string strZ);
 
                 GenerateLineLoadString(j, strX, strY, strZ);
                 
