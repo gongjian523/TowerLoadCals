@@ -46,7 +46,11 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
-                this.DataSource = new ObservableCollection<RigidJumperInsulator>(rigidJumperInsulatorService.GetList().Where(item => item.Name.Contains(searchInfo)|| item.Type.Contains(searchInfo)).ToList());
+            {
+                searchInfo = searchInfo.Trim();
+
+                this.DataSource = new ObservableCollection<RigidJumperInsulator>(rigidJumperInsulatorService.GetList().Where(item => item.Name.Contains(searchInfo) || item.Type.Contains(searchInfo)).ToList());
+            }
             else
                 this.DataSource = new ObservableCollection<RigidJumperInsulator>(rigidJumperInsulatorService.GetList());
 
@@ -77,10 +81,10 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                     {
                         if (xmlNode.Attributes.GetNamedItem("Name").InnerText == item.Name)
                         {
+                            notExists = false;
                             DialogResult dr = MessageBox.Show(string.Format("已经存在名称为【{0}】相同的信息，是否替换？", item.Name), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
-                                notExists = false;
                                 xmlNode.Attributes.GetNamedItem("Name").InnerText = item.Name;
                                 xmlNode.Attributes.GetNamedItem("StrType").InnerText = item.Type;
                                 xmlNode.Attributes.GetNamedItem("Weight").InnerText = item.Weight.ToString();
@@ -90,9 +94,8 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                                 xmlNode.Attributes.GetNamedItem("GoldPieceNum").InnerText = item.GoldPieceNum.ToString();
                                 xmlNode.Attributes.GetNamedItem("LNum").InnerText = item.LNum.ToString();
                                 xmlNode.Attributes.GetNamedItem("DampLength").InnerText = item.DampLength.ToString();
-                                break;
                             }
-
+                            break;
                         }
                     }
                     if (notExists)
@@ -112,7 +115,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 }
                 doc.Save(path);
 
-                MessageBox.Show("下载成功!");
+                MessageBox.Show("批量下载成功!");
             }
             catch (Exception ex)
             {

@@ -49,33 +49,29 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         public void doSearch()
         {
             if (!string.IsNullOrEmpty(searchInfo))
+            {
+                searchInfo = searchInfo.Trim();
+
                 this.DataSource = new ObservableCollection<WorkConditionCollections>(weatherConditionService.GetList().Where(item => item.CategoryName.Contains(searchInfo)).ToList());
+            }
             else
                 this.DataSource = new ObservableCollection<WorkConditionCollections>(weatherConditionService.GetList());
         }
-
         /// <summary>
         /// 选中按钮
         /// </summary>
-        public void doCheckData()
+        public void doCheckData( int id)
         {
-            IList<WorkConditionCollections> list = DataSource.Where(item => item.IsSelected == true).ToList();
-            var groups = list.GroupBy(item => item.CategoryName);
+            int CategoryId = DataSource.Where(item => item.Id == id).FirstOrDefault().CategoryId;
 
-            IList<WorkConditionCollections> groupList = null;
-
-            IList<WorkConditionCollections> resultList = new List<WorkConditionCollections>();
-            foreach (var group in groups)
+            foreach (var item in DataSource)
             {
-                groupList = weatherConditionService.GetList().Where(item => item.CategoryName == group.Key).ToList();
-
-                foreach (var item in groupList)
+               if( item.CategoryId == CategoryId)
                 {
                     item.IsSelected = true;
-                    resultList.Add(item);
                 }
             }
-            this.dataSource = new ObservableCollection<WorkConditionCollections>(resultList);
+            this.dataSource = DataSource;
         }
 
 
@@ -127,7 +123,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 }
                 doc.Save(path);
 
-                MessageBox.Show("下载成功!");
+                MessageBox.Show("批量下载成功!");
             }
             catch (Exception ex)
             {

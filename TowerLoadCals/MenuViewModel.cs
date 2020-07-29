@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Diagnostics;
 using TowerLoadCals.DAL.Structure;
+using TowerLoadCals.BLL.Structure;
 
 namespace TowerLoadCals
 {
@@ -275,22 +276,29 @@ namespace TowerLoadCals
             if (paras == null)
                 return;
 
-            foreach (var path in paras.FullStressTemplatePaths)
-            {
-                if (!File.Exists(path))
-                    continue;
+            string path = paras.FullStressTemplatePaths[0];
+            //foreach (var path in paras.FullStressTemplatePaths)
+            //{
+            if (!File.Exists(path))
+                return;
 
-                SmartTowerInputGenerator.InputGenerator(loadFileDialog.FileName, path);
+            SmartTowerInputGenerator.InputGenerator(loadFileDialog.FileName, path);
 
-                string stParas = path + " " + mode;
-                //string stParas1 = "C:\\Users\\zhifei\\Desktop\\测试\\StruCals\\直线塔7\\满应力分析\\Z31.dat 0";      //0: 正常计算 1:基础作用力BetaZ=1 2：基础作用力betaZ=-1/2+1 不容许有空格  
-                ProcessStartInfo startInfo = new ProcessStartInfo(stConsolePath, stParas);
-                //startInfo.UseShellExecute = false;
-                //startInfo.CreateNoWindow = true;
-                Process process = new Process();
-                process.StartInfo = startInfo;
-                process.Start();
-            }
+            string stParas = path + " " + mode;
+            //string stParas1 = "C:\\Users\\zhifei\\Desktop\\测试\\StruCals\\直线塔7\\满应力分析\\Z31.dat 0";      //0: 正常计算 1:基础作用力BetaZ=1 2：基础作用力betaZ=-1/2+1 不容许有空格  
+            ProcessStartInfo startInfo = new ProcessStartInfo(stConsolePath, stParas);
+            //startInfo.UseShellExecute = false;
+            //startInfo.CreateNoWindow = true;
+            Process process = new Process();
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+            //}
+
+            TowerMemberBLL memberBLL = new TowerMemberBLL();
+            string outPath = path.Substring(0, path.LastIndexOf(".")) + ".out";
+            paras.ResultFullStess = memberBLL.TextFileReadAll(outPath).ToList();
+
         }
 
         /// <summary>

@@ -6,7 +6,7 @@
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     x:Class="TowerLoadCals.Modules.Internet.WeatherConditionModule_Internet"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WeatherCondition_InternetViewModel}}"
->
+Background="AliceBlue" >
     <UserControl.Resources>
         <DataTemplate x:Key="colGroupNameGroupValueTemplate">
             <Grid Margin="5,0,0,0">

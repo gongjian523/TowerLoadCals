@@ -247,6 +247,7 @@ namespace TowerLoadCals.BLL
             }
         }
 
+        //gongjian 200728 修改a31的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 正吊
         /// </summary>
@@ -257,7 +258,7 @@ namespace TowerLoadCals.BLL
         public float ZZLZ2(float a1 , float a2 , float a31, float a32, out string str)
         {
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (a1 * Paras.DynamicCoef * a2 + a31*a32);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a1 + " x " + Paras.DynamicCoef + " x " + a2 + " + " + a31 + " x " + a32 + ") = " + res.ToString("0.00");
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + a1 + " x " + Paras.DynamicCoef + " x " + a2 + " + " + a31.ToString("0.##") + " x " + a32 + ") = " + res.ToString("0.00");
             return res;
         }
 
@@ -295,6 +296,7 @@ namespace TowerLoadCals.BLL
             return res;
         }
 
+        //gongjian 200728 修改a31的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 
         /// </summary>
@@ -307,18 +309,19 @@ namespace TowerLoadCals.BLL
             if (a1 >= 0)
             {
                 float res = Paras.LoadRatio * Paras.RGBad * a1 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * ((a2 - a1) + a31 * a32);
-                str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x ((" + a2 + " - " + a1 + ") + " + a31 + " x " + a32 + ") = " + res.ToString("0.00");
+                str = Paras.LoadRatio + " x " + Paras.RGBad + " x " + a1 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x ((" + a2 + " - " + a1 + ") + " + a31.ToString("0.##") + " x " + a32 + ") = " + res.ToString("0.00");
                 return res;
             }
             else
             {
                 float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a2 + Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * a31 * a32;
-                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a31 + " x " + a32 + " = " + res.ToString("0.00"); ;
+                str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a2 + " + " + Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x " + a31.ToString("0.##") + " x " + a32 + " = " + res.ToString("0.00"); ;
                 return res;
             }
 
         }
 
+        //gongjian 200728 修改a31的打印精度，这个参数可能是多位小数
         /// <summary>
         /// 
         /// </summary>
@@ -329,7 +332,7 @@ namespace TowerLoadCals.BLL
         public float ZZCZ(float a1 , float a2 , float a31, float a32,  out string str)
         {
             float res = Paras.LoadRatio * Paras.RQ * Paras.VcFInstall * (Paras.DynamicCoef * a1 * a2 + a31 * a32);
-            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a1 + " x " + a2 + " x " + a31 + " x " +  a32 + ") = " + res.ToString("0.00"); 
+            str = Paras.LoadRatio + " x " + Paras.RQ + " x " + Paras.VcFInstall + " x (" + Paras.DynamicCoef + " x " + a1 + " x " + a2 + " x " + a31.ToString("0.##") + " x " +  a32 + ") = " + res.ToString("0.00"); 
             return res;
         }
     }

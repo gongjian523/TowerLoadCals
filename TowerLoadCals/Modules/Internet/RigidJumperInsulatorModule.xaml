@@ -6,7 +6,7 @@
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     x:Class="TowerLoadCals.Modules.Internet.RigidJumperInsulatorModule"
-    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:RigidJumperInsulatorViewModel}}">
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:RigidJumperInsulatorViewModel}}" Background="AliceBlue">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>

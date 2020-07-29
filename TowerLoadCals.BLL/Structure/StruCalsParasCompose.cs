@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Structure;
 
 namespace TowerLoadCals.BLL
 {
@@ -226,6 +227,10 @@ namespace TowerLoadCals.BLL
         //挂点的荷载计算结果，用于StruCalsResultModule
         [XmlIgnore]
         public List<StruCalsPointLoad>  ResultPointLoad { get; set; }
+
+        //满应力分析结果，用于TowerMemberModule
+        [XmlIgnore]
+        public List<TowerMember> ResultFullStess { get; set; }
 
         protected List<string> GetArrayList()
         {

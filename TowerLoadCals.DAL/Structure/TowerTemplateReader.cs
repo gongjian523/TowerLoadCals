@@ -140,6 +140,69 @@ namespace TowerLoadCals.DAL
             return template;
         }
 
+        public TowerTemplate ReadContentStream(string content,string fileName)
+        {
+            int iLineNum = 0;
+
+            int iComboNum = 0;
+
+            template.Name = fileName;
+           List<string> contents = content.Split(new string[] { "\r\n" }, StringSplitOptions.None).Where(item=>!string.IsNullOrEmpty(item.Trim())).ToList();
+
+            foreach( string sLine in contents)
+            { 
+                iLineNum++;
+
+                if (iLineNum == InstructionLine)
+                {
+                    string[] aWords = Regex.Split(sLine.Trim(), "\\s+");
+                    //WireNum = Convert.ToInt32(aWords[0]);
+                    WorkConditionNum = Convert.ToInt32(aWords[2]);
+                    WorkConditonComboNum = Convert.ToInt32(aWords[3]);
+                }
+                else if (iLineNum == WireLine)
+                {
+                    string[] aWords = Regex.Split(sLine.Trim(), "\\s+");
+                    foreach (string sWord in aWords)
+                    {
+                        template.Wires.Add(sWord);
+                    }
+                    WireNum = template.Wires.Count;
+                }
+                else if (iLineNum == WorkConditongsLine)
+                {
+                    string[] aWords = Regex.Split(sLine.Trim(), "\\s+");
+
+                    for (int i = 0; i < aWords.Count(); i++)
+                    {
+                        int iDigitNum = 0;
+                        int iTotal = i + 1;
+                        string str = aWords[i];
+
+                        while (iTotal > 0)
+                        {
+                            iTotal = iTotal / 10;
+                            iDigitNum++;
+                        }
+
+                        template.WorkConditongs.Add(Convert.ToInt32(aWords[i].ToString().Substring(0, iDigitNum)), aWords[i].ToString().Substring(iDigitNum + 1));
+                    }
+                }
+                else if (iLineNum >= WorkConditongsComboStartLine)
+                {
+                    if (IsWorkConditionComboLine(iComboNum))
+                    //if(iComboNum < WorkConditonComboNum)
+                    {
+                        DecodeWorkCondition(sLine, out WorkConditionCombo combo);
+                        template.WorkConditionCombos.Add(combo);
+                        iComboNum++;
+                    }
+                }
+            }
+
+            return template;
+        }
+
 
         protected virtual bool IsWorkConditionComboLine(int comboNum)
         {
