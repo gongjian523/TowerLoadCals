@@ -9,8 +9,11 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using TowerLoadCals.Mode.Login;
+using System.Web;
+using System.Web.Script.Serialization;
+using TowerLoadCals.Mode.Internet;
 using TowerLoadCals.Service.Helpers;
+using TowerLoadCals.Service.Internet;
 
 namespace TowerLoadCals.Service.Login
 {
@@ -25,35 +28,49 @@ namespace TowerLoadCals.Service.Login
         /// <returns></returns>
         public bool doLogin(UserInfo user)
         {
-            //string Pwd = GenerateMD5(GenerateMD5(user.Password) + "A$%@#[]Mmm123098#@$");
-            IList<UserInfo> list = UserInfoDb.AsQueryable().Where(item => item.UserName == "user" + user.UserName).ToList();
+            string SecretKey = "A$%@#[]Mmm123098#@$";
+            string key = MD5Help.GenerateMD5(user.Password);
+            string Pwd = MD5Help.GenerateMD5(key + SecretKey);
 
-            //if(list!=null)
-            //{
+            //SecretKey = A$%@#[]Mmm123098#@$
+            //MD5(password) = db2009160ef4754806e921cf843a1b93
+            //MD5(MD5(password) + key) = e0d76b1869c74f4eea54abcb8475da63
+            //YOUR KEY = aa{ "status":"error","msg":"\u6388\u6743\u5931\u8d25\uff0c\u8d26\u53f7\u6216\u5bc6\u7801\u9519\u8bef!"}
 
-            //}
+            UserInfoService userInfoDal = new UserInfoService();
+            IList<UserInfo> list = userInfoDal.GetList().Where(item => item.UserName == "user" + user.UserName).ToList();
 
-            return false;
-        }
-        /// <summary>
-        /// MD5字符串加密
-        /// </summary>
-        /// <param name="txt"></param>
-        /// <returns>加密后字符串</returns>
-        public static string GenerateMD5(string pwd)
-        {
-            using (MD5 mi = MD5.Create())
+            if (list != null && list.Count != 0)
             {
-                byte[] buffer = Encoding.Default.GetBytes(pwd);
-                //开始加密
-                byte[] newBuffer = mi.ComputeHash(buffer);
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < newBuffer.Length; i++)
+                string url = string.Format("http://137.168.101.235:8885/user-externallogin-{0}-{1}.html", user.UserName, Pwd);//接口账号密码
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);//创建request
+                request.Method = "GET";//提交数据方式
+                request.ContentType = "application/json";
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();//发送目标请求
+                string jsonString;//json字符串
+
+                using (Stream stream = response.GetResponseStream())
                 {
-                    sb.Append(newBuffer[i].ToString("x2"));
+                    StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+
+                    jsonString = HttpUtility.UrlDecode(reader.ReadToEnd());//如果有编码问题就用这个方法
+                    //jsonString = reader.ReadToEnd();//得到json字符串
                 }
-                return sb.ToString();
+
+                if (jsonString.Contains("success"))
+                {
+                    user.NickName = list[0].NickName;
+
+
+
+                }
+                return jsonString.Contains("success") ? true : false;
             }
+            return false;
+
         }
+
     }
 }

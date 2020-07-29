@@ -27,10 +27,10 @@ namespace TowerLoadCals.DAL
                 ProInfo info = new ProInfo()
                 {
                     Name = node.Attributes["Name"].Value.ToString(),
-                    Volt = Convert.ToInt16(node.Attributes["Volt"].Value.ToString()),
-                    ID = Convert.ToInt16(node.Attributes["ID"].Value.ToString()),
+                    Volt = Convert.ToInt32(node.Attributes["Volt"].Value.ToString()),
+                    ID = Convert.ToInt32(node.Attributes["ID"].Value.ToString()),
                     Stage = node.Attributes["Stage"].Value.ToString(),
-                    FilesID = Convert.ToInt16(node.Attributes["FilesID"].Value.ToString())
+                    FilesID = Convert.ToInt32(node.Attributes["FilesID"].Value.ToString())
                 };
                 list.Add(info);
             }

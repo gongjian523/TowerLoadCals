@@ -21,7 +21,7 @@ namespace TowerLoadCals.Modules.Internet
     /// </summary>
     public partial class WeatherConditionModule_Internet : UserControl
     {
-        
+
         public WeatherConditionModule_Internet()
         {
             InitializeComponent();

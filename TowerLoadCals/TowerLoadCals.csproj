@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Sparkline.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Dashboard.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -106,37 +109,78 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Modules\SmartTowerModeEditWindow.xaml.cs">
+      <DependentUpon>SmartTowerModeEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Modules\SmartTowerPathEditWindow.xaml.cs">
+      <DependentUpon>SmartTowerPathEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ViewModels\SmartTowerModeEditViewModel.cs" />
+    <Compile Include="Common\ViewModels\SmartTowerPathEditViewModel.cs" />
+    <Compile Include="Controls\Converter\SmartTowerModeStringConvert.cs" />
     <Compile Include="Controls\Converter\StringVisibityConverter.cs" />
     <Compile Include="Controls\Converter\BooleanVisibityConverter .cs" />
     <Compile Include="Controls\Converter\InverseBooleanConverter.cs" />
     <Compile Include="Controls\Converter\InverseBooleanVisibityConverter.cs" />
+    <Compile Include="MainWindowViewModel-RibbonCommand.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
     <Compile Include="MainWindowViewModel-BaseData.cs" />
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\AccordionItem.cs" />
     <Compile Include="ModulesViewModels\Band.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruTemplateEditViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruTemplateLibBaseViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruTemplateLibProjectViewModel.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruTemplateLibGeneralViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruCalsLibBaseDataViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruCalsLibExtralLoadViewModel.cs" />
-    <Compile Include="ModulesViewModels\BaseData\StruCalsLibIceCoverModuleV.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruCalsLibIceCoverViewModel.cs" />
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\FitDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\SpacerViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\CounterWeightViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\GeneralInsulatorViewModule.cs" />
+    <Compile Include="ModulesViewModels\Internet\RigidJumperInsulatorViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\StruCalsLibBaseDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\StruCalsLibExtralLoadViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\StruCalsLibIceCoverViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\StruTemplateLibGeneralViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\WeatherCondition_InternetViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\EarthWire_InternetViewModel.cs" />
+    <Compile Include="ModulesViewModels\Internet\Wire_InternetViewModel.cs" />
     <Compile Include="ModulesViewModels\Login\LoginHelpers.cs" />
     <Compile Include="ModulesViewModels\StruCals\BaseAndLineParasViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\HangingPointViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\NewStruCalsTowerViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\StruCalsBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\StruCalsResultViewModel.cs" />
+    <Compile Include="ModulesViewModels\StruCals\TowerMemberViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
-    <Compile Include="Modules\Internet\FitDataModule_Internet.xaml.cs">
-      <DependentUpon>FitDataModule_Internet.xaml</DependentUpon>
+    <Compile Include="Modules\BaseData\StruTemplateEditWindow.xaml.cs">
+      <DependentUpon>StruTemplateEditWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Internet\StrDataModule_Internet.xaml.cs">
-      <DependentUpon>StrDataModule_Internet.xaml</DependentUpon>
+    <Compile Include="Modules\BaseData\StruTemplateLibProjectModule.xaml.cs">
+      <DependentUpon>StruTemplateLibProjectModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BaseData\StruTemplateLibGeneralModule.xaml.cs">
+      <DependentUpon>StruTemplateLibGeneralModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\SpacerModule.xaml.cs">
+      <DependentUpon>SpacerModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\CounterWeightModule.xaml.cs">
+      <DependentUpon>CounterWeightModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\GeneralInsulatorModule.xaml.cs">
+      <DependentUpon>GeneralInsulatorModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\RigidJumperInsulatorModule.xaml.cs">
+      <DependentUpon>RigidJumperInsulatorModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\BaseData\StruCalsLibBaseDataModule.xaml.cs">
       <DependentUpon>StruCalsLibBaseDataModule.xaml</DependentUpon>
@@ -150,8 +194,23 @@
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Internet\StruCalsLibBaseDataModule_Internet.xaml.cs">
+      <DependentUpon>StruCalsLibBaseDataModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\StruCalsLibExtralLoadModule_Internet.xaml.cs">
+      <DependentUpon>StruCalsLibExtralLoadModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\StruCalsLibIceCoverModule_Internet.xaml.cs">
+      <DependentUpon>StruCalsLibIceCoverModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\StruTemplateLibGeneralModule_Internet.xaml.cs">
+      <DependentUpon>StruTemplateLibGeneralModule_Internet.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Internet\WeatherConditionModule_Internet.xaml.cs">
       <DependentUpon>WeatherConditionModule_Internet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Internet\EarthWireModule_Internet.xaml.cs">
+      <DependentUpon>EarthWireModule_Internet.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Internet\WireModule_Internet.xaml.cs">
       <DependentUpon>WireModule_Internet.xaml</DependentUpon>
@@ -165,6 +224,14 @@
     <Compile Include="Modules\StruCals\HangingPointModule.xaml.cs">
       <DependentUpon>HangingPointModule.xaml</DependentUpon>
     </Compile>
+    <Page Include="Common\Modules\SmartTowerModeEditWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\Modules\SmartTowerPathEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\DataTemplates\GridControlDataTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,11 +244,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\Internet\FitDataModule_Internet.xaml">
+    <Page Include="Modules\BaseData\StruTemplateEditWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\Internet\StrDataModule_Internet.xaml">
+    <Page Include="Modules\BaseData\StruTemplateLibProjectModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\BaseData\StruTemplateLibGeneralModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\SpacerModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\CounterWeightModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\GeneralInsulatorModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\RigidJumperInsulatorModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -201,7 +288,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modules\Internet\StruCalsLibBaseDataModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\StruCalsLibExtralLoadModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\StruCalsLibIceCoverModule_Internet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Modules\Internet\StruTemplateLibGeneralModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Modules\Internet\WeatherConditionModule_Internet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Internet\EarthWireModule_Internet.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -230,11 +337,14 @@
     <Compile Include="Modules\BaseData\StrDataModule.xaml.cs">
       <DependentUpon>StrDataModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\BaseData\FitDataModule.xaml.cs">
+    <Compile Include="FitDataModule.xaml.cs">
       <DependentUpon>FitDataModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\StruCals\BaseAndLineParasModule.xaml.cs">
       <DependentUpon>BaseAndLineParasModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\StruCals\TowerMemberModule.xaml.cs">
+      <DependentUpon>TowerMemberModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\StruCals\WorkConditionComboModule.xaml.cs">
       <DependentUpon>WorkConditionComboModule.xaml</DependentUpon>
@@ -271,7 +381,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\BaseData\FitDataModule.xaml">
+    <Page Include="FitDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -280,6 +390,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\StruCals\HangingPointModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\StruCals\TowerMemberModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -566,14 +680,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\HPDic-LineTower.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="UserData\HPDic-LineTower.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\HPDic-TensionTower.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="UserData\HPDic-TensionTower.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Menu_para.png" />
@@ -584,11 +694,33 @@
     <Resource Include="Images\Menu_wire.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\StruCalsParasLib.xml">
+    <EmbeddedResource Include="UserData\StruCalsParasLib.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Resource>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\LoginBg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\LoginBg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UserData\ConfigSettings.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SmartTower_Console.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -21,17 +21,21 @@ namespace TowerLoadCals.DAL
 
         protected int WorkConditonComboNum { get; set; }
 
-        protected int InstructionLine {
+        protected virtual int InstructionLine {
             get { return 2; }}
 
-        protected int WireLine { 
+        protected virtual int WireLine { 
             get { return 4; }
         }
 
-        protected int WorkConditongsLine { get; set; }
+        protected virtual int WorkConditongsLine { get; set; }
 
-        protected int WorkConditongsComboStartLine { get; set; }
+        protected virtual int WorkConditongsComboStartLine { get; set; }
 
+        public TowerTemplateReader()
+        {
+
+        }
 
         public TowerTemplateReader(TowerType type)
         {
@@ -88,9 +92,9 @@ namespace TowerLoadCals.DAL
                 if(iLineNum == InstructionLine)
                 {
                     string[] aWords = Regex.Split(sLine.Trim(), "\\s+");
-                    WireNum = Convert.ToInt16(aWords[0]);
-                    WorkConditionNum = Convert.ToInt16(aWords[2]);
-                    WorkConditonComboNum = Convert.ToInt16(aWords[3]);
+                    //WireNum = Convert.ToInt32(aWords[0]);
+                    WorkConditionNum = Convert.ToInt32(aWords[2]);
+                    WorkConditonComboNum = Convert.ToInt32(aWords[3]);
                 }
                 else if (iLineNum == WireLine)
                 {
@@ -99,6 +103,7 @@ namespace TowerLoadCals.DAL
                     {
                         template.Wires.Add(sWord);
                     }
+                    WireNum = template.Wires.Count;
                 }
                 else if(iLineNum  == WorkConditongsLine)
                 {
@@ -116,12 +121,13 @@ namespace TowerLoadCals.DAL
                             iDigitNum++;
                         }
 
-                        template.WorkConditongs.Add(Convert.ToInt16(aWords[i].ToString().Substring(0, iDigitNum)), aWords[i].ToString().Substring(iDigitNum+1));
+                        template.WorkConditongs.Add(Convert.ToInt32(aWords[i].ToString().Substring(0, iDigitNum)), aWords[i].ToString().Substring(iDigitNum+1));
                     }
                 }
                 else if(iLineNum >= WorkConditongsComboStartLine)
                 {
-                    if(iComboNum < WorkConditonComboNum)
+                    if(IsWorkConditionComboLine(iComboNum))
+                    //if(iComboNum < WorkConditonComboNum)
                     {
                         DecodeWorkCondition(sLine, out WorkConditionCombo combo);
                         template.WorkConditionCombos.Add(combo);
@@ -135,6 +141,12 @@ namespace TowerLoadCals.DAL
         }
 
 
+        protected virtual bool IsWorkConditionComboLine(int comboNum)
+        {
+            //旧模板中不一定以工况组合结尾，故需要增加一个判断
+            return comboNum < WorkConditonComboNum ? true : false;
+        }
+
         protected void DecodeWorkCondition(string line, out WorkConditionCombo combo)
         {
             combo = new WorkConditionCombo()
@@ -145,19 +157,28 @@ namespace TowerLoadCals.DAL
             string[] aWords = Regex.Split(line.Trim(), "\\s+");
 
             int iIndex = 3;
-            combo.Index = Convert.ToInt16(aWords[0]);
+            combo.Index = Convert.ToInt32(aWords[0]);
             combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
             combo.WorkConditionCode = aWords[2];
 
             if (Type == TowerType.LineTower)
             {
-                combo.WindDirectionCode = Convert.ToInt16(aWords[iIndex]);
+                
+                combo.WindDirectionCode = Convert.ToInt32(aWords[iIndex]);
+
+                //在直线塔中用不着以下两个字段，主要是为了在编译模板中，
+                //塔型转换后保存时占位
+                combo.TensionAngleCode = "None";
+                combo.VertialLoadCode = "None";
             }
             else if (Type == TowerType.LineCornerTower)
             {
                 combo.TensionAngleCode = aWords[iIndex];
                 iIndex++;
-                combo.WindDirectionCode = Convert.ToInt16(aWords[iIndex]);
+                combo.WindDirectionCode = Convert.ToInt32(aWords[iIndex]);
+
+                //赋值理由同上
+                combo.VertialLoadCode = "None";
             }
             else
             {
@@ -165,21 +186,21 @@ namespace TowerLoadCals.DAL
                 iIndex++;
                 combo.VertialLoadCode = aWords[iIndex];
                 iIndex++;
-                combo.WindDirectionCode = Convert.ToInt16(aWords[iIndex]);
+                combo.WindDirectionCode = Convert.ToInt32(aWords[iIndex]);
             }
 
             for (int i = 1; i <= WireNum; i++)
             {
-                combo.WireIndexCodes.Add(Convert.ToInt16(aWords[iIndex + i]));
+                combo.WireIndexCodes.Add(Convert.ToInt32(aWords[iIndex + i]));
             }
 
             iIndex++;
-            combo.WorkCode = Convert.ToInt16(aWords[iIndex + WireNum]);
+            combo.WorkCode = Convert.ToInt32(aWords[iIndex + WireNum]);
             iIndex++;
             combo.WorkComment = aWords[iIndex + WireNum].ToString();
         }
 
-        static public void ConvertSpeToWorkCondition(TowerTemplate template, List<WorkConditionComboSpec> workConditionSpecs)
+        public static void ConvertSpecToWorkCondition(TowerTemplate template, List<WorkConditionComboSpec> workConditionSpecs)
         {
             List<WorkConditionCombo> workConditions = new List<WorkConditionCombo>();
 
@@ -197,7 +218,8 @@ namespace TowerLoadCals.DAL
                 wcc.WindDirectionCode = item.WindDirectionCode;
                 wcc.WorkCode = item.WorkCode;
 
-                int wireIndexCodesNum = template.WorkConditionCombos[0].WireIndexCodes.Count;
+                //int wireIndexCodesNum = template.WorkConditionCombos[0].WireIndexCodes.Count;
+                int wireIndexCodesNum = template.Wires.Count;
                 wcc.WireIndexCodes = new List<int>();
 
                 for (int i = 1; i <= wireIndexCodesNum; i++)
@@ -205,7 +227,7 @@ namespace TowerLoadCals.DAL
                     Type itemType = item.GetType();
                     PropertyInfo itemPro = itemType.GetProperty("Wire" + i.ToString(), BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
                     if (itemPro != null)
-                        wcc.WireIndexCodes.Add(Convert.ToInt16(itemPro.GetValue(item, null)));
+                        wcc.WireIndexCodes.Add(Convert.ToInt32(itemPro.GetValue(item, null)));
                 }
 
                 wcc.WorkComment = item.WorkComment;
@@ -214,6 +236,46 @@ namespace TowerLoadCals.DAL
             }
 
             template.WorkConditionCombos = workConditions;
+        }
+
+        protected void EncodeWorkCondition(out string comboStr, WorkConditionCombo combo)
+        {
+            comboStr = "";
+
+            //添加序号
+            comboStr += combo.Index.ToString().PadRight(8);
+
+            //添加是否计算
+            comboStr += combo.IsCalculate.ToString().PadRight(10);
+
+            //添加工况代号
+            comboStr +=  combo.WorkConditionCode.PadRight(8);
+
+            if (Type == TowerType.LineTower)
+            {
+                comboStr += combo.WindDirectionCode.ToString().PadRight(8);
+            }
+            else if (Type == TowerType.LineCornerTower)
+            {
+                comboStr += combo.TensionAngleCode.PadRight(8);
+                comboStr += combo.WindDirectionCode.ToString().PadRight(8);
+            }
+            else
+            {
+                comboStr += combo.TensionAngleCode.PadRight(8);
+                comboStr += combo.VertialLoadCode.PadRight(8);
+                comboStr += combo.WindDirectionCode.ToString().PadRight(8);
+            }
+
+            foreach(var  wireCode in combo.WireIndexCodes)
+            {
+                comboStr += wireCode.ToString().PadLeft(8);
+            }
+
+            //添加工况码
+            comboStr += combo.WorkCode.ToString().PadLeft(8);
+            //添加注释
+            comboStr += "   " + combo.WorkComment; 
         }
     }
 }

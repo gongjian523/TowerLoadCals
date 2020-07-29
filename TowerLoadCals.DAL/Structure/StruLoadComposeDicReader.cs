@@ -47,7 +47,7 @@ namespace TowerLoadCals.DAL
                 {
                     StruCalsDicOption opt = new StruCalsDicOption()
                     {
-                        Num = Convert.ToInt16(optNode.Attributes["挂点个数"].Value.ToString()),
+                        Num = Convert.ToInt32(optNode.Attributes["挂点个数"].Value.ToString()),
                     };
 
                     if (optNode.Attributes["左侧挂点"] != null)
@@ -119,10 +119,10 @@ namespace TowerLoadCals.DAL
                 };
 
                 if (groupNode.Attributes["WireIndexCodesMax"] != null)
-                    group.WireIndexCodesMax = Convert.ToInt16(groupNode.Attributes["WireIndexCodesMax"].Value.ToString());
+                    group.WireIndexCodesMax = Convert.ToInt32(groupNode.Attributes["WireIndexCodesMax"].Value.ToString());
 
                 if (groupNode.Attributes["WireIndexCodesMin"] != null)
-                    group.WireIndexCodesMin = Convert.ToInt16(groupNode.Attributes["WireIndexCodesMin"].Value.ToString());
+                    group.WireIndexCodesMin = Convert.ToInt32(groupNode.Attributes["WireIndexCodesMin"].Value.ToString());
 
                 if (groupNode.Attributes["WorkConditionCode"] != null)
                 {

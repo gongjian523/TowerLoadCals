@@ -17,6 +17,9 @@
         <Style x:Key="ColumnStyle" TargetType="dxg:GridColumn">
             <Setter Property="FilterPopupMode" Value="CheckedList"/>
         </Style>
+        <Style x:Key="AccordionItemFocusedStyle" TargetType="dxa:AccordionItem">
+            <Setter Property="Background" Value="Red"/>
+        </Style>
         <DataTemplate x:Key="DefaultColumnTemplate">
             <ContentControl>
                 <dxg:GridColumn FieldName="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
@@ -27,6 +30,8 @@
             <ContentControl>
                 <dxg:GridColumn local:BindingHelper.Path="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}"
                                 Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}"
+                                Width="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Width, RelativeSource={RelativeSource Self}}"
+
                                 HorizontalHeaderContentAlignment="Center"/>
             </ContentControl>
         </DataTemplate>
@@ -34,6 +39,7 @@
             <ContentControl>
                 <dxg:GridControlBand Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}" 
                                      HorizontalHeaderContentAlignment="Center"
+                                     Width="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Width, RelativeSource={RelativeSource Self}}" 
                                      ColumnsSource="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).ChildColumns, RelativeSource={RelativeSource Self} }" 
                                      ColumnGeneratorTemplate="{StaticResource BindingColumnTemplate}">
                 </dxg:GridControlBand>
@@ -43,7 +49,8 @@
             <ContentControl>
                 <!-- For bands with a single child column. Setting the OverlayHeaderByChildren property to "True" makes a child column to overlay its parent band's header -->
                 <dxg:GridControlBand Header="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}" 
-                                     HorizontalHeaderContentAlignment="Center"
+                                     HorizontalHeaderContentAlignment="Center" 
+                                     Width="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).Width, RelativeSource={RelativeSource Self}}" 
                                      ColumnsSource="{Binding Path=(dxci:DependencyObjectExtensions.DataContext).ChildColumns, RelativeSource={RelativeSource Self} }" 
                                      ColumnGeneratorTemplate="{StaticResource BindingColumnTemplate}" 
                                      OverlayHeaderByChildren="True" />
@@ -52,12 +59,12 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Border BorderThickness="1" BorderBrush="LightGray">
             <StackPanel Orientation="Vertical">
-                <Label Content="塔位号" FontSize="18" Margin="1,0" />
+                <Label Content="挂点号" FontSize="18" Margin="10,3,0,0" />
                 <dxa:AccordionControl x:Name="subAccordion" Margin="1"
                 ItemsSource="{Binding Path=Points}"
                 HeaderContent=""
@@ -70,8 +77,12 @@
                 <Style TargetType="dxa:AccordionItem">
                     <Setter Property="Header" Value="{Binding Path=Title}" />
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="FontSize" Value="14" />
                     <Setter Property="Command" Value="{Binding Command}" />
                     <Setter Property="CommandParameter" Value="{Binding}" />
+                    <Setter Property="Height" Value="25" />
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource AccordionItemFocusedStyle}" />
                 </Style>
             </dxa:AccordionControl.ItemContainerStyle>
                 </dxa:AccordionControl>
@@ -79,7 +90,7 @@
         </Border>
         <dxg:GridControl Grid.Column="1" Margin="5,0" ItemsSource="{Binding Results}"  BandsSource="{Binding Bands}"  BandGeneratorTemplateSelector="{StaticResource BandTemplateSelector}">
             <dxg:GridControl.View>
-                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+                <dxg:TableView NavigationStyle="Cell" EnableImmediatePosting="True" AllowPerPixelScrolling="True" ShowGroupPanel="False"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
     </Grid>

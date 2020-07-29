@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace TowerLoadCals.Common
 {
@@ -9,7 +10,7 @@ namespace TowerLoadCals.Common
         {
             using (FileStream fileStream = File.OpenWrite(path))
             {
-                using (StreamWriter writer = new StreamWriter(fileStream))
+                using (StreamWriter writer = new StreamWriter(fileStream, Encoding.Default))
                 {
                     foreach (string s in lineStr)
                     {

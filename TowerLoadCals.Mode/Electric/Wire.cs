@@ -1,4 +1,4 @@
-﻿namespace TowerLoadCals
+﻿namespace TowerLoadCals.Mode
 {
     public class Wire
     {

@@ -57,6 +57,18 @@ namespace TowerLoadCals.Modules
             }
         }
 
+        protected List<string> _fullStressTemplatePaths = new List<string>();
+        public string FullStressTemplatePath
+        {
+            get
+            {
+                string str = "";
+                foreach (string path in _fullStressTemplatePaths)
+                    str += path;
+                return str;
+            }
+        }
+
         protected string _towerType;
         public string TowerType
          {
@@ -77,10 +89,6 @@ namespace TowerLoadCals.Modules
             get
             {
                 return _towerTypes;
-            }
-            set
-            {
-                _towerTypes = value;
             }
         }
 
@@ -126,6 +134,21 @@ namespace TowerLoadCals.Modules
             ElectricalLoadFilePath = openTemplateDialog.FileName;
         }
 
+        public void ChooseFullStressTemplate()
+        {
+            var openTemplateDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "Template Files (*.dat)|*.dat",
+                Multiselect = true,
+            };
+
+            if (openTemplateDialog.ShowDialog() != true)
+                return;
+
+            _fullStressTemplatePaths = openTemplateDialog.FileNames.ToList();
+            RaisePropertyChanged("FullStressTemplatePath");
+        }
+
         //public event EventHandler Closed;
 
         public delegate void NewStruCalsTowerHandler(object sender, string strNewTowerName);
@@ -133,7 +156,7 @@ namespace TowerLoadCals.Modules
 
         public void onConfirm()
         {
-            if(ProjectUtils.NewStruCalsTower(TowerName, TowerType, TemplatePath, ElectricalLoadFilePath))
+            if(ProjectUtils.NewStruCalsTower(TowerName, TowerType, TemplatePath, ElectricalLoadFilePath, _fullStressTemplatePaths))
             {
                 close(TowerName);
             }
@@ -150,10 +173,5 @@ namespace TowerLoadCals.Modules
                 NewStruCalsTowerEvent(this, strNewTowerName);
         }
 
-        //IMessageBoxService MessageBoxService { get { return GetService<IMessageBoxService>(); } }
-        //void ShowMessage(string warnStr)
-        //{
-        //    MessageBoxService.Show(warnStr);
-        //}
     }
 }

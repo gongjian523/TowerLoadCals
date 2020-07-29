@@ -40,12 +40,33 @@ namespace TowerLoadCals.BLL
 
         public StruCalsLib GetStruCalsLibParas()
         {
-            if( StruCalsLibParas == null )
+            if (StruCalsLibParas == null)
             {
                 ProjectUtils.GetInstance().ReadStruCalsLibParas();
             }
 
             return StruCalsLibParas;
         }
+
+        public string SmartTowerPath { get; set; }
+
+        public string GetSmartTowerPath()
+        {
+            if (SmartTowerPath == null || SmartTowerPath == "")
+            {
+                SmartTowerPath = ProjectUtils.GetInstance().ReadSmartTowerPath();
+            }
+
+            return SmartTowerPath;
+        }
+
+        public int SmartTowerMode { get; set; }
+
+        public int GetSmartTowerMode()
+        {
+            SmartTowerMode = ProjectUtils.GetInstance().ReadSmartTowerMode();
+            return SmartTowerMode;
+        }
+        
     }
 }

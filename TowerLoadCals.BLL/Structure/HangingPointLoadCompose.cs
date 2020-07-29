@@ -83,7 +83,6 @@ namespace TowerLoadCals.BLL
         {
             StruCalsDicGroup dicGroup;
 
-
             //常规挂点
             if (link.Contains("常规"))
             {
@@ -199,7 +198,7 @@ namespace TowerLoadCals.BLL
                 //分配的规则是：
                 //左边和中间的导线，荷载按照I串规则全部分配在V串左侧挂点;
                 //右边的导线，荷载按照I串规则全部分配在V串右侧挂点;
-                if (wd.WorkConditionCode == "T" && wd.WireIndexCodes[iIndex] > 10000)
+                if (wd.WorkConditionCode == "T" && wd.WireIndexCodes[iIndex] > 1000)
                 {
                     //悬垂塔根据导线的方向遍历这个线左边或者右边的所有点
                     if (!isTensionTower)
@@ -209,7 +208,7 @@ namespace TowerLoadCals.BLL
                         {
                             for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
                             {
-                                int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+                                int pointIndex = Convert.ToInt32(option.LeftPoints[kl].Substring(1)) - 1;
 
                                 GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                                 resStr += loadStr;
@@ -221,7 +220,7 @@ namespace TowerLoadCals.BLL
                         {
                             for (int kr = 0; kr < option.RightPoints.Count(); kr++)
                             {
-                                int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+                                int pointIndex = Convert.ToInt32(option.RightPoints[kr].Substring(1)) - 1;
 
                                 GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                                 resStr += loadStr;
@@ -242,7 +241,7 @@ namespace TowerLoadCals.BLL
                                 //不在指定位置上的点不用分配荷载
                                 if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
                                     continue;
-                                int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+                                int pointIndex = Convert.ToInt32(option.LeftPoints[kl].Substring(1)) - 1;
 
                                 GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                                 resStr += loadStr;
@@ -256,7 +255,7 @@ namespace TowerLoadCals.BLL
                                 //不在指定位置上的点不用分配荷载
                                 if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
                                     continue;
-                                int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+                                int pointIndex = Convert.ToInt32(option.RightPoints[kr].Substring(1)) - 1;
 
                                 GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                                 resStr += loadStr;
@@ -277,7 +276,7 @@ namespace TowerLoadCals.BLL
                         //左侧挂点
                         for (int kl = 0; kl < option.LeftPoints.Count(); kl++)
                         {
-                            int pointIndex = Convert.ToInt16(option.LeftPoints[kl].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(option.LeftPoints[kl].Substring(1)) - 1;
 
                             //非跳跃冰工况的V串需要按照V串的的规则计算比例
                             GeneratePointsLoadVString(pointIndex, orientation, true, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
@@ -288,7 +287,7 @@ namespace TowerLoadCals.BLL
                         //右侧挂点
                         for (int kr = 0; kr < option.RightPoints.Count(); kr++)
                         {
-                            int pointIndex = Convert.ToInt16(option.RightPoints[kr].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(option.RightPoints[kr].Substring(1)) - 1;
 
                             //非跳跃冰工况的V串需要按照V串的的规则计算比例
                             GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
@@ -307,7 +306,7 @@ namespace TowerLoadCals.BLL
                             //不在指定位置上的点不用分配荷载
                             if (option.LeftPoints.Where(p => p == points[kl]).Count() == 0)
                                 continue;
-                            int pointIndex = Convert.ToInt16(points[kl].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(points[kl].Substring(1)) - 1;
 
                             //非跳跃冰工况的V串需要按照V串的的规则计算比例
                             GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
@@ -321,7 +320,7 @@ namespace TowerLoadCals.BLL
                             //不在指定位置上的点不用分配荷载
                             if (option.RightPoints.Where(p => p == points[kr]).Count() == 0)
                                 continue;
-                            int pointIndex = Convert.ToInt16(points[kr].Substring(1)) - 1;
+                            int pointIndex = Convert.ToInt32(points[kr].Substring(1)) - 1;
 
                             //非跳跃冰工况的V串需要按照V串的的规则计算比例
                             GeneratePointsLoadVString(pointIndex, orientation, false, vStringCompose, out string loadStr, out StruCalsPointLoad pLoad);
@@ -355,7 +354,7 @@ namespace TowerLoadCals.BLL
 
                     for (int k = 0; k < points.Count(); k++)
                     {
-                        int pointIndex = Convert.ToInt16(points[k].Substring(1)) - 1;
+                        int pointIndex = Convert.ToInt32(points[k].Substring(1)) - 1;
 
                         GeneratePointsLoadNormal(pointIndex, load, orientation, out string loadStr, out StruCalsPointLoad pLoad);
                         resStr += loadStr;
@@ -483,7 +482,7 @@ namespace TowerLoadCals.BLL
 
             pointLoad = new StruCalsPointLoad()
             {
-                Name = Convert.ToInt16(pointParas.Points[index]),
+                Name = Convert.ToInt32(pointParas.Points[index]),
                 Wire = wireType,
                 WorkConditionId = jIndex,
                 Orientation = orientation,
@@ -505,7 +504,7 @@ namespace TowerLoadCals.BLL
             {
                 load = (isLeft ? vString.VCX1: vString.VCX2) * proportion;
             }
-            else if (orientation == "Y" && isLeft)
+            else if (orientation == "Y")
             {
                 load = (isLeft ? vString.VCY1 : vString.VCY2) * proportion;
             }
@@ -518,7 +517,7 @@ namespace TowerLoadCals.BLL
 
             pointLoad = new StruCalsPointLoad()
             {
-                Name = Convert.ToInt16(pointParas.Points[index]),
+                Name = Convert.ToInt32(pointParas.Points[index]),
                 Wire = wireType,
                 WorkConditionId = jIndex,
                 Orientation = orientation,

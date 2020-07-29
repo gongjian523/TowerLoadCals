@@ -27,10 +27,15 @@ namespace TowerLoadCals.BLL
 
 
         //此构造函数用于从配置文件中获取已经保存的塔位参数，所有参数都来做保存文件
-        public StruCalsParasCompose(string towerName, string electricalLaodFilePath, string templatePath, StruCalsParasCompose temp)
+        public StruCalsParasCompose(string electricalLaodFilePath, string templatePath, List<string> fullStressTemplatePaths, StruCalsParasCompose temp)
         {
-            TowerName = towerName;
+            TowerName = temp.TowerName;
+            TemplateName = temp.TemplateName;
+            
             ElectricalLoadFilePath = electricalLaodFilePath;
+
+            FullStressTemplateNames = temp.FullStressTemplateNames;
+            FullStressTemplatePaths = fullStressTemplatePaths;
 
             BaseParas = temp.BaseParas;
             LineParas = temp.LineParas;
@@ -42,7 +47,7 @@ namespace TowerLoadCals.BLL
         }
 
         //此构造函数用于新增塔位，线条相关的初始化信息主要来自于Template，
-        public StruCalsParasCompose(string towerName, string towerType,  string templatePath, string electricalLaodFilePath, out string decodeTemolateStr)
+        public StruCalsParasCompose(string towerName, string towerType,  string templatePath, string electricalLaodFilePath, List<string> fullStressTemplatePaths,  out string decodeTemolateStr)
         {
             decodeTemolateStr = "";
 
@@ -51,15 +56,18 @@ namespace TowerLoadCals.BLL
             TemplatePath = templatePath;
             TemplateName = templatePath.Substring(templatePath.LastIndexOf('\\')+1);
 
+            FullStressTemplatePaths = fullStressTemplatePaths;
+            FullStressTemplateNames = new List<string>();
+            foreach(var path in FullStressTemplatePaths)
+            {
+                FullStressTemplateNames.Add(path.Substring(path.LastIndexOf('\\') + 1));
+            }
+
+            TowerType type = TowerTypeStringConvert.TowerStringToType(towerType);
+
             ElectricalLoadFilePath = electricalLaodFilePath;
 
-            BaseParas = new StruCalseBaseParas() {
-                SelectedStandard = "GB50545-2010",
-                Type = TowerTypeStringConvert.TowerStringToType(towerType),
-                IsMethod1Selected = true
-            };
-
-            if(!DecodeTemplate(BaseParas.Type, templatePath))
+            if(!DecodeTemplate(type, templatePath))
             {
                 decodeTemolateStr = "解码模块错误！";
                 return;
@@ -67,8 +75,7 @@ namespace TowerLoadCals.BLL
 
             LineParas = new List<StruLineParas>();
 
-            SetDefaultValue();
-
+            SetDefaultValue(type);
 
             HPSettingsParas = new List<HangingPointSettingParas>();
             NewHangingPointSetting();
@@ -77,11 +84,11 @@ namespace TowerLoadCals.BLL
         }
 
 
-        protected List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
+        public static List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
         {
             List<WorkConditionComboSpec> listSpec = new List<WorkConditionComboSpec>();
 
-            if (template == null)
+            if (template == null || template.WorkConditionCombos == null)
                 return listSpec;
 
             foreach (var item in template.WorkConditionCombos)
@@ -217,6 +224,7 @@ namespace TowerLoadCals.BLL
         }
 
         //挂点的荷载计算结果，用于StruCalsResultModule
+        [XmlIgnore]
         public List<StruCalsPointLoad>  ResultPointLoad { get; set; }
 
         protected List<string> GetArrayList()
@@ -251,7 +259,7 @@ namespace TowerLoadCals.BLL
 
         public bool DecodeTemplate(TowerType towerType, string templatesPath)
         {
-            string file = templatesPath.Substring(templatesPath.Length - 3) + "dat";
+            string file = templatesPath.Substring(0,templatesPath.Length - 3) + "dat";
             DES.DesDecrypt(templatesPath, file, "12345678");
 
             TowerTemplateReader templateReader = new TowerTemplateReader(towerType);
@@ -265,52 +273,75 @@ namespace TowerLoadCals.BLL
         /// <summary>
         /// 从配置文件中获取默认参数
         /// </summary>
-        protected void SetDefaultValue()
+        protected void SetDefaultValue(TowerType towerType)
         {
             var libParas = GlobalInfo.GetInstance().GetStruCalsLibParas();
-            if (libParas == null)
-                return;
-            
-            var config = new MapperConfiguration(x => x.CreateMap<StruCalsLibBaseParas, StruCalseBaseParas>());
-            IMapper mapper = new Mapper(config);
 
-            StruCalsLibBaseParas libBaseParas = !BaseParas.IsTensionTower ? libParas.OverhangingTowerBaseParas: libParas.TensionTowerBaseParas;
-
-            BaseParas = mapper.Map<StruCalseBaseParas>(libBaseParas);
-
-            //这种初始化有点问题，当两种标准的共同参数的值取不一样时会有错误
-            //正确的做法是应该是在加入库时，就选择标准。
-            //但这种做法两种标准切换时，两种标准共同参数取值不一样时，仍然无法切换到正确的值，
-            //故维持现在的做法。
-            BaseParas.RGBad = libBaseParas.BaseParasGB50545.RGBad;
-            BaseParas.RGGood = libBaseParas.BaseParasGB50545.RGGood;
-            BaseParas.RQ = libBaseParas.BaseParasGB50545.RQ;
-            BaseParas.VcFInstall = libBaseParas.BaseParasGB50545.VcFInstall;
-            BaseParas.VcFBroken = libBaseParas.BaseParasGB50545.VcFBroken;
-            BaseParas.VcFUnevenIce = libBaseParas.BaseParasGB50545.VcFUnevenIce;
-            BaseParas.VcFNormal = libBaseParas.BaseParasGB50545.VcFNormal;
-            BaseParas.VcFCheck = libBaseParas.BaseParasGB50545.VcFCheck;
-
-            BaseParas.RGOverturn = libBaseParas.BaseParasDLT5551.RGOverturn;
-            BaseParas.VcFIce = libBaseParas.BaseParasDLT5551.VcFIce;
-            BaseParas.VcFCold = libBaseParas.BaseParasDLT5551.VcFCold;
-
-            BaseParas.LoadRatio = 1;
-            BaseParas.R1Install = 1;
-            BaseParas.R0Normal = 1;
-
-            List<StruLineParas> lineParas = new List<StruLineParas>();
-            for (int i = 0; i < Template.Wires.Count; i++)
+            //有配置文件就从配置文件中读出
+            if (libParas != null)
             {
-                lineParas.Add(new StruLineParas()
+                var config = new MapperConfiguration(x => x.CreateMap<StruCalsLibBaseParas, StruCalseBaseParas>().ForMember(des=>des.Type, item =>item.Ignore()));
+                IMapper mapper = new Mapper(config);
+
+                StruCalsLibBaseParas libBaseParas = (towerType == TowerType.LineTower || towerType == TowerType.LineCornerTower) ? libParas.OverhangingTowerBaseParas : libParas.TensionTowerBaseParas;
+
+                BaseParas = mapper.Map<StruCalseBaseParas>(libBaseParas);
+
+                //这种初始化有点问题，当两种标准的共同参数的值取不一样时会有错误
+                //正确的做法是应该是在加入库时，就选择标准。
+                //但这种做法两种标准切换时，两种标准共同参数取值不一样时，仍然无法切换到正确的值，
+                //故维持现在的做法。
+                BaseParas.RGBad = libBaseParas.BaseParasGB50545.RGBad;
+                BaseParas.RGGood = libBaseParas.BaseParasGB50545.RGGood;
+                BaseParas.RQ = libBaseParas.BaseParasGB50545.RQ;
+                BaseParas.VcFInstall = libBaseParas.BaseParasGB50545.VcFInstall;
+                BaseParas.VcFBroken = libBaseParas.BaseParasGB50545.VcFBroken;
+                BaseParas.VcFUnevenIce = libBaseParas.BaseParasGB50545.VcFUnevenIce;
+                BaseParas.VcFNormal = libBaseParas.BaseParasGB50545.VcFNormal;
+                BaseParas.VcFCheck = libBaseParas.BaseParasGB50545.VcFCheck;
+
+                BaseParas.RGOverturn = libBaseParas.BaseParasDLT5551.RGOverturn;
+                BaseParas.VcFIce = libBaseParas.BaseParasDLT5551.VcFIce;
+                BaseParas.VcFCold = libBaseParas.BaseParasDLT5551.VcFCold;
+
+                BaseParas.LoadRatio = 1;
+                BaseParas.R1Install = 1;
+                BaseParas.R0Normal = 1;
+
+                List<StruLineParas> lineParas = new List<StruLineParas>();
+                for (int i = 0; i < Template.Wires.Count; i++)
                 {
-                    Index = i + 1,
-                    WireType = Template.Wires[i],
-                    DrawingCoef = ((!BaseParas.IsTensionTower) ? libParas.OverhangingTowerBaseParas.DrawingCoef 
-                    : libParas.TensionTowerBaseParas.DrawingCoef)
-                }); 
+                    lineParas.Add(new StruLineParas()
+                    {
+                        Index = i + 1,
+                        WireType = Template.Wires[i],
+                        DrawingCoef = ((towerType == TowerType.LineTower || towerType == TowerType.LineCornerTower) ? libParas.OverhangingTowerBaseParas.DrawingCoef
+                        : libParas.TensionTowerBaseParas.DrawingCoef)
+                    });
+                }
+                LineParas = lineParas;
             }
-            LineParas = lineParas;
+            //没有默认文件就默认为0
+            else
+            {
+                List<StruLineParas> lineParas = new List<StruLineParas>();
+                for (int i = 0; i < Template.Wires.Count; i++)
+                {
+                    lineParas.Add(new StruLineParas()
+                    {
+                        Index = i + 1,
+                        WireType = Template.Wires[i],
+                    });
+                }
+                LineParas = lineParas;
+            }
+
+            //BaseParas下列参数中在映射后赋值的原因在于：
+            //如果先复制，在前面的映射过程中，会导致某些值会改变
+            BaseParas.SelectedStandard = "GB50545-2010";
+            BaseParas.Type = towerType;
+            BaseParas.IsMethod1Selected = true;
+
         }
     }
 }

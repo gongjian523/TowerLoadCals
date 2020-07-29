@@ -43,7 +43,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -270,8 +270,6 @@ namespace TowerLoadCals.Test
                 DMCQ = 0.6f,
                 DMCH = 0.4f,
 
-                IsTuringPointSeleced = false,
-
                 NormalXYPoints = normalList,
                 NormalZPoints = normalList,
                 InstallXYPoints = installList,
@@ -322,7 +320,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -592,7 +590,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineCornerTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -779,8 +777,6 @@ namespace TowerLoadCals.Test
                 DDCQ = 0.7f,
                 DDCH = 0.3f,
 
-                IsTuringPointSeleced = false,
-
                 NormalXYPoints = normalList,
                 NormalZPoints = normalList,
                 InstallXYPoints = installList,
@@ -832,7 +828,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.CornerTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -1248,7 +1244,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.CornerTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -1488,7 +1484,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.CornerTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -1751,7 +1747,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.TerminalTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
@@ -1988,7 +1984,7 @@ namespace TowerLoadCals.Test
 
             TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.BranchTower);
 
-            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 

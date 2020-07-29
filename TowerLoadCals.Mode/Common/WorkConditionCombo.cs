@@ -4,6 +4,10 @@ namespace TowerLoadCals.Mode
 {
     public class WorkConditionCombo:WorkConditionComboBase
     {
+        public WorkConditionCombo()
+        {
+            WireIndexCodes = new List<int>();
+        }
         /// <summary>
         /// 
         /// </summary>

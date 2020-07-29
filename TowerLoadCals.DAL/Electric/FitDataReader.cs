@@ -40,11 +40,11 @@ namespace TowerLoadCals.DAL
                     if (node.Attributes["Name"] != null)
                         fitData.Name = node.Attributes["Name"].Value.ToString();
                     if (node.Attributes["Weight"] != null)
-                        fitData.Weight = Convert.ToInt16(node.Attributes["Weight"].Value.ToString());
+                        fitData.Weight = Convert.ToDouble(node.Attributes["Weight"].Value.ToString());
                     if (node.Attributes["Voltage"] != null)
-                        fitData.Voltage = Convert.ToInt16(node.Attributes["Voltage"].Value.ToString());
+                        fitData.Voltage = Convert.ToDouble(node.Attributes["Voltage"].Value.ToString());
                     if (node.Attributes["SecWind"] != null)
-                        fitData.SecWind = Convert.ToInt16(node.Attributes["SecWind"].Value.ToString());
+                        fitData.SecWind = Convert.ToDouble(node.Attributes["SecWind"].Value.ToString());
                  
                     collectionItem.FitDatas.Add(fitData);
                 }

@@ -26,16 +26,16 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 重量
         /// </summary>
-        public int Weight { get; set; }
+        public double Weight { get; set; }
 
         /// <summary>
         /// 电压等级
         /// </summary>
-        public int Voltage { get; set; }
+        public double Voltage { get; set; }
 
         /// <summary>
         /// 受风面积 
         /// </summary>
-        public int SecWind { get; set; }
+        public double SecWind { get; set; }
     }
 }

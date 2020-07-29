@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SqlSugar;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,18 @@ namespace TowerLoadCals.Mode.Internet
     /// <summary>
     /// 气象条件
     /// </summary>
-    public class WorkCondition
+    [SugarTable("kb_workcondition")]
+    public class WorkConditionInternet
     {
         /// <summary>
         /// ID
         /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// CategoryId
+        /// </summary>
+        public int CategoryId { get; set; }
 
         /// <summary>
         /// 工况名称

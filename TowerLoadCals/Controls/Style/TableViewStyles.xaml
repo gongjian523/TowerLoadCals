@@ -8,5 +8,11 @@
         <Setter Property="VerticalScrollbarVisibility" Value="Auto"/>
         <Setter Property="EnableImmediatePosting" Value="True"/>
     </Style>
+    <Style x:Key="CostumWidthTableViewStyle" TargetType="dxg:TableView">
+        <Setter Property="ShowGroupPanel" Value="False"/>
+        <Setter Property="AutoWidth" Value="False"/>
+        <Setter Property="VerticalScrollbarVisibility" Value="Auto"/>
+        <Setter Property="EnableImmediatePosting" Value="True"/>
+    </Style>
 </ResourceDictionary>
     

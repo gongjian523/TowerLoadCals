@@ -22,6 +22,12 @@ namespace TowerLoadCals.Mode
         public string TemplateName { get; set; }
 
         [XmlIgnore]
+        public List<string> FullStressTemplatePaths { get; set; }
+
+        [XmlAttribute]
+        public List<string> FullStressTemplateNames { get; set; }
+
+        [XmlIgnore]
         public string ElectricalLoadFilePath { get; set; }
 
         [XmlIgnore]

@@ -1,0 +1,63 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.Internet"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    x:Class="TowerLoadCals.Modules.Internet.StruTemplateLibGeneralModule_Internet"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StruTemplateLibGeneralViewModel}}">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" Name="g_heard"/>
+            <RowDefinition Height="*"  />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" TextAlignment="Right"  VerticalAlignment="Center"  Text="文件名称/塔型:" />
+        <TextBox Grid.Row="0"  Grid.Column="1"  Name="Filter" Text="{Binding SearchInfo}" Height="27" Margin="5 0 5 0"></TextBox>
+        <Button Grid.Row="0"   Grid.Column="2" Content="查 询" Height="30" Width="78"  Name="btnFilter" Command="{Binding SearchCommand}"/>
+
+        <dxg:GridControl  Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="None" Margin="8,0"         EnableSmartColumnsGeneration="True" 
+                ItemsSource="{Binding DataSource}"
+                ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                >
+            <dxg:GridControl.View>
+                <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+            </dxg:GridControl.View>
+            <dxg:GridColumn FieldName="FileName"  Header="文件名称" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+            <dxg:GridColumn FieldName="Category"  Header="塔型" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+            <dxg:GridColumn   Header="操作" HorizontalHeaderContentAlignment="Center" >
+                <dxg:GridColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition>
+                                </ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="查看" Grid.Column="0" BorderThickness="0" Background="Transparent"  Width="60" Height="20" >
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.CheckTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Id}"/>
+                                </dxmvvm:Interaction.Behaviors>
+                            </Button>
+                            <Button Content="下载" Grid.Column="1" BorderThickness="0" Background="Transparent"  Width="60" Height="20" >
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.ExportTemplate(@parameter) }"  CommandParameter="{Binding RowData.Row.Id}" />
+                                </dxmvvm:Interaction.Behaviors>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </dxg:GridColumn.CellTemplate>
+            </dxg:GridColumn>
+
+        </dxg:GridControl>
+    </Grid>
+</UserControl>

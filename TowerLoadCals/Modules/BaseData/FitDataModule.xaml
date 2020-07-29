@@ -25,11 +25,11 @@
                     </dxg:TableView.RowCellMenuCustomizations>
                 </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Model"  Header="型号" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Voltage"  Header="电压等级" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SecWind"  Header="受风面积" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="Model"  Header="型号" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="Voltage"  Header="电压等级" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="SecWind"  Header="受风面积" HorizontalHeaderContentAlignment="Center" />
         </dxg:GridControl>
     </Grid>
 </UserControl>

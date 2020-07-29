@@ -471,12 +471,12 @@ namespace TowerLoadCals.BLL
 
         protected virtual string GetDicPath()
         {
-            return Directory.GetCurrentDirectory() + "\\UserData\\HPCompose-LineTower.xml";
+            return Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\HPCompose-LineTower.xml";
         }
 
         protected virtual string GetLoadDicPath()
         {
-            return Directory.GetCurrentDirectory() + "\\UserData\\HPDic-LineTower.xml";
+            return Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\HPDic -LineTower.xml";
         }
 
 
@@ -614,7 +614,6 @@ namespace TowerLoadCals.BLL
 
                     //HangingPointLoadComposeBase hPLoadComposeX = new HangingPointLoadComposeBase(i, j, "X", XXT, YYT, ZZT, groupStr, linkStr, points, HPSettingParas, Template, DicGroup);
                     //hPLoadComposeX.ComposeHangingPointsLoad(out string strX, out List<StruCalsPointLoad> pListX, true);
-
                     hpLoadCompose.ComposeHangingXPointsLoad(out string strX, out List<StruCalsPointLoad> pListX, true);
                     Process2String.Add(strX);
                     loads.AddRange(pListX);

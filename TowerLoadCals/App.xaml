@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:TowerLoad"
              StartupUri="MainWindow.xaml">
     <!--MainWindow.xaml-->
+    <!--LoginPage.xaml-->
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -1,0 +1,229 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.Internet"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    x:Class="TowerLoadCals.Modules.Internet.StruCalsLibBaseDataModule_Internet"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StruCalsLibBaseDataViewModel}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"  />
+            <RowDefinition Height="40" Name="g_footer"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="1" Grid.Column="2"   Content="下载" Height="30" Width="78"  Name="btnExport"  HorizontalAlignment="Right" Command="{Binding ExportCommand}" IsEnabled="{Binding IsEnabledExport}"/>
+
+        <GroupBox Header="悬垂塔" Margin="0,0,3,0">
+            <StackPanel Orientation="Vertical">
+                <Border BorderThickness="1" BorderBrush="LightGray" Padding="10,8">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="大风线条风压调整系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.BaseData.WindAdjustFactor}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="其他情况线条风压调整系数" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.BaseData.OtherWindAdjustFactor}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="安装动力系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.BaseData.DynamicCoef}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="过牵引系数" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.BaseData.DrawingCoef}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="锚线风荷系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.BaseData.AnchorWindCoef}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="锚线垂荷系数" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.BaseData.AnchorGravityCoef}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="锚角（°）" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.BaseData.AnchorAngle}" Margin="0,0,0,0" IsReadOnly="True" />
+                    </Grid>
+                </Border>
+                <GroupBox Header="GB50545-2010" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-不利" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.GB50545Data.RGBad}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-有利" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.GB50545Data.RGGood}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="活荷载分项系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.GB50545Data.RQ}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-运行" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.GB50545Data.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-断线" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.GB50545Data.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-安装" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.GB50545Data.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-不均匀冰" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.GB50545Data.VcFUnevenIce}"  Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-验算" Margin="8,0,0,0" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.GB50545Data.VcFCheck}" Margin="0,0,0,0" IsReadOnly="True" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="DLT5551-2018" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-不利" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.RGBad}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-有利" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.RGGood}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="活荷载分项系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.RQ}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-运行" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-覆冰" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.VcFIce}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-低温" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.VcFCold}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-断线" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-安装" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-不均匀冰" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.VcFUnevenIce}"  Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-抗倾覆" Margin="8,0,0,0" />
+                        <dxe:TextEdit Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding OverhangingTower.DLT5551Data.RGOverturn}" Margin="0,0,0,0" IsReadOnly="True" />
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="耐张塔" Grid.Column="1" Margin="3,0,0,0">
+            <StackPanel Orientation="Vertical">
+                <Border BorderThickness="1" BorderBrush="LightGray" Padding="10,8">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="大风线条风压调整系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.BaseData.WindAdjustFactor}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="其他情况线条风压调整系数" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.BaseData.OtherWindAdjustFactor}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="安装动力系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.BaseData.DynamicCoef}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="过牵引系数" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.BaseData.DrawingCoef}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="跳线吊装系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.BaseData.LiftCoefJumper}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="临时拉线对地夹角（°）" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.BaseData.TempStayWireAngle}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="牵引角度（°）" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.BaseData.TractionAgnle}" Margin="0,0,0,0" IsReadOnly="True" />
+                    </Grid>
+                </Border>
+                <GroupBox Header="GB50545-2010" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-不利" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.GB50545Data.RGBad}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-有利" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.GB50545Data.RGGood}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="活荷载分项系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.GB50545Data.RQ}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-运行" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.GB50545Data.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-断线" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.GB50545Data.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-安装" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.GB50545Data.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-不均匀冰" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.GB50545Data.VcFUnevenIce}"  Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-验算" Margin="8,0,0,0" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.GB50545Data.VcFCheck}" Margin="0,0,0,0" IsReadOnly="True" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="DLT5551-2018" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-不利" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.RGBad}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-有利" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.RGGood}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="活荷载分项系数" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.RQ}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-运行" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.VcFNormal}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-覆冰" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.VcFIce}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-低温" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.VcFCold}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-断线" Margin="0,0,0,4" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.VcFBroken}" Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-安装" Margin="8,0,0,4" />
+                        <dxe:TextEdit Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.VcFInstall}"  Margin="0,0,0,4" IsReadOnly="True" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="可变荷载组合系数-不均匀冰" Margin="0,0,0,0" />
+                        <dxe:TextEdit Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.VcFUnevenIce}"  Margin="0,0,0,0" IsReadOnly="True" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="恒荷载分项系数-抗倾覆" Margin="8,0,0,0" />
+                        <dxe:TextEdit Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Left" EditValue="{Binding TensionTower.DLT5551Data.RGOverturn}" Margin="0,0,0,0" IsReadOnly="True" />
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>
+

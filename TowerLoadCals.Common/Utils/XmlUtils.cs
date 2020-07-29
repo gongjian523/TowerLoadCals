@@ -240,7 +240,7 @@ namespace TowerLoadCals.Common
                     }
                     else if (pi.PropertyType.Equals(typeof(int)))
                     {
-                        pi.SetValue(desObj, Convert.ToInt16(node.Attributes[pi.Name].Value), null);//给泛型的属性赋值
+                        pi.SetValue(desObj, Convert.ToInt32(node.Attributes[pi.Name].Value), null);//给泛型的属性赋值
                     }
                     else if(pi.PropertyType.Equals(typeof(bool)))
                     {

@@ -129,6 +129,18 @@
                                LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
                                RibbonStyle="Large"/>
                         </dxr:RibbonPageGroup>
+                        <dxr:RibbonPageGroup Name="pgSetting" Caption="设置" ShowCaptionButton="False">
+                            <dxb:BarButtonItem Name="bSTPathSetting" Content="计算设置" 
+                               Glyph="{dxc:DXImage Image=CalculateSheet_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculateSheet_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{DXCommand 'ShowSmartTowerModeEditWindow()'}"/>
+                            <dxb:BarButtonItem Name="bSTModeSetting" Content="系统设置" 
+                               Glyph="{dxc:DXImage Image=CalculationOptions_16x16.png}" 
+                               LargeGlyph="{dxc:DXImage Image=CalculationOptions_32x32.png}"  
+                               RibbonStyle="Large"
+                               Command="{DXCommand 'ShowSmartTowerPathEditWindow()'}"/>
+                        </dxr:RibbonPageGroup>
                     </dxr:RibbonPage>
                     <dxr:RibbonPage Caption="分析及报告">
                         <dxr:RibbonPageGroup Name="pgAnalysis" Caption="分析" ShowCaptionButton="False">
@@ -231,7 +243,7 @@
                                               RootItemDisplayMode="Group"
                                               ExpandMode="MultipleOrNone"
                                               ChildrenPath="ChildItems"
-                                              AutoExpandAllItems="True"
+                                              AutoExpandAllItems="False"
                                               Grid.Row="1"
                                               >
                                     <dxa:AccordionControl.ItemContainerStyle>
@@ -279,17 +291,10 @@
                         </dxwui:NavigationFrame>
                     </dxdo:LayoutPanel>
 
-
-                    <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
-                                      AllowClose="False" ShowCaption="False" Name="subLayoutRightPanel" AllowSizing="False">
-                        <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}">
-                            <!--<StackPanel Orientation="Vertical">-->
-                                <!--<StackPanel Orientation="Vertical" Visibility="{Binding NewStruCalsTowerBtnVisibity}">
-                                    <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
-                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}" 
-                                   />
-                                    <Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>
-                                </StackPanel>-->
+                    
+                    <dxdo:LayoutPanel  AllowClose="False"  AllowFloat="True" AllowHide="True" ShowCaption="True" Caption="网络资源" ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" 
+                                       Name="subLayoutRightPanel" AllowSizing="False" >
+                            <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}" >
                                 <dxa:AccordionControl x:Name="subRightAccordion" ItemsSource="{Binding Path=InternetMenuItems}" HeaderContent="" SummaryItemHeader="" IsCollapseButtonVisible="False"
                                               RootItemDisplayMode="Group"  ExpandMode="MultipleOrNone"  ChildrenPath="ChildItems" AutoExpandAllItems="True" >
                                     <dxa:AccordionControl.ItemContainerStyle>
@@ -314,10 +319,10 @@
                                         </Style>
                                     </dxa:AccordionControl.ItemContainerStyle>
                                 </dxa:AccordionControl>
-                            <!--</StackPanel>-->
-                        </Grid>
-                    </dxdo:LayoutPanel>
-
+                                <!--</StackPanel>-->
+                            </Grid>
+                        </dxdo:LayoutPanel>
+                    
                 </dxdo:LayoutGroup>
 
             </dxdo:DockLayoutManager>
