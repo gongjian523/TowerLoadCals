@@ -14,7 +14,7 @@
         xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:local="clr-namespace:TowerLoadCals"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Icon="{dxc:DXImage Image=Home_16x16.png}"         
+        Icon="{dxc:DXImage Image=logo.ico}"         
         Title="杆塔负荷协同程序"
         Height="900" Width="1304"
         WindowStartupLocation="CenterScreen"
@@ -230,22 +230,20 @@
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Vertical" Visibility="{Binding NewStruCalsTowerBtnVisibity}">
                                     <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
-                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}" 
-                                   />
+                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}" />
                                     <Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>
                                 </StackPanel>
                                 <dxa:AccordionControl x:Name="subAccordion"
-                                              SelectedItem="{Binding SelectedMenuItem}"
-                                              ItemsSource="{Binding Path=MenuItems}"
-                                              HeaderContent=""
-                                              SummaryItemHeader=""
-                                              IsCollapseButtonVisible="False"
-                                              RootItemDisplayMode="Group"
-                                              ExpandMode="MultipleOrNone"
-                                              ChildrenPath="ChildItems"
-                                              AutoExpandAllItems="False"
-                                              Grid.Row="1"
-                                              >
+                                            SelectedItem="{Binding SelectedMenuItem}"
+                                            ItemsSource="{Binding Path=MenuItems}"
+                                            HeaderContent=""
+                                            SummaryItemHeader=""
+                                            IsCollapseButtonVisible="False"
+                                            RootItemDisplayMode="Group"
+                                            ExpandMode="MultipleOrNone"
+                                            ChildrenPath="ChildItems"
+                                            AutoExpandAllItems="False"
+                                            Grid.Row="1">
                                     <dxa:AccordionControl.ItemContainerStyle>
                                         <Style TargetType="dxa:AccordionItem">
                                             <Setter Property="Header" Value="{Binding Path=Title}" />
@@ -268,6 +266,7 @@
                                         </Style>
                                     </dxa:AccordionControl.ItemContainerStyle>
                                 </dxa:AccordionControl>
+
                             </StackPanel>
                         </Grid>
                     </dxdo:LayoutPanel>

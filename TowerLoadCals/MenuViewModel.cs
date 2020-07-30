@@ -153,22 +153,32 @@ namespace TowerLoadCals
 
             ContextVisible = Visibility.Visible;
 
-            Command1Name = "结构计算";
-            Command1BtnVisible = Visibility.Visible;
+            //Command1Name = "设置";
+            //Command1BtnVisible = Visibility.Visible;
 
-            Command2Name = "满应力分析";
+            Command2Name = "结构计算";
             Command2BtnVisible = Visibility.Visible;
 
-            //Command3Name = "删除";
-            //Command3BtnVisible = Visibility.Visible;
+            Command3Name = "满应力分析";
+            Command3BtnVisible = Visibility.Visible;
+
+            //Command4Name = "删除";
+            //Command4BtnVisible = Visibility.Visible;
 
             ChildItems = children;
-            }
-
+        }
 
         public override void Command1(SubMenuBase menu)
         {
+            parentVm.ShowEidtStruCalsTowerWindow(menu.Title.Trim());
+        }
+
+
+        public override void Command2(SubMenuBase menu)
+        {
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+
+
             {
                 Filter = "Result Files (*.calc)|*.calc",
             };
@@ -214,27 +224,8 @@ namespace TowerLoadCals
             }
         }
 
-        public override void Command2(SubMenuBase menu)
+        public override void Command3(SubMenuBase menu)
         {
-
-            
-            //string fileName = string.Format(@"D:\00-项目\P-200325-杆塔负荷程序\01塔库满应力分析\SmartTower\SmartTower_Console.exe");
-            ////string path = string.Format(@"E:\software\SmartTower-2019-10-29-西南院\SmartTower-2019-10-29-西南院\SmartTower_Console.exe");
-            ////string fileName = path1;
-            //if (File.Exists(fileName))
-            //{
-            //    Process process = new Process();
-            //    //string[] pathfile = { "", path };   //路径中不能有空格
-            //    string paras1 = "C:\\Users\\zhifei\\Desktop\\测试\\StruCals\\直线塔7\\满应力分析\\Z31.dat 0";      //0: 正常计算 1:基础作用力BetaZ=1 2：基础作用力betaZ=-1/2+1 不容许有空格             
-            //    // params 为 string 类型的参数，多个参数以空格分隔，如果某个参数为空，可以传入””
-            //    ProcessStartInfo startInfo = new ProcessStartInfo(fileName, paras1);
-            //    process.StartInfo = startInfo;
-            //    process.Start();
-            //}
-
-            //return;
-
-
             var loadFileDialog = new Microsoft.Win32.OpenFileDialog()
             {
                 Filter = "Load Files (*.load)|*.load",
@@ -299,13 +290,15 @@ namespace TowerLoadCals
             string outPath = path.Substring(0, path.LastIndexOf(".")) + ".out";
             paras.ResultFullStess = memberBLL.TextFileReadAll(outPath).ToList();
 
+
+
         }
 
         /// <summary>
         /// 删除命令
         /// </summary>
         /// <param name="menu"></param>
-        public override void Command3(SubMenuBase menu)
+        public override void Command4(SubMenuBase menu)
         {
             var  struCalsList =  GlobalInfo.GetInstance().StruCalsParas;
 

@@ -100,17 +100,19 @@ namespace TowerLoadCals
         }
 
         NewStruCalsTowerWindow newStruCalsTowerWindow;
+
+        #region 新增塔位
         public void ShowNewStruCalsTowerWindow()
         {
             newStruCalsTowerWindow = new NewStruCalsTowerWindow();
-            ((NewStruCalsTowerViewModel)(newStruCalsTowerWindow.DataContext)).NewStruCalsTowerEvent += NewStruCalsTowerWindowClosed;
+            ((NewStruCalsTowerViewModel)(newStruCalsTowerWindow.DataContext)).CloseStruCalsTowerDetailWindowEvent += NewStruCalsTowerWindowClosed;
             newStruCalsTowerWindow.ShowDialog();
         }
 
         public void NewStruCalsTowerWindowClosed(object sender, string newTowerName)
         {
             NewStruCalsTowerViewModel model = (NewStruCalsTowerViewModel)sender;
-            model.NewStruCalsTowerEvent -= NewStruCalsTowerWindowClosed;
+            model.CloseStruCalsTowerDetailWindowEvent -= NewStruCalsTowerWindowClosed;
             if (newStruCalsTowerWindow != null) newStruCalsTowerWindow.Close();
             newStruCalsTowerWindow = null;
 
@@ -127,6 +129,37 @@ namespace TowerLoadCals
 
             MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
         }
+        #endregion
+
+        #region 塔位编辑
+        public void ShowEidtStruCalsTowerWindow(string towerNmae)
+        {
+            newStruCalsTowerWindow = new NewStruCalsTowerWindow();
+            ((NewStruCalsTowerViewModel)(newStruCalsTowerWindow.DataContext)).CloseStruCalsTowerDetailWindowEvent += NewStruCalsTowerWindowClosed;
+            newStruCalsTowerWindow.ShowDialog();
+        }
+
+        public void EidtStruCalsTowerWindowClosed(object sender, string newTowerName)
+        {
+            NewStruCalsTowerViewModel model = (NewStruCalsTowerViewModel)sender;
+            model.CloseStruCalsTowerDetailWindowEvent -= NewStruCalsTowerWindowClosed;
+            if (newStruCalsTowerWindow != null) newStruCalsTowerWindow.Close();
+            newStruCalsTowerWindow = null;
+
+            if (newTowerName == null || newTowerName == "")
+            {
+                return;
+            }
+
+            StrCalsModuleSubMenu newTowerMenu = new StrCalsModuleSubMenu("", this, newTowerName, (e) => { OnSelectedStruCalsTowersChanged(e); });
+
+            SelectedModuleInfo.MenuItems.Add(newTowerMenu);
+
+            NewTowerSubMenuItem(newTowerMenu);
+
+            MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
+        }
+        #endregion
 
         protected Visibility _newStruCalsTowerBtnVisibity = Visibility.Collapsed;
         public Visibility NewStruCalsTowerBtnVisibity 

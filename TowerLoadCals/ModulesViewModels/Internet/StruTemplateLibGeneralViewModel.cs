@@ -45,9 +45,21 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         {
             if (!string.IsNullOrEmpty(searchInfo))
             {
-                searchInfo = searchInfo.Trim();
+                List<string> Str = searchInfo.Trim().Split(new[] { " " }, StringSplitOptions.None).Where(s => !string.IsNullOrEmpty(s)).ToList();
 
-                this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList().Where(item => item.FileName.Contains(searchInfo) || item.Category.Contains(searchInfo)).ToList());
+                if (Str != null && Str.Count > 0)
+                {
+                    IList<StruTemplateLibGeneral> list = struTemplateLibGeneralService.GetList();
+
+                    this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(from data in list
+                                                                       from searchInfo in Str
+                                                                       where
+                                                                           data.FileName.Contains(searchInfo)
+                                                                           || data.Category.Contains(searchInfo)
+                                                                       select data);
+                }
+                else
+                    this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList());
             }
             else
                 this.DataSource = new ObservableCollection<StruTemplateLibGeneral>(struTemplateLibGeneralService.GetList());

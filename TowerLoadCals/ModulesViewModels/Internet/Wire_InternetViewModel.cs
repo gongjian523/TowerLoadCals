@@ -1,4 +1,5 @@
-﻿using DevExpress.DataAccess.Native;
+﻿using DevExpress.Data.Helpers;
+using DevExpress.DataAccess.Native;
 using DevExpress.Mvvm;
 using System;
 using System.Collections;
@@ -54,9 +55,21 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         {
             if (!string.IsNullOrEmpty(searchInfo))
             {
-                searchInfo = searchInfo.Trim();
+                List<string> Str = searchInfo.Trim().Split(new[] { " " }, StringSplitOptions.None).Where(s => !string.IsNullOrEmpty(s)).ToList();
 
-                this.DataSource = new ObservableCollection<Wire>(wireService.GetList().Where(item => item.Name.Contains(SearchInfo) || item.Category.Contains(SearchInfo)).ToList());
+                if (Str != null && Str.Count > 0)
+                {
+                    IList<Wire> list = wireService.GetList();
+
+                    this.DataSource = new ObservableCollection<Wire>(from data in list
+                                                                     from searchInfo in Str
+                                                                     where
+                                                                         data.Name.Contains(searchInfo)
+                                                                         || data.Category.Contains(searchInfo)
+                                                                     select data);
+                }
+                else
+                    this.DataSource = new ObservableCollection<Wire>(wireService.GetList());
             }
             else
                 this.DataSource = new ObservableCollection<Wire>(wireService.GetList());

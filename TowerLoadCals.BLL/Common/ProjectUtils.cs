@@ -150,7 +150,7 @@ namespace TowerLoadCals.BLL
         /// <param name="templatePath"></param>
         /// <param name="electricalLoadFilePath"></param>
         /// <returns></returns>
-        public static bool NewStruCalsTower(string towerName, string towerType, string templatePath, string electricalLoadFilePath, List<string> fullStressTemplatePaths)
+        public static bool NewStruCalsTower(string towerName, string towerType, float voltage, string templatePath, string electricalLoadFilePath,  List<string> fullStressTemplatePaths)
         {
             var struCalsParas = GlobalInfo.GetInstance().StruCalsParas;
             
@@ -160,7 +160,7 @@ namespace TowerLoadCals.BLL
                 return false;
             }
 
-            StruCalsParasCompose paras = new StruCalsParasCompose(towerName, towerType, templatePath, electricalLoadFilePath, fullStressTemplatePaths, out string decodeTemplateStr);
+            StruCalsParasCompose paras = new StruCalsParasCompose(towerName, towerType, voltage, templatePath, electricalLoadFilePath, fullStressTemplatePaths, out string decodeTemplateStr);
 
             if(decodeTemplateStr != "")
             {
@@ -247,7 +247,9 @@ namespace TowerLoadCals.BLL
                     #endregion
 
                     #region 复制满应力分析的文件
-                    if (!Directory.Exists(dirFullStressPath))
+                    if (item.FullStressTemplatePaths!=null&&item.FullStressTemplatePaths.Count!=0)
+                    { 
+                        if (!Directory.Exists(dirFullStressPath))
                         Directory.CreateDirectory(dirFullStressPath);
 
                     string soureDir = item.FullStressTemplatePaths[0].Substring(0, item.FullStressTemplatePaths[0].LastIndexOf("\\"));
@@ -260,6 +262,7 @@ namespace TowerLoadCals.BLL
 
                     File.Copy(soureDir + "\\" + ConstVar.SmartTowerIntFileName, dirFullStressPath + "\\" + ConstVar.SmartTowerIntFileName);
                     File.Copy(soureDir + "\\" + ConstVar.SmartTowerIntCHFileName, dirFullStressPath + "\\" + ConstVar.SmartTowerIntCHFileName);
+                    }
                     #endregion
                 }
 
