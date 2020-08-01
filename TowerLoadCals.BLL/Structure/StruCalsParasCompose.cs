@@ -48,7 +48,7 @@ namespace TowerLoadCals.BLL
         }
 
         //此构造函数用于新增塔位，线条相关的初始化信息主要来自于Template，
-        public StruCalsParasCompose(string towerName, string towerType,  string templatePath, string electricalLaodFilePath, List<string> fullStressTemplatePaths,  out string decodeTemolateStr)
+        public StruCalsParasCompose(string towerName, string towerType, float voltage, string templatePath, string electricalLaodFilePath, List<string> fullStressTemplatePaths,  out string decodeTemolateStr)
         {
             decodeTemolateStr = "";
 
@@ -77,6 +77,7 @@ namespace TowerLoadCals.BLL
             LineParas = new List<StruLineParas>();
 
             SetDefaultValue(type);
+            BaseParas.Voltage = voltage;
 
             HPSettingsParas = new List<HangingPointSettingParas>();
             NewHangingPointSetting();

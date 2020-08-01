@@ -50,9 +50,20 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         {
             if (!string.IsNullOrEmpty(searchInfo))
             {
-                searchInfo = searchInfo.Trim();
+                List<string> Str = searchInfo.Trim().Split(new[] { " " }, StringSplitOptions.None).Where(s => !string.IsNullOrEmpty(s)).ToList();
 
-                this.DataSource = new ObservableCollection<WorkConditionCollections>(weatherConditionService.GetList().Where(item => item.CategoryName.Contains(searchInfo)).ToList());
+                if (Str != null && Str.Count > 0)
+                {
+                    IList<WorkConditionCollections> list = weatherConditionService.GetList();
+
+                    this.DataSource = new ObservableCollection<WorkConditionCollections>(from data in list
+                                                                                         from searchInfo in Str
+                                                                                         where
+                                                                                             data.CategoryName.Contains(searchInfo)
+                                                                                         select data);
+                }
+                else
+                    this.DataSource = new ObservableCollection<WorkConditionCollections>(weatherConditionService.GetList());
             }
             else
                 this.DataSource = new ObservableCollection<WorkConditionCollections>(weatherConditionService.GetList());
@@ -60,13 +71,13 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         /// <summary>
         /// 选中按钮
         /// </summary>
-        public void doCheckData( int id)
+        public void doCheckData(int id)
         {
             int CategoryId = DataSource.Where(item => item.Id == id).FirstOrDefault().CategoryId;
 
             foreach (var item in DataSource)
             {
-               if( item.CategoryId == CategoryId)
+                if (item.CategoryId == CategoryId)
                 {
                     item.IsSelected = true;
                 }
@@ -92,14 +103,14 @@ namespace TowerLoadCals.ModulesViewModels.Internet
 
                 XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
                 IList<WorkConditionCollections> groupList = null;
-               
+
                 foreach (var group in groups)
                 {
                     foreach (XmlNode xmlNode in rootNode.ChildNodes)//循环冰区大类，查找是否已经存在大类
                     {
                         if (xmlNode.Attributes.GetNamedItem("SName").InnerText == group.Key)
                         {
-                                DialogResult dr = MessageBox.Show(string.Format("已经存在冰区为【{0}】相同的信息，是否替换？", group.Key), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            DialogResult dr = MessageBox.Show(string.Format("已经存在冰区为【{0}】相同的信息，是否替换？", group.Key), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
                                 rootNode.RemoveChild(xmlNode);
@@ -133,7 +144,7 @@ namespace TowerLoadCals.ModulesViewModels.Internet
 
         }
 
-     
+
 
         #region 属性
         private String searchInfo;

@@ -109,6 +109,7 @@
     <Compile Include="Electric\CircuitPostion.cs" />
     <Compile Include="Electric\FitData.cs" />
     <Compile Include="Electric\FitDataCollection.cs" />
+    <Compile Include="Electric\ProjectInfo.cs" />
     <Compile Include="Electric\StrData.cs" />
     <Compile Include="Electric\StrDataCollection.cs" />
     <Compile Include="Electric\PhaseWire.cs" />

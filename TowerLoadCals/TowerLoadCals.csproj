@@ -155,12 +155,16 @@
     <Compile Include="ModulesViewModels\StruCals\BaseAndLineParasViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\HangingPointViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\NewStruCalsTowerViewModel.cs" />
+    <Compile Include="ModulesViewModels\StruCals\EditStruCalsTowerViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\StruCalsBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\StruCalsResultViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\TowerMemberViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
+    <Compile Include="Modules\BaseData\FitDataModule.xaml.cs">
+      <DependentUpon>FitDataModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\BaseData\StruTemplateEditWindow.xaml.cs">
       <DependentUpon>StruTemplateEditWindow.xaml</DependentUpon>
     </Compile>
@@ -241,6 +245,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Style\TextViewStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\BaseData\FitDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -337,9 +345,6 @@
     <Compile Include="Modules\BaseData\StrDataModule.xaml.cs">
       <DependentUpon>StrDataModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FitDataModule.xaml.cs">
-      <DependentUpon>FitDataModule.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Modules\StruCals\BaseAndLineParasModule.xaml.cs">
       <DependentUpon>BaseAndLineParasModule.xaml</DependentUpon>
     </Compile>
@@ -378,10 +383,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\BaseData\StrDataModule.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FitDataModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

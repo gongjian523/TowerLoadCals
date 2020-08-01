@@ -47,9 +47,21 @@ namespace TowerLoadCals.ModulesViewModels.Internet
         {
             if (!string.IsNullOrEmpty(searchInfo))
             {
-                searchInfo = searchInfo.Trim();
-      
-                this.DataSource = new ObservableCollection<EarthWire>(earthWireService.GetList().Where(item => item.Name.Contains(searchInfo) || item.Category.Contains(searchInfo)).ToList());
+                List<string> Str = searchInfo.Trim().Split(new[] { " " }, StringSplitOptions.None).Where(s => !string.IsNullOrEmpty(s)).ToList();
+
+                if (Str != null && Str.Count > 0)
+                {
+                    IList<EarthWire> list = earthWireService.GetList();
+
+                    this.DataSource = new ObservableCollection<EarthWire>(from data in list
+                                                                              from searchInfo in Str
+                                                                              where
+                                                                                  data.Name.Contains(searchInfo)
+                                                                                  || data.Category.Contains(searchInfo)
+                                                                              select data);
+                }
+                else
+                    this.DataSource = new ObservableCollection<EarthWire>(earthWireService.GetList());
             }
             else
                 this.DataSource = new ObservableCollection<EarthWire>(earthWireService.GetList());

@@ -22,18 +22,30 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <dxlc:LayoutGroup Orientation="Vertical" >
-            <dxlc:LayoutGroup Orientation="Horizontal">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <dxlc:LayoutItem Label="塔位名: ">
                     <dxe:TextEdit EditValue="{Binding TowerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem Label="塔型: " Margin="5,0,0,0">
+                <dxlc:LayoutItem Label="塔型: " Margin="5,0,0,0" Grid.Column="1">
                     <dxe:ComboBoxEdit ItemsSource="{Binding TowerTypes}"  SelectedItem="{Binding TowerType}">
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
                 </dxlc:LayoutItem>
-            </dxlc:LayoutGroup>
+                <dxlc:LayoutItem Label="电压: " Margin="5,0,0,0" Grid.Column="2">
+                    <dxe:ComboBoxEdit ItemsSource="{Binding Voltages}"  SelectedItem="{Binding Voltage}">
+                        <dxe:ComboBoxEdit.StyleSettings>
+                            <dxe:ComboBoxStyleSettings />
+                        </dxe:ComboBoxEdit.StyleSettings>
+                    </dxe:ComboBoxEdit>
+                </dxlc:LayoutItem>
+            </Grid>
             <dxlc:LayoutGroup Orientation="Vertical">
                 <dxlc:LayoutItem Label="工况模板: " Margin="0,7,0,0">
                     <dxe:TextEdit EditValue="{Binding TemplatePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="36,0,0,0"/>

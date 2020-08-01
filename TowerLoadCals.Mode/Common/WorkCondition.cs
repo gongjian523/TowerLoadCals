@@ -28,5 +28,8 @@ namespace TowerLoadCals.Mode
         /// </summary>
         [XmlAttribute("SIceThickness")]
         public string SIceThickness { get; set; }
+
+
+
     }
 }

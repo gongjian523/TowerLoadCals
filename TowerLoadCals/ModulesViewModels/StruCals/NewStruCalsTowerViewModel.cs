@@ -92,12 +92,37 @@ namespace TowerLoadCals.Modules
             }
         }
 
+        protected string _voltage;
+        public string Voltage
+        {
+            get
+            {
+                return _voltage;
+            }
+            set
+            {
+                _voltage = value;
+                RaisePropertyChanged("Voltage");
+                RaisePropertyChanged("ConfirmCanExecute");
+            }
+        }
+
+        protected List<String> _voltages = new List<string>() { "110KV", "220KV", "330KV", "500KV", "750KV", "800KV", "1000KV", "1100KV" };
+        public List<String> Voltages
+        {
+            get
+            {
+                return _voltages;
+            }
+        }
+
         public bool ConfirmCanExecute
         {
             get
             {
                 return (TowerName != null && TowerName.Trim() != "") && (TemplatePath != null && TemplatePath.Trim() != "")
-                    && (TowerType != null && TowerType.Trim() != "") && (ElectricalLoadFilePath != null && ElectricalLoadFilePath.Trim() != "");
+                    && (TowerType != null && TowerType.Trim() != "") && (ElectricalLoadFilePath != null && ElectricalLoadFilePath.Trim() != "")
+                    && (Voltage != null && Voltage.Trim() != "");
             }
         }
 
@@ -149,28 +174,27 @@ namespace TowerLoadCals.Modules
             RaisePropertyChanged("FullStressTemplatePath");
         }
 
-        //public event EventHandler Closed;
+        public delegate void CloseStruCalsTowerDetailWindowHandler(object sender, string strNewTowerName);
+        public event CloseStruCalsTowerDetailWindowHandler CloseStruCalsTowerDetailWindowEvent;
 
-        public delegate void NewStruCalsTowerHandler(object sender, string strNewTowerName);
-        public event NewStruCalsTowerHandler NewStruCalsTowerEvent;
-
-        public void onConfirm()
+        public virtual void onConfirm()
         {
-            if(ProjectUtils.NewStruCalsTower(TowerName, TowerType, TemplatePath, ElectricalLoadFilePath, _fullStressTemplatePaths))
+            float vol  = (float)Convert.ToDecimal(Voltage.Substring(0, Voltage.Length-2));
+            if(ProjectUtils.NewStruCalsTower(TowerName, TowerType, vol, TemplatePath, ElectricalLoadFilePath, _fullStressTemplatePaths))
             {
                 close(TowerName);
             }
         }
 
-        public void onConcel()
+        public virtual void onConcel()
         {
             close("");
         }
 
-        protected void close(string strNewTowerName)
+        protected  virtual void close(string strNewTowerName)
         {
-            if (NewStruCalsTowerEvent != null)
-                NewStruCalsTowerEvent(this, strNewTowerName);
+            if (CloseStruCalsTowerDetailWindowEvent != null)
+                CloseStruCalsTowerDetailWindowEvent(this, strNewTowerName);
         }
 
     }
