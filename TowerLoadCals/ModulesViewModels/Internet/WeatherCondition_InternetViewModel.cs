@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -85,7 +86,6 @@ namespace TowerLoadCals.ModulesViewModels.Internet
             this.dataSource = DataSource;
         }
 
-
         public void doExportData()
         {
             try
@@ -104,8 +104,10 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                 XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
                 IList<WorkConditionCollections> groupList = null;
 
+                bool toAddNew = false;
                 foreach (var group in groups)
                 {
+                    toAddNew = true;
                     foreach (XmlNode xmlNode in rootNode.ChildNodes)//循环冰区大类，查找是否已经存在大类
                     {
                         if (xmlNode.Attributes.GetNamedItem("SName").InnerText == group.Key)
@@ -113,24 +115,33 @@ namespace TowerLoadCals.ModulesViewModels.Internet
                             DialogResult dr = MessageBox.Show(string.Format("已经存在冰区为【{0}】相同的信息，是否替换？", group.Key), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (dr == DialogResult.OK)
                             {
+                                toAddNew = true;
                                 rootNode.RemoveChild(xmlNode);
-                                break;
                             }
+                            else
+                                toAddNew = false;
+
+
+                            break;
                         }
                     }
-                    groupList = weatherConditionService.GetList().Where(item => item.CategoryName == group.Key).ToList();
-                    XmlElement parentElement = doc.CreateElement("KNode");
-                    parentElement.SetAttribute("SName", group.Key);
-                    foreach (var item in groupList)
+
+                    if (toAddNew)
                     {
-                        XmlElement childElement = doc.CreateElement("KNode");
-                        childElement.SetAttribute("SIceThickness", item.SIceThickness.ToString());
-                        childElement.SetAttribute("STemperature", item.STemperature.ToString());
-                        childElement.SetAttribute("SWindSpeed", item.SWindSpeed.ToString());
-                        childElement.SetAttribute("SWorkConditionName", item.SWorkConditionName.ToString());
-                        parentElement.AppendChild(childElement);
+                        groupList = weatherConditionService.GetList().Where(item => item.CategoryName == group.Key).ToList();
+                        XmlElement parentElement = doc.CreateElement("KNode");
+                        parentElement.SetAttribute("SName", group.Key);
+                        foreach (var item in groupList)
+                        {
+                            XmlElement childElement = doc.CreateElement("KNode");
+                            childElement.SetAttribute("SIceThickness", item.SIceThickness.ToString());
+                            childElement.SetAttribute("STemperature", item.STemperature.ToString());
+                            childElement.SetAttribute("SWindSpeed", item.SWindSpeed.ToString());
+                            childElement.SetAttribute("SWorkConditionName", item.SWorkConditionName.ToString());
+                            parentElement.AppendChild(childElement);
+                        }
+                        rootNode.AppendChild(parentElement);
                     }
-                    rootNode.AppendChild(parentElement);
                 }
                 doc.Save(path);
 
@@ -144,6 +155,11 @@ namespace TowerLoadCals.ModulesViewModels.Internet
 
         }
 
+        public void CheckBox(GridGroupValueData data)
+        {
+            var list = DataSource.Where(item => item.CategoryName == data.Text).ToList();
+            list.ForEach(item => item.IsSelected = !item.IsSelected);
+        }
 
 
         #region 属性

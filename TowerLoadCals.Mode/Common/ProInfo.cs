@@ -14,6 +14,11 @@ namespace TowerLoadCals.Mode
         public int Volt { get; set; }
 
         /// <summary>
+        /// 默认是交流线路
+        /// </summary>
+        public int ACorDC { get; set; }
+
+        /// <summary>
         /// 工程名称
         /// </summary>
         public string Name { get; set; }

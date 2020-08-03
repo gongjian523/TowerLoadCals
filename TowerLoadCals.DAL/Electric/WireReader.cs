@@ -215,9 +215,9 @@ namespace TowerLoadCals.DAL
                     if (node.Attributes["DCResistor"] != null)
                         wire.DCResistor = Convert.ToDecimal(node.Attributes["DCResistor"].Value.ToString());
                     if (node.Attributes["RatedBreakingForce"] != null)
-                        wire.RatedBreakingForce = Convert.ToInt32(node.Attributes["RatedBreakingForce"].Value.ToString());
+                        wire.RatedBreakingForce = Convert.ToDecimal(node.Attributes["RatedBreakingForce"].Value.ToString());
                     if (node.Attributes["ModulusElasticity"] != null)
-                        wire.ModulusElasticity = Convert.ToInt32(node.Attributes["ModulusElasticity"].Value.ToString());
+                        wire.ModulusElasticity = Convert.ToDecimal(node.Attributes["ModulusElasticity"].Value.ToString());
                     if (node.Attributes["LineCoefficient"] != null)
                         wire.LineCoefficient = Convert.ToDecimal(node.Attributes["LineCoefficient"].Value.ToString());
                     
