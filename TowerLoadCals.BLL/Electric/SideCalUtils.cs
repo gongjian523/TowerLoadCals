@@ -38,7 +38,6 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public float OPGWAnPara { get; set; }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -64,8 +63,6 @@ namespace TowerLoadCals.BLL.Electric
             OPGWSafePara = oPGWSafePara; 
             OPGWAnPara = oPGWSafePara;  
         }
-
-    
 
         /// <summary>
         /// 设置孤立档计算参数

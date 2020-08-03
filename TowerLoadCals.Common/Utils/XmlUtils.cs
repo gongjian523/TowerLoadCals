@@ -270,5 +270,21 @@ namespace TowerLoadCals.Common
         //{
         //    return new List<T> { new T() };
         //}
+
+        //深度复制
+        public static T Clone<T>(T obj)
+        {
+            T ret = default(T);
+            if (obj != null)
+            {
+                XmlSerializer cloner = new XmlSerializer(typeof(T));
+                MemoryStream stream = new MemoryStream();
+                cloner.Serialize(stream, obj);
+                stream.Seek(0, SeekOrigin.Begin);
+                ret = (T)cloner.Deserialize(stream);
+            }
+            return ret;
+        }
+
     }
 }

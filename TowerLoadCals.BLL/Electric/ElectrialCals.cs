@@ -59,24 +59,24 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 刷新导地线计算
         /// </summary>
-        /// <param name="SpanVal"></param>
-        public void FlashWireData(string SpanVal)
+        /// <param name="spanVal"></param>
+        public void FlashWireData(float spanVal)
         {
             IndWire.UpdataPara(Weather, SideParaSor, Compara);
             IndWire.CalBZ();
-            IndWire.SaveYLTabel(SpanVal);
+            IndWire.SaveYLTabel(spanVal);
 
         }
 
         /// <summary>
         ///  刷新跳线计算
         /// </summary>
-        /// <param name="SpanVal"></param>
-        public void FlashJumWireData(string SpanVal)
+        /// <param name="spanVal"></param>
+        public void FlashJumWireData(float spanVal)
         {
             JumWire.UpdataPara(Weather, SideParaSor, Compara);
             JumWire.CalBZ();
-            JumWire.SaveYLTabel(SpanVal);
+            JumWire.SaveYLTabel(spanVal);
         }
 
     }
