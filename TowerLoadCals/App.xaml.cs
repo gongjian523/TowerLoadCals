@@ -26,6 +26,7 @@ namespace TowerLoad
             DevExpress.Images.ImagesAssemblyLoader.Load();
             PdfViewerLocalizer.Active = new CustomPdfViewerLocalizer();
             ApplicationThemeHelper.ApplicationThemeName = Theme.Office2013Name;
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         protected override void OnStartup(StartupEventArgs e)

@@ -319,6 +319,15 @@ namespace TowerLoadCals.Mode
             }
         }
 
+
+        public bool IsShowPulleyTensionDif
+        {
+            get
+            {
+                return  (Type==TowerType.LineTower || Type==TowerType.LineCornerTower);
+            }
+        }
+
         [XmlIgnore]
         public bool IsOtherParasAngleVisible
         {

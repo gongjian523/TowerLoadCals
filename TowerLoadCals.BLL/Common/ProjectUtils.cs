@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TowerLoadCals.Common;
 using TowerLoadCals.Mode;
+using System.Xml;
 
 namespace TowerLoadCals.BLL
 {
@@ -59,6 +60,8 @@ namespace TowerLoadCals.BLL
             Directory.CreateDirectory(strDir + "\\" + prejectName);
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);
 
+            CreateBaseFile(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);//创建4个xml
+
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr);
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.LineTowerStr);
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.LineCornerTowerStr);
@@ -94,6 +97,100 @@ namespace TowerLoadCals.BLL
             return true;
         }
 
+        #region  创建网络信息基础数据文件
+        /// <summary>
+        /// 创建网络信息基础数据文件 
+        /// FitData.xml 
+        /// StrData.xml 
+        /// WeatherCondition.xml 
+        /// Wire.xml
+        /// </summary>
+        /// <param name="Path"></param>
+        public void CreateBaseFile(string Path)
+        {
+            #region //首先创建 FitData xml文档
+
+            //首先创建 FitData xml文档 
+            XmlDocument fitDataXml = new XmlDocument();         
+            XmlElement fitDataRoot = fitDataXml.CreateElement("Root");
+            fitDataXml.AppendChild(fitDataRoot);
+
+            XmlElement fitData1 = fitDataXml.CreateElement("FitDataCollection");
+            fitData1.SetAttribute("Type", "防震锤");
+            fitDataRoot.AppendChild(fitData1);
+
+            XmlElement fitData2 = fitDataXml.CreateElement("FitDataCollection");
+            fitData2.SetAttribute("Type", "间隔棒");
+            fitDataRoot.AppendChild(fitData2);
+
+            XmlElement fitData3 = fitDataXml.CreateElement("FitDataCollection");
+            fitData3.SetAttribute("Type", "警示装置");
+            fitDataRoot.AppendChild(fitData3);
+
+            XmlElement fitData4 = fitDataXml.CreateElement("FitDataCollection");
+            fitData4.SetAttribute("Type", "其他装置");
+            fitDataRoot.AppendChild(fitData4);
+
+            //最后将整个xml文件保存在D盘             
+            fitDataXml.Save(Path+ @"\FitData.xml");
+
+            #endregion
+
+            #region //创建 StrData xml文档 
+
+            //创建 StrData xml文档 
+            XmlDocument strDataXml = new XmlDocument();
+            XmlElement strDataRoot = strDataXml.CreateElement("Root");
+            strDataXml.AppendChild(strDataRoot);
+
+            XmlElement strData1 = strDataXml.CreateElement("StrDataCollection");
+            strData1.SetAttribute("Type", "一般子串");
+            strDataRoot.AppendChild(strData1);
+
+            XmlElement strData2 = strDataXml.CreateElement("StrDataCollection");
+            strData2.SetAttribute("Type", "硬跳线");
+            strDataRoot.AppendChild(strData2);
+
+            //最后将整个xml文件保存在D盘             
+            strDataXml.Save(Path + @"\StrData.xml");
+
+
+            #endregion
+
+            #region  //创建 WeatherCondition xml文档 
+
+
+            //创建 WeatherCondition xml文档 
+            XmlDocument weatherConditionXml = new XmlDocument();
+            XmlElement weatherConditionRoot = weatherConditionXml.CreateElement("Root");
+            weatherConditionXml.AppendChild(weatherConditionRoot);
+            //最后将整个xml文件保存在D盘             
+            weatherConditionXml.Save(Path + @"\WeatherCondition.xml");
+
+
+            #endregion
+
+            #region  创建 Wire xml文档 
+            //创建 Wire xml文档 
+            XmlDocument wireXml = new XmlDocument();
+            XmlElement wireRoot = wireXml.CreateElement("Root");
+            wireXml.AppendChild(wireRoot);
+
+            XmlElement wire1 = wireXml.CreateElement("WireType");
+            wire1.SetAttribute("Type", "地线");
+            wireRoot.AppendChild(wire1);
+
+            XmlElement wire2 = wireXml.CreateElement("WireType");
+            wire2.SetAttribute("Type", "导线");
+            wireRoot.AppendChild(wire2);
+
+            //最后将整个xml文件保存在D盘             
+            wireXml.Save(Path + @"\Wire.xml");
+
+            #endregion
+        }
+
+        #endregion
 
         public void  AddFileToProject(string module,string file)
         {

@@ -35,12 +35,12 @@
         /// <summary>
         /// 额定拉断力
         /// </summary>
-        public int RatedBreakingForce { get; set; }
+        public decimal RatedBreakingForce { get; set; }
 
         /// <summary>
         /// 弹性模量
         /// </summary>
-        public int ModulusElasticity { get; set; }
+        public decimal ModulusElasticity { get; set; }
 
         /// <summary>
         /// 线膨胀系数

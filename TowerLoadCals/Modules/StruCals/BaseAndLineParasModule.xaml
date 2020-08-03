@@ -302,7 +302,7 @@
             <dxg:GridColumn FieldName="PortalTensionMin"  Header="门构小张" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsTerminalTower}"/>
             <dxg:GridColumn FieldName="PortalTensionMax"  Header="门构大张" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsTerminalTower}"/>
             <dxg:GridColumn FieldName="DrawingCoef"  Header="过牵引系数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="PulleyTensionDif"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsTerminalTower, Converter={StaticResource InverseBooleanConverter}}"/>
+            <dxg:GridColumn FieldName="PulleyTensionDif"  Header="过滑车张力差" HorizontalHeaderContentAlignment="Center" Visible="{Binding BaseParas.IsShowPulleyTensionDif}"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

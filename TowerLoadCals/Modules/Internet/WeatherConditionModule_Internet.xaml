@@ -9,9 +9,10 @@
 Background="AliceBlue" >
     <UserControl.Resources>
         <DataTemplate x:Key="colGroupNameGroupValueTemplate">
-            <Grid Margin="5,0,0,0">
-                <TextBlock Text="{Binding Path=RowData.Row.categoryid}" Padding="5,0,0,0" />
-            </Grid>
+            <StackPanel  Orientation="Horizontal" Margin="5,0,0,0">
+                <CheckBox  Command="{DXCommand View.DataContext.CheckBox(@parameter)}"   CommandParameter="{Binding}" />
+                <TextBlock Text="{Binding Path=RowData.Row.CategoryName}" Padding="5,0,0,0"  VerticalAlignment="Center"/>
+            </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -41,8 +42,6 @@ Background="AliceBlue" >
             <dxg:GridControl.GroupSummary>
                 <dxg:GridSummaryItem FieldName="CategoryName" />
             </dxg:GridControl.GroupSummary>
-            <dxg:GridColumn FieldName="IsSelected"  Header="是否选择" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="CategoryName"  Header="" HorizontalHeaderContentAlignment="Center"   ReadOnly="True"/>
             <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center"   ReadOnly="True"/>
             <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
