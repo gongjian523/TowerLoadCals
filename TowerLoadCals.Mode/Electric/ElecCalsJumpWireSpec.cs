@@ -7,7 +7,7 @@ namespace TowerLoadCals.Mode.Electric
         [XmlAttribute("电压等级")]
         public string Voltage { get; set; }
 
-        [XmlAttribute("系数取值")]
-        public int Coef { get; set; }
+        [XmlAttribute("系数")]
+        public float Coef { get; set; }
     }
 }

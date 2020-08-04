@@ -22,12 +22,6 @@ namespace TowerLoadCals.Mode.Electric
         public string WireType { get; set; }
 
         /// <summary>
-        /// 张力
-        /// </summary>
-        [XmlAttribute("张力")]
-        public int Stress { get; set; }
-
-        /// <summary>
         /// 最大使用张力百分数
         /// </summary>
         [XmlAttribute("最大使用百分比")]
@@ -38,6 +32,24 @@ namespace TowerLoadCals.Mode.Electric
         /// </summary>
         [XmlAttribute("种类")]
         public string Type { get; set; }
+
+        /// <summary>
+        /// 边
+        /// </summary>
+        [XmlAttribute("边")]
+        public string Side { get; set; }
+
+        /// <summary>
+        /// 分类
+        /// </summary>
+        [XmlAttribute("分类")]
+        public string Category { get; set; }
+
+        /// <summary>
+        /// 张力
+        /// </summary>
+        [XmlAttribute("张力")]
+        public int Stress { get; set; }
 
     }
 }

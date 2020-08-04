@@ -620,7 +620,7 @@ namespace TowerLoadCals.Test
         }
 
         [TestMethod]
-        public void TestMethod06_EleCalsSpec()
+        public void TestMethod06_EleCalsSpecSave()
         {
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
             {
@@ -1040,22 +1040,108 @@ namespace TowerLoadCals.Test
                 },
                 HeavyIceBreakWireStress = new List<ElecCalsBreakWireSpec>()
                 {
-                    
-                }
-
-            
-                
-
-
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "导线",
+                        Type = "III",
+                        Percent = 20,
+                        Stress = 55,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        Category = "一类",
+                        Type = "III",
+                        Percent = 20,
+                        Stress = 55,
+                    },
+                },
+                LightIceStress = new List<ElecCalsUnevenIceSpec>()
+                {
+                    new ElecCalsUnevenIceSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        IceThickness = 5,
+                        WireType = "导线",
+                        Stress = 15,
+                    },
+                },
+                MiddleIceStress = new List<ElecCalsUnevenIceSpec>
+                {
+                    new ElecCalsUnevenIceSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        Type = "I",
+                        Percent = 15,
+                        WireType = "导线",
+                        Stress = 15,
+                    },
+                },
+                HeavyIceStress = new List<ElecCalsUnevenIceSpec>
+                {
+                    new ElecCalsUnevenIceSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        Type = "III",
+                        WireType = "导线",
+                        Percent = 20,
+                        Stress = 20,
+                    },
+                },
+                HeavyUnevenIceStress = new List<ElecCalsUnevenIceSpec>
+                {
+                    new ElecCalsUnevenIceSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        Side = "一侧",
+                        Category = "一类",
+                        Stress = 100,
+                    },
+                },
+                JumpWireWind = new List<ElecCalsJumpWireSpec>
+                {
+                    new ElecCalsJumpWireSpec()
+                    {
+                        Voltage = "110kV",
+                        Coef = 1,
+                    },
+                },
+                VerticalLoad = new List<ElecCalsVertLoadSpec>
+                {
+                    new ElecCalsVertLoadSpec()
+                    {
+                        WorkCondition = "断线",
+                        Percent =100,
+                    }
+                },
+                WindCoef = new List<ElecCalsWindSpec>
+                {
+                    new ElecCalsWindSpec()
+                    {
+                        Voltage = "110kV",
+                        Category = 0,
+                    }
+                },
             };
 
-
-
-
             XmlUtils.Serializer(saveFileDialog.FileName, spec);
-
             var paras2 = XmlUtils.Deserializer<ElecCalsSpec>(saveFileDialog.FileName);
+        }
 
+
+        [TestMethod]
+        public void TestMethod07_EleCalsSpecRead()
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (openFileDialog.ShowDialog() != true)
+                return;
+
+            var paras2 = XmlUtils.Deserializer<ElecCalsSpec>(openFileDialog.FileName);
         }
     }
 }

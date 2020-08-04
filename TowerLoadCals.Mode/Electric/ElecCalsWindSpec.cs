@@ -9,10 +9,10 @@ namespace TowerLoadCals.Mode.Electric
 {
     public class ElecCalsWindSpec
     {
-        [XmlAttribute]
+        [XmlAttribute("电压等级")]
         public string Voltage { get; set; }
 
-        [XmlAttribute]
+        [XmlAttribute("分类")]
         public int Category { get; set; }
     }
 }

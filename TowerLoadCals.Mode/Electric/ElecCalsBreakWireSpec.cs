@@ -28,22 +28,15 @@ namespace TowerLoadCals.Mode.Electric
         public string Terrain { get; set; }
 
         /// <summary>
-        /// 张力
-        /// </summary>
-        [XmlAttribute("张力")]
-        public int Stress{ get; set; }
-
-
-        /// <summary>
         /// 分类
         /// </summary>
         [XmlAttribute("分类")]
-        public int Category { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// 最大使用参数百分数
         /// </summary>
-        [XmlAttribute("最大使用比分比")]
+        [XmlAttribute("最大使用百分比")]
         public int Percent { get; set; }
 
         /// <summary>
@@ -51,6 +44,12 @@ namespace TowerLoadCals.Mode.Electric
         /// </summary>
         [XmlAttribute("种类")]
         public string Type { get; set; }
+
+        /// <summary>
+        /// 张力
+        /// </summary>
+        [XmlAttribute("张力")]
+        public int Stress{ get; set; }
 
     }
 }

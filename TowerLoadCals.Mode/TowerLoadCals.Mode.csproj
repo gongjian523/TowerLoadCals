@@ -108,6 +108,13 @@
     <Compile Include="Electric\BZResult.cs" />
     <Compile Include="Electric\Circuit.cs" />
     <Compile Include="Electric\CircuitPostion.cs" />
+    <Compile Include="Electric\ElecCalsBreakWireSpec.cs" />
+    <Compile Include="Electric\ElecCalsCateSpec.cs" />
+    <Compile Include="Electric\ElecCalsJumpWireSpec.cs" />
+    <Compile Include="Electric\ElecCalsSpec.cs" />
+    <Compile Include="Electric\ElecCalsUnevenIceSpec.cs" />
+    <Compile Include="Electric\ElecCalsVertLoadSpec.cs" />
+    <Compile Include="Electric\ElecCalsWindSpec.cs" />
     <Compile Include="Electric\FitData.cs" />
     <Compile Include="Electric\FitDataCollection.cs" />
     <Compile Include="Electric\PhaseSpace.cs" />
