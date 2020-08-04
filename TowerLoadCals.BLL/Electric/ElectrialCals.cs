@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.Common;
 
 namespace TowerLoadCals.BLL.Electric
 {
@@ -11,7 +12,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 气象条件
         /// </summary>
-        protected WeatherUtils Weather { get; set; }
+        protected WeatherUtils Weather;
 
         /// <summary>
         /// 导线
@@ -36,10 +37,10 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 
         /// </summary>
-        protected string  SideParaSor { get; set; }
+        protected SideCalUtils SideParas { get; set; }
+        
 
-
-        protected string  Compara { get; set; }
+        protected ElectricalCommonUtils CommParas { get; set; }
 
         /// <summary>
         /// 配置计算数据,并刷新导线相关参数等
@@ -51,9 +52,15 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="JumWireSor"></param>
         /// <param name="SideParaSor"></param>
         /// <param name="ComParaSor"></param>
-        public void UpdataSor(WeatherUtils WeathSor, WireUtils IndWireSor, WireUtils GrdWireSor, WireUtils OPGWWrieSor, WireUtils JumWireSor,  string SideParaSor, string ComParaSor)
+        public void UpdataSor(WeatherUtils WeathSor, WireUtils IndWireSor, WireUtils GrdWireSor, WireUtils OPGWWrieSor, WireUtils JumWireSor, SideCalUtils SideParaSor, ElectricalCommonUtils ComParaSor)
         {
-
+            Weather = XmlUtils.Clone(WeathSor);
+            IndWire = XmlUtils.Clone(IndWireSor);
+            GrdWire = XmlUtils.Clone(GrdWireSor);
+            OPGWWire = XmlUtils.Clone(OPGWWrieSor);
+            JumWire = XmlUtils.Clone(JumWireSor);
+            SideParas = SideParaSor;
+            CommParas = ComParaSor;
         }
 
         /// <summary>
@@ -62,10 +69,9 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="spanVal"></param>
         public void FlashWireData(float spanVal)
         {
-            IndWire.UpdataPara(Weather, SideParaSor, Compara);
+            IndWire.UpdataPara(Weather, CommParas, SideParas);
             IndWire.CalBZ();
             IndWire.SaveYLTabel(spanVal);
-
         }
 
         /// <summary>
@@ -74,7 +80,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="spanVal"></param>
         public void FlashJumWireData(float spanVal)
         {
-            JumWire.UpdataPara(Weather, SideParaSor, Compara);
+            JumWire.UpdataPara(Weather, CommParas, SideParas);
             JumWire.CalBZ();
             JumWire.SaveYLTabel(spanVal);
         }

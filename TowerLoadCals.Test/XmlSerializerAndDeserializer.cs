@@ -5,6 +5,7 @@ using TowerLoadCals.BLL;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.Test
 {
@@ -616,6 +617,445 @@ namespace TowerLoadCals.Test
                 return;
 
             ConfigFileUtils.UpdateTowerTemplateName(saveFileDialog.FileName, "单回交流轻冰区(三跨验算)1", "直线塔", "单回交流轻冰区(三跨验算)2", "直转塔");
+        }
+
+        [TestMethod]
+        public void TestMethod06_EleCalsSpec()
+        {
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+
+            ElecCalsSpec spec = new ElecCalsSpec()
+            {
+                Category = new List<ElecCalsCateSpec>()
+                {
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "110kV",
+                         Category = "三类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "220kV",
+                         Category = "二类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "330kV",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "500kV",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "750kV",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "1000kV",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "500",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "-500",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "800",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "-800",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "1100",
+                         Category = "一类",
+                    },
+                    new ElecCalsCateSpec()
+                    {
+                         Voltage = "-1100",
+                         Category = "一类",
+                    },
+                },
+                LightIceBreakWireStress = new List<ElecCalsBreakWireSpec>()
+                {
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "单导线",
+                        Terrain = "平丘",
+                        IceThickness = 5,
+                        Stress = 50,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂导线",
+                        Terrain = "平丘",
+                        IceThickness = 5,
+                        Stress = 25,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂以上导线",
+                        Terrain = "平丘",
+                        IceThickness = 5,
+                        Stress = 20,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "地线",
+                        Terrain = "平丘",
+                        IceThickness = 5,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "单导线",
+                        Terrain = "平丘",
+                        IceThickness = 10,
+                        Stress = 50,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂导线",
+                        Terrain = "平丘",
+                        IceThickness = 10,
+                        Stress = 25,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂以上导线",
+                        Terrain = "平丘",
+                        IceThickness = 10,
+                        Stress = 20,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "地线",
+                        Terrain = "平丘",
+                        IceThickness = 10,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "单导线",
+                        Terrain = "山地",
+                        IceThickness = 5,
+                        Stress = 50,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂导线",
+                        Terrain = "山地",
+                        IceThickness = 5,
+                        Stress = 30,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂以上导线",
+                        Terrain = "山地",
+                        IceThickness = 5,
+                        Stress = 25,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "地线",
+                        Terrain = "山地",
+                        IceThickness = 5,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "单导线",
+                        Terrain = "山地",
+                        IceThickness = 10,
+                        Stress = 50,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂导线",
+                        Terrain = "山地",
+                        IceThickness = 10,
+                        Stress = 30,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂以上导线",
+                        Terrain = "山地",
+                        IceThickness = 10,
+                        Stress = 25,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "地线",
+                        Terrain = "山地",
+                        IceThickness = 10,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "单导线",
+                        Terrain = "平丘",
+                        IceThickness = 5,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "双分裂及以上导线",
+                        Terrain = "平丘",
+                        IceThickness = 5,
+                        Stress = 70,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "地线",
+                        Terrain = "平丘",
+                        IceThickness = 5,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "单导线",
+                        Terrain = "平丘",
+                        IceThickness = 10,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "双分裂及以上导线",
+                        Terrain = "平丘",
+                        IceThickness = 10,
+                        Stress = 70,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "地线",
+                        Terrain = "平丘",
+                        IceThickness = 10,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "单导线",
+                        Terrain = "山地",
+                        IceThickness = 5,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "双分裂及以上导线",
+                        Terrain = "山地",
+                        IceThickness = 5,
+                        Stress = 70,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "地线",
+                        Terrain = "山地",
+                        IceThickness = 5,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "单导线",
+                        Terrain = "山地",
+                        IceThickness = 10,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "双分裂及以上导线",
+                        Terrain = "山地",
+                        IceThickness = 10,
+                        Stress = 70,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "地线",
+                        Terrain = "山地",
+                        IceThickness = 10,
+                        Stress = 100,
+                    },
+                },
+                MiddleIceBreakWireStress = new List<ElecCalsBreakWireSpec>()
+                {
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "单导线",
+                        Type = "I",
+                        Percent = 15,
+                        Stress = 50,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂导线",
+                        Type = "I",
+                        Percent = 15,
+                        Stress = 40,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂以上导线",
+                        Type = "I",
+                        Percent = 15,
+                        Stress = 35,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "地线",
+                        Type = "I",
+                        Percent = 15,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "单导线",
+                        Type = "II",
+                        Percent = 20,
+                        Stress = 50,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂导线",
+                        Type = "II",
+                        Percent = 20,
+                        Stress = 50,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "双分裂以上导线",
+                        Type = "II",
+                        Percent = 20,
+                        Stress = 45,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "悬垂塔",
+                        WireType = "地线",
+                        Type = "II",
+                        Percent = 20,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "单导线",
+                        Type = "I",
+                        Percent = 15,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "双分裂及以上导线",
+                        Type = "I",
+                        Percent = 15,
+                        Stress = 70,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "地线",
+                        Type = "I",
+                        Percent = 15,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "单导线",
+                        Type = "II",
+                        Percent = 20,
+                        Stress = 100,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "双分裂及以上导线",
+                        Type = "II",
+                        Percent = 20,
+                        Stress = 70,
+                    },
+                    new ElecCalsBreakWireSpec()
+                    {
+                        TowerType = "耐张塔",
+                        WireType = "地线",
+                        Type = "II",
+                        Percent = 20,
+                        Stress = 100,
+                    },
+                },
+                HeavyIceBreakWireStress = new List<ElecCalsBreakWireSpec>()
+                {
+                    
+                }
+
+            
+                
+
+
+            };
+
+
+
+
+            XmlUtils.Serializer(saveFileDialog.FileName, spec);
+
+            var paras2 = XmlUtils.Deserializer<ElecCalsSpec>(saveFileDialog.FileName);
+
         }
     }
 }

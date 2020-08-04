@@ -61,8 +61,17 @@
     <Compile Include="Electric\ElectrialCals.cs" />
     <Compile Include="Electric\ElectricalCalsToolBox.cs" />
     <Compile Include="Electric\ElectricalCommonUtils.cs" />
+    <Compile Include="Electric\LoadThrDeUtils.cs" />
+    <Compile Include="Electric\PhaseSpaceStrUtils.cs" />
+    <Compile Include="Electric\PntInTower.cs" />
     <Compile Include="Electric\SideCalUtils.cs" />
+    <Compile Include="Electric\SpanFitUtils.cs" />
+    <Compile Include="Electric\StrDataUtils.cs" />
+    <Compile Include="Electric\StressPhaseStrUtils.cs" />
+    <Compile Include="Electric\TowerAppreUtils.cs" />
+    <Compile Include="Electric\TowerPosStrUtils.cs" />
     <Compile Include="Electric\TowerStrainUtils.cs" />
+    <Compile Include="Electric\TowerStrDataUtis.cs" />
     <Compile Include="Electric\TowerUtils.cs" />
     <Compile Include="Electric\WeatherUtils.cs" />
     <Compile Include="Electric\WireUtils.cs" />
