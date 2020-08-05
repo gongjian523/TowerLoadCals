@@ -9,6 +9,11 @@ namespace TowerLoadCals.BLL.Electric
     public class SideCalUtils
     {
         /// <summary>
+        /// 导线有效系数
+        /// </summary>
+        public float IndEffectPara { get; set; }
+
+        /// <summary>
         /// 导线安全系数
         /// </summary>
         public float IndSafePara { get; set; }
@@ -19,6 +24,11 @@ namespace TowerLoadCals.BLL.Electric
         public float IndAnPara { get; set; }
 
         /// <summary>
+        /// 地线有效系数
+        /// </summary>
+        public float GrdEffectPara { get; set; }
+
+        /// <summary>
         /// 地线安全系数
         /// </summary>
         public float GrdSafePara { get; set; }
@@ -27,6 +37,11 @@ namespace TowerLoadCals.BLL.Electric
         /// 地线年均系数，按照百分比
         /// </summary>
         public float GrdAnPara { get; set; }
+
+        /// <summary>
+        ///  OPGW有效系数
+        /// </summary>
+        public float OPGWEffectPara { get; set; }
 
         /// <summary>
         ///  OPGW安全系数
@@ -53,15 +68,20 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public float OPGWMaxFor { get; set; }
 
-        public SideCalUtils(float indSafePara= 2.5f, float indAnPara= 0.25f, float grdSafePara= 4, float grdAnPara= 0.25f,
-            float oPGWSafePara = 4, float oPGWAnPara= 0.2f)
+        public SideCalUtils(float indEffectPara=2.5f, float indSafePara= 2.5f, float indAnPara= 0.25f, float grdEffectPara = 4, float grdSafePara= 4, float grdAnPara= 0.25f,
+            float opgwEffectPara=4, float opgwSafePara = 4, float opgwAnPara= 0.2f)
         {
+            IndEffectPara = indAnPara;
             IndSafePara = indSafePara; 
-            IndAnPara = indAnPara;  
+            IndAnPara = indAnPara;
+
+            GrdEffectPara = GrdEffectPara;
             GrdSafePara = grdSafePara;  
-            GrdAnPara = grdAnPara;  
-            OPGWSafePara = oPGWSafePara; 
-            OPGWAnPara = oPGWSafePara;  
+            GrdAnPara = grdAnPara;
+
+            OPGWEffectPara = opgwEffectPara;
+            OPGWSafePara = opgwSafePara; 
+            OPGWAnPara = opgwAnPara;  
         }
 
         /// <summary>

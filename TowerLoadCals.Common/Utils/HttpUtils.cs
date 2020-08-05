@@ -9,6 +9,7 @@ using System.Text;
 
 namespace TowerLoadCals.Common.Utils
 {
+    //HTTP协议接口
     public class HttpUtils
     {
         public static HttpWebResponse CreateGetHttpResponse(string url, int timeout, string userAgent, CookieCollection cookies)

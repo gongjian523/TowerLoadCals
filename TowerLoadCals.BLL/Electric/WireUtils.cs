@@ -58,6 +58,12 @@ namespace TowerLoadCals.BLL.Electric
         public float DecrTem { get; set; }
 
         /// <summary>
+        /// 导线分裂数
+        /// </summary>
+        public float DevideNum { get; set; }
+
+
+        /// <summary>
         /// 比载字典
         /// </summary>
         public Dictionary<string, BZResult> BzDic { get; set; }
@@ -94,7 +100,7 @@ namespace TowerLoadCals.BLL.Electric
         public float OPGWAnPara { get; private set; }
 
         public WireUtils(string name = "", int id = 0, float sec = 0, float dia = 0, float wei = 0, float elas = 0, 
-            float coef = 0, float fore = 0, int grd = 0, float decrTem = 0)
+            float coef = 0, float fore = 0, int grd = 0, float decrTem = 0, int devide = 0)
         {
             ID = id;
             Name = name;
@@ -106,6 +112,7 @@ namespace TowerLoadCals.BLL.Electric
             Fore = fore;
             bGrd = grd;
             DecrTem = decrTem;
+            DevideNum = devide;
             BzDic = new Dictionary<string, BZResult>();
             ForSpanDic = new Dictionary<string, float>();
         }

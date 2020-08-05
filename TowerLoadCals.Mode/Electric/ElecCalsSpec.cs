@@ -14,33 +14,21 @@ namespace TowerLoadCals.Mode.Electric
         [XmlArrayItem("分类信息")]
         public List<ElecCalsCateSpec> Category { get; set; }
 
-        [XmlArray("轻冰区断张力")]
-        [XmlArrayItem("断张力")]
-        public List<ElecCalsBreakWireSpec> LightIceBreakWireStress { get; set; }
+        [XmlArray("断张力")]
+        [XmlArrayItem("断张力详情")]
+        public List<ElecCalsBreakWireSpec> BreakWireStress { get; set; }
 
-        [XmlArray("中冰区断张力")]
-        [XmlArrayItem("断张力")]
-        public List<ElecCalsBreakWireSpec> MiddleIceBreakWireStress { get; set; }
+        [XmlArray("断线覆冰")]
+        [XmlArrayItem("断线覆冰率")]
+        public List<ElecCalsBreakIceSpec> BreakIceRate { get; set; }
 
-        [XmlArray("重冰区断张力")]
-        [XmlArrayItem("断张力")]
-        public List<ElecCalsBreakWireSpec> HeavyIceBreakWireStress { get; set; }
+        [XmlArray("不平衡张力")]
+        [XmlArrayItem("不平衡张力详情")]
+        public List<ElecCalsUnevenIceSpec> UnevenIceStress { get; set; }
 
-        [XmlArray("轻冰区不平衡张力")]
-        [XmlArrayItem("不平衡张力")]
-        public List<ElecCalsUnevenIceSpec> LightIceStress { get; set; }
-
-        [XmlArray("中冰区不平衡张力")]
-        [XmlArrayItem("不平衡张力")]
-        public List<ElecCalsUnevenIceSpec> MiddleIceStress { get; set; }
-
-        [XmlArray("重冰区不平衡张力")]
-        [XmlArrayItem("不平衡张力")]
-        public List<ElecCalsUnevenIceSpec> HeavyIceStress { get; set; }
-
-        [XmlArray("重冰不均匀覆冰不平衡张力")]
-        [XmlArrayItem("不平衡张力")]
-        public List<ElecCalsUnevenIceSpec> HeavyUnevenIceStress { get; set; }
+        [XmlArray("不均匀冰覆冰")]
+        [XmlArrayItem("不均匀冰覆冰率")]
+        public List<ElecCalsUnevenIceCoverSpec> UnevenIceRate { get; set; }
 
         [XmlArray("跳线不均匀系数")]
         [XmlArrayItem("系数")]

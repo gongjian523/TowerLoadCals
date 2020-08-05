@@ -7,10 +7,10 @@ using System.Xml.Serialization;
 
 namespace TowerLoadCals.Mode.Electric
 {
-    public class ElecCalsUnevenIceSpec
+    public class ElecCalsBreakIceSpec
     {
         [XmlAttribute("杆塔类型")]
-        public string TowerType { get; set; }
+        public string  TowerType { get; set;  }
 
         /// <summary>
         /// 冰区类型
@@ -24,14 +24,11 @@ namespace TowerLoadCals.Mode.Electric
         [XmlAttribute("冰厚")]
         public int IceThickness { get; set; }
 
-        [XmlAttribute("导地线")]
-        public string WireType { get; set; }
-
-        ///// <summary>
-        ///// 最大使用张力百分数
-        ///// </summary>
-        //[XmlAttribute("最大使用百分比")]
-        //public int Percent { get; set; }
+        /// <summary>
+        /// 分类
+        /// </summary>
+        [XmlAttribute("分类")]
+        public string Category { get; set; }
 
         /// <summary>
         /// 种类
@@ -40,22 +37,9 @@ namespace TowerLoadCals.Mode.Electric
         public string Type { get; set; }
 
         /// <summary>
-        /// 边
+        /// 覆冰率
         /// </summary>
-        [XmlAttribute("边")]
-        public string Side { get; set; }
-
-        /// <summary>
-        /// 分类
-        /// </summary>
-        [XmlAttribute("分类")]
-        public string Category { get; set; }
-
-        /// <summary>
-        /// 张力
-        /// </summary>
-        [XmlAttribute("张力")]
-        public int Stress { get; set; }
-
+        [XmlAttribute("覆冰率")]
+        public int Percent { get; set; }
     }
 }

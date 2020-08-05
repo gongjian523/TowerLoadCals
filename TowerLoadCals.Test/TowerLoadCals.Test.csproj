@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CornerTower.cs" />
     <Compile Include="TowerTemplateTest.cs" />
+    <Compile Include="ElectrialCals.cs" />
     <Compile Include="XmlSerializerAndDeserializer.cs" />
   </ItemGroup>
   <ItemGroup>

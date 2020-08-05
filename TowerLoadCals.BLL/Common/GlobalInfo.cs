@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL
 {
@@ -36,17 +37,28 @@ namespace TowerLoadCals.BLL
 
         public List<StruCalsParasCompose> StruCalsParas { get; set; }
 
-        public StruCalsLib StruCalsLibParas { get; set; }
-
+        protected StruCalsLib _struCalsLibParas;
         public StruCalsLib GetStruCalsLibParas()
         {
-            if (StruCalsLibParas == null)
+            if (_struCalsLibParas == null)
             {
-                ProjectUtils.GetInstance().ReadStruCalsLibParas();
+                _struCalsLibParas = ProjectUtils.GetInstance().ReadStruCalsLibParas();
             }
 
-            return StruCalsLibParas;
+            return _struCalsLibParas;
         }
+
+        public ElecCalsSpec _elecCalsSpecParas;
+        public ElecCalsSpec GetElecCalsSpecParas()
+        {
+            if (_elecCalsSpecParas == null)
+            {
+                _elecCalsSpecParas = ProjectUtils.GetInstance().ReadElecCalsSpecParas();
+            }
+
+            return _elecCalsSpecParas;
+        }
+
 
         public string SmartTowerPath { get; set; }
 
