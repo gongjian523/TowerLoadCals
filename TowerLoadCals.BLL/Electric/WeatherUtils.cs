@@ -34,7 +34,6 @@ namespace TowerLoadCals.BLL.Electric
             WeathColl.AddRange(iniWeather);
         }
 
-
         /// <summary>
         /// 换算最大风速值到平均高度
         /// </summary>
@@ -46,9 +45,9 @@ namespace TowerLoadCals.BLL.Electric
                 WeathColl.Add(new WorkCondition
                 {
                     SWorkConditionName = "换算最大风速",
-                    SIceThickness = temp.SIceThickness,
-                    STemperature = temp.STemperature,
-                    SWindSpeed = ElectricalCalsToolBox.WindExChange((float)Convert.ToDouble(temp.SWindSpeed), aveHei, terType).ToString(),
+                    IceThickness = temp.IceThickness,
+                    Temperature = temp.Temperature,
+                    WindSpeed = ElectricalCalsToolBox.WindExChange(temp.WindSpeed, aveHei, terType),
                 });
             }
 
@@ -58,9 +57,9 @@ namespace TowerLoadCals.BLL.Electric
                 WeathColl.Add(new WorkCondition
                 {
                     SWorkConditionName = "换算不均匀风",
-                    SIceThickness = temp.SIceThickness,
-                    STemperature = temp.STemperature,
-                    SWindSpeed = ElectricalCalsToolBox.WindExChange((float)Convert.ToDouble(temp.SWindSpeed), aveHei, terType).ToString(),
+                    IceThickness = temp.IceThickness,
+                    Temperature = temp.Temperature,
+                    WindSpeed = ElectricalCalsToolBox.WindExChange(temp.WindSpeed, aveHei, terType),
                 });
             }
         }
@@ -74,18 +73,12 @@ namespace TowerLoadCals.BLL.Electric
             {
                 var temp = WeathColl.Where(item => item.SWorkConditionName == "最大覆冰").First();
 
-                decimal iceThickness = Convert.ToDecimal(temp.SIceThickness);
-                if(iceThickness > 0)
-                {
-                    iceThickness += 5;
-                }
-
                 WeathColl.Add(new WorkCondition
                 {
                     SWorkConditionName = "地线覆冰",
-                    SIceThickness = iceThickness.ToString(),
-                    STemperature = temp.STemperature,
-                    SWindSpeed = temp.SWindSpeed,
+                    IceThickness = (temp.IceThickness > 0 ? temp.IceThickness + 5 : temp.IceThickness),
+                    Temperature = temp.Temperature,
+                    WindSpeed = temp.WindSpeed,
                 });
             }
         }
@@ -95,16 +88,16 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public void AddOtherGk()
         {
-            if (WeathColl.Where(item => item.SWorkConditionName == "覆冰无风").Count() > 0)
+            if (WeathColl.Where(item => item.SWorkConditionName == "最大覆冰").Count() > 0)
             {
-                var temp = WeathColl.Where(item => item.SWorkConditionName == "覆冰无风").First();
+                var temp = WeathColl.Where(item => item.SWorkConditionName == "最大覆冰").First();
 
                 WeathColl.Add(new WorkCondition
                 {
                     SWorkConditionName = "覆冰无风",
-                    SIceThickness = temp.SIceThickness,
-                    SWindSpeed = 0.ToString(),
-                    STemperature = temp.STemperature,
+                    IceThickness = temp.IceThickness,
+                    WindSpeed = 0,
+                    Temperature = temp.Temperature,
                 });
             }
         }

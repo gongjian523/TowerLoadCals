@@ -22,7 +22,7 @@ namespace TowerLoadCals.Mode.Electric
         /// <summary>
         /// 工程名称
         /// </summary>
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// 工程编号
@@ -38,5 +38,11 @@ namespace TowerLoadCals.Mode.Electric
         /// 提资单文件编号
         /// </summary>
         public int FilesID { get; set; }
+
+        public ProjectInfo(string name, string stage)
+        {
+            Name = name;
+            Stage = stage;
+        }
     }
 }

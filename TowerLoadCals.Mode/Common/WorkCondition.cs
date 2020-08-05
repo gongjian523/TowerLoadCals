@@ -28,8 +28,23 @@ namespace TowerLoadCals.Mode
         /// </summary>
         [XmlAttribute("SIceThickness")]
         public string SIceThickness { get; set; }
+        
+        /// <summary>
+        /// 风速
+        /// </summary>
+        [XmlIgnore]
+        public float WindSpeed { get; set; }
 
+        /// <summary>
+        /// 气温
+        /// </summary>
+        [XmlIgnore]
+        public float Temperature { get; set; }
 
-
+        /// <summary>
+        /// 冰厚
+        /// </summary>
+        [XmlIgnore]
+        public float IceThickness { get; set; }
     }
 }

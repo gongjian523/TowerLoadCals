@@ -6,7 +6,7 @@ using System.Runtime.Caching;
 namespace TowerLoadCals.Common.Utils
 {
     /// <summary>
-    /// 缓存的工具类
+    /// 缓存的工具类 MemoryCache
     /// </summary>
     public static class MemoryCacheUtil
     {

@@ -31,6 +31,11 @@ namespace TowerLoadCals.Mode
             get { return "ConfigSettings.xml"; }
         }
 
+        public static string ElecCalsSpecFileName
+        {
+            get { return "ElecCalsSpec.xml"; }
+        }
+
         public static string SmartTowerQTName
         {
             get { return "SmartTower_QT.exe"; }

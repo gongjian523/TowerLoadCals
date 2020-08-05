@@ -13,10 +13,17 @@ namespace TowerLoadCals.Mode.Electric
         public string  TowerType { get; set;  }
 
         /// <summary>
+        /// 冰区类型
+        /// </summary>
+        [XmlAttribute("冰区类型")]
+        public string IceArea { get; set; }
+
+        /// <summary>
         /// 冰厚
         /// </summary>
         [XmlAttribute("冰厚")]
         public int IceThickness { get; set; }
+
 
         [XmlAttribute("导地线")]
         public string WireType { get; set; }
@@ -33,11 +40,11 @@ namespace TowerLoadCals.Mode.Electric
         [XmlAttribute("分类")]
         public string Category { get; set; }
 
-        /// <summary>
-        /// 最大使用参数百分数
-        /// </summary>
-        [XmlAttribute("最大使用百分比")]
-        public int Percent { get; set; }
+        ///// <summary>
+        ///// 最大使用参数百分数
+        ///// </summary>
+        //[XmlAttribute("最大使用百分比")]
+        //public int Percent { get; set; }
 
         /// <summary>
         /// 种类

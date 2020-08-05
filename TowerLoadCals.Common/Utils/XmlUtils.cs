@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 
 namespace TowerLoadCals.Common
 {
+    //读写xml文件
     public class XmlUtils
     {
 

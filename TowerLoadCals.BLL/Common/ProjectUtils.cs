@@ -6,6 +6,7 @@ using System.Linq;
 using TowerLoadCals.Common;
 using TowerLoadCals.Mode;
 using System.Xml;
+using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL
 {
@@ -227,16 +228,11 @@ namespace TowerLoadCals.BLL
         /// 在结构计算的参数库的保存文件读取参数，并保存在GlobalInfo中
         /// </summary>
         /// <param name="name"></param>
-        public void ReadStruCalsLibParas()
+        public StruCalsLib ReadStruCalsLibParas()
         {
             string path = Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.StruCalsLibFileName;
 
-            StruCalsLib paras = XmlUtils.Deserializer<StruCalsLib>(path);
-
-            if (paras == null || paras == default(StruCalsLib))
-                return;
-
-            GlobalInfo.GetInstance().StruCalsLibParas = paras;
+            return XmlUtils.Deserializer<StruCalsLib>(path);
         }
 
         /// <summary>
@@ -519,6 +515,19 @@ namespace TowerLoadCals.BLL
 
 
 
+        #endregion
+
+        #region 电力计算相关函数
+        /// <summary>
+        /// 在电力计算的规范文件读取参数，并保存在GlobalInfo中
+        /// </summary>
+        /// <param name="name"></param>
+        public ElecCalsSpec ReadElecCalsSpecParas()
+        {
+            string path = Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.ElecCalsSpecFileName;
+
+            return XmlUtils.Deserializer<ElecCalsSpec>(path);
+        }
         #endregion
     }
 }

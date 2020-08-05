@@ -11,7 +11,7 @@ namespace TowerLoadCals.BLL.Electric
 
         /// <summary>
         /// 换算高度
-        /// 注意：风荷载调整系数再核实
+        /// 注意：风荷载调整系数再核实End public static float
         /// </summary>
         /// <param name="voltage"></param>
         /// <param name="ACorDC"></param>
@@ -256,5 +256,193 @@ namespace TowerLoadCals.BLL.Electric
             return (float)Delta;
         }
 
+        /// <summary>
+        /// 断线张力
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="iceType"></param>
+        /// <param name="iceThickness"></param>
+        /// <param name="terrain"></param>
+        /// <param name="wireType"></param>
+        /// <param name="devideNum"></param>
+        /// <returns></returns>
+        public static float UBlanceK(string towerType, string iceType, int iceThickness, string terrain , string wireType,  int devideNum)
+        {
+            var spec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+
+            if (spec == null)
+                return 0;
+
+            string wire;
+
+            if (wireType == "地线")
+            {
+                wire = "地线";
+            }
+            else
+            { 
+                if (towerType == "悬垂塔")
+                {
+                    //导线和塔型、冰区类型以及分裂数有关
+                    if (iceType == "轻冰区" || iceType == "中冰区")
+                    {
+                        if (devideNum == 1)
+                        {
+                            wire = "单导线";
+                        }
+                        else if(devideNum == 2)
+                        {
+                            wire = "双分裂导线";
+                        }
+                        else
+                        {
+                            wire = "双分裂以上导线";
+                        }
+                    }
+                    //重冰区
+                    else
+                    {
+                        wire = "导线";
+                    }
+                }
+                //耐张塔
+                else
+                {
+                    wire = devideNum == 1 ? "单导线" : "双分裂及以上导线";
+                }
+            }
+
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
+                return 0;
+
+            if (iceType == "轻冰区")
+            {
+                //轻冰区需要查询地形
+                if (elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire 
+                    && item.TowerType == towerType && item.Terrain == terrain).Count() > 0)
+                {
+                    return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                    && item.TowerType == towerType && item.Terrain == terrain).First().Stress / 100;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                if (elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                    && item.TowerType == towerType).Count() > 0)
+                {
+                    return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                    && item.TowerType == towerType).First().Stress / 100;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+
+        }
+
+        /// <summary>
+        /// 断线覆冰率
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="iceThickness1"></param>
+        /// <param name="iceThickness2"></param>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public static float UBlanceR(string towerType, int iceThickness1, int iceThickness2, string  category)
+        {
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
+                return 0;
+
+            int iceThickness = iceThickness1 < iceThickness2 ? iceThickness2 : iceThickness1;
+
+            if (elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).Count() > 0)
+            {
+                return elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).First().Percent / 100;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 不均匀冰不平衡张力
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="iceType"></param>
+        /// <param name="iceThickness"></param>
+        /// <param name="wireType"></param>
+        /// <returns></returns>
+        public static float IBlanceK(string towerType, string iceType, int iceThickness, string  wireType)
+        {
+
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
+                return 0;
+
+            if (elecCalsSpec.UnevenIceStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
+                && item.TowerType == towerType).Count() > 0)
+            {
+                return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
+                && item.TowerType == towerType).First().Stress / 100;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 不均匀冰重冰覆冰率-一侧
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public static float IBlanceR1(string towerType, string category)
+        {
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
+                return 0;
+
+            if (elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").Count() > 0)
+            {
+                return elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").First().Percent / 100;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 不均匀冰重冰覆冰率-另一侧
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public static float IBlanceR2(string towerType, string category)
+        {
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
+                return 0;
+
+            if (elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").Count() > 0)
+            {
+                return elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").First().Percent / 100;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
     }
 }
