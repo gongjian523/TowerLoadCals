@@ -177,6 +177,32 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
+        /// 顺线路外角侧45风,逆线路内角侧45风
+        /// </summary>
+        /// <param name="maxWind"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static float Wind45ExChange1(float maxWind, float angle)
+        {
+            var wind = (float)(maxWind * Math.Sin((45 + angle / 2) / 180 * Math.PI));
+
+            return (float)Math.Round(wind, 2);
+        }
+
+        /// <summary>
+        /// 逆线路外角侧45风, 顺线路内角侧45风
+        /// </summary>
+        /// <param name="maxWind"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static float Wind45ExChange2(float maxWind, float angle)
+        {
+            var wind = (float)(maxWind * Math.Sin((45 - angle / 2) / 180 * Math.PI));
+
+            return (float)Math.Round(wind, 2);
+        }
+
+        /// <summary>
         /// 风荷载增大系数B
         /// </summary>
         /// <param name="ice"> ice覆冰厚度，不支持覆冰为</param>

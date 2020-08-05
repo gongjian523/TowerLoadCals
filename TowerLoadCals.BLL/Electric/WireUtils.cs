@@ -164,22 +164,22 @@ namespace TowerLoadCals.BLL.Electric
             var graAcc = CommonParas.GraAcc;
 
             //换算最大风速值
-            var maxWindCon = (float)Convert.ToDecimal(WeatherParas.WeathColl.Where(item => item.SWorkConditionName == "换算最大风速").First().SWindSpeed);          
-            var maxWindSt = (float)Convert.ToDecimal(WeatherParas.WeathColl.Where(item => item.SWorkConditionName == "最大风速").First().SWindSpeed);
+            var maxWindCon = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "换算最大风速").First().SWindSpeed);          
+            var maxWindSt = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "最大风速").First().SWindSpeed);
 
             float maxUpbaWindSt = 0, maxUpbaWindCon = 0;
 
             //如果存在不均匀风工况
-            if (WeatherParas.WeathColl.Where(item => item.SWorkConditionName == "不均匀风").Count()> 0)
+            if (WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "不均匀风").Count()> 0)
             {
-                maxUpbaWindSt = (float)Convert.ToDecimal(WeatherParas.WeathColl.Where(item => item.SWorkConditionName == "不均匀风").First().SWindSpeed);
-                maxUpbaWindCon = (float)Convert.ToDecimal(WeatherParas.WeathColl.Where(item => item.SWorkConditionName == "换算不均匀风").First().SWindSpeed);
+                maxUpbaWindSt = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "不均匀风").First().SWindSpeed);
+                maxUpbaWindCon = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "换算不均匀风").First().SWindSpeed);
             }
 
             //#g1为统一值
             Comg1 = Wei * graAcc / Sec;
 
-            foreach(var weaItem in WeatherParas.WeathColl)
+            foreach(var weaItem in WeatherParas.WeathComm)
             {
                 if(CalType == 1)
                 {
@@ -279,7 +279,7 @@ namespace TowerLoadCals.BLL.Electric
 
                 //均采用综合比载计算
                 float calBz = BzDic[nameWd].g6;
-                float temVal = (float)Convert.ToDecimal(WeatherParas.WeathColl.Where(item => item.SWorkConditionName == nameWd).First().STemperature);
+                float temVal = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == nameWd).First().STemperature);
                 float fm = (float)((Elas * Math.Pow(calBz, 2) * Math.Pow(span, 2) / 24 / Math.Pow(calFor, 2)) - (calFor + Coef * Elas * temVal));
                 YLCalDic.Add(nameWd, fm);
                 //存储每个工况初始控制应力取值
@@ -299,13 +299,13 @@ namespace TowerLoadCals.BLL.Electric
             //将控制工况存储下来
             CtrNaSave = CtrName;
 
-            foreach(var wd in WeatherParas.WeathColl)
+            foreach(var wd in WeatherParas.WeathComm)
             {
                 if (wd.SWorkConditionName == CtrName)
                     continue;
 
                 float calBz = BzDic[wd.SWorkConditionName].g6;
-                float temVal = (float)Convert.ToDecimal(WeatherParas.WeathColl.Where(item => item.SWorkConditionName == wd.SWorkConditionName).First().STemperature);
+                float temVal = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == wd.SWorkConditionName).First().STemperature);
                 float temA = CtrFm + Coef * Elas * temVal;
                 float temB = (float)(Elas * Math.Pow(calBz, 2) * Math.Pow(span, 2)) / 24;
                 float calFor = ElectricalCalsToolBox.caculateCurDelta(temA, temB);
