@@ -6,13 +6,16 @@ using System.Reflection;
 using System.Xml.Serialization;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
+using TowerLoadCals.DAL.Common;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Common;
 using TowerLoadCals.Mode.Structure;
 
 namespace TowerLoadCals.BLL
 {
     public class StruCalsParasCompose: StruCalsParas
     {
+       static WorkConditonSet conditionSet = WorkConditonSetReader.Read();//读取配置
         public StruCalsParasCompose()
         {
 
@@ -86,7 +89,7 @@ namespace TowerLoadCals.BLL
         }
 
 
-        public static List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template)
+        public static List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template, bool isCalculation = false)
         {
             List<WorkConditionComboSpec> listSpec = new List<WorkConditionComboSpec>();
 
@@ -99,11 +102,12 @@ namespace TowerLoadCals.BLL
 
                 spec.Index = item.Index;
                 spec.IsCalculate = item.IsCalculate;
-                spec.WorkConditionCode = item.WorkConditionCode;
+                spec.WorkConditionCode = isCalculation ? item.WorkConditionCode: WorkConditonSetReader.ConvertWorkConditionCode(template.TowerType, item.WorkConditionCode, conditionSet);//
+                
                 if (item.TensionAngleCode != null)
-                    spec.TensionAngleCode = item.TensionAngleCode;
+                    spec.TensionAngleCode = isCalculation ? item.TensionAngleCode: WorkConditonSetReader.ConvertTensionAngleCode(item.TensionAngleCode);
                 if (item.VertialLoadCode != null)
-                    spec.VertialLoadCode = item.VertialLoadCode;
+                    spec.VertialLoadCode = isCalculation ? item.VertialLoadCode : WorkConditonSetReader.ConvertVertialLoadCode(item.VertialLoadCode);
                 spec.WindDirectionCode = item.WindDirectionCode;
                 spec.WorkCode = item.WorkCode;
 
@@ -112,7 +116,16 @@ namespace TowerLoadCals.BLL
                     Type specType = spec.GetType();
                     PropertyInfo specPro = specType.GetProperty("Wire" + i.ToString(), BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
                     if (specPro != null)
-                        specPro.SetValue(spec, item.WireIndexCodes[i - 1]);
+                    {
+                        if(isCalculation)
+                            specPro.SetValue(spec, item.WireIndexCodes[i - 1].ToString());
+                        else
+                        {
+                            string value = WorkConditonSetReader.ConvertWireCodes(template.TowerType, i, item.WorkConditionCode, item.WireIndexCodes, template.WorkConditongs);
+                            specPro.SetValue(spec, value);
+                        }
+
+                    }
                 }
 
                 spec.WorkComment = item.WorkComment;

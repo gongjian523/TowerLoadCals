@@ -203,6 +203,19 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
+        /// 断线和补不均匀冰工况下的冰厚换算
+        /// </summary>
+        /// <param name="dia">导地线的直径</param>
+        /// <param name="iceCover">断线覆冰率</param>
+        /// <param name="iceThick">冰厚</param>
+        /// <returns></returns>
+        public static float IceThicknessExChange(float dia, float iceCover,float iceThick )
+        {
+            var thickExc = (-dia + Math.Sqrt(Math.Pow(dia,2) + 4 * iceCover * (dia + iceThick) * iceThick)) / 2;
+            return (float)Math.Round(thickExc, 2);
+        }
+
+        /// <summary>
         /// 风荷载增大系数B
         /// </summary>
         /// <param name="ice"> ice覆冰厚度，不支持覆冰为</param>
@@ -292,7 +305,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="wireType"></param>
         /// <param name="devideNum"></param>
         /// <returns></returns>
-        public static float UBlanceK(string towerType, string iceType, int iceThickness, string terrain , string wireType,  int devideNum)
+        public static float UBlanceK(string towerType, string iceType, float iceThickness, string terrain , string wireType, int devideNum = 0)
         {
             var spec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
 
@@ -381,13 +394,13 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="iceThickness2"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static float UBlanceR(string towerType, int iceThickness1, int iceThickness2, string  category)
+        public static float UBlanceR(string towerType, float iceThickness1, float iceThickness2, string  category)
         {
             var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
             if (elecCalsSpec == null)
                 return 0;
 
-            int iceThickness = iceThickness1 < iceThickness2 ? iceThickness2 : iceThickness1;
+            float iceThickness = iceThickness1 < iceThickness2 ? iceThickness2 : iceThickness1;
 
             if (elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).Count() > 0)
             {
@@ -407,7 +420,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="iceThickness"></param>
         /// <param name="wireType"></param>
         /// <returns></returns>
-        public static float IBlanceK(string towerType, string iceType, int iceThickness, string  wireType)
+        public static float IBlanceK(string towerType, string iceType, float iceThickness, string  wireType)
         {
 
             var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
@@ -467,6 +480,23 @@ namespace TowerLoadCals.BLL.Electric
             else
             {
                 return 0;
+            }
+        }
+
+        
+        public static string GetCatogory ( string volt)
+        {
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
+                return "一类";
+
+            if (elecCalsSpec.Category.Where(item => item.Voltage.Contains(volt)).Count() > 0)
+            {
+                return elecCalsSpec.Category.Where(item => item.Voltage.Contains(volt)).First().Category;
+            }
+            else
+            {
+                return "一类";
             }
 
         }

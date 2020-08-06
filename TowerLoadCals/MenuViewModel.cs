@@ -199,7 +199,7 @@ namespace TowerLoadCals
             if (paras == null)
                 return;
 
-            ConvertSpecToWorkCondition(paras.Template, paras.WorkConditions);
+            ConvertSpecToWorkCondition(paras.Template, paras.WorkConditions,true);
             string path = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.Length - 5);
 
             for (int i = 0; i < paras.HPSettingsParas.Count(); i++)

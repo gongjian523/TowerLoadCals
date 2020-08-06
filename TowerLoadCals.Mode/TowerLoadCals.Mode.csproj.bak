@@ -36,7 +36,7 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Mvvm.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Mvvm.v20.1, Version=20.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -105,8 +105,18 @@
     <Compile Include="Common\WireType.cs" />
     <Compile Include="Common\WorkConditionComboSpec.cs" />
     <Compile Include="Common\WorkConditionComboBase.cs" />
+    <Compile Include="Electric\BZResult.cs" />
     <Compile Include="Electric\Circuit.cs" />
     <Compile Include="Electric\CircuitPostion.cs" />
+    <Compile Include="Electric\ElecCalsBreakIceSpec.cs" />
+    <Compile Include="Electric\ElecCalsBreakWireSpec.cs" />
+    <Compile Include="Electric\ElecCalsUnevenIceCoverSpec.cs" />
+    <Compile Include="Electric\ElecCalsVertLoadSpec.cs" />
+    <Compile Include="Electric\ElecCalsJumpWireSpec.cs" />
+    <Compile Include="Electric\ElecCalsCateSpec.cs" />
+    <Compile Include="Electric\ElecCalsSpec.cs" />
+    <Compile Include="Electric\ElecCalsUnevenIceSpec.cs" />
+    <Compile Include="Electric\ElecCalsWindSpec.cs" />
     <Compile Include="Electric\FitData.cs" />
     <Compile Include="Electric\FitDataCollection.cs" />
     <Compile Include="Electric\PhaseSpace.cs" />
@@ -167,6 +177,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

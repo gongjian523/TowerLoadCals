@@ -66,21 +66,36 @@ namespace TowerLoadCals.Modules
             WorkConditions = new ObservableCollection<WorkConditionComboSpec>(struCalsParas.WorkConditions);
 
             List<Column> columns = new List<Column>();
-            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号", Width = "*"});
-            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "IsCalculate", Header = "选择与否", Width = "2*" });
-            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkConditionCode", Header = "工况", Width = "*" });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Index", Header = "序号", Width = "*",
+                    AllowEditing = false.ToString(),
+            });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "IsCalculate", Header = "选择与否", Width = "2*"
+            });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkConditionCode", Header = "工况", Width = "*",
+                AllowEditing = false.ToString(),
+            });
             if (Template.TowerType != "直线塔")
-                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "TensionAngleCode", Header = "张力角", Width = "*" });
+                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "TensionAngleCode", Header = "张力角", Width = "*",
+                    AllowEditing = false.ToString(),
+                });
             if (Template.TowerType == "转角塔" || Template.TowerType == "分支塔" || Template.TowerType == "终端塔")
-                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "VertialLoadCode", Header = "垂直载荷", Width = "*" });
-            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WindDirectionCode", Header = "风向", Width = "*" });
+                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "VertialLoadCode", Header = "垂直载荷", Width = "*",
+                    AllowEditing = false.ToString(),
+                });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WindDirectionCode", Header = "风向", Width = "*",
+                AllowEditing = false.ToString(),
+            });
 
             for (int i = 0; i < Template.Wires.Count; i++)
             {
-                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Wire" + (i + 1).ToString(), Header = Template.Wires[i], Width = "*" });
+                columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "Wire" + (i + 1).ToString(), Header = Template.Wires[i], Width = "*",
+                    AllowEditing = false.ToString(),
+                });
             }
 
-            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkComment", Header = "注释", Width = "6*" });
+            columns.Add(new HeaderColumn() { Settings = SettingsType.Binding, FieldName = "WorkComment", Header = "注释", Width = "6*",
+                AllowEditing = false.ToString(),
+            });
 
             Columns = new ObservableCollection<Column>(columns);
 

@@ -56,6 +56,7 @@
     <Compile Include="Common\TowerSeriReader.cs" />
     <Compile Include="Common\TowerStPraReader.cs" />
     <Compile Include="Common\TowerStructureReader.cs" />
+    <Compile Include="Common\WorkConditonSetReader.cs" />
     <Compile Include="Electric\FitDataReader.cs" />
     <Compile Include="Electric\StrDataReader.cs" />
     <Compile Include="Electric\TowerStrDataReader.cs" />

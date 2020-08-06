@@ -104,17 +104,26 @@ namespace TowerLoadCals.Test
 
             ElectricalCommonUtils commParas = new ElectricalCommonUtils();
             commParas.Volt = pro.Volt;
+            commParas.SetForIncrPara(1,1.05f, 1,1.1f,1.1f, 1.1f, 1.1f, 1.1f, 1.1f);
+            commParas.SetForMaxMinPara(1.025f, 1.025f, 1.122f, 1.08f, 0.95f, 0.95f, 1, 1);
+            commParas.SetOverDrive(0,0);
+            commParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
+
+            TowerStrainUtils BackTower = new TowerStrainUtils();
+            TowerStrainUtils CalTower = new TowerStrainUtils();
+            TowerHangUtils FrontTower = new TowerHangUtils();
+
+            BackTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3f,0);
+            BackTower.UpdataTowerTraHei();
+            CalTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3f, 0);
+            CalTower.UpdataTowerTraHei();
+            FrontTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2f, 14.1f, 0);
+            FrontTower.UpdataTowerTraHei();
+
 
             SideCalUtils OneWrieSidePara = new SideCalUtils(0.95f, 2.85f, 0.25f, 1, 4.1f, 0.2f, 1, 4.1f, 0.2f);
             SideCalUtils AnoWrieSidePara = new SideCalUtils(0.95f, 2.8f, 0.25f, 1, 4.1f, 0.2f, 1, 4.1f, 0.2f);
             
-
-
-
-
-
-
-
 
         }
     }

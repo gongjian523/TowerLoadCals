@@ -155,39 +155,42 @@ namespace TowerLoadCals.BLL.Electric
         public float AtiGrd { get; set; }
 
         /// <summary>
-        /// 
+        /// 上相（中相）与下横担高差
         /// </summary>
         public float UpSideInHei { get; set; }
 
         /// <summary>
-        /// 
+        /// 中相（边相）与下横担高差
         /// </summary>
         public float MidInHei { get; set; }
 
         /// <summary>
-        /// 
+        /// 下相（边相）与下横担高差
         /// </summary>
         public float DownSideHei { get; set; }
 
         /// <summary>
-        /// 
+        /// 地线与下横担高差
+        /// </summary>
+        public float GrDHei { get; set; }
+
+
+        /// <summary>
+        /// 上相（中相）跳线挂点与下横担高差
+        /// </summary>
+        public float UpSideJuHei { get; set; }
+
+        /// <summary>
+        /// 中相（边相）跳线挂点与下横担高差
         /// </summary>
         public float DnSideJuHei { get; set; }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public float GrDHei { get; set; }
-
-        /// <summary>
-        /// 
+        /// 中相（边相）跳线挂点与下横担高差
         /// </summary>
         public float MidJuHei { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public float UpSideJuHei { get; set; }
+
 
 
         /// <summary>
@@ -267,53 +270,7 @@ namespace TowerLoadCals.BLL.Electric
             BackPosRes.DRepresentSpan = backTower.FrontPosRes.DRepresentSpan;
         }
 
-        /// <summary>
-        /// 更新相后侧高差，档距等数据，传统模式  本塔-后侧铁塔
-        /// 有5个相位
-        /// </summary>
-        /// <param name="PntTower"></param>
-        public void FlashBackHeiSub(TowerUtils pntTower)
-        {
-            PhaseTraList[0].SpaceStr.SubHei = AtiUpSide - pntTower.AtiUpSide;
-            PhaseTraList[0].SpaceStr.GDHei = AbsUpsideHei;
-            PhaseTraList[0].SpaceStr.Span = BackPosRes.Span;
-            PhaseTraList[1].SpaceStr.SubHei = AtiMid - pntTower.AtiMid;
-            PhaseTraList[1].SpaceStr.GDHei = AbsMidHei;
-            PhaseTraList[1].SpaceStr.Span = BackPosRes.Span;
-            PhaseTraList[2].SpaceStr.SubHei = AtiDownd - pntTower.AtiDownd;
-            PhaseTraList[2].SpaceStr.GDHei = AbsDownSideHei;
-            PhaseTraList[2].SpaceStr.Span = BackPosRes.Span;
-            PhaseTraList[3].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
-            PhaseTraList[3].SpaceStr.GDHei = AbsGrdHei;
-            PhaseTraList[3].SpaceStr.Span = BackPosRes.Span;
-            PhaseTraList[4].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
-            PhaseTraList[4].SpaceStr.GDHei = AbsGrdHei;
-            PhaseTraList[4].SpaceStr.Span = BackPosRes.Span;
-        }
 
-        /// <summary>
-        /// 更新前侧高差，传统模式  本塔-前侧铁塔
-        /// 有5个相位
-        /// </summary>
-        /// <param name="pntTower"></param>
-        public void flashFrontHeiSub(TowerUtils pntTower)
-        {
-            PhaseTraList[5].SpaceStr.SubHei = AtiUpSide - pntTower.AtiUpSide;
-            PhaseTraList[5].SpaceStr.GDHei = AbsUpsideHei;
-            PhaseTraList[5].SpaceStr.Span = FrontPosRes.Span;
-            PhaseTraList[6].SpaceStr.SubHei = AtiMid - pntTower.AtiMid;
-            PhaseTraList[6].SpaceStr.GDHei = AbsMidHei;
-            PhaseTraList[6].SpaceStr.Span = FrontPosRes.Span;
-            PhaseTraList[7].SpaceStr.SubHei = AtiDownd - pntTower.AtiDownd;
-            PhaseTraList[7].SpaceStr.GDHei = AbsDownSideHei;
-            PhaseTraList[7].SpaceStr.Span = FrontPosRes.Span;
-            PhaseTraList[8].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
-            PhaseTraList[8].SpaceStr.GDHei = AbsGrdHei;
-            PhaseTraList[8].SpaceStr.Span = FrontPosRes.Span;
-            PhaseTraList[9].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
-            PhaseTraList[9].SpaceStr.GDHei = AbsGrdHei;
-            PhaseTraList[9].SpaceStr.Span = FrontPosRes.Span;
-        }
 
         /// <summary>
         /// 更新铁塔前后水平档距和垂直档距，此处计算可能没用

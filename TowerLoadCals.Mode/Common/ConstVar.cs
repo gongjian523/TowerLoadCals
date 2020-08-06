@@ -30,6 +30,10 @@ namespace TowerLoadCals.Mode
         {
             get { return "ConfigSettings.xml"; }
         }
+        public static string TemplateCorrespondTableFileName
+        {
+            get { return "TemplateCorrespondTable.xml"; }
+        }
 
         public static string ElecCalsSpecFileName
         {

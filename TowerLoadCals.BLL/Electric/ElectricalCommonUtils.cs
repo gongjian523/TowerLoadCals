@@ -30,6 +30,21 @@ namespace TowerLoadCals.BLL.Electric
         public float GraAcc { get; set; }
 
         /// <summary>
+        /// 小号侧冰区
+        /// </summary>
+        public string MinIceArea { get; set; }
+
+        /// <summary>
+        /// 大号侧冰区
+        /// </summary>
+        public string MaxIceArea { get; set; }
+
+        /// <summary>
+        /// 地形类型
+        /// </summary>
+        public string Terrain { get; set; }
+
+        /// <summary>
         /// 地形类型
         /// </summary>
         public char TerType { get; set; }
@@ -47,98 +62,99 @@ namespace TowerLoadCals.BLL.Electric
         public int HeiJmpType { get; set; }
 
         /// <summary>
-        /// 
+        /// 导线截面增大系数
         /// </summary>
         public float SecIndInc { get; set; }
 
         /// <summary>
-        /// 
+        /// 导线重量增大系数
         /// </summary>
         public float WeiIndInc { get; set; }
 
         /// <summary>
-        /// 
+        /// 导线直径增大系数
         /// </summary>
         public float DiaIndInc { get; set; }
 
         /// <summary>
-        /// 
+        /// 地线截面增大系数
         /// </summary>
         public float SecGrdInc { get; set; }
 
         /// <summary>
-        /// 
+        /// 地线重量增大系数
         /// </summary>
         public float WeiGrdInc { get; set; }
 
         /// <summary>
-        /// 
+        /// 地线直径增大系数
         /// </summary>
         public float DiaGrdInc { get; set; }
 
         /// <summary>
-        /// 
+        /// OPGW截面增大系数
         /// </summary>
         public float SecOPGWInc { get; set; }
 
         /// <summary>
-        /// 
+        /// OPGW重量增大系数
         /// </summary>
         public float WeiOPGWInc { get; set; }
 
         /// <summary>
-        /// 
+        /// OPGW直径增大系数
         /// </summary>
         public float DiaOPGWInc { get; set; }
 
+
         /// <summary>
-        /// 
+        ///大张力侧施工误差,
         /// </summary>
         public float BuildMaxPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 大张力侧安装误差
         /// </summary>
         public float InstMaxPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 大张力侧导线伸长系数
         /// </summary>
         public float IndExMaxPara { get; set; }
 
         /// <summary>
-        /// 
+        ///大张力侧地线伸长系数
         /// </summary>
         public float GrdExMaxPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 小张力侧施工误差
         /// </summary>
         public float BuildMinPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 小张力侧安装误差
         /// </summary>
         public float InstMinPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 小张力侧导线伸长系数
         /// </summary>
         public float IndExMinPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 小张力侧地线伸长系数
         /// </summary>
         public float GrdExMinPara { get; set; }
 
 
         /// <summary>
-        /// 
+        /// 导线过牵引系数
         /// </summary>
         public float IndODri { get; set; }
 
         /// <summary>
-        /// 
+        /// 地线过牵引系数
         /// </summary>
         public float GrdODri { get; set; }
 
@@ -153,6 +169,52 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public float GrdBrePara { get; set; }
 
+        /// <summary>
+        /// 大号侧断线张力系数-导线
+        /// </summary>
+        public float IndBreMaxPara { get; set; }
+
+        /// <summary>
+        /// 大号侧断线张力系数-地线
+        /// </summary>
+        public float GrdBreMaxPara { get; set; }
+
+
+        /// <summary>
+        /// 小号侧断线张力系数-导线
+        /// </summary>
+        public float IndBreMinPara { get; set; }
+
+        /// <summary>
+        /// 小号侧断线张力系数-地线
+        /// </summary>
+        public float GrdBreMinPara { get; set; }
+
+        /// <summary>
+        /// 大号侧不均匀冰张力系数-导线
+        /// </summary>
+        public float IndUnbaMaxPara { get; set; }
+
+        /// <summary>
+        /// 大号侧不均匀冰张力系数-地线
+        /// </summary>
+        public float GrdUnbaMaxPara { get; set; }
+
+
+        /// <summary>
+        /// 小号不均匀冰线张力系数-导线
+        /// </summary>
+        public float IndUnbaMinPara { get; set; }
+
+        /// <summary>
+        /// 小号不均匀冰线张力系数-地线
+        /// </summary>
+        public float GrdUnbaMinPara { get; set; }
+
+        /// <summary>
+        /// 类别，有电压决定
+        /// </summary>
+        public string Catagory { get; set; }
 
         /// <summary>
         /// 
@@ -170,47 +232,52 @@ namespace TowerLoadCals.BLL.Electric
         public float BreakPer { get; set; }
 
         /// <summary>
-        /// 
+        /// 导地线高空风压系数计算模式，1：线平均高 2:按照下相挂点高反算
         /// </summary>
         public int WireWindPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 跳线高空风压系数计算模式，1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
         /// </summary>
         public int JmpWindPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 地线覆冰张力计算模式，1：加5mm冰计算张力，2：不增加5mm冰计算
         /// </summary>
         public int GrdIceForcePara { get; set; }
 
         /// <summary>
-        /// 
+        /// 地线不平衡张力取值，1:轻冰区不考虑增加5mm，2：重冰区增加5mm
         /// </summary>
         public int GrdIceUnbaPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 地线验算张力取值，1:不考虑增加5mm，2：考虑增加5mm
         /// </summary>
         public int GrdIceCheckPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 锚线张力取值方法，1:取两者最大值，2:系数法，3：降温法
         /// </summary>
         public int HandForcePara { get; set; }
 
         /// <summary>
-        /// 
+        /// 断线张力填法：1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)
         /// </summary>
         public int BreakInPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 不均匀冰最大张力取值：1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)
+        /// </summary>
+        public int UnbaInPara { get; set; }
+
+        /// <summary>
+        /// 断线最大张力取值，1：最大允许张力，2：100%覆冰率断线情况
         /// </summary>
         public int BreakMaxPara { get; set; }
 
         /// <summary>
-        /// 
+        /// 不均匀冰最大张力取值，1：最大允许张力，2：100%覆冰率断线情况
         /// </summary>
         public int UnbaMaxPara { get; set; }
 
@@ -251,7 +318,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// #导\地\OPGW增大系数,Sec代表界面,Wei代表重量，Dia代表直径
         /// </summary>
-        /// <param name="secIndInc"></param>
+        /// <param name="secIndInc"> </param>
         /// <param name="weiIndInc"></param>
         /// <param name="diaIndInc"></param>
         /// <param name="secGrdInc"></param>
@@ -321,7 +388,6 @@ namespace TowerLoadCals.BLL.Electric
             GrdBrePara = grdBrePara;
         }
 
-
         /// <summary>
         /// 不均匀冰覆冰率，断线覆冰率
         /// </summary>
@@ -345,10 +411,11 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="grdIceCheckPara">地线验算张力取值，1:不考虑增加5mm，2：考虑增加5mm</param>
         /// <param name="handForcePara">锚线张力取值方法，1:取两者最大值，2:系数法，3：降温法</param>
         /// <param name="breakInPara">断线张力填法：1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)</param>
+        /// <param name="unbaMaxPara">不均匀冰张力取值，1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)</param>
         /// <param name="breakMaxPara">断线最大张力取值，1：最大允许张力，2：100%覆冰率断线情况</param>
         /// <param name="unbaMaxPara">不均匀冰最大张力取值，1：最大允许张力，2：100%覆冰率断线情况</param>
         public void CalMethodPara(int wireWindPara= 1, int jmpWindPara= 1, int grdIceForcePara= 1, int grdIceUnbaPara= 1,
-            int grdIceCheckPara= 1, int handForcePara= 1, int breakInPara= 1, int breakMaxPara= 1, int unbaMaxPara= 1)
+            int grdIceCheckPara= 1, int handForcePara= 1, int breakInPara= 1, int unbaInPara = 1, int breakMaxPara= 1, int unbaMaxPara= 1)
         {
             WireWindPara = wireWindPara;
             JmpWindPara = jmpWindPara;
@@ -357,6 +424,7 @@ namespace TowerLoadCals.BLL.Electric
             GrdIceCheckPara = grdIceCheckPara;
             HandForcePara = handForcePara;
             BreakInPara = breakInPara;
+            UnbaInPara = unbaInPara;
             BreakMaxPara = breakMaxPara;
             UnbaMaxPara = unbaMaxPara;      
         }
@@ -392,6 +460,64 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
+        /// <summary>
+        /// 设置断线张力系数
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="minIceThick"></param>
+        /// <param name="minDevideNum"></param>
+        /// <param name="maxIceThick"></param>
+        /// <param name="maxDevideNum"></param>
+        public void SetBreakPara(string towerType, float minIceThick, int minDevideNum, float maxIceThick, int maxDevideNum)
+        {
+            IndBreMinPara = ElectricalCalsToolBox.UBlanceK(towerType, MinIceArea, minIceThick, Terrain, "导线", minDevideNum);
+            GrdBreMinPara = ElectricalCalsToolBox.UBlanceK(towerType, MinIceArea, minIceThick, Terrain, "地线");
 
+            IndBreMaxPara = ElectricalCalsToolBox.UBlanceK(towerType, MinIceArea, maxIceThick, Terrain, "导线", maxDevideNum);
+            GrdBreMaxPara = ElectricalCalsToolBox.UBlanceK(towerType, MinIceArea, maxIceThick, Terrain, "地线");
+        }
+
+        /// <summary>
+        /// 设置断线张力系数
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="minIceThick"></param>
+        /// <param name="minDevideNum"></param>
+        /// <param name="maxIceThick"></param>
+        /// <param name="maxDevideNum"></param>
+        public void SetUnbaPara(string towerType, float minIceThick, float maxIceThick)
+        {
+            IndUnbaMinPara = ElectricalCalsToolBox.IBlanceK(towerType, MinIceArea, minIceThick, "导线");
+            GrdUnbaMinPara = ElectricalCalsToolBox.IBlanceK(towerType, MinIceArea, minIceThick, "地线");
+
+            IndUnbaMaxPara = ElectricalCalsToolBox.IBlanceK(towerType, MinIceArea, maxIceThick, "导线");
+            GrdUnbaMaxPara = ElectricalCalsToolBox.IBlanceK(towerType, MinIceArea, maxIceThick, "地线");
+        }
+
+
+        public void SetIcePercent(string towerType, float minIceThick, float maxIceThick)
+        {
+            Catagory = ElectricalCalsToolBox.GetCatogory(Volt.ToString());
+            BreakPer = ElectricalCalsToolBox.UBlanceR(towerType, minIceThick, maxIceThick, Catagory);
+
+            if(minIceThick != maxIceThick)
+            {
+                UnbalanceMaxPer = 1;
+                UnbalanceMinPer = 0;
+            }
+            else
+            {
+                if(MinIceArea == "重冰区" || MaxIceArea == "重冰区" || MinIceArea == "中冰区" || MaxIceArea == "中冰区")
+                {
+                    UnbalanceMaxPer = ElectricalCalsToolBox.IBlanceR1(towerType, Catagory);
+                    UnbalanceMinPer = ElectricalCalsToolBox.IBlanceR2(towerType, Catagory);
+                }
+                else
+                {
+                    UnbalanceMaxPer = 1;
+                    UnbalanceMinPer = 1;
+                }
+            }
+        }
     }
 }

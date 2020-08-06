@@ -1,0 +1,113 @@
+<Root>
+	<LineTower Type="直线塔、直转塔" >
+
+		<LineTower  Type="正常运行">
+			<LineTower Type="，Gmax"  >N1</LineTower>
+			<LineTower Type="，Gmin"  State="1">N2</LineTower>
+		</LineTower>
+
+		<LineTower  Type="低温" >
+			<LineTower Type="，Gmax">D1</LineTower>
+			<LineTower Type="，Gmin" >D2</LineTower>
+		</LineTower>
+
+		<LineTower  Type="覆冰" >
+			<LineTower Type="，Gmax"> I1</LineTower>
+			<LineTower Type="，Gmin"> I2</LineTower>
+		</LineTower>
+
+		<LineTower  Type="吊装" >
+			<LineTower  Type="，Gmax">L</LineTower>
+		</LineTower>
+
+		<LineTower  Type="过滑车" >
+			<LineTower  Type="，Gmax">G</LineTower>
+			<LineTower  Type="，Gmax">GL</LineTower>
+		</LineTower>
+
+		<LineTower  Type="锚线" >
+			<LineTower  Type="，Gmax">M</LineTower>
+			<LineTower  Type="，OPGW 开断，Gmax ">MO</LineTower>
+		</LineTower>
+
+		<LineTower  Type="施工提线" >
+			<LineTower  Type="，Gmax">C</LineTower>
+			<LineTower  Type="，Gmax">CL</LineTower>
+		</LineTower>
+
+		<LineTower  Type="断线" >
+			<LineTower  Type="，Gmax">B1</LineTower>
+			<LineTower  Type="，Gmin">B2</LineTower>
+		</LineTower>
+
+		<LineTower  Type="不均匀冰" >
+			<LineTower  Type="，Gmax">U1</LineTower>
+			<LineTower  Type="，Gmin">U2</LineTower>
+		</LineTower>
+
+		<LineTower  Type="脱冰跳跃" >
+			<LineTower  Type="，Gmax">T</LineTower>
+		</LineTower>
+
+		<LineTower  Type="验算冰" >
+			<LineTower  Type="，Gmax">Y1</LineTower>
+			<LineTower  Type="，Gmin">Y2</LineTower>
+		</LineTower>
+
+	</LineTower>
+	<CornerTower Type="终端塔、分支塔、转角塔" >
+		<CornerTower  Type="正常运行">
+			<CornerTower Type="，Gmax"  >N1</CornerTower>
+			<CornerTower Type="，Gmin"  State="1">N2</CornerTower>
+		</CornerTower>
+		<CornerTower  Type="低温" >
+			<CornerTower Type="，Gmax">D1</CornerTower>
+			<CornerTower Type="，Gmin" >D2</CornerTower>
+		</CornerTower>
+
+		<CornerTower  Type="覆冰" >
+			<CornerTower Type="，Gmax"> I1</CornerTower>
+			<CornerTower Type="，Gmin"> I2</CornerTower>
+		</CornerTower>
+
+		<CornerTower  Type="吊装" >
+			<CornerTower  Type="，Gmax">L</CornerTower>
+		</CornerTower>
+
+		<CornerTower  Type="锚线" >
+			<CornerTower  Type="，Gmax">M1</CornerTower>
+			<CornerTower  Type="，Gmin">M2</CornerTower>
+		</CornerTower>
+		<CornerTower  Type="锚兼牵" >
+			<CornerTower  Type="，Gmax">MQ1</CornerTower>
+			<CornerTower  Type="，Gmin">MQ2</CornerTower>
+		</CornerTower>
+
+		<CornerTower  Type="紧线" >
+			<CornerTower  Type="，Gmax">J1</CornerTower>
+			<CornerTower  Type="，Gmin">J2</CornerTower>
+		</CornerTower>
+		<CornerTower  Type="断线" >
+			<CornerTower  Type="，Gmax">B1</CornerTower>
+			<CornerTower  Type="，Gmin">B2</CornerTower>
+		</CornerTower>
+
+		<CornerTower  Type="不均匀冰" >
+			<CornerTower  Type="，Gmax">U1</CornerTower>
+			<CornerTower  Type="，Gmin">U2</CornerTower>
+		</CornerTower>
+		<CornerTower  Type="验算冰" >
+			<CornerTower  Type="，Gmax">Y1</CornerTower>
+			<CornerTower  Type="，Gmin">Y2</CornerTower>
+		</CornerTower>
+		<CornerTower  Type="吊装" >
+			<CornerTower  Type="，Gmax">L1</CornerTower>
+			<CornerTower  Type="，Gmin">L2</CornerTower>
+		</CornerTower>
+
+		<CornerTower  Type="过滑车" >
+			<CornerTower  Type="，Gmax">G1</CornerTower>
+			<CornerTower  Type="，Gmin">G2</CornerTower>
+		</CornerTower>
+	</CornerTower>
+</Root>

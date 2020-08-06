@@ -263,21 +263,24 @@ namespace TowerLoadCals.DAL
             combo.WorkComment = aWords[iIndex + WireNum].ToString();
         }
 
-        public static void ConvertSpecToWorkCondition(TowerTemplate template, List<WorkConditionComboSpec> workConditionSpecs)
+        public static void ConvertSpecToWorkCondition(TowerTemplate template, List<WorkConditionComboSpec> workConditionSpecs, bool isCalculation = false)
         {
             List<WorkConditionCombo> workConditions = new List<WorkConditionCombo>();
 
-            foreach (var item in workConditionSpecs)
+            WorkConditionComboSpec item;
+            //foreach (var item in workConditionSpecs)
+                for (int index=0; index < workConditionSpecs.Count;index++)
             {
+                item = workConditionSpecs[index];
                 WorkConditionCombo wcc= new WorkConditionCombo();
 
                 wcc.Index = item.Index;
                 wcc.IsCalculate = item.IsCalculate;
-                wcc.WorkConditionCode = item.WorkConditionCode;
+                wcc.WorkConditionCode = isCalculation? template.WorkConditionCombos[index].WorkConditionCode: item.WorkConditionCode;
                 if (item.TensionAngleCode != null)
-                    wcc.TensionAngleCode = item.TensionAngleCode;
+                    wcc.TensionAngleCode = isCalculation ? template.WorkConditionCombos[index].TensionAngleCode : item.TensionAngleCode;
                 if (item.VertialLoadCode != null)
-                    wcc.VertialLoadCode = item.VertialLoadCode;
+                    wcc.VertialLoadCode = isCalculation ? template.WorkConditionCombos[index].VertialLoadCode : item.VertialLoadCode;
                 wcc.WindDirectionCode = item.WindDirectionCode;
                 wcc.WorkCode = item.WorkCode;
 
@@ -290,7 +293,7 @@ namespace TowerLoadCals.DAL
                     Type itemType = item.GetType();
                     PropertyInfo itemPro = itemType.GetProperty("Wire" + i.ToString(), BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
                     if (itemPro != null)
-                        wcc.WireIndexCodes.Add(Convert.ToInt32(itemPro.GetValue(item, null)));
+                        wcc.WireIndexCodes.Add(isCalculation ? template.WorkConditionCombos[index].WireIndexCodes[i-1]:Convert.ToInt32(itemPro.GetValue(item, null)));
                 }
 
                 wcc.WorkComment = item.WorkComment;

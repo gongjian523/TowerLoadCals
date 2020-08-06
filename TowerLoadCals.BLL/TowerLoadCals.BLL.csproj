@@ -70,6 +70,7 @@
     <Compile Include="Electric\StressPhaseStrUtils.cs" />
     <Compile Include="Electric\TowerAppreUtils.cs" />
     <Compile Include="Electric\TowerPosStrUtils.cs" />
+    <Compile Include="Electric\TowerHangUtils.cs" />
     <Compile Include="Electric\TowerStrainUtils.cs" />
     <Compile Include="Electric\TowerStrDataUtis.cs" />
     <Compile Include="Electric\TowerUtils.cs" />
