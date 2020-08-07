@@ -62,6 +62,15 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public float DevideNum { get; set; }
 
+        /// <summary>
+        /// 控制应力
+        /// </summary>
+        public float CtrlYL { get; set; }
+
+        /// <summary>
+        /// 平均应力
+        /// </summary>
+        public float AvaYL { get; set; }
 
         /// <summary>
         /// 比载字典
@@ -94,9 +103,12 @@ namespace TowerLoadCals.BLL.Electric
         public string CtrNaSave { get; set; }
 
         public float Comg1 { get; set; }
+
+        public float EffectPara { get; set; }
         public float SafePara { get; private set; }
         public float AvePara { get; private set; }
-        public object OPGWSafePara { get; private set; }
+        public float OPGWEffectPara { get; private set; }
+        public float OPGWSafePara { get; private set; }
         public float OPGWAnPara { get; private set; }
 
         public WireUtils(string name = "", int id = 0, float sec = 0, float dia = 0, float wei = 0, float elas = 0, 
@@ -164,19 +176,19 @@ namespace TowerLoadCals.BLL.Electric
             var graAcc = CommonParas.GraAcc;
 
             //换算最大风速值
-            var maxWindCon = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "换算最大风速").First().SWindSpeed);          
-            var maxWindSt = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "最大风速").First().SWindSpeed);
+            var maxWindCon = WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "换算最大风速").First().WindSpeed;          
+            var maxWindSt = WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "最大风速").First().WindSpeed;
 
             float maxUpbaWindSt = 0, maxUpbaWindCon = 0;
 
             //如果存在不均匀风工况
             if (WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "不均匀风").Count()> 0)
             {
-                maxUpbaWindSt = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "不均匀风").First().SWindSpeed);
-                maxUpbaWindCon = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "换算不均匀风").First().SWindSpeed);
+                maxUpbaWindSt = WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "不均匀风").First().WindSpeed;
+                maxUpbaWindCon = WeatherParas.WeathComm.Where(item => item.SWorkConditionName == "换算不均匀风").First().WindSpeed;
             }
 
-            //#g1为统一值
+            //g1为统一值
             Comg1 = Wei * graAcc / Sec;
 
             foreach(var weaItem in WeatherParas.WeathComm)
@@ -186,7 +198,7 @@ namespace TowerLoadCals.BLL.Electric
                     BZResult bz = new BZResult();
 
                     //温度
-                    var temVal = (float)Convert.ToDecimal(weaItem.STemperature);
+                    var temVal = weaItem.Temperature;
                     float winVal;
 
                     // 大风工况采用换算后的数值计算
@@ -200,10 +212,10 @@ namespace TowerLoadCals.BLL.Electric
                     }
                     else
                     {
-                        winVal = (float)Convert.ToDecimal(weaItem.SWindSpeed);
+                        winVal = weaItem.WindSpeed;
                     }
 
-                    float iceVal = (float)Convert.ToDecimal(weaItem.SIceThickness);
+                    float iceVal = weaItem.IceThickness;
 
                     float alpha = ElectricalCalsToolBox.WindAlpha(winVal, iceVal, 1);
                     bz.g1 = Comg1;
@@ -216,6 +228,7 @@ namespace TowerLoadCals.BLL.Electric
 
                     // Usc系数不区分覆冰与不覆冰
                     float usc = ElectricalCalsToolBox.WindEpson(iceVal, Dia);
+                    //横向比载
                     float g4 = (float)(0.625 * Math.Pow(winVal, 2) * Dia * alpha * usc * 1e-3 / Sec);
                     bz.g4 = g4;
 
@@ -245,17 +258,20 @@ namespace TowerLoadCals.BLL.Electric
         {
             if (bGrd == 0)
             {
+                EffectPara = SideParas.IndEffectPara;
                 SafePara = SideParas.IndSafePara;
                 AvePara =SideParas.IndAnPara;
             }
             else if(bGrd == 1)
             {
+                EffectPara = SideParas.GrdEffectPara;
                 SafePara = SideParas.GrdSafePara;
                 AvePara = SideParas.GrdAnPara;
             }
 
             else
             {
+                OPGWEffectPara = SideParas.OPGWEffectPara;
                 //OPGW安全系数
                 OPGWSafePara = SideParas.OPGWSafePara;
                 //OPGW年均系数 
@@ -266,6 +282,10 @@ namespace TowerLoadCals.BLL.Electric
             var maxPerFor = Fore * CommonParas.NewPerPara / SafePara / Sec;
             //年均应力
             var avePerFor = Fore * CommonParas.NewPerPara * AvePara / Sec;
+
+            // 需要确认Fore 是不是计算破断力N  这两个参数和上面两个参数是不是一回事
+            CtrlYL = (float)Math.Round(Fore / Sec / 9.80665 * EffectPara / SafePara, 3);
+            AvaYL = (float)Math.Round(Fore / Sec / 9.80665 * EffectPara * AvePara / 100, 3);
 
             //控制工况计算
 
@@ -305,7 +325,7 @@ namespace TowerLoadCals.BLL.Electric
                     continue;
 
                 float calBz = BzDic[wd.SWorkConditionName].g6;
-                float temVal = (float)Convert.ToDecimal(WeatherParas.WeathComm.Where(item => item.SWorkConditionName == wd.SWorkConditionName).First().STemperature);
+                float temVal = WeatherParas.WeathComm.Where(item => item.SWorkConditionName == wd.SWorkConditionName).First().Temperature;
                 float temA = CtrFm + Coef * Elas * temVal;
                 float temB = (float)(Elas * Math.Pow(calBz, 2) * Math.Pow(span, 2)) / 24;
                 float calFor = ElectricalCalsToolBox.caculateCurDelta(temA, temB);

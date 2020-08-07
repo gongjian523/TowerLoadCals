@@ -137,7 +137,7 @@ namespace TowerLoadCals.BLL.Electric
                 }
             }
 
-            //#覆冰情况下，直接取1
+            //覆冰情况下，直接取1
             if (ice > 0)
             {
                 Alpha = 1;
