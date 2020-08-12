@@ -133,17 +133,18 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 塔中相跳线串挂点高（单回）/塔上相跳线串挂点高（双回）
         /// </summary>
-        public float AbsDownJumHei { get; set; }
+        public float AbsUpJumHei { get; set; }
 
         /// <summary>
         /// 塔边相跳线串挂点高（单回）/塔中相跳线串挂点高（双回）
         /// </summary>
         public float AbsMidJumHei { get; set; }
 
+
         /// <summary>
         /// 塔边相跳线串挂点高（单回）/塔下相跳线串挂点高（双回）
         /// </summary>
-        public float AbsUpJumHei { get; set; }
+        public float AbsDownJumHei { get; set; }
 
         //特征相地理高度
         /// <summary>
@@ -341,7 +342,10 @@ namespace TowerLoadCals.BLL.Electric
             towerAppre.DnSideInHei = (float)Math.Round(CalsHei(AbsDownSideHei, Elevation, SubOfElv, RepStrIndLen) - CalsHei(tower.AbsDownSideHei, tower.Elevation, tower.SubOfElv, tower.RepStrIndLen), 3);
             towerAppre.GrDHei  = (float)Math.Round(CalsHei(AbsGrdHei, Elevation, SubOfElv, RepStrGrdLen) - CalsHei(tower.AbsGrdHei, tower.Elevation, tower.SubOfElv, tower.RepStrGrdLen), 3);
 
-            towerAppre.UpInMuz = CalsWireMuz(calRes.CommParas.WireWindPara.);
+            towerAppre.UpInMuz = CalsWireMuz(calRes.CommParas.WireWindPara, AbsUpSideHei, calRes.IndWire.WindVerSag, calRes.CommParas.IndAveHei);
+            towerAppre.MidInMuz = CalsWireMuz(calRes.CommParas.WireWindPara, AbsMidHei, calRes.IndWire.WindVerSag, calRes.CommParas.IndAveHei);
+            towerAppre.DnInMuz = CalsWireMuz(calRes.CommParas.WireWindPara, AbsDownSideHei, calRes.IndWire.WindVerSag, calRes.CommParas.IndAveHei);
+            towerAppre.GrdMuz = CalsWireMuz(calRes.CommParas.WireWindPara, AbsUpSideHei,  Math.Min(calRes.GrdWire.WindVerSag, calRes.OPGWWire.WindVerSag), calRes.CommParas.IndAveHei);
         }
 
         protected float CalsHei(float wireHei, float elevation, float subOfElv, float repWireLen)
@@ -349,18 +353,109 @@ namespace TowerLoadCals.BLL.Electric
             return (wireHei + elevation + subOfElv - repWireLen);
         }
 
-        //protected float CalsWireMuz(int wireWindPara, float A84, float B137,float E54,float E84)
+        /// <summary>
+        /// 计算线高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">计算方式 1：线平均高 2:按照下相挂点高反算 </param>
+        /// <param name="wireHei">导线挂点高</param>
+        /// <param name="wireWindVerSag">大风垂直方向弧垂</param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <returns></returns>
+        protected float CalsWireMuz(int wireWindPara, float wireHei, float wireWindVerSag , float avaHei)
         {
-            //
-            //if(wirewindpara == 1)
-            //{
-            //    int(((a84 - 2 / 3 * b137) / e54) ^ 0.32 * 1000 + 0.5) / 1000
-            //}
-            //else
-            //{
-            //    int((e84 / e54) ^ 0.32 * 1000 + 0.5) / 1000
-            //}
+            //1：线平均高 2:按照下相挂点高反算
+            if (wireWindPara == 1)
+            {
+                //按线平均高
+                return (int)(Math.Pow(((wireHei - 2 / 3 * wireWindVerSag) / avaHei), 0.32) * 1000 + 0.5) / 1000;
+            }
+            else
+            {
+                //按挂点高
+                //这儿wireHei在Excel中指定是平均上/中/下/地线高，在 计算方式为按照挂点高时，直接等于塔上/中/下相挂点高
+                return (int)(Math.Pow((wireHei / avaHei), 0.32) * 1000 + 0.5) / 1000;
+            }
         }
+
+        /// <summary>
+        /// 更新绝缘子串
+        /// </summary>
+        public void UpdateAppreStr()
+        {
+            UpStrMuz = CalsStrMuz(AbsUpSideHei, FrontSideRes.CommParas.IndAveHei);
+            MidStrMuz = CalsStrMuz(AbsMidHei, FrontSideRes.CommParas.IndAveHei);
+            DnStrMuz = CalsStrMuz(AbsDownSideHei, FrontSideRes.CommParas.IndAveHei);
+            GrdStrMuz = CalsStrMuz(AbsGrdHei, FrontSideRes.CommParas.IndAveHei);
+
+            UpJumpStrMuz = CalsJumpStrMuz(FrontSideRes.CommParas.JmpWindPara, AbsUpJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            MidJumpStrMuz = CalsJumpStrMuz(FrontSideRes.CommParas.JmpWindPara, AbsMidJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            DnJumpStrMuz = CalsJumpStrMuz(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+
+            UpJumpSupMuz = CalsJumpSupMuz(FrontSideRes.CommParas.JmpWindPara, AbsUpJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            MidJumpSupMuz = CalsJumpSupMuz(FrontSideRes.CommParas.JmpWindPara, AbsMidJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            DnJumpSupMuz = CalsJumpSupMuz(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+
+
+        }
+
+        /// <summary>
+        /// 计算绝缘子串高空风压系数
+        /// </summary>
+        /// <param name="wireHei">挂点高</param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <returns></returns>
+        protected float CalsStrMuz(float wireHei, float avaHei)
+        {
+            return (float) Math.Round( Math.Pow((wireHei / avaHei), 0.32),  3);
+        }
+
+
+        /// <summary>
+        /// 计算跳串高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">跳串高空风压系数</param>
+        /// <param name="strHei"></param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <param name="jumpStrLen">跳线绝缘子串长</param>
+        /// <returns></returns>
+        protected float CalsJumpStrMuz(int jumpWindPara, float strHei, float avaHei, float jumpStrLen)
+        {
+            //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
+            if (jumpWindPara == 1)
+            {
+                //按挂点高
+                return (float)Math.Round(Math.Pow(strHei/avaHei, 0.32),3);
+            }
+            else
+            {
+                //按平均高
+                return (float)Math.Round(Math.Pow((strHei - jumpStrLen/2)/avaHei,0.32),3);
+            }
+        }
+
+        /// <summary>
+        /// 计算支撑管高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">跳串高空风压系数</param>
+        /// <param name="strHei"></param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <param name="jumpStrLen">跳线绝缘子串长</param>
+        /// <returns></returns>
+        protected float CalsJumpSupMuz(int jumpWindPara, float strHei, float avaHei, float jumpStrLen)
+        {
+            //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
+            if (jumpWindPara == 1)
+            {
+                //按挂点高
+                return (float)Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
+            }
+            else
+            {
+                //按平均高
+                return (float)Math.Round(Math.Pow((strHei - jumpStrLen) / avaHei, 0.32), 3);
+            }
+        }
+
 
 
         /// <summary>

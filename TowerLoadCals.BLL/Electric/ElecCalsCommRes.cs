@@ -306,6 +306,12 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public float GrdAveHei { get; private set; }
 
+        /// <summary>
+        /// 跳线绝缘子串长
+        /// 暂时放在这里
+        /// </summary>
+        public float JumpStrLen { get; set; }
+
         public ElecCalsCommRes(float newPerPara= 0.95f, float graAcc = 9.80665f, char terType= 'B',
                 int heiDDType= 1, int heiJmpType= 1, int volt= 0, float indAveHei= 0, float grdAveHei= 0)
         {

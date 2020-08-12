@@ -116,6 +116,11 @@ namespace TowerLoadCals.BLL.Electric
         public float OPGWSafePara { get; private set; }
         public float OPGWAnPara { get; private set; }
 
+        /// <summary>
+        /// 大风垂直方向弧垂
+        /// </summary>
+        public float WindVerSag { get; set; }
+
         public WireUtils(string name = "", int id = 0, float sec = 0, float dia = 0, float wei = 0, float elas = 0, 
             float coef = 0, float fore = 0, int grd = 0, float decrTem = 0, int devide = 0)
         {
