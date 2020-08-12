@@ -11,6 +11,9 @@ using TowerLoadCals.Mode.Common;
 
 namespace TowerLoadCals.DAL.Common
 {
+    /// <summary>
+    /// 工况组合-代码解析
+    /// </summary>
     public class WorkConditonSetReader
     {
 

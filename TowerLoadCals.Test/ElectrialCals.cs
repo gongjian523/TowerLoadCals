@@ -15,14 +15,15 @@ namespace TowerLoadCals.Test
         {
             var pro = new ProjectInfo("新建工程", "施工图");
             pro.Volt = 500;
+            pro.VoltStr = "500kV";
             pro.ACorDC = 0;
 
             WireUtils DxData = new WireUtils("JL/G1A-630/45", 1, 674, 33.8f, 2079, 63000, 20.9f, 150450, 0, 25,4);
             WireUtils GrdData = new WireUtils( "JLB20A-120", 2, 121.21f, 14.25f, 810, 147200, 13, 146180, 1, 10);
             WireUtils OPGWData = new WireUtils("OPGW-15-120-1", 3, 120, 15.2f, 832, 162000, 13, 147000, 2, 10);
 
-            WeatherUtils OneWeath15 = new WeatherUtils("15mm27m/s", 1);
-            WeatherUtils AnoWeath15 = new WeatherUtils("15mm27m/s", 2);
+            ElecCalsWeaRes OneWeath15 = new ElecCalsWeaRes("15mm27m/s", 1);
+            ElecCalsWeaRes AnoWeath15 = new ElecCalsWeaRes("15mm27m/s", 2);
 
             List<WorkCondition> wkcList = new List<WorkCondition>()
             {
@@ -102,16 +103,17 @@ namespace TowerLoadCals.Test
             OneWeath15.InsertGK(wkcList);
             AnoWeath15.InsertGK(wkcList);
 
-            ElectricalCommonUtils commParas = new ElectricalCommonUtils();
+            ElecCalsCommRes commParas = new ElecCalsCommRes();
             commParas.Volt = pro.Volt;
+            commParas.VoltStr = pro.VoltStr;
             commParas.SetForIncrPara(1,1.05f, 1,1.1f,1.1f, 1.1f, 1.1f, 1.1f, 1.1f);
             commParas.SetForMaxMinPara(1.025f, 1.025f, 1.122f, 1.08f, 0.95f, 0.95f, 1, 1);
             commParas.SetOverDrive(0,0);
             commParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
 
-            TowerStrainUtils BackTower = new TowerStrainUtils();
-            TowerStrainUtils CalTower = new TowerStrainUtils();
-            TowerHangUtils FrontTower = new TowerHangUtils();
+            TowerStrainElecCals BackTower = new TowerStrainElecCals();
+            TowerStrainElecCals CalTower = new TowerStrainElecCals();
+            TowerHangElecCals FrontTower = new TowerHangElecCals();
 
             BackTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3f,0);
             BackTower.UpdataTowerTraHei();

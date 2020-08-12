@@ -25,11 +25,13 @@
                 </dxg:TableView>
             </dxg:GridControl.View>
             <dxg:GridColumn FieldName="ID"  Header="序号" HorizontalHeaderContentAlignment="Center" Width="70"  HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
-            <dxg:GridColumn FieldName="VoltageLevel"  Header="电压等级" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="Name"  Header="杆塔型号" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="Type"  Header="类型" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="VoltageLevel"  Header="电压等级" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="CirNum"  Header="杆塔回路数" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}" />
             <dxg:GridColumn FieldName="CurType"  Header="交直流杆塔" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}" />
+            <dxg:GridColumn FieldName="MinAngel"  Header="最小转角" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="MaxAngel"  Header="最大转角" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="CalHeight"  Header="计算高度" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}" />
             <dxg:GridColumn FieldName="MinHeight"  Header="最小呼高" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}" />
             <dxg:GridColumn FieldName="MaxHeight"  Header="最大呼高" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}" />
@@ -41,8 +43,6 @@
             <dxg:GridColumn FieldName="OneSideMaxVerSpan"  Header="单侧最大垂直档距" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="OneSideUpVerSpanMin"  Header="单侧上拔最小档距" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="OneSideUpVerSpanMax"  Header="单侧上拔最大档距" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
-            <dxg:GridColumn FieldName="MinAngel"  Header="最小转角" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
-            <dxg:GridColumn FieldName="MaxAngel"  Header="最大转角" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="DRepresentSpanMin"  Header="最小代表档距" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="DRepresentSpanMax"  Header="最大代表档距" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="StrHeightSer"  Header="直线塔呼高序列字符串" HorizontalHeaderContentAlignment="Center" Width="70" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>

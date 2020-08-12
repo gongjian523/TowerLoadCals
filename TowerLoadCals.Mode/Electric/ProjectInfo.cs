@@ -14,6 +14,11 @@ namespace TowerLoadCals.Mode.Electric
         public int Volt { get; set; }
 
         /// <summary>
+        /// 电压的字符串
+        /// </summary>
+        public string VoltStr { get; set; }
+
+        /// <summary>
         /// 交流还是直流
         /// 默认是交流线路 0
         /// </summary>

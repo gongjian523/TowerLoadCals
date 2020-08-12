@@ -142,5 +142,34 @@ namespace TowerLoadCals.Mode
         /// 耐张塔最大应用水平档距
         /// </summary>
         public int MaxAngHorSpan { get; set; }
+
+
+        /// <summary>
+        /// 结构计算模板
+        /// </summary>
+        public string TempletName { get; set; }
+
+
+        /// <summary>
+        /// 结构计算模型
+        /// </summary>
+        public string ModelName { get; set; }
+
+        /// <summary>
+        /// 结构计算模型 扩展名 年月日
+        /// </summary>
+        public string ModelFileExtension { get; set; }
+
+
+        /// <summary>
+        /// 挂点文件
+        /// </summary>
+        public string HangPointName { get; set; }
+
+        /// <summary>
+        /// 挂点文件 扩展名 年月日
+        /// </summary>
+        public string HangPointFileExtension { get; set; }
+
     }
 }

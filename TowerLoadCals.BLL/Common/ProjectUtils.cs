@@ -61,6 +61,8 @@ namespace TowerLoadCals.BLL
             Directory.CreateDirectory(strDir + "\\" + prejectName);
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);
 
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr+ "\\TowerUploadFile" );//杆塔结构配置文件夹
+
             CreateBaseFile(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);//创建4个xml
 
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr);

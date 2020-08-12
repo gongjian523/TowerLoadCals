@@ -130,6 +130,7 @@
     <Compile Include="Electric\TowerStrData.cs" />
     <Compile Include="Electric\TowerStrCollection.cs" />
     <Compile Include="Electric\TowerStrType.cs" />
+    <Compile Include="Electric\WindLoadResult.cs" />
     <Compile Include="Electric\WireCollections.cs" />
     <Compile Include="Electric\Wire.cs" />
     <Compile Include="Internet\EarthWire.cs" />

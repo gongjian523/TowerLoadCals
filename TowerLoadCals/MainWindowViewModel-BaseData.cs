@@ -31,10 +31,13 @@ namespace TowerLoadCals
         /// <param name="menuItem"></param>
         private void GetMenuList(List<SubMenuBase> menuItem)
         {
-            var towerMenu = new SubMenuBase("TowerModule", this, "杆塔", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var towerMenu = new SubMenuBase("TowerModule", this, "杆塔使用条件", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             towerMenu.SetIcon("Menu_tower.png");
             menuItem.Add(towerMenu);
 
+            var configureMenu = new SubMenuBase("TowerStructureConfigureModule", this, "杆塔结构配置", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            configureMenu.SetIcon("Menu_tower.png");
+            menuItem.Add(configureMenu);
 
             var weatherMenu = new SubMenuBase("WeatherConditionModule", this, "气象条件", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             weatherMenu.SetIcon("Menu_weather.png");

@@ -72,11 +72,11 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         ///  线计算数据
         /// </summary>
-        public float WrieData { get; set; }
+        public WireUtils WrieData { get; set; }
 
         /// <summary>
         /// 跳线计算数据
         /// </summary>
-        public float JmWrieData { get; set; }
+        public WireUtils JmWrieData { get; set; }
     }
 }

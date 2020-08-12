@@ -46,5 +46,8 @@ namespace TowerLoadCals.Mode
         /// </summary>
         [XmlIgnore]
         public float IceThickness { get; set; }
+
+
+        public float BaseWindSpeed { get; set; }
     }
 }

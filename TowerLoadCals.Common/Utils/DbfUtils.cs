@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Odbc;
+using System.IO;
 
 namespace TowerLoadCals.Common
 {
@@ -8,17 +9,21 @@ namespace TowerLoadCals.Common
     /// </summary>
     public class DbfUtils
     {
-        public static DataTable ReadDbf(string dir,string tableName)
+        public static DataTable ReadDbf(string filePath, string tableName)
         {
-            OdbcConnection oConn = new System.Data.Odbc.OdbcConnection();
-            oConn.ConnectionString = "Driver={Microsoft dBase Driver (*.dbf)};DefaultDir=" + dir;
-            oConn.Open();
-            OdbcDataAdapter odbcDataAdapt = new OdbcDataAdapter("select * from  " + tableName, oConn.ConnectionString);
-            DataTable dtData = new DataTable();
-            dtData.TableName = tableName;
-            odbcDataAdapt.Fill(dtData);
-            oConn.Close();
-            return dtData;
+            string fileName = Path.GetFileName(filePath);
+            filePath = Path.GetDirectoryName(filePath);
+
+            OdbcConnection conn = null;
+            string connectStr = "Driver={Microsoft dBASE Driver (*.dbf)}; Dbq=" + filePath;
+            conn = new System.Data.Odbc.OdbcConnection(connectStr);
+            string sql = "select * from " + fileName;
+            System.Data.Odbc.OdbcDataAdapter da = new System.Data.Odbc.OdbcDataAdapter(sql, conn);
+            conn.Open();
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            conn.Close();
+            return dt;
         }
     }
 }
