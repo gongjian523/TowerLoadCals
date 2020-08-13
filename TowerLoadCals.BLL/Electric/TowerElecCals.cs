@@ -73,12 +73,12 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         ///  前侧位置结构
         /// </summary>
-        public TowerPosStrUtils FrontPosRes { get; set; }
+        public ElecCalsTowerPosStr FrontPosRes { get; set; }
 
         /// <summary>
         /// 后侧位置结构
         /// </summary>
-        public TowerPosStrUtils BackPosRes { get; set; }
+        public ElecCalsTowerPosStr BackPosRes { get; set; }
 
 
         /// <summary>
@@ -255,6 +255,11 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public float DnJumpSupMuz { get; set; }
 
+        public TowerElecCals()
+        {
+            FrontPosRes = new ElecCalsTowerPosStr();
+            BackPosRes = new ElecCalsTowerPosStr();
+        }
 
         /// <summary>
         /// 配置杆塔基本外形信息
@@ -266,26 +271,46 @@ namespace TowerLoadCals.BLL.Electric
             MidInHei = midInHeiSor;
             DownSideHei = downSideHeiSor;
             GrDHei = grDHeiSor;
-            DnSideJuHei = upSideJuHeiSor;
+            UpSideJuHei = upSideJuHeiSor;
             MidJuHei = midJuHeiSor;
-            UpSideJuHei = dnSideJuHeiSor;
+            DnSideJuHei = dnSideJuHeiSor;
         }
 
         /// <summary>
         /// 设置杆塔的基本信息,以前视方向为正方向
         /// </summary>
-        public void SetPosInf(string num, string name, float frontSpan,  float frontRes, float footHei, float jm,
+        /// <param name="num">塔号-编号</param>
+        /// <param name="name">杆塔名称</param>
+        /// <param name="hei">杆塔呼高</param>
+        /// <param name="footHei">塔位高程</param>
+        /// <param name="jm">基面降低</param>
+        /// <param name="repStrIndLen">导线等效串长</param>
+        /// <param name="repStrGrdLen">地线等效串长</param>
+        /// <param name="angelofApplication"> ？？ 有待确认是否放在这里</param>
+        public void SetPosInf(string num, string name, float hei,  float footHei, float jm,
                float repStrIndLen, float repStrGrdLen, float angelofApplication)
         {
             Num = num;
             Name = name;
-            FrontPosRes.Span = frontSpan;
-            FrontPosRes.DRepresentSpan = frontRes;
+            Height = hei;
             Elevation = footHei;
             SubOfElv = jm;
             RepStrIndLen = repStrIndLen;
             RepStrGrdLen = repStrGrdLen;
             AngelofApplication = angelofApplication;
+        }
+
+        /// <summary>
+        /// 设置和前后侧塔的位置关系
+        /// </summary>
+        /// <param name="frontSpan">前侧档距</param>
+        /// <param name="frontRes">前侧代表档距</param>
+        /// <param name="backSpan">后侧档距</param>
+        /// <param name="backRes">后侧代表档距</param>
+        public void SetFrontBackPosInf(float frontSpan, float frontRes, float backSpan, float backRes)
+        {
+            FrontPosRes = new ElecCalsTowerPosStr(frontSpan, frontRes);
+            BackPosRes = new ElecCalsTowerPosStr(backSpan, backRes);
         }
 
 
@@ -456,8 +481,6 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
-
-
         /// <summary>
         /// 更新铁塔前后水平档距和垂直档距，此处计算可能没用
         /// </summary>
@@ -467,5 +490,29 @@ namespace TowerLoadCals.BLL.Electric
             FrontPosRes.HorizontalSpan = (float)Math.Ceiling((double)FrontPosRes.Span / 2); 
         }
 
+
+        public List<string> PrintHei(string prefix, bool bWithJump)
+        {
+            int spaceLength1 = 8, spaceLength2 = 8;
+
+            List<string> rslt = new List<string>();
+
+            string szTitle = prefix.PadRight(spaceLength1) + "塔上相挂点高  " + AbsUpSideHei.ToString("0.##").PadRight(spaceLength2)  
+                + "塔中相挂点高 "+ AbsMidHei.ToString("0.##").PadRight(spaceLength2)
+                + "塔下相挂点高 " + AbsDownSideHei.ToString("0.##").PadRight(spaceLength2)
+                + "地线挂点高 " + AbsGrdHei.ToString("0.##").PadRight(spaceLength2);
+            rslt.Add(szTitle);
+
+            if(bWithJump)
+            {
+                string szTitleJump = prefix.PadRight(spaceLength1) + "塔上相跳线串挂点高 " + AbsUpJumHei.ToString("0.##").PadRight(spaceLength2)
+                    + "塔中相跳线串挂点高 " + AbsMidJumHei.ToString("0.##").PadRight(spaceLength2)
+                    + "塔下相跳线串挂点高 " + AbsDownJumHei.ToString("0.##").PadRight(spaceLength2);
+                rslt.Add(szTitleJump);
+            }
+
+            return rslt; 
+
+        }
     }
 }

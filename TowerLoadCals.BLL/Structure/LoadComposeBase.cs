@@ -417,12 +417,12 @@ namespace TowerLoadCals.BLL
                 else if(wcCombo.WorkConditionCode.StartsWith("B"))
                 {
                     comboCoef = Paras.VcFBroken * windLoad;
-                    importanceCoef = installCoef;
+                    importanceCoef = otherCoef;
                 }
                 else if (wcCombo.WorkConditionCode.StartsWith("U"))
                 {
                     comboCoef = Paras.VcFUnevenIce * windLoad;
-                    importanceCoef = installCoef;
+                    importanceCoef = otherCoef;
 
                 }
                 else if (wcCombo.WorkConditionCode.StartsWith("T") || wcCombo.WorkConditionCode.StartsWith("Y"))
@@ -450,7 +450,7 @@ namespace TowerLoadCals.BLL
                 float temperature = WorkConditionTemperate[wcCombo.WorkCode - 1];
 
                 string str = wcWind.ToString("0.000").PadLeft(8) + comboCoef.ToString("0.000").PadLeft(8) + windAngle.ToString("0.000").PadLeft(8)
-                    + importanceCoef.ToString("0.000").PadLeft(8) + gravityLoad.ToString("0.000").PadLeft(8) + temperature.ToString("0.000").PadLeft(8)
+                    + importanceCoef.ToString("0.000").PadLeft(8) + gravityLoad.ToString("0.000").PadLeft(8) + temperature.ToString("0.00").PadLeft(8)
                     + "   " + wccNumTemp.ToString() + "-" + wcCombo.WorkComment;
 
                 processString.Add(str);
@@ -502,7 +502,6 @@ namespace TowerLoadCals.BLL
 
         protected virtual void GetDicInfo(string wire, string WorkConditionCode, int WireIndexCodes, out string groupStr, out string linkStrXY, out string linkStrZ, out List<HangingPointParas> pointsXY, out List<HangingPointParas> pointsZ)
         {
-            LoadDic dic;
 
             var CandiateList1 = LoadDics.Where(item => item.Wire == wire).ToList();
 

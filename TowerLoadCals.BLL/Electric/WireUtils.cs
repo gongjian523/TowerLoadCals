@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.Common.Utils;
 using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL.Electric
@@ -87,6 +88,12 @@ namespace TowerLoadCals.BLL.Electric
         /// 应力字典
         /// </summary>
         public Dictionary<string, float> ForSpanDic { get; set; }
+
+
+        /// <summary>
+        /// 垂直档距
+        /// </summary>
+        public Dictionary<string, double> VerSpanDic { get; set; }
 
         /// <summary>
         /// 
@@ -274,7 +281,6 @@ namespace TowerLoadCals.BLL.Electric
                 SafePara = SideParas.GrdSafePara;
                 AvePara = SideParas.GrdAnPara;
             }
-
             else
             {
                 OPGWEffectPara = SideParas.OPGWEffectPara;
@@ -386,7 +392,40 @@ namespace TowerLoadCals.BLL.Electric
 
             //增加荷载计算中需要的工况：
             WeatherParas.AddOtherGk();
+
         }
+
+        /// <summary>
+        /// 计算垂直档距
+        /// </summary>
+        /// 
+        public void UpdateVertialSpan(double span, double upSideInHei)
+        {
+            foreach (var nameWd in WeatherParas.NameOfWkCdt)
+            {
+                BZResult bz = BzDic[nameWd];
+
+                double rslt = VerticalSpan(span, upSideInHei, bz.Stress, bz.Stress);
+
+                VerSpanDic.Add(nameWd, rslt);
+            }
+        }
+
+        /// <summary>
+        /// 垂直档距
+        /// </summary>
+        /// <param name="span">档距</param>
+        /// <param name="upSideInHei">上相导线高差</param>
+        /// <param name="stress">应力</param>
+        /// <param name="streeGL">孤立档应力</param>
+        /// <returns></returns>
+        protected double VerticalSpan(double span, double upSideInHei, double stress, double streeGL)
+        {
+            return Math.Round(span/2 + stress /streeGL * Calc.Asinh(streeGL * upSideInHei / (2 * stress * span/2/ stress)),2);
+        }
+
+
+
 
     }
 }

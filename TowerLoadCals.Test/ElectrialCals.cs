@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TowerLoadCals.BLL.Electric;
+using TowerLoadCals.Common;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 
@@ -13,6 +14,14 @@ namespace TowerLoadCals.Test
         [TestMethod]
         public void TestMethod1()
         {
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Txt Files (*.txt)|*.txt"
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
             var pro = new ProjectInfo("新建工程", "施工图");
             pro.Volt = 500;
             pro.VoltStr = "500kV";
@@ -111,20 +120,47 @@ namespace TowerLoadCals.Test
             commParas.SetOverDrive(0,0);
             commParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
 
+            SideCalUtils OneWrieSidePara = new SideCalUtils(0.95f, 2.85f, 25, 1, 4.1f, 20, 1, 4.1f, 20);
+            SideCalUtils AnoWrieSidePara = new SideCalUtils(0.9f, 2.85f, 25, 1, 4.1f, 20, 1, 4.1f, 20);
+
             TowerStrainElecCals BackTower = new TowerStrainElecCals();
             TowerStrainElecCals CalTower = new TowerStrainElecCals();
             TowerHangElecCals FrontTower = new TowerHangElecCals();
 
-            BackTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3f,0);
+            List<string> logList = new List<string>();
+
+            BackTower.SetPosInf("NAB204", "SJC29152", 48, 1997.1f, -4.1f, 0, 0, 0);
+            BackTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2f, 14.1f, 0);
             BackTower.UpdataTowerTraHei();
-            CalTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3f, 0);
+
+            CalTower.SetPosInf("NAB205", "SJC29152", 48, 2277.1f, -6.3f, 0, 0, 45.98f);
+            CalTower.SetFrontBackPosInf(325, 430, 593, 593);
+            CalTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2f, 14.1f, 0);
             CalTower.UpdataTowerTraHei();
-            FrontTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2f, 14.1f, 0);
+
+            FrontTower.SetPosInf("NAB206", "SZC27154A", 67, 2350.8f, -5, 8, 0.5f, 45.98f);
+            FrontTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3f, 0);
             FrontTower.UpdataTowerTraHei();
 
+            //打印高差
+            logList.AddRange(BackTower.PrintHei("小号塔", false));
+            logList.AddRange(FrontTower.PrintHei("大号塔", false));
+            logList.AddRange(CalTower.PrintHei("计算塔", true));
 
-            SideCalUtils OneWrieSidePara = new SideCalUtils(0.95f, 2.85f, 0.25f, 1, 4.1f, 0.2f, 1, 4.1f, 0.2f);
-            SideCalUtils AnoWrieSidePara = new SideCalUtils(0.95f, 2.8f, 0.25f, 1, 4.1f, 0.2f, 1, 4.1f, 0.2f);
+
+            ElecCalsRes BackSideCalRes = new ElecCalsRes();
+            ElecCalsRes FrontSideCalRes = new ElecCalsRes();
+            BackSideCalRes.UpdataSor(OneWeath15, DxData, GrdData, OPGWData, DxData, OneWrieSidePara, commParas);
+            FrontSideCalRes.UpdataSor(AnoWeath15, DxData, GrdData, OPGWData, DxData, AnoWrieSidePara, commParas);
+            CalTower.GetAndUpdateSideRes(BackSideCalRes, FrontSideCalRes);
+
+            FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);
+
+
+
+            return;
+
+
             
 
         }

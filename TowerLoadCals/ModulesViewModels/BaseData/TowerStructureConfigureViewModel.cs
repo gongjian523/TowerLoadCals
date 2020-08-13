@@ -18,6 +18,10 @@ namespace TowerLoadCals.Modules
     public class TowerStructureConfigureViewModel : DaseDataBaseViewModel<TowerStrData, List<TowerStrCollection>>
     {
         public DelegateCommand CopyRowCommand { get; private set; }
+        /// <summary>
+        /// 保存xml
+        /// </summary>
+        public DelegateCommand SaveXmlCommand { get; private set; }
 
         protected string curType;
         protected string curName;
@@ -40,49 +44,31 @@ namespace TowerLoadCals.Modules
             filePath = globalInfo.ProjectPath + "\\BaseData\\TowerStr.xml";
 
             CopyRowCommand = new DelegateCommand(CopyRow);
-
-
-
-
+            SaveXmlCommand = new DelegateCommand(SaveXml);
         }
 
         protected override void InitializeData()
         {
             //BaseData = TowerStrDataReader.Read(filePath);
 
-
             //工程文件和通用文件模板
             IList<string> projectList = ProjectUtils.GetInstance().GetProjectTowerTemplate().Select(item => "[工程模板]" + item.Name).ToList();
             IList<string> templateList = ProjectUtils.GetInstance().GetGeneralTowerTemplate().Select(item => "[通用模板]" + item.Name).ToList();
-
             this.templetDataSource = projectList.Concat(templateList).ToList();
 
 
-            IList<TowerStrData> list = new List<TowerStrData>();
-            TowerStrData tower = new TowerStrData();
-            tower.ID = 1;
-            tower.Name = "直转塔杆塔型号";
-            tower.Type = 1;
-            tower.TempletName = "[通用模板]单回交流中冰区-低温";
-            tower.ModelName = "";
-            tower.HangPointName = "";
-            list.Add(tower);
-            TowerStrData tower1 = new TowerStrData();
-            tower1.ID = 2;
-            tower1.Name = "终端塔杆塔型号";
-            tower1.Type = 1;
-            tower1.TempletName = "[通用模板]单回直流轻中冰区";
-            tower1.ModelName = "";
-            tower1.HangPointName = "";
-            list.Add(tower1);
-
-            this.dataSource = new ObservableCollection<TowerStrData>(list);
+            this.dataSource = new ObservableCollection<TowerStrData>(TowerStrDataReader.ReadLoadFile(filePath));//获取本地已保存信息
 
         }
 
-        public void CheckModelTemplet(int id)
+        #region 结构计算模型上传
+        /// <summary>
+        /// 结构计算模型上传
+        /// </summary>
+        /// <param name="name"></param>
+        public void CheckModelTemplet(string name)
         {
-            TowerStrData tower = this.DataSource.Where(item => item.ID == id).SingleOrDefault();
+            TowerStrData tower = this.DataSource.Where(item => item.Name == name).SingleOrDefault();
 
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.DefaultExt = ".dat"; // Required file extension 
@@ -98,9 +84,18 @@ namespace TowerLoadCals.Modules
 
         }
 
-        public void CheckHangPointTemplate(int id)
+
+        #endregion
+
+
+        #region 挂点文件上传
+        /// <summary>
+        /// 挂点文件上传
+        /// </summary>
+        /// <param name="name"></param>
+        public void CheckHangPointTemplate(string name)
         {
-            TowerStrData tower = this.DataSource.Where(item => item.ID == id).SingleOrDefault();
+            TowerStrData tower = this.DataSource.Where(item => item.Name == name).SingleOrDefault();
 
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.DefaultExt = ".xml"; // Required file extension 
@@ -111,12 +106,14 @@ namespace TowerLoadCals.Modules
                 tower.HangPointName = Path.GetFileName(fileDialog.FileName);
                 tower.HangPointFileExtension = Path.GetFileNameWithoutExtension(fileDialog.FileName) + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(fileDialog.FileName);
 
-
                 UploadFile(tower, 2, fileDialog.FileName);//添加节点及负责相关文件
             }
 
         }
+        #endregion
 
+
+        #region 保存上传文件
         //保存上传文件
         /// <summary>
         /// 保存杆塔型号结构计算模型，挂点文件名称
@@ -125,13 +122,12 @@ namespace TowerLoadCals.Modules
         /// <param name="type">1：结构计算模型 2：挂点文件</param>
         public void UploadFile(TowerStrData tower, int type, string uploadFilePath)
         {
-            string filePath = globalInfo.ProjectPath + "\\BaseData\\TowerStr.xml"; ;
             //加载xml文件
             XmlDocument doc = new XmlDocument();
             doc.Load(filePath);
 
             //获取到指定节点
-            XmlNodeList xmlNodeList = doc.GetElementsByTagName("TowerCollection")[0].ChildNodes;
+            XmlNodeList xmlNodeList = doc.GetElementsByTagName("Root")[0].ChildNodes;
 
             foreach (XmlNode xmlNode in xmlNodeList)
             {
@@ -140,7 +136,7 @@ namespace TowerLoadCals.Modules
                     if (type == 1)//结构计算模型
                     {
 
-                        if (xmlNode.Attributes.GetNamedItem("ModelName")!=null&& xmlNode.Attributes.GetNamedItem("ModelName").InnerXml == tower.ModelName)//如果存在该节点，则修改
+                        if (xmlNode.Attributes.GetNamedItem("ModelName") != null && xmlNode.Attributes.GetNamedItem("ModelName").InnerXml == tower.ModelName)//如果存在该节点，则修改
                         {
                             xmlNode.Attributes.GetNamedItem("ModelName").InnerText = tower.ModelName;
                             xmlNode.Attributes.GetNamedItem("ModelFileExtension").InnerText = tower.ModelFileExtension;
@@ -179,7 +175,7 @@ namespace TowerLoadCals.Modules
             }
             //判断上传文件夹是否包含该 杆塔型号 文件夹，如果包含，直接保存到对应文件夹中，如不包含，穿件文件夹，并保存该上传文件
             string uploadFolder = globalInfo.ProjectPath + @"\BaseData\TowerUploadFile\" + tower.Name + "[" + tower.Type + "]";
-            string sourceName = type == 1?(uploadFolder + @"\" + tower.ModelFileExtension):(uploadFolder + @"\" + tower.HangPointFileExtension);
+            string sourceName = type == 1 ? (uploadFolder + @"\" + tower.ModelFileExtension) : (uploadFolder + @"\" + tower.HangPointFileExtension);
 
             if (File.Exists(uploadFolder))
             {
@@ -187,12 +183,57 @@ namespace TowerLoadCals.Modules
             }
             else
             {
-
-                System.IO.Directory.CreateDirectory(uploadFolder);
+                Directory.CreateDirectory(uploadFolder);
                 File.Copy(uploadFilePath, sourceName);
             }
             doc.Save(filePath);
         }
+        #endregion
+
+
+        #region 保存xml文件信息
+
+        /// <summary>
+        /// 保存xml文件信息
+        /// </summary>
+        public void SaveXml()
+        {
+            try
+            {
+                var editData = this.DataSource.ToList();
+
+                XmlDocument doc = new XmlDocument();
+                doc.Load(filePath);
+
+                XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
+                TowerStrData item;
+                foreach (XmlNode xmlNode in rootNode.ChildNodes)
+                {
+                    item = editData.Where(k => k.Name == xmlNode.Attributes.GetNamedItem("Name").InnerXml).SingleOrDefault();
+                    if (!string.IsNullOrEmpty(item.TempletName))
+                    {
+                        if (xmlNode.Attributes.GetNamedItem("TempletName") != null && xmlNode.Attributes.GetNamedItem("TempletName").InnerText == item.TempletName)
+                        {
+                            xmlNode.Attributes.GetNamedItem("TempletName").InnerText = item.TempletName;
+                        }
+                        else
+                        {
+                            XmlAttribute xmlAttribute1 = doc.CreateAttribute("TempletName");
+                            xmlAttribute1.InnerText = item.TempletName;
+                            xmlNode.Attributes.Append(xmlAttribute1);
+                        }
+                    }
+                }
+                doc.Save(filePath);
+                MessageBox.Show("保存信息成功");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("保存信息失败，请确认后重试！错误信息为：" + ex.Message);
+            }
+        }
+        #endregion
+
 
         /// <summary>
         /// 数据源

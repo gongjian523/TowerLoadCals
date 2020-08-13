@@ -13,7 +13,7 @@ namespace TowerLoadCals.BLL.Electric
         //BiZai(1e-3 kg/m/mm2),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
         public static float BiZai(float Q, float d, float S, float b, float v, float VBase)
         {
-            float Usc, a, BB, Bc;
+            float Usc, a, BB;
 
             if (b > 0)
             {
@@ -123,8 +123,7 @@ namespace TowerLoadCals.BLL.Electric
         public static float StressNew(float StressM, float GM, float tM, float e, float aa, float l, float gN, float tN)
         {
             float a, b, aD, bD;
-            float x1, x2, dt;
-            bool StopPro;
+            float dt;
 
             //'x^3+a*x^2+b=0
             a = (float)(Math.Pow(l, 2) * Math.Pow(GM, 2) * e / 24 / Math.Pow(StressM, 2) - StressM - aa * e * (tM - tN));

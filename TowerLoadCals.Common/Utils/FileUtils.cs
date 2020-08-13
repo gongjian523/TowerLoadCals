@@ -22,5 +22,20 @@ namespace TowerLoadCals.Common
                 }
             }
         }
+
+
+        public static void TextSaveByLineInOneFile(string path, List<string> lineStr)
+        {
+            using (StreamWriter writer = File.AppendText(path))
+            {
+                foreach (string s in lineStr)
+                {
+                    writer.WriteLine(s);
+                }
+                writer.Flush();
+                writer.Close();
+            }
+
         }
+    }
 }

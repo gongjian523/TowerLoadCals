@@ -2,6 +2,9 @@
 using System.Data;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Common;
+using System.Linq;
+using System.ComponentModel;
+using System.Text;
 
 namespace TowerLoadCals.DAL
 {
@@ -73,5 +76,62 @@ namespace TowerLoadCals.DAL
 
             return towerStPraList;
         }
+
+        public static List<TowerStrData> Read1(string dir)
+        {
+            List<TowerStrData> towerStPraList = new List<TowerStrData>();
+
+            DataTable dataTable = DbfUtils.ReadDbf(dir, "");
+            TowerStrData data = null;
+            foreach (DataRow row in dataTable.Rows)
+            {
+                data = new TowerStrData();
+                data.Name = row["杆塔型号"].ToString().Split('-')[0];
+                data.Type = int.Parse(row["直线1耐张2"].ToString())==1?"直线塔":"耐张塔";
+                data.VoltageLevel = row["电压等级"].ToString()==""?0:double.Parse(row["电压等级"].ToString());
+                data.MaxAngel = row["最大转角"].ToString() == "" ? 0 : double.Parse(row["最大转角"].ToString(),0);
+                data.MinHeight = row["呼高"].ToString() == "" ? 0 : double.Parse(row["呼高"].ToString());//最小呼高
+                data.MaxHeight = row["呼高"].ToString() == "" ? 0 : double.Parse(row["呼高"].ToString());//最大呼高
+                data.AllowedHorSpan = row["允许LH"].ToString() == "" ? 0 : double.Parse(row["允许LH"].ToString());//设计水平档距
+                data.OneSideMinHorSpan = row["最小LH"].ToString() == "" ? 0 : double.Parse(row["最小LH"].ToString());//单侧最小水平档距
+                data.AllowedVerSpan = row["允许LV"].ToString() == "" ? 0 : double.Parse(row["允许LV"].ToString());//最大垂直档距
+                data.OneSideMaxVerSpan = row["单侧最大LV"].ToString() == "" ? 0 : double.Parse(row["单侧最大LV"].ToString());//单侧最大垂直档距
+                data.StrHeightSer = row["呼高"].ToString();//"直线塔呼高序列字符串"
+
+                towerStPraList.Add(data);
+            }
+
+            var groups = towerStPraList.GroupBy(item => item.Name).ToList();//按塔型型号分组
+
+             towerStPraList = new List<TowerStrData>();
+            StringBuilder StrHeightSer = new StringBuilder();
+            foreach (var group in groups)
+            {
+                data = new TowerStrData();
+                data.Name = group.Key;
+                data.MaxHeight = group.Select(k => k.MaxHeight).Max();
+                data.MinHeight = group.Select(k => k.MinHeight).Min();
+
+                int i = 0;
+                foreach (TowerStrData item in group)
+                {
+                    if(i==0)
+                    {
+                        data.Type = item.Type;
+                        data.VoltageLevel = item.VoltageLevel;
+                        data.AllowedHorSpan = item.AllowedHorSpan;
+                        data.OneSideMinHorSpan = item.OneSideMinHorSpan;
+                        data.AllowedVerSpan = item.AllowedVerSpan;
+                        data.OneSideMaxVerSpan = item.OneSideMaxVerSpan;
+                    }
+                    StrHeightSer.Append(item.StrHeightSer+",");
+                    i++;
+                }
+                data.StrHeightSer = StrHeightSer.ToString().TrimEnd(',');
+                towerStPraList.Add(data);
+            }
+            return towerStPraList;
+        }
+
     }
 }

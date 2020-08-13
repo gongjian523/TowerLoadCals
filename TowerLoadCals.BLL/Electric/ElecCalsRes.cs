@@ -88,5 +88,7 @@ namespace TowerLoadCals.BLL.Electric
             JumWire.SaveYLTabel(spanVal);
         }
 
+        
+
     }
 }

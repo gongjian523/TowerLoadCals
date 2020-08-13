@@ -16,7 +16,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 电压等级
         /// </summary>
-        public int VoltageLevel { get; set; }
+        public double VoltageLevel { get; set; }
 
         /// <summary>
         /// 杆塔型号
@@ -26,7 +26,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 类型，1，直线塔；2，转角塔
         /// </summary>
-        public int Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// 杆塔回路数
@@ -41,82 +41,82 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 计算高度
         /// </summary>
-        public int CalHeight { get; set; }
+        public double CalHeight { get; set; }
 
         /// <summary>
         /// 最小呼高
         /// </summary>
-        public int MinHeight { get; set; }
+        public double MinHeight { get; set; }
 
         /// <summary>
         /// 最大呼高
         /// </summary>
-        public int MaxHeight { get; set; }
+        public double MaxHeight { get; set; }
 
         /// <summary>
         /// 设计水平档距
         /// </summary>
-        public int AllowedHorSpan { get; set; }
+        public double AllowedHorSpan { get; set; }
 
         /// <summary>
         /// 单侧最小水平档距
         /// </summary>
-        public int OneSideMinHorSpan { get; set; }
+        public double OneSideMinHorSpan { get; set; }
 
         /// <summary>
         /// 单侧最大水平档距
         /// </summary>
-        public int OneSideMaxHorSpan { get; set; }
+        public double OneSideMaxHorSpan { get; set; }
 
         /// <summary>
         /// 最大垂直档距
         /// </summary>
-        public int AllowedVerSpan { get; set; }
+        public double AllowedVerSpan { get; set; }
 
         /// <summary>
         /// 单侧最小垂直档距
         /// </summary>
-        public int OneSideMinVerSpan { get; set; }
+        public double OneSideMinVerSpan { get; set; }
 
         /// <summary>
         /// 单侧最大垂直档距
         /// </summary>
-        public int OneSideMaxVerSpan { get; set; }
+        public double OneSideMaxVerSpan { get; set; }
 
         /// <summary>
         /// 单侧上拔最小档距
         /// </summary>
-        public int OneSideUpVerSpanMin { get; set; }
+        public double OneSideUpVerSpanMin { get; set; }
 
         /// <summary>
         /// 单侧上拔最大档距
         /// </summary>
-        public int OneSideUpVerSpanMax { get; set; }
+        public double OneSideUpVerSpanMax { get; set; }
 
         /// <summary>
         /// 最小转角
         /// </summary>
-        public int MinAngel { get; set; }
+        public double MinAngel { get; set; }
 
         /// <summary>
         /// 最大转角
         /// </summary>
-        public int MaxAngel { get; set; }
+        public double MaxAngel { get; set; }
 
         /// <summary>
         /// 最小代表档距
         /// </summary>
-        public int DRepresentSpanMin { get; set; }
+        public double DRepresentSpanMin { get; set; }
 
         /// <summary>
         /// 最大代表档距
         /// </summary>
-        public int DRepresentSpanMax { get; set; }
+        public double DRepresentSpanMax { get; set; }
 
         /// <summary>
         /// 直线塔呼高序列
         /// </summary>
-        public int[] HeightSer { get; set; }
+        public double[] HeightSer { get; set; }
 
         /// <summary>
         /// 直线塔呼高序列字符串
@@ -126,7 +126,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 直线塔档距序列
         /// </summary>
-        public int[] AllowHorSpan { get; set; }
+        public double[] AllowHorSpan { get; set; }
 
         /// <summary>
         /// 直线塔档距序列字符串
@@ -136,12 +136,12 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 耐张塔角度折档距
         /// </summary>
-        public int AngelToHorSpan { get; set; }
+        public double AngelToHorSpan { get; set; }
 
         /// <summary>
         /// 耐张塔最大应用水平档距
         /// </summary>
-        public int MaxAngHorSpan { get; set; }
+        public double MaxAngHorSpan { get; set; }
 
 
         /// <summary>
@@ -171,5 +171,9 @@ namespace TowerLoadCals.Mode
         /// </summary>
         public string HangPointFileExtension { get; set; }
 
+        /// <summary>
+        /// 是否被修改
+        /// </summary>
+        public bool IsEdit { get; set; }
     }
 }

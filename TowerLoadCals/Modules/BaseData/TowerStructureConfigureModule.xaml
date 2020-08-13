@@ -12,14 +12,14 @@
         <DataTemplate x:Key="upLoadModelTemplet">
             <StackPanel  Orientation="Horizontal" Margin="5,0,0,0">
                 <TextBlock Text="{Binding Path=RowData.Row.ModelName}" TextWrapping="NoWrap"   TextAlignment="Center" IsEnabled="False" Width="150" Margin="0,0,15,0"/>
-                <Button Width="80" Content="选择文件"  Command="{DXCommand View.DataContext.CheckModelTemplet(@parameter)}"  CommandParameter="{Binding RowData.Row.ID}"  ></Button>
+                <Button Width="80" Content="选择文件"  Command="{DXCommand View.DataContext.CheckModelTemplet(@parameter)}"  CommandParameter="{Binding RowData.Row.Name}"  ></Button>
 
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="upLoadHangPointTemplet">
             <StackPanel  Orientation="Horizontal" Margin="5,0,0,0">
                 <TextBlock Text="{Binding Path=RowData.Row.HangPointName}" TextWrapping="NoWrap"   TextAlignment="Center" IsEnabled="False" Width="150" Margin="0,0,15,0"/>
-                <Button Width="80" Content="选择文件"  Command="{DXCommand View.DataContext.CheckHangPointTemplate(@parameter)}"  CommandParameter="{Binding RowData.Row.ID}"  ></Button>
+                <Button Width="80" Content="选择文件"  Command="{DXCommand View.DataContext.CheckHangPointTemplate(@parameter)}"  CommandParameter="{Binding RowData.Row.Name}"  ></Button>
 
             </StackPanel>
         </DataTemplate>
@@ -31,18 +31,26 @@
                 <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center" IsEnabled="False"/>
             </DataTemplate>
         </Grid.Resources>-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" Name="g_heard"/>
+                <RowDefinition Height="*"  />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0"  Grid.Column="0" Content="保 存" Height="30" Width="78"  Name="btnSave" Command="{Binding SaveXmlCommand}"/>
 
 
-
-        <dxg:GridControl Grid.Column="1" AutoGenerateColumns="None" Margin="8,0" EnableSmartColumnsGeneration="False"  ItemsSource="{Binding DataSource}">
+            <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="None" Margin="8,0" EnableSmartColumnsGeneration="False"  ItemsSource="{Binding DataSource}">
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="ID"  Header="序号" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <!--<dxg:GridColumn FieldName="ID"  Header="序号" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>-->
             <dxg:GridColumn FieldName="Name"  Header="杆塔型号" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="TempletName" Header="结构计算模板" Width="112">
                 <dxg:GridColumn.EditSettings>
-                    <dxe:ComboBoxEditSettings ItemsSource="{Binding TempletDataSource}" IsTextEditable="False" />
+                    <dxe:ComboBoxEditSettings ItemsSource="{Binding TempletDataSource}" IsTextEditable="False"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
             <dxg:GridColumn FieldName="ModelName"  Header="结构计算模型" HorizontalHeaderContentAlignment="Center" Width="250"   CellEditTemplate="{StaticResource ResourceKey=upLoadModelTemplet}" />

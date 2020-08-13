@@ -133,12 +133,12 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 通常使用的工况：小号侧
         /// </summary>
-        public WeatherUtils WeaParas { get; set; }
+        public ElecCalsWeaRes WeaParas { get; set; }
 
         /// <summary>
         /// 大号侧
         /// </summary>
-        public WeatherUtils WeaAnSideParas { get; set; }
+        public ElecCalsWeaRes WeaAnSideParas { get; set; }
 
         /// <summary>
         /// 公共参数
@@ -198,7 +198,7 @@ namespace TowerLoadCals.BLL.Electric
         /// 更新参数
         /// </summary>
         /// <param name="weaData">工况参数</param>
-        public void UpdataPara(ElecCalsCommRes commData, WeatherUtils weaData, WeatherUtils anWeaData)
+        public void UpdataPara(ElecCalsCommRes commData, ElecCalsWeaRes weaData, ElecCalsWeaRes anWeaData)
         {
             CommPara = commData;
             WeaParas = weaData;

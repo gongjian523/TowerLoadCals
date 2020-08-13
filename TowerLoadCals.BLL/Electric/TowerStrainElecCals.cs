@@ -14,7 +14,7 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         /// <param name="BackSideResSor"></param>
         /// <param name="FrontSideResSor"></param>
-        void GetAndUpdateSideRes(ElecCalsRes BackSideResSor, ElecCalsRes FrontSideResSor)
+        public void GetAndUpdateSideRes(ElecCalsRes BackSideResSor, ElecCalsRes FrontSideResSor)
         {
             BackSideRes = XmlUtils.Clone(BackSideResSor);
             FrontSideRes = XmlUtils.Clone(FrontSideResSor);
@@ -93,6 +93,8 @@ namespace TowerLoadCals.BLL.Electric
         {
 
         }
+
+        
 
     }
 }

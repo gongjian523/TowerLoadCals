@@ -63,7 +63,7 @@ namespace TowerLoadCals.BLL
 
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr+ "\\TowerUploadFile" );//杆塔结构配置文件夹
 
-            CreateBaseFile(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);//创建4个xml
+            CreateBaseFile(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);//创建5个xml
 
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr);
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.LineTowerStr);
@@ -111,6 +111,19 @@ namespace TowerLoadCals.BLL
         /// <param name="Path"></param>
         public void CreateBaseFile(string Path)
         {
+            #region //首先创建 TowerStr xml文档
+
+            //首先创建 FitData xml文档 
+            XmlDocument towerStrXml = new XmlDocument();
+            XmlElement towerStrRoot = towerStrXml.CreateElement("Root");
+            towerStrXml.AppendChild(towerStrRoot);
+
+
+            //最后将整个xml文件保存在D盘             
+            towerStrXml.Save(Path + @"\TowerStr.xml");
+
+            #endregion
+
             #region //首先创建 FitData xml文档
 
             //首先创建 FitData xml文档 
