@@ -31,12 +31,12 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 新线系数，默认值为0.95
         /// </summary>
-        public float NewPerPara { get; set; }
+        public double NewPerPara { get; set; }
 
         /// <summary>
         /// 重力加速度常数
         /// </summary>
-        public float GraAcc { get; set; }
+        public double GraAcc { get; set; }
 
         /// <summary>
         /// 小号侧冰区
@@ -74,152 +74,152 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 导线截面增大系数
         /// </summary>
-        public float SecIndInc { get; set; }
+        public double SecIndInc { get; set; }
 
         /// <summary>
         /// 导线重量增大系数
         /// </summary>
-        public float WeiIndInc { get; set; }
+        public double WeiIndInc { get; set; }
 
         /// <summary>
         /// 导线直径增大系数
         /// </summary>
-        public float DiaIndInc { get; set; }
+        public double DiaIndInc { get; set; }
 
         /// <summary>
         /// 地线截面增大系数
         /// </summary>
-        public float SecGrdInc { get; set; }
+        public double SecGrdInc { get; set; }
 
         /// <summary>
         /// 地线重量增大系数
         /// </summary>
-        public float WeiGrdInc { get; set; }
+        public double WeiGrdInc { get; set; }
 
         /// <summary>
         /// 地线直径增大系数
         /// </summary>
-        public float DiaGrdInc { get; set; }
+        public double DiaGrdInc { get; set; }
 
         /// <summary>
         /// OPGW截面增大系数
         /// </summary>
-        public float SecOPGWInc { get; set; }
+        public double SecOPGWInc { get; set; }
 
         /// <summary>
         /// OPGW重量增大系数
         /// </summary>
-        public float WeiOPGWInc { get; set; }
+        public double WeiOPGWInc { get; set; }
 
         /// <summary>
         /// OPGW直径增大系数
         /// </summary>
-        public float DiaOPGWInc { get; set; }
+        public double DiaOPGWInc { get; set; }
 
 
         /// <summary>
         ///大张力侧施工误差,
         /// </summary>
-        public float BuildMaxPara { get; set; }
+        public double BuildMaxPara { get; set; }
 
         /// <summary>
         /// 大张力侧安装误差
         /// </summary>
-        public float InstMaxPara { get; set; }
+        public double InstMaxPara { get; set; }
 
         /// <summary>
         /// 大张力侧导线伸长系数
         /// </summary>
-        public float IndExMaxPara { get; set; }
+        public double IndExMaxPara { get; set; }
 
         /// <summary>
         ///大张力侧地线伸长系数
         /// </summary>
-        public float GrdExMaxPara { get; set; }
+        public double GrdExMaxPara { get; set; }
 
         /// <summary>
         /// 小张力侧施工误差
         /// </summary>
-        public float BuildMinPara { get; set; }
+        public double BuildMinPara { get; set; }
 
         /// <summary>
         /// 小张力侧安装误差
         /// </summary>
-        public float InstMinPara { get; set; }
+        public double InstMinPara { get; set; }
 
         /// <summary>
         /// 小张力侧导线伸长系数
         /// </summary>
-        public float IndExMinPara { get; set; }
+        public double IndExMinPara { get; set; }
 
         /// <summary>
         /// 小张力侧地线伸长系数
         /// </summary>
-        public float GrdExMinPara { get; set; }
+        public double GrdExMinPara { get; set; }
 
 
         /// <summary>
         /// 导线过牵引系数
         /// </summary>
-        public float IndODri { get; set; }
+        public double IndODri { get; set; }
 
         /// <summary>
         /// 地线过牵引系数
         /// </summary>
-        public float GrdODri { get; set; }
+        public double GrdODri { get; set; }
 
 
         /// <summary>
         /// 
         /// </summary>
-        public float IndBrePara { get; set; }
+        public double IndBrePara { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public float GrdBrePara { get; set; }
+        public double GrdBrePara { get; set; }
 
         /// <summary>
         /// 大号侧断线张力系数-导线
         /// </summary>
-        public float IndBreMaxPara { get; set; }
+        public double IndBreMaxPara { get; set; }
 
         /// <summary>
         /// 大号侧断线张力系数-地线
         /// </summary>
-        public float GrdBreMaxPara { get; set; }
+        public double GrdBreMaxPara { get; set; }
 
 
         /// <summary>
         /// 小号侧断线张力系数-导线
         /// </summary>
-        public float IndBreMinPara { get; set; }
+        public double IndBreMinPara { get; set; }
 
         /// <summary>
         /// 小号侧断线张力系数-地线
         /// </summary>
-        public float GrdBreMinPara { get; set; }
+        public double GrdBreMinPara { get; set; }
 
         /// <summary>
         /// 大号侧不均匀冰张力系数-导线
         /// </summary>
-        public float IndUnbaMaxPara { get; set; }
+        public double IndUnbaMaxPara { get; set; }
 
         /// <summary>
         /// 大号侧不均匀冰张力系数-地线
         /// </summary>
-        public float GrdUnbaMaxPara { get; set; }
+        public double GrdUnbaMaxPara { get; set; }
 
 
         /// <summary>
         /// 小号不均匀冰线张力系数-导线
         /// </summary>
-        public float IndUnbaMinPara { get; set; }
+        public double IndUnbaMinPara { get; set; }
 
         /// <summary>
         /// 小号不均匀冰线张力系数-地线
         /// </summary>
-        public float GrdUnbaMinPara { get; set; }
+        public double GrdUnbaMinPara { get; set; }
 
         /// <summary>
         /// 类别，有电压决定
@@ -229,17 +229,17 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 不均匀冰覆冰率I
         /// </summary>
-        public float UnbaIceCoverPerMax { get; set; }
+        public double UnbaIceCoverPerMax { get; set; }
 
         /// <summary>
         /// 不均匀冰覆冰率I
         /// </summary>
-        public float UnbaIceCoverPerMin { get; set; }
+        public double UnbaIceCoverPerMin { get; set; }
 
         /// <summary>
         /// 断线覆冰率
         /// </summary>
-        public float BreakIceCoverPer { get; set; }
+        public double BreakIceCoverPer { get; set; }
 
         /// <summary>
         /// 导地线高空风压系数计算模式，1：线平均高 2:按照下相挂点高反算
@@ -299,30 +299,29 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 导线计算平均高
         /// </summary>
-        public float IndAveHei { get; private set; }
+        public double IndAveHei { get; set; }
 
         /// <summary>
         /// 地线计算平均高
         /// </summary>
-        public float GrdAveHei { get; private set; }
+        public double GrdAveHei { get; set; }
 
         /// <summary>
         /// 跳线绝缘子串长
         /// 暂时放在这里
         /// </summary>
-        public float JumpStrLen { get; set; }
+        public double JumpStrLen { get; set; }
 
-        public ElecCalsCommRes(float newPerPara= 0.95f, float graAcc = 9.80665f, char terType= 'B',
-                int heiDDType= 1, int heiJmpType= 1, int volt= 0, float indAveHei= 0, float grdAveHei= 0)
+        public ElecCalsCommRes()
         {
-            SetComPara(newPerPara, graAcc, terType, heiDDType, heiJmpType, indAveHei, grdAveHei);
+            SetComPara();
             CalMode = 1;
-            Volt = volt;
+            Volt = 0;
         }
 
 
-        void SetComPara(float newPerPara= 0.95f, float graAcc= 9.80665f, char terType= 'B', int heiDDType= 1, 
-            int heiJmpType= 1, float indAveHei= 0, float grdAveHei = 0)
+        void SetComPara(double newPerPara= 0.95f, double graAcc= 9.80665f, char terType= 'B', int heiDDType= 1, 
+            int heiJmpType= 1, double indAveHei= 0, double grdAveHei = 0)
         {
             //新线系数，默认值为0.95
             NewPerPara = newPerPara;
@@ -350,8 +349,8 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="secOPGWInc"></param>
         /// <param name="weiOPGWInc"></param>
         /// <param name="diaOPGWInc"></param>
-        public void SetForIncrPara(float secIndInc = 1, float weiIndInc = 1, float diaIndInc = 1, float secGrdInc = 1,
-            float weiGrdInc = 1, float diaGrdInc = 1, float secOPGWInc = 1, float weiOPGWInc = 1, float diaOPGWInc = 1)
+        public void SetForIncrPara(double secIndInc = 1, double weiIndInc = 1, double diaIndInc = 1, double secGrdInc = 1,
+            double weiGrdInc = 1, double diaGrdInc = 1, double secOPGWInc = 1, double weiOPGWInc = 1, double diaOPGWInc = 1)
         {
             SecIndInc = secIndInc;
             WeiIndInc = weiIndInc;
@@ -376,8 +375,8 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="instMinPara"></param>
         /// <param name="indExMinPara"></param>
         /// <param name="grdExMinPara"></param>
-        public void SetForMaxMinPara(float buildMaxPara, float instMaxPara, float indExMaxPara, float grdExMaxPara,
-            float buildMinPara, float instMinPara, float indExMinPara, float grdExMinPara)
+        public void SetForMaxMinPara(double buildMaxPara, double instMaxPara, double indExMaxPara, double grdExMaxPara,
+            double buildMinPara, double instMinPara, double indExMinPara, double grdExMinPara)
         {
             BuildMaxPara = buildMaxPara;
             InstMaxPara = instMaxPara;
@@ -394,7 +393,7 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         /// <param name="indODri"></param>
         /// <param name="grdODri"></param>
-        public void SetOverDrive(float indODri= 0.2f, float grdODri= 0.1f)
+        public void SetOverDrive(double indODri= 0.2f, double grdODri= 0.1f)
         {
             IndODri = indODri;
             GrdODri = grdODri;
@@ -405,7 +404,7 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         /// <param name="indBrePara"></param>
         /// <param name="grdBrePara"></param>
-        public void SetBreakWirePara(float indBrePara = 0.7f, float grdBrePara = 1)
+        public void SetBreakWirePara(double indBrePara = 0.7f, double grdBrePara = 1)
         {
             IndBrePara = indBrePara;
             GrdBrePara = grdBrePara;
@@ -417,7 +416,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="unbalanceMaxPer"></param>
         /// <param name="unbalanceMinPer"></param>
         /// <param name="breakPer"></param>
-        public void SetIcePercent(float unbalanceMaxPer= 1, float unbalanceMinPer= 0, float breakPer= 1)
+        public void SetIcePercent(double unbalanceMaxPer= 1, double unbalanceMinPer= 0, double breakPer= 1)
         {
             UnbaIceCoverPerMax = unbalanceMaxPer;
             UnbaIceCoverPerMax = unbalanceMinPer;
@@ -461,7 +460,7 @@ namespace TowerLoadCals.BLL.Electric
             LevelOfLine = ElecCalsToolBox .GetLevelOfLine(projeIn.Volt, projeIn.ACorDC);
         }
 
-        public void SetAverage(float indAveHei= 0, float grdAveHei= 0)
+        public void SetAverage(double indAveHei= 0, double grdAveHei= 0)
         {
             if (indAveHei <= 0)
             {
@@ -491,7 +490,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="minDevideNum"></param>
         /// <param name="maxIceThick"></param>
         /// <param name="maxDevideNum"></param>
-        public void SetBreakPara(string towerType, float minIceThick, int minDevideNum, float maxIceThick, int maxDevideNum)
+        public void SetBreakPara(string towerType, double minIceThick, int minDevideNum, double maxIceThick, int maxDevideNum)
         {
             IndBreMinPara = ElecCalsToolBox.UBlanceK(towerType, MinIceArea, minIceThick, Terrain, "导线", minDevideNum);
             GrdBreMinPara = ElecCalsToolBox.UBlanceK(towerType, MinIceArea, minIceThick, Terrain, "地线");
@@ -508,7 +507,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="minDevideNum"></param>
         /// <param name="maxIceThick"></param>
         /// <param name="maxDevideNum"></param>
-        public void SetUnbaPara(string towerType, float minIceThick, float maxIceThick)
+        public void SetUnbaPara(string towerType, double minIceThick, double maxIceThick)
         {
             IndUnbaMinPara = ElecCalsToolBox.IBlanceK(towerType, MinIceArea, minIceThick, "导线");
             GrdUnbaMinPara = ElecCalsToolBox.IBlanceK(towerType, MinIceArea, minIceThick, "地线");
@@ -518,7 +517,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
 
-        public void SetIcePercent(string towerType, float minIceThick, float maxIceThick)
+        public void SetIcePercent(string towerType, double minIceThick, double maxIceThick)
         {
             Catagory = ElecCalsToolBox.GetCatogory(Volt.ToString());
             BreakIceCoverPer = ElecCalsToolBox.UBlanceR(towerType, minIceThick, maxIceThick, Catagory);

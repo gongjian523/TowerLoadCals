@@ -143,5 +143,9 @@ namespace TowerLoadCals.BLL.Electric
         /// 耐张塔最大应用水平档距
         /// </summary>
         public float MaxAngHorSpan { get; set; }
+
+        public TowerStrDataUtis()
+        {
+        }
     }
 }

@@ -36,37 +36,37 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 杆塔呼高
         /// </summary>
-        public float Height { get; set; }
+        public double Height { get; set; }
 
         /// <summary>
         ///  累距
         /// </summary>
-        public float AccumDis { get; set; }
+        public double AccumDis { get; set; }
 
         /// <summary>
         ///  塔位高程
         /// </summary>
-        public float Elevation { get; set; }
+        public double Elevation { get; set; }
 
         /// <summary>
         /// 基面降低
         /// </summary>
-        public float SubOfElv { get; set; }
+        public double SubOfElv { get; set; }
 
         /// <summary>
         /// 导线等效串长
         /// </summary>
-        public float RepStrIndLen { get; set; }
+        public double RepStrIndLen { get; set; }
 
         /// <summary>
         /// 地线等效串长
         /// </summary>
-        public float RepStrGrdLen { get; set; }
+        public double RepStrGrdLen { get; set; }
 
         /// <summary>
         /// 转角度数，小数，度
         /// </summary>
-        public float AngelofApplication { get; set; }
+        public double AngelofApplication { get; set; }
 
         //考虑到多回路，不同分支的情况，将每根地线也作为一个回路中的一相
         //兼容传统模式，设计代表数据结构,均按照单侧实现
@@ -95,7 +95,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 相列表，存储回路、相信息
         /// </summary>
-        public List<StressPhaseStrUtils> PhaseTraList { get; set; }
+        public List<ElecCalsStressPhaseStr> PhaseTraList { get; set; }
 
         /// <summary>
         /// 前侧的计算资源
@@ -113,159 +113,165 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 塔中相挂点高（单回）/塔上相挂点高（双回）
         /// </summary>
-        public float AbsUpSideHei { get; set; }
+        public double AbsUpSideHei { get; set; }
 
         /// <summary>
         /// 塔边相挂点高（单回）/塔中相挂点高（双回）
         /// </summary>
-        public float AbsMidHei { get; set; }
+        public double AbsMidHei { get; set; }
 
         /// <summary>
         /// 塔边相挂点高（单回）/塔下相挂点高（双回）
         /// </summary>
-        public float AbsDownSideHei { get; set; }
+        public double AbsDownSideHei { get; set; }
 
         /// <summary>
         /// 地线挂点高
         /// </summary>
-        public float AbsGrdHei { get; set; }
+        public double AbsGrdHei { get; set; }
 
         /// <summary>
         /// 塔中相跳线串挂点高（单回）/塔上相跳线串挂点高（双回）
         /// </summary>
-        public float AbsUpJumHei { get; set; }
+        public double AbsUpJumHei { get; set; }
 
         /// <summary>
         /// 塔边相跳线串挂点高（单回）/塔中相跳线串挂点高（双回）
         /// </summary>
-        public float AbsMidJumHei { get; set; }
+        public double AbsMidJumHei { get; set; }
 
 
         /// <summary>
         /// 塔边相跳线串挂点高（单回）/塔下相跳线串挂点高（双回）
         /// </summary>
-        public float AbsDownJumHei { get; set; }
+        public double AbsDownJumHei { get; set; }
 
         //特征相地理高度
         /// <summary>
         /// 
         /// </summary>
-        public float AtiUpSide { get; set; }
+        public double AtiUpSide { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public float AtiMid { get; set; }
+        public double AtiMid { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public float AtiDownd { get; set; }
+        public double AtiDownd { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public float AtiGrd { get; set; }
+        public double AtiGrd { get; set; }
 
         /// <summary>
         /// 上相（中相）与下横担高差
         /// </summary>
-        public float UpSideInHei { get; set; }
+        public double UpSideInHei { get; set; }
 
         /// <summary>
         /// 中相（边相）与下横担高差（双回）
         /// </summary>
-        public float MidInHei { get; set; }
+        public double MidInHei { get; set; }
 
         /// <summary>
         /// 下相（边相）与下横担高差（双回）
         /// </summary>
-        public float DownSideHei { get; set; }
+        public double DownSideHei { get; set; }
 
         /// <summary>
         /// 地线与下横担高差
         /// </summary>
-        public float GrDHei { get; set; }
+        public double GrDHei { get; set; }
 
 
         /// <summary>
         /// 上相（中相）跳线挂点与下横担高差
         /// </summary>
-        public float UpSideJuHei { get; set; }
+        public double UpSideJuHei { get; set; }
 
         /// <summary>
         /// 中相（边相）跳线挂点与下横担高差
         /// </summary>
-        public float DnSideJuHei { get; set; }
+        public double DnSideJuHei { get; set; }
 
         /// <summary>
         /// 中相（边相）跳线挂点与下横担高差
         /// </summary>
-        public float MidJuHei { get; set; }
+        public double MidJuHei { get; set; }
 
 
         /// <summary>
         /// 中相串μz（单回）/上相串μz（双回）
         /// </summary>
-        public float UpStrMuz { get; set; }
+        public double UpStrMuz { get; set; }
 
         /// <summary>
         /// 边相串μz（单回）/中相串μz（双回）
         /// </summary>
-        public float MidStrMuz { get; set; }
+        public double MidStrMuz { get; set; }
 
         /// <summary>
         /// 边相串μz（单回）/下相串μz（双回）
         /// </summary>
-        public float DnStrMuz { get; set; }
+        public double DnStrMuz { get; set; }
 
         /// <summary>
         /// 地线串μz
         /// </summary>
-        public float GrdStrMuz { get; set; }
+        public double GrdStrMuz { get; set; }
 
         /// <summary>
         /// 中相跳线绝缘子μz（单回）/上相跳线绝缘子μz（双回）
         /// </summary>
-        public float UpJumpStrMuz { get; set; }
+        public double UpJumpStrMuz { get; set; }
 
         /// <summary>
         /// 边相跳线绝缘子μz（单回）/中相跳线绝缘子μz（双回）
         /// </summary>
-        public float MidJumpStrMuz { get; set; }
+        public double MidJumpStrMuz { get; set; }
 
         /// <summary>
         /// 边相跳线绝缘子μz（单回）/下相跳线绝缘子μz（双回）
         /// </summary>
-        public float DnJumpStrMuz { get; set; }
+        public double DnJumpStrMuz { get; set; }
 
 
         /// <summary>
         /// 中相跳线支撑管μz（单回）/上相跳线支撑管μz（双回）
         /// </summary>
-        public float UpJumpSupMuz { get; set; }
+        public double UpJumpSupMuz { get; set; }
 
         /// <summary>
         /// 边相跳线支撑管μz（单回）/中相跳线支撑管μz（双回）
         /// </summary>
-        public float MidJumpSupMuz { get; set; }
+        public double MidJumpSupMuz { get; set; }
 
         /// <summary>
         /// 边相跳线支撑管μz（单回）/下相跳线支撑管μz（双回）
         /// </summary>
-        public float DnJumpSupMuz { get; set; }
+        public double DnJumpSupMuz { get; set; }
 
         public TowerElecCals()
         {
             FrontPosRes = new ElecCalsTowerPosStr();
             BackPosRes = new ElecCalsTowerPosStr();
+
+            PhaseTraList = new List<ElecCalsStressPhaseStr>();
+            for (int i = 0; i < 10; i++)
+            {
+                PhaseTraList.Add(new ElecCalsStressPhaseStr());
+            }
         }
 
         /// <summary>
         /// 配置杆塔基本外形信息
         /// </summary>
-        public void SetAppreaPara(float upSideInHeiSor, float midInHeiSor, float downSideHeiSor, float grDHeiSor,
-            float upSideJuHeiSor, float midJuHeiSor, float dnSideJuHeiSor)
+        public void SetAppreaPara(double upSideInHeiSor, double midInHeiSor, double downSideHeiSor, double grDHeiSor,
+            double upSideJuHeiSor, double midJuHeiSor, double dnSideJuHeiSor)
         {
             UpSideInHei = upSideInHeiSor;
             MidInHei = midInHeiSor;
@@ -287,8 +293,8 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="repStrIndLen">导线等效串长</param>
         /// <param name="repStrGrdLen">地线等效串长</param>
         /// <param name="angelofApplication"> ？？ 有待确认是否放在这里</param>
-        public void SetPosInf(string num, string name, float hei,  float footHei, float jm,
-               float repStrIndLen, float repStrGrdLen, float angelofApplication)
+        public void SetPosInf(string num, string name, double hei,  double footHei, double jm,
+               double repStrIndLen, double repStrGrdLen, double angelofApplication)
         {
             Num = num;
             Name = name;
@@ -307,7 +313,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="frontRes">前侧代表档距</param>
         /// <param name="backSpan">后侧档距</param>
         /// <param name="backRes">后侧代表档距</param>
-        public void SetFrontBackPosInf(float frontSpan, float frontRes, float backSpan, float backRes)
+        public void SetFrontBackPosInf(double frontSpan, double frontRes, double backSpan, double backRes)
         {
             FrontPosRes = new ElecCalsTowerPosStr(frontSpan, frontRes);
             BackPosRes = new ElecCalsTowerPosStr(backSpan, backRes);
@@ -333,7 +339,7 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public void UpdateAtitudeTower()
         {
-            float temAti = Elevation + SubOfElv;
+            double temAti = Elevation + SubOfElv;
             AtiUpSide = AbsUpSideHei + temAti;
             AtiMid = AbsMidHei + temAti;
             AtiDownd = AbsDownSideHei + temAti;
@@ -362,10 +368,10 @@ namespace TowerLoadCals.BLL.Electric
 
         protected void UpdateAppre(ElecCalsTowerAppre towerAppre, TowerElecCals tower, ElecCalsRes calRes)
         {
-            towerAppre.UpSideInHei = (float)Math.Round(CalsHei(AbsUpSideHei, Elevation ,SubOfElv, RepStrIndLen) - CalsHei(tower.AbsUpSideHei, tower.Elevation, tower.SubOfElv, tower.RepStrIndLen), 3);
-            towerAppre.MidInHei = (float)Math.Round(CalsHei(AbsMidHei, Elevation, SubOfElv, RepStrIndLen) - CalsHei(tower.AbsMidHei, tower.Elevation, tower.SubOfElv, tower.RepStrIndLen), 3);
-            towerAppre.DnSideInHei = (float)Math.Round(CalsHei(AbsDownSideHei, Elevation, SubOfElv, RepStrIndLen) - CalsHei(tower.AbsDownSideHei, tower.Elevation, tower.SubOfElv, tower.RepStrIndLen), 3);
-            towerAppre.GrDHei  = (float)Math.Round(CalsHei(AbsGrdHei, Elevation, SubOfElv, RepStrGrdLen) - CalsHei(tower.AbsGrdHei, tower.Elevation, tower.SubOfElv, tower.RepStrGrdLen), 3);
+            towerAppre.UpSideInHei = (double)Math.Round(CalsHei(AbsUpSideHei, Elevation ,SubOfElv, RepStrIndLen) - CalsHei(tower.AbsUpSideHei, tower.Elevation, tower.SubOfElv, tower.RepStrIndLen), 3);
+            towerAppre.MidInHei = (double)Math.Round(CalsHei(AbsMidHei, Elevation, SubOfElv, RepStrIndLen) - CalsHei(tower.AbsMidHei, tower.Elevation, tower.SubOfElv, tower.RepStrIndLen), 3);
+            towerAppre.DnSideInHei = (double)Math.Round(CalsHei(AbsDownSideHei, Elevation, SubOfElv, RepStrIndLen) - CalsHei(tower.AbsDownSideHei, tower.Elevation, tower.SubOfElv, tower.RepStrIndLen), 3);
+            towerAppre.GrDHei  = (double)Math.Round(CalsHei(AbsGrdHei, Elevation, SubOfElv, RepStrGrdLen) - CalsHei(tower.AbsGrdHei, tower.Elevation, tower.SubOfElv, tower.RepStrGrdLen), 3);
 
             towerAppre.UpInMuz = CalsWireMuz(calRes.CommParas.WireWindPara, AbsUpSideHei, calRes.IndWire.WindVerSag, calRes.CommParas.IndAveHei);
             towerAppre.MidInMuz = CalsWireMuz(calRes.CommParas.WireWindPara, AbsMidHei, calRes.IndWire.WindVerSag, calRes.CommParas.IndAveHei);
@@ -373,7 +379,7 @@ namespace TowerLoadCals.BLL.Electric
             towerAppre.GrdMuz = CalsWireMuz(calRes.CommParas.WireWindPara, AbsUpSideHei,  Math.Min(calRes.GrdWire.WindVerSag, calRes.OPGWWire.WindVerSag), calRes.CommParas.IndAveHei);
         }
 
-        protected float CalsHei(float wireHei, float elevation, float subOfElv, float repWireLen)
+        protected double CalsHei(double wireHei, double elevation, double subOfElv, double repWireLen)
         {
             return (wireHei + elevation + subOfElv - repWireLen);
         }
@@ -386,7 +392,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="wireWindVerSag">大风垂直方向弧垂</param>
         /// <param name="avaHei">导线计算平均高</param>
         /// <returns></returns>
-        protected float CalsWireMuz(int wireWindPara, float wireHei, float wireWindVerSag , float avaHei)
+        protected double CalsWireMuz(int wireWindPara, double wireHei, double wireWindVerSag , double avaHei)
         {
             //1：线平均高 2:按照下相挂点高反算
             if (wireWindPara == 1)
@@ -429,9 +435,9 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="wireHei">挂点高</param>
         /// <param name="avaHei">导线计算平均高</param>
         /// <returns></returns>
-        protected float CalsStrMuz(float wireHei, float avaHei)
+        protected double CalsStrMuz(double wireHei, double avaHei)
         {
-            return (float) Math.Round( Math.Pow((wireHei / avaHei), 0.32),  3);
+            return (double) Math.Round( Math.Pow((wireHei / avaHei), 0.32),  3);
         }
 
 
@@ -443,18 +449,18 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="avaHei">导线计算平均高</param>
         /// <param name="jumpStrLen">跳线绝缘子串长</param>
         /// <returns></returns>
-        protected float CalsJumpStrMuz(int jumpWindPara, float strHei, float avaHei, float jumpStrLen)
+        protected double CalsJumpStrMuz(int jumpWindPara, double strHei, double avaHei, double jumpStrLen)
         {
             //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
             if (jumpWindPara == 1)
             {
                 //按挂点高
-                return (float)Math.Round(Math.Pow(strHei/avaHei, 0.32),3);
+                return (double)Math.Round(Math.Pow(strHei/avaHei, 0.32),3);
             }
             else
             {
                 //按平均高
-                return (float)Math.Round(Math.Pow((strHei - jumpStrLen/2)/avaHei,0.32),3);
+                return (double)Math.Round(Math.Pow((strHei - jumpStrLen/2)/avaHei,0.32),3);
             }
         }
 
@@ -466,18 +472,18 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="avaHei">导线计算平均高</param>
         /// <param name="jumpStrLen">跳线绝缘子串长</param>
         /// <returns></returns>
-        protected float CalsJumpSupMuz(int jumpWindPara, float strHei, float avaHei, float jumpStrLen)
+        protected double CalsJumpSupMuz(int jumpWindPara, double strHei, double avaHei, double jumpStrLen)
         {
             //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
             if (jumpWindPara == 1)
             {
                 //按挂点高
-                return (float)Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
+                return (double)Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
             }
             else
             {
                 //按平均高
-                return (float)Math.Round(Math.Pow((strHei - jumpStrLen) / avaHei, 0.32), 3);
+                return (double)Math.Round(Math.Pow((strHei - jumpStrLen) / avaHei, 0.32), 3);
             }
         }
 
@@ -486,8 +492,8 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public void FlashHoriVetSpan()
         {
-            BackPosRes.HorizontalSpan = (float)Math.Ceiling((double)BackPosRes.Span / 2);
-            FrontPosRes.HorizontalSpan = (float)Math.Ceiling((double)FrontPosRes.Span / 2); 
+            BackPosRes.HorizontalSpan = (double)Math.Ceiling((double)BackPosRes.Span / 2);
+            FrontPosRes.HorizontalSpan = (double)Math.Ceiling((double)FrontPosRes.Span / 2); 
         }
 
 

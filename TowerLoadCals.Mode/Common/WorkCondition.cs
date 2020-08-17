@@ -28,26 +28,34 @@ namespace TowerLoadCals.Mode
         /// </summary>
         [XmlAttribute("SIceThickness")]
         public string SIceThickness { get; set; }
-        
+    }
+
+
+    public class ElecCalsWorkCondition
+    {
+        /// <summary>
+        /// 工况名称
+        /// </summary>
+        public string Name { get; set; }
+
         /// <summary>
         /// 风速
         /// </summary>
-        [XmlIgnore]
-        public float WindSpeed { get; set; }
+        public double WindSpeed { get; set; }
 
         /// <summary>
         /// 气温
         /// </summary>
-        [XmlIgnore]
-        public float Temperature { get; set; }
+        public double Temperature { get; set; }
 
         /// <summary>
         /// 冰厚
         /// </summary>
-        [XmlIgnore]
-        public float IceThickness { get; set; }
+        public double IceThickness { get; set; }
 
-
-        public float BaseWindSpeed { get; set; }
+        /// <summary>
+        /// 基本风速
+        /// </summary>
+        public double BaseWindSpeed { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace TowerLoadCals.BLL.Electric
 
         /// <summary>
         /// 换算高度
-        /// 注意：风荷载调整系数再核实End public static float
+        /// 注意：风荷载调整系数再核实End public static double
         /// </summary>
         /// <param name="voltage"></param>
         /// <param name="ACorDC"></param>
@@ -44,9 +44,9 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         /// <param name="voltage"></param>
         /// <returns></returns>
-        public static float AveHeightDefault(int voltage)
+        public static double AveHeightDefault(int voltage)
         {
-            float height = 0;
+            double height = 0;
 
             if (voltage <= 220)
             {
@@ -73,9 +73,9 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="ice">工况覆冰厚度</param>
         /// <param name="d">导线直径</param>
         /// <returns></returns>
-        public static float WindEpson(float ice, float d)
+        public static double WindEpson(double ice, double d)
         {
-            float Epson;
+            double Epson;
 
             //风载体形系数
             if (d >= 17 && ice <= 0)
@@ -93,10 +93,10 @@ namespace TowerLoadCals.BLL.Electric
         /// 风压不均匀系数Alpha
         /// V为工况的风速,CalType=1为应力计算，其他为间隙校核
         /// </summary>
-        public static float WindAlpha(float wind, float ice = 0, int CalType= 1)
+        public static double WindAlpha(double wind, double ice = 0, int CalType= 1)
         {
             //风速不均匀系数
-            float Alpha = 0;
+            double Alpha = 0;
 
             if(CalType == 1)
             {
@@ -153,27 +153,27 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="height"></param>
         /// <param name="TerType"></param>
         /// <returns></returns>
-        public static float WindExChange(float wind, float height, char TerType)
+        public static double WindExChange(double wind, double height, char TerType)
         {
             //换算后风速
             if (TerType == 'A')
             {
-                wind = (float)(wind * Math.Sqrt(1.379) * (Math.Pow((height / 10),0.12)));
+                wind = wind * Math.Sqrt(1.379) * (Math.Pow((height / 10),0.12));
             }
             else if (TerType == 'B')
             {
-                wind = (float)(wind * Math.Sqrt(1) * (Math.Pow((height / 10), 0.16)));
+                wind = wind * Math.Sqrt(1) * (Math.Pow((height / 10), 0.16));
             }
             else if (TerType == 'C')
             {
-                wind = (float)(wind * Math.Sqrt(0.616) * (Math.Pow((height / 10), 0.22)));
+                wind = wind * Math.Sqrt(0.616) * (Math.Pow((height / 10), 0.22));
             }
             else if (TerType== 'D')
             {
-                wind = (float)(wind * Math.Sqrt(0.318) * (Math.Pow((height / 10),0.30)));
+                wind = wind * Math.Sqrt(0.318) * (Math.Pow((height / 10),0.30));
             }
 
-            return (float)Math.Round(wind, 2);
+            return Math.Round(wind, 2);
         }
 
         /// <summary>
@@ -182,11 +182,11 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="maxWind"></param>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static float Wind45ExChange1(float maxWind, float angle)
+        public static double Wind45ExChange1(double maxWind, double angle)
         {
-            var wind = (float)(maxWind * Math.Sin((45 + angle / 2) / 180 * Math.PI));
+            var wind = (double)(maxWind * Math.Sin((45 + angle / 2) / 180 * Math.PI));
 
-            return (float)Math.Round(wind, 2);
+            return Math.Round(wind, 2);
         }
 
         /// <summary>
@@ -195,11 +195,10 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="maxWind"></param>
         /// <param name="angle"></param>
         /// <returns></returns>
-        public static float Wind45ExChange2(float maxWind, float angle)
+        public static double Wind45ExChange2(double maxWind, double angle)
         {
-            var wind = (float)(maxWind * Math.Sin((45 - angle / 2) / 180 * Math.PI));
-
-            return (float)Math.Round(wind, 2);
+            var wind = maxWind * Math.Sin((45 - angle / 2) / 180 * Math.PI);
+            return Math.Round(wind, 2);
         }
 
         /// <summary>
@@ -209,10 +208,10 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="iceCover">断线覆冰率</param>
         /// <param name="iceThick">冰厚</param>
         /// <returns></returns>
-        public static float IceThicknessExChange(float dia, float iceCover,float iceThick)
+        public static double IceThicknessExChange(double dia, double iceCover,double iceThick)
         {
             var thickExc = (-dia + Math.Sqrt(Math.Pow(dia,2) + 4 * iceCover * (dia + iceThick) * iceThick)) / 2;
-            return (float)Math.Round(thickExc, 2);
+            return Math.Round(thickExc, 2);
         }
 
         /// <summary>
@@ -220,10 +219,10 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         /// <param name="ice"> ice覆冰厚度，不支持覆冰为</param>
         /// <returns></returns>
-        public static float WindLoadEnlargeCoe(float ice)
+        public static double WindLoadEnlargeCoe(double ice)
         {
             //风荷载增大系数B
-            float enlargeCoe;
+            double enlargeCoe;
             if (ice <= 5)
             {
                 enlargeCoe = 1;
@@ -263,7 +262,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="Tj_A"></param>
         /// <param name="Tj_B"></param>
         /// <returns></returns>
-        public static float caculateCurDelta(float Tj_A, float Tj_B)
+        public static double caculateCurDelta(double Tj_A, double Tj_B)
         {
             var CalA = Math.Pow(Tj_B, 2) / 4 - Tj_B * Math.Pow(Tj_A, 3) / 27;
             var CalB = Tj_B / 2 - Math.Pow(Tj_A, 3) / 27;
@@ -292,7 +291,7 @@ namespace TowerLoadCals.BLL.Electric
                 Delta = Tj_A / 3 * (2 * Math.Cos(Tho / 3) - 1);
             }
 
-            return (float)Delta;
+            return Delta;
         }
 
         /// <summary>
@@ -305,7 +304,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="wireType"></param>
         /// <param name="devideNum"></param>
         /// <returns></returns>
-        public static float UBlanceK(string towerType, string iceType, float iceThickness, string terrain , string wireType, int devideNum = 0)
+        public static double UBlanceK(string towerType, string iceType, double iceThickness, string terrain , string wireType, int devideNum = 0)
         {
             var spec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
 
@@ -394,13 +393,13 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="iceThickness2"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static float UBlanceR(string towerType, float iceThickness1, float iceThickness2, string  category)
+        public static double UBlanceR(string towerType, double iceThickness1, double iceThickness2, string  category)
         {
             var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
             if (elecCalsSpec == null)
                 return 0;
 
-            float iceThickness = iceThickness1 < iceThickness2 ? iceThickness2 : iceThickness1;
+            double iceThickness = iceThickness1 < iceThickness2 ? iceThickness2 : iceThickness1;
 
             if (elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).Count() > 0)
             {
@@ -420,7 +419,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="iceThickness"></param>
         /// <param name="wireType"></param>
         /// <returns></returns>
-        public static float IBlanceK(string towerType, string iceType, float iceThickness, string  wireType)
+        public static double IBlanceK(string towerType, string iceType, double iceThickness, string  wireType)
         {
 
             var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
@@ -445,7 +444,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="towerType"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static float IBlanceR1(string towerType, string category)
+        public static double IBlanceR1(string towerType, string category)
         {
             var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
             if (elecCalsSpec == null)
@@ -467,7 +466,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="towerType"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static float IBlanceR2(string towerType, string category)
+        public static double IBlanceR2(string towerType, string category)
         {
             var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
             if (elecCalsSpec == null)
@@ -500,7 +499,7 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
-        public static float WeightIceIn(float iceThick)
+        public static double WeightIceIn(double iceThick)
         {
             return 0;
         }

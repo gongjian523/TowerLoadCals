@@ -6,37 +6,37 @@
         /// <summary>
         /// 档距
         /// </summary>
-        public float Span { get; set; }
+        public double Span { get; set; }
 
         /// <summary>
         /// 高差数据
         /// </summary>
-        public float SubHei { get; set; }
+        public double SubHei { get; set; }
 
         /// <summary>
         /// 线挂点高度
         /// </summary>
-        public float GDHei { get; set; }
+        public double GDHei { get; set; }
 
         /// <summary>
         /// 线平均高度
         /// </summary>
-        public float WireHight { get; set; }
+        public double WireHight { get; set; }
 
         /// <summary>
         /// 串平均高度
         /// </summary>
-        public float StrHeight { get; set; }
+        public double StrHeight { get; set; }
 
         /// <summary>
         /// 跳线平均高度
         /// </summary>
-        public float JmHeight { get; set; }
+        public double JmHeight { get; set; }
 
         /// <summary>
         /// 支撑管高度
         /// </summary>
-        public float SupHeight { get; set; }
+        public double SupHeight { get; set; }
 
         public PhaseSpaceStrUtils()
         {

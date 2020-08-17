@@ -1,4 +1,5 @@
-﻿using TowerLoadCals.Common;
+﻿using System.Collections.Generic;
+using TowerLoadCals.Common;
 
 namespace TowerLoadCals.BLL.Electric
 {
@@ -18,8 +19,9 @@ namespace TowerLoadCals.BLL.Electric
         {
             BackSideRes = XmlUtils.Clone(BackSideResSor);
             FrontSideRes = XmlUtils.Clone(FrontSideResSor);
-            BackSideRes.FlashWireData(BackPosRes.DRepresentSpan);
-            FrontSideRes.FlashWireData(FrontPosRes.DRepresentSpan);
+            BackSideRes.FlashWireData(BackPosRes.DRepresentSpan, AngelofApplication);
+            FrontSideRes.FlashWireData(FrontPosRes.DRepresentSpan, AngelofApplication);
+
             PhaseTraList[0].WrieData = PhaseTraList[1].WrieData = PhaseTraList[2].WrieData = BackSideRes.IndWire;
             PhaseTraList[5].WrieData = PhaseTraList[6].WrieData = PhaseTraList[7].WrieData = FrontSideRes.IndWire;
             PhaseTraList[3].WrieData = BackSideRes.GrdWire;

@@ -37,5 +37,32 @@ namespace TowerLoadCals.Common
             }
 
         }
+
+
+        public static string PadRightEx(string str, int totalByteCount)
+        {
+            Encoding coding = Encoding.GetEncoding("gb2312");
+            int dcount = 0;
+            foreach (char ch in str.ToCharArray())
+            {
+                if (coding.GetByteCount(ch.ToString()) == 2)
+                    dcount++;
+            }
+            string w = str.PadRight(totalByteCount - dcount);
+            return w;
+        }
+
+        public static string PadLeft(string str, int totalByteCount)
+        {
+            Encoding coding = Encoding.GetEncoding("gb2312");
+            int dcount = 0;
+            foreach (char ch in str.ToCharArray())
+            {
+                if (coding.GetByteCount(ch.ToString()) == 2)
+                    dcount++;
+            }
+            string w = str.PadLeft(totalByteCount - dcount);
+            return w;
+        }
     }
 }

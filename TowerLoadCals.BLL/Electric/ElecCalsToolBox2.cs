@@ -11,9 +11,9 @@ namespace TowerLoadCals.BLL.Electric
 
         //比载计算
         //BiZai(1e-3 kg/m/mm2),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static float BiZai(float Q, float d, float S, float b, float v, float VBase)
+        public static double BiZai(double Q, double d, double S, double b, double v, double VBase)
         {
-            float Usc, a, BB;
+            double Usc, a, BB;
 
             if (b > 0)
             {
@@ -66,22 +66,22 @@ namespace TowerLoadCals.BLL.Electric
                 BB = 2f;
             }
 
-            float BiZai = (float)(Math.Pow((Q / S + 2.82743334 * b * (d + b) / S), 2) + Math.Pow(Math.Pow((a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / S * BB / 9.80665), 2), (1 / 2)));
+            double BiZai = (double)(Math.Pow((Q / S + 2.82743334 * b * (d + b) / S), 2) + Math.Pow(Math.Pow((a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / S * BB / 9.80665), 2), (1 / 2)));
             //BiZai = ((Q / S + 2.82743334 * b * (d + b) / S) ^ 2 + (a * Usc * (d + 2 * b) * v ^ 2 / 16 / S * BB) ^ 2) ^ (1 / 2)
             return BiZai;
         }
 
         //g比载(kg/m/mm2)，l档距(m)，E弹性模量(N/mm2)，Stess应力(kg/mm2)，a温度系数(℃)，t温度(℃)
-        public static string LiMax(float g1, float g2, float g3, float g4, string WName1, string WName2, string WName3, string WName4, float l, float e, float StressM, float StressA, float a, float T1, float T2, float T3, float T4)
+        public static string LiMax(double g1, double g2, double g3, double g4, string WName1, string WName2, string WName3, string WName4, double l, double e, double StressM, double StressA, double a, double T1, double T2, double T3, double T4)
         {
-            float[] VMax = new float[4];
+            double[] VMax = new double[4];
             int i, LinShiJi;
-            float LinShiV;
+            double LinShiV;
 
-            VMax[0] = (float)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g1, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T1));
-            VMax[1] = (float)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g2, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T2));
-            VMax[2] = (float)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g3, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T3));
-            VMax[3] = (float)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g4, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T4));
+            VMax[0] = (double)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g1, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T1));
+            VMax[1] = (double)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g2, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T2));
+            VMax[2] = (double)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g3, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T3));
+            VMax[3] = (double)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g4, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T4));
 
             LinShiV = VMax[0];
             LinShiJi = 0;
@@ -108,60 +108,60 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         //开三次方
-        public static float spr3(float yuanValue)
+        public static double spr3(double yuanValue)
         {
             if (yuanValue < 0) {
-                return ((float)-Math.Pow((-yuanValue), (1 / 3)));
+                return ((double)-Math.Pow((-yuanValue), (1 / 3)));
             }
             else {
-                return ((float)Math.Pow((yuanValue), (1 / 3)));
+                return ((double)Math.Pow((yuanValue), (1 / 3)));
             }
         }
 
 
         //M是已知，N是未知,stress(kg/mm2),g(kg/mm2/m),t(℃),E(kg/mm2),aa膨胀系数(1/℃)
-        public static float StressNew(float StressM, float GM, float tM, float e, float aa, float l, float gN, float tN)
+        public static double StressNew(double StressM, double GM, double tM, double e, double aa, double l, double gN, double tN)
         {
-            float a, b, aD, bD;
-            float dt;
+            double a, b, aD, bD;
+            double dt;
 
             //'x^3+a*x^2+b=0
-            a = (float)(Math.Pow(l, 2) * Math.Pow(GM, 2) * e / 24 / Math.Pow(StressM, 2) - StressM - aa * e * (tM - tN));
-            b = (float)(Math.Pow(l, 2) * Math.Pow(gN, 2) * e / 24);
-            aD = (float)(Math.Pow(b, 2) / 4 - b * Math.Pow(a, 3) / 27);
-            bD = (float)(b / 2 - Math.Pow(a, 3) / 27);
+            a = (double)(Math.Pow(l, 2) * Math.Pow(GM, 2) * e / 24 / Math.Pow(StressM, 2) - StressM - aa * e * (tM - tN));
+            b = (double)(Math.Pow(l, 2) * Math.Pow(gN, 2) * e / 24);
+            aD = (double)(Math.Pow(b, 2) / 4 - b * Math.Pow(a, 3) / 27);
+            bD = (double)(b / 2 - Math.Pow(a, 3) / 27);
 
             if (aD >= 0) {
-                return (float)(spr3((float)(bD + Math.Pow(aD, 0.5)) + spr3((float)(bD - Math.Pow(aD, 0.5)) - a / 3)));
+                return (double)(spr3((double)(bD + Math.Pow(aD, 0.5)) + spr3((double)(bD - Math.Pow(aD, 0.5)) - a / 3)));
             }
 
             else {
                 if (bD > 0) {
-                    dt = (float)Math.Atan(Math.Pow((-aD), 0.5) / bD);
+                    dt = (double)Math.Atan(Math.Pow((-aD), 0.5) / bD);
                 }
                 else if (bD == 0) {
-                    dt = (float)Math.PI / 2;
+                    dt = (double)Math.PI / 2;
                 }
                 else
                     //if (bD < 0) {
-                    dt = (float)(Math.PI + Math.Atan(Math.Pow((-aD), 0.5) / bD));
+                    dt = (double)(Math.PI + Math.Atan(Math.Pow((-aD), 0.5) / bD));
             }
-            return (float)(a / 3 * (2 * Math.Cos(dt / 3) - 1));
+            return (double)(a / 3 * (2 * Math.Cos(dt / 3) - 1));
         }
     
         //垂直荷载铁塔计算
         //Weight(1e-3 kg/m/mm2),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm)  s截面积(mm2)
-        public static float Weight(float Q, float d, float b)
+        public static double Weight(double Q, double d, double b)
         {
-            return (float)(Q + 2.82743334 * b * (d + b));
+            return (double)(Q + 2.82743334 * b * (d + b));
         }
 
         //风荷载铁塔计算
         //WindP(1e-3 kg/m),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static float WindPa(string VoL, float d, float b, float v, float VBase)
+        public static double WindPa(string VoL, double d, double b, double v, double VBase)
         { 
-            float a, BB, Bc;
-            float Usc;
+            double a, BB, Bc;
+            double Usc;
 
             if (b > 0) {
                 Usc = 1.2f;
@@ -230,15 +230,15 @@ namespace TowerLoadCals.BLL.Electric
                 Bc = 1;
             }
 
-            return (float)(Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB);
+            return (double)(Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB);
             //WindPa = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
         }
 
         //横向比载计算
         //WindP(1e-3 kg/m),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static float BiZaiH(float d, float b, float v, float VBase, float S)
+        public static double BiZaiH(double d, double b, double v, double VBase, double S)
         { 
-            float Usc, a, BB;
+            double Usc, a, BB;
 
             if (b > 0) {
                 Usc = 1.2f;
@@ -286,12 +286,12 @@ namespace TowerLoadCals.BLL.Electric
                 BB = 2;
             }
 
-            return (float)(a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB / S);
+            return (double)(a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB / S);
            //BiZaiH = a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB / S
         }
 
         //Bc的确定
-        public static float BcValue(string VoL, float VBase)
+        public static double BcValue(string VoL, double VBase)
         { 
             if( VoL == "500kV" || VoL == "750kV" || VoL == "1000kV" || VoL == "±500" || VoL == "±800" || VoL == "±1100kV" )
             {
@@ -315,16 +315,16 @@ namespace TowerLoadCals.BLL.Electric
         }
     
         //风压系数
-        public static float KWindValue(float HBase, float HWind, float KWind)
+        public static double KWindValue(double HBase, double HWind, double KWind)
         {
-            return (float)Math.Pow((HWind / HBase), (KWind * 2));
+            return (double)Math.Pow((HWind / HBase), (KWind * 2));
         }
 
         //串风压kg/m
         //单联片数，联数，折金具片数，覆冰，风速，基本风速
-        public static float StringWind(float DLPN, float LS, float MN, float b, float v, float VBase)
+        public static double StringWind(double DLPN, double LS, double MN, double b, double v, double VBase)
         {
-            float BB = 1;
+            double BB = 1;
             if( b< 10 && b >= 5 ){
                 BB = 1.1f;
             }
@@ -344,14 +344,14 @@ namespace TowerLoadCals.BLL.Electric
                 BB = 2;
             }
 
-            return (float)(BB * 0.04 * (DLPN * LS + MN) * Math.Pow(v, 2) / 1.6 / 9.80665);
+            return (double)(BB * 0.04 * (DLPN * LS + MN) * Math.Pow(v, 2) / 1.6 / 9.80665);
         }
 
         //串风压字符串
         //单联片数，联数，折金具片数，覆冰，风速，基本风速
-        public static string StringWindString(float DLPN, float LS, float MN, float b, float v, float VBase)
+        public static string StringWindString(double DLPN, double LS, double MN, double b, double v, double VBase)
         { 
-            float BB = 1;
+            double BB = 1;
             if(b< 10 && b >= 5 ){
                 BB = 1.1f;
             }
@@ -375,9 +375,9 @@ namespace TowerLoadCals.BLL.Electric
 
         //风荷载跳线计算
         //WindP(1e-3 kg/m),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static float WindPaT(string VoL, float d, float b, float v, float VBase)
+        public static double WindPaT(string VoL, double d, double b, double v, double VBase)
         {
-            float Usc, a, Bc;
+            double Usc, a, Bc;
 
             if (b > 0)
             {
@@ -406,7 +406,7 @@ namespace TowerLoadCals.BLL.Electric
                 a = 1;
             }
 
-            float BB = 1;
+            double BB = 1;
             if (b < 10 && b >= 5)
             {
                 BB = 1.1f;
@@ -451,16 +451,16 @@ namespace TowerLoadCals.BLL.Electric
                 Bc = 1;
             }
 
-            return (float)(Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB);
+            return (double)(Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB);
             //WindPaT = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
         }
 
 
         //风荷载跳线字符串
         //WindP(1e-3 kg/m),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static string WindPaTString(string VoL, float d, float b, float v , float VBase)
+        public static string WindPaTString(string VoL, double d, double b, double v , double VBase)
         {
-            float Usc, a, Bc;
+            double Usc, a, Bc;
 
             if (b > 0)
             {
@@ -494,7 +494,7 @@ namespace TowerLoadCals.BLL.Electric
                 a = 1;
             }
 
-            float BB = 1;
+            double BB = 1;
             if (b < 10 && b >= 5)
             {
                 BB = 1.1f;

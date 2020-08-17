@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace TowerLoadCals.BLL.Electric
 {
@@ -26,17 +27,17 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 重量(导地线串重)
         /// </summary>
-        public float Weight { get; set; }
+        public double Weight { get; set; }
 
         /// <summary>
         ///  长度(金具结构高度)
         /// </summary>
-        public float FitLength { get; set; }
+        public double FitLength { get; set; }
 
         /// <summary>
         ///  单片绝缘子长度(绝缘子结构高度（mm）)
         /// </summary>
-        public float PieceLength { get; set; }
+        public double PieceLength { get; set; }
 
         /// <summary>
         /// 片数(绝缘子片数)
@@ -56,17 +57,17 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 阻尼线长度(阻尼线长)
         /// </summary>
-        public float DampLength { get; set; }
+        public double DampLength { get; set; }
 
         /// <summary>
         ///  硬跳线参数，支撑管长度 单位m
         /// </summary>
-        public float SuTubleLen { get; set; }
+        public double SuTubleLen { get; set; }
 
         /// <summary>
         ///  硬跳线参数，软跳线长度
         /// </summary>
-        public float SoftLineLen { get; set; }
+        public double SoftLineLen { get; set; }
 
         /// <summary>
         /// 硬跳线间隔棒数量
@@ -81,49 +82,52 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         ///支撑管直径,单位mm,
         /// </summary>
-        public float SuTubleDi { get; set; }
+        public double SuTubleDi { get; set; }
 
         /// <summary>
         /// 单位长度重量,单位kg
         /// </summary>
-        public float SuTubleWei { get; set; }
+        public double SuTubleWei { get; set; }
 
         /// <summary>
         /// 保存风荷载
         /// </summary>
-        public Dictionary<string, float> WindLoad  {get; set;}
+        public Dictionary<string, double> WindLoad  {get; set;}
 
         /// <summary>
         /// 保存垂直荷载
         /// </summary>
-        public Dictionary<string, float> VerLoad { get; set; }
+        public Dictionary<string, double> VerLoad { get; set; }
 
         /// <summary>
         /// 受风面积
         /// </summary>
-        public float WindArea { get; set; }
+        public double WindArea { get; set; }
 
 
         /// <summary>
         /// 保存跳线绝缘子串的风荷载
         /// </summary>
-        public Dictionary<string, float> JumpStrWindLoad { get; set; }
+        [XmlIgnore]
+        public Dictionary<string, double> JumpStrWindLoad { get; set; }
 
         /// <summary>
         /// 保存跳线的风荷载
         /// </summary>
-        public Dictionary<string, float> JumpWindLoad { get; set; }
+        [XmlIgnore]
+        public Dictionary<string, double> JumpWindLoad { get; set; }
 
         /// <summary>
         /// 保存支撑管线的风荷载
         /// </summary>
-        public Dictionary<string, float> SupportWindLoad { get; set; }
+        [XmlIgnore]
+        public Dictionary<string, double> SupportWindLoad { get; set; }
 
 
         /// <summary>
         /// 
         /// </summary>
-        public float Length { get; set; }
+        public double Length { get; set; }
 
         public void UpdateLen()
         {
@@ -145,6 +149,10 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public ElecCalsCommRes CommPara { get; set; }
 
+        public StrDataUtils()
+        {
+        }
+
         /// <summary>
         /// 设置导地线串参数
         /// </summary>
@@ -155,8 +163,8 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="goldPieceNumSor"></param>
         /// <param name="fitLengthSor"></param>
         /// <param name="dampLengthSor"></param>
-        public void SetIGPara(float weightSor, int lNumSor, int  pieceNumSor, float pieceLengthSor, int goldPieceNumSor,
-               float fitLengthSor, float dampLengthSor)
+        public void SetIGPara(double weightSor, int lNumSor, int  pieceNumSor, double pieceLengthSor, int goldPieceNumSor,
+               double fitLengthSor, double dampLengthSor)
         {
             Weight = weightSor;
             LNum = lNumSor;
@@ -179,8 +187,8 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="suTubleLenSor"></param>
         /// <param name="suTubleDiSor"></param>
         /// <param name="suTubleWeiSor"></param>
-        public void SetJumPara(float weightSor, int lNumSor, int pieceNumSor, int goldPieceNumSor, float softLineLenSor= 0, 
-            int jGBNumSor= 0, float suTubleLenSor= 0, float suTubleDiSor = 0, float suTubleWeiSor= 0)
+        public void SetJumPara(double weightSor, int lNumSor, int pieceNumSor, int goldPieceNumSor, double softLineLenSor= 0, 
+            int jGBNumSor= 0, double suTubleLenSor= 0, double suTubleDiSor = 0, double suTubleWeiSor= 0)
         {
             Weight = weightSor;
             LNum = lNumSor;
@@ -214,42 +222,42 @@ namespace TowerLoadCals.BLL.Electric
         {
             foreach (var weaItem in WeaParas.WeathComm)
             {
-                float wload = (float)Math.Round(ElecCalsToolBox2.StringWind(PieceNum, LNum, GoldPieceNum, weaItem.IceThickness, weaItem.WindSpeed, weaItem.BaseWindSpeed), 3);
-                float vload = Weight + WeightIceIn(weaItem.IceThickness) * (PieceNum * LNum + GoldPieceNum);
-                WindLoad.Add(weaItem.SWorkConditionName, wload);
-                VerLoad.Add(weaItem.SWorkConditionName, vload);
+                double wload = (double)Math.Round(ElecCalsToolBox2.StringWind(PieceNum, LNum, GoldPieceNum, weaItem.IceThickness, weaItem.WindSpeed, weaItem.BaseWindSpeed), 3);
+                double vload = Weight + WeightIceIn(weaItem.IceThickness) * (PieceNum * LNum + GoldPieceNum);
+                WindLoad.Add(weaItem.Name, wload);
+                VerLoad.Add(weaItem.Name, vload);
             }
 
-            WindArea = (float)(0.04 * (PieceNum * LNum + GoldPieceNum));
+            WindArea = (double)(0.04 * (PieceNum * LNum + GoldPieceNum));
         }
 
 
-        public void CalsWindLoad(float jumpDia)
+        public void CalsWindLoad(double jumpDia)
         {
             foreach (var weaItem in WeaParas.WeathComm)
             {
-                var anWea = WeaAnSideParas.WeathComm.Where(wea => wea.SWorkConditionName == weaItem.SWorkConditionName).First();
+                var anWea = WeaAnSideParas.WeathComm.Where(wea => wea.Name == weaItem.Name).First();
 
-                float temp = weaItem.Temperature;
+                double temp = weaItem.Temperature;
 
                 //冰厚，风速和基本风速需要比较大号侧和小号侧相应的工况，取其中的较大值
-                float iceThick = (anWea != null && anWea.IceThickness > weaItem.IceThickness) ? anWea.IceThickness : weaItem.IceThickness;
-                float windSpeed = (anWea != null && anWea.WindSpeed > weaItem.WindSpeed) ? anWea.WindSpeed : weaItem.WindSpeed;
-                float baseWindSpeed = (anWea != null && anWea.BaseWindSpeed > weaItem.BaseWindSpeed) ? anWea.BaseWindSpeed : weaItem.BaseWindSpeed;
+                double iceThick = (anWea != null && anWea.IceThickness > weaItem.IceThickness) ? anWea.IceThickness : weaItem.IceThickness;
+                double windSpeed = (anWea != null && anWea.WindSpeed > weaItem.WindSpeed) ? anWea.WindSpeed : weaItem.WindSpeed;
+                double baseWindSpeed = (anWea != null && anWea.BaseWindSpeed > weaItem.BaseWindSpeed) ? anWea.BaseWindSpeed : weaItem.BaseWindSpeed;
 
-                float jmupStrLoad = (float)Math.Round(ElecCalsToolBox2.StringWind(PieceNum, LNum, GoldPieceNum, iceThick, windSpeed, baseWindSpeed), 3);
-                JumpStrWindLoad.Add(weaItem.SWorkConditionName,jmupStrLoad);
+                double jmupStrLoad = (double)Math.Round(ElecCalsToolBox2.StringWind(PieceNum, LNum, GoldPieceNum, iceThick, windSpeed, baseWindSpeed), 3);
+                JumpStrWindLoad.Add(weaItem.Name,jmupStrLoad);
 
-                float jmupLoad = (float)(Math.Round(ElecCalsToolBox2.WindPaT(CommPara.VoltStr, jumpDia, iceThick, windSpeed, baseWindSpeed), 3) * GoldPieceNum);
-                JumpWindLoad.Add(weaItem.SWorkConditionName, jmupLoad);
+                double jmupLoad = (double)(Math.Round(ElecCalsToolBox2.WindPaT(CommPara.VoltStr, jumpDia, iceThick, windSpeed, baseWindSpeed), 3) * GoldPieceNum);
+                JumpWindLoad.Add(weaItem.Name, jmupLoad);
 
-                float supportLoad = (float)(Math.Round(ElecCalsToolBox2.WindPaT(CommPara.VoltStr, SuTubleDi, iceThick, windSpeed, baseWindSpeed), 3) * SuTubleLen);
-                SupportWindLoad.Add(weaItem.SWorkConditionName, supportLoad);
+                double supportLoad = (double)(Math.Round(ElecCalsToolBox2.WindPaT(CommPara.VoltStr, SuTubleDi, iceThick, windSpeed, baseWindSpeed), 3) * SuTubleLen);
+                SupportWindLoad.Add(weaItem.Name, supportLoad);
 
             }
         }
 
-        protected float WeightIceIn(float iceThick)
+        protected double WeightIceIn(double iceThick)
         {
             //Dim exZai As Boolean
             //Dim IceBank As Double

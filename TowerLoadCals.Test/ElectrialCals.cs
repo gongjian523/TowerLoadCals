@@ -27,81 +27,81 @@ namespace TowerLoadCals.Test
             pro.VoltStr = "500kV";
             pro.ACorDC = 0;
 
-            WireUtils DxData = new WireUtils("JL/G1A-630/45", 1, 674, 33.8f, 2079, 63000, 20.9f, 150450, 0, 25,4);
-            WireUtils GrdData = new WireUtils( "JLB20A-120", 2, 121.21f, 14.25f, 810, 147200, 13, 146180, 1, 10);
-            WireUtils OPGWData = new WireUtils("OPGW-15-120-1", 3, 120, 15.2f, 832, 162000, 13, 147000, 2, 10);
+            ElecCalsWire DxData = new ElecCalsWire("JL/G1A-630/45", 1, 674, 33.8f, 2079, 63000, 20.9, 150450, 0, 25,4);
+            ElecCalsWire GrdData = new ElecCalsWire( "JLB20A-120", 2, 121.21, 14.25, 810, 147200, 13, 146180, 1, 10);
+            ElecCalsWire OPGWData = new ElecCalsWire("OPGW-15-120-1", 3, 120, 15.2, 832, 162000, 13, 147000, 2, 10);
 
             ElecCalsWeaRes OneWeath15 = new ElecCalsWeaRes("15mm27m/s", 1);
             ElecCalsWeaRes AnoWeath15 = new ElecCalsWeaRes("15mm27m/s", 2);
 
-            List<WorkCondition> wkcList = new List<WorkCondition>()
+            List<ElecCalsWorkCondition> wkcList = new List<ElecCalsWorkCondition>()
             {
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "最大风速",
+                    Name = "最大风速",
                     Temperature = 10,
                     WindSpeed = 27,
                     IceThickness = 0,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "最低气温",
+                    Name = "最低气温",
                     Temperature = -20,
                     WindSpeed = 0,
                     IceThickness = 0,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "最大覆冰",
+                    Name = "最大覆冰",
                     Temperature = -5,
                     WindSpeed = 10,
                     IceThickness = 15,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "平均气温",
+                    Name = "平均气温",
                     Temperature = 15,
                     WindSpeed = 0,
                     IceThickness = 0,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "最高气温",
+                    Name = "最高气温",
                     Temperature = 50,
                     WindSpeed = 0,
                     IceThickness = 0,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "安装情况",
+                    Name = "安装情况",
                     Temperature = -10,
                     WindSpeed = 10,
                     IceThickness = 0,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "不均匀风",
+                    Name = "不均匀风",
                     Temperature = 10,
                     WindSpeed = 27,
                     IceThickness = 0,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "验算冰",
+                    Name = "验算冰",
                     Temperature = -5,
                     WindSpeed = 10,
                     IceThickness = 15,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "验算不均匀冰I",
+                    Name = "验算不均匀冰I",
                     Temperature = -5,
                     WindSpeed = 10,
                     IceThickness = 15,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "验算不均匀冰II",
+                    Name = "验算不均匀冰II",
                     Temperature = -5,
                     WindSpeed = 10,
                     IceThickness = 15,
@@ -115,13 +115,13 @@ namespace TowerLoadCals.Test
             ElecCalsCommRes commParas = new ElecCalsCommRes();
             commParas.Volt = pro.Volt;
             commParas.VoltStr = pro.VoltStr;
-            commParas.SetForIncrPara(1,1.05f, 1,1.1f,1.1f, 1.1f, 1.1f, 1.1f, 1.1f);
-            commParas.SetForMaxMinPara(1.025f, 1.025f, 1.122f, 1.08f, 0.95f, 0.95f, 1, 1);
+            commParas.SetForIncrPara(1,1.05, 1,1.1,1.1, 1.1, 1.1, 1.1, 1.1);
+            commParas.SetForMaxMinPara(1.025, 1.025, 1.122, 1.08, 0.95, 0.95, 1, 1);
             commParas.SetOverDrive(0,0);
             commParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
 
-            SideCalUtils OneWrieSidePara = new SideCalUtils(0.95f, 2.85f, 25, 1, 4.1f, 20, 1, 4.1f, 20);
-            SideCalUtils AnoWrieSidePara = new SideCalUtils(0.9f, 2.85f, 25, 1, 4.1f, 20, 1, 4.1f, 20);
+            SideCalUtils OneWrieSidePara = new SideCalUtils(0.95, 2.85, 25, 1, 4.1, 20, 1, 4.1, 20);
+            SideCalUtils AnoWrieSidePara = new SideCalUtils(0.9, 2.85f, 25, 1, 4.1, 20, 1, 4.1, 20);
 
             TowerStrainElecCals BackTower = new TowerStrainElecCals();
             TowerStrainElecCals CalTower = new TowerStrainElecCals();
@@ -129,17 +129,17 @@ namespace TowerLoadCals.Test
 
             List<string> logList = new List<string>();
 
-            BackTower.SetPosInf("NAB204", "SJC29152", 48, 1997.1f, -4.1f, 0, 0, 0);
-            BackTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2f, 14.1f, 0);
+            BackTower.SetPosInf("NAB204", "SJC29152", 48, 1997.1, -4.1, 0, 0, 0);
+            BackTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2, 14.1, 0);
             BackTower.UpdataTowerTraHei();
 
-            CalTower.SetPosInf("NAB205", "SJC29152", 48, 2277.1f, -6.3f, 0, 0, 45.98f);
+            CalTower.SetPosInf("NAB205", "SJC29152", 48, 2277.1, -6.3, 0, 0, 45.98);
             CalTower.SetFrontBackPosInf(325, 430, 593, 593);
-            CalTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2f, 14.1f, 0);
+            CalTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2, 14.1, 0);
             CalTower.UpdataTowerTraHei();
 
-            FrontTower.SetPosInf("NAB206", "SZC27154A", 67, 2350.8f, -5, 8, 0.5f, 45.98f);
-            FrontTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3f, 0);
+            FrontTower.SetPosInf("NAB206", "SZC27154A", 67, 2350.8, -5, 8, 0.5, 45.98);
+            FrontTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3, 0);
             FrontTower.UpdataTowerTraHei();
 
             //打印高差
@@ -147,22 +147,21 @@ namespace TowerLoadCals.Test
             logList.AddRange(FrontTower.PrintHei("大号塔", false));
             logList.AddRange(CalTower.PrintHei("计算塔", true));
 
-
             ElecCalsRes BackSideCalRes = new ElecCalsRes();
             ElecCalsRes FrontSideCalRes = new ElecCalsRes();
             BackSideCalRes.UpdataSor(OneWeath15, DxData, GrdData, OPGWData, DxData, OneWrieSidePara, commParas);
             FrontSideCalRes.UpdataSor(AnoWeath15, DxData, GrdData, OPGWData, DxData, AnoWrieSidePara, commParas);
+
             CalTower.GetAndUpdateSideRes(BackSideCalRes, FrontSideCalRes);
+            logList.Add("\n小号塔比载和应力：");
+            logList.AddRange(CalTower.BackSideRes.PrintBzAndYL());
+
+            logList.Add("大号塔比载和应力：");
+            logList.AddRange(CalTower.FrontSideRes.PrintBzAndYL());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);
 
-
-
             return;
-
-
-            
-
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public string Name { get; set; }
 
-        public List<WorkCondition> WeathComm { get; set; }
+        public List<ElecCalsWorkCondition> WeathComm { get; set; }
 
         public int ID { get; set; }
 
@@ -31,16 +31,49 @@ namespace TowerLoadCals.BLL.Electric
             }; }
         }
 
+        /// <summary>
+        /// 用于打印日志
+        /// </summary>
+        public List<string> NameOfWkCalsInd
+        {
+            get
+            {
+                return new List<string> { "最低气温","最大覆冰","平均气温","安装情况","最高气温", "验算冰",
+                "换算最大风速","顺线路外角侧45风","逆线路外角侧45风","顺线路内角侧45风","逆线路内角侧45风",
+                 "断线","不均匀冰I","不均匀冰II","验算不均匀冰I","验算不均匀冰II","换算不均匀风","覆冰无风",
+                 "安装工况降温"};
+            }
+        }
+
+        /// <summary>
+        /// 用于打印日志
+        /// </summary>
+        public List<string> NameOfWkCalsGrd
+        {
+            get
+            {
+                return new List<string> { "最低气温","最大覆冰","平均气温","安装情况","最高气温", "验算冰",
+                "断线","不均匀冰I","不均匀冰II","验算不均匀冰I","验算不均匀冰II","换算不均匀风","覆冰无风",
+                "换算最大风速","顺线路外角侧45风","逆线路外角侧45风","顺线路内角侧45风","逆线路内角侧45风",
+                 "安装工况降温",
+                };
+            }
+        }
+
+        public ElecCalsWeaRes()
+        {
+
+        }
 
         public ElecCalsWeaRes(string name, int id)
         {
             Name = name;
             ID = id;
 
-            WeathComm = new List<WorkCondition>();
+            WeathComm = new List<ElecCalsWorkCondition>();
         }
 
-        public void InsertGK(List<WorkCondition> iniWeather)
+        public void InsertGK(List<ElecCalsWorkCondition> iniWeather)
         {
             WeathComm.AddRange(iniWeather);
         }
@@ -48,15 +81,15 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 换算最大风速值到平均高度
         /// </summary>
-        public void ConverWind(float aveHei, char terType)
+        public void ConverWind(double aveHei, char terType)
         {
-            if(WeathComm.Where(item => item.SWorkConditionName == "最大风速").Count() > 0)
+            if(WeathComm.Where(item => item.Name == "最大风速").Count() > 0)
             {
-                var temp = WeathComm.Where(item => item.SWorkConditionName == "最大风速").First();
-                WeathComm.Add(new WorkCondition
+                var temp = WeathComm.Where(item => item.Name == "最大风速").First();
+                WeathComm.Add(new ElecCalsWorkCondition
                 {
                     //在计算中相当于Eecel"最大风速"
-                    SWorkConditionName = "换算最大风速",
+                    Name = "换算最大风速",
                     IceThickness = temp.IceThickness,
                     Temperature = temp.Temperature,
                     WindSpeed = ElecCalsToolBox.WindExChange(temp.WindSpeed, aveHei, terType),
@@ -64,13 +97,13 @@ namespace TowerLoadCals.BLL.Electric
                 });
             }
 
-            if (WeathComm.Where(item => item.SWorkConditionName == "不均匀风").Count() > 0)
+            if (WeathComm.Where(item => item.Name == "不均匀风").Count() > 0)
             {
-                var temp = WeathComm.Where(item => item.SWorkConditionName == "不均匀风").First();
-                WeathComm.Add(new WorkCondition
+                var temp = WeathComm.Where(item => item.Name == "不均匀风").First();
+                WeathComm.Add(new ElecCalsWorkCondition
                 {
                     //在计算中相当于Eecel"不均匀风"
-                    SWorkConditionName = "换算不均匀风",
+                    Name = "换算不均匀风",
                     IceThickness = temp.IceThickness,
                     Temperature = temp.Temperature,
                     WindSpeed = ElecCalsToolBox.WindExChange(temp.WindSpeed, aveHei, terType),
@@ -82,28 +115,27 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 换算45风的风速
         /// </summary>
-        /// <param name="WeathComm"></param>
         /// <param name="angle"></param>
-        public void ConverWind45(float angle)
+        public void ConverWind45(double angle)
         {
-            if (WeathComm.Where(item => item.SWorkConditionName == "换算最大风速").Count() > 0)
+            if (WeathComm.Where(item => item.Name == "换算最大风速").Count() > 0)
             {
-                var temp = WeathComm.Where(item => item.SWorkConditionName == "换算最大风速").First();
+                var temp = WeathComm.Where(item => item.Name == "换算最大风速").First();
 
                 var wind1 = ElecCalsToolBox.Wind45ExChange1(temp.WindSpeed, angle);
-                WeathComm.AddRange( new List<WorkCondition>()
+                WeathComm.AddRange( new List<ElecCalsWorkCondition>()
                 {   
-                    new WorkCondition()
+                    new ElecCalsWorkCondition()
                     {
-                        SWorkConditionName = "顺线路外角侧45风",
+                        Name = "顺线路外角侧45风",
                         IceThickness = temp.IceThickness,
                         Temperature = temp.Temperature,
                         WindSpeed = wind1,
                         BaseWindSpeed = temp.BaseWindSpeed,
                     },
-                    new WorkCondition()
+                    new ElecCalsWorkCondition()
                     {
-                        SWorkConditionName = "逆线路内角侧45风",
+                        Name = "逆线路内角侧45风",
                         IceThickness = temp.IceThickness,
                         Temperature = temp.Temperature,
                         WindSpeed = wind1,
@@ -112,19 +144,19 @@ namespace TowerLoadCals.BLL.Electric
                 });
 
                 var wind2 = ElecCalsToolBox.Wind45ExChange2(temp.WindSpeed, angle);
-                WeathComm.AddRange(new List<WorkCondition>()
+                WeathComm.AddRange(new List<ElecCalsWorkCondition>()
                 {
-                    new WorkCondition()
+                    new ElecCalsWorkCondition()
                     {
-                        SWorkConditionName = "逆线路外角侧45风",
+                        Name = "逆线路外角侧45风",
                         IceThickness = temp.IceThickness,
                         Temperature = temp.Temperature,
                         WindSpeed = wind2,
                         BaseWindSpeed = temp.BaseWindSpeed,
                     },
-                    new WorkCondition()
+                    new ElecCalsWorkCondition()
                     {
-                        SWorkConditionName = "顺线路内角侧45风",
+                        Name = "顺线路内角侧45风",
                         IceThickness = temp.IceThickness,
                         Temperature = temp.Temperature,
                         WindSpeed = wind2,
@@ -140,13 +172,13 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public void AddGrdWeath()
         {
-            if (WeathComm.Where(item => item.SWorkConditionName == "最大覆冰").Count() > 0)
+            if (WeathComm.Where(item => item.Name == "最大覆冰").Count() > 0)
             {
-                var temp = WeathComm.Where(item => item.SWorkConditionName == "最大覆冰").First();
+                var temp = WeathComm.Where(item => item.Name == "最大覆冰").First();
 
-                WeathComm.Add(new WorkCondition
+                WeathComm.Add(new ElecCalsWorkCondition
                 {
-                    SWorkConditionName = "地线覆冰",
+                    Name = "地线覆冰",
                     IceThickness = (temp.IceThickness > 0 ? temp.IceThickness + 5 : temp.IceThickness),
                     Temperature = temp.Temperature,
                     WindSpeed = temp.WindSpeed,
@@ -159,13 +191,13 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public void AddOtherGk()
         {
-            if (WeathComm.Where(item => item.SWorkConditionName == "最大覆冰").Count() > 0)
+            if (WeathComm.Where(item => item.Name == "最大覆冰").Count() > 0)
             {
-                var temp = WeathComm.Where(item => item.SWorkConditionName == "最大覆冰").First();
+                var temp = WeathComm.Where(item => item.Name == "最大覆冰").First();
 
-                WeathComm.Add(new WorkCondition
+                WeathComm.Add(new ElecCalsWorkCondition
                 {
-                    SWorkConditionName = "覆冰无风",
+                    Name = "覆冰无风",
                     IceThickness = temp.IceThickness,
                     WindSpeed = 0,
                     Temperature = temp.Temperature,
@@ -181,31 +213,31 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="dia">直径</param>
         /// <param name="breakIceCover">断线覆冰率1</param>
         /// <param name="breakIceCover">断线覆冰率2 ?? 这个值怎么区还有待确认</param>
-        public void AddBreakGK(int bGrd,  int bAdd5mm, float dia, float breakIceCover1, float breakIceCover2)
+        public void AddBreakGK(int bGrd,  int bAdd5mm, double dia, double breakIceCover1, double breakIceCover2)
         {
-            float thickness;
-            WorkCondition iceWkCdt;
+            double thickness;
+            ElecCalsWorkCondition iceWkCdt;
 
             if (bGrd == 1 && bAdd5mm == 1)
             {
                 //地线不平衡张力考虑+5m时，要找到地线覆冰工况
-                if (WeathComm.Where(item => item.SWorkConditionName == "地线覆冰").Count() <= 0)
+                if (WeathComm.Where(item => item.Name == "地线覆冰").Count() <= 0)
                     return;
-                iceWkCdt = WeathComm.Where(item => item.SWorkConditionName == "地线覆冰").First();
+                iceWkCdt = WeathComm.Where(item => item.Name == "地线覆冰").First();
                 thickness = ElecCalsToolBox.IceThicknessExChange(dia, breakIceCover1, iceWkCdt.IceThickness);
             }
             else
             {
                 //导线以及地线不平衡张力不考虑+5m 要找到最大覆冰工况
-                if (WeathComm.Where(item => item.SWorkConditionName == "最大覆冰").Count() <= 0)
+                if (WeathComm.Where(item => item.Name == "最大覆冰").Count() <= 0)
                     return;
-                iceWkCdt = WeathComm.Where(item => item.SWorkConditionName == "最大覆冰").First();
+                iceWkCdt = WeathComm.Where(item => item.Name == "最大覆冰").First();
                 thickness = ElecCalsToolBox.IceThicknessExChange(dia, breakIceCover2, iceWkCdt.IceThickness);
             }
 
-            WeathComm.Add(new WorkCondition()
+            WeathComm.Add(new ElecCalsWorkCondition()
             {
-                SWorkConditionName = "断线",
+                Name = "断线",
                 IceThickness = thickness,
                 Temperature = iceWkCdt.Temperature,
                 WindSpeed = iceWkCdt.WindSpeed,
@@ -219,49 +251,49 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="dia">直径</param>
         /// <param name="iceCover1">不均匀覆冰率I</param>
         /// <param name="iceCover2">不均匀覆冰率I</param>
-        public void AddUnevenIceGK(int bGrd, float dia, float iceCover1, float iceCover2)
+        public void AddUnevenIceGK(int bGrd, double dia, double iceCover1, double iceCover2)
         {
-            WorkCondition iceWkCdt;
+            ElecCalsWorkCondition iceWkCdt;
 
             //温度和风速来做验算冰工况
-            if (WeathComm.Where(item => item.SWorkConditionName == "验算冰").Count() <= 0)
+            if (WeathComm.Where(item => item.Name == "验算冰").Count() <= 0)
                 return;
 
-            var checkWkCdt = WeathComm.Where(item => item.SWorkConditionName == "验算冰").First();
-            float temp = checkWkCdt.Temperature;
-            float wind = checkWkCdt.WindSpeed;
+            var checkWkCdt = WeathComm.Where(item => item.Name == "验算冰").First();
+            double temp = checkWkCdt.Temperature;
+            double wind = checkWkCdt.WindSpeed;
 
 
             if (bGrd == 1)
             {
                 //地线要找到地线覆冰工况
-                if (WeathComm.Where(item => item.SWorkConditionName == "地线覆冰").Count() <= 0)
+                if (WeathComm.Where(item => item.Name == "地线覆冰").Count() <= 0)
                     return;
-                iceWkCdt = WeathComm.Where(item => item.SWorkConditionName == "地线覆冰").First();
+                iceWkCdt = WeathComm.Where(item => item.Name == "地线覆冰").First();
             }
             else
             {
                 //导线要找到最大覆冰工况
-                if (WeathComm.Where(item => item.SWorkConditionName == "最大覆冰").Count() <= 0)
+                if (WeathComm.Where(item => item.Name == "最大覆冰").Count() <= 0)
                     return;
-                iceWkCdt = WeathComm.Where(item => item.SWorkConditionName == "最大覆冰").First();
+                iceWkCdt = WeathComm.Where(item => item.Name == "最大覆冰").First();
             }
 
-            float thickness1 = ElecCalsToolBox.IceThicknessExChange(dia, iceCover1, iceWkCdt.IceThickness);
-            float thickness2 = ElecCalsToolBox.IceThicknessExChange(dia, iceCover2, iceWkCdt.IceThickness);
+            double thickness1 = ElecCalsToolBox.IceThicknessExChange(dia, iceCover1, iceWkCdt.IceThickness);
+            double thickness2 = ElecCalsToolBox.IceThicknessExChange(dia, iceCover2, iceWkCdt.IceThickness);
 
-            WeathComm.AddRange(new List<WorkCondition>()
+            WeathComm.AddRange(new List<ElecCalsWorkCondition>()
             {
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "不均匀冰I",
+                    Name = "不均匀冰I",
                     IceThickness = thickness1,
                     Temperature = temp,
                     WindSpeed = wind,
                 },
-                new WorkCondition()
+                new ElecCalsWorkCondition()
                 {
-                    SWorkConditionName = "不均匀冰II",
+                    Name = "不均匀冰II",
                     IceThickness = thickness2,
                     Temperature = temp,
                     WindSpeed = wind,
@@ -275,19 +307,19 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public void UpdateGrdCkeckGK()
         {
-            int index1 = WeathComm.FindIndex(item => item.SWorkConditionName == "验算冰");
+            int index1 = WeathComm.FindIndex(item => item.Name == "验算冰");
             if(index1 >= 0)
             {
                 WeathComm[index1].IceThickness += 5;
             }
 
-            int index2 = WeathComm.FindIndex(item => item.SWorkConditionName == "验算不均匀冰I");
+            int index2 = WeathComm.FindIndex(item => item.Name == "验算不均匀冰I");
             if (index2 >= 0)
             {
                 WeathComm[index2].IceThickness += 5;
             }
 
-            int index3 = WeathComm.FindIndex(item => item.SWorkConditionName == "验算不均匀冰I");
+            int index3 = WeathComm.FindIndex(item => item.Name == "验算不均匀冰I");
             if (index3 >= 0)
             {
                 WeathComm[index3].IceThickness += 5;

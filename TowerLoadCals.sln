@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals", "TowerLoadC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals.Service", "TowerLoadCals.Service\TowerLoadCals.Service.csproj", "{F37FCFB9-3A00-4250-A4D4-29BEE7D8D525}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerLoadCals.Tool", "TowerLoadCals.Tool\TowerLoadCals.Tool.csproj", "{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ClickOnce Debug|Any CPU = ClickOnce Debug|Any CPU
@@ -96,6 +98,16 @@ Global
 		{F37FCFB9-3A00-4250-A4D4-29BEE7D8D525}.DebugTest|Any CPU.Build.0 = Debug|Any CPU
 		{F37FCFB9-3A00-4250-A4D4-29BEE7D8D525}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F37FCFB9-3A00-4250-A4D4-29BEE7D8D525}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.ClickOnce Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.ClickOnce Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.ClickOnce Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.ClickOnce Release|Any CPU.Build.0 = Release|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.DebugTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.DebugTest|Any CPU.Build.0 = Debug|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A4F9F38-3EA6-4122-B9F5-5E5222849CCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

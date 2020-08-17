@@ -11,65 +11,70 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 导线有效系数
         /// </summary>
-        public float IndEffectPara { get; set; }
+        public double IndEffectPara { get; set; }
 
         /// <summary>
         /// 导线安全系数
         /// </summary>
-        public float IndSafePara { get; set; }
+        public double IndSafePara { get; set; }
 
         /// <summary>
         /// 导线年平均系数,按照百分比
         /// </summary>
-        public float IndAnPara { get; set; }
+        public double IndAnPara { get; set; }
 
         /// <summary>
         /// 地线有效系数
         /// </summary>
-        public float GrdEffectPara { get; set; }
+        public double GrdEffectPara { get; set; }
 
         /// <summary>
         /// 地线安全系数
         /// </summary>
-        public float GrdSafePara { get; set; }
+        public double GrdSafePara { get; set; }
 
         /// <summary>
         /// 地线年均系数，按照百分比
         /// </summary>
-        public float GrdAnPara { get; set; }
+        public double GrdAnPara { get; set; }
 
         /// <summary>
         ///  OPGW有效系数
         /// </summary>
-        public float OPGWEffectPara { get; set; }
+        public double OPGWEffectPara { get; set; }
 
         /// <summary>
         ///  OPGW安全系数
         /// </summary>
-        public float OPGWSafePara { get; set; }
+        public double OPGWSafePara { get; set; }
 
         /// <summary>
         ///  #OPGW年均系数
         /// </summary>
-        public float OPGWAnPara { get; set; }
+        public double OPGWAnPara { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public float IndMaxFor { get; set; }
+        public double IndMaxFor { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public float GrdMaxFor { get; set; }
+        public double GrdMaxFor { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public float OPGWMaxFor { get; set; }
+        public double OPGWMaxFor { get; set; }
 
-        public SideCalUtils(float indEffectPara=2.5f, float indSafePara= 2.5f, float indAnPara= 0.25f, float grdEffectPara = 4, float grdSafePara= 4, float grdAnPara= 0.25f,
-            float opgwEffectPara=4, float opgwSafePara = 4, float opgwAnPara= 0.2f)
+        public SideCalUtils()
+        {
+
+        }
+
+        public SideCalUtils(double indEffectPara=2.5f, double indSafePara= 2.5f, double indAnPara= 0.25f, double grdEffectPara = 4, double grdSafePara= 4, double grdAnPara= 0.25f,
+            double opgwEffectPara=4, double opgwSafePara = 4, double opgwAnPara= 0.2f)
         {
             IndEffectPara = indAnPara;
             IndSafePara = indSafePara; 
@@ -90,7 +95,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="IndMaxForSor"></param>
         /// <param name="GrdMaxForSor"></param>
         /// <param name="OPGWMaxForSor"></param>
-        public void  SetAlonePara(float indMaxForSor, float grdMaxForSor, float oPGWMaxForSor)
+        public void  SetAlonePara(double indMaxForSor, double grdMaxForSor, double oPGWMaxForSor)
         {
             IndMaxFor = indMaxForSor;
             GrdMaxFor = grdMaxForSor;
