@@ -15,7 +15,6 @@ namespace TowerLoadCals.Modules
         public String SelectedStandard {
             get
             {
-                
                 return BaseParas == null ? null : BaseParas.SelectedStandard;
             }
             set

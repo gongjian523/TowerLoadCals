@@ -69,7 +69,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 导线分裂数
         /// </summary>
-        public double DevideNum { get; set; }
+        public int DevideNum { get; set; }
 
         /// <summary>
         /// 控制应力
@@ -137,6 +137,17 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double WindVerSag { get; set; }
 
+        /// <summary>
+        ///断线张力系数
+        /// </summary>
+        public double BreakTensionPara { get; set; }
+
+        /// <summary>
+        ///不均匀冰张力系数
+        /// </summary>
+        public double UnbaTensionPara { get; set; }
+
+
         public ElecCalsWire()
         {
         }
@@ -163,16 +174,42 @@ namespace TowerLoadCals.BLL.Electric
         /// 更新参数
         /// </summary>
         /// <param name="weaData"></param>
-        /// <param name="coePara">通用系数</param>
+        /// <param name="commPara">通用系数</param>
         /// <param name="wirePara">导线参数</param>
-        public void UpdataPara(ElecCalsWeaRes weaData, ElecCalsCommRes coePara, SideCalUtils sideParas)
+        public void UpdataPara(ElecCalsWeaRes weaData, ElecCalsCommRes commPara, SideCalUtils sideParas, string towerType, string iceArea)
         {
             WeatherParas = XmlUtils.Clone(weaData);
-            CommParas = coePara;
+            CommParas = commPara;
             SideParas = sideParas;
-
-
+            UpdateTensinPara(towerType, iceArea);
         }
+
+        protected void UpdateTensinPara(string towerType, string iceArea)
+        {
+            if(WeatherParas.WeathComm.Where(item => item.Name == "最大覆冰").Count() <= 0)
+            {
+                BreakTensionPara = 0;
+                UnbaTensionPara = 0;
+                return;
+            }
+
+            double iceThick = WeatherParas.WeathComm.Where(item => item.Name == "最大覆冰").First().IceThickness;
+
+            //导线
+            if (bGrd == 0)
+            {
+                BreakTensionPara = ElecCalsToolBox.UBlanceK(towerType, iceArea, iceThick, CommParas.Terrain, "导线", DevideNum);
+                UnbaTensionPara = ElecCalsToolBox.IBlanceK(towerType, iceArea, iceThick, "导线");
+            }
+            //地线
+            else
+            {
+                BreakTensionPara = ElecCalsToolBox.UBlanceK(towerType, iceArea, iceThick, CommParas.Terrain, "地线");
+                UnbaTensionPara = ElecCalsToolBox.IBlanceK(towerType, iceArea, iceThick, "地线");
+            }
+        }
+
+
 
         /// <summary>
         /// 计算指定档距下应力比载并存入对象中,一般采用这个接口计算
@@ -262,7 +299,6 @@ namespace TowerLoadCals.BLL.Electric
 
                     double g7 = (double)Math.Sqrt(Math.Pow(g3, 2) + Math.Pow(g5, 2));
                     bz.g7 = g7;
-
 
                     //按照Excel的算法
                     bz.BiZai = ElecCalsToolBox2.BiZai(Wei * 1000, Dia, Sec, weaItem.IceThickness, weaItem.WindSpeed, weaItem.BaseWindSpeed) / 1000;
@@ -354,7 +390,6 @@ namespace TowerLoadCals.BLL.Electric
                 YLCalDic.Add(nameWd, fm);
                 //存储每个工况初始控制应力取值
                 ForCalDic.Add(nameWd, calFor);
-
             }
 
             //确定控制工况
@@ -389,25 +424,35 @@ namespace TowerLoadCals.BLL.Electric
         public void UpdateWeaForCals(double angle)
         {
             double aveHei = bGrd == 0 ? CommParas.IndAveHei : CommParas.GrdAveHei;
-            WeatherParas.ConverWind(CommParas.IndAveHei, CommParas.TerType);
+            //WeatherParas.ConverWind(aveHei, CommParas.TerrainPara);
+            WeatherParas.ConverWind(aveHei, CommParas.TerType);
 
-            // 如果是地线计算，增加地线覆冰工况
-            if (bGrd > 0)
-            {
-                WeatherParas.AddGrdWeath();
-                WeatherParas.UpdateGrdCkeckGK();
-            }
 
             //现在还还不知道角度参数从哪里保存而来
             WeatherParas.ConverWind45(angle);
 
-            WeatherParas.AddUnevenIceGK(bGrd, Dia, CommParas.UnbaIceCoverPerMax, CommParas.UnbaIceCoverPerMin);
-
             //另一个覆冰对应的是Excel的基础数据B79，里面的是字符串“考虑断线覆冰率” “考虑断线覆冰率”
-            WeatherParas.AddBreakGK(bGrd, CommParas.GrdIceUnbaPara, Dia, CommParas.BreakIceCoverPer, CommParas.BreakIceCoverPer);
+            WeatherParas.AddBreakGK("断线", bGrd, CommParas.GrdIceUnbaPara, Dia, CommParas.BreakIceCoverPer);
+
+            WeatherParas.AddUnevenIceGK(false, Dia, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
 
             //增加荷载计算中需要的工况：
             WeatherParas.AddOtherGk();
+
+            WeatherParas.AddInstallColdGk(DecrTem);
+
+            if (bGrd > 0)
+            {
+                //增加地线覆冰工况
+                WeatherParas.AddGrdWeath();
+
+                WeatherParas.AddBreakGK("断线(导线+5mm)", bGrd, CommParas.GrdIceUnbaPara, Dia, CommParas.BreakIceCoverPer);
+
+                WeatherParas.AddUnevenIceGK(true, Dia, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
+
+                WeatherParas.AddCkeckGKIcr5mm();
+            }
+
         }
 
         /// <summary>

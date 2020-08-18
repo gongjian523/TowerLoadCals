@@ -176,6 +176,11 @@ namespace TowerLoadCals.BLL.Electric
             return Math.Round(wind, 2);
         }
 
+        public static double WindExChange(double wind, double height, double terrainPara)
+        {
+            return Math.Round( Math.Pow((height / 10), terrainPara) * wind, 2);
+        }
+
         /// <summary>
         /// 顺线路外角侧45风,逆线路内角侧45风
         /// </summary>
@@ -306,9 +311,9 @@ namespace TowerLoadCals.BLL.Electric
         /// <returns></returns>
         public static double UBlanceK(string towerType, string iceType, double iceThickness, string terrain , string wireType, int devideNum = 0)
         {
-            var spec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
 
-            if (spec == null)
+            if (elecCalsSpec == null)
                 return 0;
 
             string wire;
@@ -350,18 +355,20 @@ namespace TowerLoadCals.BLL.Electric
                 }
             }
 
-            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
-            if (elecCalsSpec == null)
-                return 0;
-
             if (iceType == "轻冰区")
             {
                 //轻冰区需要查询地形
                 if (elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire 
                     && item.TowerType == towerType && item.Terrain == terrain).Count() > 0)
                 {
-                    return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
-                    && item.TowerType == towerType && item.Terrain == terrain).First().Stress / 100;
+
+                    var  entity = elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                    && item.TowerType == towerType && item.Terrain == terrain).First();
+
+                    return (double)entity.Stress / 100;
+
+                    //return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                    //&& item.TowerType == towerType && item.Terrain == terrain).First().Stress / 100;
                 }
                 else
                 {
@@ -373,8 +380,12 @@ namespace TowerLoadCals.BLL.Electric
                 if (elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
                     && item.TowerType == towerType).Count() > 0)
                 {
-                    return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
-                    && item.TowerType == towerType).First().Stress / 100;
+                    var entity = elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                        && item.TowerType == towerType).First();
+                    return (double)entity.Stress / 100;
+
+                    //return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                    //&& item.TowerType == towerType).First().Stress / 100;
                 }
                 else
                 {
@@ -397,17 +408,20 @@ namespace TowerLoadCals.BLL.Electric
         {
             var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
             if (elecCalsSpec == null)
-                return 0;
+                return 1;
 
             double iceThickness = iceThickness1 < iceThickness2 ? iceThickness2 : iceThickness1;
 
             if (elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).Count() > 0)
             {
-                return elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).First().Percent / 100;
+                var entity = elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).First();
+                return (double)entity.Percent / 100;
+
+                //return elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).First().Percent / 100;
             }
             else
             {
-                return 0;
+                return 1;
             }
         }
 
@@ -421,7 +435,6 @@ namespace TowerLoadCals.BLL.Electric
         /// <returns></returns>
         public static double IBlanceK(string towerType, string iceType, double iceThickness, string  wireType)
         {
-
             var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
             if (elecCalsSpec == null)
                 return 0;
@@ -429,8 +442,12 @@ namespace TowerLoadCals.BLL.Electric
             if (elecCalsSpec.UnevenIceStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
                 && item.TowerType == towerType).Count() > 0)
             {
-                return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
-                && item.TowerType == towerType).First().Stress / 100;
+                var entity = elecCalsSpec.UnevenIceStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
+                    && item.TowerType == towerType).First();
+                return (double)entity.Stress / 100;
+
+                //return elecCalsSpec.UnevenIceStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
+                //&& item.TowerType == towerType).First().Stress / 100;
             }
             else
             {
@@ -452,7 +469,9 @@ namespace TowerLoadCals.BLL.Electric
 
             if (elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").Count() > 0)
             {
-                return elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").First().Percent / 100;
+                var entity = elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").First();
+                return (double)entity.Percent / 100;
+                //return elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").First().Percent / 100;
             }
             else
             {
@@ -474,7 +493,9 @@ namespace TowerLoadCals.BLL.Electric
 
             if (elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").Count() > 0)
             {
-                return elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").First().Percent / 100;
+                var entity = elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").First();
+                return (double)entity.Percent / 100;
+                //return elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").First().Percent / 100;
             }
             else
             {
@@ -497,11 +518,6 @@ namespace TowerLoadCals.BLL.Electric
             {
                 return "一类";
             }
-        }
-
-        public static double WeightIceIn(double iceThick)
-        {
-            return 0;
         }
     }
 }

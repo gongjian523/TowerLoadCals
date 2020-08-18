@@ -40,8 +40,8 @@ namespace TowerLoadCals.BLL.Electric
             {
                 return new List<string> { "最低气温","最大覆冰","平均气温","安装情况","最高气温", "验算冰",
                 "换算最大风速","顺线路外角侧45风","逆线路外角侧45风","顺线路内角侧45风","逆线路内角侧45风",
-                 "断线","不均匀冰I","不均匀冰II","验算不均匀冰I","验算不均匀冰II","换算不均匀风","覆冰无风",
-                 "安装工况降温"};
+                 "断线","不均匀冰I","不均匀冰II","验算不均匀冰I","验算不均匀冰II",
+                 "换算不均匀风","覆冰无风","安装情况降温"};
             }
         }
 
@@ -53,9 +53,11 @@ namespace TowerLoadCals.BLL.Electric
             get
             {
                 return new List<string> { "最低气温","最大覆冰","平均气温","安装情况","最高气温", "验算冰",
-                "断线","不均匀冰I","不均匀冰II","验算不均匀冰I","验算不均匀冰II","换算不均匀风","覆冰无风",
+                "断线","不均匀冰I","不均匀冰II","验算不均匀冰I","验算不均匀冰II",
                 "换算最大风速","顺线路外角侧45风","逆线路外角侧45风","顺线路内角侧45风","逆线路内角侧45风",
-                 "安装工况降温",
+                "断线(导线+5mm)","地线覆冰","不均匀冰I(导线+5mm)","不均匀冰II(导线+5mm)",
+                "验算冰(导线+5mm)", "验算不均匀冰I(导线+5mm)","验算不均匀冰II(导线+5mm)",
+                "换算不均匀风","覆冰无风","覆冰无风+5","安装情况降温",
                 };
             }
         }
@@ -81,9 +83,41 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 换算最大风速值到平均高度
         /// </summary>
-        public void ConverWind(double aveHei, char terType)
+        public void ConverWind(double aveHei, double terrainPara)
         {
             if(WeathComm.Where(item => item.Name == "最大风速").Count() > 0)
+            {
+                var temp = WeathComm.Where(item => item.Name == "最大风速").First();
+                WeathComm.Add(new ElecCalsWorkCondition
+                {
+                    //在计算中相当于Eecel"最大风速"
+                    Name = "换算最大风速",
+                    IceThickness = temp.IceThickness,
+                    Temperature = temp.Temperature,
+                    WindSpeed = ElecCalsToolBox.WindExChange(temp.WindSpeed, aveHei, terrainPara),
+                    BaseWindSpeed = temp.WindSpeed,
+                });
+            }
+
+            if (WeathComm.Where(item => item.Name == "不均匀风").Count() > 0)
+            {
+                var temp = WeathComm.Where(item => item.Name == "不均匀风").First();
+                WeathComm.Add(new ElecCalsWorkCondition
+                {
+                    //在计算中相当于Eecel"不均匀风"
+                    Name = "换算不均匀风",
+                    IceThickness = temp.IceThickness,
+                    Temperature = temp.Temperature,
+                    WindSpeed = ElecCalsToolBox.WindExChange(temp.WindSpeed, aveHei, terrainPara),
+                    BaseWindSpeed = temp.WindSpeed,
+                });
+            }
+        }
+
+
+        public void ConverWind(double aveHei, char terType)
+        {
+            if (WeathComm.Where(item => item.Name == "最大风速").Count() > 0)
             {
                 var temp = WeathComm.Where(item => item.Name == "最大风速").First();
                 WeathComm.Add(new ElecCalsWorkCondition
@@ -209,22 +243,25 @@ namespace TowerLoadCals.BLL.Electric
         /// 增加断线工况
         /// </summary>
         /// <param name="bGrd">是否是地线：1 地线； 0 导线</param>
-        /// <param name="bAdd5mm">地线不平衡张力考虑+5mm： 1 增加； 0 不增加</param>
+        /// <param name="grdIceUnbaPara">地线不平衡张力取值，1:轻冰区不考虑增加5mm，2：重冰区增加5mm</param>
         /// <param name="dia">直径</param>
-        /// <param name="breakIceCover">断线覆冰率1</param>
-        /// <param name="breakIceCover">断线覆冰率2 ?? 这个值怎么区还有待确认</param>
-        public void AddBreakGK(int bGrd,  int bAdd5mm, double dia, double breakIceCover1, double breakIceCover2)
+        /// <param name="breakIceCover">断线覆冰率</param>
+        public void AddBreakGK(string name, int bGrd,  int grdIceUnbaPara, double dia, double breakIceCover)
         {
             double thickness;
             ElecCalsWorkCondition iceWkCdt;
 
-            if (bGrd == 1 && bAdd5mm == 1)
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
+                return ;
+
+            if (bGrd == 1 && grdIceUnbaPara == 2)
             {
                 //地线不平衡张力考虑+5m时，要找到地线覆冰工况
                 if (WeathComm.Where(item => item.Name == "地线覆冰").Count() <= 0)
                     return;
                 iceWkCdt = WeathComm.Where(item => item.Name == "地线覆冰").First();
-                thickness = ElecCalsToolBox.IceThicknessExChange(dia, breakIceCover1, iceWkCdt.IceThickness);
+                thickness = ElecCalsToolBox.IceThicknessExChange(dia, breakIceCover, iceWkCdt.IceThickness);
             }
             else
             {
@@ -232,48 +269,43 @@ namespace TowerLoadCals.BLL.Electric
                 if (WeathComm.Where(item => item.Name == "最大覆冰").Count() <= 0)
                     return;
                 iceWkCdt = WeathComm.Where(item => item.Name == "最大覆冰").First();
-                thickness = ElecCalsToolBox.IceThicknessExChange(dia, breakIceCover2, iceWkCdt.IceThickness);
+                thickness = ElecCalsToolBox.IceThicknessExChange(dia, breakIceCover, iceWkCdt.IceThickness);
             }
 
             WeathComm.Add(new ElecCalsWorkCondition()
             {
-                Name = "断线",
+                Name = name,
                 IceThickness = thickness,
-                Temperature = iceWkCdt.Temperature,
-                WindSpeed = iceWkCdt.WindSpeed,
+                Temperature = elecCalsSpec.BreakTemp,
+                WindSpeed = elecCalsSpec.BreakWind,
             });
         }
 
         /// <summary>
         /// 增加不均匀冰I、II工况
         /// </summary>
-        /// <param name="bGrd">是否是地线：1 地线； 0 导线</param>
+        /// <param name="bAdd5mm">是否增加5mm/param>
         /// <param name="dia">直径</param>
         /// <param name="iceCover1">不均匀覆冰率I</param>
         /// <param name="iceCover2">不均匀覆冰率I</param>
-        public void AddUnevenIceGK(int bGrd, double dia, double iceCover1, double iceCover2)
+        public void AddUnevenIceGK(bool bAdd5mm, double dia, double iceCover1, double iceCover2)
         {
             ElecCalsWorkCondition iceWkCdt;
 
-            //温度和风速来做验算冰工况
-            if (WeathComm.Where(item => item.Name == "验算冰").Count() <= 0)
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
                 return;
 
-            var checkWkCdt = WeathComm.Where(item => item.Name == "验算冰").First();
-            double temp = checkWkCdt.Temperature;
-            double wind = checkWkCdt.WindSpeed;
-
-
-            if (bGrd == 1)
+            if (bAdd5mm)
             {
-                //地线要找到地线覆冰工况
+                //增加5mm要地线覆冰工况
                 if (WeathComm.Where(item => item.Name == "地线覆冰").Count() <= 0)
                     return;
                 iceWkCdt = WeathComm.Where(item => item.Name == "地线覆冰").First();
             }
             else
             {
-                //导线要找到最大覆冰工况
+                //不增加5mm要最大覆冰工况
                 if (WeathComm.Where(item => item.Name == "最大覆冰").Count() <= 0)
                     return;
                 iceWkCdt = WeathComm.Where(item => item.Name == "最大覆冰").First();
@@ -286,17 +318,17 @@ namespace TowerLoadCals.BLL.Electric
             {
                 new ElecCalsWorkCondition()
                 {
-                    Name = "不均匀冰I",
+                    Name = bAdd5mm ? "不均匀冰I(导线+5mm)" : "不均匀冰I",
                     IceThickness = thickness1,
-                    Temperature = temp,
-                    WindSpeed = wind,
+                    Temperature = elecCalsSpec.UnevenIceTemp,
+                    WindSpeed = elecCalsSpec.UnevenIceWind,
                 },
                 new ElecCalsWorkCondition()
                 {
-                    Name = "不均匀冰II",
+                    Name = bAdd5mm ? "不均匀冰II(导线+5mm)" : "不均匀冰II",
                     IceThickness = thickness2,
-                    Temperature = temp,
-                    WindSpeed = wind,
+                    Temperature = elecCalsSpec.UnevenIceTemp,
+                    WindSpeed = elecCalsSpec.UnevenIceWind,
                 },
             });
         }
@@ -305,27 +337,70 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 更新地线的验算工况的冰厚
         /// </summary>
-        public void UpdateGrdCkeckGK()
+        public void AddCkeckGKIcr5mm()
         {
-            int index1 = WeathComm.FindIndex(item => item.Name == "验算冰");
-            if(index1 >= 0)
+            if(WeathComm.Where(item => item.Name == "验算冰").Count() > 0)
             {
-                WeathComm[index1].IceThickness += 5;
+                var chekWkCdt = WeathComm.Where(item => item.Name == "验算冰").First();
+                WeathComm.Add(new ElecCalsWorkCondition
+                {
+                    Name = "验算冰(导线+5mm)",
+                    IceThickness = chekWkCdt.IceThickness + 5,
+                    Temperature = chekWkCdt.Temperature,
+                    WindSpeed = chekWkCdt.WindSpeed,
+                });
             }
 
-            int index2 = WeathComm.FindIndex(item => item.Name == "验算不均匀冰I");
-            if (index2 >= 0)
+            if (WeathComm.Where(item => item.Name == "验算不均匀冰I").Count() > 0)
             {
-                WeathComm[index2].IceThickness += 5;
+                var chekIWkCdt = WeathComm.Where(item => item.Name == "验算不均匀冰I").First();
+                WeathComm.Add(new ElecCalsWorkCondition
+                {
+                    Name = "验算不均匀冰I(导线+5mm)",
+                    IceThickness = chekIWkCdt.IceThickness + 5,
+                    Temperature = chekIWkCdt.Temperature,
+                    WindSpeed = chekIWkCdt.WindSpeed,
+                });
             }
 
-            int index3 = WeathComm.FindIndex(item => item.Name == "验算不均匀冰I");
-            if (index3 >= 0)
+            if (WeathComm.Where(item => item.Name == "验算不均匀冰II").Count() > 0)
             {
-                WeathComm[index3].IceThickness += 5;
+                var chekIIWkCdt = WeathComm.Where(item => item.Name == "验算不均匀冰II").First();
+                WeathComm.Add(new ElecCalsWorkCondition
+                {
+                    Name = "验算不均匀冰II(导线+5mm)",
+                    IceThickness = chekIIWkCdt.IceThickness + 5,
+                    Temperature = chekIIWkCdt.Temperature,
+                    WindSpeed = chekIIWkCdt.WindSpeed,
+                });
+            }
+
+            if (WeathComm.Where(item => item.Name == "地线覆冰").Count() > 0)
+            {
+                var iceWkCdt = WeathComm.Where(item => item.Name == "地线覆冰").First();
+                WeathComm.Add(new ElecCalsWorkCondition
+                {
+                    Name = "覆冰无风+5",
+                    IceThickness = iceWkCdt.IceThickness,
+                    Temperature = iceWkCdt.Temperature,
+                    WindSpeed = 0,
+                });
             }
         }
 
+        public void AddInstallColdGk(double decrTem)
+        {
+            var wkCdt = WeathComm.Where(item => item.Name == "安装情况").First();
+            if (wkCdt == null)
+                return;
+            WeathComm.Add(new ElecCalsWorkCondition
+            {
+                Name = "安装情况降温",
+                IceThickness = wkCdt.IceThickness,
+                Temperature = wkCdt.Temperature - decrTem,
+                WindSpeed = wkCdt.WindSpeed,
+            });
+        }
         
 
 
