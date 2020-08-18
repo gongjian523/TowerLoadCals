@@ -127,7 +127,7 @@ namespace TowerLoadCals.BLL.Electric
 
                 var wea = wire.WeatherParas.WeathComm.Where(item => item.Name == gk).First();
 
-                string str = FileUtils.PadRightEx(gk, 20) + "温度：" + wea.Temperature.ToString().PadRight(4) + "风速：" + wea.IceThickness.ToString().PadRight(4)
+                string str = FileUtils.PadRightEx(gk, 20) + "温度：" + wea.Temperature.ToString().PadRight(4) + "风速：" + wea.WindSpeed.ToString().PadRight(4)
                      + "覆冰：" + wea.IceThickness.ToString().PadRight(4) + "基本风速：" + wea.BaseWindSpeed.ToString().PadRight(4)
                      + "比载：" + wire.BzDic[gk].BiZai.ToString("e3").PadRight(12) + "比载g7：" + wire.BzDic[gk].g7.ToString("e3").PadRight(12)
                      + "垂直比载：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12) + "垂直比载g3：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12)
