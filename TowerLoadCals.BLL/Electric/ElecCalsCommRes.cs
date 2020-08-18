@@ -179,47 +179,47 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double GrdBrePara { get; set; }
 
-        /// <summary>
-        /// 大号侧断线张力系数-导线
-        /// </summary>
-        public double IndBreMaxPara { get; set; }
+        ///// <summary>
+        ///// 大号侧断线张力系数-导线
+        ///// </summary>
+        //public double IndBreMaxPara { get; set; }
 
-        /// <summary>
-        /// 大号侧断线张力系数-地线
-        /// </summary>
-        public double GrdBreMaxPara { get; set; }
-
-
-        /// <summary>
-        /// 小号侧断线张力系数-导线
-        /// </summary>
-        public double IndBreMinPara { get; set; }
-
-        /// <summary>
-        /// 小号侧断线张力系数-地线
-        /// </summary>
-        public double GrdBreMinPara { get; set; }
-
-        /// <summary>
-        /// 大号侧不均匀冰张力系数-导线
-        /// </summary>
-        public double IndUnbaMaxPara { get; set; }
-
-        /// <summary>
-        /// 大号侧不均匀冰张力系数-地线
-        /// </summary>
-        public double GrdUnbaMaxPara { get; set; }
+        ///// <summary>
+        ///// 大号侧断线张力系数-地线
+        ///// </summary>
+        //public double GrdBreMaxPara { get; set; }
 
 
-        /// <summary>
-        /// 小号不均匀冰线张力系数-导线
-        /// </summary>
-        public double IndUnbaMinPara { get; set; }
+        ///// <summary>
+        ///// 小号侧断线张力系数-导线
+        ///// </summary>
+        //public double IndBreMinPara { get; set; }
 
-        /// <summary>
-        /// 小号不均匀冰线张力系数-地线
-        /// </summary>
-        public double GrdUnbaMinPara { get; set; }
+        ///// <summary>
+        ///// 小号侧断线张力系数-地线
+        ///// </summary>
+        //public double GrdBreMinPara { get; set; }
+
+        ///// <summary>
+        ///// 大号侧不均匀冰张力系数-导线
+        ///// </summary>
+        //public double IndUnbaMaxPara { get; set; }
+
+        ///// <summary>
+        ///// 大号侧不均匀冰张力系数-地线
+        ///// </summary>
+        //public double GrdUnbaMaxPara { get; set; }
+
+
+        ///// <summary>
+        ///// 小号不均匀冰线张力系数-导线
+        ///// </summary>
+        //public double IndUnbaMinPara { get; set; }
+
+        ///// <summary>
+        ///// 小号不均匀冰线张力系数-地线
+        ///// </summary>
+        //public double GrdUnbaMinPara { get; set; }
 
         /// <summary>
         /// 类别，有电压决定

@@ -27,7 +27,7 @@ namespace TowerLoadCals.Test
             pro.VoltStr = "500kV";
             pro.ACorDC = 0;
 
-            ElecCalsWire DxData = new ElecCalsWire("JL/G1A-630/45", 1, 674, 33.8f, 2079, 63000, 20.9, 150450, 0, 25,4);
+            ElecCalsWire DxData = new ElecCalsWire("JL/G1A-630/45", 1, 674, 33.8, 2079, 63000, 20.9, 150450, 0, 25,4);
             ElecCalsWire GrdData = new ElecCalsWire( "JLB20A-120", 2, 121.21, 14.25, 810, 147200, 13, 146180, 1, 10);
             ElecCalsWire OPGWData = new ElecCalsWire("OPGW-15-120-1", 3, 120, 15.2, 832, 162000, 13, 147000, 2, 10);
 
@@ -156,7 +156,7 @@ namespace TowerLoadCals.Test
             logList.Add("\n小号塔比载和应力：");
             logList.AddRange(CalTower.BackSideRes.PrintBzAndYL());
 
-            logList.Add("大号塔比载和应力：");
+            logList.Add("\n大号塔比载和应力：");
             logList.AddRange(CalTower.FrontSideRes.PrintBzAndYL());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);

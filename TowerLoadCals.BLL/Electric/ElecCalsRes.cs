@@ -46,6 +46,48 @@ namespace TowerLoadCals.BLL.Electric
         public ElecCalsCommRes CommParas { get; set; }
 
         /// <summary>
+        /// 大号侧断线张力系数-导线
+        /// </summary>
+        public double IndBreMaxPara { get; set; }
+
+        /// <summary>
+        /// 大号侧断线张力系数-地线
+        /// </summary>
+        public double GrdBreMaxPara { get; set; }
+
+
+        /// <summary>
+        /// 小号侧断线张力系数-导线
+        /// </summary>
+        public double IndBreMinPara { get; set; }
+
+        /// <summary>
+        /// 小号侧断线张力系数-地线
+        /// </summary>
+        public double GrdBreMinPara { get; set; }
+
+        /// <summary>
+        /// 大号侧不均匀冰张力系数-导线
+        /// </summary>
+        public double IndUnbaMaxPara { get; set; }
+
+        /// <summary>
+        /// 大号侧不均匀冰张力系数-地线
+        /// </summary>
+        public double GrdUnbaMaxPara { get; set; }
+
+
+        /// <summary>
+        /// 小号不均匀冰线张力系数-导线
+        /// </summary>
+        public double IndUnbaMinPara { get; set; }
+
+        /// <summary>
+        /// 小号不均匀冰线张力系数-地线
+        /// </summary>
+        public double GrdUnbaMinPara { get; set; }
+
+        /// <summary>
         /// 配置计算数据,并刷新导线相关参数等
         /// </summary>
         /// <param name="WeathSor"></param>
@@ -119,21 +161,34 @@ namespace TowerLoadCals.BLL.Electric
         protected List<string> PrintBzAndYL(ElecCalsWire wire, List<string> gkList)
         {
             List<string> rslt = new List<string>();
-            
-            foreach(var gk in gkList)
+
+            string strTitle = FileUtils.PadRightEx("气象条件", 20) + FileUtils.PadRightEx("温度：", 8) + FileUtils.PadRightEx("风速：", 8) + FileUtils.PadRightEx("覆冰：", 8)
+                + FileUtils.PadRightEx("基本风速：", 12) + FileUtils.PadRightEx("比载：", 12) + FileUtils.PadRightEx("比载g7：", 12)
+                + FileUtils.PadRightEx("垂直比载：", 12) + FileUtils.PadRightEx("垂直比载g3：", 12) + FileUtils.PadRightEx("横向比载：", 12) + FileUtils.PadRightEx("横向比载g5：", 12)
+                + FileUtils.PadRightEx("垂直荷载：", 12) + FileUtils.PadRightEx("风荷载：", 12) + FileUtils.PadRightEx("应力：", 12) + FileUtils.PadRightEx("应力g：", 12);
+
+
+            rslt.Add(strTitle);
+
+            foreach (var gk in gkList)
             {
                 if (wire.WeatherParas.WeathComm.Where(item => item.Name == gk).Count() <= 0)
                     continue;
 
                 var wea = wire.WeatherParas.WeathComm.Where(item => item.Name == gk).First();
 
-                string str = FileUtils.PadRightEx(gk, 20) + "温度：" + wea.Temperature.ToString().PadRight(4) + "风速：" + wea.IceThickness.ToString().PadRight(4)
-                     + "覆冰：" + wea.IceThickness.ToString().PadRight(4) + "基本风速：" + wea.BaseWindSpeed.ToString().PadRight(4)
-                     + "比载：" + wire.BzDic[gk].BiZai.ToString("e3").PadRight(12) + "比载g7：" + wire.BzDic[gk].g7.ToString("e3").PadRight(12)
-                     + "垂直比载：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12) + "垂直比载g3：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12)
-                     + "横向比载：" + wire.BzDic[gk].HorBizai.ToString("e3").PadRight(12) + "横向比载g5：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12)
-                     + "垂直荷载：" + wire.BzDic[gk].VerHezai.ToString("e3").PadRight(12) + "风荷载：" + wire.BzDic[gk].WindHezai.ToString("e3").PadRight(12)
-                     + "应力：" + wire.YLTable[gk].ToString("e3").PadRight(12) + "应力g：" + wire.YLTable2[gk].ToString("e3").PadRight(12);
+                string str = FileUtils.PadRightEx(gk, 20) + FileUtils.PadRightEx(wea.Temperature.ToString(), 8) + FileUtils.PadRightEx(wea.WindSpeed.ToString(), 8) + FileUtils.PadRightEx(wea.IceThickness.ToString(), 8)
+                    + FileUtils.PadRightEx(wea.BaseWindSpeed.ToString(), 12) + FileUtils.PadRightEx(wire.BzDic[gk].BiZai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g7.ToString("e3"), 12)
+                    + FileUtils.PadRightEx(wire.BzDic[gk].VerBizai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g3.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].HorBizai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g5.ToString("e3"), 12)
+                    + FileUtils.PadRightEx(wire.BzDic[gk].VerHezai.ToString("F3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].WindHezai.ToString("F3"), 12) + FileUtils.PadRightEx(wire.YLTable[gk].ToString("F3"), 12) + FileUtils.PadRightEx(wire.YLTable2[gk].ToString("F3"), 12);
+
+                //string str = FileUtils.PadRightEx(gk, 20) + "温度：" + wea.Temperature.ToString().PadRight(4) + "风速：" + wea.WindSpeed.ToString().PadRight(4)
+                //     + "覆冰：" + wea.IceThickness.ToString().PadRight(4) + "基本风速：" + wea.BaseWindSpeed.ToString().PadRight(4)
+                //     + "比载：" + wire.BzDic[gk].BiZai.ToString("e3").PadRight(12) + "比载g7：" + wire.BzDic[gk].g7.ToString("e3").PadRight(12)
+                //     + "垂直比载：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12) + "垂直比载g3：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12)
+                //     + "横向比载：" + wire.BzDic[gk].HorBizai.ToString("e3").PadRight(12) + "横向比载g5：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12)
+                //     + "垂直荷载：" + wire.BzDic[gk].VerHezai.ToString("e3").PadRight(12) + "风荷载：" + wire.BzDic[gk].WindHezai.ToString("e3").PadRight(12)
+                //     + "应力：" + wire.YLTable[gk].ToString("e3").PadRight(12) + "应力g：" + wire.YLTable2[gk].ToString("e3").PadRight(12);
                 rslt.Add(str);
             }
             

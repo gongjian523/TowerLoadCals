@@ -170,8 +170,6 @@ namespace TowerLoadCals.BLL.Electric
             WeatherParas = XmlUtils.Clone(weaData);
             CommParas = coePara;
             SideParas = sideParas;
-
-
         }
 
         /// <summary>
@@ -389,7 +387,7 @@ namespace TowerLoadCals.BLL.Electric
         public void UpdateWeaForCals(double angle)
         {
             double aveHei = bGrd == 0 ? CommParas.IndAveHei : CommParas.GrdAveHei;
-            WeatherParas.ConverWind(CommParas.IndAveHei, CommParas.TerType);
+            WeatherParas.ConverWind(aveHei, CommParas.TerType);
 
             // 如果是地线计算，增加地线覆冰工况
             if (bGrd > 0)
@@ -401,10 +399,10 @@ namespace TowerLoadCals.BLL.Electric
             //现在还还不知道角度参数从哪里保存而来
             WeatherParas.ConverWind45(angle);
 
-            WeatherParas.AddUnevenIceGK(bGrd, Dia, CommParas.UnbaIceCoverPerMax, CommParas.UnbaIceCoverPerMin);
-
             //另一个覆冰对应的是Excel的基础数据B79，里面的是字符串“考虑断线覆冰率” “考虑断线覆冰率”
             WeatherParas.AddBreakGK(bGrd, CommParas.GrdIceUnbaPara, Dia, CommParas.BreakIceCoverPer, CommParas.BreakIceCoverPer);
+
+            WeatherParas.AddUnevenIceGK(bGrd, Dia, CommParas.UnbaIceCoverPerMax, CommParas.UnbaIceCoverPerMin);
 
             //增加荷载计算中需要的工况：
             WeatherParas.AddOtherGk();
