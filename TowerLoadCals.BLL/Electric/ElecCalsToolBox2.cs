@@ -15,19 +15,16 @@ namespace TowerLoadCals.BLL.Electric
         {
             double Usc, a, BB;
 
-            if (b > 0)
-            {
-                Usc = 1.2f;
+            if (b > 0){
+                Usc = 1.2;
             }
             else
             {
-                if (d < 17)
-                {
-                    Usc = 1.2f;
+                if (d < 17){
+                    Usc = 1.2;
                 }
-                else
-                {
-                    Usc = 1.1f;
+                else{
+                    Usc = 1.1;
                 }
             }
 
@@ -35,38 +32,38 @@ namespace TowerLoadCals.BLL.Electric
                 a = 1;
             }
             else if (VBase >= 20 && VBase < 27) {
-                a = 0.85f;
+                a = 0.85;
             }
             else if (VBase >= 27 && VBase < 31.5) {
-                a = 0.75f;
+                a = 0.75;
             }
             else {
                 //else if (VBase >= 31.5) {
-                a = 0.7f;
+                a = 0.7;
             }
 
 
             BB = 1;
             if (b < 10 && b >= 5) {
-                BB = 1.1f;
+                BB = 1.1;
             }
             else if (b < 15 && b >= 10) {
-                BB = 1.2f;
+                BB = 1.2;
             }
             else if (b < 20 && b >= 15) {
-                BB = 1.3f;
+                BB = 1.3;
             }
             else if (b < 30 && b >= 20) {
-                BB = 1.5f;
+                BB = 1.5;
             }
             else if (b < 50 && b >= 30) {
-                BB = 1.8f;
+                BB = 1.8;
             }
             else if (b >= 50) {
-                BB = 2f;
+                BB = 2;
             }
 
-            double BiZai = (double)(Math.Pow((Q / S + 2.82743334 * b * (d + b) / S), 2) + Math.Pow(Math.Pow((a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / S * BB / 9.80665), 2), (1 / 2)));
+            double BiZai = Math.Pow((Q / S + 2.82743334 * b * (d + b) / S), 2) + Math.Pow(Math.Pow((a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / S * BB / 9.80665), 2), (1 / 2));
             //BiZai = ((Q / S + 2.82743334 * b * (d + b) / S) ^ 2 + (a * Usc * (d + 2 * b) * v ^ 2 / 16 / S * BB) ^ 2) ^ (1 / 2)
             return BiZai;
         }
@@ -78,10 +75,10 @@ namespace TowerLoadCals.BLL.Electric
             int i, LinShiJi;
             double LinShiV;
 
-            VMax[0] = (double)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g1, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T1));
-            VMax[1] = (double)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g2, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T2));
-            VMax[2] = (double)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g3, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T3));
-            VMax[3] = (double)(e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g4, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T4));
+            VMax[0] = e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g1, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T1);
+            VMax[1] = e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g2, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T2);
+            VMax[2] = e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g3, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T3);
+            VMax[3] = e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g4, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T4);
 
             LinShiV = VMax[0];
             LinShiJi = 0;
@@ -111,10 +108,10 @@ namespace TowerLoadCals.BLL.Electric
         public static double spr3(double yuanValue)
         {
             if (yuanValue < 0) {
-                return ((double)-Math.Pow((-yuanValue), (1 / 3)));
+                return -Math.Pow(-yuanValue, 1/3);
             }
             else {
-                return ((double)Math.Pow((yuanValue), (1 / 3)));
+                return Math.Pow(yuanValue, 1/3);
             }
         }
 
@@ -126,34 +123,34 @@ namespace TowerLoadCals.BLL.Electric
             double dt;
 
             //'x^3+a*x^2+b=0
-            a = (double)(Math.Pow(l, 2) * Math.Pow(GM, 2) * e / 24 / Math.Pow(StressM, 2) - StressM - aa * e * (tM - tN));
-            b = (double)(Math.Pow(l, 2) * Math.Pow(gN, 2) * e / 24);
-            aD = (double)(Math.Pow(b, 2) / 4 - b * Math.Pow(a, 3) / 27);
-            bD = (double)(b / 2 - Math.Pow(a, 3) / 27);
+            a = Math.Pow(l, 2) * Math.Pow(GM, 2) * e / 24 / Math.Pow(StressM, 2) - StressM - aa * e * (tM - tN);
+            b = Math.Pow(l, 2) * Math.Pow(gN, 2) * e / 24;
+            aD = Math.Pow(b, 2) / 4 - b * Math.Pow(a, 3) / 27;
+            bD = b / 2 - Math.Pow(a, 3) / 27;
 
             if (aD >= 0) {
-                return (double)(spr3((double)(bD + Math.Pow(aD, 0.5)) + spr3((double)(bD - Math.Pow(aD, 0.5)) - a / 3)));
+                return (spr3((bD + Math.Pow(aD, 0.5)) + spr3((bD - Math.Pow(aD, 0.5)) - a / 3)));
             }
-
             else {
                 if (bD > 0) {
-                    dt = (double)Math.Atan(Math.Pow((-aD), 0.5) / bD);
+                    dt = Math.Atan(Math.Pow((-aD), 0.5) / bD);
                 }
                 else if (bD == 0) {
-                    dt = (double)Math.PI / 2;
+                    dt = Math.PI / 2;
                 }
-                else
-                    //if (bD < 0) {
-                    dt = (double)(Math.PI + Math.Atan(Math.Pow((-aD), 0.5) / bD));
+                else { 
+                //if (bD < 0) {
+                    dt = (Math.PI + Math.Atan(Math.Pow((-aD), 0.5) / bD));
+                }
             }
-            return (double)(a / 3 * (2 * Math.Cos(dt / 3) - 1));
+            return (a / 3 * (2 * Math.Cos(dt / 3) - 1));
         }
     
         //垂直荷载铁塔计算
         //Weight(1e-3 kg/m/mm2),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm)  s截面积(mm2)
         public static double Weight(double Q, double d, double b)
         {
-            return (double)(Q + 2.82743334 * b * (d + b));
+            return Q + 2.82743334 * b * (d + b);
         }
 
         //风荷载铁塔计算
@@ -174,7 +171,6 @@ namespace TowerLoadCals.BLL.Electric
                 }
             }
 
-
             if( VBase< 20 ){
                 a = 1;
             }
@@ -188,7 +184,6 @@ namespace TowerLoadCals.BLL.Electric
             //else if( VBase >= 31.5 ){
                 a = 0.7f;
             }
-
 
             BB = 1;
             if( b< 9.99 && b >= 5 ){
@@ -230,7 +225,7 @@ namespace TowerLoadCals.BLL.Electric
                 Bc = 1;
             }
 
-            return (double)(Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB);
+            return Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB;
             //WindPa = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
         }
 
@@ -286,7 +281,7 @@ namespace TowerLoadCals.BLL.Electric
                 BB = 2;
             }
 
-            return (double)(a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB / S);
+            return a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB / S;
            //BiZaiH = a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB / S
         }
 
@@ -317,7 +312,7 @@ namespace TowerLoadCals.BLL.Electric
         //风压系数
         public static double KWindValue(double HBase, double HWind, double KWind)
         {
-            return (double)Math.Pow((HWind / HBase), (KWind * 2));
+            return Math.Pow(HWind/HBase, KWind * 2);
         }
 
         //串风压kg/m
@@ -344,7 +339,7 @@ namespace TowerLoadCals.BLL.Electric
                 BB = 2;
             }
 
-            return (double)(BB * 0.04 * (DLPN * LS + MN) * Math.Pow(v, 2) / 1.6 / 9.80665);
+            return BB * 0.04 * (DLPN * LS + MN) * Math.Pow(v, 2) / 1.6 / 9.80665;
         }
 
         //串风压字符串
@@ -451,7 +446,7 @@ namespace TowerLoadCals.BLL.Electric
                 Bc = 1;
             }
 
-            return (double)(Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB);
+            return Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB;
             //WindPaT = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
         }
 

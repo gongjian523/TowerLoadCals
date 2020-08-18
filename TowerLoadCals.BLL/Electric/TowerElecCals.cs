@@ -255,6 +255,8 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double DnJumpSupMuz { get; set; }
 
+        public virtual string TowerType { get; set; }
+
         public TowerElecCals()
         {
             FrontPosRes = new ElecCalsTowerPosStr();

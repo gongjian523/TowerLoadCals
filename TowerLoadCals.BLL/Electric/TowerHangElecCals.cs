@@ -4,6 +4,8 @@ namespace TowerLoadCals.BLL.Electric
 {
     public class TowerHangElecCals : TowerElecCals
     {
+        public override  string TowerType { get { return "悬垂塔"; } }
+
         public TowerHangElecCals()
         {
             

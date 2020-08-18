@@ -5,6 +5,8 @@ namespace TowerLoadCals.BLL.Electric
 {
     public class TowerStrainElecCals:TowerElecCals
     {
+        public override string TowerType { get { return "耐张塔"; } }
+
         public TowerStrainElecCals()
         {
             
@@ -19,8 +21,8 @@ namespace TowerLoadCals.BLL.Electric
         {
             BackSideRes = XmlUtils.Clone(BackSideResSor);
             FrontSideRes = XmlUtils.Clone(FrontSideResSor);
-            BackSideRes.FlashWireData(BackPosRes.DRepresentSpan, AngelofApplication);
-            FrontSideRes.FlashWireData(FrontPosRes.DRepresentSpan, AngelofApplication);
+            BackSideRes.FlashWireData(TowerType, BackPosRes.DRepresentSpan, AngelofApplication);
+            FrontSideRes.FlashWireData(TowerType, FrontPosRes.DRepresentSpan, AngelofApplication);
 
             PhaseTraList[0].WrieData = PhaseTraList[1].WrieData = PhaseTraList[2].WrieData = BackSideRes.IndWire;
             PhaseTraList[5].WrieData = PhaseTraList[6].WrieData = PhaseTraList[7].WrieData = FrontSideRes.IndWire;

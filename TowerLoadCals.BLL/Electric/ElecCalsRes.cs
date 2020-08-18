@@ -46,46 +46,9 @@ namespace TowerLoadCals.BLL.Electric
         public ElecCalsCommRes CommParas { get; set; }
 
         /// <summary>
-        /// 大号侧断线张力系数-导线
+        /// 冰区类型：轻冰区，中冰区，重冰区
         /// </summary>
-        public double IndBreMaxPara { get; set; }
-
-        /// <summary>
-        /// 大号侧断线张力系数-地线
-        /// </summary>
-        public double GrdBreMaxPara { get; set; }
-
-
-        /// <summary>
-        /// 小号侧断线张力系数-导线
-        /// </summary>
-        public double IndBreMinPara { get; set; }
-
-        /// <summary>
-        /// 小号侧断线张力系数-地线
-        /// </summary>
-        public double GrdBreMinPara { get; set; }
-
-        /// <summary>
-        /// 大号侧不均匀冰张力系数-导线
-        /// </summary>
-        public double IndUnbaMaxPara { get; set; }
-
-        /// <summary>
-        /// 大号侧不均匀冰张力系数-地线
-        /// </summary>
-        public double GrdUnbaMaxPara { get; set; }
-
-
-        /// <summary>
-        /// 小号不均匀冰线张力系数-导线
-        /// </summary>
-        public double IndUnbaMinPara { get; set; }
-
-        /// <summary>
-        /// 小号不均匀冰线张力系数-地线
-        /// </summary>
-        public double GrdUnbaMinPara { get; set; }
+        public string IceArea { get; set;}
 
         /// <summary>
         /// 配置计算数据,并刷新导线相关参数等
@@ -97,7 +60,8 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="JumWireSor"></param>
         /// <param name="SideParaSor"></param>
         /// <param name="ComParaSor"></param>
-        public void UpdataSor(ElecCalsWeaRes WeathSor, ElecCalsWire IndWireSor, ElecCalsWire GrdWireSor, ElecCalsWire OPGWWrieSor, ElecCalsWire JumWireSor, SideCalUtils SideParaSor, ElecCalsCommRes ComParaSor)
+        public void UpdataSor(ElecCalsWeaRes WeathSor, ElecCalsWire IndWireSor, ElecCalsWire GrdWireSor, ElecCalsWire OPGWWrieSor, 
+            ElecCalsWire JumWireSor, SideCalUtils SideParaSor, ElecCalsCommRes ComParaSor)
         {
             Weather = XmlUtils.Clone(WeathSor);
             IndWire = XmlUtils.Clone(IndWireSor);
@@ -112,19 +76,19 @@ namespace TowerLoadCals.BLL.Electric
         /// 刷新导地线计算
         /// </summary>
         /// <param name="spanVal"></param>
-        public void FlashWireData(double spanVal, double angle)
+        public void FlashWireData(string towerType, double spanVal, double angle)
         {
-            IndWire.UpdataPara(Weather, CommParas, SideParas);
+            IndWire.UpdataPara(Weather, CommParas, SideParas, towerType, IceArea);
             IndWire.UpdateWeaForCals(angle);
             IndWire.CalBZ();
             IndWire.SaveYLTabel(spanVal);
 
-            GrdWire.UpdataPara(Weather, CommParas, SideParas);
+            GrdWire.UpdataPara(Weather, CommParas, SideParas, towerType, IceArea);
             GrdWire.UpdateWeaForCals(angle);
             GrdWire.CalBZ();
             GrdWire.SaveYLTabel(spanVal);
 
-            OPGWWire.UpdataPara(Weather, CommParas, SideParas);
+            OPGWWire.UpdataPara(Weather, CommParas, SideParas, towerType, IceArea);
             OPGWWire.UpdateWeaForCals(angle);
             OPGWWire.CalBZ();
             OPGWWire.SaveYLTabel(spanVal);
@@ -134,9 +98,9 @@ namespace TowerLoadCals.BLL.Electric
         ///  刷新跳线计算
         /// </summary>
         /// <param name="spanVal"></param>
-        public void FlashJumWireData(double spanVal, double angle)
+        public void FlashJumWireData(string towerType, double spanVal, double angle)
         {
-            JumWire.UpdataPara(Weather, CommParas, SideParas);
+            JumWire.UpdataPara(Weather, CommParas, SideParas, towerType, IceArea);
             JumWire.UpdateWeaForCals(angle);
             JumWire.CalBZ();
             JumWire.SaveYLTabel(spanVal);
@@ -162,7 +126,7 @@ namespace TowerLoadCals.BLL.Electric
         {
             List<string> rslt = new List<string>();
 
-            string strTitle = FileUtils.PadRightEx("气象条件", 20) + FileUtils.PadRightEx("温度：", 8) + FileUtils.PadRightEx("风速：", 8) + FileUtils.PadRightEx("覆冰：", 8)
+            string strTitle = FileUtils.PadRightEx("气象条件", 26) + FileUtils.PadRightEx("温度：", 8) + FileUtils.PadRightEx("风速：", 8) + FileUtils.PadRightEx("覆冰：", 8)
                 + FileUtils.PadRightEx("基本风速：", 12) + FileUtils.PadRightEx("比载：", 12) + FileUtils.PadRightEx("比载g7：", 12)
                 + FileUtils.PadRightEx("垂直比载：", 12) + FileUtils.PadRightEx("垂直比载g3：", 12) + FileUtils.PadRightEx("横向比载：", 12) + FileUtils.PadRightEx("横向比载g5：", 12)
                 + FileUtils.PadRightEx("垂直荷载：", 12) + FileUtils.PadRightEx("风荷载：", 12) + FileUtils.PadRightEx("应力：", 12) + FileUtils.PadRightEx("应力g：", 12);
@@ -177,23 +141,34 @@ namespace TowerLoadCals.BLL.Electric
 
                 var wea = wire.WeatherParas.WeathComm.Where(item => item.Name == gk).First();
 
-                string str = FileUtils.PadRightEx(gk, 20) + FileUtils.PadRightEx(wea.Temperature.ToString(), 8) + FileUtils.PadRightEx(wea.WindSpeed.ToString(), 8) + FileUtils.PadRightEx(wea.IceThickness.ToString(), 8)
+                string str = FileUtils.PadRightEx(gk, 26) + FileUtils.PadRightEx(wea.Temperature.ToString(), 8) + FileUtils.PadRightEx(wea.WindSpeed.ToString(), 8) + FileUtils.PadRightEx(wea.IceThickness.ToString(), 8)
                     + FileUtils.PadRightEx(wea.BaseWindSpeed.ToString(), 12) + FileUtils.PadRightEx(wire.BzDic[gk].BiZai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g7.ToString("e3"), 12)
                     + FileUtils.PadRightEx(wire.BzDic[gk].VerBizai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g3.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].HorBizai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g5.ToString("e3"), 12)
-                    + FileUtils.PadRightEx(wire.BzDic[gk].VerHezai.ToString("F3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].WindHezai.ToString("F3"), 12) + FileUtils.PadRightEx(wire.YLTable[gk].ToString("F3"), 12) + FileUtils.PadRightEx(wire.YLTable2[gk].ToString("F3"), 12);
+                    + FileUtils.PadRightEx(wire.BzDic[gk].VerHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].WindHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.YLTable[gk].ToString("F3"), 12) + FileUtils.PadRightEx(wire.YLTable2[gk].ToString("0.000"), 12);
 
-                //string str = FileUtils.PadRightEx(gk, 20) + "温度：" + wea.Temperature.ToString().PadRight(4) + "风速：" + wea.WindSpeed.ToString().PadRight(4)
-                //     + "覆冰：" + wea.IceThickness.ToString().PadRight(4) + "基本风速：" + wea.BaseWindSpeed.ToString().PadRight(4)
-                //     + "比载：" + wire.BzDic[gk].BiZai.ToString("e3").PadRight(12) + "比载g7：" + wire.BzDic[gk].g7.ToString("e3").PadRight(12)
-                //     + "垂直比载：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12) + "垂直比载g3：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12)
-                //     + "横向比载：" + wire.BzDic[gk].HorBizai.ToString("e3").PadRight(12) + "横向比载g5：" + wire.BzDic[gk].VerBizai.ToString("e3").PadRight(12)
-                //     + "垂直荷载：" + wire.BzDic[gk].VerHezai.ToString("e3").PadRight(12) + "风荷载：" + wire.BzDic[gk].WindHezai.ToString("e3").PadRight(12)
-                //     + "应力：" + wire.YLTable[gk].ToString("e3").PadRight(12) + "应力g：" + wire.YLTable2[gk].ToString("e3").PadRight(12);
                 rslt.Add(str);
             }
             
             return rslt;
+        }
 
+        public List<string> PrintTension()
+        {
+            List<string> logStrs = new List<string>();
+
+            string str = FileUtils.PadRightEx(" ", 6) + FileUtils.PadRightEx("断线张力系数 ", 16) + FileUtils.PadRightEx("不平衡冰张力系数 ", 16);
+            logStrs.Add(str);
+
+            string strInd = FileUtils.PadRightEx("导线 ", 6) + FileUtils.PadRightEx(IndWire.BreakTensionPara.ToString("0.00"), 16) + FileUtils.PadRightEx(IndWire.UnbaTensionPara.ToString("0.00"), 16);
+            logStrs.Add(strInd);
+
+            string strGrd = FileUtils.PadRightEx("地线 ", 6) + FileUtils.PadRightEx(GrdWire.BreakTensionPara.ToString("0.00"), 16) + FileUtils.PadRightEx(GrdWire.UnbaTensionPara.ToString("0.00"), 16);
+            logStrs.Add(strGrd);
+
+            string strOPGW = FileUtils.PadRightEx("OPGW ", 6) + FileUtils.PadRightEx(OPGWWire.BreakTensionPara.ToString("0.00"), 16) + FileUtils.PadRightEx(OPGWWire.UnbaTensionPara.ToString("0.00"), 16);
+            logStrs.Add(strOPGW);
+
+            return logStrs;
         }
 
     }

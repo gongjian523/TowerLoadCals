@@ -14,6 +14,14 @@ namespace TowerLoadCals.Mode.Electric
         [XmlArrayItem("分类信息")]
         public List<ElecCalsCateSpec> Category { get; set; }
 
+        //后期需要改成从xml里面读取
+        [XmlIgnore]
+        public double BreakTemp { get { return -5; } }
+
+        //后期需要改成从xml里面读取
+        [XmlIgnore]
+        public double BreakWind { get { return 0; } }
+
         [XmlArray("断张力")]
         [XmlArrayItem("断张力详情")]
         public List<ElecCalsBreakWireSpec> BreakWireStress { get; set; }
@@ -21,6 +29,13 @@ namespace TowerLoadCals.Mode.Electric
         [XmlArray("断线覆冰")]
         [XmlArrayItem("断线覆冰率")]
         public List<ElecCalsBreakIceSpec> BreakIceRate { get; set; }
+
+        //后期需要改成从xml里面读取
+        [XmlIgnore]
+        public double UnevenIceTemp { get { return -5; } }
+        //后期需要改成从xml里面读取
+        [XmlIgnore]
+        public double UnevenIceWind { get { return 10; } }
 
         [XmlArray("不平衡张力")]
         [XmlArrayItem("不平衡张力详情")]
