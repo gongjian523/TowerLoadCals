@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.BLL.Electric
 {
-    public class SideCalUtils
+    public class ElecCalsSideRes
     {
         /// <summary>
         /// 导线有效系数
@@ -68,19 +68,19 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double OPGWMaxFor { get; set; }
 
-        public SideCalUtils()
+        public ElecCalsSideRes()
         {
 
         }
 
-        public SideCalUtils(double indEffectPara=2.5f, double indSafePara= 2.5f, double indAnPara= 0.25f, double grdEffectPara = 4, double grdSafePara= 4, double grdAnPara= 0.25f,
-            double opgwEffectPara=4, double opgwSafePara = 4, double opgwAnPara= 0.2f)
+        public ElecCalsSideRes(double indEffectPara=2.5, double indSafePara= 2.5, double indAnPara= 0.25, double grdEffectPara = 4, double grdSafePara= 4, double grdAnPara= 0.25,
+            double opgwEffectPara=4, double opgwSafePara = 4, double opgwAnPara= 0.2)
         {
-            IndEffectPara = indAnPara;
+            IndEffectPara = indEffectPara;
             IndSafePara = indSafePara; 
             IndAnPara = indAnPara;
 
-            GrdEffectPara = GrdEffectPara;
+            GrdEffectPara = grdEffectPara;
             GrdSafePara = grdSafePara;  
             GrdAnPara = grdAnPara;
 

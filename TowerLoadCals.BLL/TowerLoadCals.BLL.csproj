@@ -66,7 +66,7 @@
     <Compile Include="Electric\LoadThrDeUtils.cs" />
     <Compile Include="Electric\PhaseSpaceStrUtils.cs" />
     <Compile Include="Electric\PntInTower.cs" />
-    <Compile Include="Electric\SideCalUtils.cs" />
+    <Compile Include="Electric\ElecCalsSideRes.cs" />
     <Compile Include="Electric\SpanFitUtils.cs" />
     <Compile Include="Electric\StrDataUtils.cs" />
     <Compile Include="Electric\ElecCalsStressPhaseStr.cs" />

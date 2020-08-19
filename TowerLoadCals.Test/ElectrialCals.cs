@@ -27,9 +27,9 @@ namespace TowerLoadCals.Test
             pro.VoltStr = "500kV";
             pro.ACorDC = 0;
 
-            ElecCalsWire DxData = new ElecCalsWire("JL/G1A-630/45", 1, 674, 33.8, 2079, 63000, 20.9, 150450, 0, 25,4);
-            ElecCalsWire GrdData = new ElecCalsWire( "JLB20A-120", 2, 121.21, 14.25, 810, 147200, 13, 146180, 1, 10);
-            ElecCalsWire OPGWData = new ElecCalsWire("OPGW-15-120-1", 3, 120, 15.2, 832, 162000, 13, 147000, 2, 10);
+            ElecCalsWire DxData = new ElecCalsWire("JL/G1A-630/45", 1, 674, 33.8, 2079, 63000, 6424,20.9, 150450, 0, 25,4);
+            ElecCalsWire GrdData = new ElecCalsWire( "JLB20A-120", 2, 121.21, 14.25, 810, 147200, 15100, 13, 146180, 1, 10);
+            ElecCalsWire OPGWData = new ElecCalsWire("OPGW-15-120-1", 3, 120, 15.2, 832, 162000, 16519,13, 147000, 2, 10);
 
             ElecCalsWeaRes OneWeath15 = new ElecCalsWeaRes("15mm27m/s", 1);
             ElecCalsWeaRes AnoWeath15 = new ElecCalsWeaRes("15mm27m/s", 2);
@@ -199,8 +199,8 @@ namespace TowerLoadCals.Test
             commParas.SetOverDrive(0,0);
             commParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
 
-            SideCalUtils OneWrieSidePara = new SideCalUtils(0.95, 2.85, 25, 1, 4.1, 20, 1, 4.1, 20);
-            SideCalUtils AnoWrieSidePara = new SideCalUtils(0.9, 2.85f, 25, 1, 4.1, 20, 1, 4.1, 20);
+            ElecCalsSideRes OneWrieSidePara = new ElecCalsSideRes(0.95, 2.85, 25, 1, 4.1, 20, 1, 4.1, 20);
+            ElecCalsSideRes AnoWrieSidePara = new ElecCalsSideRes(0.95, 2.8, 25, 1, 4.1, 20, 1, 4.1, 20);
 
             TowerStrainElecCals BackTower = new TowerStrainElecCals();
             TowerStrainElecCals CalTower = new TowerStrainElecCals();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TowerLoadCals.Common;
 using TowerLoadCals.Common.Utils;
+using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL.Electric
@@ -82,6 +83,21 @@ namespace TowerLoadCals.BLL.Electric
         public double AvaYL { get; set; }
 
         /// <summary>
+        /// 控制工况名字，中间变量，主要为了做输出
+        /// </summary>
+        public string CtrlGkName { get; set; }
+
+        /// <summary>
+        /// 控制工况，中间变量，主要为了做输出
+        /// </summary>
+        public ElecCalsWorkCondition CtrlGk { get; set; }
+
+        /// <summary>
+        /// 控制工况应力，中间变量，主要为了做输出
+        /// </summary>
+        public double CtrlGkStress { get; set; }
+
+        /// <summary>
         /// 比载字典
         /// </summary>
         [XmlIgnore]
@@ -113,7 +129,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 
         /// </summary>
-        public SideCalUtils SideParas { get; set; }
+        public ElecCalsSideRes SideParas { get; set; }
 
         [XmlIgnore]
         public Dictionary<string, double>  YLTable { get; set; }
@@ -152,7 +168,7 @@ namespace TowerLoadCals.BLL.Electric
         {
         }
 
-        public ElecCalsWire(string name = "", int id = 0, double sec = 0, double dia = 0, double wei = 0, double elas = 0, 
+        public ElecCalsWire(string name = "", int id = 0, double sec = 0, double dia = 0, double wei = 0, double elas = 0, double elasM = 0,
             double coef = 0, double fore = 0, int grd = 0, double decrTem = 0, int devide = 0)
         {
             ID = id;
@@ -161,7 +177,8 @@ namespace TowerLoadCals.BLL.Electric
             Dia = dia;
             Wei = wei / 1000;
             Elas = elas;
-            Coef = (double)(coef * 1e-6);
+            ElasM = elasM;
+            Coef = coef * 1e-6;
             Fore = fore;
             bGrd = grd;
             DecrTem = decrTem;
@@ -176,7 +193,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="weaData"></param>
         /// <param name="commPara">通用系数</param>
         /// <param name="wirePara">导线参数</param>
-        public void UpdataPara(ElecCalsWeaRes weaData, ElecCalsCommRes commPara, SideCalUtils sideParas, string towerType, string iceArea)
+        public void UpdataPara(ElecCalsWeaRes weaData, ElecCalsCommRes commPara, ElecCalsSideRes sideParas, string towerType, string iceArea)
         {
             WeatherParas = XmlUtils.Clone(weaData);
             CommParas = commPara;
@@ -248,9 +265,14 @@ namespace TowerLoadCals.BLL.Electric
             //g1为统一值
             Comg1 = Wei * graAcc / Sec;
 
+            List<string> wkCdts = bGrd == 0 ? WeatherParas.NameOfWkCalsInd : WeatherParas.NameOfWkCalsGrd;
+
+            //foreach(var wkCdt in wkCdts)
             foreach(var weaItem in WeatherParas.WeathComm)
             {
-                if(CalType == 1)
+                //var weaItem = WeatherParas.WeathComm.Where(item => item.Name == wkCdt).First();
+
+                if (CalType == 1)
                 {
                     BZResult bz = new BZResult();
 
@@ -286,18 +308,18 @@ namespace TowerLoadCals.BLL.Electric
                     // Usc系数不区分覆冰与不覆冰
                     double usc = ElecCalsToolBox.WindEpson(iceVal, Dia);
                     //横向比载
-                    double g4 = (double)(0.625 * Math.Pow(winVal, 2) * Dia * alpha * usc * 1e-3 / Sec);
+                    double g4 = 0.625 * Math.Pow(winVal, 2) * Dia * alpha * usc * 1e-3 / Sec;
                     bz.g4 = g4;
 
                     //在覆冰计算中，计入覆冰增大系数
                     double bex = ElecCalsToolBox.WindLoadEnlargeCoe(iceVal);
-                    double g5 = (double)(0.625 * Math.Pow(winVal, 2) * (Dia + 2 * iceVal) * alpha * usc * bex * 1e-3 / Sec);
+                    double g5 = 0.625 * Math.Pow(winVal, 2) * (Dia + 2 * iceVal) * alpha * usc * bex * 1e-3 / Sec;
                     bz.g5 = g5;
 
-                    double g6 = (double)Math.Sqrt(Math.Pow(Comg1,2) + Math.Pow(g4, 2));
+                    double g6 = Math.Sqrt(Math.Pow(Comg1,2) + Math.Pow(g4, 2));
                     bz.g6 = g6;
 
-                    double g7 = (double)Math.Sqrt(Math.Pow(g3, 2) + Math.Pow(g5, 2));
+                    double g7 = Math.Sqrt(Math.Pow(g3, 2) + Math.Pow(g5, 2));
                     bz.g7 = g7;
 
                     //按照Excel的算法
@@ -338,7 +360,13 @@ namespace TowerLoadCals.BLL.Electric
                 //OPGW安全系数
                 OPGWSafePara = SideParas.OPGWSafePara;
                 //OPGW年均系数 
-                OPGWAnPara = SideParas.OPGWAnPara;     
+                OPGWAnPara = SideParas.OPGWAnPara;
+
+                EffectPara = SideParas.OPGWEffectPara;
+                //OPGW安全系数
+                SafePara = SideParas.OPGWSafePara;
+                //OPGW年均系数 
+                AvePara = SideParas.OPGWAnPara;
             }
 
             //最大允许应力   
@@ -346,29 +374,25 @@ namespace TowerLoadCals.BLL.Electric
             //年均应力
             var avePerFor = Fore * CommParas.NewPerPara * AvePara / Sec;
 
-            var maxWindWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "最大风速").First();
+            var maxWindWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "换算最大风速").First();
             var minTempWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "最低气温").First();
             var maxIceWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "最大覆冰").First();
             var aveTempWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "平均气温").First();
 
 
-            // 需要确认Fore 是不是计算破断力N  这两个参数和上面两个参数是不是一回事
-            CtrlYL = (double)Math.Round(Fore / Sec / 9.80665 * EffectPara / SafePara, 3);
-            AvaYL = (double)Math.Round(Fore / Sec / 9.80665 * EffectPara * AvePara / 100, 3);
+            CtrlYL = Math.Round(Fore / Sec / 9.80665 * EffectPara / SafePara, 3);
+            AvaYL = Math.Round(Fore / Sec / 9.80665 * EffectPara * AvePara / 100, 3);
 
-            string ctrWdCdtName = ElecCalsToolBox2.LiMax(BzDic["最大风速"].BiZai, BzDic["最低气温"].BiZai, BzDic["最大覆冰"].BiZai, BzDic["平均气温"].BiZai,
-                maxWindWkCdt.Name, minTempWkCdt.Name, maxIceWkCdt.Name, aveTempWkCdt.Name, span, (double)(ElasM * 9.8065),
+            CtrlGkName = ElecCalsToolBox2.LiMax(BzDic["换算最大风速"].BiZai, BzDic["最低气温"].BiZai, BzDic["最大覆冰"].BiZai, BzDic["平均气温"].BiZai,
+                maxWindWkCdt.Name, minTempWkCdt.Name, maxIceWkCdt.Name, aveTempWkCdt.Name, span, ElasM * 9.8065,
                 CtrlYL, AvaYL, Coef, maxWindWkCdt.Temperature, minTempWkCdt.Temperature, maxIceWkCdt.Temperature, aveTempWkCdt.Temperature);
-
-            double ctrWdtStress = ctrWdCdtName == "平均气温" ? AvaYL : CtrlYL;
-
-            var ctrlWkCdt = WeatherParas.WeathComm.Where(item => item.Name == ctrWdCdtName).First();
-
+            CtrlGkStress = CtrlGkName == "平均气温" ? AvaYL : CtrlYL;
+            CtrlGk = WeatherParas.WeathComm.Where(item => item.Name == CtrlGkName).First();
 
             Dictionary<string, double> ForDic2 = new Dictionary<string, double>();
             foreach (var wd in WeatherParas.WeathComm)
             {
-                double stress = ElecCalsToolBox2.StressNew(ctrWdtStress, BzDic[ctrWdCdtName].BiZai, ctrlWkCdt.Temperature,ElasM, Coef, span, BzDic[wd.Name].BiZai, wd.Temperature);
+                double stress = ElecCalsToolBox2.StressNew(CtrlGkStress, BzDic[CtrlGkName].BiZai, CtrlGk.Temperature,ElasM, Coef, span, BzDic[wd.Name].BiZai, wd.Temperature);
                 ForDic2.Add(wd.Name, stress);
             }
             YLTable2 = ForDic2;
@@ -413,12 +437,12 @@ namespace TowerLoadCals.BLL.Electric
                 double calBz = BzDic[wd.Name].g6;
                 double temVal = WeatherParas.WeathComm.Where(item => item.Name == wd.Name).First().Temperature;
                 double temA = CtrFm + Coef * Elas * temVal;
-                double temB = (double)(Elas * Math.Pow(calBz, 2) * Math.Pow(span, 2)) / 24;
+                double temB = Elas * Math.Pow(calBz, 2) * Math.Pow(span, 2) / 24;
                 double calFor = ElecCalsToolBox.caculateCurDelta(temA, temB);
                 ForDic.Add(wd.Name, calFor);
             }
 
-            return ForDic2;
+            return ForDic;
         }
 
         public void UpdateWeaForCals(double angle)

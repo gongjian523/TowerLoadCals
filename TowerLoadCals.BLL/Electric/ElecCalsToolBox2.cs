@@ -63,7 +63,7 @@ namespace TowerLoadCals.BLL.Electric
                 BB = 2;
             }
 
-            double BiZai = Math.Pow((Q / S + 2.82743334 * b * (d + b) / S), 2) + Math.Pow(Math.Pow((a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / S * BB / 9.80665), 2), (1 / 2));
+            double BiZai = Math.Pow(Math.Pow(Q / S + 2.82743334 * b * (d + b) / S, 2) + Math.Pow(a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / S * BB / 9.80665, 2), 0.5);
             //BiZai = ((Q / S + 2.82743334 * b * (d + b) / S) ^ 2 + (a * Usc * (d + 2 * b) * v ^ 2 / 16 / S * BB) ^ 2) ^ (1 / 2)
             return BiZai;
         }
@@ -108,10 +108,10 @@ namespace TowerLoadCals.BLL.Electric
         public static double spr3(double yuanValue)
         {
             if (yuanValue < 0) {
-                return -Math.Pow(-yuanValue, 1/3);
+                return -Math.Pow(-yuanValue, (double)1/3);
             }
             else {
-                return Math.Pow(yuanValue, 1/3);
+                return Math.Pow(yuanValue, (double)1/3);
             }
         }
 
@@ -129,7 +129,7 @@ namespace TowerLoadCals.BLL.Electric
             bD = b / 2 - Math.Pow(a, 3) / 27;
 
             if (aD >= 0) {
-                return (spr3((bD + Math.Pow(aD, 0.5)) + spr3((bD - Math.Pow(aD, 0.5)) - a / 3)));
+                return spr3(bD + Math.Pow(aD, 0.5)) + spr3(bD - Math.Pow(aD, 0.5)) - a / 3;
             }
             else {
                 if (bD > 0) {
@@ -161,13 +161,13 @@ namespace TowerLoadCals.BLL.Electric
             double Usc;
 
             if (b > 0) {
-                Usc = 1.2f;
+                Usc = 1.2;
             }
             else {
                 if (d < 17) {
-                    Usc = 1.2f; }
+                    Usc = 1.2; }
                 else {
-                    Usc = 1.1f;
+                    Usc = 1.1;
                 }
             }
 
@@ -175,34 +175,33 @@ namespace TowerLoadCals.BLL.Electric
                 a = 1;
             }
             else if( VBase >= 20 && VBase< 27 ){
-                a = 0.85f;
+                a = 0.85;
             }
             else if( VBase >= 27 && VBase< 31.5 ){
-                a = 0.75f;
+                a = 0.75;
             }
             else { 
             //else if( VBase >= 31.5 ){
-                a = 0.7f;
+                a = 0.7;
             }
-
+            
             BB = 1;
             if( b< 9.99 && b >= 5 ){
-                BB = 1.1f;
+                BB = 1.1;
             }
             else if( b< 14.99 && b >= 9.99 ){
-                BB = 1.2f;
+                BB = 1.2;
             }
             else if( b< 19.99 && b >= 14.99 ){
-                BB = 1.3f;
+                BB = 1.3;
             }
             else if( b< 29.99 && b >= 19.99 ){
-                BB = 1.5f;
+                BB = 1.5;
             }
             else if( b< 49.99 && b >= 29.99 ){
-                BB = 1.8f;
+                BB = 1.8;
             }
-            else {
-                //if( b >= 49.99 ){
+            else if( b >= 49.99 ){
                 BB = 2;
             }
 
@@ -211,14 +210,14 @@ namespace TowerLoadCals.BLL.Electric
                     Bc = 1;
                 }
                 else if (VBase >= 20 && VBase < 27) {
-                    Bc = 1.1f;
+                    Bc = 1.1;
                 }
                 else if (VBase >= 27 && VBase < 31.5) {
-                    Bc = 1.2f;
+                    Bc = 1.2;
                 }
                 else {
                     //if( VBase >= 31.5 ){
-                    Bc = 1.3f;
+                    Bc = 1.3;
                 }
             }
             else {
@@ -236,14 +235,14 @@ namespace TowerLoadCals.BLL.Electric
             double Usc, a, BB;
 
             if (b > 0) {
-                Usc = 1.2f;
+                Usc = 1.2;
             }
             else {
                 if (d < 17) {
-                    Usc = 1.2f;
+                    Usc = 1.2;
                 }
                 else {
-                    Usc = 1.1f;
+                    Usc = 1.1;
                 }
             }
 
@@ -251,33 +250,32 @@ namespace TowerLoadCals.BLL.Electric
                 a = 1;
             }
             else if (VBase >= 20 && VBase < 27) {
-                a = 0.85f;
+                a = 0.85;
             }
             else if (VBase >= 27 && VBase < 31.5) {
-                a = 0.75f;
+                a = 0.75;
             }
             else {
-                a = 0.7f;
+                a = 0.7;
             }
 
             BB = 1;
             if (b < 10 && b >= 5) {
-                BB = 1.1f;
+                BB = 1.1;
             }
             else if (b < 15 && b >= 10) {
-                BB = 1.2f;
+                BB = 1.2;
             }
             else if (b < 20 && b >= 15) {
-                BB = 1.3f;
+                BB = 1.3;
             }
             else if (b < 30 && b >= 20) {
-                BB = 1.5f;
+                BB = 1.5;
             }
             else if (b < 50 && b >= 30) {
-                BB = 1.8f;
+                BB = 1.8;
             }
-            else {
-                //if (b >= 50) {
+            else if (b >= 50) {
                 BB = 2;
             }
 
@@ -294,14 +292,14 @@ namespace TowerLoadCals.BLL.Electric
                     return 1;
                 }
                 else if( VBase >= 20 && VBase< 27 ){
-                    return 1.1f;
+                    return 1.1;
                 }
                 else if( VBase >= 27 && VBase< 31.5 ){
-                    return 1.2f;
+                    return 1.2;
                 }
                 else {
                     //if( VBase >= 31.5 ){
-                    return 1.3f;
+                    return 1.3;
                 }
             }
             else {
@@ -321,21 +319,21 @@ namespace TowerLoadCals.BLL.Electric
         {
             double BB = 1;
             if( b< 10 && b >= 5 ){
-                BB = 1.1f;
+                BB = 1.1;
             }
             else if( b < 15 && b >= 10 ){
-                BB = 1.2f;
+                BB = 1.2;
             }
             else if( b < 20 && b >= 15 ){
-                BB = 1.3f;
+                BB = 1.3;
             }
             else if( b < 30 && b >= 20 ){
-                BB = 1.5f;
+                BB = 1.5;
             }
             else if( b < 50 && b >= 30 ){
-                BB = 1.8f;
+                BB = 1.8;
             }
-            else {
+            else if(b >= 50){
                 BB = 2;
             }
 
@@ -348,21 +346,21 @@ namespace TowerLoadCals.BLL.Electric
         { 
             double BB = 1;
             if(b< 10 && b >= 5 ){
-                BB = 1.1f;
+                BB = 1.1;
             }
             else if(b< 15 && b >= 10 ){
-                BB = 1.2f;
+                BB = 1.2;
             }
             else if(b< 20 && b >= 15 ){
-                BB = 1.3f;
+                BB = 1.3;
             }
             else if(b< 30 && b >= 20 ){
-                BB = 1.5f;
+                BB = 1.5;
             }
             else if(b< 50 && b >= 30 ){
-                BB = 1.8f;
+                BB = 1.8;
             }
-            else {
+            else if (b >= 50){
                 BB = 2;
             }
             return BB.ToString() + "*" + (0.04 * (DLPN * LS + MN)).ToString() + "*" + v.ToString() + "^2/1.6/9.80665";
@@ -376,23 +374,23 @@ namespace TowerLoadCals.BLL.Electric
 
             if (b > 0)
             {
-                Usc = 1.2f;
+                Usc = 1.2;
             }
             else
             {
                 if (d < 17)
                 {
-                    Usc = 1.2f;
+                    Usc = 1.2;
                 }
                 else
                 {
-                    Usc = 1.1f;
+                    Usc = 1.1;
                 }
             }
 
             if (VBase > 0) {
                 if (VoL == "1000kV" || VoL == "±800" || VoL == "±1100kV") {
-                    a = 1.2f; }
+                    a = 1.2; }
                 else {
                     a = 1;
                 }
@@ -404,26 +402,25 @@ namespace TowerLoadCals.BLL.Electric
             double BB = 1;
             if (b < 10 && b >= 5)
             {
-                BB = 1.1f;
+                BB = 1.1;
             }
             else if (b < 15 && b >= 10)
             {
-                BB = 1.2f;
+                BB = 1.2;
             }
             else if (b < 20 && b >= 15)
             {
-                BB = 1.3f;
+                BB = 1.3;
             }
             else if (b < 30 && b >= 20)
             {
-                BB = 1.5f;
+                BB = 1.5;
             }
             else if (b < 50 && b >= 30)
             {
-                BB = 1.8f;
+                BB = 1.8;
             }
-            else
-            {
+            else if (b >= 50){
                 BB = 2;
             }
 
@@ -433,13 +430,13 @@ namespace TowerLoadCals.BLL.Electric
                     Bc = 1;
                 }
                 else if (VBase >= 20 && VBase < 27) {
-                    Bc = 1.1f;
+                    Bc = 1.1;
                 }
                 else if (VBase >= 27 && VBase < 31.5) {
-                    Bc = 1.2f;
+                    Bc = 1.2;
                 }
                 else {
-                    Bc = 1.3f;
+                    Bc = 1.3;
                 }
             }
             else {
@@ -459,17 +456,17 @@ namespace TowerLoadCals.BLL.Electric
 
             if (b > 0)
             {
-                Usc = 1.2f;
+                Usc = 1.2;
             }
             else
             {
                 if (d < 17)
                 {
-                    Usc = 1.2f;
+                    Usc = 1.2;
                 }
                 else
                 {
-                    Usc = 1.1f;
+                    Usc = 1.1;
                 }
             }
 
@@ -477,7 +474,7 @@ namespace TowerLoadCals.BLL.Electric
             {
                 if (VoL == "1000kV" || VoL == "±800" || VoL == "±1100kV")
                 {
-                    a = 1.2f;
+                    a = 1.2;
                 }
                 else
                 {
@@ -492,46 +489,42 @@ namespace TowerLoadCals.BLL.Electric
             double BB = 1;
             if (b < 10 && b >= 5)
             {
-                BB = 1.1f;
+                BB = 1.1;
             }
             else if (b < 15 && b >= 10)
             {
-                BB = 1.2f;
+                BB = 1.2;
             }
             else if (b < 20 && b >= 15)
             {
-                BB = 1.3f;
+                BB = 1.3;
             }
             else if (b < 30 && b >= 20)
             {
-                BB = 1.5f;
+                BB = 1.5;
             }
             else if (b < 50 && b >= 30)
             {
-                BB = 1.8f;
+                BB = 1.8;
             }
-            else
+            else if (b >= 50)
             {
                 BB = 2;
             }
 
             if (VoL == "500kV" || VoL == "750kV" || VoL == "1000kV" || VoL == "±500" || VoL == "±800" || VoL == "±1100kV")
             {
-                if (VBase < 20)
-                {
+                if (VBase < 20){
                     Bc = 1;
                 }
-                else if (VBase >= 20 && VBase < 27)
-                {
-                    Bc = 1.1f;
+                else if (VBase >= 20 && VBase < 27){
+                    Bc = 1.1;
                 }
-                else if (VBase >= 27 && VBase < 31.5)
-                {
-                    Bc = 1.2f;
+                else if (VBase >= 27 && VBase < 31.5){
+                    Bc = 1.2;
                 }
-                else
-                {
-                    Bc = 1.3f;
+                else{
+                    Bc = 1.3;
                 }
             }
             else

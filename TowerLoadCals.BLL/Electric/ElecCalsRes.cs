@@ -40,7 +40,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 
         /// </summary>
-        public SideCalUtils SideParas { get; set; }
+        public ElecCalsSideRes SideParas { get; set; }
 
 
         public ElecCalsCommRes CommParas { get; set; }
@@ -61,7 +61,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="SideParaSor"></param>
         /// <param name="ComParaSor"></param>
         public void UpdataSor(ElecCalsWeaRes WeathSor, ElecCalsWire IndWireSor, ElecCalsWire GrdWireSor, ElecCalsWire OPGWWrieSor, 
-            ElecCalsWire JumWireSor, SideCalUtils SideParaSor, ElecCalsCommRes ComParaSor)
+            ElecCalsWire JumWireSor, ElecCalsSideRes SideParaSor, ElecCalsCommRes ComParaSor)
         {
             Weather = XmlUtils.Clone(WeathSor);
             IndWire = XmlUtils.Clone(IndWireSor);
@@ -126,12 +126,18 @@ namespace TowerLoadCals.BLL.Electric
         {
             List<string> rslt = new List<string>();
 
+            string str1 = FileUtils.PadRightEx("最大使用应力:" + wire.CtrlYL.ToString("0.###"), 24)+ FileUtils.PadRightEx("最大年均应力:" + wire.AvaYL.ToString("0.###"), 24) 
+                + FileUtils.PadRightEx("控制工况温度:" +  wire.CtrlGk.Temperature.ToString("0.###"), 20);
+            rslt.Add(str1);
+
+            string str2 = FileUtils.PadRightEx("控制工况:" + wire.CtrlGkName, 24) + FileUtils.PadRightEx("控制工况比载:" + wire.BzDic[wire.CtrlGkName].BiZai.ToString("e3"),24) 
+                + FileUtils.PadRightEx("控制工况应力:" +  wire.CtrlGkStress.ToString("0.###"), 20) ;
+            rslt.Add(str2);
+
             string strTitle = FileUtils.PadRightEx("气象条件", 26) + FileUtils.PadRightEx("温度：", 8) + FileUtils.PadRightEx("风速：", 8) + FileUtils.PadRightEx("覆冰：", 8)
                 + FileUtils.PadRightEx("基本风速：", 12) + FileUtils.PadRightEx("比载：", 12) + FileUtils.PadRightEx("比载g7：", 12)
                 + FileUtils.PadRightEx("垂直比载：", 12) + FileUtils.PadRightEx("垂直比载g3：", 12) + FileUtils.PadRightEx("横向比载：", 12) + FileUtils.PadRightEx("横向比载g5：", 12)
                 + FileUtils.PadRightEx("垂直荷载：", 12) + FileUtils.PadRightEx("风荷载：", 12) + FileUtils.PadRightEx("应力：", 12) + FileUtils.PadRightEx("应力g：", 12);
-
-
             rslt.Add(strTitle);
 
             foreach (var gk in gkList)
@@ -142,10 +148,9 @@ namespace TowerLoadCals.BLL.Electric
                 var wea = wire.WeatherParas.WeathComm.Where(item => item.Name == gk).First();
 
                 string str = FileUtils.PadRightEx(gk, 26) + FileUtils.PadRightEx(wea.Temperature.ToString(), 8) + FileUtils.PadRightEx(wea.WindSpeed.ToString(), 8) + FileUtils.PadRightEx(wea.IceThickness.ToString(), 8)
-                    + FileUtils.PadRightEx(wea.BaseWindSpeed.ToString(), 12) + FileUtils.PadRightEx(wire.BzDic[gk].BiZai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g7.ToString("e3"), 12)
-                    + FileUtils.PadRightEx(wire.BzDic[gk].VerBizai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g3.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].HorBizai.ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].g5.ToString("e3"), 12)
-                    + FileUtils.PadRightEx(wire.BzDic[gk].VerHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].WindHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.YLTable[gk].ToString("F3"), 12) + FileUtils.PadRightEx(wire.YLTable2[gk].ToString("0.000"), 12);
-
+                    + FileUtils.PadRightEx(wea.BaseWindSpeed.ToString(), 12) + FileUtils.PadRightEx(wire.BzDic[gk].BiZai.ToString("e3"), 12) + FileUtils.PadRightEx((wire.BzDic[gk].g7 / 9.8).ToString("e3"), 12)
+                    + FileUtils.PadRightEx(wire.BzDic[gk].VerBizai.ToString("e3"), 12) + FileUtils.PadRightEx((wire.BzDic[gk].g3 / 9.8).ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].HorBizai.ToString("e3"), 12) + FileUtils.PadRightEx((wire.BzDic[gk].g5/9.8).ToString("e3"), 12)
+                    + FileUtils.PadRightEx(wire.BzDic[gk].VerHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.BzDic[gk].WindHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.YLTable2[gk].ToString("0.000"), 12) + FileUtils.PadRightEx(wire.YLTable[gk].ToString("0.000"), 12);
                 rslt.Add(str);
             }
             

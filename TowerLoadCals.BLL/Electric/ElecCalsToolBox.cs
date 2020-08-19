@@ -80,11 +80,11 @@ namespace TowerLoadCals.BLL.Electric
             //风载体形系数
             if (d >= 17 && ice <= 0)
             {
-                Epson = 1.1f;
+                Epson = 1.1;
             }
             else
             {
-                Epson = 1.1f;
+                Epson = 1.2;
             }
             return Epson;
         }
@@ -106,15 +106,15 @@ namespace TowerLoadCals.BLL.Electric
                 }
                 else if (wind >= 20 && wind < 27)
                 {
-                    Alpha = 0.85f;
+                    Alpha = 0.85;
                 }
                 else if (wind >= 27 && wind < 31.5)
                 {
-                    Alpha = 0.75f;
+                    Alpha = 0.75;
                 }
                 else
                 {
-                    Alpha = 0.7f;
+                    Alpha = 0.7;
                 }
             }
             else
@@ -125,15 +125,15 @@ namespace TowerLoadCals.BLL.Electric
                 }
                 else if( wind >= 20 && wind< 27)
                 {
-                    Alpha = 0.75f;
+                    Alpha = 0.75;
                 }
                 else if(wind >= 27 && wind< 31.5)
                 {
-                    Alpha = 0.61f;
+                    Alpha = 0.61;
                 }
                 else
                 {
-                    Alpha = 0.61f;
+                    Alpha = 0.61;
                 }
             }
 
