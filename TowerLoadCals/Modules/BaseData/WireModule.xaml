@@ -25,15 +25,15 @@
                     </dxg:TableView.RowCellMenuCustomizations>
                 </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="ModelSpecification"  Header="型号规格" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="WireType"  Header="线类型" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SectionArea"  Header="截面积(mm²)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="ExternalDiameter"  Header="外径(mm)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="UnitLengthMass"  Header="单位长度质量(km/mm)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="DCResistor"  Header="直流电阻(Ω)" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="ModelSpecification"  Header="型号规格" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="WireType"  Header="线类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="SectionArea"  Header="截面积(mm²)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="ExternalDiameter"  Header="外径(mm)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="UnitLengthMass"  Header="单位长度质量(km/mm)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="DCResistor"  Header="直流电阻(Ω)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="RatedBreakingForce"  Header="额定拉断力(N)" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="ModulusElasticity"  Header="弹性模量" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="LineCoefficient"  Header="线性膨胀系数" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="ModulusElasticity"  Header="弹性模量" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="LineCoefficient"  Header="线性膨胀系数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

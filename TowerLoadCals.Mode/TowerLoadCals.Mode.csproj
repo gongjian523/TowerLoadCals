@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="Common\ConstVar.cs" />
     <Compile Include="Common\ProInfo.cs" />
+    <Compile Include="Common\TowerSerial.cs" />
     <Compile Include="Common\TowerSeri.cs" />
     <Compile Include="Common\TowerStPra.cs" />
     <Compile Include="Common\TowerStructure.cs" />
@@ -106,6 +107,8 @@
     <Compile Include="Common\WorkConditionComboSpec.cs" />
     <Compile Include="Common\WorkConditionComboBase.cs" />
     <Compile Include="Common\WorkConditonSet.cs" />
+    <Compile Include="Electric\JumpStrLoadResult.cs" />
+    <Compile Include="Electric\StrLoadResult.cs" />
     <Compile Include="Electric\BZResult.cs" />
     <Compile Include="Electric\Circuit.cs" />
     <Compile Include="Electric\CircuitPostion.cs" />

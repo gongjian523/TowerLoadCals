@@ -35,6 +35,9 @@ namespace TowerLoadCals.BLL
             XmlNode nodeStruCals = doc.CreateElement(ConstVar.StruCalsStr);
             xmlNode.AppendChild(nodeStruCals);
 
+            XmlNode nodeSequenceCals = doc.CreateElement(ConstVar.TowerSequenceStr);
+            xmlNode.AppendChild(nodeSequenceCals);
+
             doc.Save(path);
 
             return true;
@@ -126,6 +129,91 @@ namespace TowerLoadCals.BLL
             return true;
         }
         #endregion
+
+
+        #region 杆塔序列信息操作函数
+        public static List<string> GetAllTowerSequenceNames(string path)
+        {
+            List<string> rstList = new List<string>();
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            XmlNode towerSequenceNode = doc.GetElementsByTagName(ConstVar.TowerSequenceStr)[0];
+            if (towerSequenceNode == null)
+                return rstList;
+
+            foreach (XmlNode sequenceNode in towerSequenceNode.ChildNodes)
+            {
+                rstList.Add(sequenceNode.Attributes["Name"].Value.ToString());
+            }
+
+            return rstList;
+        }
+
+        public static bool InsertTowerSequenceNames(string path, List<string> Names)
+        {
+            List<string> rstList = new List<string>();
+
+            XmlDocument doc = new XmlDocument();
+            try
+            {
+                doc.Load(path);
+
+                XmlNode rootNode = doc.GetElementsByTagName("TowerSequence")[0];
+                if (rootNode == null)
+                    return false;
+
+                foreach (string name in Names)
+                {
+                    XmlElement row = doc.CreateElement("Sequence");
+                    row.SetAttribute("Name", name);//名称
+                    rootNode.AppendChild(row);
+                }
+
+                doc.Save(path);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool DeleteTowerSequenceNames(string path, List<string> towerNames)
+        {
+            List<string> rstList = new List<string>();
+
+            XmlDocument doc = new XmlDocument();
+
+            try
+            {
+                doc.Load(path);
+
+                XmlNode rootNode = doc.GetElementsByTagName("TowerSequence")[0];
+                if (rootNode == null)
+                    return false;
+
+                foreach (XmlNode subNode in rootNode.ChildNodes)
+                {
+                    if (subNode.Attributes["Name"] != null && towerNames.Contains(subNode.Attributes["Name"].Value.ToString()))
+                    {
+                        rootNode.RemoveChild(subNode);
+                    }
+                }
+
+                doc.Save(path);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
 
 
         #region 结构计算塔库模板操作函数

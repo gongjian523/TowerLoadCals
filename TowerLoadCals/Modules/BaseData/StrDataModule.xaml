@@ -25,15 +25,15 @@
                     </dxg:TableView.RowCellMenuCustomizations>
                 </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="StrType"  Header="串类型" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="FitLength"  Header="长度" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="PieceNum"  Header="片数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="GoldPieceNum"  Header="金具换算片数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="LNum"  Header="联数" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="DampLength"  Header="阻尼线长度" HorizontalHeaderContentAlignment="Center" />
+            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="StrType"  Header="串类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="FitLength"  Header="长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="PieceNum"  Header="片数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="GoldPieceNum"  Header="金具换算片数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="LNum"  Header="联数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="DampLength"  Header="阻尼线长度" HorizontalHeaderContentAlignment="Center"  ReadOnly="True"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

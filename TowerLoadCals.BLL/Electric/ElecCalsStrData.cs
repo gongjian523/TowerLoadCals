@@ -7,7 +7,10 @@ using System.Xml.Serialization;
 
 namespace TowerLoadCals.BLL.Electric
 {
-    public class StrDataUtils
+    /// <summary>
+    /// fda
+    /// </summary>
+    public class ElecCalsStrData
     {
         /// <summary>
         /// 导线安全系数
@@ -90,41 +93,6 @@ namespace TowerLoadCals.BLL.Electric
         public double SuTubleWei { get; set; }
 
         /// <summary>
-        /// 保存风荷载
-        /// </summary>
-        public Dictionary<string, double> WindLoad  {get; set;}
-
-        /// <summary>
-        /// 保存垂直荷载
-        /// </summary>
-        public Dictionary<string, double> VerLoad { get; set; }
-
-        /// <summary>
-        /// 受风面积
-        /// </summary>
-        public double WindArea { get; set; }
-
-
-        /// <summary>
-        /// 保存跳线绝缘子串的风荷载
-        /// </summary>
-        [XmlIgnore]
-        public Dictionary<string, double> JumpStrWindLoad { get; set; }
-
-        /// <summary>
-        /// 保存跳线的风荷载
-        /// </summary>
-        [XmlIgnore]
-        public Dictionary<string, double> JumpWindLoad { get; set; }
-
-        /// <summary>
-        /// 保存支撑管线的风荷载
-        /// </summary>
-        [XmlIgnore]
-        public Dictionary<string, double> SupportWindLoad { get; set; }
-
-
-        /// <summary>
         /// 
         /// </summary>
         public double Length { get; set; }
@@ -149,7 +117,7 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public ElecCalsCommRes CommPara { get; set; }
 
-        public StrDataUtils()
+        public ElecCalsStrData()
         {
         }
 
@@ -214,48 +182,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="CalType"></param>
-        public void CalHezai()
-        {
-            foreach (var weaItem in WeaParas.WeathComm)
-            {
-                double wload = (double)Math.Round(ElecCalsToolBox2.StringWind(PieceNum, LNum, GoldPieceNum, weaItem.IceThickness, weaItem.WindSpeed, weaItem.BaseWindSpeed), 3);
-                double vload = Weight + WeightIceIn(weaItem.IceThickness) * (PieceNum * LNum + GoldPieceNum);
-                WindLoad.Add(weaItem.Name, wload);
-                VerLoad.Add(weaItem.Name, vload);
-            }
 
-            WindArea = (double)(0.04 * (PieceNum * LNum + GoldPieceNum));
-        }
-
-
-        public void CalsWindLoad(double jumpDia)
-        {
-            foreach (var weaItem in WeaParas.WeathComm)
-            {
-                var anWea = WeaAnSideParas.WeathComm.Where(wea => wea.Name == weaItem.Name).First();
-
-                double temp = weaItem.Temperature;
-
-                //冰厚，风速和基本风速需要比较大号侧和小号侧相应的工况，取其中的较大值
-                double iceThick = (anWea != null && anWea.IceThickness > weaItem.IceThickness) ? anWea.IceThickness : weaItem.IceThickness;
-                double windSpeed = (anWea != null && anWea.WindSpeed > weaItem.WindSpeed) ? anWea.WindSpeed : weaItem.WindSpeed;
-                double baseWindSpeed = (anWea != null && anWea.BaseWindSpeed > weaItem.BaseWindSpeed) ? anWea.BaseWindSpeed : weaItem.BaseWindSpeed;
-
-                double jmupStrLoad = (double)Math.Round(ElecCalsToolBox2.StringWind(PieceNum, LNum, GoldPieceNum, iceThick, windSpeed, baseWindSpeed), 3);
-                JumpStrWindLoad.Add(weaItem.Name,jmupStrLoad);
-
-                double jmupLoad = (double)(Math.Round(ElecCalsToolBox2.WindPaT(CommPara.VoltStr, jumpDia, iceThick, windSpeed, baseWindSpeed), 3) * GoldPieceNum);
-                JumpWindLoad.Add(weaItem.Name, jmupLoad);
-
-                double supportLoad = (double)(Math.Round(ElecCalsToolBox2.WindPaT(CommPara.VoltStr, SuTubleDi, iceThick, windSpeed, baseWindSpeed), 3) * SuTubleLen);
-                SupportWindLoad.Add(weaItem.Name, supportLoad);
-
-            }
-        }
 
         protected double WeightIceIn(double iceThick)
         {

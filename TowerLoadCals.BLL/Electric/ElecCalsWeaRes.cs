@@ -150,21 +150,23 @@ namespace TowerLoadCals.BLL.Electric
         /// 换算45风的风速
         /// </summary>
         /// <param name="angle"></param>
-        public void ConverWind45(double angle)
+        public void ConverWind45(bool isBackSide,double angle)
         {
             if (WeathComm.Where(item => item.Name == "换算最大风速").Count() > 0)
             {
                 var temp = WeathComm.Where(item => item.Name == "换算最大风速").First();
 
                 var wind1 = ElecCalsToolBox.Wind45ExChange1(temp.WindSpeed, angle);
-                WeathComm.AddRange( new List<ElecCalsWorkCondition>()
-                {   
+                var wind2 = ElecCalsToolBox.Wind45ExChange2(temp.WindSpeed, angle);
+
+                WeathComm.AddRange(new List<ElecCalsWorkCondition>()
+                {
                     new ElecCalsWorkCondition()
                     {
                         Name = "顺线路外角侧45风",
                         IceThickness = temp.IceThickness,
                         Temperature = temp.Temperature,
-                        WindSpeed = wind1,
+                        WindSpeed = isBackSide ? wind1 : wind2,
                         BaseWindSpeed = temp.BaseWindSpeed,
                     },
                     new ElecCalsWorkCondition()
@@ -172,12 +174,12 @@ namespace TowerLoadCals.BLL.Electric
                         Name = "逆线路内角侧45风",
                         IceThickness = temp.IceThickness,
                         Temperature = temp.Temperature,
-                        WindSpeed = wind1,
+                        WindSpeed = isBackSide ? wind1 : wind2,
                         BaseWindSpeed = temp.BaseWindSpeed,
                     },
                 });
 
-                var wind2 = ElecCalsToolBox.Wind45ExChange2(temp.WindSpeed, angle);
+                
                 WeathComm.AddRange(new List<ElecCalsWorkCondition>()
                 {
                     new ElecCalsWorkCondition()
@@ -185,7 +187,7 @@ namespace TowerLoadCals.BLL.Electric
                         Name = "逆线路外角侧45风",
                         IceThickness = temp.IceThickness,
                         Temperature = temp.Temperature,
-                        WindSpeed = wind2,
+                        WindSpeed = !isBackSide ? wind1 : wind2,
                         BaseWindSpeed = temp.BaseWindSpeed,
                     },
                     new ElecCalsWorkCondition()
@@ -193,7 +195,7 @@ namespace TowerLoadCals.BLL.Electric
                         Name = "顺线路内角侧45风",
                         IceThickness = temp.IceThickness,
                         Temperature = temp.Temperature,
-                        WindSpeed = wind2,
+                        WindSpeed = !isBackSide ? wind1 : wind2,
                         BaseWindSpeed = temp.BaseWindSpeed,
                     },
                 });
@@ -288,7 +290,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="dia">直径</param>
         /// <param name="iceCover1">不均匀覆冰率I</param>
         /// <param name="iceCover2">不均匀覆冰率I</param>
-        public void AddUnevenIceGK(bool bAdd5mm, double dia, double iceCover1, double iceCover2)
+        public void AddUnevenIceGK(bool bAdd5mm, double dia, bool isBackSide, double iceCover1, double iceCover2)
         {
             ElecCalsWorkCondition iceWkCdt;
 
@@ -319,14 +321,14 @@ namespace TowerLoadCals.BLL.Electric
                 new ElecCalsWorkCondition()
                 {
                     Name = bAdd5mm ? "不均匀冰I(导线+5mm)" : "不均匀冰I",
-                    IceThickness = thickness1,
+                    IceThickness = isBackSide ? thickness1 : thickness2,
                     Temperature = elecCalsSpec.UnevenIceTemp,
                     WindSpeed = elecCalsSpec.UnevenIceWind,
                 },
                 new ElecCalsWorkCondition()
                 {
                     Name = bAdd5mm ? "不均匀冰II(导线+5mm)" : "不均匀冰II",
-                    IceThickness = thickness2,
+                    IceThickness = !isBackSide ? thickness1 : thickness2,
                     Temperature = elecCalsSpec.UnevenIceTemp,
                     WindSpeed = elecCalsSpec.UnevenIceWind,
                 },

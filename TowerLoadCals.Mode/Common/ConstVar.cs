@@ -70,6 +70,14 @@ namespace TowerLoadCals.Mode
             get { return "StruCals"; }
         }
 
+        /// <summary>
+        /// 杆塔序列
+        /// </summary>
+        public static string TowerSequenceStr
+        {
+            get { return "TowerSequence"; }
+        }
+
         public static string UserDataStr
         {
             get { return "UserData"; }

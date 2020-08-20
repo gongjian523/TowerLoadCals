@@ -68,7 +68,7 @@
     <Compile Include="Electric\PntInTower.cs" />
     <Compile Include="Electric\ElecCalsSideRes.cs" />
     <Compile Include="Electric\SpanFitUtils.cs" />
-    <Compile Include="Electric\StrDataUtils.cs" />
+    <Compile Include="Electric\ElecCalsStrData.cs" />
     <Compile Include="Electric\ElecCalsStressPhaseStr.cs" />
     <Compile Include="Electric\ElecCalsTowerAppre.cs" />
     <Compile Include="Electric\ElecCalsTowerPosStr.cs" />

@@ -480,12 +480,12 @@ namespace TowerLoadCals.BLL.Electric
             if (jumpWindPara == 1)
             {
                 //按挂点高
-                return (double)Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
+                return Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
             }
             else
             {
                 //按平均高
-                return (double)Math.Round(Math.Pow((strHei - jumpStrLen) / avaHei, 0.32), 3);
+                return Math.Round(Math.Pow((strHei - jumpStrLen) / avaHei, 0.32), 3);
             }
         }
 

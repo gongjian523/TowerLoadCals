@@ -24,9 +24,14 @@ namespace TowerLoadCals.Mode
         public string Name { get; set; }
 
         /// <summary>
-        /// 类型，1，直线塔；2，转角塔
+        /// 类型，1，直线塔；2，转角塔 源文件格式
         /// </summary>
-        public string Type { get; set; }
+        public int Type { get; set; }
+
+        /// <summary>
+        /// 类型，1，直线塔；2，转角塔 转换值
+        /// </summary>
+        public string TypeName { get; set; }
 
         /// <summary>
         /// 杆塔回路数

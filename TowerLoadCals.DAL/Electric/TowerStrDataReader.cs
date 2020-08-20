@@ -51,7 +51,9 @@ namespace TowerLoadCals.DAL
                         if (node.Attributes["Name"] != null)
                             item.Name = node.Attributes["Name"].Value.ToString();
                         if (node.Attributes["Type"] != null)
-                            item.Type = node.Attributes["Type"].Value.ToString();
+                            item.Type = int.Parse(node.Attributes["Type"].Value.ToString());
+                        if (node.Attributes["TypeName"] != null)
+                            item.TypeName = node.Attributes["TypeName"].Value.ToString();
                         if (node.Attributes["CirNum"] != null)
                             item.CirNum = Convert.ToInt32(node.Attributes["CirNum"].Value.ToString());
                         if (node.Attributes["CurType"] != null)
@@ -147,7 +149,9 @@ namespace TowerLoadCals.DAL
                 if (node.Attributes["VoltageLevel"] != null)
                     item.VoltageLevel = Convert.ToInt32(node.Attributes["VoltageLevel"].Value.ToString());
                 if (node.Attributes["Type"] != null)
-                    item.Type = node.Attributes["Type"].Value.ToString();
+                    item.Type = Convert.ToInt32(node.Attributes["Type"].Value.ToString());
+                if (node.Attributes["TypeName"] != null)
+                    item.TypeName =node.Attributes["TypeName"].Value.ToString();
                 if (node.Attributes["CirNum"] != null)
                     item.CirNum = Convert.ToInt32(node.Attributes["CirNum"].Value.ToString());
                 if (node.Attributes["CurType"] != null)

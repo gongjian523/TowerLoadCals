@@ -13,10 +13,10 @@
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center" AllowEditing="false" />
-            <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center"/>
-            <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" HorizontalHeaderContentAlignment="Center"/>
+            <dxg:GridColumn FieldName="SWorkConditionName"  Header="工况名称" HorizontalHeaderContentAlignment="Center" AllowEditing="false"  ReadOnly="True"/>
+            <dxg:GridColumn FieldName="SWindSpeed"  Header="风速" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="STemperature"  Header="气温" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="SIceThickness"  Header="冰厚" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
         </dxg:GridControl>
     </Grid>
 </UserControl>

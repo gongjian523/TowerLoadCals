@@ -58,7 +58,7 @@ namespace TowerLoadCals
             var strDataMenu = new SubMenuBase("StrDataModule", this, "绝缘子串", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             strDataMenu.SetIcon("Menu_subString.png");
             var strDataSubList = new List<SubMenuBase>() { };
-            var strDataSubMenu1 = new SubMenuBase("", this, "    一般子串", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var strDataSubMenu1 = new SubMenuBase("", this, "    一般串", (e) => { OnSelectedSubModuleItemChanged(e); });
             strDataSubMenu1.ParentNode = strDataMenu;
             strDataSubList.Add(strDataSubMenu1);
             var strDataSubMenu2 = new SubMenuBase("", this, "    硬跳线", (e) => { OnSelectedSubModuleItemChanged(e); });
@@ -141,7 +141,7 @@ namespace TowerLoadCals
             var strDataMenu = new SubMenuBase("", this, "绝缘子串", (e) => { OnSelectedMenuChanged(e); });
             strDataMenu.SetIcon("Menu_subString.png");
             var strDataSubList = new List<SubMenuBase>() { };
-            var strDataSubMenu1 = new SubMenuBase("GeneralInsulatorModule", this, "        一般子串", (e) => { OnSelectedMenuChanged(e); });
+            var strDataSubMenu1 = new SubMenuBase("GeneralInsulatorModule", this, "        一般串", (e) => { OnSelectedMenuChanged(e); });
             strDataSubMenu1.ParentNode = strDataMenu;
             strDataSubList.Add(strDataSubMenu1);
             var strDataSubMenu2 = new SubMenuBase("RigidJumperInsulatorModule", this, "        硬跳线", (e) => { OnSelectedMenuChanged(e); });
@@ -184,7 +184,7 @@ namespace TowerLoadCals
             var generalTemplateLibMenu = new SubMenuBase("StruTemplateLibGeneralModule_Internet", this, "        通用模板库", (e) => { OnSelectedMenuChanged(e); });
             generalTemplateLibMenu.ParentNode = struTemplateLibMenu;
             struTemplateLibSubList.Add(generalTemplateLibMenu);
-            //var test = new SubMenuBase("TowerMemberModule", this, "        读取文件", (e) => { OnSelectedMenuChanged(e); });
+            //var test = new SubMenuBase("TowerSequenceModule", this, "        读取文件", (e) => { OnSelectedMenuChanged(e); });
             //test.ParentNode = struTemplateLibMenu;
             //struTemplateLibSubList.Add(test);
             struTemplateLibMenu.ChildItems = struTemplateLibSubList;

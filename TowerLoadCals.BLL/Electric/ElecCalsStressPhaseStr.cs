@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using TowerLoadCals.Common;
 using TowerLoadCals.Common.Utils;
+using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL.Electric
@@ -19,12 +21,12 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 前侧导线挂线串
         /// </summary>
-        public StrDataUtils HangStr { get; set; }
+        public ElecCalsStrData HangStr { get; set; }
 
         /// <summary>
         /// 跳线配置
         /// </summary>
-        public StrDataUtils JumpStr { get; set; }
+        public ElecCalsStrData JumpStr { get; set; }
 
         /// <summary>
         /// 回路ID
@@ -75,12 +77,13 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         ///  线计算数据
         /// </summary>
-        public ElecCalsWire WrieData { get; set; }
+        public ElecCalsWire WireData { get; set; }
+
 
         /// <summary>
         /// 跳线计算数据
         /// </summary>
-        public ElecCalsWire JmWrieData { get; set; }
+        public ElecCalsWire JmWireData { get; set; }
 
         [XmlIgnore]
         public Dictionary<string, double> VerSpanDic { get; set; }
@@ -88,9 +91,75 @@ namespace TowerLoadCals.BLL.Electric
         [XmlIgnore]
         public Dictionary<string, double> HoriLoadDic { get; set; }
 
+        /// <summary>
+        /// 绝缘子串的荷载
+        /// </summary>
+        [XmlIgnore]
+        public Dictionary<string, StrLoadResult> StrLoad { get; set; } = new Dictionary<string, StrLoadResult>();
+
+        /// <summary>
+        /// 受风面积
+        /// </summary>
+        public double WindArea { get; set; }
+
+        /// <summary>
+        /// 跳线绝缘子串的风荷载
+        /// </summary>
+        [XmlIgnore]
+        public Dictionary<string, JumpStrLoadResult> JumpStrLoad { get; set; } = new Dictionary<string, JumpStrLoadResult>();
+
+
         public ElecCalsStressPhaseStr()
         {
+        }
 
+
+        /// <summary>
+        /// 计算绝缘子串的风荷载和垂直荷载
+        /// </summary>
+        public void CalsStrLoad()
+        {
+            foreach (var weaItem in WireData.WeatherParas.WeathComm)
+            {
+                double wload = Math.Round(ElecCalsToolBox2.StringWind(HangStr.PieceNum, HangStr.LNum, HangStr.GoldPieceNum, weaItem.IceThickness, weaItem.WindSpeed, weaItem.BaseWindSpeed), 3);
+                double vload = HangStr.Weight + WeightIceIn(weaItem.IceThickness) * (HangStr.PieceNum * HangStr.LNum + HangStr.GoldPieceNum);
+
+                StrLoad.Add(weaItem.Name, new StrLoadResult
+                {
+                    WindLoad = wload,
+                    VerLoad = vload,
+                });
+            }
+
+            WindArea = 0.04 * (HangStr.PieceNum * HangStr.LNum + HangStr.GoldPieceNum);
+        }
+
+        /// <summary>
+        /// 计算跳线绝缘子串的风荷载
+        /// </summary>
+        /// <param name="volt">电压</param>
+        /// <param name="anSideWkCdtList">另一侧的工况</param>
+        public void CalsWindLoad(string volt, List<ElecCalsWorkCondition>  anSideWkCdtList)
+        {
+            foreach (var weaItem in WireData.WeatherParas.WeathComm)
+            {
+                var anWea = anSideWkCdtList.Where(wea => wea.Name == weaItem.Name).FirstOrDefault();
+
+                JumpStrLoadResult rslt = new JumpStrLoadResult();
+
+                rslt.Temperature = weaItem.Temperature;
+
+                //冰厚，风速和基本风速需要比较大号侧和小号侧相应的工况，取其中的较大值
+                rslt.IceThickness = (anWea != null && anWea.IceThickness > weaItem.IceThickness) ? anWea.IceThickness : weaItem.IceThickness;
+                rslt.WindSpeed = (anWea != null && anWea.WindSpeed > weaItem.WindSpeed) ? anWea.WindSpeed : weaItem.WindSpeed;
+                rslt.BaseWindSpeed = (anWea != null && anWea.BaseWindSpeed > weaItem.BaseWindSpeed) ? anWea.BaseWindSpeed : weaItem.BaseWindSpeed;
+
+                rslt.JumpStrWindLoad = Math.Round(ElecCalsToolBox2.StringWind(JumpStr.PieceNum, JumpStr.LNum, JumpStr.GoldPieceNum, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed), 3);
+                rslt.JumpWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JmWireData.Dia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed), 3) * JumpStr.GoldPieceNum;
+                rslt.SuTubleWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JumpStr.SuTubleDi, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed), 3) * JumpStr.SuTubleLen;
+
+                JumpStrLoad.Add(weaItem.Name, rslt);
+            }
         }
 
         /// <summary>
@@ -99,9 +168,9 @@ namespace TowerLoadCals.BLL.Electric
         /// 
         public void UpdateVertialSpan(double span, double upSideInHei)
         {
-            foreach (var nameWd in WrieData.WeatherParas.NameOfWkCdt)
+            foreach (var nameWd in WireData.WeatherParas.NameOfWkCdt)
             {
-                BZResult bz = WrieData.BzDic[nameWd];
+                BZResult bz = WireData.BzDic[nameWd];
 
                 //这儿比载excel中用的是孤立档应力，用的是普通档应力
                 //upSideInHei  这儿全部用的是上相导线高差， 有可能应该用的是自己的项的高差
@@ -125,17 +194,15 @@ namespace TowerLoadCals.BLL.Electric
         }
 
 
-
-
         public void UpdateHeriLoad(double diaInc, double verSpan, double dampLength, double windLoad, double strWindLaod)
         {
-            foreach (var nameWd in WrieData.WeatherParas.NameOfWkCdt)
+            foreach (var nameWd in WireData.WeatherParas.NameOfWkCdt)
             {
-                BZResult bz = WrieData.BzDic[nameWd];
+                BZResult bz = WireData.BzDic[nameWd];
 
                 //这儿比载excel中用的是孤立档应力，用的是普通档应力
                 //upSideInHei  这儿全部用的是上相导线高差， 有可能应该用的是自己的项的高差
-                double rslt = HoriLoad(diaInc, WrieData.DevideNum, verSpan,  dampLength,  windLoad, strWindLaod);
+                double rslt = HoriLoad(diaInc, WireData.DevideNum, verSpan,  dampLength,  windLoad, strWindLaod);
 
                 HoriLoadDic.Add(nameWd, rslt);
             }
@@ -217,6 +284,33 @@ namespace TowerLoadCals.BLL.Electric
         {
             return jumpStrWei + (pieceNum * lNum + goldPieceNum) * WeightIceIn(iceThick) + (unitWei + 2.8274334 * iceThick * (dia + iceThick) / 1000) * softJumpLen * jumpDivideNum 
                 + (suTubleWei + 2.82743334 * iceThick * (suTubleDia + iceThick) / 1000) * suTubleLen + spaceBatonNum * (spaceBatonWei + iceThick / 5);
+        }
+
+
+        public List<string> PrintStrLoad()
+        {
+            List<string> rslt = new List<string>();
+
+            string str = FileUtils.PadRightEx("受风面积:" + WindArea.ToString("0.##"), 16);
+            rslt.Add(str);
+
+            string strTitle = FileUtils.PadRightEx("气象条件", 26) + FileUtils.PadRightEx("温度：", 8) + FileUtils.PadRightEx("风速：", 8) + FileUtils.PadRightEx("覆冰：", 8)
+                + FileUtils.PadRightEx("基本风速：", 12) + FileUtils.PadRightEx("风荷载：", 12) + FileUtils.PadRightEx("垂直荷载：", 12);
+            rslt.Add(strTitle);
+
+            foreach (var name in WireData.WorkCdtNames)
+            {
+                var wea = WireData.WeatherParas.WeathComm.Where(item => item.Name == name).FirstOrDefault();
+
+                if (wea == null)
+                    continue;
+
+                string strValue = FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(wea.Temperature.ToString(), 8) + FileUtils.PadRightEx(wea.WindSpeed.ToString(), 8) + FileUtils.PadRightEx(wea.IceThickness.ToString(), 8)
+                    + FileUtils.PadRightEx(wea.BaseWindSpeed.ToString(), 12) + FileUtils.PadRightEx(StrLoad[name].WindLoad.ToString("0.###"), 12) + FileUtils.PadRightEx(StrLoad[name].VerLoad.ToString("0.###"), 12);
+                rslt.Add(strValue);
+            }
+
+            return rslt;
         }
 
 

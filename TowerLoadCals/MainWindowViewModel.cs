@@ -190,6 +190,8 @@ namespace TowerLoadCals
 
             NewStruCalsTowerBtnVisibity = Visibility.Collapsed;
 
+            NewTowerSequenceTowerBtnVisibity = Visibility.Collapsed;
+
             ModuleMenu blankModule = new ModuleMenu("BlankModule", this, "空模板" , (e) => { OnSelectedModuleChanged(e); });
             blankModule.Show();
         }
@@ -205,22 +207,23 @@ namespace TowerLoadCals
         {
 
         }
-
         protected void LoadModules()
         {
             List<ModuleMenu> moduleList = new List<ModuleMenu>() { };
 
-            moduleList.Add(IniBaseDataModule());
+            moduleList.Add(IniBaseDataModule());//基础数据
 
-            ModuleMenu towerMudule = new ModuleMenu("TowersModule", this, "塔杆序列", (e) => { OnSelectedModuleChanged(e); });
-            towerMudule.SetIcon("FolderList_32x32.png");
-            moduleList.Add(towerMudule);
+            //ModuleMenu towerMudule = new ModuleMenu("TowersModule", this, "塔杆序列", (e) => { OnSelectedModuleChanged(e); });
+            //towerMudule.SetIcon("FolderList_32x32.png");
+            //moduleList.Add(towerMudule);
+
+            moduleList.Add(IniTowerSequenceModule());//塔杆序列
 
             ModuleMenu elecCalsMudule = new ModuleMenu("ElecCalsModule", this, "电气计算", (e) => { OnSelectedModuleChanged(e); });
             elecCalsMudule.SetIcon("FolderList_32x32.png");
             moduleList.Add(elecCalsMudule);
 
-            moduleList.Add(IniStruCalsModule());
+            moduleList.Add(IniStruCalsModule());//结构计算
 
             ModuleMenu resultMudule = new ModuleMenu("ResultModule", this, "成功输出", (e) => { OnSelectedModuleChanged(e); });
             resultMudule.SetIcon("FolderList_32x32.png");

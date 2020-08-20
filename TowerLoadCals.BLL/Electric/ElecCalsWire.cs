@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TowerLoadCals.Common;
-using TowerLoadCals.Common.Utils;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 
@@ -75,12 +72,12 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 控制应力
         /// </summary>
-        public double CtrlYL { get; set; }
+        public double CtrlStress { get; set; }
 
         /// <summary>
         /// 平均应力
         /// </summary>
-        public double AvaYL { get; set; }
+        public double AvaStress { get; set; }
 
         /// <summary>
         /// 控制工况名字，中间变量，主要为了做输出
@@ -163,6 +160,10 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double UnbaTensionPara { get; set; }
 
+        public List<string> WorkCdtNames
+        {
+            get { return WeatherParas == null ?  new List<string>() : (bGrd == 0 ? WeatherParas.NameOfWkCalsInd : WeatherParas.NameOfWkCalsGrd); }      
+        }
 
         public ElecCalsWire()
         {
@@ -265,12 +266,8 @@ namespace TowerLoadCals.BLL.Electric
             //g1为统一值
             Comg1 = Wei * graAcc / Sec;
 
-            List<string> wkCdts = bGrd == 0 ? WeatherParas.NameOfWkCalsInd : WeatherParas.NameOfWkCalsGrd;
-
-            //foreach(var wkCdt in wkCdts)
             foreach(var weaItem in WeatherParas.WeathComm)
             {
-                //var weaItem = WeatherParas.WeathComm.Where(item => item.Name == wkCdt).First();
 
                 if (CalType == 1)
                 {
@@ -299,7 +296,7 @@ namespace TowerLoadCals.BLL.Electric
                     double alpha = ElecCalsToolBox.WindAlpha(winVal, iceVal, 1);
                     bz.g1 = Comg1;
 
-                    double g2 = (double)(graAcc * 0.9 * Math.PI * iceVal * (iceVal + Dia) * 1e-3 / Sec);
+                    double g2 = graAcc * 0.9 * Math.PI * iceVal * (iceVal + Dia) * 1e-3 / Sec;
                     bz.g2 = g2;
 
                     double g3 = Comg1 + g2;
@@ -379,14 +376,21 @@ namespace TowerLoadCals.BLL.Electric
             var maxIceWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "最大覆冰").First();
             var aveTempWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "平均气温").First();
 
+            List<ElecCalsWorkCondition> wkCdtList = new List<ElecCalsWorkCondition>();
+            wkCdtList.Add(maxWindWkCdt);
+            wkCdtList.Add(minTempWkCdt);
+            wkCdtList.Add(maxIceWkCdt);
+            wkCdtList.Add(aveTempWkCdt);
 
-            CtrlYL = Math.Round(Fore / Sec / 9.80665 * EffectPara / SafePara, 3);
-            AvaYL = Math.Round(Fore / Sec / 9.80665 * EffectPara * AvePara / 100, 3);
+            CtrlStress = Math.Round(Fore / Sec / 9.80665 * EffectPara / SafePara, 3);
+            AvaStress = Math.Round(Fore / Sec / 9.80665 * EffectPara * AvePara / 100, 3);
 
-            CtrlGkName = ElecCalsToolBox2.LiMax(BzDic["换算最大风速"].BiZai, BzDic["最低气温"].BiZai, BzDic["最大覆冰"].BiZai, BzDic["平均气温"].BiZai,
-                maxWindWkCdt.Name, minTempWkCdt.Name, maxIceWkCdt.Name, aveTempWkCdt.Name, span, ElasM * 9.8065,
-                CtrlYL, AvaYL, Coef, maxWindWkCdt.Temperature, minTempWkCdt.Temperature, maxIceWkCdt.Temperature, aveTempWkCdt.Temperature);
-            CtrlGkStress = CtrlGkName == "平均气温" ? AvaYL : CtrlYL;
+            //CtrlGkName = ElecCalsToolBox2.LiMax(BzDic["换算最大风速"].BiZai, BzDic["最低气温"].BiZai, BzDic["最大覆冰"].BiZai, BzDic["平均气温"].BiZai,
+            //    maxWindWkCdt.Name, minTempWkCdt.Name, maxIceWkCdt.Name, aveTempWkCdt.Name, span, ElasM * 9.8065,
+            //    CtrlYL, AvaYL, Coef, maxWindWkCdt.Temperature, minTempWkCdt.Temperature, maxIceWkCdt.Temperature, aveTempWkCdt.Temperature);
+
+            CtrlGkName = ElecCalsToolBox2.GetCtrlWorkConditionName(BzDic, wkCdtList,span, ElasM * 9.8065, CtrlStress, AvaStress, Coef);
+            CtrlGkStress = CtrlGkName == "平均气温" ? AvaStress : CtrlStress;
             CtrlGk = WeatherParas.WeathComm.Where(item => item.Name == CtrlGkName).First();
 
             Dictionary<string, double> ForDic2 = new Dictionary<string, double>();
@@ -445,24 +449,19 @@ namespace TowerLoadCals.BLL.Electric
             return ForDic;
         }
 
-        public void UpdateWeaForCals(double angle)
+        public void UpdateWeaForCals(bool isBackSide, double angle)
         {
             double aveHei = bGrd == 0 ? CommParas.IndAveHei : CommParas.GrdAveHei;
+            
+            //两种不同计算方式，一个是从按照Excel转换，一个从python转换，结构相同，采用从python转换的结果
             //WeatherParas.ConverWind(aveHei, CommParas.TerrainPara);
             WeatherParas.ConverWind(aveHei, CommParas.TerType);
-
-
-            //现在还还不知道角度参数从哪里保存而来
-            WeatherParas.ConverWind45(angle);
-
-            //另一个覆冰对应的是Excel的基础数据B79，里面的是字符串“考虑断线覆冰率” “考虑断线覆冰率”
+            
+            WeatherParas.ConverWind45(isBackSide, angle);
             WeatherParas.AddBreakGK("断线", bGrd, CommParas.GrdIceUnbaPara, Dia, CommParas.BreakIceCoverPer);
+            WeatherParas.AddUnevenIceGK(false, Dia, isBackSide, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
 
-            WeatherParas.AddUnevenIceGK(false, Dia, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
-
-            //增加荷载计算中需要的工况：
             WeatherParas.AddOtherGk();
-
             WeatherParas.AddInstallColdGk(DecrTem);
 
             if (bGrd > 0)
@@ -470,12 +469,11 @@ namespace TowerLoadCals.BLL.Electric
                 //增加地线覆冰工况
                 WeatherParas.AddGrdWeath();
 
+                //下面的三种工况是各自工况的导线+5mm后的工况
                 WeatherParas.AddBreakGK("断线(导线+5mm)", bGrd, CommParas.GrdIceUnbaPara, Dia, CommParas.BreakIceCoverPer);
-
-                WeatherParas.AddUnevenIceGK(true, Dia, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
-
+                WeatherParas.AddUnevenIceGK(true, Dia, isBackSide, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
                 WeatherParas.AddCkeckGKIcr5mm();
-        }
+            }
 
         }
 

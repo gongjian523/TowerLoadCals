@@ -46,7 +46,7 @@
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>
-            <!--<dxg:GridColumn FieldName="ID"  Header="序号" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>-->
+            <dxg:GridColumn FieldName="ID"  Header="序号" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="Name"  Header="杆塔型号" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="TempletName" Header="结构计算模板" Width="112">
                 <dxg:GridColumn.EditSettings>

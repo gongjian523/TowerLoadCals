@@ -230,7 +230,12 @@
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Vertical" Visibility="{Binding NewStruCalsTowerBtnVisibity}">
                                     <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
-                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}" />
+                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}"/>
+                                    <Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Visibility="{Binding NewTowerSequenceTowerBtnVisibity}">
+                                    <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
+                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加杆塔序列"    Command="{DXCommand 'AddTowerSequence()'}" />
                                     <Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>
                                 </StackPanel>
                                 <dxa:AccordionControl x:Name="subAccordion"

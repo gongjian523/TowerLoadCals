@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL.Electric
 {
@@ -104,6 +106,41 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
+        //g比载(kg/m/mm2)，l档距(m)，E弹性模量(N/mm2)，Stess应力(kg/mm2)，a温度系数(℃)，t温度(℃)
+        /// <summary>
+        /// 获取控制工况名字
+        /// </summary>
+        /// <param name="bzDic">比例字典</param>
+        /// <param name="wkCdtList">备选工况</param>
+        /// <param name="span">档距(m)</param>
+        /// <param name="elas">弹性模量(N/mm2)</param>
+        /// <param name="StressM">控制应力(kg/mm2)</param>
+        /// <param name="StressA">平均应立(kg/mm2)</param>
+        /// <param name="coef">温度系数(℃)/线性膨胀系数</param>
+        /// <returns></returns>
+        public static string GetCtrlWorkConditionName(Dictionary<string, BZResult> bzDic, List<ElecCalsWorkCondition> wkCdtList, double span, double elas, double StressM, double StressA, double coef) 
+        {
+            string wkCdtName = "";
+            double maxV = double.MinValue;
+
+            foreach(var wkCdt in wkCdtList)
+            {
+                var stress = wkCdt.Name == "平均气温" ? StressA : StressM;
+
+                var tempV = elas / 9.80665 * Math.Pow(span, 2) * Math.Pow(bzDic[wkCdt.Name].BiZai, 2) / 24 / Math.Pow(stress, 2) - 
+                    (stress + coef * elas / 9.80665 * wkCdt.Temperature);
+
+                if(tempV > maxV)
+                {
+                    maxV = tempV;
+                    wkCdtName = wkCdt.Name;
+                }
+            }
+
+            return wkCdtName;
+        }
+  
+
         //开三次方
         public static double spr3(double yuanValue)
         {
@@ -129,6 +166,13 @@ namespace TowerLoadCals.BLL.Electric
             bD = b / 2 - Math.Pow(a, 3) / 27;
 
             if (aD >= 0) {
+
+                //var aaa = spr3(bD + Math.Pow(aD, 0.5));
+                //var bbb = spr3(bD - Math.Pow(aD, 0.5));
+                //var ccc = aaa + bbb;
+                //var ddd = ccc - a / 3;
+                //return ddd;
+
                 return spr3(bD + Math.Pow(aD, 0.5)) + spr3(bD - Math.Pow(aD, 0.5)) - a / 3;
             }
             else {

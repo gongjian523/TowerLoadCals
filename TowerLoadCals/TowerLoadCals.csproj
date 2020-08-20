@@ -143,6 +143,7 @@
     <Compile Include="MainWindowViewModel-RibbonCommand.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
     <Compile Include="MainWindowViewModel-BaseData.cs" />
+    <Compile Include="MainWindowViewModel-TowerSequence.cs" />
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\AccordionItem.cs" />
     <Compile Include="ModulesViewModels\Band.cs" />
@@ -181,6 +182,9 @@
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
+    <Compile Include="ModulesViewModels\TowerSequence\WeatherConditionSettingWindowViewModel.cs" />
+    <Compile Include="ModulesViewModels\TowerSequence\AddTowerSequenceViewModel.cs" />
+    <Compile Include="ModulesViewModels\TowerSequence\TowerSequenceViewModel.cs" />
     <Compile Include="Modules\BaseData\FitDataModule.xaml.cs">
       <DependentUpon>FitDataModule.xaml</DependentUpon>
     </Compile>
@@ -386,6 +390,15 @@
     <Compile Include="Modules\BaseData\WireModule.xaml.cs">
       <DependentUpon>WireModule.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\TowerSequence\WeatherConditionSettingWindow.xaml.cs">
+      <DependentUpon>WeatherConditionSettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TowerSequence\AddTowerSequenceWindow.xaml.cs">
+      <DependentUpon>AddTowerSequenceWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TowerSequence\TowerSequenceModule.xaml.cs">
+      <DependentUpon>TowerSequenceModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SplashScreen\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
     </Compile>
@@ -439,6 +452,18 @@
     <Page Include="Modules\BaseData\WeatherConditionModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\TowerSequence\WeatherConditionSettingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\TowerSequence\AddTowerSequenceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Modules\TowerSequence\TowerSequenceModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SplashScreen\ProgressWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -767,7 +792,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserData\TemplateCorrespondTable.xml" />
+    <Resource Include="UserData\TemplateCorrespondTable.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
