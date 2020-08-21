@@ -145,10 +145,6 @@ namespace TowerLoadCals.BLL.Electric
         public double OPGWSafePara { get; set; }
         public double OPGWAnPara { get; set; }
 
-        /// <summary>
-        /// 大风垂直方向弧垂
-        /// </summary>
-        public double WindVerSag { get; set; }
 
         /// <summary>
         ///断线张力系数
@@ -384,10 +380,6 @@ namespace TowerLoadCals.BLL.Electric
 
             CtrlStress = Math.Round(Fore / Sec / 9.80665 * EffectPara / SafePara, 3);
             AvaStress = Math.Round(Fore / Sec / 9.80665 * EffectPara * AvePara / 100, 3);
-
-            //CtrlGkName = ElecCalsToolBox2.LiMax(BzDic["换算最大风速"].BiZai, BzDic["最低气温"].BiZai, BzDic["最大覆冰"].BiZai, BzDic["平均气温"].BiZai,
-            //    maxWindWkCdt.Name, minTempWkCdt.Name, maxIceWkCdt.Name, aveTempWkCdt.Name, span, ElasM * 9.8065,
-            //    CtrlYL, AvaYL, Coef, maxWindWkCdt.Temperature, minTempWkCdt.Temperature, maxIceWkCdt.Temperature, aveTempWkCdt.Temperature);
 
             CtrlGkName = ElecCalsToolBox2.GetCtrlWorkConditionName(BzDic, wkCdtList,span, ElasM * 9.8065, CtrlStress, AvaStress, Coef);
             CtrlGkStress = CtrlGkName == "平均气温" ? AvaStress : CtrlStress;

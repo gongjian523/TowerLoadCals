@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TowerLoadCals.Common;
 using TowerLoadCals.Mode.Electric;
@@ -107,6 +108,133 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
+        /// 更新风压系数
+        /// </summary>
+        public void UpdateWindPara()
+        {
+            PhaseTraList[0].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsUpSideHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[0].StrWindPara = CalsStrWindPara(AbsUpSideHei, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[0].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsUpJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[0].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsUpJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+
+            PhaseTraList[1].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsMidHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[1].StrWindPara = CalsStrWindPara(AbsMidHei, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[1].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsMidJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[1].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsMidJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+
+            PhaseTraList[2].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsDownSideHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[2].StrWindPara = CalsStrWindPara(AbsDownSideHei, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[2].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[2].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+
+            PhaseTraList[3].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsGrdHei, BackIndWindHc, FrontSideRes.CommParas.GrdAveHei);
+            PhaseTraList[3].StrWindPara = CalsStrWindPara(AbsGrdHei, FrontSideRes.CommParas.GrdAveHei);
+
+            PhaseTraList[5].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsUpSideHei, BackIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[5].StrWindPara = CalsStrWindPara(AbsUpSideHei, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[5].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsUpJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[5].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsUpJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+
+            PhaseTraList[6].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsMidHei, BackIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[6].StrWindPara = CalsStrWindPara(AbsMidHei, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[6].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsMidJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[6].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsMidJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+
+            PhaseTraList[7].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsDownSideHei, BackIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[7].StrWindPara = CalsStrWindPara(AbsDownSideHei, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[7].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsDownJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[7].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsDownJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+
+            PhaseTraList[8].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsGrdHei, BackIndWindHc, BackSideRes.CommParas.GrdAveHei);
+            PhaseTraList[8].StrWindPara = CalsStrWindPara(AbsGrdHei, BackSideRes.CommParas.GrdAveHei);
+        }
+
+
+        /// <summary>
+        /// 计算线高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">计算方式 1：线平均高 2:按照下相挂点高反算 </param>
+        /// <param name="wireHei">导线挂点高</param>
+        /// <param name="wireWindVerSag">大风垂直方向弧垂</param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <returns></returns>
+        public double CalsWireWindPara(int wireWindPara, double wireHei, double wireWindVerSag, double avaHei)
+        {
+            //1：线平均高 2:按照下相挂点高反算
+            if (wireWindPara == 1)
+            {
+                //按线平均高
+                return ((int)(Math.Pow(((wireHei - 2 / 3 * wireWindVerSag) / avaHei), 0.32) * 1000 + 0.5)) / 1000;
+            }
+            else
+            {
+                //按挂点高
+                //这儿wireHei在Excel中指定是平均上/中/下/地线高，在 计算方式为按照挂点高时，直接等于塔上/中/下相挂点高
+                return ((int)(Math.Pow((wireHei / avaHei), 0.32) * 1000 + 0.5)) / 1000;
+            }
+        }
+
+        /// <summary>
+        /// 计算绝缘子串高空风压系数
+        /// </summary>
+        /// <param name="wireHei">挂点高</param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <returns></returns>
+        protected double CalsStrWindPara(double wireHei, double avaHei)
+        {
+            return Math.Round(Math.Pow((wireHei / avaHei), 0.32), 3);
+        }
+
+
+        /// <summary>
+        /// 计算跳串高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">跳串高空风压系数</param>
+        /// <param name="strHei"></param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <param name="jumpStrLen">跳线绝缘子串长</param>
+        /// <returns></returns>
+        protected double CalsJumpStrWindPara(int jumpWindPara, double strHei, double avaHei, double jumpStrLen)
+        {
+            //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
+            if (jumpWindPara == 1)
+            {
+                //按挂点高
+                return Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
+            }
+            else
+            {
+                //按平均高
+                return Math.Round(Math.Pow((strHei - jumpStrLen / 2) / avaHei, 0.32), 3);
+            }
+        }
+
+        /// <summary>
+        /// 计算支撑管高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">跳串高空风压系数</param>
+        /// <param name="strHei"></param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <param name="jumpStrLen">跳线绝缘子串长</param>
+        /// <returns></returns>
+        protected double CalsPropUpWindPara(int jumpWindPara, double strHei, double avaHei, double jumpStrLen)
+        {
+            //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
+            if (jumpWindPara == 1)
+            {
+                //按挂点高
+                return Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
+            }
+            else
+            {
+                //按平均高
+                return Math.Round(Math.Pow((strHei - jumpStrLen) / avaHei, 0.32), 3);
+            }
+        }
+
+
+
+        /// <summary>
         /// 计算各个工况的垂直档距，耐张塔分为前后侧计算
         /// </summary>
         void CalHoriVetValue()
@@ -114,12 +242,80 @@ namespace TowerLoadCals.BLL.Electric
 
         }
 
+        double BackIndWindHc { get; set; } = 22.10;
+        double FrontIndWindHc { get; set; } = 7.62;
+
+        double BackGrdWindHc { get; set; } = 13.04;
+        double FrontGrdWindHc { get; set; } = 6.86;
+
+        double BackOPGWWindHc { get; set; } = 13.63;
+        double FrontOPGWWindHc { get; set; } = 7.13;
+
         /// <summary>
         /// 计算大风工况下垂直方向的应用弧垂
         /// </summary>
         void CalDFCure()
         {
+            //这部分计算很复杂，但是原理性不足
+            //计算导线的大风应用弧垂，先后侧，先前侧
+            double GdBackHc = TowerAppre.DnSideInHei - BackSideRes.CommParas.GrdAveHei;
+            //double GdBackHc = DownSideHei - BackSideRes.CommParas.GrdCl;
 
+            double KBackHot = BackSideRes.IndWire.BzDic["最高气温"].VerBizai / 8 / BackSideRes.IndWire.BzDic["最高气温"].Stress;
+            double KBackIce = BackSideRes.IndWire.BzDic["覆冰无风"].VerBizai / 8 / BackSideRes.IndWire.BzDic["覆冰无风"].Stress;
+
+            double KMaxHc = Math.Max(KBackHot, KBackIce) * Math.Pow(BackPosRes.Span, 2);
+            double MaxIndBackHc;
+
+            //最大弧垂应用值
+            if (KBackHot > KBackIce)
+            {
+                MaxIndBackHc = Math.Min(GdBackHc, KMaxHc) / BackSideRes.IndWire.BzDic["最高气温"].g2 * BackSideRes.IndWire.YLTable["最高气温"] * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.YLTable["最大风速"];
+            }
+            else
+            {
+                MaxIndBackHc = Math.Min(GdBackHc, KMaxHc) / BackSideRes.IndWire.BzDic["覆冰无风"].g2 * BackSideRes.IndWire.YLTable["覆冰无风"] * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.YLTable["最大风速"];
+            }
+            double BackIndWindHc = MaxIndBackHc * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.BzDic["最大风速"].g7;
+
+            //计算前侧的大风应用弧垂
+            //对地距离控制最大弧垂
+            double GdFrontHc = TowerAppre.DnSideInHei - FrontSideRes.CommParas.GrdAveHei;
+            double KFrontHot = FrontSideRes.IndWire.BzDic["最高气温"].g2 / 8 / FrontSideRes.IndWire.YLTable["最高气温"];
+            double KFrontIce = FrontSideRes.IndWire.BzDic["覆冰无风"].g2 / 8 / FrontSideRes.IndWire.YLTable["覆冰无风"];
+            // 按照K值控制的最大弧垂
+            KMaxHc = Math.Max(KFrontHot, KFrontIce) * Math.Pow(FrontPosRes.Span, 2); 
+        
+            double MaxIndFrontHc; 
+            //最大弧垂应用值
+            if (KFrontHot > KFrontIce)
+            {
+                MaxIndFrontHc = Math.Min(GdFrontHc, KMaxHc) / FrontSideRes.IndWire.BzDic["最高气温"].g2 * FrontSideRes.IndWire.YLTable["最高气温"] * FrontSideRes.IndWire.BzDic["最大风速"].g2 / FrontSideRes.IndWire.YLTable["最大风速"];
+            }
+            else
+            {
+                MaxIndFrontHc = Math.Min(GdFrontHc, KMaxHc) / FrontSideRes.IndWire.BzDic["覆冰无风"].g2 * FrontSideRes.IndWire.YLTable["覆冰无风"] * FrontSideRes.IndWire.BzDic["最大风速"].g2 / FrontSideRes.IndWire.YLTable["最大风速"];
+            }
+
+            //计算前侧大风应用弧垂
+            FrontIndWindHc = MaxIndFrontHc * FrontSideRes.IndWire.BzDic["最大风速"].g2 / FrontSideRes.IndWire.BzDic["最大风速"].g7;
+
+            //计算地线的大风弧垂应用值,先普通地线，再OPGW
+            //这部分代码Excel表格有问题，为保持一致，还是采用原来的方法
+            double KHot = BackSideRes.GrdWire.BzDic["最高气温"].g2 / 8 / BackSideRes.GrdWire.YLTable["最高气温"];
+            double KIce = BackSideRes.GrdWire.BzDic["覆冰无风"].g2 / 8 / BackSideRes.GrdWire.YLTable["覆冰无风"];
+            BackGrdWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KBackHot, KBackIce);
+            KHot = BackSideRes.OPGWWire.BzDic["最高气温"].g2 / 8 / BackSideRes.OPGWWire.YLTable["最高气温"];
+            KIce = BackSideRes.OPGWWire.BzDic["覆冰无风"].g2 / 8 / BackSideRes.OPGWWire.YLTable["覆冰无风"];
+            BackOPGWWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KBackHot, KBackIce);
+
+            //前侧计算
+            KHot = FrontSideRes.GrdWire.BzDic["最高气温"].g2 / 8 / FrontSideRes.GrdWire.YLTable["最高气温"];
+            KIce = FrontSideRes.GrdWire.BzDic["覆冰无风"].g2 / 8 / FrontSideRes.GrdWire.YLTable["覆冰无风"];
+            FrontGrdWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KFrontHot, KFrontIce);
+            KHot = FrontSideRes.OPGWWire.BzDic["最高气温"].g2 / 8 / FrontSideRes.OPGWWire.YLTable["最高气温"];
+            KIce = FrontSideRes.OPGWWire.BzDic["覆冰无风"].g2 / 8 / FrontSideRes.OPGWWire.YLTable["覆冰无风"];
+            FrontOPGWWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KFrontHot, KFrontIce);
         }
 
         public List<string> PrintJumpStrLoad()
@@ -167,6 +363,51 @@ namespace TowerLoadCals.BLL.Electric
             rslt.Add("\n支撑管线风荷载");
             rslt.Add(strTitle);
             rslt.AddRange(rslt3);
+
+            return rslt;
+        }
+
+        public List<string> PrintWindPara()
+        {
+            List<string> rslt = new List<string>();
+
+            rslt.Add("小号侧");
+            rslt.Add(FileUtils.PadRightEx("上相导线高差", 20) + PhaseTraList[0].SpaceStr.SubHei.ToString("0.0").PadRight(8) 
+                + FileUtils.PadRightEx("中相导线高差", 20) + PhaseTraList[1].SpaceStr.SubHei.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相导线高差", 20) + PhaseTraList[2].SpaceStr.SubHei.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("地线高差", 20) + PhaseTraList[3].SpaceStr.SubHei.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相导线μz", 20) + PhaseTraList[0].WireWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("中相导线μz", 20) + PhaseTraList[1].WireWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相导线μz", 20) + PhaseTraList[2].WireWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("地线μz", 20) + PhaseTraList[3].WireWindPara.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相串μz", 20) + PhaseTraList[0].StrWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("中相串μz", 20) + PhaseTraList[1].StrWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相串μz", 20) + PhaseTraList[2].StrWindPara.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相跳线绝缘子μz", 20) + PhaseTraList[0].JmWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("中相跳线绝缘子μz", 20) + PhaseTraList[1].JmWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相跳线绝缘子μz", 20) + PhaseTraList[2].JmWindPara.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相跳线支撑管μz", 20) + PhaseTraList[0].PropUpWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("中相跳线支撑管μz", 20) + PhaseTraList[1].PropUpWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相跳线支撑管μz", 20) + PhaseTraList[2].PropUpWindPara.ToString("0.0").PadRight(8));
+
+            rslt.Add("\n大号侧");
+            rslt.Add(FileUtils.PadRightEx("上相导线高差", 20) + PhaseTraList[5].SpaceStr.SubHei.ToString("0.0").PadRight(8) 
+                + FileUtils.PadRightEx("中相导线高差", 20) + PhaseTraList[6].SpaceStr.SubHei.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相导线高差", 20) + PhaseTraList[7].SpaceStr.SubHei.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("地线高差", 20) + PhaseTraList[8].SpaceStr.SubHei.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相导线μz", 20) + PhaseTraList[5].WireWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("中相导线μz", 20) + PhaseTraList[6].WireWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相导线μz", 20) + PhaseTraList[7].WireWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("地线μz", 20) + PhaseTraList[8].WireWindPara.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相串μz", 20) + PhaseTraList[5].StrWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("中相串μz", 20) + PhaseTraList[6].StrWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相串μz", 20) + PhaseTraList[7].StrWindPara.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相跳线绝缘子μz", 20) + PhaseTraList[5].JmWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("中相跳线绝缘子μz", 20) + PhaseTraList[6].JmWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相跳线绝缘子μz", 20) + PhaseTraList[7].JmWindPara.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相跳线支撑管μz", 20) + PhaseTraList[5].PropUpWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("中相跳线支撑管μz", 20) + PhaseTraList[6].PropUpWindPara.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相跳线支撑管μz", 20) + PhaseTraList[7].PropUpWindPara.ToString("0.0").PadRight(8));
 
             return rslt;
         }

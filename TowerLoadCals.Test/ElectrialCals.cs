@@ -195,6 +195,7 @@ namespace TowerLoadCals.Test
             commParas.TerrainPara = 0.16;
             commParas.IndAveHei = 20;
             commParas.GrdAveHei = 20;
+            commParas.GrdCl = 1.2;
             commParas.SetForIncrPara(1,1.05, 1,1.1,1.1, 1.1, 1.1, 1.1, 1.1);
             commParas.SetForMaxMinPara(1.025, 1.025, 1.122, 1.08, 0.95, 0.95, 1, 1);
             commParas.SetOverDrive(0,0);
@@ -203,6 +204,13 @@ namespace TowerLoadCals.Test
             ElecCalsSideRes OneWrieSidePara = new ElecCalsSideRes(0.95, 2.85, 25, 1, 4.1, 20, 1, 4.1, 20);
             ElecCalsSideRes AnoWrieSidePara = new ElecCalsSideRes(0.95, 2.8, 25, 1, 4.1, 20, 1, 4.1, 20);
 
+            ElecCalsTowerAppre BackAppre = new ElecCalsTowerAppre();
+            BackAppre.SetTraPara(29.2, 14.1, 0, 37.2, 29.2, 14.1, 0);
+            ElecCalsTowerAppre CalsAppre = new ElecCalsTowerAppre();
+            CalsAppre.SetTraPara(29.2, 14.1, 0, 37.2, 29.2, 14.1, 0);
+            ElecCalsTowerAppre FrontAppre = new ElecCalsTowerAppre();
+            FrontAppre.SetTraPara(30, 14.3, 0, 34, 30, 14.3, 0);
+
             TowerStrainElecCals BackTower = new TowerStrainElecCals();
             TowerStrainElecCals CalTower = new TowerStrainElecCals();
             TowerHangElecCals FrontTower = new TowerHangElecCals();
@@ -210,17 +218,20 @@ namespace TowerLoadCals.Test
             List<string> logList = new List<string>();
 
             BackTower.SetPosInf("NAB204", "SJC29152", 48, 1997.1, -4.1, 0, 0, 0);
-            BackTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2, 14.1, 0);
+            BackTower.TowerAppre = BackAppre;
             BackTower.UpdataTowerTraHei();
+            BackTower.UpdateAtitudeTower();
 
             CalTower.SetPosInf("NAB205", "SJC29152", 48, 2277.1, -6.3, 0, 0, 45.98);
             CalTower.SetFrontBackPosInf(325, 430, 593, 593);
-            CalTower.SetAppreaPara(29.2f, 14.1f, 0, 37.2f, 29.2, 14.1, 0);
+            CalTower.TowerAppre = CalsAppre;
             CalTower.UpdataTowerTraHei();
+            CalTower.UpdateAtitudeTower();
 
             FrontTower.SetPosInf("NAB206", "SZC27154A", 67, 2350.8, -5, 8, 0.5, 45.98);
-            FrontTower.SetAppreaPara(30, 14.3f, 0, 34, 30, 14.3, 0);
+            FrontTower.TowerAppre = FrontAppre;
             FrontTower.UpdataTowerTraHei();
+            FrontTower.UpdateAtitudeTower();
 
             //打印高差
             logList.AddRange(BackTower.PrintHei("小号塔", false));
@@ -262,7 +273,8 @@ namespace TowerLoadCals.Test
             ElecCalsStrData GrdStr = new ElecCalsStrData();
             GrdStr.SetIGPara(40, 2, 2, 146, 4, 2.5, 0);
             ElecCalsStrData JumpStr = new ElecCalsStrData();
-            JumpStr.SetJumPara(400, 1, 38, 8, 30, 4, 0, 20, 10);
+            //JumpStr.SetJumPara(400, 1, 38, 8, 30, 4, 0, 20, 10);
+            JumpStr.SetJumPara(400, 1, 38, 8, 30, 4, 0);
 
             CalTower.GetAndUpdateStrData(IndStr, GrdStr, JumpStr);
 
@@ -291,6 +303,12 @@ namespace TowerLoadCals.Test
 
             logList.Add("\n跳线绝缘子串风荷载：");
             logList.AddRange(CalTower.PrintJumpStrLoad());
+
+            CalTower.FlashBackHeiSub(BackTower);
+            CalTower.FlashBackHeiSub(FrontTower);
+            CalTower.UpdateWindPara();
+            logList.Add("\n高差和风压系数：");
+            logList.AddRange(CalTower.PrintWindPara());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);
 

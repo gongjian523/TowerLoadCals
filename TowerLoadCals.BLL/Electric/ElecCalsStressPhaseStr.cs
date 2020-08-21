@@ -46,33 +46,33 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 串长
         /// </summary>
-        public float BaseStringEquLength { get; set; }
+        public double BaseStringEquLength { get; set; }
 
 
         /// <summary>
         /// 空间位置数据
         /// </summary>
-        public PhaseSpaceStrUtils SpaceStr { get; set; }
+        public PhaseSpaceStrUtils SpaceStr { get; set; } = new PhaseSpaceStrUtils();
 
         /// <summary>
         ///  线风压系数
         /// </summary>
-        public float WireWindPara { get; set; }
+        public double WireWindPara { get; set; }
 
         /// <summary>
         /// 绝缘子串风压系数
         /// </summary>
-        public float StrWindPara { get; set; }
+        public double StrWindPara { get; set; }
 
         /// <summary>
         ///  跳线风压系数
         /// </summary>
-        public float JmWindPara { get; set; }
+        public double JmWindPara { get; set; }
 
         /// <summary>
         /// 支撑管风压系数
         /// </summary>
-        public float PropUpWindPara { get; set; }
+        public double PropUpWindPara { get; set; }
 
         /// <summary>
         ///  线计算数据
@@ -155,8 +155,8 @@ namespace TowerLoadCals.BLL.Electric
                 rslt.BaseWindSpeed = (anWea != null && anWea.BaseWindSpeed > weaItem.BaseWindSpeed) ? anWea.BaseWindSpeed : weaItem.BaseWindSpeed;
 
                 rslt.JumpStrWindLoad = Math.Round(ElecCalsToolBox2.StringWind(JumpStr.PieceNum, JumpStr.LNum, JumpStr.GoldPieceNum, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed), 3);
-                rslt.JumpWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JmWireData.Dia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed), 3) * JumpStr.GoldPieceNum;
-                rslt.SuTubleWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JumpStr.SuTubleDi, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed), 3) * JumpStr.SuTubleLen;
+                rslt.JumpWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JmWireData.Dia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed)/1000, 3) * JumpStr.SoftLineLen;
+                rslt.SuTubleWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JumpStr.SuTubleDi, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed)/1000, 3) * JumpStr.SuTubleLen;
 
                 JumpStrLoad.Add(weaItem.Name, rslt);
             }
@@ -330,5 +330,10 @@ namespace TowerLoadCals.BLL.Electric
 
             return (iceThick / 5);
         }
+
+
+
+
+
     }
 }

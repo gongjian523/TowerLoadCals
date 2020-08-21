@@ -25,7 +25,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 
         /// </summary>
-        public string VoltStr{ get; set; }
+        public string VoltStr { get; set; }
 
 
         /// <summary>
@@ -269,6 +269,11 @@ namespace TowerLoadCals.BLL.Electric
         /// 暂时放在这里
         /// </summary>
         public double JumpStrLen { get; set; }
+
+        /// <summary>
+        /// 对地距离(m)
+        /// </summary>
+        public double GrdCl  {get; set;}
 
         public ElecCalsCommRes()
         {

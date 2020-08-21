@@ -11,7 +11,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 
         /// </summary>
-        public String Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// 

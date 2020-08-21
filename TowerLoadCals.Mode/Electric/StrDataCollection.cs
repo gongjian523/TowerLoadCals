@@ -11,7 +11,7 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 类型 
         /// </summary>
-        public String Type { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// 重量

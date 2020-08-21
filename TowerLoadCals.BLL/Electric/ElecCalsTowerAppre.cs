@@ -13,6 +13,7 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public int Type { get; set; }
 
+        
         /// <summary>
         ///
         /// </summary>
@@ -35,60 +36,39 @@ namespace TowerLoadCals.BLL.Electric
 
 
         /// <summary>
-        /// 上相导线高差
+        /// 上相导线高差(上相（中相）与下横担高差)
         /// </summary>
         public double UpSideInHei { get; set; }
 
         /// <summary>
-        /// 中相导线高差
+        /// 中相导线高差(中相（边相）与下横担高差)
         /// </summary>
         public double MidInHei { get; set; }
 
         /// <summary>
-        /// 下相导线高差
+        /// 下相导线高差(下相（边相）与下横担高差)
         /// </summary>
         public double DnSideInHei { get; set; }
 
         /// <summary>
-        /// 地线高差
+        /// 地线高差(地线与下横担高差)
         /// </summary>
         public double GrDHei { get; set; }
 
         /// <summary>
-        /// 上相跳线高差
+        /// 上相跳线高差(上相（中相）跳线挂点与下横担高差)
         /// </summary>
         public double UpSideJuHei { get; set; }
 
         /// <summary>
-        ///  中相跳线高差
+        ///  中相跳线高差(中相（边相）跳线挂点与下横担高差)
         /// </summary>
         public double MidJuHei { get; set; }
 
         /// <summary>
-        /// 下相跳线高差
+        /// 下相跳线高差(下相（边相）跳线挂点与下横担高差)
         /// </summary>
         public double DnSideJuHei { get; set; }
-
-
-        /// <summary>
-        /// 中相导线μz（单回）/上相导线μz（双回）
-        /// </summary>
-        public double UpInMuz { get; set; }
-
-        /// <summary>
-        /// 边相导线μz（单回）/中相导线μz（双回）
-        /// </summary>
-        public double MidInMuz { get; set; }
-
-        /// <summary>
-        /// 边相导线μz（单回）/下相导线μz（双回）
-        /// </summary>
-        public double DnInMuz { get; set; }
-
-        /// <summary>
-        /// 地线μz
-        /// </summary>
-        public double GrdMuz { get; set; }
 
         public ElecCalsTowerAppre()
         {
@@ -119,10 +99,11 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="upSideJuHei"></param>
         /// <param name="midJuHei"></param>
         /// <param name="dnSideJuHei"></param>
-        public void SetTraPara(double upSideInHei, double midInHei, double grDHei, double upSideJuHei, double midJuHei, double dnSideJuHei)
+        public void SetTraPara(double upSideInHei, double midInHei,  double dnSideInHei, double grDHei, double upSideJuHei, double midJuHei, double dnSideJuHei)
         {
             UpSideInHei = upSideInHei;
             MidInHei = midInHei;
+            DnSideInHei = dnSideInHei;
             GrDHei = grDHei;
             UpSideJuHei = upSideJuHei;
             MidJuHei = midJuHei;
