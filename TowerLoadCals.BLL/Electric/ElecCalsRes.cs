@@ -45,6 +45,10 @@ namespace TowerLoadCals.BLL.Electric
 
         public ElecCalsCommRes CommParas { get; set; }
 
+
+        public ElecCalsSpanFit SpanFit { get; set; }
+
+
         /// <summary>
         /// 冰区类型：轻冰区，中冰区，重冰区
         /// </summary>

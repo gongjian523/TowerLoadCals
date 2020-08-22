@@ -127,26 +127,32 @@ namespace TowerLoadCals.BLL.Electric
             PhaseTraList[2].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
             PhaseTraList[2].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[3].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsGrdHei, BackIndWindHc, FrontSideRes.CommParas.GrdAveHei);
+            PhaseTraList[3].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsGrdHei, BackGrdWindHc, FrontSideRes.CommParas.GrdAveHei);
             PhaseTraList[3].StrWindPara = CalsStrWindPara(AbsGrdHei, FrontSideRes.CommParas.GrdAveHei);
 
-            PhaseTraList[5].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsUpSideHei, BackIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[4].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsGrdHei, BackGrdWindHc, FrontSideRes.CommParas.GrdAveHei);
+            PhaseTraList[4].StrWindPara = CalsStrWindPara(AbsGrdHei, FrontSideRes.CommParas.GrdAveHei);
+
+            PhaseTraList[5].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsUpSideHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
             PhaseTraList[5].StrWindPara = CalsStrWindPara(AbsUpSideHei, BackSideRes.CommParas.IndAveHei);
             PhaseTraList[5].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsUpJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
             PhaseTraList[5].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsUpJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[6].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsMidHei, BackIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[6].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsMidHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
             PhaseTraList[6].StrWindPara = CalsStrWindPara(AbsMidHei, BackSideRes.CommParas.IndAveHei);
             PhaseTraList[6].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsMidJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
             PhaseTraList[6].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsMidJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[7].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsDownSideHei, BackIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[7].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsDownSideHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
             PhaseTraList[7].StrWindPara = CalsStrWindPara(AbsDownSideHei, BackSideRes.CommParas.IndAveHei);
             PhaseTraList[7].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsDownJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
             PhaseTraList[7].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsDownJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[8].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsGrdHei, BackIndWindHc, BackSideRes.CommParas.GrdAveHei);
+            PhaseTraList[8].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsGrdHei, FrontGrdWindHc, BackSideRes.CommParas.GrdAveHei);
             PhaseTraList[8].StrWindPara = CalsStrWindPara(AbsGrdHei, BackSideRes.CommParas.GrdAveHei);
+
+            PhaseTraList[9].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsGrdHei, FrontGrdWindHc, BackSideRes.CommParas.GrdAveHei);
+            PhaseTraList[9].StrWindPara = CalsStrWindPara(AbsGrdHei, BackSideRes.CommParas.GrdAveHei);
         }
 
 
@@ -163,14 +169,11 @@ namespace TowerLoadCals.BLL.Electric
             //1：线平均高 2:按照下相挂点高反算
             if (wireWindPara == 1)
             {
-                //按线平均高
-                return ((int)(Math.Pow(((wireHei - 2 / 3 * wireWindVerSag) / avaHei), 0.32) * 1000 + 0.5)) / 1000;
+                return ((double)(int)(Math.Pow(wireHei / avaHei, 0.32) * 1000 + 0.5)) / 1000;
             }
             else
             {
-                //按挂点高
-                //这儿wireHei在Excel中指定是平均上/中/下/地线高，在 计算方式为按照挂点高时，直接等于塔上/中/下相挂点高
-                return ((int)(Math.Pow((wireHei / avaHei), 0.32) * 1000 + 0.5)) / 1000;
+                return ((double)(int)(Math.Pow((wireHei - 2d / 3 * wireWindVerSag) / avaHei, 0.32) * 1000 + 0.5)) / 1000;
             }
         }
 
@@ -235,12 +238,137 @@ namespace TowerLoadCals.BLL.Electric
 
 
         /// <summary>
-        /// 计算各个工况的垂直档距，耐张塔分为前后侧计算
+        /// 计算各个工况的垂直档距,，耐张塔分为前后侧计算
         /// </summary>
-        void CalHoriVetValue()
+        public void Cals()
         {
+            for(int i = 0; i <= 4; i++)
+            {
+                PhaseTraList[i].UpdateVertialSpan();
 
+                var spanFit = BackSideRes.SpanFit;
+
+                double diaInc, weiInc, weiFZC;
+                int numFZC;
+
+                if (PhaseTraList[i].WireData.bGrd == 0){
+                    diaInc = BackSideRes.CommParas.DiaIndInc;
+                    weiInc = BackSideRes.CommParas.WeiIndInc;
+                    numFZC = spanFit.NumInFZC;
+                    weiFZC = spanFit.WeiInFZC;
+                }
+                else if (PhaseTraList[i].WireData.bGrd == 1){
+                    diaInc = BackSideRes.CommParas.DiaGrdInc;
+                    weiInc = BackSideRes.CommParas.WeiGrdInc;
+                    numFZC = spanFit.NumGrFZC;
+                    weiFZC = spanFit.WeiGrFZC;
+                }
+                else
+                {
+                    diaInc = BackSideRes.CommParas.DiaOPGWInc;
+                    weiInc = BackSideRes.CommParas.WeiOPGWInc;
+                    numFZC = spanFit.NumGrFZC;
+                    weiFZC = spanFit.WeiGrFZC;
+                }
+
+                PhaseTraList[i].UpdateHoriLoad(diaInc);
+                PhaseTraList[i].UpdateVerLoad(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
+            }
+
+            for (int i = 5; i <= 9; i++)
+            {
+                PhaseTraList[i].UpdateVertialSpan();
+
+                var spanFit = FrontSideRes.SpanFit;
+
+                double diaInc, weiInc, weiFZC;
+                int numFZC;
+                if (PhaseTraList[i].WireData.bGrd == 0)
+                {
+                    diaInc = FrontSideRes.CommParas.DiaIndInc;
+                    weiInc = FrontSideRes.CommParas.WeiIndInc;
+                    numFZC = spanFit.NumInFZC;
+                    weiFZC = spanFit.WeiInFZC;
+                }
+                else if (PhaseTraList[i].WireData.bGrd == 1)
+                {
+                    diaInc = FrontSideRes.CommParas.DiaGrdInc;
+                    weiInc = FrontSideRes.CommParas.WeiGrdInc;
+                    numFZC = spanFit.NumGrFZC;
+                    weiFZC = spanFit.WeiGrFZC;
+                }
+                else
+                {
+                    diaInc = FrontSideRes.CommParas.DiaOPGWInc;
+                    weiInc = FrontSideRes.CommParas.WeiOPGWInc;
+                    numFZC = spanFit.NumGrFZC;
+                    weiFZC = spanFit.WeiGrFZC;
+                }
+
+                PhaseTraList[i].UpdateHoriLoad(diaInc);
+                PhaseTraList[i].UpdateVerLoad(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
+            }
         }
+
+        public List<string> PrintCalsReslt()
+        {
+            List<string> relt = new List<string>();
+
+            relt.Add("\n垂直档距计算：");
+            for (int i = 0; i <= 4; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧"+i, 118) + FileUtils.PadRightEx("大号侧"+i, 118));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i+5];
+
+                foreach(var name in phase.WireData.WorkCdtNames)
+                {
+                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.VerSpanStrDic[name], 80) + FileUtils.PadRightEx(phase.VerSpanDic[name].ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.VerSpanStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.VerSpanDic[name].ToString("0.###"), 12));
+                }
+            }
+
+            relt.Add("\n水平荷载计算：");
+            for (int i = 0; i <= 4; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i + 5];
+
+                foreach (var name in phase.WireData.WorkCdtNames)
+                {
+                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.HoriLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.HoriLoadDic[name].ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.HoriLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.HoriLoadDic[name].ToString("0.###"), 12));
+                }
+            }
+
+
+            relt.Add("\n垂直荷载计算：");
+            for (int i = 0; i <= 4; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i + 5];
+
+                foreach (var name in phase.WireData.WorkCdtNames)
+                {
+                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.VerLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.VerLoadDic[name].ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.VerLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.VerLoadDic[name].ToString("0.###"), 12));
+                }
+            }
+
+            return relt;
+        }
+
 
         double BackIndWindHc { get; set; } = 22.10;
         double FrontIndWindHc { get; set; } = 7.62;
@@ -276,7 +404,7 @@ namespace TowerLoadCals.BLL.Electric
             {
                 MaxIndBackHc = Math.Min(GdBackHc, KMaxHc) / BackSideRes.IndWire.BzDic["覆冰无风"].g2 * BackSideRes.IndWire.YLTable["覆冰无风"] * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.YLTable["最大风速"];
             }
-            double BackIndWindHc = MaxIndBackHc * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.BzDic["最大风速"].g7;
+            BackIndWindHc = MaxIndBackHc * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.BzDic["最大风速"].g7;
 
             //计算前侧的大风应用弧垂
             //对地距离控制最大弧垂
@@ -372,42 +500,44 @@ namespace TowerLoadCals.BLL.Electric
             List<string> rslt = new List<string>();
 
             rslt.Add("小号侧");
-            rslt.Add(FileUtils.PadRightEx("上相导线高差", 20) + PhaseTraList[0].SpaceStr.SubHei.ToString("0.0").PadRight(8) 
-                + FileUtils.PadRightEx("中相导线高差", 20) + PhaseTraList[1].SpaceStr.SubHei.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相导线高差", 20) + PhaseTraList[2].SpaceStr.SubHei.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("地线高差", 20) + PhaseTraList[3].SpaceStr.SubHei.ToString("0.0").PadRight(8));
-            rslt.Add(FileUtils.PadRightEx("上相导线μz", 20) + PhaseTraList[0].WireWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("中相导线μz", 20) + PhaseTraList[1].WireWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相导线μz", 20) + PhaseTraList[2].WireWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("地线μz", 20) + PhaseTraList[3].WireWindPara.ToString("0.0").PadRight(8));
-            rslt.Add(FileUtils.PadRightEx("上相串μz", 20) + PhaseTraList[0].StrWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("中相串μz", 20) + PhaseTraList[1].StrWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相串μz", 20) + PhaseTraList[2].StrWindPara.ToString("0.0").PadRight(8));
-            rslt.Add(FileUtils.PadRightEx("上相跳线绝缘子μz", 20) + PhaseTraList[0].JmWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("中相跳线绝缘子μz", 20) + PhaseTraList[1].JmWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相跳线绝缘子μz", 20) + PhaseTraList[2].JmWindPara.ToString("0.0").PadRight(8));
-            rslt.Add(FileUtils.PadRightEx("上相跳线支撑管μz", 20) + PhaseTraList[0].PropUpWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("中相跳线支撑管μz", 20) + PhaseTraList[1].PropUpWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相跳线支撑管μz", 20) + PhaseTraList[2].PropUpWindPara.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相导线高差", 17) + PhaseTraList[0].SpaceStr.SubHei.ToString("0.0").PadRight(8) 
+                + FileUtils.PadRightEx("中相导线高差", 17) + PhaseTraList[1].SpaceStr.SubHei.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相导线高差", 17) + PhaseTraList[2].SpaceStr.SubHei.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("地线高差", 17) + PhaseTraList[3].SpaceStr.SubHei.ToString("0.000").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相导线μz", 18) + PhaseTraList[0].WireWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("中相导线μz", 18) + PhaseTraList[1].WireWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("下相导线μz", 18) + PhaseTraList[2].WireWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("地线μz", 18) + PhaseTraList[3].WireWindPara.ToString("0.000").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相串μz", 18) + PhaseTraList[0].StrWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("中相串μz", 18) + PhaseTraList[1].StrWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("下相串μz", 18) + PhaseTraList[2].StrWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("地线串μz", 18) + PhaseTraList[3].StrWindPara.ToString("0.00").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相跳线绝缘子μz", 18) + PhaseTraList[0].JmWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("中相跳线绝缘子μz", 18) + PhaseTraList[1].JmWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("下相跳线绝缘子μz", 18) + PhaseTraList[2].JmWindPara.ToString("0.000").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相跳线支撑管μz", 18) + PhaseTraList[0].PropUpWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("中相跳线支撑管μz", 18) + PhaseTraList[1].PropUpWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("下相跳线支撑管μz", 18) + PhaseTraList[2].PropUpWindPara.ToString("0.000").PadRight(8));
 
             rslt.Add("\n大号侧");
-            rslt.Add(FileUtils.PadRightEx("上相导线高差", 20) + PhaseTraList[5].SpaceStr.SubHei.ToString("0.0").PadRight(8) 
-                + FileUtils.PadRightEx("中相导线高差", 20) + PhaseTraList[6].SpaceStr.SubHei.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相导线高差", 20) + PhaseTraList[7].SpaceStr.SubHei.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("地线高差", 20) + PhaseTraList[8].SpaceStr.SubHei.ToString("0.0").PadRight(8));
-            rslt.Add(FileUtils.PadRightEx("上相导线μz", 20) + PhaseTraList[5].WireWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("中相导线μz", 20) + PhaseTraList[6].WireWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相导线μz", 20) + PhaseTraList[7].WireWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("地线μz", 20) + PhaseTraList[8].WireWindPara.ToString("0.0").PadRight(8));
-            rslt.Add(FileUtils.PadRightEx("上相串μz", 20) + PhaseTraList[5].StrWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("中相串μz", 20) + PhaseTraList[6].StrWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相串μz", 20) + PhaseTraList[7].StrWindPara.ToString("0.0").PadRight(8));
-            rslt.Add(FileUtils.PadRightEx("上相跳线绝缘子μz", 20) + PhaseTraList[5].JmWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("中相跳线绝缘子μz", 20) + PhaseTraList[6].JmWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相跳线绝缘子μz", 20) + PhaseTraList[7].JmWindPara.ToString("0.0").PadRight(8));
-            rslt.Add(FileUtils.PadRightEx("上相跳线支撑管μz", 20) + PhaseTraList[5].PropUpWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("中相跳线支撑管μz", 20) + PhaseTraList[6].PropUpWindPara.ToString("0.0").PadRight(8)
-                + FileUtils.PadRightEx("下相跳线支撑管μz", 20) + PhaseTraList[7].PropUpWindPara.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相导线高差", 17) + PhaseTraList[5].SpaceStr.SubHei.ToString("0.0").PadRight(8) 
+                + FileUtils.PadRightEx("中相导线高差", 17) + PhaseTraList[6].SpaceStr.SubHei.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("下相导线高差", 17) + PhaseTraList[7].SpaceStr.SubHei.ToString("0.0").PadRight(8)
+                + FileUtils.PadRightEx("地线高差", 17) + PhaseTraList[8].SpaceStr.SubHei.ToString("0.0").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相导线μz", 18) + PhaseTraList[5].WireWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("中相导线μz", 18) + PhaseTraList[6].WireWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("下相导线μz", 18) + PhaseTraList[7].WireWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("地线μz", 18) + PhaseTraList[8].WireWindPara.ToString("0.000").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相串μz", 18) + PhaseTraList[5].StrWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("中相串μz", 18) + PhaseTraList[6].StrWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("下相串μz", 18) + PhaseTraList[7].StrWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("地线串μz", 18) + PhaseTraList[8].StrWindPara.ToString("0.000").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相跳线绝缘子μz", 18) + PhaseTraList[5].JmWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("中相跳线绝缘子μz", 18) + PhaseTraList[6].JmWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("下相跳线绝缘子μz", 18) + PhaseTraList[7].JmWindPara.ToString("0.000").PadRight(8));
+            rslt.Add(FileUtils.PadRightEx("上相跳线支撑管μz", 18) + PhaseTraList[5].PropUpWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("中相跳线支撑管μz", 18) + PhaseTraList[6].PropUpWindPara.ToString("0.000").PadRight(8)
+                + FileUtils.PadRightEx("下相跳线支撑管μz", 18) + PhaseTraList[7].PropUpWindPara.ToString("0.000").PadRight(8));
 
             return rslt;
         }

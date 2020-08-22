@@ -79,17 +79,29 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public ElecCalsWire WireData { get; set; }
 
-
         /// <summary>
         /// 跳线计算数据
         /// </summary>
         public ElecCalsWire JmWireData { get; set; }
 
         [XmlIgnore]
-        public Dictionary<string, double> VerSpanDic { get; set; }
+        public Dictionary<string, double> VerSpanDic { get; set; } = new Dictionary<string, double>();
 
         [XmlIgnore]
-        public Dictionary<string, double> HoriLoadDic { get; set; }
+        public Dictionary<string, string> VerSpanStrDic { get; set; } = new Dictionary<string, string>();
+
+        [XmlIgnore]
+        public Dictionary<string, double> HoriLoadDic { get; set; } = new Dictionary<string, double>();
+
+        [XmlIgnore]
+        public Dictionary<string, string> HoriLoadStrDic { get; set; } = new Dictionary<string, string>();
+
+
+        [XmlIgnore]
+        public Dictionary<string, double> VerLoadDic { get; set; } = new Dictionary<string, double>();
+
+        [XmlIgnore]
+        public Dictionary<string, string> VerLoadStrDic { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// 绝缘子串的荷载
@@ -166,17 +178,15 @@ namespace TowerLoadCals.BLL.Electric
         /// 计算垂直档距
         /// </summary>
         /// 
-        public void UpdateVertialSpan(double span, double upSideInHei)
+        public void UpdateVertialSpan()
         {
-            foreach (var nameWd in WireData.WeatherParas.NameOfWkCdt)
+            foreach (var nameWd in WireData.WorkCdtNames)
             {
-                BZResult bz = WireData.BzDic[nameWd];
-
                 //这儿比载excel中用的是孤立档应力，用的是普通档应力
-                //upSideInHei  这儿全部用的是上相导线高差， 有可能应该用的是自己的项的高差
-                double rslt = VerticalSpan(span, upSideInHei, bz.Stress, bz.BiZai);
-
+                double rslt = VerticalSpan(SpaceStr.Span, SpaceStr.SubHei, WireData.YLTable2[nameWd], WireData.BzDic[nameWd].BiZai, out string str);
+                
                 VerSpanDic.Add(nameWd, rslt);
+                VerSpanStrDic.Add(nameWd, str);
             }
         }
 
@@ -184,27 +194,26 @@ namespace TowerLoadCals.BLL.Electric
         /// 垂直档距
         /// </summary>
         /// <param name="span">档距</param>
-        /// <param name="upSideInHei">上相导线高差</param>
+        /// <param name="wireHei">高差</param>
         /// <param name="stress">孤立档应力</param>
         /// <param name="specLoad">比载</param>
         /// <returns></returns>
-        protected double VerticalSpan(double span, double upSideInHei, double stress, double specLoad)
+        protected double VerticalSpan(double span, double wireHei, double stress, double specLoad, out string str)
         {
-            return Math.Round(span / 2 + stress / specLoad * Calc.Asinh(specLoad * upSideInHei / (2 * stress * Math.Sinh(specLoad * span / 2 / stress))), 2);
+            double  rslt = Math.Round(span / 2 + stress / specLoad * Calc.Asinh(specLoad * wireHei / (2 * stress * Math.Sinh(specLoad * span / 2 / stress))), 2);
+            str = span.ToString() + "/2+" + stress.ToString("0.000") + "/" + specLoad.ToString("0.000") + "*ASINH(" + specLoad.ToString("0.000") + "*" + wireHei.ToString("0.0") 
+                + "/(2*" + stress.ToString("0.000") + "*SINH(" + specLoad.ToString("0.000")+ "*" + span + "/2/" + stress.ToString("0.000") + "))=" + rslt.ToString("0.##");
+            return rslt;
         }
 
-
-        public void UpdateHeriLoad(double diaInc, double verSpan, double dampLength, double windLoad, double strWindLaod)
+        public void UpdateHoriLoad(double diaInc)
         {
-            foreach (var nameWd in WireData.WeatherParas.NameOfWkCdt)
+            foreach (var nameWd in WireData.WorkCdtNames)
             {
-                BZResult bz = WireData.BzDic[nameWd];
-
-                //这儿比载excel中用的是孤立档应力，用的是普通档应力
-                //upSideInHei  这儿全部用的是上相导线高差， 有可能应该用的是自己的项的高差
-                double rslt = HoriLoad(diaInc, WireData.DevideNum, verSpan,  dampLength,  windLoad, strWindLaod);
+                double rslt = HoriLoad(diaInc, WireData.DevideNum, SpaceStr.Span, HangStr.DampLength, WireData.BzDic[nameWd].WindHezai, StrLoad[nameWd].WindLoad, out string str);
 
                 HoriLoadDic.Add(nameWd, rslt);
+                HoriLoadStrDic.Add(nameWd, str);
             }
         }
 
@@ -214,16 +223,34 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         /// <param name="diaInc">直径增大系数</param>
         /// <param name="devideNum"> 分裂系数</param>
-        /// <param name="verSpan">水平档距</param>
+        /// <param name="span">档距</param>
         /// <param name="dampLength">阻尼线长</param>
         /// <param name="windLoad">风荷载, 来源用wire,Bizai中的风荷载</param>
         /// <param name="strWindLaod">绝缘子串的风荷载</param>
         /// <returns></returns>
-        protected double HoriLoad(double diaInc, double devideNum, double verSpan, double dampLength, double windLoad, double strWindLaod)
+        protected double HoriLoad(double diaInc, double devideNum, double span, double dampLength, double windLoad, double strWindLaod, out string str)
         {
-            return Math.Round((diaInc * WireWindPara * devideNum * (verSpan / 2 + dampLength) * windLoad + StrWindPara * strWindLaod), 2);
+            double rslt = Math.Round(diaInc * WireWindPara * devideNum * (span / 2 + dampLength) * windLoad + StrWindPara * strWindLaod, 2);
+            str = diaInc.ToString() + "*" + WireWindPara.ToString("0.###") + "*" + devideNum.ToString() + "*(" + (span/2).ToString("0.###") + "+"  
+                + dampLength.ToString("0.000") + ")*" +  windLoad.ToString("0.000") + "+" +  StrWindPara.ToString("0.000") + "*" + strWindLaod.ToString("0.000") + "= " + rslt.ToString("0.000");
+            return rslt;
         }
 
+
+        public void UpdateVerLoad(double weiInc, int numJGB, double weiJGB, int numFZ, double weiFZ)
+        {
+            foreach (var nameWd in WireData.WorkCdtNames)
+            {
+                var wea = WireData.WeatherParas.WeathComm.Where(item => item.Name == nameWd).FirstOrDefault();
+
+                double iceThick = wea == null ? 0 : wea.IceThickness;
+                double rslt = VerLoad(weiInc, WireData.DevideNum, WireData.BzDic[nameWd].VerHezai,VerSpanDic[nameWd], StrLoad[nameWd].VerLoad, numJGB, weiJGB, weiFZ, iceThick,
+                    numFZ,HangStr.DampLength, WireData.bGrd,  out string str);
+
+                VerLoadDic.Add(nameWd, rslt);
+                VerLoadStrDic.Add(nameWd, str);
+            }
+        }
 
         /// <summary>
         /// 垂直荷载
@@ -231,20 +258,35 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="weightInc">重量增大 来自公共参数</param>
         /// <param name="devideNum">分裂系数</param>
         /// <param name="verLoad">垂直荷载 来源用wire,Bizai中的垂直荷载</param>
-        /// <param name="计算过程C4">垂直档距，就是前面算的</param>
+        /// <param name="verSpan">垂直档距，就是前面算的</param>
         /// <param name="strVerLoad">绝缘子串的垂直荷载</param>
-        /// <param name="intervalTubeNum">每相导线间隔棒数</param>
-        /// <param name="spaceBatonWei">导线间隔棒重</param>
-        /// <param name="antiVibraHamWei">导线防振锤重</param>
+        /// <param name="numJGB">每相导线间隔棒数</param>
+        /// <param name="weiJGB">导线间隔棒重</param>
+        /// <param name="weiFZ">导线防振锤重</param>
         /// <param name="iceThick">覆冰厚度 来源用wire.wea</param>
-        /// <param name="antiViraNum">每相导线防震锤</param>
+        /// <param name="numFZum">每相导线防震锤</param>
         /// <param name="dampLength">阻尼线长</param>
         /// <returns></returns>
-        protected double VerLoad(double weightInc, double devideNum, double verLoad, double 计算过程C4, double strVerLoad, int spacerBatonNum
-            , double spaceBatonWei, double antiVibraHamWei, double iceThick, double antiViraNum, double dampLength)
+        protected double VerLoad(double weightInc, int devideNum, double verLoad, double verSpan, double strVerLoad, int numJGB, 
+            double weiJGB, double weiFZ, double iceThick, int numFZum, double dampLength, int bGrd, out string str)
         {
-            return weightInc * devideNum * verLoad * 计算过程C4 * +strVerLoad + spacerBatonNum * (spaceBatonWei + iceThick / 5) 
-                + antiViraNum *(antiVibraHamWei + iceThick /5) + verLoad * dampLength;
+            if(bGrd == 0)
+            {
+                double rslt = weightInc * devideNum * verLoad * verSpan + strVerLoad + numJGB * (weiJGB + iceThick / 5)
+                    + numFZum * (weiFZ + iceThick / 5) + verLoad * dampLength;
+                str = weightInc.ToString("0.###") + "*" + devideNum.ToString("0.###") + "*" + verLoad.ToString("0.###") + "*" + verSpan.ToString("0.###") + "+" + strVerLoad.ToString("0.###") + "+" + numJGB.ToString("0.###")
+                    + "*(" + weiJGB.ToString("0.###") + "+" + (iceThick / 5).ToString("0.###") + ")+" + numFZum.ToString("0.###") + "*(" + weiFZ.ToString("0.###") + "+" + (iceThick / 5).ToString("0.###") + ")+"
+                    + verLoad.ToString("0.###") + "*" + dampLength.ToString("0.###") + "=" + rslt.ToString("0.###");
+                return rslt;
+            }
+            else
+            {
+                double rslt = weightInc * devideNum * verLoad * verSpan + strVerLoad + numFZum * (weiFZ + iceThick / 5) + verLoad * dampLength;
+                str = weightInc.ToString("0.###") + "*" + devideNum.ToString("0.###") + "*" + verLoad.ToString("0.###") + "*" + verSpan.ToString("0.###") + "+" + strVerLoad.ToString("0.###") + "+" + numFZum.ToString("0.###") 
+                    + "*(" + weiFZ.ToString("0.###") + "+" + (iceThick / 5).ToString("0.###") + ")+" + verLoad.ToString("0.###") + "*" + dampLength.ToString("0.###") + "=" + rslt.ToString("0.###");
+                return rslt;
+            }
+
         }
 
 
@@ -317,17 +359,6 @@ namespace TowerLoadCals.BLL.Electric
 
         protected double WeightIceIn(double iceThick)
         {
-            //Dim exZai As Boolean
-            //Dim IceBank As Double
-            //exZai = False
-            //For i = 0 To 6
-            //    IceBank = AAIce.Cells(1, 1 + i).Value
-            //    If Abs(IceBank -Ice) < 0.001 Then
-            //       WeightIceIn = AAIce.Cells(2, 1 + i).Value
-            //        exZai = True
-            //    End If
-            //Next i
-
             return (iceThick / 5);
         }
 

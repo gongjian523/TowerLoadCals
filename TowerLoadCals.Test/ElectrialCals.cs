@@ -211,6 +211,9 @@ namespace TowerLoadCals.Test
             ElecCalsTowerAppre FrontAppre = new ElecCalsTowerAppre();
             FrontAppre.SetTraPara(30, 14.3, 0, 34, 30, 14.3, 0);
 
+            ElecCalsSpanFit BackSpanFit = new ElecCalsSpanFit(0, 4, 10, 0, 2, 7, 0, 12, 15);
+            ElecCalsSpanFit FrontSpanFit = new ElecCalsSpanFit(0, 0, 10, 0, 2, 7, 0, 7, 15);
+
             TowerStrainElecCals BackTower = new TowerStrainElecCals();
             TowerStrainElecCals CalTower = new TowerStrainElecCals();
             TowerHangElecCals FrontTower = new TowerHangElecCals();
@@ -243,8 +246,11 @@ namespace TowerLoadCals.Test
 
             BackSideCalRes.IceArea = "中冰区";
             BackSideCalRes.IsBackSide = true;
+            BackSideCalRes.SpanFit = BackSpanFit;
+
             FrontSideCalRes.IceArea = "中冰区";
             FrontSideCalRes.IsBackSide = false;
+            FrontSideCalRes.SpanFit = FrontSpanFit;
 
             BackSideCalRes.UpdataSor(OneWeath15, DxData, GrdData, OPGWData, DxData, OneWrieSidePara, commParas);
             FrontSideCalRes.UpdataSor(AnoWeath15, DxData, GrdData, OPGWData, DxData, AnoWrieSidePara, commParas);
@@ -278,13 +284,12 @@ namespace TowerLoadCals.Test
 
             CalTower.GetAndUpdateStrData(IndStr, GrdStr, JumpStr);
 
-            //导线有2侧，每侧有3相，因为三相的数据一样，故每侧计算一相
-            CalTower.PhaseTraList[0].CalsStrLoad();
-            CalTower.PhaseTraList[5].CalsStrLoad();
+            for(int i = 0; i <= 9; i++)
+            {
+                CalTower.PhaseTraList[i].CalsStrLoad();
+            }
 
-            CalTower.PhaseTraList[3].CalsStrLoad();
-            CalTower.PhaseTraList[8].CalsStrLoad();
-
+            //导线有2侧，每侧有3相，因为三相的数据一样，故每侧打印一相
             logList.Add("\n小号侧绝缘子串风荷载和垂直荷载：");
             logList.Add("导线");
             logList.AddRange(CalTower.PhaseTraList[0].PrintStrLoad());
@@ -297,18 +302,23 @@ namespace TowerLoadCals.Test
             logList.Add("地线");
             logList.AddRange(CalTower.PhaseTraList[8].PrintStrLoad());
 
-            CalTower.PhaseTraList[0].CalsWindLoad(commParas.VoltStr, CalTower.PhaseTraList[5].WireData.WeatherParas.WeathComm);
-            CalTower.PhaseTraList[1].CalsWindLoad(commParas.VoltStr, CalTower.PhaseTraList[6].WireData.WeatherParas.WeathComm);
-            CalTower.PhaseTraList[2].CalsWindLoad(commParas.VoltStr, CalTower.PhaseTraList[7].WireData.WeatherParas.WeathComm);
+            for (int i = 0; i <= 2; i++)
+            {
+                CalTower.PhaseTraList[i].CalsWindLoad(commParas.VoltStr, CalTower.PhaseTraList[i+5].WireData.WeatherParas.WeathComm);
+                CalTower.PhaseTraList[i+5].CalsWindLoad(commParas.VoltStr, CalTower.PhaseTraList[i].WireData.WeatherParas.WeathComm);
+            }
 
             logList.Add("\n跳线绝缘子串风荷载：");
             logList.AddRange(CalTower.PrintJumpStrLoad());
 
             CalTower.FlashBackHeiSub(BackTower);
-            CalTower.FlashBackHeiSub(FrontTower);
+            CalTower.FlashFrontHeiSub(FrontTower);
             CalTower.UpdateWindPara();
             logList.Add("\n高差和风压系数：");
             logList.AddRange(CalTower.PrintWindPara());
+
+            CalTower.Cals();
+            logList.AddRange(CalTower.PrintCalsReslt());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);
 

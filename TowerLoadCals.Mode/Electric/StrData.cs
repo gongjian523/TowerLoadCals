@@ -15,12 +15,12 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 名字 
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// 串类型 
         /// </summary>
-        public String StrType { get; set; }
+        public string StrType { get; set; }
 
         /// <summary>
         /// 重量

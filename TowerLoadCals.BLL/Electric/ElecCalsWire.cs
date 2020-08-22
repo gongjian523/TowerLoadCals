@@ -166,7 +166,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         public ElecCalsWire(string name = "", int id = 0, double sec = 0, double dia = 0, double wei = 0, double elas = 0, double elasM = 0,
-            double coef = 0, double fore = 0, int grd = 0, double decrTem = 0, int devide = 0)
+            double coef = 0, double fore = 0, int grd = 0, double decrTem = 0, int devide = 1)
         {
             ID = id;
             Name = name;
