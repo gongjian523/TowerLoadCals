@@ -202,7 +202,9 @@ namespace TowerLoadCals.Test
             commParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
 
             ElecCalsSideRes OneWrieSidePara = new ElecCalsSideRes(0.95, 2.85, 25, 1, 4.1, 20, 1, 4.1, 20);
+            OneWrieSidePara.SetTensionPara(0.95, 0.95, 1, 1);
             ElecCalsSideRes AnoWrieSidePara = new ElecCalsSideRes(0.95, 2.8, 25, 1, 4.1, 20, 1, 4.1, 20);
+            AnoWrieSidePara.SetTensionPara(1.025, 1.025, 1.122, 1.08);
 
             ElecCalsTowerAppre BackAppre = new ElecCalsTowerAppre();
             BackAppre.SetTraPara(29.2, 14.1, 0, 37.2, 29.2, 14.1, 0);
@@ -320,10 +322,11 @@ namespace TowerLoadCals.Test
             CalTower.Cals();
             logList.AddRange(CalTower.PrintCalsReslt());
 
+            CalTower.BackSideRes.UpdateTensionDiff();
+            CalTower.FrontSideRes.UpdateTensionDiff();
+            logList.AddRange(CalTower.PrintTensionDiff());
+
             FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);
-
-
-
             return;
         }
     }

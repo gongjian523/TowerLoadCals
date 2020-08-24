@@ -103,6 +103,25 @@ namespace TowerLoadCals.BLL.Electric
         [XmlIgnore]
         public Dictionary<string, string> VerLoadStrDic { get; set; } = new Dictionary<string, string>();
 
+
+        [XmlIgnore]
+        public Dictionary<string, double> TensionDic { get; set; } = new Dictionary<string, double>();
+
+        [XmlIgnore]
+        public Dictionary<string, string> TensionStrDic { get; set; } = new Dictionary<string, string>();
+
+        [XmlIgnore]
+        public Dictionary<string, double> JumpStrHorLoadDic { get; set; } = new Dictionary<string, double>();
+
+        [XmlIgnore]
+        public Dictionary<string, string> JumpStrHorLoadStrDic { get; set; } = new Dictionary<string, string>();
+
+        [XmlIgnore]
+        public Dictionary<string, double> JumpStrVerLoadDic { get; set; } = new Dictionary<string, double>();
+
+        [XmlIgnore]
+        public Dictionary<string, string> JumpStrVerLoadStrDic { get; set; } = new Dictionary<string, string>();
+
         /// <summary>
         /// 绝缘子串的荷载
         /// </summary>
@@ -168,7 +187,7 @@ namespace TowerLoadCals.BLL.Electric
 
                 rslt.JumpStrWindLoad = Math.Round(ElecCalsToolBox2.StringWind(JumpStr.PieceNum, JumpStr.LNum, JumpStr.GoldPieceNum, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed), 3);
                 rslt.JumpWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JmWireData.Dia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed)/1000, 3) * JumpStr.SoftLineLen;
-                rslt.SuTubleWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JumpStr.SuTubleDi, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed)/1000, 3) * JumpStr.SuTubleLen;
+                rslt.SuTubleWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JumpStr.SuTubleDia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed)/1000, 3) * JumpStr.SuTubleLen;
 
                 JumpStrLoad.Add(weaItem.Name, rslt);
             }
@@ -289,19 +308,91 @@ namespace TowerLoadCals.BLL.Electric
 
         }
 
+        public void UpdateTension(double secInc,  double constrError, double isntallError, double extendPara)
+        {
+            foreach (var nameWd in WireData.WorkCdtNames)
+            {
+                double rslt;
+                string str;
+
+                if (nameWd != "安装情况")
+                {
+                    rslt = Tension(out str, secInc, WireData.DevideNum, WireData.YLTable2[nameWd], WireData.Sec, constrError);
+                }
+                else{
+                    rslt = Tension(out str, secInc, WireData.DevideNum, WireData.YLTable2[nameWd], WireData.Sec, isntallError,extendPara);
+                }
+
+                TensionDic.Add(nameWd, rslt);
+                TensionStrDic.Add(nameWd, str);
+            }
+        }
+
+        /// <summary>
+        /// 线张力
+        /// </summary>
+        /// <param name="secInc">截面增大系数</param>
+        /// <param name="devideNum">导线分裂数，地线不用</param>
+        /// <param name="stress">孤立档应力，Bizai.Stress</param>
+        /// <param name="sec">截面积</param>
+        /// <param name="errorCoef">施工误差系数，全部用的大张力侧？ </param>
+        /// <returns></returns>
+        protected double Tension(out string str, double secInc, int devideNum,  double stress, double sec, double errorCoef, double extendPara = double.MinValue)
+        {
+            double rslt ;
+            if(extendPara == double.MinValue){
+                rslt = secInc * devideNum * stress * sec * errorCoef;
+                str = secInc.ToString("0.###") + "*" + devideNum.ToString("0.###")  + "*" + stress.ToString("0.###") + "*" + sec.ToString("0.###") + "*" + errorCoef.ToString("0.###")  + "=" + rslt.ToString("0.###");
+            }
+            else{
+                rslt = secInc * devideNum * stress * sec * errorCoef * devideNum * extendPara;
+                str = secInc.ToString("0.###") + "*" + devideNum.ToString("0.###")  + "*" + stress.ToString("0.###") + "*" + sec.ToString("0.###") + "*" + errorCoef.ToString("0.###") + "*" + extendPara.ToString("0.###") + "=" + rslt.ToString("0.###");
+            }
+            return rslt;
+        }
+
+        public void UpdateJumpStrHorLoad()
+        {
+            foreach (var nameWd in WireData.WorkCdtNames)
+            {
+                double rslt = JumpHoriLoad(JumpStrLoad[nameWd].JumpStrWindLoad, JumpStrLoad[nameWd].JumpWindLoad, JumpStrLoad[nameWd].SuTubleWindLoad, JmWireData.DevideNum, out string str);
+
+                JumpStrHorLoadDic.Add(nameWd, rslt);
+                JumpStrHorLoadStrDic.Add(nameWd, str);
+            }
+        }
 
         /// <summary>
         /// 跳线串水平荷载
         /// </summary>
         /// <param name="jumpStrWindLoad">跳线绝缘子串风荷载</param>
-        /// <param name="jumpWinLoad">跳线绝缘子串风荷载</param>
+        /// <param name="jumpWinLoad">跳线风荷载</param>
         /// <param name="jumpDeviedeNum">跳线分裂系数</param>
         /// <param name="PropUpWindLoad">支撑管风荷载</param>
         /// <returns></returns>
-        protected double JumpHoriLoad(double jumpStrWindLoad,  double jumpWinLoad, double PropUpWindLoad, int jumpDeviedeNum)
+        protected double JumpHoriLoad(double jumpStrWindLoad,  double jumpWinLoad, double PropUpWindLoad, int jumpDeviedeNum, out string str)
         {
-            return jumpStrWindLoad * JmWindPara + jumpWinLoad * JmWindPara * jumpDeviedeNum + PropUpWindLoad * PropUpWindPara;
+            double rslt =  jumpStrWindLoad * JmWindPara + jumpWinLoad * JmWindPara * jumpDeviedeNum + PropUpWindLoad * PropUpWindPara;
+            str = jumpStrWindLoad.ToString("0.###") + "*" + JmWindPara.ToString("0.###") + "+" + jumpWinLoad.ToString("0.###") + "*" + JmWindPara.ToString("0.###") + "*" + jumpDeviedeNum.ToString("0.###") + "+" + PropUpWindLoad.ToString("0.###") + "*" + PropUpWindPara.ToString("0.###") + "=" + rslt.ToString("0.00");
+            return rslt;
         }
+
+        public void UpdateJumpStrVerLoad(double jgbWei, List<ElecCalsWorkCondition> anWeathComm)
+        {
+            foreach (var nameWd in WireData.WorkCdtNames)
+            {
+                var wea = JmWireData.WeatherParas.WeathComm.Where(item => item.Name == nameWd).FirstOrDefault();
+                var anWea = anWeathComm.Where(item => item.Name == nameWd).FirstOrDefault();
+
+                var iceThick = Math.Max(wea == null ? 0 : wea.IceThickness, anWea == null ? 0 : anWea.IceThickness);
+
+                double rslt = JumpVerLoad(JumpStr.Weight, JumpStr.PieceNum, JumpStr.LNum, JumpStr.GoldPieceNum, JumpStr.SuTubleLen, JumpStr.SoftLineLen, JumpStr.JGBNum, iceThick,
+                    JmWireData.Wei, JmWireData.Dia, jgbWei, JmWireData.DevideNum, JumpStr.SuTubleWei, JumpStr.SuTubleDia, out string str);
+                JumpStrVerLoadDic.Add(nameWd, rslt);
+                JumpStrVerLoadStrDic.Add(nameWd, str);
+            }
+        }
+
 
         /// <summary>
         /// 跳线串垂直荷载
@@ -311,9 +402,9 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="lNum">联数 C44 </param>
         /// <param name="goldPieceNum">导地线金具折片数 E44 </param>
         /// <param name="suTubleLen">支撑管长度 F44 </param>
-        /// <param name="spaceBatonNum">间隔棒数 H44</param>
+        /// <param name="jgbNum">间隔棒数 H44</param>
         /// <param name="softJumpLen">单相单根软跳线长 G44</param>
-        /// <param name="spaceBatonWei">导线间隔棒重 A48  </param>
+        /// <param name="jgbWei">导线间隔棒重 A48  </param>
         /// <param name="jumpDivideNum">跳线分裂数 E48 </param>
         /// <param name="suTubleWei">支撑管单重 H48</param>
         /// <param name="suTubleDia">支撑管直径 G48</param>
@@ -321,11 +412,16 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="dia">跳线的直径 C139</param>
         /// <param name="iceThick">此工况对应的冰厚 D141 </param>
         /// <returns></returns>
-        public double JumpVerLoad(double jumpStrWei, double pieceNum, double lNum, double goldPieceNum,  double suTubleLen, double softJumpLen, double spaceBatonNum,  double iceThick, 
-            double unitWei, double dia, double spaceBatonWei, double jumpDivideNum, double suTubleWei, double suTubleDia)
+        public double JumpVerLoad(double jumpStrWei, double pieceNum, double lNum, double goldPieceNum,  double suTubleLen, double softJumpLen, double jgbNum,  double iceThick, 
+            double unitWei, double dia, double jgbWei, int jumpDivideNum, double suTubleWei, double suTubleDia, out string str)
         {
-            return jumpStrWei + (pieceNum * lNum + goldPieceNum) * WeightIceIn(iceThick) + (unitWei + 2.8274334 * iceThick * (dia + iceThick) / 1000) * softJumpLen * jumpDivideNum 
-                + (suTubleWei + 2.82743334 * iceThick * (suTubleDia + iceThick) / 1000) * suTubleLen + spaceBatonNum * (spaceBatonWei + iceThick / 5);
+            double rslt =  jumpStrWei + (pieceNum * lNum + goldPieceNum) * WeightIceIn(iceThick) + (unitWei + 2.8274334 * iceThick * (dia + iceThick) / 1000) * softJumpLen * jumpDivideNum 
+                + (suTubleWei + 2.82743334 * iceThick * (suTubleDia + iceThick) / 1000) * suTubleLen + jgbNum * (jgbWei + iceThick / 5);
+            str = jumpStrWei.ToString("0.###") + "+(" + pieceNum.ToString("0.###") + "*" + lNum.ToString("0.###") + "+" + goldPieceNum.ToString("0.###") + ")*" + (WeightIceIn(iceThick)).ToString("0.###") + "+(" + unitWei.ToString("0.###")
+                 + "+2.8274334*" + iceThick.ToString("0.###") + "*(" + dia.ToString("0.###") + "+" + iceThick.ToString("0.###") + ")/1000)*" + softJumpLen.ToString("0.###") + "*" + jumpDivideNum.ToString("0.###") + "+(" + suTubleWei.ToString("0.###") 
+                 + "+2.8274334*" + iceThick.ToString("0.###") + "*(" + suTubleDia.ToString("0.###") + "+" + iceThick.ToString("0.###") + ")/1000)*" + suTubleLen.ToString("0.###") + "+" + jgbNum.ToString("0.###") + "*(" + jgbWei.ToString("0.###")
+                 + "+" + iceThick.ToString("0.###") + "/5)=" + rslt.ToString("0.##");
+            return rslt;
         }
 
 

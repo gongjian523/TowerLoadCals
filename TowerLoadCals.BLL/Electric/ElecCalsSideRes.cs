@@ -68,6 +68,26 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double OPGWMaxFor { get; set; }
 
+        /// <summary>
+        /// 施工误差系数
+        /// </summary>
+        public double ConstruErrorPara { get; set; }
+
+        /// <summary>
+        /// 安装误差系数
+        /// </summary>
+        public double InsErrorPara { get; set; }
+
+        /// <summary>
+        /// 导线伸长系数
+        /// </summary>
+        public double IndExtendPara { get; set; }
+
+        /// <summary>
+        /// 地线伸长系数
+        /// </summary>
+        public double GrdExtendPara { get; set; }
+
         public ElecCalsSideRes()
         {
 
@@ -102,5 +122,13 @@ namespace TowerLoadCals.BLL.Electric
             OPGWMaxFor = oPGWMaxForSor;
         }
 
+
+        public void SetTensionPara(double insErrorPara, double construErrorPara, double indExtendPara, double grdExtendPara)
+        {
+            InsErrorPara = insErrorPara;
+            ConstruErrorPara = construErrorPara;
+            IndExtendPara = indExtendPara;
+            GrdExtendPara = grdExtendPara;
+        }
     }
 }

@@ -49,6 +49,7 @@ namespace TowerLoadCals.BLL.Electric
         public ElecCalsSpanFit SpanFit { get; set; }
 
 
+
         /// <summary>
         /// 冰区类型：轻冰区，中冰区，重冰区
         /// </summary>
@@ -181,6 +182,51 @@ namespace TowerLoadCals.BLL.Electric
             logStrs.Add(strOPGW);
 
             return logStrs;
+        }
+
+
+        public double IndBreakTensionDiff { get; set; }
+        public double GrdBreakTensionDiff { get; set; }
+        public double OPGWBreakTensionDiff { get; set; }
+
+        public double IndUnbaIceTensionDiff { get; set; }
+        public double GrdUnbaIceTensionDiff { get; set; }
+        public double OPGWUnbaIceTensionDiff { get; set; }
+
+        public string IndBreakTensionDiffStr;
+        public string GrdBreakTensionDiffStr;
+        public string OPGWBreakTensionDiffStr;
+
+        public string IndUnbaIceTensionDiffStr;
+        public string GrdUnbaIceTensionDiffStr;
+        public string OPGWUnbaIceTensionDiffStr;
+
+        public void UpdateTensionDiff()
+        {
+            IndBreakTensionDiff = TensinDiff(out IndBreakTensionDiffStr, IndWire.Fore, CommParas.SecIndInc, SideParas.IndEffectPara, SideParas.IndSafePara, IndWire.BreakTensionPara, IndWire.DevideNum);
+            GrdBreakTensionDiff = TensinDiff(out GrdBreakTensionDiffStr, GrdWire.Fore, CommParas.SecGrdInc, SideParas.GrdEffectPara, SideParas.GrdSafePara, GrdWire.BreakTensionPara);
+            OPGWBreakTensionDiff = TensinDiff(out OPGWBreakTensionDiffStr, OPGWWire.Fore, CommParas.SecOPGWInc, SideParas.OPGWEffectPara, SideParas.OPGWSafePara, OPGWWire.BreakTensionPara);
+
+            IndUnbaIceTensionDiff = TensinDiff(out IndUnbaIceTensionDiffStr, IndWire.Fore, CommParas.SecIndInc, SideParas.IndEffectPara, SideParas.IndSafePara, IndWire.UnbaTensionPara, IndWire.DevideNum);
+            GrdUnbaIceTensionDiff = TensinDiff(out GrdUnbaIceTensionDiffStr, GrdWire.Fore, CommParas.SecGrdInc, SideParas.GrdEffectPara, SideParas.GrdSafePara, GrdWire.UnbaTensionPara);
+            OPGWUnbaIceTensionDiff = TensinDiff(out OPGWUnbaIceTensionDiffStr, OPGWWire.Fore, CommParas.SecOPGWInc, SideParas.OPGWEffectPara, SideParas.OPGWSafePara, OPGWWire.UnbaTensionPara);
+
+        }
+
+        /// <summary>
+        /// 张力差
+        /// </summary>
+        /// <param name="secInc">截面增大系数</param>
+        /// <param name="effectPara"> 有效系数</param>
+        /// <param name="savePara">安全系数</param>
+        /// <param name="tensionCoef">断线张力系数/不均匀冰张力系数？ 为什么全部用的小号侧</param>
+        /// <param name="devideNum">导线分裂数，地线不用</param>
+        /// <returns></returns>
+        protected double TensinDiff(out string str, double fore, double secInc, double effectPara, double savePara, double tensionCoef, int devideNum = 1)
+        {
+            double rslt =  secInc * Math.Round(fore * effectPara / 9.8665, 2) / savePara * devideNum * tensionCoef;
+            str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/ 9.8665/" +  savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
+            return rslt;
         }
 
     }

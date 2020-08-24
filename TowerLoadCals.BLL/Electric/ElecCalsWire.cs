@@ -469,34 +469,10 @@ namespace TowerLoadCals.BLL.Electric
 
         }
 
-        /// <summary>
-        /// 线张力
-        /// </summary>
-        /// <param name="secInc">截面增大系数</param>
-        /// <param name="devideNum">导线分裂数，地线不用</param>
-        /// <param name="stress">孤立档应力，Bizai.Stress</param>
-        /// <param name="sec">截面积</param>
-        /// <param name="errorCoef">施工误差系数，全部用的大张力侧？ </param>
-        /// <returns></returns>
-        protected double Tension(double secInc, double stress, double sec, double errorCoef, double devideNum = 1)
-        {
-            return secInc * stress * sec * errorCoef * devideNum;
-        }
 
 
-        /// <summary>
-        /// 张力差
-        /// </summary>
-        /// <param name="secInc">截面增大系数</param>
-        /// <param name="effectPara"> 有效系数</param>
-        /// <param name="savePara">安全系数</param>
-        /// <param name="tensionCoef">断线张力系数/不均匀冰张力系数？ 为什么全部用的小号侧</param>
-        /// <param name="devideNum">导线分裂数，地线不用</param>
-        /// <returns></returns>
-        protected double TensinDiff(double secInc,  double effectPara, double savePara, double tensionCoef, double devideNum = 1 )
-        {
-            return secInc * Math.Round(Fore * effectPara / 9.8665, 2) / savePara * devideNum * tensionCoef;
-        }
+
+
 
         /// <summary>
         /// 锚线张力

@@ -85,7 +85,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         ///支撑管直径,单位mm,
         /// </summary>
-        public double SuTubleDi { get; set; }
+        public double SuTubleDia { get; set; }
 
         /// <summary>
         /// 单位长度重量,单位kg
@@ -166,7 +166,7 @@ namespace TowerLoadCals.BLL.Electric
             SoftLineLen = softLineLenSor;
             JGBNum = jGBNumSor;
             SuTubleLen = suTubleLenSor; 
-            SuTubleDi = suTubleDiSor / 1000; 
+            SuTubleDia = suTubleDiSor / 1000; 
             SuTubleWei = suTubleWeiSor;  
         }
 
