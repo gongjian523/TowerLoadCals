@@ -193,6 +193,22 @@ namespace TowerLoadCals.BLL.Electric
         public double GrdUnbaIceTensionDiff { get; set; }
         public double OPGWUnbaIceTensionDiff { get; set; }
 
+        public double IndBreakTensionMaxO { get; set; }
+        public double GrdBreakTensionMaxO { get; set; }
+        public double OPGWBreakTensionMaxO { get; set; }
+
+        public double IndUnbaIceTensionMaxO { get; set; }
+        public double GrdUnbaIceTensionMaxO { get; set; }
+        public double OPGWUnbaIceTensionMaxO { get; set; }
+
+        public double IndBreakTensionMax { get; set; }
+        public double GrdBreakTensionMax { get; set; }
+        public double OPGWBreakTensionMax { get; set; }
+
+        public double IndUnbaIceTensionMax { get; set; }
+        public double GrdUnbaIceTensionMax { get; set; }
+        public double OPGWUnbaIceTensionMax { get; set; }
+
         public string IndBreakTensionDiffStr;
         public string GrdBreakTensionDiffStr;
         public string OPGWBreakTensionDiffStr;
@@ -210,7 +226,6 @@ namespace TowerLoadCals.BLL.Electric
             IndUnbaIceTensionDiff = TensinDiff(out IndUnbaIceTensionDiffStr, IndWire.Fore, CommParas.SecIndInc, SideParas.IndEffectPara, SideParas.IndSafePara, IndWire.UnbaTensionPara, IndWire.DevideNum);
             GrdUnbaIceTensionDiff = TensinDiff(out GrdUnbaIceTensionDiffStr, GrdWire.Fore, CommParas.SecGrdInc, SideParas.GrdEffectPara, SideParas.GrdSafePara, GrdWire.UnbaTensionPara);
             OPGWUnbaIceTensionDiff = TensinDiff(out OPGWUnbaIceTensionDiffStr, OPGWWire.Fore, CommParas.SecOPGWInc, SideParas.OPGWEffectPara, SideParas.OPGWSafePara, OPGWWire.UnbaTensionPara);
-
         }
 
         /// <summary>
@@ -224,8 +239,8 @@ namespace TowerLoadCals.BLL.Electric
         /// <returns></returns>
         protected double TensinDiff(out string str, double fore, double secInc, double effectPara, double savePara, double tensionCoef, int devideNum = 1)
         {
-            double rslt =  secInc * Math.Round(fore * effectPara / 9.8665, 2) / savePara * devideNum * tensionCoef;
-            str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/ 9.8665/" +  savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
+            double rslt =  secInc * Math.Round(fore * effectPara / 9.80665, 2) / savePara * devideNum * tensionCoef;
+            str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/9.80665/" +  savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
             return rslt;
         }
 

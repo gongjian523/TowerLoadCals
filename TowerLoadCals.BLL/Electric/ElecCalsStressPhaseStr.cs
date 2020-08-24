@@ -458,9 +458,87 @@ namespace TowerLoadCals.BLL.Electric
             return (iceThick / 5);
         }
 
+        public double BreakTensionMaxO { get; set; }
+        public double BreakTensionMax { get; set; }
+
+        public double UnbaIceTensionMax0 { get; set; }
+        public double UnbaIceTensionMax { get; set; }
 
 
+        public void UpdateBreakTensionMax(double breakTension)
+        {
+            if (WireData.CommParas.BreakMaxPara == 1)
+            {
+                double secInc;
 
+                if(WireData.bGrd == 0)
+                {
+                    secInc = WireData.CommParas.SecIndInc;
+                }
+                else if(WireData.bGrd == 1)
+                {
+                    secInc = WireData.CommParas.SecGrdInc;
+                }
+                else
+                {
+                    secInc = WireData.CommParas.SecOPGWInc;
+                }
+
+                BreakTensionMaxO = Math.Round(secInc * WireData.Fore * WireData.EffectPara / 9.80665 / WireData.SafePara * WireData.DevideNum, 2);
+            }
+            else
+            {
+                if (WireData.bGrd == 0)
+                {
+                    BreakTensionMaxO = TensionDic["覆冰无风"] ;
+                }
+                else
+                {
+                    BreakTensionMaxO = WireData.CommParas.GrdIceUnbaPara == 1 ? TensionDic["覆冰无风"]:TensionDic["覆冰无风+5"];
+                }
+            }
+
+
+            BreakTensionMax = Math.Max(BreakTensionMaxO, breakTension);
+        }
+
+
+        public void UpdateUnbaIceTensionMax(double unbaIceTension)
+        {
+            if (WireData.CommParas.UnbaMaxPara == 1)
+            {
+                double secInc;
+
+                if (WireData.bGrd == 0)
+                {
+                    secInc = WireData.CommParas.SecIndInc;
+                }
+                else if (WireData.bGrd == 1)
+                {
+                    secInc = WireData.CommParas.SecGrdInc;
+                }
+                else
+                {
+                    secInc = WireData.CommParas.SecOPGWInc;
+                }
+
+                UnbaIceTensionMax0 = Math.Round(secInc * WireData.Fore * WireData.EffectPara / 9.80665 / WireData.SafePara * WireData.DevideNum, 2);
+            }
+            else
+            {
+                if (WireData.bGrd == 0)
+                {
+                    UnbaIceTensionMax0 = TensionDic["最大覆冰"];
+                }
+                else
+                {
+                    BreakTensionMaxO = WireData.CommParas.GrdIceUnbaPara == 1 ? TensionDic["最大覆冰"] : TensionDic["地线覆冰"];
+                }
+            }
+
+
+            UnbaIceTensionMax = Math.Max(UnbaIceTensionMax0, unbaIceTension);
+        }
 
     }
 }

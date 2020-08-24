@@ -339,6 +339,28 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
+
+        public void CalsTensionMax()
+        {
+            PhaseTraList[0].UpdateBreakTensionMax(BackSideRes.IndBreakTensionDiff);
+            PhaseTraList[0].UpdateUnbaIceTensionMax(BackSideRes.IndUnbaIceTensionDiff);
+
+            PhaseTraList[3].UpdateBreakTensionMax(BackSideRes.GrdBreakTensionDiff);
+            PhaseTraList[3].UpdateUnbaIceTensionMax(BackSideRes.GrdUnbaIceTensionDiff);
+
+            PhaseTraList[4].UpdateBreakTensionMax(BackSideRes.OPGWBreakTensionDiff);
+            PhaseTraList[4].UpdateUnbaIceTensionMax(BackSideRes.OPGWUnbaIceTensionDiff);
+
+            PhaseTraList[5].UpdateBreakTensionMax(FrontSideRes.IndBreakTensionDiff);
+            PhaseTraList[5].UpdateUnbaIceTensionMax(FrontSideRes.IndUnbaIceTensionDiff);
+
+            PhaseTraList[8].UpdateBreakTensionMax(FrontSideRes.GrdBreakTensionDiff);
+            PhaseTraList[8].UpdateUnbaIceTensionMax(FrontSideRes.GrdUnbaIceTensionDiff);
+
+            PhaseTraList[9].UpdateBreakTensionMax(FrontSideRes.OPGWBreakTensionDiff);
+            PhaseTraList[9].UpdateUnbaIceTensionMax(FrontSideRes.OPGWUnbaIceTensionDiff);
+        }
+
         public List<string> PrintCalsReslt()
         {
             List<string> relt = new List<string>();
@@ -454,19 +476,32 @@ namespace TowerLoadCals.BLL.Electric
             List<string> relt = new List<string>();
 
             relt.Add("\n张力差：");
-            relt.Add(FileUtils.PadRightEx("小号侧", 82) + FileUtils.PadRightEx("大号侧", 82));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.IndBreakTensionDiffStr, 40) + FileUtils.PadRightEx(BackSideRes.IndBreakTensionDiff.ToString("0.###"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.IndBreakTensionDiffStr, 40) + FileUtils.PadRightEx(FrontSideRes.IndBreakTensionDiff.ToString("0.###"), 16));
-            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.GrdBreakTensionDiffStr, 40) + FileUtils.PadRightEx(BackSideRes.GrdBreakTensionDiff.ToString("0.###"), 16)
-                + FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.GrdBreakTensionDiffStr, 40) + FileUtils.PadRightEx(FrontSideRes.GrdBreakTensionDiff.ToString("0.###"), 16));
-            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.OPGWBreakTensionDiffStr, 40) + FileUtils.PadRightEx(BackSideRes.OPGWBreakTensionDiff.ToString("0.###"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.OPGWBreakTensionDiffStr, 40) + FileUtils.PadRightEx(FrontSideRes.OPGWBreakTensionDiff.ToString("0.###"), 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.IndUnbaIceTensionDiffStr, 40) + FileUtils.PadRightEx(BackSideRes.IndUnbaIceTensionDiff.ToString("0.###"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.IndUnbaIceTensionDiffStr, 40) + FileUtils.PadRightEx(FrontSideRes.IndUnbaIceTensionDiff.ToString("0.###"), 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.GrdUnbaIceTensionDiffStr, 40) + FileUtils.PadRightEx(BackSideRes.GrdUnbaIceTensionDiff.ToString("0.###"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.GrdUnbaIceTensionDiffStr, 40) + FileUtils.PadRightEx(FrontSideRes.GrdUnbaIceTensionDiff.ToString("0.###"), 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.OPGWUnbaIceTensionDiffStr, 40) + FileUtils.PadRightEx(BackSideRes.OPGWUnbaIceTensionDiff.ToString("0.###"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.OPGWUnbaIceTensionDiffStr, 40) + FileUtils.PadRightEx(FrontSideRes.OPGWUnbaIceTensionDiff.ToString("0.###"), 16));
+            relt.Add(FileUtils.PadRightEx("小号侧", 26) + FileUtils.PadRightEx("计算过程：", 50) + FileUtils.PadRightEx("计算值：", 16) 
+                + FileUtils.PadRightEx("大号侧", 26) + FileUtils.PadRightEx("计算过程：", 50) + FileUtils.PadRightEx("计算值：", 16) + FileUtils.PadRightEx("确定Max：", 32) + FileUtils.PadRightEx("最终Max：", 32));
+            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.IndBreakTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.IndBreakTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.IndBreakTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.IndBreakTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[0].BreakTensionMaxO.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].BreakTensionMaxO.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[0].BreakTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].BreakTensionMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.GrdBreakTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.GrdBreakTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.GrdBreakTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.GrdBreakTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[3].BreakTensionMaxO.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].BreakTensionMaxO.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[3].BreakTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].BreakTensionMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.OPGWBreakTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.OPGWBreakTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.OPGWBreakTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.OPGWBreakTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[4].BreakTensionMaxO.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].BreakTensionMaxO.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[4].BreakTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].BreakTensionMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.IndUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.IndUnbaIceTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.IndUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.IndUnbaIceTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTensionMax0.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTensionMax0.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTensionMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.GrdUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.GrdUnbaIceTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.GrdUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.GrdUnbaIceTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTensionMax0.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTensionMax0.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTensionMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.OPGWUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.OPGWUnbaIceTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.OPGWUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.OPGWUnbaIceTensionDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTensionMax0.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTensionMax0.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTensionMax.ToString("0.##"), 16));
 
             return relt;
         }
