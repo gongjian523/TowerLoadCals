@@ -58,7 +58,7 @@ namespace TowerLoadCals
             var strDataMenu = new SubMenuBase("StrDataModule", this, "绝缘子串", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             strDataMenu.SetIcon("Menu_subString.png");
             var strDataSubList = new List<SubMenuBase>() { };
-            var strDataSubMenu1 = new SubMenuBase("", this, "    一般串", (e) => { OnSelectedSubModuleItemChanged(e); });
+            var strDataSubMenu1 = new SubMenuBase("", this, "    一般子串", (e) => { OnSelectedSubModuleItemChanged(e); });
             strDataSubMenu1.ParentNode = strDataMenu;
             strDataSubList.Add(strDataSubMenu1);
             var strDataSubMenu2 = new SubMenuBase("", this, "    硬跳线", (e) => { OnSelectedSubModuleItemChanged(e); });
@@ -84,6 +84,15 @@ namespace TowerLoadCals
             fitDataSubList.Add(fitDataSubMenu4);
             fitDataMenu.ChildItems = fitDataSubList;
             menuItem.Add(fitDataMenu);
+
+            var electricalLibMenu = new SubMenuBase("", this, "电气计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            electricalLibMenu.SetIcon("Menu_para.png");
+            var electricalLibSubList = new List<SubMenuBase>() { };
+            var  electricalBaseDataMenu = new SubMenuBase("BaseDataTemplateModule", this, "  基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            electricalBaseDataMenu.ParentNode = electricalLibMenu;
+            electricalLibSubList.Add(electricalBaseDataMenu);
+            electricalLibMenu.ChildItems = electricalLibSubList;
+            menuItem.Add(electricalLibMenu);
 
             var struCalsLibMenu = new SubMenuBase("", this, "结构计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             struCalsLibMenu.SetIcon("Menu_para.png");
@@ -184,7 +193,7 @@ namespace TowerLoadCals
             var generalTemplateLibMenu = new SubMenuBase("StruTemplateLibGeneralModule_Internet", this, "        通用模板库", (e) => { OnSelectedMenuChanged(e); });
             generalTemplateLibMenu.ParentNode = struTemplateLibMenu;
             struTemplateLibSubList.Add(generalTemplateLibMenu);
-            //var test = new SubMenuBase("TowerSequenceModule", this, "        读取文件", (e) => { OnSelectedMenuChanged(e); });
+            //var test = new SubMenuBase("BaseDataTemplateModule", this, "        读取文件", (e) => { OnSelectedMenuChanged(e); });
             //test.ParentNode = struTemplateLibMenu;
             //struTemplateLibSubList.Add(test);
             struTemplateLibMenu.ChildItems = struTemplateLibSubList;
@@ -224,6 +233,7 @@ namespace TowerLoadCals
         private void OnSelectedModuleChanged(ModuleMenu mv)
         {
             NewStruCalsTowerBtnVisibity = (mv != null && mv.Title == "结构计算") ? Visibility.Visible : Visibility.Collapsed;
+            NewTowerSequenceTowerBtnVisibity = (mv != null && mv.Title == "杆塔序列") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void OnSelectedBaseDataSubModuleChanged(SubMenuBase vm)

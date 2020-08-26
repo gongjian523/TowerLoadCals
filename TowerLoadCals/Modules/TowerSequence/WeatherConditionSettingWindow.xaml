@@ -24,15 +24,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"/>
-            <ColumnDefinition Width="120"/>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Center" Content="确 定" Command="{DXCommand 'onConfirm()'}"   Width="100"  Height="30" />
-        <Button Grid.Row="0" Grid.Column="1"   HorizontalAlignment="Center" Content="关 闭" Command="{DXCommand 'onConcel()'}" Margin="10,0" Width="100" Height="30"/>
+        
+        <Button Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Center" Content="确 定" Command="{DXCommand 'onConfirm()'}"   Width="70"  Height="30"  />
+        <Button Grid.Row="0" Grid.Column="1"   HorizontalAlignment="Center" Content="关 闭" Command="{DXCommand 'onConcel()'}" Width="70" Height="30"/>
 
-        <Button Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Center" Content="新增行" Command="{DXCommand 'AddNew()'}"  Margin="10,0" Width="100" Height="30"/>
+        <Button Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Center" Content="新增行" Command="{DXCommand 'AddNew()'}"  Width="80" Height="30"/>
 
         <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="None" Margin="8,10" EnableSmartColumnsGeneration="False"  ItemsSource="{Binding DataSource}" x:Name="grid">
             <dxg:GridControl.View>

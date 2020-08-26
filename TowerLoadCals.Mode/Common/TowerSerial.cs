@@ -146,7 +146,7 @@
         /// <summary>
         /// 垂直档距
         /// </summary>
-        public double VerticalSpan { get; set; }
+        public string VerticalSpan { get; set; }
 
         /// <summary>
         /// 切地线安全距离
@@ -268,6 +268,49 @@
         ///后侧代表档距
         /// </summary>
         public double BackSpan { get; set; }
+
+
+        /// <summary>
+        ///前侧垂距
+        /// </summary>
+        public double FrontVerticalSpan { get; set; }
+
+
+        /// <summary>
+        ///后侧垂距
+        /// </summary>
+        public double BackVerticalSpan { get; set; }
+
+        /// <summary>
+        /// 挂点高
+        /// </summary>
+        public double guadg { get; set; }
+
+        /// <summary>
+        /// 挂线点高差
+        /// </summary>
+        public double h { get; set; }
+
+
+        /// <summary>
+        /// 存在该塔型
+        /// </summary>
+        public bool ExistsTowerPattern { get; set; }
+
+        /// <summary>
+        /// 存在导线型号
+        /// </summary>
+        public bool ExistsConductorModel { get; set; }
+
+        /// <summary>
+        /// 存在导线型号
+        /// </summary>
+        public bool ExistsWireInsulationString { get; set; }
+
+        /// <summary>
+        /// 存在地线型号
+        /// </summary>
+        public bool ExistsGroundWireModel { get; set; }
 
     }
 }

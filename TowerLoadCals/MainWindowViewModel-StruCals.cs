@@ -29,7 +29,7 @@ namespace TowerLoadCals
         private void OnStruCalsModuleSeleced(ModuleMenu mv)
         {
             NewStruCalsTowerBtnVisibity = Visibility.Visible;
-            NewTowerSequenceTowerBtnVisibity = Visibility.Visible;
+            NewTowerSequenceTowerBtnVisibity = Visibility.Collapsed;
 
             //以前没有加载过子菜单，从配置文件中读出所有塔位名称
             if (mv.MenuItems == null || mv.MenuItems.Count() == 0)

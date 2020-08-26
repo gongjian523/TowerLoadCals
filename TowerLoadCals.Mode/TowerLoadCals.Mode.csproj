@@ -107,6 +107,7 @@
     <Compile Include="Common\WorkConditionComboSpec.cs" />
     <Compile Include="Common\WorkConditionComboBase.cs" />
     <Compile Include="Common\WorkConditonSet.cs" />
+    <Compile Include="Electric\Basics_Output.cs" />
     <Compile Include="Electric\JumpStrLoadResult.cs" />
     <Compile Include="Electric\StrLoadResult.cs" />
     <Compile Include="Electric\BZResult.cs" />
@@ -129,10 +130,13 @@
     <Compile Include="Electric\StrDataCollection.cs" />
     <Compile Include="Electric\PhaseWire.cs" />
     <Compile Include="Electric\SLXian.cs" />
+    <Compile Include="Electric\Tension_Output.cs" />
     <Compile Include="Electric\TowerPosition.cs" />
     <Compile Include="Electric\TowerStrData.cs" />
     <Compile Include="Electric\TowerStrCollection.cs" />
     <Compile Include="Electric\TowerStrType.cs" />
+    <Compile Include="Electric\UnevenIceRate_Output.cs" />
+    <Compile Include="Electric\UnevenIceStress_Output.cs" />
     <Compile Include="Electric\WindLoadResult.cs" />
     <Compile Include="Electric\WireCollections.cs" />
     <Compile Include="Electric\Wire.cs" />

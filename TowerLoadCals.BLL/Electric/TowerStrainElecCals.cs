@@ -156,86 +156,6 @@ namespace TowerLoadCals.BLL.Electric
         }
 
 
-        /// <summary>
-        /// 计算线高空风压系数
-        /// </summary>
-        /// <param name="wireWindPara">计算方式 1：线平均高 2:按照下相挂点高反算 </param>
-        /// <param name="wireHei">导线挂点高</param>
-        /// <param name="wireWindVerSag">大风垂直方向弧垂</param>
-        /// <param name="avaHei">导线计算平均高</param>
-        /// <returns></returns>
-        public double CalsWireWindPara(int wireWindPara, double wireHei, double wireWindVerSag, double avaHei)
-        {
-            //1：线平均高 2:按照下相挂点高反算
-            if (wireWindPara == 1)
-            {
-                return ((double)(int)(Math.Pow(wireHei / avaHei, 0.32) * 1000 + 0.5)) / 1000;
-            }
-            else
-            {
-                return ((double)(int)(Math.Pow((wireHei - 2d / 3 * wireWindVerSag) / avaHei, 0.32) * 1000 + 0.5)) / 1000;
-            }
-        }
-
-        /// <summary>
-        /// 计算绝缘子串高空风压系数
-        /// </summary>
-        /// <param name="wireHei">挂点高</param>
-        /// <param name="avaHei">导线计算平均高</param>
-        /// <returns></returns>
-        protected double CalsStrWindPara(double wireHei, double avaHei)
-        {
-            return Math.Round(Math.Pow((wireHei / avaHei), 0.32), 3);
-        }
-
-
-        /// <summary>
-        /// 计算跳串高空风压系数
-        /// </summary>
-        /// <param name="wireWindPara">跳串高空风压系数</param>
-        /// <param name="strHei"></param>
-        /// <param name="avaHei">导线计算平均高</param>
-        /// <param name="jumpStrLen">跳线绝缘子串长</param>
-        /// <returns></returns>
-        protected double CalsJumpStrWindPara(int jumpWindPara, double strHei, double avaHei, double jumpStrLen)
-        {
-            //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
-            if (jumpWindPara == 1)
-            {
-                //按挂点高
-                return Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
-            }
-            else
-            {
-                //按平均高
-                return Math.Round(Math.Pow((strHei - jumpStrLen / 2) / avaHei, 0.32), 3);
-            }
-        }
-
-        /// <summary>
-        /// 计算支撑管高空风压系数
-        /// </summary>
-        /// <param name="wireWindPara">跳串高空风压系数</param>
-        /// <param name="strHei"></param>
-        /// <param name="avaHei">导线计算平均高</param>
-        /// <param name="jumpStrLen">跳线绝缘子串长</param>
-        /// <returns></returns>
-        protected double CalsPropUpWindPara(int jumpWindPara, double strHei, double avaHei, double jumpStrLen)
-        {
-            //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
-            if (jumpWindPara == 1)
-            {
-                //按挂点高
-                return Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
-            }
-            else
-            {
-                //按平均高
-                return Math.Round(Math.Pow((strHei - jumpStrLen) / avaHei, 0.32), 3);
-            }
-        }
-
-
 
         /// <summary>
         /// 计算各个工况的垂直档距,，耐张塔分为前后侧计算
@@ -276,16 +196,16 @@ namespace TowerLoadCals.BLL.Electric
 
                 insErrorPara = FrontSideRes.SideParas.InsErrorPara;
                 constrErrorPara  = FrontSideRes.SideParas.ConstruErrorPara;
-                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? BackSideRes.SideParas.IndExtendPara : BackSideRes.SideParas.GrdExtendPara;
+                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.SideParas.IndExtendPara : FrontSideRes.SideParas.GrdExtendPara;
 
-                PhaseTraList[i].UpdateHoriLoad(diaInc);
-                PhaseTraList[i].UpdateVerLoad(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
-                PhaseTraList[i].UpdateTension(secInc, constrErrorPara, insErrorPara, wireExtend);
+                PhaseTraList[i].UpdateHorFor(diaInc);
+                PhaseTraList[i].UpdateVerWei(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
+                PhaseTraList[i].UpdateLoStr(secInc, constrErrorPara, insErrorPara, wireExtend);
 
                 if(PhaseTraList[i].WireData.bGrd == 0)
                 {
-                    PhaseTraList[i].UpdateJumpStrHorLoad();
-                    PhaseTraList[i].UpdateJumpStrVerLoad(spanFit.WeiJGB, PhaseTraList[i+5].JmWireData.WeatherParas.WeathComm);
+                    PhaseTraList[i].UpdateJumpHorFor();
+                    PhaseTraList[i].UpdateJumpVerWei(spanFit.WeiJGB, PhaseTraList[i+5].JmWireData.WeatherParas.WeathComm);
                 }
             }
 
@@ -325,186 +245,351 @@ namespace TowerLoadCals.BLL.Electric
 
                 insErrorPara = FrontSideRes.SideParas.InsErrorPara;
                 constrErrorPara = FrontSideRes.SideParas.ConstruErrorPara;
-                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? BackSideRes.SideParas.IndExtendPara : BackSideRes.SideParas.GrdExtendPara;
+                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.SideParas.IndExtendPara : FrontSideRes.SideParas.GrdExtendPara;
 
-                PhaseTraList[i].UpdateHoriLoad(diaInc);
-                PhaseTraList[i].UpdateVerLoad(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
-                PhaseTraList[i].UpdateTension(secInc, constrErrorPara, insErrorPara, wireExtend);
+                PhaseTraList[i].UpdateHorFor(diaInc);
+                PhaseTraList[i].UpdateVerWei(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
+                PhaseTraList[i].UpdateLoStr(secInc, constrErrorPara, insErrorPara, wireExtend);
 
                 if (PhaseTraList[i].WireData.bGrd == 0)
                 {
-                    PhaseTraList[i].UpdateJumpStrHorLoad();
-                    PhaseTraList[i].UpdateJumpStrVerLoad(spanFit.NumJGB, PhaseTraList[i - 5].JmWireData.WeatherParas.WeathComm);
+                    PhaseTraList[i].UpdateJumpHorFor();
+                    PhaseTraList[i].UpdateJumpVerWei(spanFit.WeiJGB, PhaseTraList[i - 5].JmWireData.WeatherParas.WeathComm);
                 }
+            }
+
+            for (int i = 0; i <=4; i++)
+            {
+                PhaseTraList[i].CheckLoStr(PhaseTraList[i+5].LoadList, FrontSideRes.SideParas, BackSideRes.SideParas);
+                PhaseTraList[i+5].CheckLoStr(PhaseTraList[i].LoadList, FrontSideRes.SideParas, BackSideRes.SideParas);
             }
         }
 
-
-        public void CalsTensionMax()
+        public void Cals1()
         {
-            PhaseTraList[0].UpdateBreakTensionMax(BackSideRes.IndBreakTensionDiff);
-            PhaseTraList[0].UpdateUnbaIceTensionMax(BackSideRes.IndUnbaIceTensionDiff);
+            for (int i = 0; i <= 4; i++)
+            {
+                var spanFit = BackSideRes.SpanFit;
 
-            PhaseTraList[3].UpdateBreakTensionMax(BackSideRes.GrdBreakTensionDiff);
-            PhaseTraList[3].UpdateUnbaIceTensionMax(BackSideRes.GrdUnbaIceTensionDiff);
+                double diaInc, weiInc, secInc, weiFZC, insErrorPara, constrErrorPara, wireExtend;
+                int numFZC;
 
-            PhaseTraList[4].UpdateBreakTensionMax(BackSideRes.OPGWBreakTensionDiff);
-            PhaseTraList[4].UpdateUnbaIceTensionMax(BackSideRes.OPGWUnbaIceTensionDiff);
+                if (PhaseTraList[i].WireData.bGrd == 0)
+                {
+                    diaInc = BackSideRes.CommParas.DiaIndInc;
+                    weiInc = BackSideRes.CommParas.WeiIndInc;
+                    numFZC = spanFit.NumInFZC;
+                    weiFZC = spanFit.WeiInFZC;
+                    secInc = BackSideRes.CommParas.SecIndInc;
+                }
+                else if (PhaseTraList[i].WireData.bGrd == 1)
+                {
+                    diaInc = BackSideRes.CommParas.DiaGrdInc;
+                    weiInc = BackSideRes.CommParas.WeiGrdInc;
+                    numFZC = spanFit.NumGrFZC;
+                    weiFZC = spanFit.WeiGrFZC;
+                    secInc = BackSideRes.CommParas.SecGrdInc;
+                }
+                else
+                {
+                    diaInc = BackSideRes.CommParas.DiaOPGWInc;
+                    weiInc = BackSideRes.CommParas.WeiOPGWInc;
+                    numFZC = spanFit.NumGrFZC;
+                    weiFZC = spanFit.WeiGrFZC;
+                    secInc = BackSideRes.CommParas.SecOPGWInc;
+                }
 
-            PhaseTraList[5].UpdateBreakTensionMax(FrontSideRes.IndBreakTensionDiff);
-            PhaseTraList[5].UpdateUnbaIceTensionMax(FrontSideRes.IndUnbaIceTensionDiff);
+                insErrorPara = FrontSideRes.SideParas.InsErrorPara;
+                constrErrorPara = FrontSideRes.SideParas.ConstruErrorPara;
+                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.SideParas.IndExtendPara : FrontSideRes.SideParas.GrdExtendPara;
 
-            PhaseTraList[8].UpdateBreakTensionMax(FrontSideRes.GrdBreakTensionDiff);
-            PhaseTraList[8].UpdateUnbaIceTensionMax(FrontSideRes.GrdUnbaIceTensionDiff);
+                foreach(var nameGk in PhaseTraList[i].WireData.WorkCdtNames)
+                {
+                    double verSpan = PhaseTraList[i].UpdateVertialSpan(nameGk, out string verSpanStr);
+                    double horFor = PhaseTraList[i].UpdateHorFor(nameGk, out string horForStr, diaInc);
+                    double verWei = PhaseTraList[i].UpdateVerWei(nameGk, out string verWeiStr, weiInc, verSpan, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
 
-            PhaseTraList[9].UpdateBreakTensionMax(FrontSideRes.OPGWBreakTensionDiff);
-            PhaseTraList[9].UpdateUnbaIceTensionMax(FrontSideRes.OPGWUnbaIceTensionDiff);
+                    double jumpHorFor = 0, jumpVerWei = 0;
+                    string jumpHorForStr = "", jumpVerWeiStr = "";
+
+                    if (PhaseTraList[i].WireData.bGrd == 0)
+                    {
+                        jumpHorFor = PhaseTraList[i].UpdateJumpHorFor(nameGk, out jumpHorForStr);
+                        jumpVerWei = PhaseTraList[i].UpdateJumpVerWei(nameGk, out jumpVerWeiStr, spanFit.WeiJGB, PhaseTraList[i + 5].JmWireData.WeatherParas.WeathComm);
+                    }
+
+                    int index = PhaseTraList[i].LoadList.FindIndex(item => item.GKName == nameGk);
+                    if (index < 0)
+                    {
+                        PhaseTraList[i].LoadList.Add(new LoadThrDe()
+                        {
+                            GKName = nameGk,
+                            VetiSpan = verSpan,
+                            VetiSpanStr = verSpanStr,
+                            HorFor = horFor,
+                            HorForStr = horForStr,
+                            VerWei = verWei,
+                            VerWeiStr = verWeiStr,
+                            JumpHorFor = jumpHorFor,
+                            JumpHorForStr = jumpHorForStr,
+                            JumpVerWei = jumpVerWei,
+                            JumpVerWeiStr = jumpVerWeiStr,
+                        });
+                    }
+                    else
+                    {
+                        PhaseTraList[i].LoadList[index].VetiSpan = verSpan;
+                        PhaseTraList[i].LoadList[index].VetiSpanStr = verSpanStr;
+                        PhaseTraList[i].LoadList[index].HorFor = horFor;
+                        PhaseTraList[i].LoadList[index].HorForStr = horForStr;
+                        PhaseTraList[i].LoadList[index].VerWei = verWei;
+                        PhaseTraList[i].LoadList[index].VerWeiStr = verWeiStr;
+                        PhaseTraList[i].LoadList[index].JumpHorFor = jumpHorFor;
+                        PhaseTraList[i].LoadList[index].JumpHorForStr = jumpHorForStr;
+                        PhaseTraList[i].LoadList[index].JumpVerWei = jumpVerWei;
+                        PhaseTraList[i].LoadList[index].JumpVerWeiStr = jumpVerWeiStr;
+                    }
+                }
+                
+                PhaseTraList[i].UpdateLoStr(secInc, constrErrorPara, insErrorPara, wireExtend);
+            }
+
+            for (int i = 5; i <= 9; i++)
+            {
+                var spanFit = FrontSideRes.SpanFit;
+
+                double diaInc, weiInc, secInc, weiFZC, insErrorPara, constrErrorPara, wireExtend;
+                int numFZC;
+
+                if (PhaseTraList[i].WireData.bGrd == 0)
+                {
+                    diaInc = FrontSideRes.CommParas.DiaIndInc;
+                    weiInc = FrontSideRes.CommParas.WeiIndInc;
+                    numFZC = spanFit.NumInFZC;
+                    weiFZC = spanFit.WeiInFZC;
+                    secInc = FrontSideRes.CommParas.SecIndInc;
+                }
+                else if (PhaseTraList[i].WireData.bGrd == 1)
+                {
+                    diaInc = FrontSideRes.CommParas.DiaGrdInc;
+                    weiInc = FrontSideRes.CommParas.WeiGrdInc;
+                    numFZC = spanFit.NumGrFZC;
+                    weiFZC = spanFit.WeiGrFZC;
+                    secInc = FrontSideRes.CommParas.SecGrdInc;
+                }
+                else
+                {
+                    diaInc = FrontSideRes.CommParas.DiaOPGWInc;
+                    weiInc = FrontSideRes.CommParas.WeiOPGWInc;
+                    numFZC = spanFit.NumGrFZC;
+                    weiFZC = spanFit.WeiGrFZC;
+                    secInc = FrontSideRes.CommParas.SecOPGWInc;
+                }
+
+                insErrorPara = FrontSideRes.SideParas.InsErrorPara;
+                constrErrorPara = FrontSideRes.SideParas.ConstruErrorPara;
+                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.SideParas.IndExtendPara : FrontSideRes.SideParas.GrdExtendPara;
+
+                foreach (var nameGk in PhaseTraList[i].WireData.WorkCdtNames)
+                {
+                    double verSpan = PhaseTraList[i].UpdateVertialSpan(nameGk, out string verSpanStr);
+                    double horFor = PhaseTraList[i].UpdateHorFor(nameGk, out string horForStr, diaInc);
+                    double verWei = PhaseTraList[i].UpdateVerWei(nameGk, out string verWeiStr, weiInc, verSpan, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
+
+                    double jumpHorFor = 0, jumpVerWei = 0;
+                    string jumpHorForStr = "", jumpVerWeiStr = "";
+
+                    if (PhaseTraList[i].WireData.bGrd == 0)
+                    {
+                        jumpHorFor = PhaseTraList[i].UpdateJumpHorFor(nameGk, out jumpHorForStr);
+                        jumpVerWei = PhaseTraList[i].UpdateJumpVerWei(nameGk, out jumpVerWeiStr, spanFit.WeiJGB, PhaseTraList[i - 5].JmWireData.WeatherParas.WeathComm);
+                    }
+
+                    int index = PhaseTraList[i].LoadList.FindIndex(item => item.GKName == nameGk);
+                    if (index < 0)
+                    {
+                        PhaseTraList[i].LoadList.Add(new LoadThrDe()
+                        {
+                            GKName = nameGk,
+                            VetiSpan = verSpan,
+                            VetiSpanStr = verSpanStr,
+                            HorFor = horFor,
+                            HorForStr = horForStr,
+                            VerWei = verWei,
+                            VerWeiStr = verWeiStr,
+                            JumpHorFor = jumpHorFor,
+                            JumpHorForStr = jumpHorForStr,
+                            JumpVerWei = jumpVerWei,
+                            JumpVerWeiStr = jumpVerWeiStr,
+                        });
+                    }
+                    else
+                    {
+                        PhaseTraList[i].LoadList[index].VetiSpan = verSpan;
+                        PhaseTraList[i].LoadList[index].VetiSpanStr = verSpanStr;
+                        PhaseTraList[i].LoadList[index].HorFor = horFor;
+                        PhaseTraList[i].LoadList[index].HorForStr = horForStr;
+                        PhaseTraList[i].LoadList[index].VerWei = verWei;
+                        PhaseTraList[i].LoadList[index].VerWeiStr = verWeiStr;
+                        PhaseTraList[i].LoadList[index].JumpHorFor = jumpHorFor;
+                        PhaseTraList[i].LoadList[index].JumpHorForStr = jumpHorForStr;
+                        PhaseTraList[i].LoadList[index].JumpVerWei = jumpVerWei;
+                        PhaseTraList[i].LoadList[index].JumpVerWeiStr = jumpVerWeiStr;
+                    }
+                }
+
+                PhaseTraList[i].UpdateLoStr(secInc, constrErrorPara, insErrorPara, wireExtend);
+            }
         }
 
-        public List<string> PrintCalsReslt()
+        public void UpdateTensionDiff()
         {
-            List<string> relt = new List<string>();
-
-            relt.Add("\n垂直档距计算：");
-            for (int i = 0; i <= 4; i++)
+            for(int i = 0; i <=4; i++)
             {
-                relt.Add(FileUtils.PadRightEx("小号侧"+i, 118) + FileUtils.PadRightEx("大号侧"+i, 118));
-                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
-                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
-
-                var phase = PhaseTraList[i];
-                var phaseAn = PhaseTraList[i+5];
-
-                foreach(var name in phase.WireData.WorkCdtNames)
+                double secInc, effectPara, savePara;
+                
+                if(PhaseTraList[i].WireData.bGrd == 0)
                 {
-                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.VerSpanStrDic[name], 80) + FileUtils.PadRightEx(phase.VerSpanDic[name].ToString("0.###"), 12)
-                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.VerSpanStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.VerSpanDic[name].ToString("0.###"), 12));
+                    secInc = BackSideRes.CommParas.SecIndInc;
+                    effectPara = BackSideRes.SideParas.IndEffectPara;
+                    savePara = BackSideRes.SideParas.IndSafePara;
                 }
+                else if (PhaseTraList[i].WireData.bGrd == 1)
+                {
+                    secInc = BackSideRes.CommParas.SecGrdInc;
+                    effectPara = BackSideRes.SideParas.GrdEffectPara;
+                    savePara = BackSideRes.SideParas.GrdSafePara;
+                }
+                else
+                {
+                    secInc = BackSideRes.CommParas.SecOPGWInc;
+                    effectPara = BackSideRes.SideParas.OPGWEffectPara;
+                    savePara = BackSideRes.SideParas.OPGWSafePara;
+                }
+
+                PhaseTraList[i].UpdateTensionDiff(secInc, effectPara, savePara);
             }
 
-            relt.Add("\n水平荷载计算：");
-            for (int i = 0; i <= 4; i++)
+            for (int i = 5; i <= 9; i++)
             {
-                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
-                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
-                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+                double secInc, effectPara, savePara;
 
-                var phase = PhaseTraList[i];
-                var phaseAn = PhaseTraList[i + 5];
-
-                foreach (var name in phase.WireData.WorkCdtNames)
+                if (PhaseTraList[i].WireData.bGrd == 0)
                 {
-                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.HoriLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.HoriLoadDic[name].ToString("0.###"), 12)
-                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.HoriLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.HoriLoadDic[name].ToString("0.###"), 12));
+                    secInc = FrontSideRes.CommParas.SecIndInc;
+                    effectPara = FrontSideRes.SideParas.IndEffectPara;
+                    savePara = FrontSideRes.SideParas.IndSafePara;
                 }
-            }
-
-
-            relt.Add("\n垂直荷载计算：");
-            for (int i = 0; i <= 4; i++)
-            {
-                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
-                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
-                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
-
-                var phase = PhaseTraList[i];
-                var phaseAn = PhaseTraList[i + 5];
-
-                foreach (var name in phase.WireData.WorkCdtNames)
+                else if (PhaseTraList[i].WireData.bGrd == 1)
                 {
-                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.VerLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.VerLoadDic[name].ToString("0.###"), 12)
-                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.VerLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.VerLoadDic[name].ToString("0.###"), 12));
+                    secInc = FrontSideRes.CommParas.SecGrdInc;
+                    effectPara = FrontSideRes.SideParas.GrdEffectPara;
+                    savePara = FrontSideRes.SideParas.GrdSafePara;
                 }
-            }
-
-            relt.Add("\n线条张力：");
-            for (int i = 0; i <= 4; i++)
-            {
-                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
-                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
-                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
-
-                var phase = PhaseTraList[i];
-                var phaseAn = PhaseTraList[i + 5];
-
-                foreach (var name in phase.WireData.WorkCdtNames)
+                else
                 {
-                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.TensionStrDic[name], 80) + FileUtils.PadRightEx(phase.TensionDic[name].ToString("0.###"), 12)
-                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.TensionStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.TensionDic[name].ToString("0.###"), 12));
+                    secInc = FrontSideRes.CommParas.SecOPGWInc;
+                    effectPara = FrontSideRes.SideParas.OPGWEffectPara;
+                    savePara = FrontSideRes.SideParas.OPGWSafePara;
                 }
+
+                PhaseTraList[i].UpdateTensionDiff(secInc, effectPara, savePara);
             }
-
-            relt.Add("\n跳线串水平荷载：");
-            for (int i = 0; i <= 2; i++)
-            {
-                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
-                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
-                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
-
-                var phase = PhaseTraList[i];
-                var phaseAn = PhaseTraList[i + 5];
-
-                foreach (var name in phase.WireData.WorkCdtNames)
-                {
-                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.JumpStrHorLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.JumpStrHorLoadDic[name].ToString("0.###"), 12)
-                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.JumpStrHorLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.JumpStrHorLoadDic[name].ToString("0.###"), 12));
-                }
-            }
-
-            relt.Add("\n跳线串垂直荷载：");
-            for (int i = 0; i <= 2; i++)
-            {
-                relt.Add(FileUtils.PadRightEx("小号侧" + i, 148) + FileUtils.PadRightEx("大号侧" + i, 148));
-                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 110) + FileUtils.PadRightEx("计算值：", 12)
-                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 110) + FileUtils.PadRightEx("计算值：", 12));
-
-                var phase = PhaseTraList[i];
-                var phaseAn = PhaseTraList[i + 5];
-
-                foreach (var name in phase.WireData.WorkCdtNames)
-                {
-                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.JumpStrVerLoadStrDic[name], 110) + FileUtils.PadRightEx(phase.JumpStrVerLoadDic[name].ToString("0.###"), 12)
-                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.JumpStrVerLoadStrDic[name], 110) + FileUtils.PadRightEx(phaseAn.JumpStrVerLoadDic[name].ToString("0.###"), 12));
-                }
-            }
-
-            return relt;
         }
 
-        public List<string> PrintTensionDiff()
+        public void UpateAnchor()
         {
-            List<string> relt = new List<string>();
+            var loadInd = PhaseTraList[0].LoadList.Where(item => item.GKName == "安装情况").FirstOrDefault();
+            double noIceTensionInd1 = loadInd == null ? 0 : loadInd.LoStr;
 
-            relt.Add("\n张力差：");
-            relt.Add(FileUtils.PadRightEx("小号侧", 26) + FileUtils.PadRightEx("计算过程：", 50) + FileUtils.PadRightEx("计算值：", 16) 
-                + FileUtils.PadRightEx("大号侧", 26) + FileUtils.PadRightEx("计算过程：", 50) + FileUtils.PadRightEx("计算值：", 16) + FileUtils.PadRightEx("确定Max：", 32) + FileUtils.PadRightEx("最终Max：", 32));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.IndBreakTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.IndBreakTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.IndBreakTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.IndBreakTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[0].BreakTensionMaxO.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].BreakTensionMaxO.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[0].BreakTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].BreakTensionMax.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.GrdBreakTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.GrdBreakTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.GrdBreakTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.GrdBreakTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[3].BreakTensionMaxO.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].BreakTensionMaxO.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[3].BreakTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].BreakTensionMax.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.OPGWBreakTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.OPGWBreakTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.OPGWBreakTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.OPGWBreakTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[4].BreakTensionMaxO.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].BreakTensionMaxO.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[4].BreakTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].BreakTensionMax.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.IndUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.IndUnbaIceTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.IndUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.IndUnbaIceTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTensionMax0.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTensionMax0.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTensionMax.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.GrdUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.GrdUnbaIceTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.GrdUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.GrdUnbaIceTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTensionMax0.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTensionMax0.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTensionMax.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(BackSideRes.OPGWUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(BackSideRes.OPGWUnbaIceTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(FrontSideRes.OPGWUnbaIceTensionDiffStr, 50) + FileUtils.PadRightEx(FrontSideRes.OPGWUnbaIceTensionDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTensionMax0.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTensionMax0.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTensionMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTensionMax.ToString("0.##"), 16));
+            var loadIndLowTemp = PhaseTraList[0].LoadList.Where(item => item.GKName == "安装情况降温").FirstOrDefault();
+            double lowTempTensionInd1 = loadIndLowTemp == null ? 0 : loadIndLowTemp.LoStr;
 
-            return relt;
+            var loadInd2 = PhaseTraList[5].LoadList.Where(item => item.GKName == "安装情况").FirstOrDefault();
+            double noIceTensionInd2 = loadInd2 == null ? 0 : loadInd2.LoStr;
+
+            var loadIndLowTemp2 = PhaseTraList[5].LoadList.Where(item => item.GKName == "安装情况降温").FirstOrDefault();
+            double lowTempTensionInd2 = loadIndLowTemp2 == null ? 0 : loadIndLowTemp2.LoStr;
+            AnchorTensionInd = AnchorTension(noIceTensionInd1, noIceTensionInd2, lowTempTensionInd1, lowTempTensionInd2);
+
+            var loadGrd = PhaseTraList[3].LoadList.Where(item => item.GKName == "安装情况").FirstOrDefault();
+            double noIceTensionGrd1 = loadGrd == null ? 0 : loadGrd.LoStr;
+
+            var loadGrdLowTemp = PhaseTraList[3].LoadList.Where(item => item.GKName == "安装情况降温").FirstOrDefault();
+            double lowTempTensionGrd1 = loadGrdLowTemp == null ? 0 : loadGrdLowTemp.LoStr;
+
+            var loadGrd2 = PhaseTraList[8].LoadList.Where(item => item.GKName == "安装情况").FirstOrDefault();
+            double noIceTensionGrd2 = loadGrd2 == null ? 0 : loadGrd2.LoStr;
+
+            var loadGrdLowTemp2 = PhaseTraList[8].LoadList.Where(item => item.GKName == "安装情况降温").FirstOrDefault();
+            double lowTempTensionGrd2 = loadGrdLowTemp2 == null ? 0 : loadGrdLowTemp2.LoStr;
+            AnchorTensionGrd = AnchorTension(noIceTensionGrd1, noIceTensionGrd2, lowTempTensionGrd1, lowTempTensionGrd2);
+
+            var loadOPGW = PhaseTraList[4].LoadList.Where(item => item.GKName == "安装情况").FirstOrDefault();
+            double noIceTensionOPGW1 = loadOPGW == null ? 0 : loadOPGW.LoStr;
+
+            var loadOPGWLowTemp = PhaseTraList[4].LoadList.Where(item => item.GKName == "安装情况降温").FirstOrDefault();
+            double lowTempTensionOPGW1 = loadOPGWLowTemp == null ? 0 : loadOPGWLowTemp.LoStr;
+
+            var loadOPGW2 = PhaseTraList[9].LoadList.Where(item => item.GKName == "安装情况").FirstOrDefault();
+            double noIceTensionOPGW2 = loadOPGW2 == null ? 0 : loadOPGW2.LoStr;
+
+            var loadOPGWLowTemp2 = PhaseTraList[9].LoadList.Where(item => item.GKName == "安装情况降温").FirstOrDefault();
+            double lowTempTensionOPGW2 = loadOPGWLowTemp2 == null ? 0 : loadOPGWLowTemp2.LoStr;
+            AnchorTensionOPGW = AnchorTension(noIceTensionOPGW1, noIceTensionOPGW2, lowTempTensionOPGW1, lowTempTensionOPGW2);
         }
+
+        public void CalsTensionChcek()
+        {
+            for(int i = 0; i<=5; i++)
+            {
+                var backPhase = PhaseTraList[i];
+                var frontPhase = PhaseTraList[i + 5];
+
+                var laodBreakBk = backPhase.LoadList.Where(item => item.GKName == "断线").FirstOrDefault();
+                double tenMaxBreakBk = laodBreakBk == null ? 0 : laodBreakBk.LoStrCheck2;
+
+                var laodBreakFrt = frontPhase.LoadList.Where(item => item.GKName == "断线").FirstOrDefault();
+                double tenMaxBreakFrt = laodBreakFrt == null ? 0 : laodBreakFrt.LoStrCheck2;
+
+                //计算断线张力差 
+                if (backPhase.WireData.bGrd == 0)
+                {
+                    backPhase.AnSideBreakTenDiff = backPhase.WireData.CommParas.BreakIceCoverPara == 2 ? 0 : tenMaxBreakFrt;
+                    frontPhase.AnSideBreakTenDiff = frontPhase.WireData.CommParas.BreakIceCoverPara == 2 ? 0 : tenMaxBreakBk;
+                }
+                else
+                {
+                    var laodBreakAdd5Bk = backPhase.LoadList.Where(item => item.GKName == "断线(导线+5mm)").FirstOrDefault();
+                    double tenMaxBreakAdd5Bk = laodBreakAdd5Bk == null ? 0 : laodBreakAdd5Bk.LoStrCheck2;
+
+                    var laodBreakAdd5Frt = frontPhase.LoadList.Where(item => item.GKName == "断线(导线+5mm)").FirstOrDefault();
+                    double tenMaxBreakAdd5Frt = laodBreakAdd5Frt == null ? 0 : laodBreakAdd5Frt.LoStrCheck2;
+
+                    backPhase.AnSideBreakTenDiff = backPhase.WireData.CommParas.BreakIceCoverPara == 2 ? 0 : (backPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? tenMaxBreakFrt : tenMaxBreakAdd5Frt);
+                    frontPhase.AnSideBreakTenDiff = frontPhase.WireData.CommParas.BreakIceCoverPara == 2 ? 0 : (frontPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? tenMaxBreakBk : tenMaxBreakAdd5Bk);
+
+                }
+
+                backPhase.BothSidesBreakTenDiff = "0/" + Math.Round(frontPhase.AnSideBreakTenDiff, 0).ToString();
+                frontPhase.BothSidesBreakTenDiff = (Math.Round(backPhase.AnSideBreakTenDiff, 0).ToString() + "/0");
+
+                //验证断线张力差 
+                backPhase.AnSideBreakTenDiffCheck = frontPhase.BreakTenDiff;
+                frontPhase.AnSideBreakTenDiffCheck = backPhase.BreakTenDiff;
+
+                backPhase.BothSidesBreakTenDiffCheckTemp = backPhase.WireData.CommParas.BreakInPara == 1 ? "0/" + Math.Round(frontPhase.AnSideBreakTenDiffCheck, 0).ToString()
+                    : Math.Round(frontPhase.BreakTenMax - backPhase.AnSideBreakTenDiffCheck, 0).ToString() + "/" + Math.Round(backPhase.BreakTenMax, 0).ToString();
+
+                frontPhase.BothSidesBreakTenDiffCheckTemp = frontPhase.WireData.CommParas.BreakInPara == 1 ? Math.Round(backPhase.AnSideBreakTenDiffCheck, 0).ToString() + "/0" 
+                    : Math.Round(frontPhase.BreakTenMax, 0).ToString() + "/" + Math.Round(frontPhase.BreakTenMax - frontPhase.AnSideBreakTenDiffCheck, 0).ToString();
+
+                backPhase.BothSidesBreakTenDiffCheck = backPhase.AnSideBreakTenDiffCheck > backPhase.AnSideBreakTenDiff ? backPhase.BothSidesBreakTenDiffCheck : backPhase.BothSidesBreakTenDiff;
+                frontPhase.BothSidesBreakTenDiffCheck = frontPhase.AnSideBreakTenDiffCheck > frontPhase.AnSideBreakTenDiff ? frontPhase.BothSidesBreakTenDiffCheck : backPhase.BothSidesBreakTenDiff;
+
+            }
+        }
+
 
         double BackIndWindHc { get; set; } = 22.10;
         double FrontIndWindHc { get; set; } = 7.62;
@@ -514,6 +599,10 @@ namespace TowerLoadCals.BLL.Electric
 
         double BackOPGWWindHc { get; set; } = 13.63;
         double FrontOPGWWindHc { get; set; } = 7.13;
+
+        double AnchorTensionInd { get; set; }
+        double AnchorTensionGrd { get; set; }
+        double AnchorTensionOPGW { get; set; }
 
         /// <summary>
         /// 计算大风工况下垂直方向的应用弧垂
@@ -582,6 +671,133 @@ namespace TowerLoadCals.BLL.Electric
             FrontOPGWWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KFrontHot, KFrontIce);
         }
 
+        #region 内部计算函数
+
+        /// <summary>
+        /// 计算线高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">计算方式 1：线平均高 2:按照下相挂点高反算 </param>
+        /// <param name="wireHei">导线挂点高</param>
+        /// <param name="wireWindVerSag">大风垂直方向弧垂</param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <returns></returns>
+        protected double CalsWireWindPara(int wireWindPara, double wireHei, double wireWindVerSag, double avaHei)
+        {
+            //1：线平均高 2:按照下相挂点高反算
+            if (wireWindPara == 1)
+            {
+                return ((double)(int)(Math.Pow(wireHei / avaHei, 0.32) * 1000 + 0.5)) / 1000;
+            }
+            else
+            {
+                return ((double)(int)(Math.Pow((wireHei - 2d / 3 * wireWindVerSag) / avaHei, 0.32) * 1000 + 0.5)) / 1000;
+            }
+        }
+
+        /// <summary>
+        /// 计算绝缘子串高空风压系数
+        /// </summary>
+        /// <param name="wireHei">挂点高</param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <returns></returns>
+        protected double CalsStrWindPara(double wireHei, double avaHei)
+        {
+            return Math.Round(Math.Pow((wireHei / avaHei), 0.32), 3);
+        }
+
+        /// <summary>
+        /// 计算跳串高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">跳串高空风压系数</param>
+        /// <param name="strHei"></param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <param name="jumpStrLen">跳线绝缘子串长</param>
+        /// <returns></returns>
+        protected double CalsJumpStrWindPara(int jumpWindPara, double strHei, double avaHei, double jumpStrLen)
+        {
+            //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
+            if (jumpWindPara == 1)
+            {
+                //按挂点高
+                return Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
+            }
+            else
+            {
+                //按平均高
+                return Math.Round(Math.Pow((strHei - jumpStrLen / 2) / avaHei, 0.32), 3);
+            }
+        }
+
+        /// <summary>
+        /// 计算支撑管高空风压系数
+        /// </summary>
+        /// <param name="wireWindPara">跳串高空风压系数</param>
+        /// <param name="strHei"></param>
+        /// <param name="avaHei">导线计算平均高</param>
+        /// <param name="jumpStrLen">跳线绝缘子串长</param>
+        /// <returns></returns>
+        protected double CalsPropUpWindPara(int jumpWindPara, double strHei, double avaHei, double jumpStrLen)
+        {
+            //1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
+            if (jumpWindPara == 1)
+            {
+                //按挂点高
+                return Math.Round(Math.Pow(strHei / avaHei, 0.32), 3);
+            }
+            else
+            {
+                //按平均高
+                return Math.Round(Math.Pow((strHei - jumpStrLen) / avaHei, 0.32), 3);
+            }
+        }
+
+
+        /// <summary>
+        /// 锚线张力
+        /// </summary>
+        /// <param name="noIceTension1">小号侧 安装情况（无冰）线条张力</param>
+        /// <param name="noIceTension2">大号侧 安装情况（无冰）线条张力</param>
+        /// <param name="lowTempTension1">小号侧 安装情况（降温）线条张力<</param>
+        /// <param name="lowTempTension2">小号侧 安装情况（降温）线条张力<</param>
+        /// <returns></returns>
+        protected double AnchorTension(double noIceTension1, double noIceTension2, double lowTempTension1, double lowTempTension2)
+        {
+            //"系数法"
+            if (FrontSideRes.CommParas.HandForcePara == 2)
+            {
+                return Math.Max(noIceTension1, noIceTension2);
+            }
+            //降温法
+            else if (FrontSideRes.CommParas.HandForcePara == 3)
+            {
+                return Math.Max(lowTempTension1, lowTempTension2);
+            }
+            //取两者最大值
+            else
+            {
+                return Math.Max(Math.Max(noIceTension1, noIceTension2), Math.Max(lowTempTension1, lowTempTension2));
+            }
+        }
+
+
+        /// <summary>
+        /// 张力差
+        /// </summary>
+        /// <param name="secInc">截面增大系数</param>
+        /// <param name="effectPara"> 有效系数</param>
+        /// <param name="savePara">安全系数</param>
+        /// <param name="tensionCoef">断线张力系数/不均匀冰张力系数？ 为什么全部用的小号侧</param>
+        /// <param name="devideNum">导线分裂数，地线不用</param>
+        /// <returns></returns>
+        protected double TensinDiff(out string str, double fore, double secInc, double effectPara, double savePara, double tensionCoef, int devideNum = 1)
+        {
+            double rslt = secInc * Math.Round(fore * effectPara / 9.80665, 2) / savePara * devideNum * tensionCoef;
+            str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/9.80665/" + savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
+            return rslt;
+        }
+        #endregion
+
+        #region 用于打印输出的函数
         public List<string> PrintJumpStrLoad()
         {
             List<string> rslt1 = new List<string>();
@@ -678,7 +894,233 @@ namespace TowerLoadCals.BLL.Electric
             return rslt;
         }
 
+        public List<string> PrintCalsReslt()
+        {
+            List<string> relt = new List<string>();
 
+            relt.Add("\n垂直档距计算：");
+            for (int i = 0; i <= 4; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i + 5];
+
+                foreach (var name in phase.WireData.WorkCdtNames)
+                {
+                    var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double verSpan = laod == null ? 0 : laod.VetiSpan;
+                    string verSpanStr = laod == null ? "" : laod.VetiSpanStr;
+
+                    var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double verSpanAn = phaseAn == null ? 0 : laodAn.VetiSpan;
+                    string verSpanStrAn = phaseAn == null ? "" : laodAn.VetiSpanStr;
+
+                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.VerSpanStrDic[name], 80) + FileUtils.PadRightEx(phase.VerSpanDic[name].ToString("0.###"), 12)
+                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.VerSpanStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.VerSpanDic[name].ToString("0.###"), 12));
+
+                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(verSpanStr, 80) + FileUtils.PadRightEx(verSpan.ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(verSpanStrAn, 80) + FileUtils.PadRightEx(verSpanAn.ToString("0.###"), 12));
+                }
+            }
+
+            relt.Add("\n水平荷载计算：");
+            for (int i = 0; i <= 4; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i + 5];
+
+                foreach (var name in phase.WireData.WorkCdtNames)
+                {
+                    var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double horFor = laod == null ? 0 : laod.HorFor;
+                    string horForStr = laod == null ? "" : laod.HorForStr;
+
+                    var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double horForAn = phaseAn == null ? 0 : laodAn.HorFor;
+                    string horForStrAn = phaseAn == null ? "" : laodAn.HorForStr;
+
+                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.HoriLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.HoriLoadDic[name].ToString("0.###"), 12)
+                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.HoriLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.HoriLoadDic[name].ToString("0.###"), 12));
+
+                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(horForStr, 80) + FileUtils.PadRightEx(horFor.ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(horForStrAn, 80) + FileUtils.PadRightEx(horForAn.ToString("0.###"), 12));
+                }
+            }
+
+
+            relt.Add("\n垂直荷载计算：");
+            for (int i = 0; i <= 4; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i + 5];
+
+                foreach (var name in phase.WireData.WorkCdtNames)
+                {
+                    var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double verWei = laod == null ? 0 : laod.VerWei;
+                    string verWeiStr = laod == null ? "" : laod.VerWeiStr;
+
+                    var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double verWeiAn = phaseAn == null ? 0 : laodAn.VerWei;
+                    string verWeiStrAn = phaseAn == null ? "" : laodAn.VerWeiStr;
+
+                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.VerLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.VerLoadDic[name].ToString("0.###"), 12)
+                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.VerLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.VerLoadDic[name].ToString("0.###"), 12));
+
+                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(verWeiStr, 80) + FileUtils.PadRightEx(verWei.ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(verWeiStrAn, 80) + FileUtils.PadRightEx(verWeiAn.ToString("0.###"), 12));
+                }
+            }
+
+            relt.Add("\n线条张力：");
+            for (int i = 0; i <= 4; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i + 5];
+
+                foreach (var name in phase.WireData.WorkCdtNames)
+                {
+                    var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double loStr = laod == null ? 0 : laod.LoStr;
+                    string loStrStr = laod == null ? "" : laod.LoStrStr;
+                    string loStrCheckStr = laod == null ? "" : laod.LoStrCheck;
+
+                    var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double loStrAn = phaseAn == null ? 0 : laodAn.LoStr;
+                    string loStrStrAn = phaseAn == null ? "" : laodAn.LoStrStr;
+                    string loStrCheckStrAn = phaseAn == null ? "" : laodAn.LoStrCheck;
+
+                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.TensionStrDic[name], 80) + FileUtils.PadRightEx(phase.TensionDic[name].ToString("0.###"), 12)
+                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.TensionStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.TensionDic[name].ToString("0.###"), 12));
+
+                    string str = FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(loStrStr, 80) + FileUtils.PadRightEx(loStr.ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(loStrStrAn, 80) + FileUtils.PadRightEx(loStrAn.ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(loStrCheckStr, 20) + FileUtils.PadRightEx(loStrCheckStrAn, 20);
+
+                    if (name == "断线" || name == "不均匀冰I" || name == "不均匀冰II" || name == "断线(导线+5mm)" || name == "不均匀冰I(导线+5mm)" || name == "不均匀冰II(导线+5mm)")
+                    {
+                        double loStrCheck2Str = laod == null ? 0 : laod.LoStrCheck2;
+                        double loStrCheck2StrAn = phaseAn == null ? 0 : laodAn.LoStrCheck2;
+
+                        str += FileUtils.PadRightEx(loStrCheck2Str.ToString(), 10) + FileUtils.PadRightEx(loStrCheck2StrAn.ToString(), 10);
+                    }
+
+
+                    relt.Add(str);
+                }
+            }
+
+            relt.Add("\n跳线串水平荷载：");
+            for (int i = 0; i <= 2; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧" + i, 118) + FileUtils.PadRightEx("大号侧" + i, 118));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 80) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i + 5];
+
+                foreach (var name in phase.WireData.WorkCdtNames)
+                {
+                    var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double jumpHorFor = laod == null ? 0 : laod.JumpHorFor;
+                    string jumpHorForStr = laod == null ? "" : laod.JumpHorForStr;
+
+                    var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double jumpHorForAn = phaseAn == null ? 0 : laodAn.JumpHorFor;
+                    string jumpHorForStrAn = phaseAn == null ? "" : laodAn.JumpHorForStr;
+
+                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.JumpStrHorLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.JumpStrHorLoadDic[name].ToString("0.###"), 12)
+                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.JumpStrHorLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.JumpStrHorLoadDic[name].ToString("0.###"), 12));
+
+                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(jumpHorForStr, 80) + FileUtils.PadRightEx(jumpHorFor.ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(jumpHorForStrAn, 80) + FileUtils.PadRightEx(jumpHorForAn.ToString("0.###"), 12));
+                }
+            }
+
+            relt.Add("\n跳线串垂直荷载：");
+            for (int i = 0; i <= 2; i++)
+            {
+                relt.Add(FileUtils.PadRightEx("小号侧" + i, 148) + FileUtils.PadRightEx("大号侧" + i, 148));
+                relt.Add(FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 110) + FileUtils.PadRightEx("计算值：", 12)
+                    + FileUtils.PadRightEx("工况", 26) + FileUtils.PadRightEx("计算过程：", 110) + FileUtils.PadRightEx("计算值：", 12));
+
+                var phase = PhaseTraList[i];
+                var phaseAn = PhaseTraList[i + 5];
+
+                foreach (var name in phase.WireData.WorkCdtNames)
+                {
+                    var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double jumpVerWei = laod == null ? 0 : laod.JumpVerWei;
+                    string jumpVerWeiStr = laod == null ? "" : laod.JumpVerWeiStr;
+
+                    var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
+                    double jumpVerWeiAn = phaseAn == null ? 0 : laodAn.JumpVerWei;
+                    string jumpVerWeiStrAn = phaseAn == null ? "" : laodAn.JumpVerWeiStr;
+
+                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.JumpStrVerLoadStrDic[name], 110) + FileUtils.PadRightEx(phase.JumpStrVerLoadDic[name].ToString("0.###"), 12)
+                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.JumpStrVerLoadStrDic[name], 110) + FileUtils.PadRightEx(phaseAn.JumpStrVerLoadDic[name].ToString("0.###"), 12));
+                    relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(jumpVerWeiStr, 110) + FileUtils.PadRightEx(jumpVerWei.ToString("0.###"), 12)
+                        + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(jumpVerWeiStrAn, 110) + FileUtils.PadRightEx(jumpVerWeiAn.ToString("0.###"), 12));
+                }
+            }
+
+            return relt;
+        }
+
+        public List<string> PrintTensionDiff()
+        {
+            List<string> relt = new List<string>();
+
+            relt.Add("\n张力差：");
+            relt.Add(FileUtils.PadRightEx("小号侧", 26) + FileUtils.PadRightEx("计算过程：", 50) + FileUtils.PadRightEx("计算值：", 16)
+                + FileUtils.PadRightEx("大号侧", 26) + FileUtils.PadRightEx("计算过程：", 50) + FileUtils.PadRightEx("计算值：", 16) + FileUtils.PadRightEx("确定Max：", 32) + FileUtils.PadRightEx("最终Max：", 32));
+            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[0].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[0].BreakTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[5].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[5].BreakTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[0].BreakTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].BreakTenMaxTemp.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[0].BreakTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].BreakTenMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[3].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[3].BreakTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[8].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[8].BreakTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[3].BreakTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].BreakTenMaxTemp.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[3].BreakTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].BreakTenMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[4].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[4].BreakTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[9].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[9].BreakTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[4].BreakTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].BreakTenMaxTemp.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[4].BreakTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].BreakTenMax.ToString("0.##"), 16));
+
+            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenMaxTemp.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenMaxTemp.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenMax.ToString("0.##"), 16));
+            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenMaxTemp.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenMax.ToString("0.##"), 16));
+
+            relt.Add(FileUtils.PadRightEx("\n锚线张力：", 12) + FileUtils.PadRightEx(AnchorTensionInd.ToString("0"), 10));
+            relt.Add(FileUtils.PadRightEx("一边地线：", 12) + FileUtils.PadRightEx(AnchorTensionGrd.ToString("0"), 10) + FileUtils.PadRightEx("另一边地线：", 12) + FileUtils.PadRightEx(AnchorTensionOPGW.ToString("0"), 10));
+            return relt;
+        }
+        #endregion
 
     }
 }

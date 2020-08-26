@@ -132,7 +132,7 @@ namespace TowerLoadCals.BLL.Electric
         public Dictionary<string, double>  YLTable { get; set; }
 
         [XmlIgnore]
-        public Dictionary<string, double> YLTable2 { get; set; }
+        public Dictionary<string, double> YLTableXls { get; set; }
 
         public string CtrNaSave { get; set; }
 
@@ -362,11 +362,9 @@ namespace TowerLoadCals.BLL.Electric
                 AvePara = SideParas.OPGWAnPara;
             }
 
-            //最大允许应力   
-            var maxPerFor = Fore * CommParas.NewPerPara / SafePara / Sec;
-            //年均应力
-            var avePerFor = Fore * CommParas.NewPerPara * AvePara / Sec;
 
+
+            #region 按照Excel的算法
             var maxWindWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "换算最大风速").First();
             var minTempWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "最低气温").First();
             var maxIceWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "最大覆冰").First();
@@ -385,13 +383,18 @@ namespace TowerLoadCals.BLL.Electric
             CtrlGkStress = CtrlGkName == "平均气温" ? AvaStress : CtrlStress;
             CtrlGk = WeatherParas.WeathComm.Where(item => item.Name == CtrlGkName).First();
 
-            Dictionary<string, double> ForDic2 = new Dictionary<string, double>();
+            YLTableXls = new Dictionary<string, double>();
             foreach (var wd in WeatherParas.WeathComm)
             {
                 double stress = ElecCalsToolBox2.StressNew(CtrlGkStress, BzDic[CtrlGkName].BiZai, CtrlGk.Temperature,ElasM, Coef, span, BzDic[wd.Name].BiZai, wd.Temperature);
-                ForDic2.Add(wd.Name, stress);
+                YLTableXls.Add(wd.Name, stress);
             }
-            YLTable2 = ForDic2;
+            #endregion
+
+            //最大允许应力   
+            var maxPerFor = Fore * CommParas.NewPerPara / SafePara / Sec;
+            //年均应力
+            var avePerFor = Fore * CommParas.NewPerPara * AvePara / Sec;
 
             //控制工况计算
 
@@ -445,7 +448,7 @@ namespace TowerLoadCals.BLL.Electric
         {
             double aveHei = bGrd == 0 ? CommParas.IndAveHei : CommParas.GrdAveHei;
             
-            //两种不同计算方式，一个是从按照Excel转换，一个从python转换，结构相同，采用从python转换的结果
+            //两种不同计算方式，一个是从按照Excel转换，一个从python转换，结果相同，采用从python转换的结果
             //WeatherParas.ConverWind(aveHei, CommParas.TerrainPara);
             WeatherParas.ConverWind(aveHei, CommParas.TerType);
             
@@ -467,38 +470,6 @@ namespace TowerLoadCals.BLL.Electric
                 WeatherParas.AddCkeckGKIcr5mm();
             }
 
-        }
-
-
-
-
-
-
-        /// <summary>
-        /// 锚线张力
-        /// </summary>
-        /// <param name="noIceTension1">小号侧 安装情况（无冰）线条张力</param>
-        /// <param name="noIceTension2">大号侧 安装情况（无冰）线条张力</param>
-        /// <param name="lowTempTension1">小号侧 安装情况（降温）线条张力<</param>
-        /// <param name="lowTempTension2">小号侧 安装情况（降温）线条张力<</param>
-        /// <returns></returns>
-        protected double AnchorLineTension(double noIceTension1, double noIceTension2, double lowTempTension1, double lowTempTension2 )
-        {
-            //"系数法"
-            if(CommParas.HandForcePara == 2)
-            {
-                return Math.Max(noIceTension1, noIceTension2);
-            }
-            //降温法
-            else if(CommParas.HandForcePara == 3)
-            {
-                return Math.Max(lowTempTension1, lowTempTension2);
-            }
-            //取两者最大值
-            else
-            {
-                return Math.Max(Math.Max(noIceTension1, noIceTension2), Math.Max(lowTempTension1, lowTempTension2));
-            }
         }
     }
 }

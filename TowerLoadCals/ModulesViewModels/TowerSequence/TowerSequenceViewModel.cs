@@ -46,7 +46,7 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
             string filePath = globalInfo.ProjectPath + "\\" + ConstVar.TowerSequenceStr + "\\" + navg + "\\TowerSequenceStr.xml";
             if (File.Exists(filePath))
             {
-                DataSource = new ObservableCollection<TowerSerial>(TowerSerialReader.ReadXml(filePath));
+                DataSource = new ObservableCollection<TowerSerial>(TowerSerialReader.ReadXml(globalInfo.ProjectPath, navg));
             }
         }
         /// <summary>
@@ -84,7 +84,7 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
         public void doWeatherConditionSetting()
         {
             //塔位号
-            List<string> list=  this.dataSource.Select(item => item.TowerName).ToList();
+            List<string> list = this.dataSource.Select(item => item.TowerName).ToList();
 
             setting = new WeatherConditionSettingWindow();
 
@@ -96,7 +96,7 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
         public void WeatherConditionSettingWindowClosed(object sender, IList<WeatherConditionSetting> list)
         {
             WeatherConditionSettingWindowViewModel model = (WeatherConditionSettingWindowViewModel)sender;
-           
+
             model.CloseWindowEvent -= WeatherConditionSettingWindowClosed;
             if (setting != null) setting.Close();
             setting = null;
@@ -105,7 +105,7 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
             if (list != null)
             {
                 var sourcList = this.dataSource;
-                int startIndex = 0,endIndex = 0;
+                int startIndex = 0, endIndex = 0;
                 foreach (WeatherConditionSetting item in list)
                 {
                     try
@@ -113,7 +113,7 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
                         startIndex = this.dataSource.Where(t => t.TowerName == item.StartTowerName).Single().ID;
                         endIndex = this.dataSource.Where(t => t.TowerName == item.EndTowerName).Single().ID;
                         //筛选需要修改的序列信息
-                        var sourceList = sourcList.Where(t => t.ID>=startIndex&&t.ID<= endIndex).ToList();
+                        var sourceList = sourcList.Where(t => t.ID >= startIndex && t.ID <= endIndex).ToList();
 
                         foreach (TowerSerial serial in sourceList)
                         {
@@ -155,11 +155,11 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
                 //保存计算后的杆塔序列文件
                 TowerSerialReader.SaveDT(this.DataSource.ToList(), savePath);
 
-                MessageBox.Show("保存成功!" );
+                MessageBox.Show("保存成功!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("保存异常！异常信息:"+ex.Message);
+                MessageBox.Show("保存异常！异常信息:" + ex.Message);
             }
         }
 

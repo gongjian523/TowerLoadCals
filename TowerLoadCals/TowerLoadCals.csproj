@@ -147,6 +147,7 @@
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\AccordionItem.cs" />
     <Compile Include="ModulesViewModels\Band.cs" />
+    <Compile Include="ModulesViewModels\BaseData\StruCalsLibIceCoverModuleV.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruTemplateEditViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruTemplateLibBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StruTemplateLibProjectViewModel.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\Electrical\BaseDataTemplateViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\FitDataViewModel.cs" />
     <Compile Include="ModulesViewModels\Internet\SpacerViewModel.cs" />
@@ -199,6 +201,9 @@
     </Compile>
     <Compile Include="Modules\BaseData\TowerStructureConfigureModule.xaml.cs">
       <DependentUpon>TowerStructureConfigureModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Electrical\BaseDataTemplateModule.xaml.cs">
+      <DependentUpon>BaseDataTemplateModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Internet\SpacerModule.xaml.cs">
       <DependentUpon>SpacerModule.xaml</DependentUpon>
@@ -291,6 +296,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\BaseData\TowerStructureConfigureModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Electrical\BaseDataTemplateModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

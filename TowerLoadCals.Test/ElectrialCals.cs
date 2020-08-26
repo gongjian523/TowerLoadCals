@@ -322,9 +322,9 @@ namespace TowerLoadCals.Test
             CalTower.Cals();
             logList.AddRange(CalTower.PrintCalsReslt());
 
-            CalTower.BackSideRes.UpdateTensionDiff();
-            CalTower.FrontSideRes.UpdateTensionDiff();
-            CalTower.CalsTensionMax();
+            CalTower.UpdateTensionDiff();
+            CalTower.UpateAnchor();
+            CalTower.CalsTensionChcek();
             logList.AddRange(CalTower.PrintTensionDiff());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);

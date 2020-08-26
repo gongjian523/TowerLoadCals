@@ -158,7 +158,7 @@ namespace TowerLoadCals.BLL.Electric
                 string str = FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(wea.Temperature.ToString(), 8) + FileUtils.PadRightEx(wea.WindSpeed.ToString(), 8) + FileUtils.PadRightEx(wea.IceThickness.ToString(), 8)
                     + FileUtils.PadRightEx(wea.BaseWindSpeed.ToString(), 12) + FileUtils.PadRightEx(wire.BzDic[name].BiZai.ToString("e3"), 12) + FileUtils.PadRightEx((wire.BzDic[name].g7 / 9.8).ToString("e3"), 12)
                     + FileUtils.PadRightEx(wire.BzDic[name].VerBizai.ToString("e3"), 12) + FileUtils.PadRightEx((wire.BzDic[name].g3 / 9.8).ToString("e3"), 12) + FileUtils.PadRightEx(wire.BzDic[name].HorBizai.ToString("e3"), 12) + FileUtils.PadRightEx((wire.BzDic[name].g5/9.8).ToString("e3"), 12)
-                    + FileUtils.PadRightEx(wire.BzDic[name].VerHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.BzDic[name].WindHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.YLTable2[name].ToString("0.000"), 12) + FileUtils.PadRightEx(wire.YLTable[name].ToString("0.000"), 12);
+                    + FileUtils.PadRightEx(wire.BzDic[name].VerHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.BzDic[name].WindHezai.ToString("0.000"), 12) + FileUtils.PadRightEx(wire.YLTableXls[name].ToString("0.000"), 12) + FileUtils.PadRightEx(wire.YLTable[name].ToString("0.000"), 12);
                 rslt.Add(str);
             }
             
@@ -185,64 +185,48 @@ namespace TowerLoadCals.BLL.Electric
         }
 
 
-        public double IndBreakTensionDiff { get; set; }
-        public double GrdBreakTensionDiff { get; set; }
-        public double OPGWBreakTensionDiff { get; set; }
+        //public double IndBreakTensionDiff { get; set; }
+        //public double GrdBreakTensionDiff { get; set; }
+        //public double OPGWBreakTensionDiff { get; set; }
 
-        public double IndUnbaIceTensionDiff { get; set; }
-        public double GrdUnbaIceTensionDiff { get; set; }
-        public double OPGWUnbaIceTensionDiff { get; set; }
+        //public double IndUnbaIceTensionDiff { get; set; }
+        //public double GrdUnbaIceTensionDiff { get; set; }
+        //public double OPGWUnbaIceTensionDiff { get; set; }
 
-        public double IndBreakTensionMaxO { get; set; }
-        public double GrdBreakTensionMaxO { get; set; }
-        public double OPGWBreakTensionMaxO { get; set; }
+        //public string IndBreakTensionDiffStr;
+        //public string GrdBreakTensionDiffStr;
+        //public string OPGWBreakTensionDiffStr;
 
-        public double IndUnbaIceTensionMaxO { get; set; }
-        public double GrdUnbaIceTensionMaxO { get; set; }
-        public double OPGWUnbaIceTensionMaxO { get; set; }
+        //public string IndUnbaIceTensionDiffStr;
+        //public string GrdUnbaIceTensionDiffStr;
+        //public string OPGWUnbaIceTensionDiffStr;
 
-        public double IndBreakTensionMax { get; set; }
-        public double GrdBreakTensionMax { get; set; }
-        public double OPGWBreakTensionMax { get; set; }
+        //public void UpdateTensionDiff()
+        //{
+        //    IndBreakTensionDiff = TensinDiff(out IndBreakTensionDiffStr, IndWire.Fore, CommParas.SecIndInc, SideParas.IndEffectPara, SideParas.IndSafePara, IndWire.BreakTensionPara, IndWire.DevideNum);
+        //    GrdBreakTensionDiff = TensinDiff(out GrdBreakTensionDiffStr, GrdWire.Fore, CommParas.SecGrdInc, SideParas.GrdEffectPara, SideParas.GrdSafePara, GrdWire.BreakTensionPara);
+        //    OPGWBreakTensionDiff = TensinDiff(out OPGWBreakTensionDiffStr, OPGWWire.Fore, CommParas.SecOPGWInc, SideParas.OPGWEffectPara, SideParas.OPGWSafePara, OPGWWire.BreakTensionPara);
 
-        public double IndUnbaIceTensionMax { get; set; }
-        public double GrdUnbaIceTensionMax { get; set; }
-        public double OPGWUnbaIceTensionMax { get; set; }
+        //    IndUnbaIceTensionDiff = TensinDiff(out IndUnbaIceTensionDiffStr, IndWire.Fore, CommParas.SecIndInc, SideParas.IndEffectPara, SideParas.IndSafePara, IndWire.UnbaTensionPara, IndWire.DevideNum);
+        //    GrdUnbaIceTensionDiff = TensinDiff(out GrdUnbaIceTensionDiffStr, GrdWire.Fore, CommParas.SecGrdInc, SideParas.GrdEffectPara, SideParas.GrdSafePara, GrdWire.UnbaTensionPara);
+        //    OPGWUnbaIceTensionDiff = TensinDiff(out OPGWUnbaIceTensionDiffStr, OPGWWire.Fore, CommParas.SecOPGWInc, SideParas.OPGWEffectPara, SideParas.OPGWSafePara, OPGWWire.UnbaTensionPara);
+        //}
 
-        public string IndBreakTensionDiffStr;
-        public string GrdBreakTensionDiffStr;
-        public string OPGWBreakTensionDiffStr;
-
-        public string IndUnbaIceTensionDiffStr;
-        public string GrdUnbaIceTensionDiffStr;
-        public string OPGWUnbaIceTensionDiffStr;
-
-        public void UpdateTensionDiff()
-        {
-            IndBreakTensionDiff = TensinDiff(out IndBreakTensionDiffStr, IndWire.Fore, CommParas.SecIndInc, SideParas.IndEffectPara, SideParas.IndSafePara, IndWire.BreakTensionPara, IndWire.DevideNum);
-            GrdBreakTensionDiff = TensinDiff(out GrdBreakTensionDiffStr, GrdWire.Fore, CommParas.SecGrdInc, SideParas.GrdEffectPara, SideParas.GrdSafePara, GrdWire.BreakTensionPara);
-            OPGWBreakTensionDiff = TensinDiff(out OPGWBreakTensionDiffStr, OPGWWire.Fore, CommParas.SecOPGWInc, SideParas.OPGWEffectPara, SideParas.OPGWSafePara, OPGWWire.BreakTensionPara);
-
-            IndUnbaIceTensionDiff = TensinDiff(out IndUnbaIceTensionDiffStr, IndWire.Fore, CommParas.SecIndInc, SideParas.IndEffectPara, SideParas.IndSafePara, IndWire.UnbaTensionPara, IndWire.DevideNum);
-            GrdUnbaIceTensionDiff = TensinDiff(out GrdUnbaIceTensionDiffStr, GrdWire.Fore, CommParas.SecGrdInc, SideParas.GrdEffectPara, SideParas.GrdSafePara, GrdWire.UnbaTensionPara);
-            OPGWUnbaIceTensionDiff = TensinDiff(out OPGWUnbaIceTensionDiffStr, OPGWWire.Fore, CommParas.SecOPGWInc, SideParas.OPGWEffectPara, SideParas.OPGWSafePara, OPGWWire.UnbaTensionPara);
-        }
-
-        /// <summary>
-        /// 张力差
-        /// </summary>
-        /// <param name="secInc">截面增大系数</param>
-        /// <param name="effectPara"> 有效系数</param>
-        /// <param name="savePara">安全系数</param>
-        /// <param name="tensionCoef">断线张力系数/不均匀冰张力系数？ 为什么全部用的小号侧</param>
-        /// <param name="devideNum">导线分裂数，地线不用</param>
-        /// <returns></returns>
-        protected double TensinDiff(out string str, double fore, double secInc, double effectPara, double savePara, double tensionCoef, int devideNum = 1)
-        {
-            double rslt =  secInc * Math.Round(fore * effectPara / 9.80665, 2) / savePara * devideNum * tensionCoef;
-            str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/9.80665/" +  savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
-            return rslt;
-        }
+        ///// <summary>
+        ///// 张力差
+        ///// </summary>
+        ///// <param name="secInc">截面增大系数</param>
+        ///// <param name="effectPara"> 有效系数</param>
+        ///// <param name="savePara">安全系数</param>
+        ///// <param name="tensionCoef">断线张力系数/不均匀冰张力系数？ 为什么全部用的小号侧</param>
+        ///// <param name="devideNum">导线分裂数，地线不用</param>
+        ///// <returns></returns>
+        //protected double TensinDiff(out string str, double fore, double secInc, double effectPara, double savePara, double tensionCoef, int devideNum = 1)
+        //{
+        //    double rslt =  secInc * Math.Round(fore * effectPara / 9.80665, 2) / savePara * devideNum * tensionCoef;
+        //    str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/9.80665/" +  savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
+        //    return rslt;
+        //}
 
     }
 }

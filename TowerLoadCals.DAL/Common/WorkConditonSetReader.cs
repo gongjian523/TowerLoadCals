@@ -93,6 +93,8 @@ namespace TowerLoadCals.DAL.Common
                     }
                 }
             }
+            if (char.Parse(key.Substring(key.Length - 1)) >= 97)
+                value += " 第" + key.Substring(key.Length - 1) + " 组挂点";
 
             return value;
         }
@@ -179,9 +181,6 @@ namespace TowerLoadCals.DAL.Common
                         }
                     }
                 }
-                if (char.Parse(code.Substring(code.Length - 1)) >= 97)
-                    value += " 第" + code.Substring(code.Length - 1) + " 组挂点";
-
             }
             return value;
         }

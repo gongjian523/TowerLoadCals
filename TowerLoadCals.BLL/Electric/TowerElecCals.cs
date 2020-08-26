@@ -172,42 +172,6 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double AtiGrd { get; set; }
 
-        ///// <summary>
-        ///// 上相（中相）与下横担高差
-        ///// </summary>
-        //public double UpSideInHei { get; set; }
-
-        ///// <summary>
-        ///// 中相（边相）与下横担高差（双回）
-        ///// </summary>
-        //public double MidInHei { get; set; }
-
-        ///// <summary>
-        ///// 下相（边相）与下横担高差（双回）
-        ///// </summary>
-        //public double DownSideHei { get; set; }
-
-        ///// <summary>
-        ///// 地线与下横担高差
-        ///// </summary>
-        //public double GrDHei { get; set; }
-
-
-        ///// <summary>
-        ///// 上相（中相）跳线挂点与下横担高差
-        ///// </summary>
-        //public double UpSideJuHei { get; set; }
-
-        ///// <summary>
-        ///// 中相（边相）跳线挂点与下横担高差
-        ///// </summary>
-        //public double DnSideJuHei { get; set; }
-
-        ///// <summary>
-        ///// 中相（边相）跳线挂点与下横担高差
-        ///// </summary>
-        //public double MidJuHei { get; set; }
-
         public virtual string TowerType { get; set; }
 
         public TowerElecCals()
@@ -320,7 +284,6 @@ namespace TowerLoadCals.BLL.Electric
             BackPosRes.Span = backTower.FrontPosRes.Span;
             BackPosRes.DRepresentSpan = backTower.FrontPosRes.DRepresentSpan;
         }
-
 
 
         /// <summary>

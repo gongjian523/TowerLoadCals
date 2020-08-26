@@ -132,10 +132,24 @@ namespace TowerLoadCals.Modules
                 if (list != null && list.Count > 0)
                 {
                     int index = SelectedItems.Count + 1;
+                    TowerStrData tower;
                     foreach (TowerStrData item in list)
                     {
                         item.ID = index;
-                        this.SelectedItems.Add(item);
+                        tower = this.SelectedItems.Where(k => k.Name == item.Name).First();
+                        if (tower != null)
+                        {
+                            DialogResult dr = MessageBox.Show(string.Format("已经存在名称为【{0}】相同的杆塔型号信息，是否替换？", item.Name), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            if (dr == DialogResult.OK)
+                            {
+                                this.SelectedItems.Where(k => k.Name == item.Name).First().VoltageLevel = 1000;
+                                //this.SelectedItems.Remove(this.SelectedItems.Where(k => k.Name == item.Name).First());
+                                //item.ID = tower.ID;
+                                //this.SelectedItems.Add(item);
+                            }
+                        }
+                        else
+                            this.SelectedItems.Add(item);
                         index++;
                     }
                 }
