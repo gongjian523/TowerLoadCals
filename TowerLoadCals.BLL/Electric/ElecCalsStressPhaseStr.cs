@@ -603,35 +603,6 @@ namespace TowerLoadCals.BLL.Electric
             UnbaIceTenMax = Math.Max(UnbaIceTenMaxTemp, UnbaIceTenDiff);
         }
 
-        public void CheckTension(bool isBackSide, List<LoadThrDe> anLoadList)
-        {
-            var laodBreakAn = anLoadList.Where(item => item.GKName == "断线").FirstOrDefault();
-            double tenMaxBreakAn = laodBreakAn == null ? 0 : laodBreakAn.LoStrCheck2;
-
-            var laodBreak = LoadList.Where(item => item.GKName == "断线").FirstOrDefault();
-            double tenMaxBreak = laodBreak == null ? 0 : laodBreakAn.LoStrCheck2;
-
-            if(WireData.bGrd == 0)
-            {
-                AnSideBreakTenDiff = WireData.CommParas.BreakIceCoverPara == 2 ? 0 : tenMaxBreakAn;
-                BothSidesBreakTenDiff = "0/" + Math.Round(tenMaxBreak, 0).ToString();
-            }
-            else
-            {
-                var laodBreakAdd5An = anLoadList.Where(item => item.GKName == "断线(导线+5mm)").FirstOrDefault();
-                double tenMaxBreakAdd5An = laodBreakAdd5An == null ? 0 : laodBreakAdd5An.LoStrCheck2;
-
-                AnSideBreakTenDiff = WireData.CommParas.BreakIceCoverPara == 2 ? 0 : (WireData.CommParas.GrdIceUnbaPara == 1  ? tenMaxBreakAn : tenMaxBreakAdd5An);
-                BothSidesBreakTenDiff = "0/" + Math.Round(tenMaxBreak, 0).ToString();
-            }
-
-            BothSidesBreakTenDiff = isBackSide ? ("0/" + Math.Round(tenMaxBreak, 0).ToString()) : (Math.Round(tenMaxBreak, 0).ToString() + "/0");
-
-
-
-
-        }
-
         #region 内部计算函数
 
         protected double WeightIceIn(double iceThick)

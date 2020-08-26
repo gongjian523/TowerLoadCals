@@ -541,18 +541,19 @@ namespace TowerLoadCals.BLL.Electric
 
         public void CalsTensionChcek()
         {
-            for(int i = 0; i<=5; i++)
+            for (int i = 0; i <= 4; i++)
             {
                 var backPhase = PhaseTraList[i];
                 var frontPhase = PhaseTraList[i + 5];
 
+                //计算断线张力差 
                 var laodBreakBk = backPhase.LoadList.Where(item => item.GKName == "断线").FirstOrDefault();
                 double tenMaxBreakBk = laodBreakBk == null ? 0 : laodBreakBk.LoStrCheck2;
 
                 var laodBreakFrt = frontPhase.LoadList.Where(item => item.GKName == "断线").FirstOrDefault();
                 double tenMaxBreakFrt = laodBreakFrt == null ? 0 : laodBreakFrt.LoStrCheck2;
 
-                //计算断线张力差 
+
                 if (backPhase.WireData.bGrd == 0)
                 {
                     backPhase.AnSideBreakTenDiff = backPhase.WireData.CommParas.BreakIceCoverPara == 2 ? 0 : tenMaxBreakFrt;
@@ -581,11 +582,82 @@ namespace TowerLoadCals.BLL.Electric
                 backPhase.BothSidesBreakTenDiffCheckTemp = backPhase.WireData.CommParas.BreakInPara == 1 ? "0/" + Math.Round(frontPhase.AnSideBreakTenDiffCheck, 0).ToString()
                     : Math.Round(frontPhase.BreakTenMax - backPhase.AnSideBreakTenDiffCheck, 0).ToString() + "/" + Math.Round(backPhase.BreakTenMax, 0).ToString();
 
-                frontPhase.BothSidesBreakTenDiffCheckTemp = frontPhase.WireData.CommParas.BreakInPara == 1 ? Math.Round(backPhase.AnSideBreakTenDiffCheck, 0).ToString() + "/0" 
+                frontPhase.BothSidesBreakTenDiffCheckTemp = frontPhase.WireData.CommParas.BreakInPara == 1 ? Math.Round(backPhase.AnSideBreakTenDiffCheck, 0).ToString() + "/0"
                     : Math.Round(frontPhase.BreakTenMax, 0).ToString() + "/" + Math.Round(frontPhase.BreakTenMax - frontPhase.AnSideBreakTenDiffCheck, 0).ToString();
 
-                backPhase.BothSidesBreakTenDiffCheck = backPhase.AnSideBreakTenDiffCheck > backPhase.AnSideBreakTenDiff ? backPhase.BothSidesBreakTenDiffCheck : backPhase.BothSidesBreakTenDiff;
-                frontPhase.BothSidesBreakTenDiffCheck = frontPhase.AnSideBreakTenDiffCheck > frontPhase.AnSideBreakTenDiff ? frontPhase.BothSidesBreakTenDiffCheck : backPhase.BothSidesBreakTenDiff;
+                backPhase.BothSidesBreakTenDiffCheck = backPhase.AnSideBreakTenDiffCheck > backPhase.AnSideBreakTenDiff ? backPhase.BothSidesBreakTenDiffCheckTemp : backPhase.BothSidesBreakTenDiff;
+                frontPhase.BothSidesBreakTenDiffCheck = frontPhase.AnSideBreakTenDiffCheck > frontPhase.AnSideBreakTenDiff ? frontPhase.BothSidesBreakTenDiffCheckTemp : frontPhase.BothSidesBreakTenDiff;
+
+                //计算不均匀冰张立差
+                var loadUnabIceIBk = backPhase.LoadList.Where(item => item.GKName == "不均匀冰I").FirstOrDefault();
+                double tenMaxUnabIceIBk = loadUnabIceIBk == null ? 0 : loadUnabIceIBk.LoStrCheck2;
+                var loadUnabIceIIBk = backPhase.LoadList.Where(item => item.GKName == "不均匀冰II").FirstOrDefault();
+                double tenMaxUnabIceIIBk = loadUnabIceIIBk == null ? 0 : loadUnabIceIIBk.LoStrCheck2;
+
+                var loadUnabIceIFrt = frontPhase.LoadList.Where(item => item.GKName == "不均匀冰I").FirstOrDefault();
+                double tenMaxUnabIceIFrt = loadUnabIceIFrt == null ? 0 : loadUnabIceIFrt.LoStrCheck2;
+                var loadUnabIceIIFrt = frontPhase.LoadList.Where(item => item.GKName == "不均匀冰II").FirstOrDefault();
+                double tenMaxUnabIceIIFrt = loadUnabIceIIFrt == null ? 0 : loadUnabIceIIFrt.LoStrCheck2;
+
+                if (backPhase.WireData.bGrd == 0)
+                {
+                    backPhase.UnbaIceTenIDiffBothSids = Math.Abs(tenMaxUnabIceIBk - tenMaxUnabIceIFrt);
+                    frontPhase.UnbaIceTenIDiffBothSids = Math.Abs(tenMaxUnabIceIBk - tenMaxUnabIceIFrt);
+
+                    backPhase.UnbaIceTenIDiff = Math.Round(tenMaxUnabIceIBk, 0);
+                    frontPhase.UnbaIceTenIDiff = Math.Round(tenMaxUnabIceIFrt, 0);
+
+                    backPhase.UnbaIceTenIIDiffBothSids = Math.Abs(tenMaxUnabIceIIBk - tenMaxUnabIceIIFrt);
+                    frontPhase.UnbaIceTenIIDiffBothSids = Math.Abs(tenMaxUnabIceIIBk - tenMaxUnabIceIIFrt);
+
+                    backPhase.UnbaIceTenIIDiff = Math.Round(tenMaxUnabIceIIBk, 0);
+                    frontPhase.UnbaIceTenIIDiff = Math.Round(tenMaxUnabIceIIFrt, 0);
+                }
+                else
+                {
+                    var loadUnabIceIAdd5Bk = backPhase.LoadList.Where(item => item.GKName == "不均匀冰I(导线+5mm)").FirstOrDefault();
+                    double tenMaxUnabIceIAdd5Bk = loadUnabIceIAdd5Bk == null ? 0 : loadUnabIceIAdd5Bk.LoStrCheck2;
+                    var loadUnabIceIIAdd5Bk = backPhase.LoadList.Where(item => item.GKName == "不均匀冰II(导线+5mm)").FirstOrDefault();
+                    double tenMaxUnabIceIIAdd5Bk = loadUnabIceIIAdd5Bk == null ? 0 : loadUnabIceIIAdd5Bk.LoStrCheck2;
+
+                    var loadUnabIceIAdd5Frt = frontPhase.LoadList.Where(item => item.GKName == "不均匀冰I(导线+5mm)").FirstOrDefault();
+                    double tenMaxUnabIceIAdd5Frt = loadUnabIceIAdd5Frt == null ? 0 : loadUnabIceIAdd5Frt.LoStrCheck2;
+                    var loadUnabIceIIAdd5Frt = frontPhase.LoadList.Where(item => item.GKName == "不均匀冰II(导线+5mm)").FirstOrDefault();
+                    double tenMaxUnabIceIIAdd5Frt = loadUnabIceIIAdd5Frt == null ? 0 : loadUnabIceIIAdd5Frt.LoStrCheck2;
+
+                    backPhase.UnbaIceTenIDiffBothSids = backPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? Math.Abs(tenMaxUnabIceIBk - tenMaxUnabIceIFrt) : Math.Abs(tenMaxUnabIceIAdd5Bk - tenMaxUnabIceIAdd5Frt);
+                    frontPhase.UnbaIceTenIDiffBothSids = frontPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? Math.Abs(tenMaxUnabIceIBk - tenMaxUnabIceIFrt) : Math.Abs(tenMaxUnabIceIAdd5Bk - tenMaxUnabIceIAdd5Frt);
+
+                    backPhase.UnbaIceTenIDiff = backPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? Math.Round(tenMaxUnabIceIBk, 0) : Math.Round(tenMaxUnabIceIAdd5Bk, 0);
+                    frontPhase.UnbaIceTenIDiff = frontPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? Math.Round(tenMaxUnabIceIFrt, 0) : Math.Round(tenMaxUnabIceIAdd5Frt, 0);
+
+                    backPhase.UnbaIceTenIIDiffBothSids = backPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? Math.Abs(tenMaxUnabIceIIBk - tenMaxUnabIceIIFrt) : Math.Abs(tenMaxUnabIceIIAdd5Bk - tenMaxUnabIceIIAdd5Frt);
+                    frontPhase.UnbaIceTenIIDiffBothSids = frontPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? Math.Abs(tenMaxUnabIceIIBk - tenMaxUnabIceIIFrt) : Math.Abs(tenMaxUnabIceIIAdd5Bk - tenMaxUnabIceIIAdd5Frt);
+
+                    backPhase.UnbaIceTenIIDiff = backPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? Math.Round(tenMaxUnabIceIIBk, 0) : Math.Round(tenMaxUnabIceIIAdd5Bk, 0);
+                    frontPhase.UnbaIceTenIIDiff = frontPhase.WireData.CommParas.GrdIceUnbaPara == 1 ? Math.Round(tenMaxUnabIceIIFrt, 0) : Math.Round(tenMaxUnabIceIIAdd5Frt, 0);
+                }
+
+                //验证不平衡张力差 
+                //两次不均匀冰I这个值都是使用后侧的数据
+                backPhase.UnbaIceTenIDiffBothSidsCheck = backPhase.UnbaIceTenDiff;
+                frontPhase.UnbaIceTenIDiffBothSidsCheck = backPhase.UnbaIceTenDiff;
+
+                backPhase.UnbaIceTenIDiffCheckTemp = backPhase.WireData.CommParas.UnbaInPara == 1 ? Math.Round(backPhase.UnbaIceTenIDiffBothSidsCheck, 0) : Math.Round(backPhase.UnbaIceTenMax, 0);
+                frontPhase.UnbaIceTenIDiffCheckTemp = frontPhase.WireData.CommParas.UnbaInPara == 1 ? 0 : Math.Round(frontPhase.UnbaIceTenMax - frontPhase.UnbaIceTenIDiffBothSidsCheck, 0);
+
+                backPhase.UnbaIceTenIDiffCheck = backPhase.UnbaIceTenIDiffBothSids >= backPhase.UnbaIceTenIDiffBothSidsCheck ? backPhase.UnbaIceTenIDiff : backPhase.UnbaIceTenIDiffCheckTemp;
+                frontPhase.UnbaIceTenIDiffCheck = frontPhase.UnbaIceTenIDiffBothSids >= frontPhase.UnbaIceTenIDiffBothSidsCheck ? frontPhase.UnbaIceTenIDiff : frontPhase.UnbaIceTenIDiffCheckTemp;
+
+                //两次不均匀冰II这个值都是使用后侧的数据
+                backPhase.UnbaIceTenIIDiffBothSidsCheck = frontPhase.UnbaIceTenDiff;
+                frontPhase.UnbaIceTenIIDiffBothSidsCheck = frontPhase.UnbaIceTenDiff;
+
+                backPhase.UnbaIceTenIIDiffCheckTemp = backPhase.WireData.CommParas.UnbaInPara == 1 ? 0 : Math.Round(backPhase.UnbaIceTenMax - backPhase.UnbaIceTenIIDiffBothSidsCheck, 0);    
+                frontPhase.UnbaIceTenIIDiffCheckTemp = frontPhase.WireData.CommParas.UnbaInPara == 1 ? Math.Round(frontPhase.UnbaIceTenIIDiffBothSidsCheck, 0) : Math.Round(frontPhase.UnbaIceTenMax, 0);
+
+                backPhase.UnbaIceTenIIDiffCheck = backPhase.UnbaIceTenIIDiffBothSids >= backPhase.UnbaIceTenIIDiffBothSidsCheck ? backPhase.UnbaIceTenIIDiff : backPhase.UnbaIceTenIIDiffCheckTemp;
+                frontPhase.UnbaIceTenIIDiffCheck = frontPhase.UnbaIceTenIIDiffBothSids >= frontPhase.UnbaIceTenIIDiffBothSidsCheck ? frontPhase.UnbaIceTenIIDiff : frontPhase.UnbaIceTenIIDiffCheckTemp;
 
             }
         }
@@ -1103,23 +1175,82 @@ namespace TowerLoadCals.BLL.Electric
                 + FileUtils.PadRightEx(PhaseTraList[4].BreakTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].BreakTenMaxTemp.ToString("0.##"), 16)
                 + FileUtils.PadRightEx(PhaseTraList[4].BreakTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].BreakTenMax.ToString("0.##"), 16));
 
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenDiff.ToString("0.##"), 16)
+            relt.Add(FileUtils.PadRightEx("导线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenMaxTemp.ToString("0.##"), 16)
                 + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenMax.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenDiff.ToString("0.##"), 16)
+            relt.Add(FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenMaxTemp.ToString("0.##"), 16)
                 + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenMax.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiff.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenDiff.ToString("0.##"), 16)
+            relt.Add(FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenMaxTemp.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenMaxTemp.ToString("0.##"), 16)
                 + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenMax.ToString("0.##"), 20) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenMax.ToString("0.##"), 16));
 
-            relt.Add(FileUtils.PadRightEx("\n锚线张力：", 12) + FileUtils.PadRightEx(AnchorTensionInd.ToString("0"), 10));
-            relt.Add(FileUtils.PadRightEx("一边地线：", 12) + FileUtils.PadRightEx(AnchorTensionGrd.ToString("0"), 10) + FileUtils.PadRightEx("另一边地线：", 12) + FileUtils.PadRightEx(AnchorTensionOPGW.ToString("0"), 10));
             return relt;
         }
+
+        public List <string> PrintBreakUnabCheck()
+        {
+            List<string> rslt = new List<string>();
+
+            rslt.Add("\n断线、不均匀冰验算：");
+            rslt.Add(FileUtils.PadRightEx("断线张力差", 20) + FileUtils.PadRightEx("小号侧断线大号侧张力", 26) + FileUtils.PadRightEx("大号侧断线小号侧张力", 26) + FileUtils.PadRightEx("小号侧断线", 26) + FileUtils.PadRightEx("大号侧断线", 26));
+            rslt.Add(FileUtils.PadRightEx("导线", 20) + FileUtils.PadRightEx(PhaseTraList[0].AnSideBreakTenDiff.ToString("0.00"), 26) + FileUtils.PadRightEx(PhaseTraList[5].AnSideBreakTenDiff.ToString("0.00"), 26) 
+                + FileUtils.PadRightEx(PhaseTraList[0].BothSidesBreakTenDiff, 26) + FileUtils.PadRightEx(PhaseTraList[5].BothSidesBreakTenDiff, 26));
+            rslt.Add(FileUtils.PadRightEx("地线1", 20) + FileUtils.PadRightEx(PhaseTraList[3].AnSideBreakTenDiff.ToString("0.00"), 26) + FileUtils.PadRightEx(PhaseTraList[8].AnSideBreakTenDiff.ToString("0.00"), 26)
+                + FileUtils.PadRightEx(PhaseTraList[3].BothSidesBreakTenDiff, 26) + FileUtils.PadRightEx(PhaseTraList[8].BothSidesBreakTenDiff, 26));
+            rslt.Add(FileUtils.PadRightEx("地线2", 20) + FileUtils.PadRightEx(PhaseTraList[4].AnSideBreakTenDiff.ToString("0.00"), 26) + FileUtils.PadRightEx(PhaseTraList[9].AnSideBreakTenDiff.ToString("0.00"), 26)
+                + FileUtils.PadRightEx(PhaseTraList[4].BothSidesBreakTenDiff, 26) + FileUtils.PadRightEx(PhaseTraList[9].BothSidesBreakTenDiff, 26));
+
+            rslt.Add(FileUtils.PadRightEx("断线张力差验算", 20) + FileUtils.PadRightEx("小号侧断线大号侧张力", 26) + FileUtils.PadRightEx("大号侧断线小号侧张力", 26) + FileUtils.PadRightEx("小号侧断线", 26) + FileUtils.PadRightEx("大号侧断线", 26)
+                + FileUtils.PadRightEx("小号侧断线最终值", 26) + FileUtils.PadRightEx("大号侧断线最终值", 26));
+
+            rslt.Add(FileUtils.PadRightEx("导线", 20) + FileUtils.PadRightEx(PhaseTraList[0].AnSideBreakTenDiffCheck.ToString("0.00"), 26) + FileUtils.PadRightEx(PhaseTraList[5].AnSideBreakTenDiffCheck.ToString("0.00"), 26) 
+                + FileUtils.PadRightEx(PhaseTraList[0].BothSidesBreakTenDiffCheckTemp, 26) + FileUtils.PadRightEx(PhaseTraList[5].BothSidesBreakTenDiffCheckTemp, 26)
+                + FileUtils.PadRightEx(PhaseTraList[0].BothSidesBreakTenDiffCheck, 26) + FileUtils.PadRightEx(PhaseTraList[5].BothSidesBreakTenDiffCheck, 26));
+            rslt.Add(FileUtils.PadRightEx("地线1", 20) + FileUtils.PadRightEx(PhaseTraList[3].AnSideBreakTenDiffCheck.ToString("0.00"), 26) + FileUtils.PadRightEx(PhaseTraList[8].AnSideBreakTenDiffCheck.ToString("0.00"), 26)
+                + FileUtils.PadRightEx(PhaseTraList[3].BothSidesBreakTenDiffCheckTemp, 26) + FileUtils.PadRightEx(PhaseTraList[8].BothSidesBreakTenDiffCheckTemp, 26)
+                + FileUtils.PadRightEx(PhaseTraList[3].BothSidesBreakTenDiffCheck, 26) + FileUtils.PadRightEx(PhaseTraList[8].BothSidesBreakTenDiffCheck, 26));
+            rslt.Add(FileUtils.PadRightEx("地线2", 20) + FileUtils.PadRightEx(PhaseTraList[4].AnSideBreakTenDiffCheck.ToString("0.00"), 26) + FileUtils.PadRightEx(PhaseTraList[9].AnSideBreakTenDiffCheck.ToString("0.00"), 26)
+                + FileUtils.PadRightEx(PhaseTraList[4].BothSidesBreakTenDiffCheckTemp, 26) + FileUtils.PadRightEx(PhaseTraList[9].BothSidesBreakTenDiffCheckTemp, 26)
+                + FileUtils.PadRightEx(PhaseTraList[4].BothSidesBreakTenDiffCheck, 26) + FileUtils.PadRightEx(PhaseTraList[9].BothSidesBreakTenDiffCheck, 26));
+
+            rslt.Add(FileUtils.PadRightEx("断线张力差", 20) + FileUtils.PadRightEx("工况", 20) + FileUtils.PadRightEx("张力差", 20) + FileUtils.PadRightEx("小号侧", 20) + FileUtils.PadRightEx("大号侧", 20));
+            rslt.Add(FileUtils.PadRightEx("导线", 20) + FileUtils.PadRightEx("不均匀覆冰I", 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIDiffBothSids.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIDiff.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenIDiff.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("导线", 20) + FileUtils.PadRightEx("不均匀覆冰II", 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIIDiffBothSids.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIIDiff.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenIIDiff.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("地线1", 20) + FileUtils.PadRightEx("不均匀覆冰I", 20) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenIDiffBothSids.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIDiff.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenIDiff.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("地线1", 20) + FileUtils.PadRightEx("不均匀覆冰II", 20) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenIIDiffBothSids.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIIDiff.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenIIDiff.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("地线2", 20) + FileUtils.PadRightEx("不均匀覆冰I", 20) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenIDiffBothSids.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIDiff.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenIDiff.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("地线2", 20) + FileUtils.PadRightEx("不均匀覆冰II", 20) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenIIDiffBothSids.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIIDiff.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenIIDiff.ToString("0.00"), 20));
+
+            rslt.Add(FileUtils.PadRightEx("断线张力验算", 20) + FileUtils.PadRightEx("工况", 20) + FileUtils.PadRightEx("张力差", 20) + FileUtils.PadRightEx("小号侧", 20) + FileUtils.PadRightEx("大号侧", 20) + FileUtils.PadRightEx("小号侧最终值", 20) + FileUtils.PadRightEx("大号侧最终值", 20));
+            rslt.Add(FileUtils.PadRightEx("导线", 20) + FileUtils.PadRightEx("不均匀覆冰I", 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIDiffBothSidsCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIDiffCheckTemp.ToString("0.00"), 20)
+                + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenIDiffCheckTemp.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIDiffCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenIDiffCheck.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("导线", 20) + FileUtils.PadRightEx("不均匀覆冰II", 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIIDiffBothSidsCheck.ToString("0.00"), 20)+ FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIIDiffCheckTemp.ToString("0.00"), 20)
+                + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenIIDiffCheckTemp.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenIIDiffCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[5].UnbaIceTenIIDiffCheck.ToString("0.00"), 20));
+            
+            rslt.Add(FileUtils.PadRightEx("地线1", 20) + FileUtils.PadRightEx("不均匀覆冰I", 20) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenIDiffBothSidsCheck.ToString("0.00"), 20)  + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenIDiffCheckTemp.ToString("0.00"), 20)
+                + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenIDiffCheckTemp.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenIDiffCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenIDiffCheck.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("地线1", 20) + FileUtils.PadRightEx("不均匀覆冰II", 20) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenIIDiffBothSidsCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenIIDiffCheckTemp.ToString("0.00"), 20)
+                + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenIIDiffCheckTemp.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenIIDiffCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[8].UnbaIceTenIIDiffCheck.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("地线2", 20) + FileUtils.PadRightEx("不均匀覆冰I", 20) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenIDiffBothSidsCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenIDiffCheckTemp.ToString("0.00"), 20)
+                + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenIDiffCheckTemp.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenIDiffCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenIDiffCheck.ToString("0.00"), 20));
+            rslt.Add(FileUtils.PadRightEx("地线2", 20) + FileUtils.PadRightEx("不均匀覆冰II", 20) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenIIDiffBothSidsCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenIIDiffCheckTemp.ToString("0.00"), 20)
+                + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenIIDiffCheckTemp.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenIIDiffCheck.ToString("0.00"), 20) + FileUtils.PadRightEx(PhaseTraList[9].UnbaIceTenIIDiffCheck.ToString("0.00"), 20));
+            return rslt;
+
+        }
+
+        public List<string> PrintAnchor()
+        {
+            List<string> rslt = new List<string>();
+            rslt.Add(FileUtils.PadRightEx("\n锚线张力：", 12) + FileUtils.PadRightEx(AnchorTensionInd.ToString("0"), 10));
+            rslt.Add(FileUtils.PadRightEx("一边地线：", 12) + FileUtils.PadRightEx(AnchorTensionGrd.ToString("0"), 10) + FileUtils.PadRightEx("另一边地线：", 12) + FileUtils.PadRightEx(AnchorTensionOPGW.ToString("0"), 10));
+            return rslt;
+        }
+
         #endregion
 
     }

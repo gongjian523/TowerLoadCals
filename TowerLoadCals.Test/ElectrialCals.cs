@@ -326,6 +326,8 @@ namespace TowerLoadCals.Test
             CalTower.UpateAnchor();
             CalTower.CalsTensionChcek();
             logList.AddRange(CalTower.PrintTensionDiff());
+            logList.AddRange(CalTower.PrintBreakUnabCheck());
+            logList.AddRange(CalTower.PrintAnchor());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);
             return;

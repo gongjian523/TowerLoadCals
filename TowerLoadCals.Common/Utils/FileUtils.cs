@@ -41,6 +41,9 @@ namespace TowerLoadCals.Common
 
         public static string PadRightEx(string str, int totalByteCount)
         {
+            if (str == null)
+                str = "XXX";
+
             Encoding coding = Encoding.GetEncoding("gb2312");
             int dcount = 0;
             foreach (char ch in str.ToCharArray())
