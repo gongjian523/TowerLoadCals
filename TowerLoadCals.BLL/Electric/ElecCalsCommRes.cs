@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.BLL.Electric
@@ -14,6 +12,7 @@ namespace TowerLoadCals.BLL.Electric
     {
         /// <summary>
         /// 1,代表传统计算模式；2，采用示例铁塔计算模式
+        /// 在程序中选择（结构计算中就是标准的选择）
         /// </summary>
         public int CalMode { get; set; }
 
@@ -345,6 +344,7 @@ namespace TowerLoadCals.BLL.Electric
             InstMaxPara = instMaxPara;
             IndExMaxPara = indExMaxPara;
             GrdExMaxPara = grdExMaxPara;
+
             BuildMinPara = buildMinPara;
             InstMinPara = instMinPara;
             IndExMinPara = indExMinPara;

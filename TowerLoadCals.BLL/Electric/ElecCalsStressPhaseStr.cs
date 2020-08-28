@@ -47,7 +47,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 空间位置数据
         /// </summary>
-        public PhaseSpaceStrUtils SpaceStr { get; set; } = new PhaseSpaceStrUtils();
+        public ElecCalsPhaseSpaceStr SpaceStr { get; set; } = new ElecCalsPhaseSpaceStr();
 
         /// <summary>
         ///  线风压系数
@@ -99,44 +99,6 @@ namespace TowerLoadCals.BLL.Electric
 
 
         public List<LoadThrDe> LoadList { get; set; } = new List<LoadThrDe>();
-
-
-        //[XmlIgnore]
-        //public Dictionary<string, double> VerSpanDic { get; set; } = new Dictionary<string, double>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, string> VerSpanStrDic { get; set; } = new Dictionary<string, string>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, double> HoriLoadDic { get; set; } = new Dictionary<string, double>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, string> HoriLoadStrDic { get; set; } = new Dictionary<string, string>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, double> VerLoadDic { get; set; } = new Dictionary<string, double>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, string> VerLoadStrDic { get; set; } = new Dictionary<string, string>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, double> JumpStrHorLoadDic { get; set; } = new Dictionary<string, double>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, string> JumpStrHorLoadStrDic { get; set; } = new Dictionary<string, string>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, double> JumpStrVerLoadDic { get; set; } = new Dictionary<string, double>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, string> JumpStrVerLoadStrDic { get; set; } = new Dictionary<string, string>();
-
-
-        //[XmlIgnore]
-        //public Dictionary<string, double> TensionDic { get; set; } = new Dictionary<string, double>();
-
-        //[XmlIgnore]
-        //public Dictionary<string, string> TensionStrDic { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// 绝缘子串的荷载
@@ -319,9 +281,6 @@ namespace TowerLoadCals.BLL.Electric
                     LoadList[index].VetiSpan = rslt;
                     LoadList[index].VetiSpanStr = str;
                 }
-
-                //VerSpanDic.Add(nameWd, rslt);
-                //VerSpanStrDic.Add(nameWd, str);
             }
         }
 
@@ -353,9 +312,6 @@ namespace TowerLoadCals.BLL.Electric
                     LoadList[index].HorFor = rslt;
                     LoadList[index].HorForStr = str;
                 }
-
-                //HoriLoadDic.Add(nameWd, rslt);
-                //HoriLoadStrDic.Add(nameWd, str);
             }
         }
 
@@ -377,9 +333,6 @@ namespace TowerLoadCals.BLL.Electric
 
                 double rslt = VerWei(weiInc, WireData.DevideNum, WireData.BzDic[nameWd].VerHezai, verSpan, StrLoad[nameWd].VerLoad, numJGB, weiJGB, weiFZ, iceThick,
                     numFZ,HangStr.DampLength, WireData.bGrd,  out string str);
-
-                //VerLoadDic.Add(nameWd, rslt);
-                //VerLoadStrDic.Add(nameWd, str);
 
                 int index = LoadList.FindIndex(item => item.GKName == nameWd);
                 if (index < 0)
@@ -440,9 +393,6 @@ namespace TowerLoadCals.BLL.Electric
                     LoadList[index].LoStr = rslt;
                     LoadList[index].LoStrStr = str;
                 }
-
-                //TensionDic.Add(nameWd, rslt);
-                //TensionStrDic.Add(nameWd, str);
             }
         }
 
@@ -530,9 +480,6 @@ namespace TowerLoadCals.BLL.Electric
                     LoadList[index].JumpHorFor = rslt;
                     LoadList[index].JumpHorForStr = str;
                 }
-
-                //JumpStrHorLoadDic.Add(nameWd, rslt);
-                //JumpStrHorLoadStrDic.Add(nameWd, str);
             }
         }
 
@@ -569,9 +516,6 @@ namespace TowerLoadCals.BLL.Electric
                     LoadList[index].JumpVerWei = rslt;
                     LoadList[index].JumpVerWeiStr = str;
                 }
-
-                //JumpStrVerLoadDic.Add(nameWd, rslt);
-                //JumpStrVerLoadStrDic.Add(nameWd, str);
             }
         }
 

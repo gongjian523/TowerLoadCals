@@ -135,6 +135,7 @@ namespace TowerLoadCals.BLL.Electric
         public Dictionary<string, double> YLTableXls { get; set; }
 
         public string CtrNaSave { get; set; }
+        public double CtrYLSave { get; set; }
 
         public double Comg1 { get; set; }
 
@@ -155,6 +156,10 @@ namespace TowerLoadCals.BLL.Electric
         ///不均匀冰张力系数
         /// </summary>
         public double UnbaTensionPara { get; set; }
+
+        //临时变量
+        public double MaxPerFor { get; set; }
+        public double AvePerFor { get; set; }
 
         public List<string> WorkCdtNames
         {
@@ -190,12 +195,12 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="weaData"></param>
         /// <param name="commPara">通用系数</param>
         /// <param name="wirePara">导线参数</param>
-        public void UpdataPara(ElecCalsWeaRes weaData, ElecCalsCommRes commPara, ElecCalsSideRes sideParas, string towerType, string iceArea)
+        public void UpdataPara(ElecCalsWeaRes weaData, ElecCalsCommRes commPara, ElecCalsSideRes sideParas, string towerType)
         {
             WeatherParas = XmlUtils.Clone(weaData);
             CommParas = commPara;
             SideParas = sideParas;
-            UpdateTensinPara(towerType, iceArea);
+            UpdateTensinPara(towerType, SideParas.IceArea);
         }
 
         protected void UpdateTensinPara(string towerType, string iceArea)
@@ -349,20 +354,15 @@ namespace TowerLoadCals.BLL.Electric
             }
             else
             {
+                //为什么单独给OPGW列出来呢，这样使用还不方便
                 OPGWEffectPara = SideParas.OPGWEffectPara;
-                //OPGW安全系数
                 OPGWSafePara = SideParas.OPGWSafePara;
-                //OPGW年均系数 
                 OPGWAnPara = SideParas.OPGWAnPara;
 
                 EffectPara = SideParas.OPGWEffectPara;
-                //OPGW安全系数
                 SafePara = SideParas.OPGWSafePara;
-                //OPGW年均系数 
                 AvePara = SideParas.OPGWAnPara;
             }
-
-
 
             #region 按照Excel的算法
             var maxWindWkCdt = WeatherParas.WeathComm.Where(item => item.Name == "换算最大风速").First();
@@ -392,9 +392,11 @@ namespace TowerLoadCals.BLL.Electric
             #endregion
 
             //最大允许应力   
-            var maxPerFor = Fore * CommParas.NewPerPara / SafePara / Sec;
+            double maxPerFor = Fore * CommParas.NewPerPara / SafePara / Sec;
+            MaxPerFor = maxPerFor / CommParas.GraAcc;
             //年均应力
-            var avePerFor = Fore * CommParas.NewPerPara * AvePara / Sec;
+            double avePerFor = Fore * CommParas.NewPerPara * AvePara / Sec ;
+            AvePerFor = avePerFor / CommParas.GraAcc / 100;
 
             //控制工况计算
 
@@ -407,7 +409,7 @@ namespace TowerLoadCals.BLL.Electric
                 double calFor = nameWd != "平均气温" ? maxPerFor : avePerFor;
 
                 //均采用综合比载计算
-                double calBz = BzDic[nameWd].g6;
+                double calBz = BzDic[nameWd].g7;
                 double temVal = WeatherParas.WeathComm.Where(item => item.Name == nameWd).First().Temperature;
                 double fm = (Elas * Math.Pow(calBz, 2) * Math.Pow(span, 2) / 24 / Math.Pow(calFor, 2)) - (calFor + Coef * Elas * temVal);
                 YLCalDic.Add(nameWd, fm);
@@ -420,20 +422,24 @@ namespace TowerLoadCals.BLL.Electric
             Dictionary<string, double> ForDic = new Dictionary<string, double>();
 
             //CtrName sorted(YLCalDic.items(), key = lambda kv: kv[1], reverse = True)[0]
-            string CtrName = "";
-            double CtrFm = 0;
 
-            ForDic.Add(CtrName, CtrFm);
+            YLCalDic = (from entry in YLCalDic orderby entry.Value descending select entry).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            string CtrName = YLCalDic.First().Key;
+            double CtrFm = YLCalDic.First().Value;
+
+            ForDic.Add(CtrName, ForCalDic[CtrName]);
 
             //将控制工况存储下来
             CtrNaSave = CtrName;
+            CtrYLSave = CtrFm;
 
-            foreach(var wd in WeatherParas.WeathComm)
+            foreach (var wd in WeatherParas.WeathComm)
             {
                 if (wd.Name == CtrName)
                     continue;
 
-                double calBz = BzDic[wd.Name].g6;
+                double calBz = BzDic[wd.Name].g7;
                 double temVal = WeatherParas.WeathComm.Where(item => item.Name == wd.Name).First().Temperature;
                 double temA = CtrFm + Coef * Elas * temVal;
                 double temB = Elas * Math.Pow(calBz, 2) * Math.Pow(span, 2) / 24;

@@ -188,23 +188,25 @@ namespace TowerLoadCals.Test
             OneWeath15.InsertGK(wkcList);
             AnoWeath15.InsertGK(wkcList2);
 
-            ElecCalsCommRes commParas = new ElecCalsCommRes();
-            commParas.Volt = pro.Volt;
-            commParas.VoltStr = pro.VoltStr;
-            commParas.Terrain = "山地";
-            commParas.TerrainPara = 0.16;
-            commParas.IndAveHei = 20;
-            commParas.GrdAveHei = 20;
-            commParas.GrdCl = 1.2;
-            commParas.SetForIncrPara(1,1.05, 1,1.1,1.1, 1.1, 1.1, 1.1, 1.1);
-            commParas.SetForMaxMinPara(1.025, 1.025, 1.122, 1.08, 0.95, 0.95, 1, 1);
-            commParas.SetOverDrive(0,0);
-            commParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
+            ElecCalsCommRes CommParas = new ElecCalsCommRes();
+            CommParas.Volt = pro.Volt;
+            CommParas.VoltStr = pro.VoltStr;
+            CommParas.Terrain = "山地";
+            CommParas.TerrainPara = 0.16;
+            CommParas.IndAveHei = 20;
+            CommParas.GrdAveHei = 20;
+            CommParas.GrdCl = 12;
+            CommParas.SetForIncrPara(1,1.05, 1,1.1,1.1, 1.1, 1.1, 1.1, 1.1);
+            CommParas.SetForMaxMinPara(1.025, 1.025, 1.122, 1.08, 0.95, 0.95, 1, 1);
+            CommParas.SetOverDrive(0,0);
+            CommParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
 
             ElecCalsSideRes OneWrieSidePara = new ElecCalsSideRes(0.95, 2.85, 25, 1, 4.1, 20, 1, 4.1, 20);
             OneWrieSidePara.SetTensionPara(0.95, 0.95, 1, 1);
+            OneWrieSidePara.IceArea = "中冰区";
             ElecCalsSideRes AnoWrieSidePara = new ElecCalsSideRes(0.95, 2.8, 25, 1, 4.1, 20, 1, 4.1, 20);
             AnoWrieSidePara.SetTensionPara(1.025, 1.025, 1.122, 1.08);
+            AnoWrieSidePara.IceArea = "中冰区";
 
             ElecCalsTowerAppre BackAppre = new ElecCalsTowerAppre();
             BackAppre.SetTraPara(29.2, 14.1, 0, 37.2, 29.2, 14.1, 0);
@@ -220,7 +222,7 @@ namespace TowerLoadCals.Test
             TowerStrainElecCals CalTower = new TowerStrainElecCals();
             TowerHangElecCals FrontTower = new TowerHangElecCals();
 
-            List<string> logList = new List<string>();
+            List<string> LogList = new List<string>();
 
             BackTower.SetPosInf("NAB204", "SJC29152", 48, 1997.1, -4.1, 0, 0, 0);
             BackTower.TowerAppre = BackAppre;
@@ -239,41 +241,39 @@ namespace TowerLoadCals.Test
             FrontTower.UpdateAtitudeTower();
 
             //打印高差
-            logList.AddRange(BackTower.PrintHei("小号塔", false));
-            logList.AddRange(FrontTower.PrintHei("大号塔", false));
-            logList.AddRange(CalTower.PrintHei("计算塔", true));
+            LogList.AddRange(BackTower.PrintHei("小号塔", false));
+            LogList.AddRange(FrontTower.PrintHei("大号塔", false));
+            LogList.AddRange(CalTower.PrintHei("计算塔", true));
 
             ElecCalsRes BackSideCalRes = new ElecCalsRes();
             ElecCalsRes FrontSideCalRes = new ElecCalsRes();
 
-            BackSideCalRes.IceArea = "中冰区";
             BackSideCalRes.IsBackSide = true;
             BackSideCalRes.SpanFit = BackSpanFit;
 
-            FrontSideCalRes.IceArea = "中冰区";
             FrontSideCalRes.IsBackSide = false;
             FrontSideCalRes.SpanFit = FrontSpanFit;
 
-            BackSideCalRes.UpdataSor(OneWeath15, DxData, GrdData, OPGWData, DxData, OneWrieSidePara, commParas);
-            FrontSideCalRes.UpdataSor(AnoWeath15, DxData, GrdData, OPGWData, DxData, AnoWrieSidePara, commParas);
+            BackSideCalRes.UpdataSor(OneWeath15, DxData, GrdData, OPGWData, DxData, OneWrieSidePara, CommParas);
+            FrontSideCalRes.UpdataSor(AnoWeath15, DxData, GrdData, OPGWData, DxData, AnoWrieSidePara, CommParas);
 
             //更新全局参数的断线覆冰率和不均冰覆冰率
-            commParas.UpateIceCovrage(CalTower.TowerType, BackSideCalRes.Weather.WeathComm, BackSideCalRes.IceArea, FrontSideCalRes.Weather.WeathComm, FrontSideCalRes.IceArea);
-            logList.Add(commParas.PrintIceCovrage());
+            CommParas.UpateIceCovrage(CalTower.TowerType, BackSideCalRes.Weather.WeathComm, BackSideCalRes.SideParas.IceArea, FrontSideCalRes.Weather.WeathComm, FrontSideCalRes.SideParas.IceArea);
+            LogList.Add(CommParas.PrintIceCovrage());
 
             CalTower.GetAndUpdateSideRes(BackSideCalRes, FrontSideCalRes);
 
-            logList.Add("\n小号塔张力：");
-            logList.AddRange(CalTower.BackSideRes.PrintTension());
+            LogList.Add("\n小号塔张力：");
+            LogList.AddRange(CalTower.BackSideRes.PrintTension());
 
-            logList.Add("\n大号塔张力：");
-            logList.AddRange(CalTower.FrontSideRes.PrintTension());
+            LogList.Add("\n大号塔张力：");
+            LogList.AddRange(CalTower.FrontSideRes.PrintTension());
 
-            logList.Add("\n小号塔比载和应力：");
-            logList.AddRange(CalTower.BackSideRes.PrintBzAndYL());
+            LogList.Add("\n小号塔比载和应力：");
+            LogList.AddRange(CalTower.BackSideRes.PrintBzAndYL());
 
-            logList.Add("\n大号塔比载和应力：");
-            logList.AddRange(CalTower.FrontSideRes.PrintBzAndYL());
+            LogList.Add("\n大号塔比载和应力：");
+            LogList.AddRange(CalTower.FrontSideRes.PrintBzAndYL());
 
             //绝缘子串参数
             ElecCalsStrData IndStr = new ElecCalsStrData();
@@ -292,44 +292,50 @@ namespace TowerLoadCals.Test
             }
 
             //导线有2侧，每侧有3相，因为三相的数据一样，故每侧打印一相
-            logList.Add("\n小号侧绝缘子串风荷载和垂直荷载：");
-            logList.Add("导线");
-            logList.AddRange(CalTower.PhaseTraList[0].PrintStrLoad());
-            logList.Add("地线");
-            logList.AddRange(CalTower.PhaseTraList[3].PrintStrLoad());
+            LogList.Add("\n小号侧绝缘子串风荷载和垂直荷载：");
+            LogList.Add("导线");
+            LogList.AddRange(CalTower.PhaseTraList[0].PrintStrLoad());
+            LogList.Add("地线");
+            LogList.AddRange(CalTower.PhaseTraList[3].PrintStrLoad());
 
-            logList.Add("\n大号侧绝缘子串风荷载和垂直荷载：");
-            logList.Add("导线");
-            logList.AddRange(CalTower.PhaseTraList[5].PrintStrLoad());
-            logList.Add("地线");
-            logList.AddRange(CalTower.PhaseTraList[8].PrintStrLoad());
+            LogList.Add("\n大号侧绝缘子串风荷载和垂直荷载：");
+            LogList.Add("导线");
+            LogList.AddRange(CalTower.PhaseTraList[5].PrintStrLoad());
+            LogList.Add("地线");
+            LogList.AddRange(CalTower.PhaseTraList[8].PrintStrLoad());
 
             for (int i = 0; i <= 2; i++)
             {
-                CalTower.PhaseTraList[i].CalsWindLoad(commParas.VoltStr, CalTower.PhaseTraList[i+5].WireData.WeatherParas.WeathComm);
-                CalTower.PhaseTraList[i+5].CalsWindLoad(commParas.VoltStr, CalTower.PhaseTraList[i].WireData.WeatherParas.WeathComm);
+                CalTower.PhaseTraList[i].CalsWindLoad(CommParas.VoltStr, CalTower.PhaseTraList[i+5].WireData.WeatherParas.WeathComm);
+                CalTower.PhaseTraList[i+5].CalsWindLoad(CommParas.VoltStr, CalTower.PhaseTraList[i].WireData.WeatherParas.WeathComm);
             }
 
-            logList.Add("\n跳线绝缘子串风荷载：");
-            logList.AddRange(CalTower.PrintJumpStrLoad());
+            LogList.Add("\n跳线绝缘子串风荷载：");
+            LogList.AddRange(CalTower.PrintJumpStrLoad());
 
             CalTower.FlashBackHeiSub(BackTower);
             CalTower.FlashFrontHeiSub(FrontTower);
             CalTower.UpdateWindPara();
-            logList.Add("\n高差和风压系数：");
-            logList.AddRange(CalTower.PrintWindPara());
+            LogList.Add("\n高差和风压系数：");
+            LogList.AddRange(CalTower.PrintWindPara());
 
             CalTower.Cals();
-            logList.AddRange(CalTower.PrintCalsReslt());
+            LogList.AddRange(CalTower.PrintCalsReslt());
 
             CalTower.UpdateTensionDiff();
             CalTower.UpateAnchor();
             CalTower.CalsTensionChcek();
-            logList.AddRange(CalTower.PrintTensionDiff());
-            logList.AddRange(CalTower.PrintBreakUnabCheck());
-            logList.AddRange(CalTower.PrintAnchor());
+            LogList.AddRange(CalTower.PrintTensionDiff());
+            LogList.AddRange(CalTower.PrintBreakUnabCheck());
+            LogList.AddRange(CalTower.PrintAnchor());
 
-            FileUtils.TextSaveByLine(saveFileDialog.FileName, logList);
+            CalTower.CalDFCure();
+            LogList.AddRange(CalTower.PrintDFCure());
+
+            CalTower.CalDFCurePY();
+            LogList.AddRange(CalTower.PrintDFCurePY());
+
+            FileUtils.TextSaveByLine(saveFileDialog.FileName, LogList);
             return;
         }
     }

@@ -112,50 +112,48 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public void UpdateWindPara()
         {
-            PhaseTraList[0].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsUpSideHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
-            PhaseTraList[0].StrWindPara = CalsStrWindPara(AbsUpSideHei, FrontSideRes.CommParas.IndAveHei);
-            PhaseTraList[0].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsUpJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
-            PhaseTraList[0].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsUpJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[0].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsUpSideHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[0].StrWindPara = CalsStrWindPara(AbsUpSideHei, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[0].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsUpJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[0].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsUpJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[1].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsMidHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
-            PhaseTraList[1].StrWindPara = CalsStrWindPara(AbsMidHei, FrontSideRes.CommParas.IndAveHei);
-            PhaseTraList[1].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsMidJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
-            PhaseTraList[1].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsMidJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[1].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsMidHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[1].StrWindPara = CalsStrWindPara(AbsMidHei, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[1].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsMidJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[1].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsMidJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[2].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsDownSideHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
-            PhaseTraList[2].StrWindPara = CalsStrWindPara(AbsDownSideHei, FrontSideRes.CommParas.IndAveHei);
-            PhaseTraList[2].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
-            PhaseTraList[2].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[2].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsDownSideHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[2].StrWindPara = CalsStrWindPara(AbsDownSideHei, BackSideRes.CommParas.IndAveHei);
+            PhaseTraList[2].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsDownJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[2].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsDownJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[3].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsGrdHei, BackGrdWindHc, FrontSideRes.CommParas.GrdAveHei);
-            PhaseTraList[3].StrWindPara = CalsStrWindPara(AbsGrdHei, FrontSideRes.CommParas.GrdAveHei);
+            PhaseTraList[3].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsGrdHei, FrontGrdWindHc, BackSideRes.CommParas.GrdAveHei);
+            PhaseTraList[3].StrWindPara = CalsStrWindPara(AbsGrdHei, BackSideRes.CommParas.GrdAveHei);
 
-            PhaseTraList[4].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsGrdHei, BackGrdWindHc, FrontSideRes.CommParas.GrdAveHei);
-            PhaseTraList[4].StrWindPara = CalsStrWindPara(AbsGrdHei, FrontSideRes.CommParas.GrdAveHei);
+            PhaseTraList[4].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsGrdHei, FrontGrdWindHc, BackSideRes.CommParas.GrdAveHei);
+            PhaseTraList[4].StrWindPara = CalsStrWindPara(AbsGrdHei, BackSideRes.CommParas.GrdAveHei);
 
-            PhaseTraList[5].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsUpSideHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
-            PhaseTraList[5].StrWindPara = CalsStrWindPara(AbsUpSideHei, BackSideRes.CommParas.IndAveHei);
-            PhaseTraList[5].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsUpJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
-            PhaseTraList[5].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsUpJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[5].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsUpSideHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[5].StrWindPara = CalsStrWindPara(AbsUpSideHei, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[5].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsUpJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[5].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsUpJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[6].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsMidHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
-            PhaseTraList[6].StrWindPara = CalsStrWindPara(AbsMidHei, BackSideRes.CommParas.IndAveHei);
-            PhaseTraList[6].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsMidJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
-            PhaseTraList[6].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsMidJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[6].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsMidHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[6].StrWindPara = CalsStrWindPara(AbsMidHei, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[6].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsMidJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[6].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsMidJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[7].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsDownSideHei, FrontIndWindHc, BackSideRes.CommParas.IndAveHei);
-            PhaseTraList[7].StrWindPara = CalsStrWindPara(AbsDownSideHei, BackSideRes.CommParas.IndAveHei);
-            PhaseTraList[7].JmWindPara = CalsJumpStrWindPara(BackSideRes.CommParas.JmpWindPara, AbsDownJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
-            PhaseTraList[7].PropUpWindPara = CalsPropUpWindPara(BackSideRes.CommParas.JmpWindPara, AbsDownJumHei, BackSideRes.CommParas.IndAveHei, BackSideRes.CommParas.JumpStrLen);
+            PhaseTraList[7].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsDownSideHei, BackIndWindHc, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[7].StrWindPara = CalsStrWindPara(AbsDownSideHei, FrontSideRes.CommParas.IndAveHei);
+            PhaseTraList[7].JmWindPara = CalsJumpStrWindPara(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
+            PhaseTraList[7].PropUpWindPara = CalsPropUpWindPara(FrontSideRes.CommParas.JmpWindPara, AbsDownJumHei, FrontSideRes.CommParas.IndAveHei, FrontSideRes.CommParas.JumpStrLen);
 
-            PhaseTraList[8].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsGrdHei, FrontGrdWindHc, BackSideRes.CommParas.GrdAveHei);
-            PhaseTraList[8].StrWindPara = CalsStrWindPara(AbsGrdHei, BackSideRes.CommParas.GrdAveHei);
+            PhaseTraList[8].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsGrdHei, BackGrdWindHc, FrontSideRes.CommParas.GrdAveHei);
+            PhaseTraList[8].StrWindPara = CalsStrWindPara(AbsGrdHei, FrontSideRes.CommParas.GrdAveHei);
 
-            PhaseTraList[9].WireWindPara = CalsWireWindPara(BackSideRes.CommParas.WireWindPara, AbsGrdHei, FrontGrdWindHc, BackSideRes.CommParas.GrdAveHei);
-            PhaseTraList[9].StrWindPara = CalsStrWindPara(AbsGrdHei, BackSideRes.CommParas.GrdAveHei);
+            PhaseTraList[9].WireWindPara = CalsWireWindPara(FrontSideRes.CommParas.WireWindPara, AbsGrdHei, BackGrdWindHc, FrontSideRes.CommParas.GrdAveHei);
+            PhaseTraList[9].StrWindPara = CalsStrWindPara(AbsGrdHei, FrontSideRes.CommParas.GrdAveHei);
         }
-
-
 
         /// <summary>
         /// 计算各个工况的垂直档距,，耐张塔分为前后侧计算
@@ -679,15 +677,14 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 计算大风工况下垂直方向的应用弧垂
         /// </summary>
-        void CalDFCure()
+        public void CalDFCurePY()
         {
             //这部分计算很复杂，但是原理性不足
             //计算导线的大风应用弧垂，先后侧，先前侧
-            double GdBackHc = TowerAppre.DnSideInHei - BackSideRes.CommParas.GrdAveHei;
-            //double GdBackHc = DownSideHei - BackSideRes.CommParas.GrdCl;
+            GdBackHc = AbsDownSideHei - BackSideRes.CommParas.GrdCl;
 
-            double KBackHot = BackSideRes.IndWire.BzDic["最高气温"].VerBizai / 8 / BackSideRes.IndWire.BzDic["最高气温"].Stress;
-            double KBackIce = BackSideRes.IndWire.BzDic["覆冰无风"].VerBizai / 8 / BackSideRes.IndWire.BzDic["覆冰无风"].Stress;
+            double KBackHot = BackSideRes.IndWire.BzDic["最高气温"].VerBizai / 8 / BackSideRes.IndWire.YLTableXls ["最高气温"];
+            double KBackIce = BackSideRes.IndWire.BzDic["覆冰无风"].VerBizai / 8 / BackSideRes.IndWire.YLTableXls["覆冰无风"];
 
             double KMaxHc = Math.Max(KBackHot, KBackIce) * Math.Pow(BackPosRes.Span, 2);
             double MaxIndBackHc;
@@ -695,19 +692,19 @@ namespace TowerLoadCals.BLL.Electric
             //最大弧垂应用值
             if (KBackHot > KBackIce)
             {
-                MaxIndBackHc = Math.Min(GdBackHc, KMaxHc) / BackSideRes.IndWire.BzDic["最高气温"].g2 * BackSideRes.IndWire.YLTable["最高气温"] * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.YLTable["最大风速"];
+                MaxIndBackHc = Math.Min(GdBackHc, KMaxHc) / BackSideRes.IndWire.BzDic["最高气温"].VerBizai * BackSideRes.IndWire.YLTableXls["最高气温"] * BackSideRes.IndWire.BzDic["最大风速"].VerBizai / BackSideRes.IndWire.YLTableXls["最大风速"];
             }
             else
             {
-                MaxIndBackHc = Math.Min(GdBackHc, KMaxHc) / BackSideRes.IndWire.BzDic["覆冰无风"].g2 * BackSideRes.IndWire.YLTable["覆冰无风"] * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.YLTable["最大风速"];
+                MaxIndBackHc = Math.Min(GdBackHc, KMaxHc) / BackSideRes.IndWire.BzDic["覆冰无风"].VerBizai * BackSideRes.IndWire.YLTableXls["覆冰无风"] * BackSideRes.IndWire.BzDic["最大风速"].VerBizai / BackSideRes.IndWire.YLTableXls["最大风速"];
             }
-            BackIndWindHc = MaxIndBackHc * BackSideRes.IndWire.BzDic["最大风速"].g2 / BackSideRes.IndWire.BzDic["最大风速"].g7;
+            BackIndWindHc = MaxIndBackHc * BackSideRes.IndWire.BzDic["最大风速"].VerBizai / BackSideRes.IndWire.BzDic["最大风速"].g7;
 
             //计算前侧的大风应用弧垂
             //对地距离控制最大弧垂
-            double GdFrontHc = TowerAppre.DnSideInHei - FrontSideRes.CommParas.GrdAveHei;
-            double KFrontHot = FrontSideRes.IndWire.BzDic["最高气温"].g2 / 8 / FrontSideRes.IndWire.YLTable["最高气温"];
-            double KFrontIce = FrontSideRes.IndWire.BzDic["覆冰无风"].g2 / 8 / FrontSideRes.IndWire.YLTable["覆冰无风"];
+            GdFrontHc = TowerAppre.DnSideInHei - FrontSideRes.CommParas.GrdAveHei;
+            double KFrontHot = FrontSideRes.IndWire.BzDic["最高气温"].VerBizai / 8 / FrontSideRes.IndWire.YLTableXls["最高气温"];
+            double KFrontIce = FrontSideRes.IndWire.BzDic["覆冰无风"].VerBizai / 8 / FrontSideRes.IndWire.YLTableXls["覆冰无风"];
             // 按照K值控制的最大弧垂
             KMaxHc = Math.Max(KFrontHot, KFrontIce) * Math.Pow(FrontPosRes.Span, 2); 
         
@@ -715,33 +712,135 @@ namespace TowerLoadCals.BLL.Electric
             //最大弧垂应用值
             if (KFrontHot > KFrontIce)
             {
-                MaxIndFrontHc = Math.Min(GdFrontHc, KMaxHc) / FrontSideRes.IndWire.BzDic["最高气温"].g2 * FrontSideRes.IndWire.YLTable["最高气温"] * FrontSideRes.IndWire.BzDic["最大风速"].g2 / FrontSideRes.IndWire.YLTable["最大风速"];
+                MaxIndFrontHc = Math.Min(GdFrontHc, KMaxHc) / FrontSideRes.IndWire.BzDic["最高气温"].VerBizai * FrontSideRes.IndWire.YLTableXls["最高气温"] * FrontSideRes.IndWire.BzDic["最大风速"].g2 / FrontSideRes.IndWire.YLTableXls["最大风速"];
             }
             else
             {
-                MaxIndFrontHc = Math.Min(GdFrontHc, KMaxHc) / FrontSideRes.IndWire.BzDic["覆冰无风"].g2 * FrontSideRes.IndWire.YLTable["覆冰无风"] * FrontSideRes.IndWire.BzDic["最大风速"].g2 / FrontSideRes.IndWire.YLTable["最大风速"];
+                MaxIndFrontHc = Math.Min(GdFrontHc, KMaxHc) / FrontSideRes.IndWire.BzDic["覆冰无风"].VerBizai * FrontSideRes.IndWire.YLTableXls["覆冰无风"] * FrontSideRes.IndWire.BzDic["最大风速"].g2 / FrontSideRes.IndWire.YLTableXls["最大风速"];
             }
 
             //计算前侧大风应用弧垂
-            FrontIndWindHc = MaxIndFrontHc * FrontSideRes.IndWire.BzDic["最大风速"].g2 / FrontSideRes.IndWire.BzDic["最大风速"].g7;
+            FrontIndWindHc = MaxIndFrontHc * FrontSideRes.IndWire.BzDic["最大风速"].VerBizai / FrontSideRes.IndWire.YLTableXls["最大风速"];
 
             //计算地线的大风弧垂应用值,先普通地线，再OPGW
             //这部分代码Excel表格有问题，为保持一致，还是采用原来的方法
-            double KHot = BackSideRes.GrdWire.BzDic["最高气温"].g2 / 8 / BackSideRes.GrdWire.YLTable["最高气温"];
-            double KIce = BackSideRes.GrdWire.BzDic["覆冰无风"].g2 / 8 / BackSideRes.GrdWire.YLTable["覆冰无风"];
+            double KHot = BackSideRes.GrdWire.BzDic["最高气温"].VerBizai / 8 / BackSideRes.GrdWire.YLTable["最高气温"];
+            double KIce = BackSideRes.GrdWire.BzDic["覆冰无风"].VerBizai / 8 / BackSideRes.GrdWire.YLTable["覆冰无风"];
             BackGrdWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KBackHot, KBackIce);
-            KHot = BackSideRes.OPGWWire.BzDic["最高气温"].g2 / 8 / BackSideRes.OPGWWire.YLTable["最高气温"];
-            KIce = BackSideRes.OPGWWire.BzDic["覆冰无风"].g2 / 8 / BackSideRes.OPGWWire.YLTable["覆冰无风"];
+            KHot = BackSideRes.OPGWWire.BzDic["最高气温"].VerBizai / 8 / BackSideRes.OPGWWire.YLTable["最高气温"];
+            KIce = BackSideRes.OPGWWire.BzDic["覆冰无风"].VerBizai / 8 / BackSideRes.OPGWWire.YLTable["覆冰无风"];
             BackOPGWWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KBackHot, KBackIce);
 
             //前侧计算
-            KHot = FrontSideRes.GrdWire.BzDic["最高气温"].g2 / 8 / FrontSideRes.GrdWire.YLTable["最高气温"];
-            KIce = FrontSideRes.GrdWire.BzDic["覆冰无风"].g2 / 8 / FrontSideRes.GrdWire.YLTable["覆冰无风"];
+            KHot = FrontSideRes.GrdWire.BzDic["最高气温"].VerBizai / 8 / FrontSideRes.GrdWire.YLTable["最高气温"];
+            KIce = FrontSideRes.GrdWire.BzDic["覆冰无风"].VerBizai / 8 / FrontSideRes.GrdWire.YLTable["覆冰无风"];
             FrontGrdWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KFrontHot, KFrontIce);
-            KHot = FrontSideRes.OPGWWire.BzDic["最高气温"].g2 / 8 / FrontSideRes.OPGWWire.YLTable["最高气温"];
-            KIce = FrontSideRes.OPGWWire.BzDic["覆冰无风"].g2 / 8 / FrontSideRes.OPGWWire.YLTable["覆冰无风"];
+            KHot = FrontSideRes.OPGWWire.BzDic["最高气温"].VerBizai / 8 / FrontSideRes.OPGWWire.YLTable["最高气温"];
+            KIce = FrontSideRes.OPGWWire.BzDic["覆冰无风"].VerBizai / 8 / FrontSideRes.OPGWWire.YLTable["覆冰无风"];
             FrontOPGWWindHc = MaxIndFrontHc * Math.Max(KHot, KIce) / Math.Max(KFrontHot, KFrontIce);
         }
+
+        double BackIndWindHc1 { get; set; } = 22.10;
+        double FrontIndWindHc1 { get; set; } = 7.62;
+
+        double BackGrdWindHc1 { get; set; } = 13.04;
+        double FrontGrdWindHc1 { get; set; } = 6.86;
+
+        double BackOPGWWindHc1 { get; set; } = 13.63;
+        double FrontOPGWWindHc1 { get; set; } = 7.13;
+
+        double KBackHotInd { get; set; }
+        double KBackIceInd { get; set; }
+
+        double KBackHotGrd { get; set; }
+        double KBackIceGrd { get; set; }
+
+        double KBackHotOPGW { get; set; }
+        double KBackIceOPGW { get; set; }
+
+        double KFrontHotInd { get; set; }
+        double KFrontIceInd { get; set; }
+
+        double KFrontHotGrd { get; set; }
+        double KFrontIceGrd { get; set; }
+
+        double KFrontHotOPGW { get; set; }
+        double KFrontIceOPGW { get; set; }
+
+        double GdBackHc { get; set; }
+        double KBackHc { get; set; }
+
+        double GdFrontHc { get; set; }
+        double KFrontHc { get; set; }
+
+        double MaxIndBackHc { get; set; }
+        double MaxIndFrontHc { get; set; }
+
+        double MaxGrdBackHc { get; set; }
+        double MaxGrdFrontHc { get; set; }
+
+        double MaxOPGWBackHc { get; set; }
+        double MaxOPGWFrontHc { get; set; }
+
+        public void CalDFCure()
+        {
+            //这部分计算很复杂，但是原理性不足
+            //计算导线的大风应用弧垂，先后侧，先前侧
+
+            KBackHotInd = BackSideRes.IndWire.BzDic["最高气温"].VerBizai / 8 / BackSideRes.IndWire.YLTableXls["最高气温"];
+            KBackIceInd = BackSideRes.IndWire.BzDic["覆冰无风"].VerBizai / 8 / BackSideRes.IndWire.YLTableXls["覆冰无风"];
+
+            GdBackHc = AbsDownSideHei - BackSideRes.CommParas.GrdCl;
+            KBackHc = Math.Max(KBackHotInd, KBackIceInd) * Math.Pow(BackPosRes.Span, 2);
+
+            //最大弧垂应用值
+            if (KBackHotInd > KBackIceInd)
+            {
+                MaxIndBackHc = Math.Min(GdBackHc, KBackHc) / BackSideRes.IndWire.BzDic["最高气温"].VerBizai * BackSideRes.IndWire.YLTableXls["最高气温"] * BackSideRes.IndWire.BzDic["换算最大风速"].VerBizai / BackSideRes.IndWire.YLTableXls["换算最大风速"];
+            }
+            else
+            {
+                MaxIndBackHc = Math.Min(GdBackHc, KBackHc) / BackSideRes.IndWire.BzDic["最大覆冰"].VerBizai * BackSideRes.IndWire.YLTableXls["最大覆冰"] * BackSideRes.IndWire.BzDic["换算最大风速"].VerBizai / BackSideRes.IndWire.YLTableXls["换算最大风速"];
+            }
+            //-----------------------------------------------------------------------就这儿用的的垂直荷载
+            BackIndWindHc1 = MaxIndBackHc * BackSideRes.IndWire.BzDic["换算最大风速"].VerBizai / BackSideRes.IndWire.BzDic["换算最大风速"].BiZai;
+
+            //计算前侧的大风应用弧垂
+            KFrontHotInd = FrontSideRes.IndWire.BzDic["最高气温"].VerBizai / 8 / FrontSideRes.IndWire.YLTableXls["最高气温"];
+            KFrontIceInd = FrontSideRes.IndWire.BzDic["覆冰无风"].VerBizai / 8 / FrontSideRes.IndWire.YLTableXls["覆冰无风"];
+           
+            //对地距离控制最大弧垂
+            GdFrontHc = AbsDownSideHei - FrontSideRes.CommParas.GrdCl;
+            KFrontHc = FrontSideRes.IndWire.BzDic["换算最大风速"].VerBizai / FrontSideRes.IndWire.YLTableXls["换算最大风速"] / 8 * Math.Pow(FrontPosRes.Span, 2);
+            MaxIndFrontHc = Math.Min(GdFrontHc, KFrontHc);
+            //计算前侧大风应用弧垂
+            FrontIndWindHc1 = MaxIndFrontHc * FrontSideRes.IndWire.BzDic["换算最大风速"].HorBizai / FrontSideRes.IndWire.BzDic["换算最大风速"].BiZai;
+
+            //计算地线的大风弧垂应用值,先普通地线，再OPGW
+            //这部分代码Excel表格有问题，为保持一致，还是采用原来的方法
+            KBackHotGrd = BackSideRes.GrdWire.BzDic["最高气温"].VerBizai / 8 / BackSideRes.GrdWire.YLTableXls["最高气温"];
+            KBackIceGrd = BackSideRes.GrdWire.BzDic["最大覆冰"].VerBizai / 8 / BackSideRes.GrdWire.YLTableXls["最大覆冰"];
+            MaxGrdBackHc = MaxIndBackHc / Math.Max(KBackHotInd, KBackIceInd) * Math.Max(KBackHotGrd, KBackIceGrd);
+            BackGrdWindHc1 = MaxGrdBackHc * BackSideRes.GrdWire.BzDic["换算最大风速"].HorBizai / BackSideRes.GrdWire.BzDic["换算最大风速"].BiZai;
+
+            KBackHotOPGW = BackSideRes.OPGWWire.BzDic["最高气温"].VerBizai / 8 / BackSideRes.OPGWWire.YLTableXls["最高气温"];
+            KBackIceOPGW = BackSideRes.OPGWWire.BzDic["最大覆冰"].VerBizai / 8 / BackSideRes.OPGWWire.YLTableXls["覆冰无风"];
+            MaxOPGWBackHc = MaxIndBackHc / Math.Max(KBackHotInd, KBackIceInd) * Math.Max(KBackHotOPGW, KBackIceOPGW);
+            BackOPGWWindHc1 = MaxOPGWBackHc * BackSideRes.GrdWire.BzDic["换算最大风速"].HorBizai / BackSideRes.GrdWire.BzDic["换算最大风速"].BiZai;
+
+            //前侧计算
+            KFrontHotGrd = FrontSideRes.GrdWire.BzDic["最高气温"].VerBizai / 8 / FrontSideRes.GrdWire.YLTableXls["最高气温"];
+            KFrontIceGrd = FrontSideRes.GrdWire.BzDic["覆冰无风"].VerBizai / 8 / FrontSideRes.GrdWire.YLTableXls["覆冰无风"];
+            MaxGrdFrontHc = MaxIndFrontHc / Math.Max(KFrontHotInd, KFrontIceInd) * Math.Max(KFrontHotGrd, KFrontIceGrd);
+            FrontGrdWindHc1 = MaxGrdFrontHc * FrontSideRes.GrdWire.BzDic["换算最大风速"].HorBizai / FrontSideRes.GrdWire.BzDic["换算最大风速"].BiZai;
+
+            KFrontHotOPGW = FrontSideRes.OPGWWire.BzDic["最高气温"].VerBizai / 8 / FrontSideRes.OPGWWire.YLTableXls["最高气温"];
+            KFrontIceOPGW = FrontSideRes.OPGWWire.BzDic["覆冰无风"].VerBizai / 8 / FrontSideRes.OPGWWire.YLTableXls["覆冰无风"];
+            MaxOPGWFrontHc = MaxIndFrontHc / Math.Max(KFrontHotInd, KFrontIceInd) * Math.Max(KFrontHotOPGW, KFrontIceOPGW);
+            FrontOPGWWindHc1 = MaxOPGWFrontHc * FrontSideRes.OPGWWire.BzDic["换算最大风速"].HorBizai / FrontSideRes.OPGWWire.BzDic["换算最大风速"].BiZai;
+        }
+
+
 
         #region 内部计算函数
 
@@ -849,23 +948,6 @@ namespace TowerLoadCals.BLL.Electric
             {
                 return Math.Max(Math.Max(noIceTension1, noIceTension2), Math.Max(lowTempTension1, lowTempTension2));
             }
-        }
-
-
-        /// <summary>
-        /// 张力差
-        /// </summary>
-        /// <param name="secInc">截面增大系数</param>
-        /// <param name="effectPara"> 有效系数</param>
-        /// <param name="savePara">安全系数</param>
-        /// <param name="tensionCoef">断线张力系数/不均匀冰张力系数？ 为什么全部用的小号侧</param>
-        /// <param name="devideNum">导线分裂数，地线不用</param>
-        /// <returns></returns>
-        protected double TensinDiff(out string str, double fore, double secInc, double effectPara, double savePara, double tensionCoef, int devideNum = 1)
-        {
-            double rslt = secInc * Math.Round(fore * effectPara / 9.80665, 2) / savePara * devideNum * tensionCoef;
-            str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/9.80665/" + savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
-            return rslt;
         }
         #endregion
 
@@ -1248,6 +1330,34 @@ namespace TowerLoadCals.BLL.Electric
             List<string> rslt = new List<string>();
             rslt.Add(FileUtils.PadRightEx("\n锚线张力：", 12) + FileUtils.PadRightEx(AnchorTensionInd.ToString("0"), 10));
             rslt.Add(FileUtils.PadRightEx("一边地线：", 12) + FileUtils.PadRightEx(AnchorTensionGrd.ToString("0"), 10) + FileUtils.PadRightEx("另一边地线：", 12) + FileUtils.PadRightEx(AnchorTensionOPGW.ToString("0"), 10));
+            return rslt;
+        }
+
+        public List<string> PrintDFCure()
+        {
+            List<string> rslt = new List<string>();
+            rslt.Add(FileUtils.PadRightEx("\n弧垂", 16) +  FileUtils.PadRightEx("小号侧", 36) + FileUtils.PadRightEx("大号侧", 36));
+            rslt.Add(FileUtils.PadRightEx("导线：", 28) + FileUtils.PadRightEx("地线：", 12) + FileUtils.PadRightEx("OPGW：", 12) + FileUtils.PadRightEx("导线：", 12) + FileUtils.PadRightEx("地线：", 12) + FileUtils.PadRightEx("OPGW：", 12));
+            rslt.Add(FileUtils.PadRightEx("高温K值：", 16) + FileUtils.PadRightEx(KBackHotInd.ToString("e2"), 12) + FileUtils.PadRightEx(KBackHotGrd.ToString("e2"), 12) + FileUtils.PadRightEx(KBackHotOPGW.ToString("e2"), 12)
+                + FileUtils.PadRightEx(KFrontHotInd.ToString("e2"), 12) + FileUtils.PadRightEx(KFrontHotGrd.ToString("e2"), 12) + FileUtils.PadRightEx(KFrontHotOPGW.ToString("e2"), 12));
+            rslt.Add(FileUtils.PadRightEx("有冰无风K值：", 16) + FileUtils.PadRightEx(KBackIceInd.ToString("e2"), 12) + FileUtils.PadRightEx(KBackIceGrd.ToString("e2"), 12) + FileUtils.PadRightEx(KBackIceOPGW.ToString("e2"), 12)
+                 + FileUtils.PadRightEx(KFrontIceInd.ToString("e2"), 12) + FileUtils.PadRightEx(KFrontIceGrd.ToString("e2"), 12) + FileUtils.PadRightEx(KFrontIceOPGW.ToString("e2"), 12));
+            rslt.Add(FileUtils.PadRightEx("最大弧垂对地：", 16) + FileUtils.PadRightEx(GdBackHc.ToString("0.00"), 36) + FileUtils.PadRightEx(GdFrontHc.ToString("0.00"), 36));
+            rslt.Add(FileUtils.PadRightEx("最大弧垂K：", 16) + FileUtils.PadRightEx(KBackHc.ToString("0.00"), 36) + FileUtils.PadRightEx(KFrontHc.ToString("0.00"), 36));
+            rslt.Add(FileUtils.PadRightEx("最大弧垂：", 16) + FileUtils.PadRightEx(MaxIndBackHc.ToString("0.00"), 12) + FileUtils.PadRightEx(MaxGrdBackHc.ToString("0.00"), 12) + FileUtils.PadRightEx(MaxOPGWBackHc.ToString("0.00"), 12)
+                + FileUtils.PadRightEx(MaxIndFrontHc.ToString("0.00"), 12) + FileUtils.PadRightEx(MaxGrdFrontHc.ToString("0.00"), 12) + FileUtils.PadRightEx(MaxOPGWFrontHc.ToString("0.00"), 12));
+            rslt.Add(FileUtils.PadRightEx("大风垂直弧垂：", 16) + FileUtils.PadRightEx(BackIndWindHc1.ToString("0.00"), 12) + FileUtils.PadRightEx(BackGrdWindHc1.ToString("0.00"), 12) + FileUtils.PadRightEx(BackOPGWWindHc1.ToString("0.00"), 12)
+                + FileUtils.PadRightEx(FrontIndWindHc1.ToString("0.00"), 12) + FileUtils.PadRightEx(FrontGrdWindHc1.ToString("0.00"), 12) + FileUtils.PadRightEx(FrontOPGWWindHc1.ToString("0.00"), 12));
+            return rslt;
+        }
+
+        public List<string> PrintDFCurePY()
+        {
+            List<string> rslt = new List<string>();
+            rslt.Add(FileUtils.PadRightEx("\n弧垂", 16) + FileUtils.PadRightEx("小号侧", 36) + FileUtils.PadRightEx("大号侧", 36));
+            rslt.Add(FileUtils.PadRightEx("导线：", 28) + FileUtils.PadRightEx("地线：", 12) + FileUtils.PadRightEx("OPGW：", 12) + FileUtils.PadRightEx("导线：", 12) + FileUtils.PadRightEx("地线：", 12) + FileUtils.PadRightEx("OPGW：", 12));
+            rslt.Add(FileUtils.PadRightEx("大风垂直弧垂：", 16) + FileUtils.PadRightEx(BackIndWindHc.ToString("0.00"), 12) + FileUtils.PadRightEx(BackGrdWindHc.ToString("0.00"), 12) + FileUtils.PadRightEx(BackOPGWWindHc.ToString("0.00"), 12)
+                + FileUtils.PadRightEx(FrontIndWindHc.ToString("0.00"), 12) + FileUtils.PadRightEx(FrontGrdWindHc.ToString("0.00"), 12) + FileUtils.PadRightEx(FrontOPGWWindHc.ToString("0.00"), 12));
             return rslt;
         }
 

@@ -166,13 +166,6 @@ namespace TowerLoadCals.BLL.Electric
             bD = b / 2 - Math.Pow(a, 3) / 27;
 
             if (aD >= 0) {
-
-                //var aaa = spr3(bD + Math.Pow(aD, 0.5));
-                //var bbb = spr3(bD - Math.Pow(aD, 0.5));
-                //var ccc = aaa + bbb;
-                //var ddd = ccc - a / 3;
-                //return ddd;
-
                 return spr3(bD + Math.Pow(aD, 0.5)) + spr3(bD - Math.Pow(aD, 0.5)) - a / 3;
             }
             else {

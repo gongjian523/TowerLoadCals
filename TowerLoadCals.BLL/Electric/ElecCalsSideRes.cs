@@ -88,6 +88,11 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double GrdExtendPara { get; set; }
 
+        /// <summary>
+        /// 冰区类型：轻冰区，中冰区，重冰区
+        /// </summary>
+        public string IceArea { get; set; }
+
         public ElecCalsSideRes()
         {
 
