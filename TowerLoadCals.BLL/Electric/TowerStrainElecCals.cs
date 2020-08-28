@@ -166,7 +166,7 @@ namespace TowerLoadCals.BLL.Electric
 
                 var spanFit = BackSideRes.SpanFit;
 
-                double diaInc, weiInc, secInc, weiFZC, insErrorPara, constrErrorPara, wireExtend;
+                double diaInc, weiInc, secInc, weiFZC, wireExtend;
                 int numFZC;
 
                 if (PhaseTraList[i].WireData.bGrd == 0){
@@ -192,13 +192,11 @@ namespace TowerLoadCals.BLL.Electric
                     secInc = BackSideRes.CommParas.SecOPGWInc;
                 }
 
-                insErrorPara = FrontSideRes.SideParas.InsErrorPara;
-                constrErrorPara  = FrontSideRes.SideParas.ConstruErrorPara;
-                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.SideParas.IndExtendPara : FrontSideRes.SideParas.GrdExtendPara;
+                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? BackSideRes.CommParas.IndExMaxPara : BackSideRes.CommParas.GrdExMaxPara;
 
                 PhaseTraList[i].UpdateHorFor(diaInc);
                 PhaseTraList[i].UpdateVerWei(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
-                PhaseTraList[i].UpdateLoStr(secInc, constrErrorPara, insErrorPara, wireExtend);
+                PhaseTraList[i].UpdateLoStr(secInc, BackSideRes.CommParas.BuildMaxPara, BackSideRes.CommParas.InstMaxPara, wireExtend);
 
                 if(PhaseTraList[i].WireData.bGrd == 0)
                 {
@@ -213,7 +211,7 @@ namespace TowerLoadCals.BLL.Electric
 
                 var spanFit = FrontSideRes.SpanFit;
 
-                double diaInc, weiInc, secInc, weiFZC, insErrorPara, constrErrorPara, wireExtend;
+               double diaInc, weiInc, secInc, weiFZC, wireExtend;
                 int numFZC;
 
                 if (PhaseTraList[i].WireData.bGrd == 0)
@@ -241,13 +239,11 @@ namespace TowerLoadCals.BLL.Electric
                     secInc = FrontSideRes.CommParas.SecOPGWInc;
                 }
 
-                insErrorPara = FrontSideRes.SideParas.InsErrorPara;
-                constrErrorPara = FrontSideRes.SideParas.ConstruErrorPara;
-                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.SideParas.IndExtendPara : FrontSideRes.SideParas.GrdExtendPara;
+                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.CommParas.IndExMaxPara : FrontSideRes.CommParas.GrdExMaxPara;
 
                 PhaseTraList[i].UpdateHorFor(diaInc);
                 PhaseTraList[i].UpdateVerWei(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
-                PhaseTraList[i].UpdateLoStr(secInc, constrErrorPara, insErrorPara, wireExtend);
+                PhaseTraList[i].UpdateLoStr(secInc, FrontSideRes.CommParas.BuildMaxPara, FrontSideRes.CommParas.InstMaxPara, wireExtend);
 
                 if (PhaseTraList[i].WireData.bGrd == 0)
                 {
@@ -258,8 +254,8 @@ namespace TowerLoadCals.BLL.Electric
 
             for (int i = 0; i <=4; i++)
             {
-                PhaseTraList[i].CheckLoStr(PhaseTraList[i+5].LoadList, FrontSideRes.SideParas, BackSideRes.SideParas);
-                PhaseTraList[i+5].CheckLoStr(PhaseTraList[i].LoadList, FrontSideRes.SideParas, BackSideRes.SideParas);
+                PhaseTraList[i].CheckLoStr(PhaseTraList[i+5].LoadList, BackSideRes.CommParas);
+                PhaseTraList[i+5].CheckLoStr(PhaseTraList[i].LoadList, FrontSideRes.CommParas);
             }
         }
 
@@ -269,7 +265,7 @@ namespace TowerLoadCals.BLL.Electric
             {
                 var spanFit = BackSideRes.SpanFit;
 
-                double diaInc, weiInc, secInc, weiFZC, insErrorPara, constrErrorPara, wireExtend;
+                double diaInc, weiInc, secInc, weiFZC, wireExtend;
                 int numFZC;
 
                 if (PhaseTraList[i].WireData.bGrd == 0)
@@ -297,9 +293,8 @@ namespace TowerLoadCals.BLL.Electric
                     secInc = BackSideRes.CommParas.SecOPGWInc;
                 }
 
-                insErrorPara = FrontSideRes.SideParas.InsErrorPara;
-                constrErrorPara = FrontSideRes.SideParas.ConstruErrorPara;
-                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.SideParas.IndExtendPara : FrontSideRes.SideParas.GrdExtendPara;
+                
+                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? BackSideRes.CommParas.IndExMaxPara : BackSideRes.CommParas.GrdExMaxPara;
 
                 foreach(var nameGk in PhaseTraList[i].WireData.WorkCdtNames)
                 {
@@ -349,14 +344,14 @@ namespace TowerLoadCals.BLL.Electric
                     }
                 }
                 
-                PhaseTraList[i].UpdateLoStr(secInc, constrErrorPara, insErrorPara, wireExtend);
+                PhaseTraList[i].UpdateLoStr(secInc, BackSideRes.CommParas.BuildMaxPara, BackSideRes.CommParas.InstMaxPara, wireExtend);
             }
 
             for (int i = 5; i <= 9; i++)
             {
                 var spanFit = FrontSideRes.SpanFit;
 
-                double diaInc, weiInc, secInc, weiFZC, insErrorPara, constrErrorPara, wireExtend;
+                double diaInc, weiInc, secInc, weiFZC, wireExtend;
                 int numFZC;
 
                 if (PhaseTraList[i].WireData.bGrd == 0)
@@ -384,9 +379,7 @@ namespace TowerLoadCals.BLL.Electric
                     secInc = FrontSideRes.CommParas.SecOPGWInc;
                 }
 
-                insErrorPara = FrontSideRes.SideParas.InsErrorPara;
-                constrErrorPara = FrontSideRes.SideParas.ConstruErrorPara;
-                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.SideParas.IndExtendPara : FrontSideRes.SideParas.GrdExtendPara;
+                wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.CommParas.IndExMaxPara : FrontSideRes.CommParas.GrdExMaxPara;
 
                 foreach (var nameGk in PhaseTraList[i].WireData.WorkCdtNames)
                 {
@@ -436,7 +429,7 @@ namespace TowerLoadCals.BLL.Electric
                     }
                 }
 
-                PhaseTraList[i].UpdateLoStr(secInc, constrErrorPara, insErrorPara, wireExtend);
+                PhaseTraList[i].UpdateLoStr(secInc, FrontSideRes.CommParas.BuildMaxPara, FrontSideRes.CommParas.InstMaxPara, wireExtend);
             }
         }
 

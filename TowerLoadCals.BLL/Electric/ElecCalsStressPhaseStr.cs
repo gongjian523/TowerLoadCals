@@ -250,8 +250,6 @@ namespace TowerLoadCals.BLL.Electric
                 rslt.SuTubleWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JumpStr.SuTubleDia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed)/1000, 3) * JumpStr.SuTubleLen;
 
                 JumpStrLoad.Add(weaItem.Name, rslt);
-
-                
             }
         }
 
@@ -408,7 +406,7 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
-        public void CheckLoStr(List<LoadThrDe> anLoads, ElecCalsSideRes frontPara, ElecCalsSideRes backPara)
+        public void CheckLoStr(List<LoadThrDe> anLoads, ElecCalsCommRes commPara)
         {
             foreach (var nameWd in WireData.WorkCdtNames)
             {
@@ -431,16 +429,16 @@ namespace TowerLoadCals.BLL.Electric
                     {
                         if(WireData.bGrd == 0)
                         {
-                            loStrCheck = Math.Round(loStr / frontPara.InsErrorPara / frontPara.IndExtendPara * backPara.InsErrorPara * backPara.IndExtendPara, 0);
+                            loStrCheck = Math.Round(loStr / commPara.InstMaxPara / commPara.IndExMaxPara * commPara.InstMinPara * commPara.IndExMinPara, 0);
                         }
                         else
                         {
-                            loStrCheck = Math.Round(loStr / frontPara.InsErrorPara / frontPara.IndExtendPara * backPara.InsErrorPara * backPara.GrdExtendPara, 0);
+                            loStrCheck = Math.Round(loStr / commPara.InstMaxPara / commPara.GrdExMaxPara * commPara.InstMinPara * commPara.GrdExMinPara, 0);
                         }
                     }
                     else
                     {
-                        loStrCheck = Math.Round(loStr / frontPara.ConstruErrorPara * backPara.ConstruErrorPara);
+                        loStrCheck = Math.Round(loStr / commPara.BuildMaxPara * commPara.BuildMinPara);
                     }
                     LoadList[index].LoStrCheck = Math.Round(loStr, 0).ToString() + "/(" + loStrCheck.ToString() + ")";
                 }
@@ -453,7 +451,7 @@ namespace TowerLoadCals.BLL.Electric
                     }
                     else
                     {
-                        LoadList[index].LoStrCheck2 = Math.Round(loStr / frontPara.ConstruErrorPara * backPara.ConstruErrorPara);
+                        LoadList[index].LoStrCheck2 = Math.Round(loStr / commPara.BuildMaxPara * commPara.BuildMinPara);
                     }
                 }
             }

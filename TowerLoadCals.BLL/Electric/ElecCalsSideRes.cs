@@ -69,26 +69,6 @@ namespace TowerLoadCals.BLL.Electric
         public double OPGWMaxFor { get; set; }
 
         /// <summary>
-        /// 施工误差系数
-        /// </summary>
-        public double ConstruErrorPara { get; set; }
-
-        /// <summary>
-        /// 安装误差系数
-        /// </summary>
-        public double InsErrorPara { get; set; }
-
-        /// <summary>
-        /// 导线伸长系数
-        /// </summary>
-        public double IndExtendPara { get; set; }
-
-        /// <summary>
-        /// 地线伸长系数
-        /// </summary>
-        public double GrdExtendPara { get; set; }
-
-        /// <summary>
         /// 冰区类型：轻冰区，中冰区，重冰区
         /// </summary>
         public string IceArea { get; set; }
@@ -127,13 +107,5 @@ namespace TowerLoadCals.BLL.Electric
             OPGWMaxFor = oPGWMaxForSor;
         }
 
-
-        public void SetTensionPara(double insErrorPara, double construErrorPara, double indExtendPara, double grdExtendPara)
-        {
-            InsErrorPara = insErrorPara;
-            ConstruErrorPara = construErrorPara;
-            IndExtendPara = indExtendPara;
-            GrdExtendPara = grdExtendPara;
-        }
     }
 }
