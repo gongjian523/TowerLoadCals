@@ -8,6 +8,8 @@ using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL.Electric
 {
+    //Wire  
+    //EarthWire
     public class ElecCalsWire
     {
 
@@ -35,14 +37,8 @@ namespace TowerLoadCals.BLL.Electric
 
         /// <summary>
         /// 综合弹性系数 Gpa 10^6 N/m2 
-        /// 是否就是弹性模块
         /// </summary>
         public double Elas { get; set; }
-
-        /// <summary>
-        /// 是否就是弹性模量
-        /// </summary>
-        public double ElasM { get; set; }
 
         /// <summary>
         /// 线性膨胀系数 10^-6/℃
@@ -170,7 +166,7 @@ namespace TowerLoadCals.BLL.Electric
         {
         }
 
-        public ElecCalsWire(string name = "", int id = 0, double sec = 0, double dia = 0, double wei = 0, double elas = 0, double elasM = 0,
+        public ElecCalsWire(string name = "", int id = 0, double sec = 0, double dia = 0, double wei = 0, double elas = 0,
             double coef = 0, double fore = 0, int grd = 0, double decrTem = 0, int devide = 1)
         {
             ID = id;
@@ -179,7 +175,6 @@ namespace TowerLoadCals.BLL.Electric
             Dia = dia;
             Wei = wei / 1000;
             Elas = elas;
-            ElasM = elasM;
             Coef = coef * 1e-6;
             Fore = fore;
             bGrd = grd;
@@ -379,14 +374,14 @@ namespace TowerLoadCals.BLL.Electric
             CtrlStress = Math.Round(Fore / Sec / 9.80665 * EffectPara / SafePara, 3);
             AvaStress = Math.Round(Fore / Sec / 9.80665 * EffectPara * AvePara / 100, 3);
 
-            CtrlGkName = ElecCalsToolBox2.GetCtrlWorkConditionName(BzDic, wkCdtList,span, ElasM * 9.8065, CtrlStress, AvaStress, Coef);
+            CtrlGkName = ElecCalsToolBox2.GetCtrlWorkConditionName(BzDic, wkCdtList,span, Elas, CtrlStress, AvaStress, Coef);
             CtrlGkStress = CtrlGkName == "平均气温" ? AvaStress : CtrlStress;
             CtrlGk = WeatherParas.WeathComm.Where(item => item.Name == CtrlGkName).First();
 
             YLTableXls = new Dictionary<string, double>();
             foreach (var wd in WeatherParas.WeathComm)
             {
-                double stress = ElecCalsToolBox2.StressNew(CtrlGkStress, BzDic[CtrlGkName].BiZai, CtrlGk.Temperature,ElasM, Coef, span, BzDic[wd.Name].BiZai, wd.Temperature);
+                double stress = ElecCalsToolBox2.StressNew(CtrlGkStress, BzDic[CtrlGkName].BiZai, CtrlGk.Temperature,  Math.Round(Elas / CommParas.GraAcc, 0), Coef, span, BzDic[wd.Name].BiZai, wd.Temperature);
                 YLTableXls.Add(wd.Name, stress);
             }
             #endregion

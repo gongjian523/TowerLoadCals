@@ -63,6 +63,7 @@
     <Compile Include="Electric\ElecCalsToolBox2.cs" />
     <Compile Include="Electric\ElecCalsToolBox.cs" />
     <Compile Include="Electric\ElecCalsCommRes.cs" />
+    <Compile Include="Electric\ElecCalsWorkCondition.cs" />
     <Compile Include="Electric\LoadThrDe.cs" />
     <Compile Include="Electric\ElecCalsPhaseSpaceStr.cs" />
     <Compile Include="Electric\PntInTower.cs" />

@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 
 namespace TowerLoadCals.BLL.Electric
 {
+
+    //RigidJumperInsulator 
+    //GeneralInsulator
     /// <summary>
     /// fda
     /// </summary>
@@ -180,9 +183,6 @@ namespace TowerLoadCals.BLL.Electric
             WeaParas = weaData;
             WeaAnSideParas = anWeaData;
         }
-
-
-
 
         protected double WeightIceIn(double iceThick)
         {

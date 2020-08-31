@@ -2,9 +2,26 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.Electrical" 
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:ElectricalCheckingParViewModel}}" >
+    <UserControl.Resources>
+        <DataTemplate x:Key="upLoadModelTemplet">
+            <StackPanel  Orientation="Horizontal" Margin="5,0,0,0">
+                <TextBlock Text="{Binding Path=RowData.Row.ModelName}" TextWrapping="NoWrap"   TextAlignment="Center" IsEnabled="False" Width="150" Margin="0,0,15,0"/>
+                <Button Width="80" Content="选择文件"  Command="{DXCommand View.DataContext.CheckModelTemplet(@parameter)}"  CommandParameter="{Binding RowData.Row.Name}"  ></Button>
+
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="upLoadHangPointTemplet">
+            <StackPanel  Orientation="Horizontal" Margin="5,0,0,0">
+                <TextBlock Text="{Binding Path=RowData.Row.HangPointName}" TextWrapping="NoWrap"   TextAlignment="Center" IsEnabled="False" Width="150" Margin="0,0,15,0"/>
+                <Button Width="80" Content="选择文件"  Command="{DXCommand View.DataContext.CheckHangPointTemplate(@parameter)}"  CommandParameter="{Binding RowData.Row.Name}"  ></Button>
+
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard" />
@@ -17,7 +34,7 @@
         <Button Grid.Row="0"   Grid.Column="0" Content="保 存" Height="30" Name="btnSave"   Command="{Binding doSaveCommand }" Margin="8,0" />
 
         <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="None" Margin="8,0" EnableSmartColumnsGeneration="False" 
-                ItemsSource="{Binding DataSource}"   x:Name="grid" HorizontalContentAlignment="Center" HorizontalAlignment="Center">
+                ItemsSource="{Binding SelectedItems}"   x:Name="grid" HorizontalContentAlignment="Center" HorizontalAlignment="Center">
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}" />
 
@@ -45,9 +62,21 @@
                     <dxg:GridColumn FieldName="WireSpacerNum"  Header="导线间隔棒数量" HorizontalHeaderContentAlignment="Center" Width="95"    />
                 </dxg:GridControlBand>
                 <dxg:GridControlBand Header="计算条件" HorizontalHeaderContentAlignment="Center">
-                    <dxg:GridColumn FieldName="EngineerPar"  Header="工程参数" HorizontalHeaderContentAlignment="Center" Width="80"   />
-                    <dxg:GridColumn FieldName="FrontPar"  Header="前侧相参数" HorizontalHeaderContentAlignment="Center" Width="80"   />
-                    <dxg:GridColumn FieldName="BackPar"  Header="后侧相参数" HorizontalHeaderContentAlignment="Center" Width="80"   />
+                    <dxg:GridColumn FieldName="EngineerPar" Header="工程参数"  Width="80"  >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:ComboBoxEditSettings ItemsSource="{Binding EngineerParDataSource}" IsTextEditable="False"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="FrontPar" Header="前侧相参数"  Width="80"  >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:ComboBoxEditSettings ItemsSource="{Binding FrontParDataSource}" IsTextEditable="False"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="BackPar" Header="后侧相参数" Width="80"  >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:ComboBoxEditSettings ItemsSource="{Binding BackParDataSource}" IsTextEditable="False"  />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
                 </dxg:GridControlBand>
             </dxg:GridControl.Bands>
         </dxg:GridControl>

@@ -88,10 +88,38 @@ namespace TowerLoadCals
             var electricalLibMenu = new SubMenuBase("", this, "电气计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             electricalLibMenu.SetIcon("Menu_para.png");
             var electricalLibSubList = new List<SubMenuBase>() { };
-            var  electricalBaseDataMenu = new SubMenuBase("BaseDataTemplateModule", this, "  基本参数库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            var  electricalBaseDataMenu = new SubMenuBase("BaseDataTemplateModule", this, "    不均匀冰断线参数", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
             electricalBaseDataMenu.ParentNode = electricalLibMenu;
             electricalLibSubList.Add(electricalBaseDataMenu);
+
+
+            var menu2 = new SubMenuBase("", this, "    验算条件", (e) => { });
+            menu2.ParentNode = electricalLibMenu;
+            electricalLibSubList.Add(menu2);
             electricalLibMenu.ChildItems = electricalLibSubList;
+
+            var menu2ChildList = new List<SubMenuBase>() { };
+            List<string> baseData = projectUtils.GetAllTowerSequenceNames();
+            foreach (var item in baseData)
+            {
+                var subMenu = new SubMenuBase("ElectricalCheckingParModule", this, "    " + item, (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+                subMenu.ParentNode = menu2;
+                var subList = new List<SubMenuBase>() { };
+
+                var subMenu1 = new SubMenuBase("", this, "        悬垂塔", (e) => { OnSelectedSubModuleItemChanged(e); });
+                subMenu1.ParentNode = subMenu;
+                subList.Add(subMenu1);
+
+                var subMenu2 = new SubMenuBase("", this, "        耐张塔", (e) => { OnSelectedSubModuleItemChanged(e); });
+                subMenu2.ParentNode = subMenu;
+                subList.Add(subMenu2);
+
+                subMenu.ChildItems = subList;
+
+                menu2ChildList.Add(subMenu);
+            }
+            menu2.ChildItems = menu2ChildList;
+
             menuItem.Add(electricalLibMenu);
 
             var struCalsLibMenu = new SubMenuBase("", this, "结构计算库", (e) => { OnSelectedBaseDataSubModuleChanged(e); });
@@ -194,6 +222,9 @@ namespace TowerLoadCals
             generalTemplateLibMenu.ParentNode = struTemplateLibMenu;
             struTemplateLibSubList.Add(generalTemplateLibMenu);
             //var test = new SubMenuBase("BaseDataTemplateModule", this, "        读取文件", (e) => { OnSelectedMenuChanged(e); });
+            //test.ParentNode = struTemplateLibMenu;
+            //struTemplateLibSubList.Add(test);
+            //var test = new SubMenuBase("ElectricalCheckingParModule", this, "        读取文件", (e) => { OnSelectedMenuChanged(e); });
             //test.ParentNode = struTemplateLibMenu;
             //struTemplateLibSubList.Add(test);
             struTemplateLibMenu.ChildItems = struTemplateLibSubList;
@@ -314,7 +345,14 @@ namespace TowerLoadCals
             if (subVm == null)
                 return;
 
-            subVm.UpDateView(vm.Title.Trim());
+            if (vm.ParentNode != null && vm.ParentNode.ParentNode.Title.Trim() == "验算条件")
+            {
+                subVm.UpDateView(vm.ParentNode.Title.Trim(), vm.Title.Trim());
+            }
+            else
+            {
+                subVm.UpDateView(vm.Title.Trim());
+            }
         }
 
         private void OnSelectedSubModuleSubTypeChanged(SubMenuBase vm)

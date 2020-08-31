@@ -204,10 +204,19 @@
         public string ConductorModel { get; set; }
 
         /// <summary>
+        /// 导线安全系数
+        /// </summary>
+        public string ConductorSafeCoef { get; set; }
+
+        /// <summary>
         /// 地线型号
         /// </summary>
         public string GroundWireModel { get; set; }
 
+        /// <summary>
+        /// 地线安全系数
+        /// </summary>
+        public string GroundWireSafeCoef { get; set; }
 
         /// <summary>
         /// 地线串型号
@@ -312,5 +321,40 @@
         /// </summary>
         public bool ExistsGroundWireModel { get; set; }
 
+
+#region 电气计算-验算条件
+
+
+        /// <summary>
+        /// 导线防震锤数量
+        /// </summary>
+        public int WireCounterWeightNum { get; set; }
+
+        /// <summary>
+        /// 地线防震锤数量
+        /// </summary>
+        public int GroundCounterWeightNum { get; set; }
+
+        /// <summary>
+        /// 导线间隔棒数量
+        /// </summary>
+        public int WireSpacerNum { get; set; }
+
+        /// <summary>
+        /// 工程参数
+        /// </summary>
+        public int EngineerPar { get; set; }
+
+        /// <summary>
+        /// 前侧相参数
+        /// </summary>
+        public int FrontPar { get; set; }
+
+        /// <summary>
+        /// 后侧相参数
+        /// </summary>
+        public int BackPar { get; set; }
+
+        #endregion 
     }
 }

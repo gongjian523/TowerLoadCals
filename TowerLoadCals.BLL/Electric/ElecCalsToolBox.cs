@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL.Electric
 {
@@ -20,18 +18,15 @@ namespace TowerLoadCals.BLL.Electric
         {
             //默认都为3类线路
             int LeValue = 3;   
-            if(ACorDC == 1)
-            {
+            if(ACorDC == 1){
                 //直流线路都认为是1类线路
                 LeValue = 1;
             } 
-            else if(voltage >= 330)
-            {
+            else if(voltage >= 330){
                 //交流330kV以上认为是1类线路
                 LeValue = 1;
             }
-            else if(voltage >= 220)
-            {
+            else if(voltage >= 220){
                 //交流220kV以上认为是2类线路
                 LeValue = 2;
             }
@@ -48,20 +43,16 @@ namespace TowerLoadCals.BLL.Electric
         {
             double height = 0;
 
-            if (voltage <= 220)
-            {
+            if (voltage <= 220){
                 height = 15;
             }
-            else if( voltage > 220 && voltage <= 500)
-            {
+            else if( voltage > 220 && voltage <= 500){
                 height = 20;
             }
-            else if( voltage > 500 && voltage <= 1000)
-            {
+            else if( voltage > 500 && voltage <= 1000){
                 height = 30;
             }
-            else if (voltage >= 1100)
-            {
+            else if (voltage >= 1100){
                 height = 40;
             }
             return height;
@@ -78,12 +69,10 @@ namespace TowerLoadCals.BLL.Electric
             double Epson;
 
             //风载体形系数
-            if (d >= 17 && ice <= 0)
-            {
+            if (d >= 17 && ice <= 0){
                 Epson = 1.1;
             }
-            else
-            {
+            else{
                 Epson = 1.2;
             }
             return Epson;
@@ -100,46 +89,37 @@ namespace TowerLoadCals.BLL.Electric
 
             if(CalType == 1)
             {
-                if (wind < 20)
-                {
+                if (wind < 20){
                     Alpha = 1;
                 }
-                else if (wind >= 20 && wind < 27)
-                {
+                else if (wind >= 20 && wind < 27){
                     Alpha = 0.85;
                 }
-                else if (wind >= 27 && wind < 31.5)
-                {
+                else if (wind >= 27 && wind < 31.5){
                     Alpha = 0.75;
                 }
-                else
-                {
+                else{
                     Alpha = 0.7;
                 }
             }
             else
             {
-                if (wind < 20)
-                {
+                if (wind < 20){
                     Alpha = 1;
                 }
-                else if( wind >= 20 && wind< 27)
-                {
+                else if( wind >= 20 && wind< 27){
                     Alpha = 0.75;
                 }
-                else if(wind >= 27 && wind< 31.5)
-                {
+                else if(wind >= 27 && wind< 31.5){
                     Alpha = 0.61;
                 }
-                else
-                {
+                else{
                     Alpha = 0.61;
                 }
             }
 
             //覆冰情况下，直接取1
-            if (ice > 0)
-            {
+            if (ice > 0){
                 Alpha = 1;
             }
             return Alpha;
@@ -178,7 +158,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public static double WindExChange(double wind, double height, double terrainPara)
         {
-            return Math.Round( Math.Pow((height / 10), terrainPara) * wind, 2);
+            return Math.Round(Math.Pow((height / 10), terrainPara) * wind, 2);
         }
 
         /// <summary>
@@ -189,7 +169,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <returns></returns>
         public static double Wind45ExChange1(double maxWind, double angle)
         {
-            var wind = (double)(maxWind * Math.Sin((45 + angle / 2) / 180 * Math.PI));
+            var wind = maxWind * Math.Sin((45 + angle / 2) / 180 * Math.PI);
 
             return Math.Round(wind, 2);
         }
@@ -228,33 +208,26 @@ namespace TowerLoadCals.BLL.Electric
         {
             //风荷载增大系数B
             double enlargeCoe;
-            if (ice <= 5)
-            {
+            if (ice <= 5){
                 enlargeCoe = 1;
             }
-            else if( ice >= 5 && ice<10)
-            {
+            else if( ice >= 5 && ice<10){
                 enlargeCoe = 1.1f;
             }
-            else if( ice >= 10 && ice<15)
-            {
+            else if( ice >= 10 && ice<15){
                 enlargeCoe = 1.2f;
             }
             //覆冰增大系数的取值与传统计算不符，注意后期调整
-            else if( ice >= 15 && ice<20)
-            {
+            else if( ice >= 15 && ice<20){
                 enlargeCoe = 1.3f;
             }
-            else if( ice >= 20 && ice<30)
-            {
+            else if( ice >= 20 && ice<30){
                 enlargeCoe = 1.5f;
             }
-            else if( ice >= 30 && ice<= 50)
-            {
+            else if( ice >= 30 && ice<= 50){
                 enlargeCoe = 1.8f;
             }
-            else
-            {
+            else{
                 //大于20mm取中间值，规范要求为2.0-2.5
                 enlargeCoe = 2;  
             }
@@ -318,82 +291,51 @@ namespace TowerLoadCals.BLL.Electric
 
             string wire;
 
-            if (wireType == "地线")
-            {
+            if (wireType == "地线"){
                 wire = "地线";
             }
-            else
-            { 
+            else{ 
                 if (towerType == "悬垂塔")
                 {
                     //导线和塔型、冰区类型以及分裂数有关
                     if (iceType == "轻冰区" || iceType == "中冰区")
                     {
-                        if (devideNum == 1)
-                        {
+                        if (devideNum == 1){
                             wire = "单导线";
                         }
-                        else if(devideNum == 2)
-                        {
+                        else if(devideNum == 2){
                             wire = "双分裂导线";
                         }
-                        else
-                        {
+                        else{
                             wire = "双分裂以上导线";
                         }
                     }
                     //重冰区
-                    else
-                    {
+                    else{
                         wire = "导线";
                     }
                 }
                 //耐张塔
-                else
-                {
+                else{
                     wire = devideNum == 1 ? "单导线" : "双分裂及以上导线";
                 }
             }
 
+            ElecCalsBreakWireSpec entity;
+
             if (iceType == "轻冰区")
             {
                 //轻冰区需要查询地形
-                if (elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire 
-                    && item.TowerType == towerType && item.Terrain == terrain).Count() > 0)
-                {
-
-                    var  entity = elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
-                    && item.TowerType == towerType && item.Terrain == terrain).First();
-
-                    return (double)entity.Stress / 100;
-
-                    //return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
-                    //&& item.TowerType == towerType && item.Terrain == terrain).First().Stress / 100;
-                }
-                else
-                {
-                    return 0;
-                }
+                entity = elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                    && item.TowerType == towerType && item.Terrain == terrain).FirstOrDefault();
             }
             else
             {
-                if (elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
-                    && item.TowerType == towerType).Count() > 0)
-                {
-                    var entity = elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
-                        && item.TowerType == towerType).First();
-                    return (double)entity.Stress / 100;
-
-                    //return elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
-                    //&& item.TowerType == towerType).First().Stress / 100;
-                }
-                else
-                {
-                    return 0;
-                }
+                entity = elecCalsSpec.BreakWireStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wire
+                    && item.TowerType == towerType).FirstOrDefault();
             }
 
-
+            return entity == null ? 0 : (double)entity.Stress / 100;
         }
 
         /// <summary>
@@ -412,17 +354,8 @@ namespace TowerLoadCals.BLL.Electric
 
             double iceThickness = iceThickness1 < iceThickness2 ? iceThickness2 : iceThickness1;
 
-            if (elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).Count() > 0)
-            {
-                var entity = elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).First();
-                return (double)entity.Percent / 100;
-
-                //return elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).First().Percent / 100;
-            }
-            else
-            {
-                return 1;
-            }
+            var entity = elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).FirstOrDefault();
+            return entity ==null ? 1 :(double)entity.Percent / 100;
         }
 
         /// <summary>
@@ -439,20 +372,10 @@ namespace TowerLoadCals.BLL.Electric
             if (elecCalsSpec == null)
                 return 0;
 
-            if (elecCalsSpec.UnevenIceStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
-                && item.TowerType == towerType).Count() > 0)
-            {
-                var entity = elecCalsSpec.UnevenIceStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
-                    && item.TowerType == towerType).First();
-                return (double)entity.Stress / 100;
+            var entity = elecCalsSpec.UnevenIceStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
+                && item.TowerType == towerType).FirstOrDefault();
+            return entity == null ? 0 : (double)entity.Stress / 100;
 
-                //return elecCalsSpec.UnevenIceStress.Where(item => item.IceArea == iceType && item.IceThickness == iceThickness && item.WireType == wireType
-                //&& item.TowerType == towerType).First().Stress / 100;
-            }
-            else
-            {
-                return 0;
-            }
         }
 
         /// <summary>
@@ -467,16 +390,8 @@ namespace TowerLoadCals.BLL.Electric
             if (elecCalsSpec == null)
                 return 0;
 
-            if (elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").Count() > 0)
-            {
-                var entity = elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").First();
-                return (double)entity.Percent / 100;
-                //return elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").First().Percent / 100;
-            }
-            else
-            {
-                return 0;
-            }
+            var entity = elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "一侧").FirstOrDefault();
+            return entity == null ? 0 : (double)entity.Percent / 100;
         }
 
         /// <summary>
@@ -491,16 +406,8 @@ namespace TowerLoadCals.BLL.Electric
             if (elecCalsSpec == null)
                 return 0;
 
-            if (elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").Count() > 0)
-            {
-                var entity = elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").First();
-                return (double)entity.Percent / 100;
-                //return elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").First().Percent / 100;
-            }
-            else
-            {
-                return 0;
-            }
+            var entity = elecCalsSpec.UnevenIceRate.Where(item => item.TowerType == towerType && item.Category == category && item.Side == "另一侧").FirstOrDefault();
+            return entity == null ? 0 :(double)entity.Percent / 100;
         }
 
         
@@ -510,14 +417,8 @@ namespace TowerLoadCals.BLL.Electric
             if (elecCalsSpec == null)
                 return "一类";
 
-            if (elecCalsSpec.Category.Where(item => item.Voltage.Contains(volt)).Count() > 0)
-            {
-                return elecCalsSpec.Category.Where(item => item.Voltage.Contains(volt)).First().Category;
-            }
-            else
-            {
-                return "一类";
-            }
+            var entity =  elecCalsSpec.Category.Where(item => item.Voltage.Contains(volt)).FirstOrDefault();
+            return entity == null ? "一类" : entity.Category;
         }
     }
 }

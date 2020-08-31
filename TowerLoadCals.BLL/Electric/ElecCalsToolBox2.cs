@@ -10,77 +10,59 @@ namespace TowerLoadCals.BLL.Electric
 {
     public class ElecCalsToolBox2
     {
-
-        //比载计算
-        //BiZai(1e-3 kg/m/mm2),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static double BiZai(double Q, double d, double S, double b, double v, double VBase)
+        /// <summary>
+        /// 比载计算BiZai(1e-3 kg/m/mm2)
+        /// </summary>
+        /// <param name="wei">单位重量（kg/km</param>
+        /// <param name="dia">导线外径(mm)</param>
+        /// <param name="sec">截面积(mm2)</param>
+        /// <param name="iceThickness">覆冰厚度(mm)</param>
+        /// <param name="windSpeed">风速(m/s)</param>
+        /// <param name="windSpeedBase">基本风速</param>
+        /// <returns></returns>
+        public static double BiZai(double wei, double dia, double sec, double iceThickness, double windSpeed, double windSpeedBase)
         {
-            double Usc, a, BB;
+            double Usc = UscValue(iceThickness,dia);
+            double a = aValue(windSpeedBase);
+            double BB = BBValue(iceThickness);
 
-            if (b > 0){
-                Usc = 1.2;
-            }
-            else
-            {
-                if (d < 17){
-                    Usc = 1.2;
-                }
-                else{
-                    Usc = 1.1;
-                }
-            }
-
-            if (VBase < 20) {
-                a = 1;
-            }
-            else if (VBase >= 20 && VBase < 27) {
-                a = 0.85;
-            }
-            else if (VBase >= 27 && VBase < 31.5) {
-                a = 0.75;
-            }
-            else {
-                //else if (VBase >= 31.5) {
-                a = 0.7;
-            }
-
-
-            BB = 1;
-            if (b < 10 && b >= 5) {
-                BB = 1.1;
-            }
-            else if (b < 15 && b >= 10) {
-                BB = 1.2;
-            }
-            else if (b < 20 && b >= 15) {
-                BB = 1.3;
-            }
-            else if (b < 30 && b >= 20) {
-                BB = 1.5;
-            }
-            else if (b < 50 && b >= 30) {
-                BB = 1.8;
-            }
-            else if (b >= 50) {
-                BB = 2;
-            }
-
-            double BiZai = Math.Pow(Math.Pow(Q / S + 2.82743334 * b * (d + b) / S, 2) + Math.Pow(a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / S * BB / 9.80665, 2), 0.5);
             //BiZai = ((Q / S + 2.82743334 * b * (d + b) / S) ^ 2 + (a * Usc * (d + 2 * b) * v ^ 2 / 16 / S * BB) ^ 2) ^ (1 / 2)
+            double BiZai = Math.Pow(Math.Pow(wei / sec + 2.82743334 * iceThickness * (dia + iceThickness) / sec, 2) + Math.Pow(a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / sec * BB / 9.80665, 2), 0.5);
             return BiZai;
         }
 
-        //g比载(kg/m/mm2)，l档距(m)，E弹性模量(N/mm2)，Stess应力(kg/mm2)，a温度系数(℃)，t温度(℃)
-        public static string LiMax(double g1, double g2, double g3, double g4, string WName1, string WName2, string WName3, string WName4, double l, double e, double StressM, double StressA, double a, double T1, double T2, double T3, double T4)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bizai1">比载(kg/m/mm2)</param>
+        /// <param name="bizai2">比载(kg/m/mm2)</param>
+        /// <param name="bizai3">比载(kg/m/mm2)</param>
+        /// <param name="bizai4">比载(kg/m/mm2)</param>
+        /// <param name="gkName1">工况名字</param>
+        /// <param name="gkName2">工况名字</param>
+        /// <param name="gkName3">工况名字</param>
+        /// <param name="gkName4">工况名字</param>
+        /// <param name="span">档距(m)</param>
+        /// <param name="elsa">弹性模量(N/mm2)</param>
+        /// <param name="StressM">控制应力(kg/mm2</param>
+        /// <param name="StressA">平均应立(kg/mm2)</param>
+        /// <param name="coef">温度系数(℃)</param>
+        /// <param name="temp1">温度(℃)/param>
+        /// <param name="temp2">温度(℃)</param>
+        /// <param name="temp3">温度(℃)</param>
+        /// <param name="temp4">温度(℃)</param>
+        /// <returns></returns>
+        public static string LiMax(double bizai1, double bizai2, double bizai3, double bizai4, string gkName1, string gkName2, string gkName3, string gkName4, double span, double elsa, double StressM, double StressA, double coef, double temp1, double temp2, double temp3, double temp4)
         {
             double[] VMax = new double[4];
             int i, LinShiJi;
             double LinShiV;
 
-            VMax[0] = e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g1, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T1);
-            VMax[1] = e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g2, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T2);
-            VMax[2] = e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g3, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T3);
-            VMax[3] = e / 9.80665 * Math.Pow(l, 2) * Math.Pow(g4, 2) / 24 / Math.Pow(StressM, 2) - (StressM + a * e / 9.80665 * T4);
+            VMax[0] = elsa / 9.80665 * Math.Pow(span, 2) * Math.Pow(bizai1, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / 9.80665 * temp1);
+            VMax[1] = elsa / 9.80665 * Math.Pow(span, 2) * Math.Pow(bizai2, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / 9.80665 * temp2);
+            VMax[2] = elsa / 9.80665 * Math.Pow(span, 2) * Math.Pow(bizai3, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / 9.80665 * temp3);
+            VMax[3] = elsa / 9.80665 * Math.Pow(span, 2) * Math.Pow(bizai4, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / 9.80665 * temp4);
 
             LinShiV = VMax[0];
             LinShiJi = 0;
@@ -93,20 +75,20 @@ namespace TowerLoadCals.BLL.Electric
             }
 
             if (LinShiJi == 0) {
-                return WName1;
+                return gkName1;
             }
             else if (LinShiJi == 1) {
-                return WName2;
+                return gkName2;
             }
             else if (LinShiJi == 2) {
-                return WName3;
+                return gkName3;
             }
             else {
-                return WName4;
+                return gkName4;
             }
         }
 
-        //g比载(kg/m/mm2)，l档距(m)，E弹性模量(N/mm2)，Stess应力(kg/mm2)，a温度系数(℃)，t温度(℃)
+
         /// <summary>
         /// 获取控制工况名字
         /// </summary>
@@ -139,29 +121,28 @@ namespace TowerLoadCals.BLL.Electric
 
             return wkCdtName;
         }
-  
-
-        //开三次方
-        public static double spr3(double yuanValue)
-        {
-            if (yuanValue < 0) {
-                return -Math.Pow(-yuanValue, (double)1/3);
-            }
-            else {
-                return Math.Pow(yuanValue, (double)1/3);
-            }
-        }
 
 
-        //M是已知，N是未知,stress(kg/mm2),g(kg/mm2/m),t(℃),E(kg/mm2),aa膨胀系数(1/℃)
-        public static double StressNew(double StressM, double GM, double tM, double e, double aa, double l, double gN, double tN)
+        /// <summary>
+        /// 计算应力
+        /// </summary>
+        /// <param name="StressM">控制工况应力(kg/mm2)</param>
+        /// <param name="bizaiM">控制工况比载(kg/mm2/m)</param>
+        /// <param name="tempM">控制工况温度(℃)</param>
+        /// <param name="e">弹性模量(kg/mm2)</param>
+        /// <param name="aa">膨胀系数(1/℃</param>
+        /// <param name="span">档距</param>
+        /// <param name="bizaiN">比载(kg/mm2/m)</param>
+        /// <param name="tempN">温度(℃</param>
+        /// <returns></returns>
+        public static double StressNew(double StressM, double bizaiM, double tempM, double elas, double coef, double span, double bizaiN, double tempN)
         {
             double a, b, aD, bD;
             double dt;
 
             //'x^3+a*x^2+b=0
-            a = Math.Pow(l, 2) * Math.Pow(GM, 2) * e / 24 / Math.Pow(StressM, 2) - StressM - aa * e * (tM - tN);
-            b = Math.Pow(l, 2) * Math.Pow(gN, 2) * e / 24;
+            a = Math.Pow(span, 2) * Math.Pow(bizaiM, 2) * elas / 24 / Math.Pow(StressM, 2) - StressM - coef * elas * (tempM - tempN);
+            b = Math.Pow(span, 2) * Math.Pow(bizaiN, 2) * elas / 24;
             aD = Math.Pow(b, 2) / 4 - b * Math.Pow(a, 3) / 27;
             bD = b / 2 - Math.Pow(a, 3) / 27;
 
@@ -182,166 +163,56 @@ namespace TowerLoadCals.BLL.Electric
             }
             return (a / 3 * (2 * Math.Cos(dt / 3) - 1));
         }
-    
-        //垂直荷载铁塔计算
-        //Weight(1e-3 kg/m/mm2),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm)  s截面积(mm2)
-        public static double Weight(double Q, double d, double b)
+
+        /// <summary>
+        /// 垂直荷载(1e-3 kg/m/mm2)
+        /// </summary>
+        /// <param name="wei">单位重量(kg/km)</param>
+        /// <param name="dia">导线外径(mm)</param>
+        /// <param name="iceThickness">覆冰厚度(mm)</param>
+        /// <returns></returns>
+        public static double Weight(double wei, double dia, double iceThickness)
         {
-            return Q + 2.82743334 * b * (d + b);
+            return wei + 2.82743334 * iceThickness * (dia + iceThickness);
         }
 
-        //风荷载铁塔计算
-        //WindP(1e-3 kg/m),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static double WindPa(string VoL, double d, double b, double v, double VBase)
+        /// <summary>
+        /// 风荷载(1e-3 kg/m)
+        /// </summary>
+        /// <param name="VoL">电压</param>
+        /// <param name="dia">单位重量(kg/km)</param>
+        /// <param name="iceThickness">覆冰厚度(mm)</param>
+        /// <param name="windSpeed">风速(m/s)</param>
+        /// <param name="windSpeedBase">基本风速</param>
+        /// <returns></returns>
+        public static double WindPa(string VoL, double dia, double iceThickness, double windSpeed, double windSpeedBase)
         { 
-            double a, BB, Bc;
-            double Usc;
+            double Usc = UscValue(iceThickness,dia);
+            double a = aValue(windSpeedBase);
+            double BB = BBValue2(iceThickness);
+            double Bc = BcValue(VoL, windSpeedBase);
 
-            if (b > 0) {
-                Usc = 1.2;
-            }
-            else {
-                if (d < 17) {
-                    Usc = 1.2; }
-                else {
-                    Usc = 1.1;
-                }
-            }
-
-            if( VBase< 20 ){
-                a = 1;
-            }
-            else if( VBase >= 20 && VBase< 27 ){
-                a = 0.85;
-            }
-            else if( VBase >= 27 && VBase< 31.5 ){
-                a = 0.75;
-            }
-            else { 
-            //else if( VBase >= 31.5 ){
-                a = 0.7;
-            }
-            
-            BB = 1;
-            if( b< 9.99 && b >= 5 ){
-                BB = 1.1;
-            }
-            else if( b< 14.99 && b >= 9.99 ){
-                BB = 1.2;
-            }
-            else if( b< 19.99 && b >= 14.99 ){
-                BB = 1.3;
-            }
-            else if( b< 29.99 && b >= 19.99 ){
-                BB = 1.5;
-            }
-            else if( b< 49.99 && b >= 29.99 ){
-                BB = 1.8;
-            }
-            else if( b >= 49.99 ){
-                BB = 2;
-            }
-
-            if (VoL == "500kV" || VoL == "750kV" || VoL == "1000kV" || VoL == "±500" || VoL == "±800" || VoL == "±1100kV") {
-                if (VBase < 20) {
-                    Bc = 1;
-                }
-                else if (VBase >= 20 && VBase < 27) {
-                    Bc = 1.1;
-                }
-                else if (VBase >= 27 && VBase < 31.5) {
-                    Bc = 1.2;
-                }
-                else {
-                    //if( VBase >= 31.5 ){
-                    Bc = 1.3;
-                }
-            }
-            else {
-                Bc = 1;
-            }
-
-            return Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB;
             //WindPa = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
+            return Bc * a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / 9.80665 * BB;
         }
 
-        //横向比载计算
-        //WindP(1e-3 kg/m),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static double BiZaiH(double d, double b, double v, double VBase, double S)
-        { 
-            double Usc, a, BB;
-
-            if (b > 0) {
-                Usc = 1.2;
-            }
-            else {
-                if (d < 17) {
-                    Usc = 1.2;
-                }
-                else {
-                    Usc = 1.1;
-                }
-            }
-
-            if (VBase < 20) {
-                a = 1;
-            }
-            else if (VBase >= 20 && VBase < 27) {
-                a = 0.85;
-            }
-            else if (VBase >= 27 && VBase < 31.5) {
-                a = 0.75;
-            }
-            else {
-                a = 0.7;
-            }
-
-            BB = 1;
-            if (b < 10 && b >= 5) {
-                BB = 1.1;
-            }
-            else if (b < 15 && b >= 10) {
-                BB = 1.2;
-            }
-            else if (b < 20 && b >= 15) {
-                BB = 1.3;
-            }
-            else if (b < 30 && b >= 20) {
-                BB = 1.5;
-            }
-            else if (b < 50 && b >= 30) {
-                BB = 1.8;
-            }
-            else if (b >= 50) {
-                BB = 2;
-            }
-
-            return a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB / S;
-           //BiZaiH = a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB / S
-        }
-
-        //Bc的确定
-        public static double BcValue(string VoL, double VBase)
-        { 
-            if( VoL == "500kV" || VoL == "750kV" || VoL == "1000kV" || VoL == "±500" || VoL == "±800" || VoL == "±1100kV" )
-            {
-                if( VBase< 20 ){
-                    return 1;
-                }
-                else if( VBase >= 20 && VBase< 27 ){
-                    return 1.1;
-                }
-                else if( VBase >= 27 && VBase< 31.5 ){
-                    return 1.2;
-                }
-                else {
-                    //if( VBase >= 31.5 ){
-                    return 1.3;
-                }
-            }
-            else {
-                return 0;
-            }
+        /// <summary>
+        /// 横向比载(1e-3 kg/m)
+        /// </summary>
+        /// <param name="dia">导线外径(mm)</param>
+        /// <param name="iceThickness">覆冰厚度(mm)</param>
+        /// <param name="windSpeed">风速(m/s)</param>
+        /// <param name="windSpeedBase">基本风速</param>
+        /// <param name="sec">截面积(mm2)</param>
+        /// <returns></returns>
+        public static double BiZaiH(double dia, double iceThickness, double windSpeed, double windSpeedBase, double sec)
+        {
+            double Usc = UscValue(iceThickness, dia);
+            double a = aValue(windSpeedBase);
+            double BB = BBValue(iceThickness);
+           
+            //BiZaiH = a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB / S
+            return a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / 9.80665 * BB / sec;
         }
     
         //风压系数
@@ -350,226 +221,217 @@ namespace TowerLoadCals.BLL.Electric
             return Math.Pow(HWind/HBase, KWind * 2);
         }
 
-        //串风压kg/m
-        //单联片数，联数，折金具片数，覆冰，风速，基本风速
-        public static double StringWind(double DLPN, double LS, double MN, double b, double v, double VBase)
+        /// <summary>
+        /// 串风压kg/m
+        /// </summary>
+        /// <param name="pieceNum">单联片数</param>
+        /// <param name="lNum">联数</param>
+        /// <param name="glodPieceNum">折金具片数</param>
+        /// <param name="iceThickness">覆冰厚度</param>
+        /// <param name="windSpeed">风速</param>
+        /// <param name="windSpeedBase">基本风速</param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static double StringWind(double pieceNum, double lNum, double glodPieceNum, double iceThickness, double windSpeed, double windSpeedBase, out string str)
         {
-            double BB = 1;
-            if( b< 10 && b >= 5 ){
-                BB = 1.1;
-            }
-            else if( b < 15 && b >= 10 ){
-                BB = 1.2;
-            }
-            else if( b < 20 && b >= 15 ){
-                BB = 1.3;
-            }
-            else if( b < 30 && b >= 20 ){
-                BB = 1.5;
-            }
-            else if( b < 50 && b >= 30 ){
-                BB = 1.8;
-            }
-            else if(b >= 50){
-                BB = 2;
-            }
+            double BB = BBValue(iceThickness);
 
-            return BB * 0.04 * (DLPN * LS + MN) * Math.Pow(v, 2) / 1.6 / 9.80665;
+            double rlst = BB * 0.04 * (pieceNum * lNum + glodPieceNum) * Math.Pow(windSpeed, 2) / 1.6 / 9.80665;
+            str = BB.ToString() + "*" + (0.04 * (pieceNum * lNum + glodPieceNum)).ToString() + "*" + windSpeed.ToString() + "^2/1.6/9.80665" + "=" + rlst.ToString("0.00");
+            return rlst;
         }
 
-        //串风压字符串
-        //单联片数，联数，折金具片数，覆冰，风速，基本风速
-        public static string StringWindString(double DLPN, double LS, double MN, double b, double v, double VBase)
-        { 
-            double BB = 1;
-            if(b< 10 && b >= 5 ){
-                BB = 1.1;
-            }
-            else if(b< 15 && b >= 10 ){
-                BB = 1.2;
-            }
-            else if(b< 20 && b >= 15 ){
-                BB = 1.3;
-            }
-            else if(b< 30 && b >= 20 ){
-                BB = 1.5;
-            }
-            else if(b< 50 && b >= 30 ){
-                BB = 1.8;
-            }
-            else if (b >= 50){
-                BB = 2;
-            }
-            return BB.ToString() + "*" + (0.04 * (DLPN * LS + MN)).ToString() + "*" + v.ToString() + "^2/1.6/9.80665";
-        }
 
-        //风荷载跳线计算
-        //WindP(1e-3 kg/m),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static double WindPaT(string VoL, double d, double b, double v, double VBase)
+        /// <summary>
+        /// 跳线风荷载(1e-3 kg/m)
+        /// </summary>
+        /// <param name="VoL">电压</param>
+        /// <param name="dia">导线外径(mm)</param>
+        /// <param name="iceThickness">覆冰厚度(mm)</param>
+        /// <param name="windSpeed">风速(m/s)</param>
+        /// <param name="windSpeedBase">基本风速</param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static double WindPaT(string VoL, double dia, double iceThickness, double windSpeed, double windSpeedBase, out string str)
         {
-            double Usc, a, Bc;
+            double Usc = UscValue(iceThickness,dia);
+            double a = GetA(windSpeedBase, VoL);
+            double BB = BBValue(iceThickness);
+            double Bc = BcValue(VoL, windSpeedBase);
 
-            if (b > 0)
-            {
-                Usc = 1.2;
-            }
-            else
-            {
-                if (d < 17)
-                {
-                    Usc = 1.2;
-                }
-                else
-                {
-                    Usc = 1.1;
-                }
-            }
-
-            if (VBase > 0) {
-                if (VoL == "1000kV" || VoL == "±800" || VoL == "±1100kV") {
-                    a = 1.2; }
-                else {
-                    a = 1;
-                }
-            }
-            else {
-                a = 1;
-            }
-
-            double BB = 1;
-            if (b < 10 && b >= 5)
-            {
-                BB = 1.1;
-            }
-            else if (b < 15 && b >= 10)
-            {
-                BB = 1.2;
-            }
-            else if (b < 20 && b >= 15)
-            {
-                BB = 1.3;
-            }
-            else if (b < 30 && b >= 20)
-            {
-                BB = 1.5;
-            }
-            else if (b < 50 && b >= 30)
-            {
-                BB = 1.8;
-            }
-            else if (b >= 50){
-                BB = 2;
-            }
-
-
-            if (VoL == "500kV" || VoL == "750kV" || VoL == "1000kV" || VoL == "±500" || VoL == "±800" || VoL == "±1100kV") {
-                if (VBase < 20) {
-                    Bc = 1;
-                }
-                else if (VBase >= 20 && VBase < 27) {
-                    Bc = 1.1;
-                }
-                else if (VBase >= 27 && VBase < 31.5) {
-                    Bc = 1.2;
-                }
-                else {
-                    Bc = 1.3;
-                }
-            }
-            else {
-                Bc = 1;
-            }
-
-            return Bc * a * Usc * (d + 2 * b) * Math.Pow(v, 2) / 1.6 / 9.80665 * BB;
             //WindPaT = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
+            double rslt =  Bc * a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / 9.80665 * BB;
+            str = Bc.ToString() + "*" + a.ToString() + "*" + Usc.ToString() + "*" + BB.ToString() + "*(" + dia.ToString() + "+2*" + iceThickness.ToString() + ")*" + windSpeed.ToString() + "^2/1.6/9.80665" + rslt.ToString("0.00");
+
+            return rslt;
         }
 
-
-        //风荷载跳线字符串
-        //WindP(1e-3 kg/m),q单位重量（kg/km） b覆冰厚度(mm) d导线外径(mm) v风速(m/s) s截面积(mm2),VBase基本风速
-        public static string WindPaTString(string VoL, double d, double b, double v , double VBase)
+        //开三次方
+        protected static double spr3(double yuanValue)
         {
-            double Usc, a, Bc;
-
-            if (b > 0)
+            if (yuanValue < 0)
             {
-                Usc = 1.2;
+                return -Math.Pow(-yuanValue, (double)1 / 3);
             }
             else
             {
-                if (d < 17)
-                {
-                    Usc = 1.2;
-                }
-                else
-                {
-                    Usc = 1.1;
-                }
+                return Math.Pow(yuanValue, (double)1 / 3);
             }
-
-            if (VBase > 0)
-            {
-                if (VoL == "1000kV" || VoL == "±800" || VoL == "±1100kV")
-                {
-                    a = 1.2;
-                }
-                else
-                {
-                    a = 1;
-                }
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iceThickness">冰厚</param>
+        /// <param name="dia">导线外径</param>
+        /// <returns></returns>
+        protected static double UscValue (double iceThickness, double dia)
+        {
+            if (iceThickness > 0){
+                return 1.2;
             }
-            else
-            {
-                a = 1;
-            }
-
-            double BB = 1;
-            if (b < 10 && b >= 5)
-            {
-                BB = 1.1;
-            }
-            else if (b < 15 && b >= 10)
-            {
-                BB = 1.2;
-            }
-            else if (b < 20 && b >= 15)
-            {
-                BB = 1.3;
-            }
-            else if (b < 30 && b >= 20)
-            {
-                BB = 1.5;
-            }
-            else if (b < 50 && b >= 30)
-            {
-                BB = 1.8;
-            }
-            else if (b >= 50)
-            {
-                BB = 2;
-            }
-
-            if (VoL == "500kV" || VoL == "750kV" || VoL == "1000kV" || VoL == "±500" || VoL == "±800" || VoL == "±1100kV")
-            {
-                if (VBase < 20){
-                    Bc = 1;
-                }
-                else if (VBase >= 20 && VBase < 27){
-                    Bc = 1.1;
-                }
-                else if (VBase >= 27 && VBase < 31.5){
-                    Bc = 1.2;
+            else{
+                if (dia < 17){
+                    return 1.2;
                 }
                 else{
-                    Bc = 1.3;
+                    return 1.1;
                 }
             }
-            else
-            {
-                Bc = 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="windSpeedBase">基本风速</param>
+        /// <returns></returns>
+        protected static double aValue(double windSpeedBase)
+        {
+            if (windSpeedBase < 20){
+                return 1;
             }
-            return Bc.ToString() + "*" + a.ToString() + "*" + Usc.ToString() + "*" + BB.ToString() + "*(" + d.ToString() + "+2*" + b.ToString() + ")*" + v.ToString() + "^2/1.6/9.80665";
-            //WindPaT = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
+            else if (windSpeedBase >= 20 && windSpeedBase < 27){
+                return 0.85;
+            }
+            else if (windSpeedBase >= 27 && windSpeedBase < 31.5){
+                return 0.75;
+            }
+            else{
+                //else if (VBase >= 31.5) {
+                return 0.7;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="windSpeedBase">基本风速</param>
+        /// <param name="VoL">电压</param>
+        /// <returns></returns>
+        protected static double GetA(double windSpeedBase, string VoL)
+        {
+            if (windSpeedBase > 0)
+            {
+                if (VoL == "1000kV" || VoL == "±800" || VoL == "±1100kV"){
+                    return 1.2;
+                }
+                else{
+                    return 1;
+                }
+            }
+            else{
+                return 1;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iceThickness">冰厚</param>
+        /// <returns></returns>
+        protected static double BBValue(double iceThickness)
+        {
+            if (iceThickness < 10 && iceThickness >= 5) {
+                return 1.1;
+            }
+            else if (iceThickness < 15 && iceThickness >= 10){
+                return 1.2;
+            }
+            else if (iceThickness < 20 && iceThickness >= 15){
+                return 1.3;
+            }
+            else if (iceThickness < 30 && iceThickness >= 20){
+                return 1.5;
+            }
+            else if (iceThickness < 50 && iceThickness >= 30){
+                return 1.8;
+            }
+            else if (iceThickness >= 50){
+                return 2;
+            }
+            else {
+                return 1;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iceThickness">冰厚</param>
+        /// <returns></returns>
+        protected static double BBValue2(double iceThickness)
+        {
+            if (iceThickness < 9.99 && iceThickness >= 5){
+                return 1.1;
+            }
+            else if (iceThickness < 14.99 && iceThickness >= 9.99){
+                return 1.2;
+            }
+            else if (iceThickness < 19.99 && iceThickness >= 14.99){
+                return 1.3;
+            }
+            else if (iceThickness < 29.99 && iceThickness >= 19.99){
+                return 1.5;
+            }
+            else if (iceThickness < 49.99 && iceThickness >= 29.99){
+                return 1.8;
+            }
+            else if (iceThickness >= 49.99){
+                return 2;
+            }
+            else{
+                return 1;
+            }
+        }
+
+        //Bc的确定
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="VoL">电压</param>
+        /// <param name="windSpeedBase">基本风速</param>
+        /// <returns></returns>
+        public static double BcValue(string VoL, double windSpeedBase)
+        {
+            if (VoL == "500kV" || VoL == "750kV" || VoL == "1000kV" || VoL == "±500" || VoL == "±800" || VoL == "±1100kV")
+            {
+                if (windSpeedBase < 20){
+                    return 1;
+                }
+                else if (windSpeedBase >= 20 && windSpeedBase < 27){
+                    return 1.1;
+                }
+                else if (windSpeedBase >= 27 && windSpeedBase < 31.5){
+                    return 1.2;
+                }
+                else{
+                    //if( VBase >= 31.5 ){
+                    return 1.3;
+                }
+            }
+            else{
+                return 1;
+            }
         }
     }
 }

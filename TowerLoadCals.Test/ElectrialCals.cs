@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TowerLoadCals.BLL.Electric;
 using TowerLoadCals.Common;
-using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.Test
@@ -27,9 +25,9 @@ namespace TowerLoadCals.Test
             pro.VoltStr = "500kV";
             pro.ACorDC = 0;
 
-            ElecCalsWire DxData = new ElecCalsWire("JL/G1A-630/45", 1, 674, 33.8, 2079, 63000, 6424,20.9, 150450, 0, 25,4);
-            ElecCalsWire GrdData = new ElecCalsWire( "JLB20A-120", 2, 121.21, 14.25, 810, 147200, 15100, 13, 146180, 1, 10);
-            ElecCalsWire OPGWData = new ElecCalsWire("OPGW-15-120-1", 3, 120, 15.2, 832, 162000, 16519,13, 147000, 2, 10);
+            ElecCalsWire DxData = new ElecCalsWire("JL/G1A-630/45", 1, 674, 33.8, 2079, 63000,20.9, 150450, 0, 25,4);
+            ElecCalsWire GrdData = new ElecCalsWire( "JLB20A-120", 2, 121.21, 14.25, 810, 147200, 13, 146180, 1, 10);
+            ElecCalsWire OPGWData = new ElecCalsWire("OPGW-15-120-1", 3, 120, 15.2, 832, 162000,13, 147000, 2, 10);
 
 
             ElecCalsWeaRes OneWeath15 = new ElecCalsWeaRes("15mm27m/s", 1);

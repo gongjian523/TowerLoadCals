@@ -212,7 +212,7 @@ namespace TowerLoadCals.BLL.Electric
         {
             foreach (var weaItem in WireData.WeatherParas.WeathComm)
             {
-                double wload = Math.Round(ElecCalsToolBox2.StringWind(HangStr.PieceNum, HangStr.LNum, HangStr.GoldPieceNum, weaItem.IceThickness, weaItem.WindSpeed, weaItem.BaseWindSpeed), 3);
+                double wload = Math.Round(ElecCalsToolBox2.StringWind(HangStr.PieceNum, HangStr.LNum, HangStr.GoldPieceNum, weaItem.IceThickness, weaItem.WindSpeed, weaItem.BaseWindSpeed, out string str1), 3);
                 double vload = HangStr.Weight + WeightIceIn(weaItem.IceThickness) * (HangStr.PieceNum * HangStr.LNum + HangStr.GoldPieceNum);
 
                 StrLoad.Add(weaItem.Name, new StrLoadResult
@@ -245,9 +245,9 @@ namespace TowerLoadCals.BLL.Electric
                 rslt.WindSpeed = (anWea != null && anWea.WindSpeed > weaItem.WindSpeed) ? anWea.WindSpeed : weaItem.WindSpeed;
                 rslt.BaseWindSpeed = (anWea != null && anWea.BaseWindSpeed > weaItem.BaseWindSpeed) ? anWea.BaseWindSpeed : weaItem.BaseWindSpeed;
 
-                rslt.JumpStrWindLoad = Math.Round(ElecCalsToolBox2.StringWind(JumpStr.PieceNum, JumpStr.LNum, JumpStr.GoldPieceNum, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed), 3);
-                rslt.JumpWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JmWireData.Dia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed)/1000, 3) * JumpStr.SoftLineLen;
-                rslt.SuTubleWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JumpStr.SuTubleDia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed)/1000, 3) * JumpStr.SuTubleLen;
+                rslt.JumpStrWindLoad = Math.Round(ElecCalsToolBox2.StringWind(JumpStr.PieceNum, JumpStr.LNum, JumpStr.GoldPieceNum, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed, out string str1), 3);
+                rslt.JumpWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JmWireData.Dia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed, out string str2) /1000, 3) * JumpStr.SoftLineLen;
+                rslt.SuTubleWindLoad = Math.Round(ElecCalsToolBox2.WindPaT(volt, JumpStr.SuTubleDia, rslt.IceThickness, rslt.WindSpeed, rslt.BaseWindSpeed, out string str3) /1000, 3) * JumpStr.SuTubleLen;
 
                 JumpStrLoad.Add(weaItem.Name, rslt);
             }

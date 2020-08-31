@@ -198,6 +198,7 @@ namespace TowerLoadCals.DAL.Common
                 XmlElement row = doc.CreateElement("Sequence");
                 row.SetAttribute("ID", item.ID.ToString());//序号
                 row.SetAttribute("IsChecking", item.IsChecking.ToString());//是否需要验算
+                row.SetAttribute("TowerType", item.TowerType.ToString());//原始塔型类型
                 row.SetAttribute("WeatherCondition", item.WeatherCondition == null ? "" : item.WeatherCondition.ToString());//气象条件
                 row.SetAttribute("TowerName", item.TowerName.ToString());//塔位号
                 row.SetAttribute("NameOfPositioningPile", item.NameOfPositioningPile.ToString());//塔位点
@@ -224,6 +225,15 @@ namespace TowerLoadCals.DAL.Common
                 row.SetAttribute("GroundWireModel", item.GroundWireModel.ToString());//地线型号
                 row.SetAttribute("GroundWireInsulationStringModel", item.GroundWireInsulationStringModel == null ? "" : item.GroundWireInsulationStringModel.ToString());//地线串型号
                 row.SetAttribute("GroundWireInsulationStringNumber", "0");//地线串数量
+
+
+                //验算相关参数
+                row.SetAttribute("WireCounterWeightNum", "0");//导线防震锤数量
+                row.SetAttribute("GroundCounterWeightNum", "0");//地线防震锤数量
+                row.SetAttribute("WireSpacerNum", "0");//导线间隔棒数量
+                row.SetAttribute("EngineerPar", "0");//工程参数
+                row.SetAttribute("FrontPar", "0");//前侧相参数
+                row.SetAttribute("BackPar", "0");//后侧相参数
 
                 root.AppendChild(row);
             }
@@ -280,6 +290,7 @@ namespace TowerLoadCals.DAL.Common
             {
                 TowerSerial item = new TowerSerial();
                 item.ID = int.Parse(xmlNode.Attributes.GetNamedItem("ID").InnerText);//序号
+                item.IsChecking =bool.Parse(xmlNode.Attributes.GetNamedItem("IsChecking").InnerText);//气象条件
                 item.WeatherCondition = xmlNode.Attributes.GetNamedItem("WeatherCondition").InnerText;//气象条件
                 item.TowerName = xmlNode.Attributes.GetNamedItem("TowerName").InnerText;//塔位号
                 item.NameOfPositioningPile = xmlNode.Attributes.GetNamedItem("NameOfPositioningPile").InnerText;//塔位点
@@ -302,7 +313,6 @@ namespace TowerLoadCals.DAL.Common
                 item.GroundWireInsulationStringModel = xmlNode.Attributes.GetNamedItem("GroundWireInsulationStringModel").InnerText;//地线串型号
                 item.GroundWireInsulationStringNumber = xmlNode.Attributes.GetNamedItem("GroundWireInsulationStringNumber").InnerText;//地线串数量
 
-
                 if (towerNameList.Contains(item.TowerPattern))//塔型判断
                 {
                     item.ExistsTowerPattern = true;
@@ -320,89 +330,109 @@ namespace TowerLoadCals.DAL.Common
                     item.ExistsWireInsulationString = true;
                 }
 
-                JudgeCheck(towerList, item);//判断是否需要验算
-
                 towerSeriList.Add(item);
             }
             return towerSeriList;
         }
+        #endregion
 
+
+        #region 验算计算 根据所选杆塔序列读取不同模式下的相关信息
         /// <summary>
-        /// 考虑后期可能直接进行修改时进行判断，单独提取方法
+        /// 验算计算 根据所选杆塔序列读取不同模式下的相关信息
         /// </summary>
-        /// <param name="towerList">杆塔列表</param>
-        /// <param name="item">序列塔位号实体</param>
-        public static void JudgeCheck(List<TowerStrData> towerList, TowerSerial item)
+        /// <param name="projectDir">路径</param>
+        /// <param name="navg">杆塔序列名称</param>
+        /// <param name="Type">悬垂塔  耐张塔</param>
+        /// <returns></returns>
+        public static List<TowerSerial> ReadXmlBySequenceNameAndTowerType(string projectDir, string sequenceName, string Type)
         {
-            TowerStrData tower;//塔型实体
-            List<string> StrHeight;//直线塔呼高
-            double StrAllowHorSpan;// 直线塔档距序列字符串
+            //判断塔型
+            string basePath = projectDir + "\\" + ConstVar.DataBaseStr + "\\TowerStr.xml";
+            List<TowerStrData> towerList = TowerStrDataReader.ReadLoadFile(basePath).ToList();
 
-            //杆塔型号实体
-            tower = towerList.Where(t => t.Name == item.TowerPattern).FirstOrDefault();
+            string towerTypeStr = Type == "悬垂塔" ? "悬垂塔,直线塔,直线转角塔" : "耐张塔,转角塔,终端塔";
 
-            if (tower != null)//塔型判断
+            //读取序列信息，并进行逻辑判断
+            string loadPath = projectDir + "\\" + ConstVar.TowerSequenceStr + "\\" + sequenceName + "\\TowerSequenceStr.xml";
+
+            List<TowerSerial> towerSeriList = new List<TowerSerial>();
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(loadPath);
+
+            XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
+            int index = 1;
+            string towerType = "";
+            foreach (XmlNode xmlNode in rootNode.ChildNodes)
             {
-                if (tower.TypeName == "直线塔" || tower.TypeName == "直线转角塔" || tower.TypeName == "终端塔" || tower.TypeName == "分支塔")
+                try
                 {
-                    //                      水平档距的验算
-                    //实际使用直线塔水平档距大于铁塔使用条件中水平档距的
-                    StrHeight = tower.StrHeightSer.Split(',').ToList();
-                    int index = StrHeight.IndexOf(item.CallItHigh.ToString());
-                    StrAllowHorSpan = double.Parse(tower.StrAllowHorSpan.Split(',').ToList()[index]);
-
-                    if (item.HorizontalSpan > StrAllowHorSpan && item.IsChecking == false)//如果水平档距大于了设定呼高设置最大值
-                    {
-                        item.IsChecking = true;
-                    }
-                    //                     垂直档距验算
-                    //实际使用直线塔垂直档距大于铁塔使用条件中垂直档距的
-                    if (double.Parse(item.VerticalSpan) > tower.AllowedVerSpan && item.IsChecking == false)
-                    {
-                        item.IsChecking = true;
-                    }
-                    if (tower.TypeName == "直线塔")//直线塔判断
-                    {
-                        //                    带角度直线塔验算
-                        //实际使用时直线塔带角度的，全部进行验算
-                        if (item.TurningAngle != 0 && item.IsChecking == false)
-                        {
-                            item.IsChecking = true;
-                        }
-                    }
-                    else if (tower.TypeName == "直线转角塔" || tower.TypeName == "终端塔" || tower.TypeName == "分支塔")//直线转角塔判断
-                    {
-                        //                        带角度直线塔验算
-                        //转角度数超过塔库中使用条件最大转角的，就验算。
-                        if (item.TurningAngle > tower.MaxAngel && item.IsChecking == false)
-                        {
-                            item.IsChecking = true;
-                        }
-                    }
+                    towerType = towerList.Where(item => item.Name == xmlNode.Attributes.GetNamedItem("TowerPattern").InnerText).First().TypeName;//塔型类型
                 }
-                else //耐张塔
+                catch (Exception)
                 {
-                    if (item.HorizontalSpan > tower.AllowedHorSpan && item.IsChecking == false)//水平档距
-                    {
-                        item.IsChecking = true;
-                    }
-                    if (item.HorizontalSpan > tower.MaxAngHorSpan && item.IsChecking == false)//水平档距
-                    {
-                        item.IsChecking = true;
-                    }
-                    if (item.HorizontalSpan > (tower.AllowedHorSpan + (tower.MaxAngel - item.TurningAngle) * tower.AngelToHorSpan) && item.IsChecking == false)//水平档距
-                    {
-                        item.IsChecking = true;
-                    }
-                    if (Math.Abs(item.VerticalSpan.Split('/').Sum(k=>double.Parse(k))) > tower.AllowedVerSpan)//垂直档距验算
-                    {
-                        item.IsChecking = true;
-                    }
+                    towerType = "";
                 }
+                if (towerType!=""&&towerTypeStr.Contains(towerType) && bool.Parse(xmlNode.Attributes.GetNamedItem("IsChecking").InnerText))//判断塔型及是否勾选验算
+                {
+                    TowerSerial item = new TowerSerial();
+                    item.ID = index;//序号
+                    item.TowerName = xmlNode.Attributes.GetNamedItem("TowerName").InnerText;//塔位号
+                    item.NameOfPositioningPile = xmlNode.Attributes.GetNamedItem("NameOfPositioningPile").InnerText;//塔位点
+                    item.TowerPattern = xmlNode.Attributes.GetNamedItem("TowerPattern").InnerText;//塔型
+                    item.WireCounterWeightNum = int.Parse(xmlNode.Attributes.GetNamedItem("WireCounterWeightNum").InnerText);//导线防震锤数量
+                    item.GroundCounterWeightNum = int.Parse(xmlNode.Attributes.GetNamedItem("GroundCounterWeightNum").InnerText);//地线防震锤数量
+                    item.WireSpacerNum = int.Parse(xmlNode.Attributes.GetNamedItem("WireSpacerNum").InnerText);//导线间隔棒数量
+                    item.EngineerPar = int.Parse(xmlNode.Attributes.GetNamedItem("EngineerPar").InnerText);//工程参数
+                    item.FrontPar = int.Parse(xmlNode.Attributes.GetNamedItem("FrontPar").InnerText);//前侧相参数
+                    item.BackPar = int.Parse(xmlNode.Attributes.GetNamedItem("BackPar").InnerText);//后侧相参数
 
+                    towerSeriList.Add(item);
+
+                    index++;
+                }
             }
+            return towerSeriList;
         }
         #endregion
 
+
+        #region 保存 验算计算根据所选杆塔序列读取不同模式下的相关信息
+        /// <summary>
+        ///保存  验算计算 根据所选杆塔序列读取不同模式下的相关信息
+        /// </summary>
+        /// <param name="projectDir">路径</param>
+        /// <param name="navg">杆塔序列名称</param>
+        /// <returns></returns>
+        public static void SaveXmlBySequenceNameAndTowerType(string projectDir, string sequenceName, List<TowerSerial> list)
+        {
+            //读取序列信息，并进行逻辑判断
+            string path = projectDir + "\\" + ConstVar.TowerSequenceStr + "\\" + sequenceName + "\\TowerSequenceStr.xml";
+
+            //加载xml文件
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+            XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
+            foreach (TowerSerial item in list)
+            {
+                foreach (XmlNode xmlNode in rootNode.ChildNodes)
+                {
+
+                    if (xmlNode.Attributes.GetNamedItem("TowerName").InnerText == item.TowerName)
+                    {
+                        xmlNode.Attributes.GetNamedItem("WireCounterWeightNum").InnerText = item.WireCounterWeightNum.ToString();//导线防震锤数量
+                        xmlNode.Attributes.GetNamedItem("GroundCounterWeightNum").InnerText = item.GroundCounterWeightNum.ToString();//地线防震锤数量
+                        xmlNode.Attributes.GetNamedItem("WireSpacerNum").InnerText = item.WireSpacerNum.ToString();//导线间隔棒数量
+                        xmlNode.Attributes.GetNamedItem("EngineerPar").InnerText = item.EngineerPar.ToString();//工程参数
+                        xmlNode.Attributes.GetNamedItem("FrontPar").InnerText = item.FrontPar.ToString();//前侧相参数
+                        xmlNode.Attributes.GetNamedItem("BackPar").InnerText = item.BackPar.ToString();//后侧相参数
+                        break;
+                    }
+                }
+            }
+            doc.Save(path);
+        }
+        #endregion
     }
 }

@@ -1,6 +1,8 @@
 ﻿namespace TowerLoadCals.BLL.Electric
 {
     //档中金具结构
+    //CounterWeight 
+    //Spacer 
     public class ElecCalsSpanFit
     {
         /// <summary>

@@ -448,15 +448,11 @@ namespace TowerLoadCals.BLL.Electric
 
         public void  UpateIceCovrage(string towerType, List<ElecCalsWorkCondition> backWkCdts, string backIceArea, List<ElecCalsWorkCondition> frontWkCdts, string frontIceArea)
         {
-            double backIceThick = 0, frontIceThick = 0;
+            var backIceWkCdt = backWkCdts.Where(item => item.Name == "最大覆冰").FirstOrDefault();
+            double backIceThick = backIceWkCdt == null ? 0 : backIceWkCdt.IceThickness;
 
-            if(backWkCdts.Where(item => item.Name == "最大覆冰").Count() > 0) {
-                backIceThick = backWkCdts.Where(item => item.Name == "最大覆冰").First().IceThickness;
-        }
-            if (frontWkCdts.Where(item => item.Name == "最大覆冰").Count() > 0)
-        {
-                frontIceThick = frontWkCdts.Where(item => item.Name == "最大覆冰").First().IceThickness;
-        }
+            var frontIceWkCdt = frontWkCdts.Where(item => item.Name == "最大覆冰").FirstOrDefault();
+            double frontIceThick = frontIceWkCdt == null ? 0 : frontIceWkCdt.IceThickness;
 
             Catagory = ElecCalsToolBox.GetCatogory(Volt.ToString());
             BreakIceCoverPer = ElecCalsToolBox.UBlanceR(towerType, backIceThick, frontIceThick, Catagory);
