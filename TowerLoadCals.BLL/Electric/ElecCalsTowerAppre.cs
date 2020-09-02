@@ -91,7 +91,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
-        /// 设置传统参数
+        /// 设置传统参数 耐张塔
         /// </summary>
         /// <param name="upSideInHei"></param>
         /// <param name="midInHei"></param>
@@ -108,6 +108,22 @@ namespace TowerLoadCals.BLL.Electric
             UpSideJuHei = upSideJuHei;
             MidJuHei = midJuHei;
             DnSideJuHei = dnSideJuHei;
+        }
+
+
+        /// <summary>
+        /// 设置传统参数 悬垂塔
+        /// </summary>
+        /// <param name="upSideInHei"></param>
+        /// <param name="midInHei"></param>
+        /// <param name="dnSideInHei"></param>
+        /// <param name="grDHei"></param>
+        public void SetTraPara(double upSideInHei, double midInHei, double dnSideInHei, double grDHei)
+        {
+            UpSideInHei = upSideInHei;
+            MidInHei = midInHei;
+            DnSideInHei = dnSideInHei;
+            GrDHei = grDHei;
         }
     }
 }

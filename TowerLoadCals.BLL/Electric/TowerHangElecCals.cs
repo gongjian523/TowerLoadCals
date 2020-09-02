@@ -8,7 +8,10 @@ namespace TowerLoadCals.BLL.Electric
 
         public TowerHangElecCals()
         {
-            
+            for (int i = 0; i < 10; i++)
+            {
+                PhaseTraList.Add(new ElecCalsPhaseStrHang());
+            }
         }
 
         /// <summary>

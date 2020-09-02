@@ -192,6 +192,7 @@ namespace TowerLoadCals.BLL.Electric
         /// 断线覆冰率
         /// </summary>
         public double BreakIceCoverPer { get; set; }
+        public double BreakIceCoverPerII { get; set; }
 
         /// <summary>
         /// 断线覆冰参数 1：考虑断线覆冰率 2：不考虑断线覆冰率
@@ -387,7 +388,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
-        /// 计算方法参数
+        /// 计算方法参数 耐张塔
         /// </summary>
         /// <param name="wireWindPara">导地线高空风压系数计算模式，1：线平均高 2:按照下相挂点高反算</param>
         /// <param name="jmpWindPara">跳线高空风压系数计算模式，1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度</param>
@@ -396,10 +397,10 @@ namespace TowerLoadCals.BLL.Electric
         /// <param name="grdIceCheckPara">地线验算张力取值，1:不考虑增加5mm，2：考虑增加5mm</param>
         /// <param name="handForcePara">锚线张力取值方法，1:取两者最大值，2:系数法，3：降温法</param>
         /// <param name="breakInPara">断线张力填法：1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)</param>
-        /// <param name="unbaMaxPara">不均匀冰张力取值，1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)</param>
+        /// <param name="unbaInPara">不均匀冰张力取值，1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)</param>
         /// <param name="breakMaxPara">断线最大张力取值，1：最大允许张力，2：100%覆冰率断线情况</param>
         /// <param name="unbaMaxPara">不均匀冰最大张力取值，1：最大允许张力，2：100%覆冰率断线情况</param>
-        public void CalMethodPara(int wireWindPara= 1, int jmpWindPara= 1, int grdIceForcePara= 1, int grdIceUnbaPara= 1,
+        public void CalMethodParaStrain(int wireWindPara= 1, int jmpWindPara= 1, int grdIceForcePara= 1, int grdIceUnbaPara= 1,
             int grdIceCheckPara= 1, int handForcePara= 1, int breakInPara= 1, int unbaInPara = 1, int breakMaxPara= 1, int unbaMaxPara= 1)
         {
             WireWindPara = wireWindPara;
@@ -413,6 +414,32 @@ namespace TowerLoadCals.BLL.Electric
             BreakMaxPara = breakMaxPara;
             UnbaMaxPara = unbaMaxPara;      
         }
+
+
+        /// <summary>
+        /// 计算方法参数 悬垂塔
+        /// </summary>
+        /// <param name="grdIceForcePara">地线覆冰张力计算模式，1：加5mm冰计算张力，2：不增加5mm冰计算</param>
+        /// <param name="grdIceUnbaPara">地线不平衡张力取值，1:轻冰区不考虑增加5mm，2：重冰区增加5mm</param>
+        /// <param name="grdIceCheckPara">地线验算张力取值，1:不考虑增加5mm，2：考虑增加5mm</param>
+        /// <param name="iceThichkness">最大覆冰（电线覆冰）的冰厚</param>
+        /// <param name="breakMaxPara">断线最大张力取值，1：最大允许张力，2：100%覆冰率断线情况</param>
+        /// <param name="unbaInPara">不均匀冰最大张力取值，1：最大允许张力，2：100%覆冰率断线情况</param>
+        public void CalMethodParaHang(int grdIceForcePara = 1, int grdIceUnbaPara = 1, int grdIceCheckPara = 1, double iceThichkness = 0, 
+             int breakMaxPara = 1, int unbaInPara = 1)
+        {
+            GrdIceForcePara = grdIceForcePara;
+            GrdIceUnbaPara = grdIceUnbaPara;
+            GrdIceCheckPara = grdIceCheckPara;
+
+            BreakMaxPara = breakMaxPara;
+            UnbaMaxPara = iceThichkness <= 15 ? 1 : 2; 
+            BreakInPara = iceThichkness <= 15 ? 2 : 1;
+            UnbaInPara = unbaInPara;
+        }
+
+
+
 
         /// <summary>
         /// 
@@ -445,7 +472,14 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
-
+        /// <summary>
+        /// 更新耐张塔的覆冰率
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="backWkCdts"></param>
+        /// <param name="backIceArea"></param>
+        /// <param name="frontWkCdts"></param>
+        /// <param name="frontIceArea"></param>
         public void  UpateIceCovrage(string towerType, List<ElecCalsWorkCondition> backWkCdts, string backIceArea, List<ElecCalsWorkCondition> frontWkCdts, string frontIceArea)
         {
             var backIceWkCdt = backWkCdts.Where(item => item.Name == "最大覆冰").FirstOrDefault();
@@ -455,7 +489,8 @@ namespace TowerLoadCals.BLL.Electric
             double frontIceThick = frontIceWkCdt == null ? 0 : frontIceWkCdt.IceThickness;
 
             Catagory = ElecCalsToolBox.GetCatogory(Volt.ToString());
-            BreakIceCoverPer = ElecCalsToolBox.UBlanceR(towerType, backIceThick, frontIceThick, Catagory);
+            //BreakIceCoverPer = ElecCalsToolBox.UBlanceR(towerType, backIceThick, frontIceThick, Catagory);
+            BreakIceCoverPer = ElecCalsToolBox.UBlanceR(towerType, Math.Max(backIceThick, frontIceThick), Catagory);
             //1：考虑断线覆冰率 2：不考虑断线覆冰率
             BreakIceCoverPara = (Math.Max(backIceThick, frontIceThick) >= 20) ? 1 : 2;
 
@@ -479,11 +514,48 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
-        public string PrintIceCovrage()
+        /// <summary>
+        /// 更新悬垂塔的的覆冰率
+        /// </summary>
+        /// <param name="wkDdts"></param>
+        /// <param name="iceArea"></param>
+        public void UpateIceCovrage(List<ElecCalsWorkCondition> wkDdts, string iceArea)
         {
-            return "\n断线覆冰率: " + BreakIceCoverPer.ToString("0.00") + "  " + (BreakIceCoverPer == 1 ? "考虑断线覆冰率" : "不考虑断线覆冰率")
+            //在悬垂塔的BreakIceCoverPerII，UnbaIceCoverPerII指的应该是地线开断的情况
+            var backIceWkCdt = wkDdts.Where(item => item.Name == "最大覆冰").FirstOrDefault();
+            double iceThick = backIceWkCdt == null ? 0 : backIceWkCdt.IceThickness;
+
+            Catagory = ElecCalsToolBox.GetCatogory(Volt.ToString());
+            BreakIceCoverPer = ElecCalsToolBox.UBlanceR("悬垂塔", iceThick, Catagory);
+            BreakIceCoverPerII = ElecCalsToolBox.UBlanceR("耐张塔", iceThick, Catagory);
+
+            //1：考虑断线覆冰率 2：不考虑断线覆冰率
+            BreakIceCoverPara = iceThick >= 20  ? 1 : 2;
+
+            if (iceArea == "轻冰区")
+            {
+                UnbaIceCoverPerI = 1;
+                UnbaIceCoverPerII = 1;
+            }
+            else
+            {
+                UnbaIceCoverPerI = ElecCalsToolBox.IBlanceR2("悬垂塔", Catagory);
+                UnbaIceCoverPerII = ElecCalsToolBox.IBlanceR2("耐张塔", Catagory);
+            }
+        }
+
+
+        public string PrintIceCovrageStrain()
+        {
+            return "\n断线覆冰率: " + BreakIceCoverPer.ToString("0.00") + "  " + (BreakIceCoverPara == 1 ? "考虑断线覆冰率" : "不考虑断线覆冰率")
                 + "    不均匀冰覆冰率: " + UnbaIceCoverPerI.ToString("0.00") + "  " + UnbaIceCoverPerII.ToString("0.00") + "    类别: " + Catagory;
-    }
+        }
+
+        public string PrintIceCovrageHang()
+        {
+            return "\n断线覆冰率: " + BreakIceCoverPer.ToString("0.00") + "  "  + BreakIceCoverPerII.ToString("0.00") + "  " + (BreakIceCoverPara == 1 ? "考虑断线覆冰率" : "不考虑断线覆冰率")
+                + "    不均匀冰覆冰率: " + UnbaIceCoverPerI.ToString("0.00") + "  " + UnbaIceCoverPerII.ToString("0.00") + "    类别: " + Catagory;
+        }
 
     }
 }

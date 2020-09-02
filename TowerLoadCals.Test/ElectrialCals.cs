@@ -10,7 +10,7 @@ namespace TowerLoadCals.Test
     public class ElectrialCals
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestMethod1_TowerStrain()
         {
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
             {
@@ -28,7 +28,6 @@ namespace TowerLoadCals.Test
             ElecCalsWire DxData = new ElecCalsWire("JL/G1A-630/45", 1, 674, 33.8, 2079, 63000,20.9, 150450, 0, 25,4);
             ElecCalsWire GrdData = new ElecCalsWire( "JLB20A-120", 2, 121.21, 14.25, 810, 147200, 13, 146180, 1, 10);
             ElecCalsWire OPGWData = new ElecCalsWire("OPGW-15-120-1", 3, 120, 15.2, 832, 162000,13, 147000, 2, 10);
-
 
             ElecCalsWeaRes OneWeath15 = new ElecCalsWeaRes("15mm27m/s", 1);
             ElecCalsWeaRes AnoWeath15 = new ElecCalsWeaRes("15mm27m/s", 2);
@@ -197,7 +196,7 @@ namespace TowerLoadCals.Test
             CommParas.SetForIncrPara(1,1.05, 1,1.1,1.1, 1.1, 1.1, 1.1, 1.1);
             CommParas.SetForMaxMinPara(1.025, 1.025, 1.122, 1.08, 0.95, 0.95, 1, 1);
             CommParas.SetOverDrive(0,0);
-            CommParas.CalMethodPara(1,1,1,1,1,1,2,2,1,1);
+            CommParas.CalMethodParaStrain(1,1,1,1,1,1,2,2,1,1);
 
             ElecCalsSideRes OneWrieSidePara = new ElecCalsSideRes(0.95, 2.85, 25, 1, 4.1, 20, 1, 4.1, 20);
             OneWrieSidePara.IceArea = "中冰区";
@@ -255,7 +254,7 @@ namespace TowerLoadCals.Test
 
             //更新全局参数的断线覆冰率和不均冰覆冰率
             CommParas.UpateIceCovrage(CalTower.TowerType, BackSideCalRes.Weather.WeathComm, BackSideCalRes.SideParas.IceArea, FrontSideCalRes.Weather.WeathComm, FrontSideCalRes.SideParas.IceArea);
-            LogList.Add(CommParas.PrintIceCovrage());
+            LogList.Add(CommParas.PrintIceCovrageStrain());
 
             CalTower.GetAndUpdateSideRes(BackSideCalRes, FrontSideCalRes);
 
@@ -333,6 +332,169 @@ namespace TowerLoadCals.Test
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, LogList);
             return;
+        }
+
+
+        [TestMethod]
+        public void TestMethod2_TowerHang()
+        {
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "Txt Files (*.txt)|*.txt"
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            var pro = new ProjectInfo("新建工程", "施工图");
+            pro.Volt = 500;
+            pro.VoltStr = "500kV";
+            pro.ACorDC = 0;
+
+            ElecCalsWire DxData = new ElecCalsWire("JL/G2A-720/50-45/7", 1, 775.41, 36.23, 2397.7, 63000, 20.9, 150450, 0, 25, 4);
+            ElecCalsWire GrdData = new ElecCalsWire("JLB20A-150", 2, 148.07, 15.75, 989.4, 147200, 13, 178570, 1, 10);
+            ElecCalsWire OPGWData = new ElecCalsWire("JLB20A-150", 3, 148.07, 15.75, 989.4, 147200, 13, 178570, 2, 10);
+
+            ElecCalsWeaRes Weath15 = new ElecCalsWeaRes("15mm27m/s", 1);
+            List<ElecCalsWorkCondition> wkcList = new List<ElecCalsWorkCondition>()
+            {
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最大风速",
+                    Temperature = 0,
+                    WindSpeed = 31,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最低气温",
+                    Temperature = -20,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    //即Excel中的"电线覆冰"
+                    Name = "最大覆冰",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 20,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "平均气温",
+                    Temperature = 10,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最高气温",
+                    Temperature = 40,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "安装情况",
+                    Temperature = -10,
+                    WindSpeed = 10,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "不均匀风",
+                    Temperature = 0,
+                    WindSpeed = 31,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算冰",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 10,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算不均匀冰I",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 10,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算不均匀冰II",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 10,
+                },
+            };
+
+            Weath15.InsertGK(wkcList);
+
+            ElecCalsCommRes CommParas = new ElecCalsCommRes();
+            CommParas.Volt = pro.Volt;
+            CommParas.VoltStr = pro.VoltStr;
+            CommParas.Terrain = "山地";
+            CommParas.TerType = 'B';
+            CommParas.TerrainPara = 0.16;
+            CommParas.IndAveHei = 20;
+            CommParas.GrdAveHei = 20;
+            CommParas.GrdCl = 12;
+            CommParas.SetForIncrPara();
+            CommParas.SetForMaxMinPara(1.025, 1.025, 1.15/1.025, 1.1/1.025, 0.95, 0.95, 1, 1);
+
+            var iceThick = wkcList.Find(item => item.Name == "最大覆冰").IceThickness;
+            CommParas.CalMethodParaHang(1, 1, 1, iceThick, 1, 2);
+
+            ElecCalsSideRes OneWrieSidePara = new ElecCalsSideRes(0.95, 2.5, 25, 1, 4, 25, 1, 4, 25);
+            OneWrieSidePara.IceArea = "重冰区";
+
+            ElecCalsTowerAppre BackAppre = new ElecCalsTowerAppre();
+            BackAppre.SetTraPara(27.5, 13.3, 0, 35.3);
+            ElecCalsTowerAppre CalsAppre = new ElecCalsTowerAppre();
+            CalsAppre.SetTraPara(26.1, 12.4, 0, 28.8);
+            ElecCalsTowerAppre FrontAppre = new ElecCalsTowerAppre();
+            FrontAppre.SetTraPara(27.5, 13.3, 0, 35.3);
+
+            ElecCalsSpanFit SpanFit = new ElecCalsSpanFit(0, 5, 10, 0, 4, 5, 0, 18, 10);
+
+            TowerHangElecCals BackTower = new TowerHangElecCals();
+            TowerHangElecCals CalTower = new TowerHangElecCals();
+            TowerHangElecCals FrontTower = new TowerHangElecCals();
+
+            BackTower.SetPosInf("N6098", "SJ252D", 29, 1254.09997558594, -3, 0, 0, 0);
+            BackTower.TowerAppre = BackAppre;
+            BackTower.UpdataTowerTraHei();
+            BackTower.UpdateAtitudeTower();
+
+            CalTower.SetPosInf("N6099", "SZ253", 48, 1273, -4.7, 6, 0.3, 3);
+            CalTower.SetFrontBackPosInf(325, 430, 593, 593);
+            CalTower.TowerAppre = CalsAppre;
+            CalTower.UpdataTowerTraHei();
+            CalTower.UpdateAtitudeTower();
+
+            FrontTower.SetPosInf("N6100", "SJ252D", 33, 1309.69995117187, -5, 0, 0, 0);
+            FrontTower.TowerAppre = FrontAppre;
+            FrontTower.UpdataTowerTraHei();
+            FrontTower.UpdateAtitudeTower();
+
+            List<string> LogList = new List<string>();
+
+            LogList.AddRange(BackTower.PrintHei("小号塔", false));
+            LogList.AddRange(FrontTower.PrintHei("大号塔", false));
+            LogList.AddRange(CalTower.PrintHei("计算塔", false));
+
+            ElecCalsRes SideCalRes = new ElecCalsRes();
+            SideCalRes.SpanFit = SpanFit;
+            SideCalRes.UpdataSor(Weath15, DxData, GrdData, OPGWData, DxData, OneWrieSidePara, CommParas);
+
+            CommParas.UpateIceCovrage(SideCalRes.Weather.WeathComm, SideCalRes.SideParas.IceArea);
+            LogList.Add(CommParas.PrintIceCovrageHang());
+
+
+            FileUtils.TextSaveByLine(saveFileDialog.FileName, LogList);
         }
     }
 }

@@ -58,7 +58,9 @@
     <Compile Include="Common\ConfigSettingsFileUtis.cs" />
     <Compile Include="Common\GlobalInfo.cs" />
     <Compile Include="Common\ProjectUtils.cs" />
+    <Compile Include="Electric\ElecCalsPhaseStrStrain.cs" />
     <Compile Include="Electric\ElecCalsRes.cs" />
+    <Compile Include="Electric\ElecCalsPhaseStrHang.cs" />
     <Compile Include="Electric\ElecCalsToolBox3.cs" />
     <Compile Include="Electric\ElecCalsToolBox2.cs" />
     <Compile Include="Electric\ElecCalsToolBox.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Electric\ElecCalsSideRes.cs" />
     <Compile Include="Electric\ElecCalsSpanFit.cs" />
     <Compile Include="Electric\ElecCalsStrData.cs" />
-    <Compile Include="Electric\ElecCalsStressPhaseStr.cs" />
+    <Compile Include="Electric\ElecCalsPhaseStr.cs" />
     <Compile Include="Electric\ElecCalsTowerAppre.cs" />
     <Compile Include="Electric\ElecCalsTowerPosStr.cs" />
     <Compile Include="Electric\TowerHangElecCals.cs" />

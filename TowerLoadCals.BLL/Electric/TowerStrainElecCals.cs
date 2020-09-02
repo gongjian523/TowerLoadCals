@@ -11,8 +11,11 @@ namespace TowerLoadCals.BLL.Electric
         public override string TowerType { get { return "耐张塔"; } }
 
         public TowerStrainElecCals()
-        {
-            
+        {           
+            for (int i = 0; i < 10; i++)
+            {
+                PhaseTraList.Add(new ElecCalsPhaseStrStrain());
+            }
         }
 
         /// <summary>
@@ -59,53 +62,7 @@ namespace TowerLoadCals.BLL.Electric
             PhaseTraList[5].JumpStr = PhaseTraList[6].JumpStr = PhaseTraList[7].JumpStr = jumpStr;
         }
 
-        /// <summary>
-        /// 更新相后侧高差，档距等数据，传统模式  本塔-后侧铁塔
-        /// 有5个相位
-        /// </summary>
-        /// <param name="PntTower"></param>
-        public void FlashBackHeiSub(TowerElecCals pntTower)
-        {
-            PhaseTraList[0].SpaceStr.SubHei = AtiUpSide - pntTower.AtiUpSide;
-            PhaseTraList[0].SpaceStr.GDHei = AbsUpSideHei;
-            PhaseTraList[0].SpaceStr.Span = BackPosRes.Span;
-            PhaseTraList[1].SpaceStr.SubHei = AtiMid - pntTower.AtiMid;
-            PhaseTraList[1].SpaceStr.GDHei = AbsMidHei;
-            PhaseTraList[1].SpaceStr.Span = BackPosRes.Span;
-            PhaseTraList[2].SpaceStr.SubHei = AtiDownd - pntTower.AtiDownd;
-            PhaseTraList[2].SpaceStr.GDHei = AbsDownSideHei;
-            PhaseTraList[2].SpaceStr.Span = BackPosRes.Span;
-            PhaseTraList[3].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
-            PhaseTraList[3].SpaceStr.GDHei = AbsGrdHei;
-            PhaseTraList[3].SpaceStr.Span = BackPosRes.Span;
-            PhaseTraList[4].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
-            PhaseTraList[4].SpaceStr.GDHei = AbsGrdHei;
-            PhaseTraList[4].SpaceStr.Span = BackPosRes.Span;
-        }
 
-        /// <summary>
-        /// 更新前侧高差，传统模式  本塔-前侧铁塔
-        /// 有5个相位
-        /// </summary>
-        /// <param name="pntTower"></param>
-        public void FlashFrontHeiSub(TowerElecCals pntTower)
-        {
-            PhaseTraList[5].SpaceStr.SubHei = AtiUpSide - pntTower.AtiUpSide;
-            PhaseTraList[5].SpaceStr.GDHei = AbsUpSideHei;
-            PhaseTraList[5].SpaceStr.Span = FrontPosRes.Span;
-            PhaseTraList[6].SpaceStr.SubHei = AtiMid - pntTower.AtiMid;
-            PhaseTraList[6].SpaceStr.GDHei = AbsMidHei;
-            PhaseTraList[6].SpaceStr.Span = FrontPosRes.Span;
-            PhaseTraList[7].SpaceStr.SubHei = AtiDownd - pntTower.AtiDownd;
-            PhaseTraList[7].SpaceStr.GDHei = AbsDownSideHei;
-            PhaseTraList[7].SpaceStr.Span = FrontPosRes.Span;
-            PhaseTraList[8].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
-            PhaseTraList[8].SpaceStr.GDHei = AbsGrdHei;
-            PhaseTraList[8].SpaceStr.Span = FrontPosRes.Span;
-            PhaseTraList[9].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
-            PhaseTraList[9].SpaceStr.GDHei = AbsGrdHei;
-            PhaseTraList[9].SpaceStr.Span = FrontPosRes.Span;
-        }
 
         /// <summary>
         /// 更新风压系数

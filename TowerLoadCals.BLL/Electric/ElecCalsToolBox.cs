@@ -339,7 +339,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
-        /// 断线覆冰率
+        /// 断线覆冰率 耐张塔
         /// </summary>
         /// <param name="towerType"></param>
         /// <param name="iceThickness1"></param>
@@ -356,6 +356,23 @@ namespace TowerLoadCals.BLL.Electric
 
             var entity = elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).FirstOrDefault();
             return entity ==null ? 1 :(double)entity.Percent / 100;
+        }
+
+        /// <summary>
+        /// 断线覆冰率
+        /// </summary>
+        /// <param name="towerType"></param>
+        /// <param name="iceThickness"></param>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public static double UBlanceR(string towerType, double iceThickness, string category)
+        {
+            var elecCalsSpec = GlobalInfo.GetInstance().GetElecCalsSpecParas();
+            if (elecCalsSpec == null)
+                return 1;
+
+            var entity = elecCalsSpec.BreakIceRate.Where(item => item.TowerType == towerType && item.IceThickness == iceThickness && item.Category == category).FirstOrDefault();
+            return entity == null ? 1 : (double)entity.Percent / 100;
         }
 
         /// <summary>

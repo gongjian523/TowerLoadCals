@@ -153,6 +153,16 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double UnbaTensionPara { get; set; }
 
+        /// <summary>
+        ///断线张力系数地线开断
+        /// </summary>
+        public double BreakTensionGrdBrePara { get; set; }
+
+        /// <summary>
+        ///不均匀冰张力系数地线开断
+        /// </summary>
+        public double UnbaTensionGrdBrePara { get; set; }
+
         //临时变量
         public double MaxPerFor { get; set; }
         public double AvePerFor { get; set; }
@@ -200,29 +210,25 @@ namespace TowerLoadCals.BLL.Electric
 
         protected void UpdateTensinPara(string towerType, string iceArea)
         {
-            if(WeatherParas.WeathComm.Where(item => item.Name == "最大覆冰").Count() <= 0)
+            var iceWea = WeatherParas.WeathComm.Where(item => item.Name == "最大覆冰").FirstOrDefault();
+            if (iceWea == null)
             {
                 BreakTensionPara = 0;
                 UnbaTensionPara = 0;
                 return;
             }
 
-            double iceThick = WeatherParas.WeathComm.Where(item => item.Name == "最大覆冰").First().IceThickness;
+            double iceThick = iceWea.IceThickness;
 
-            //导线
-            if (bGrd == 0)
+            BreakTensionPara = ElecCalsToolBox.UBlanceK(towerType, iceArea, iceThick, CommParas.Terrain, bGrd == 0 ? "导线": "地线", DevideNum);
+            UnbaTensionPara = ElecCalsToolBox.IBlanceK(towerType, iceArea, iceThick, bGrd == 0 ? "导线" : "地线");
+
+            if (towerType == "悬垂塔")
             {
-                BreakTensionPara = ElecCalsToolBox.UBlanceK(towerType, iceArea, iceThick, CommParas.Terrain, "导线", DevideNum);
-                UnbaTensionPara = ElecCalsToolBox.IBlanceK(towerType, iceArea, iceThick, "导线");
-        }
-            //地线
-            else
-            {
-                BreakTensionPara = ElecCalsToolBox.UBlanceK(towerType, iceArea, iceThick, CommParas.Terrain, "地线");
-                UnbaTensionPara = ElecCalsToolBox.IBlanceK(towerType, iceArea, iceThick, "地线");
+                BreakTensionGrdBrePara = ElecCalsToolBox.UBlanceK("耐张塔", iceArea, iceThick, CommParas.Terrain, bGrd == 0 ? "导线" : "地线", DevideNum);
+                UnbaTensionGrdBrePara = ElecCalsToolBox.IBlanceK("耐张塔", iceArea, iceThick, bGrd == 0 ? "导线" : "地线");
             }
         }
-
 
 
         /// <summary>
