@@ -100,12 +100,12 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 前侧的计算资源
         /// </summary>
-        public ElecCalsRes BackSideRes { get; set; }
+        //public ElecCalsRes BackSideRes { get; set; }
 
         /// <summary>
         /// 后侧的计算资源
         /// </summary>
-        public ElecCalsRes FrontSideRes { get; set; }
+        //public ElecCalsRes FrontSideRes { get; set; }
 
         /// <summary>
         /// 铁塔外形数据
