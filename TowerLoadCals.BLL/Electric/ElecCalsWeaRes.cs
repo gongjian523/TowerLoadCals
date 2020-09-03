@@ -23,18 +23,10 @@ namespace TowerLoadCals.BLL.Electric
             get { return new List<string> { "最大风速", "最低气温", "最大覆冰", "平均气温" }; }
         }
 
-        public List<string> NameOfWkCdt
-        {
-            get { return new List<string> { "最大风速","最低气温","最大覆冰","平均气温","最高气温","安装情况","不均匀风",
-                "不均匀冰I","不均匀冰II", "验算冰","验算不均匀冰I","验算不均匀冰II","不均匀风",
-                "顺线路外角侧45风","逆线路外角侧45风","顺线路内角侧45风","逆线路内角侧45风"
-            }; }
-        }
-
         /// <summary>
         /// 用于打印日志
         /// </summary>
-        public List<string> NameOfWkCalsInd
+        public List<string> NameOfWkCalsIndStrain
         {
             get
             {
@@ -48,7 +40,39 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 用于打印日志
         /// </summary>
-        public List<string> NameOfWkCalsGrd
+        public List<string> NameOfWkCalsGrdStrain
+        {
+            get
+            {
+                return new List<string> { "最低气温","最大覆冰","平均气温","安装情况","最高气温", "验算冰",
+                "断线","不均匀冰I","不均匀冰II","验算不均匀冰I","验算不均匀冰II",
+                "换算最大风速","顺线路外角侧45风","逆线路外角侧45风","顺线路内角侧45风","逆线路内角侧45风",
+                "断线(导线+5mm)","地线覆冰","不均匀冰I(导线+5mm)","不均匀冰II(导线+5mm)",
+                "验算冰(导线+5mm)", "验算不均匀冰I(导线+5mm)","验算不均匀冰II(导线+5mm)",
+                "换算不均匀风","覆冰无风","覆冰无风+5","安装情况降温",
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// 用于打印日志
+        /// </summary>
+        public List<string> NameOfWkCalsIndHang
+        {
+            get
+            {
+                return new List<string> { "最低气温","最大覆冰","平均气温","安装情况","最高气温", "验算冰",
+                "换算最大风速","顺线路外角侧45风","逆线路外角侧45风","顺线路内角侧45风","逆线路内角侧45风",
+                 "断线","不均匀冰I","不均匀冰II","验算不均匀冰I","验算不均匀冰II",
+                 "换算不均匀风","覆冰无风","安装情况降温"};
+            }
+        }
+
+        /// <summary>
+        /// 用于打印日志
+        /// </summary>
+        public List<string> NameOfWkCalsGrdHang
         {
             get
             {

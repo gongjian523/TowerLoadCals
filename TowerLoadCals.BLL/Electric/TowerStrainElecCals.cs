@@ -253,7 +253,7 @@ namespace TowerLoadCals.BLL.Electric
                 
                 wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? BackSideRes.CommParas.IndExMaxPara : BackSideRes.CommParas.GrdExMaxPara;
 
-                foreach(var nameGk in PhaseTraList[i].WireData.WorkCdtNames)
+                foreach(var nameGk in PhaseTraList[i].WireData.WorkCdtNamesStrain)
                 {
                     double verSpan = PhaseTraList[i].UpdateVertialSpan(nameGk, out string verSpanStr);
                     double horFor = PhaseTraList[i].UpdateHorFor(nameGk, out string horForStr, diaInc);
@@ -338,7 +338,7 @@ namespace TowerLoadCals.BLL.Electric
 
                 wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? FrontSideRes.CommParas.IndExMaxPara : FrontSideRes.CommParas.GrdExMaxPara;
 
-                foreach (var nameGk in PhaseTraList[i].WireData.WorkCdtNames)
+                foreach (var nameGk in PhaseTraList[i].WireData.WorkCdtNamesStrain)
                 {
                     double verSpan = PhaseTraList[i].UpdateVertialSpan(nameGk, out string verSpanStr);
                     double horFor = PhaseTraList[i].UpdateHorFor(nameGk, out string horForStr, diaInc);
@@ -908,7 +908,8 @@ namespace TowerLoadCals.BLL.Electric
             List<string> rslt2 = new List<string>();
             List<string> rslt3 = new List<string>();
 
-            var wkCdtNames = PhaseTraList[0].WireData.WeatherParas.NameOfWkCalsInd;
+            //var wkCdtNames = PhaseTraList[0].WireData.WeatherParas.NameOfWkCalsInd;
+            var wkCdtNames = PhaseTraList[0].WireData.WorkCdtNamesStrain;
 
             foreach (var name in wkCdtNames)
             {
@@ -1012,7 +1013,7 @@ namespace TowerLoadCals.BLL.Electric
                 var phase = PhaseTraList[i];
                 var phaseAn = PhaseTraList[i + 5];
 
-                foreach (var name in phase.WireData.WorkCdtNames)
+                foreach (var name in phase.WireData.WorkCdtNamesStrain)
                 {
                     var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double verSpan = laod == null ? 0 : laod.VetiSpan;
@@ -1040,7 +1041,7 @@ namespace TowerLoadCals.BLL.Electric
                 var phase = PhaseTraList[i];
                 var phaseAn = PhaseTraList[i + 5];
 
-                foreach (var name in phase.WireData.WorkCdtNames)
+                foreach (var name in phase.WireData.WorkCdtNamesStrain)
                 {
                     var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double horFor = laod == null ? 0 : laod.HorFor;
@@ -1069,7 +1070,7 @@ namespace TowerLoadCals.BLL.Electric
                 var phase = PhaseTraList[i];
                 var phaseAn = PhaseTraList[i + 5];
 
-                foreach (var name in phase.WireData.WorkCdtNames)
+                foreach (var name in phase.WireData.WorkCdtNamesStrain)
                 {
                     var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double verWei = laod == null ? 0 : laod.VerWei;
@@ -1097,7 +1098,7 @@ namespace TowerLoadCals.BLL.Electric
                 var phase = PhaseTraList[i];
                 var phaseAn = PhaseTraList[i + 5];
 
-                foreach (var name in phase.WireData.WorkCdtNames)
+                foreach (var name in phase.WireData.WorkCdtNamesStrain)
                 {
                     var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double loStr = laod == null ? 0 : laod.LoStr;
@@ -1139,7 +1140,7 @@ namespace TowerLoadCals.BLL.Electric
                 var phase = PhaseTraList[i];
                 var phaseAn = PhaseTraList[i + 5];
 
-                foreach (var name in phase.WireData.WorkCdtNames)
+                foreach (var name in phase.WireData.WorkCdtNamesStrain)
                 {
                     var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double jumpHorFor = laod == null ? 0 : laod.JumpHorFor;
@@ -1167,7 +1168,7 @@ namespace TowerLoadCals.BLL.Electric
                 var phase = PhaseTraList[i];
                 var phaseAn = PhaseTraList[i + 5];
 
-                foreach (var name in phase.WireData.WorkCdtNames)
+                foreach (var name in phase.WireData.WorkCdtNamesStrain)
                 {
                     var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double jumpVerWei = laod == null ? 0 : laod.JumpVerWei;

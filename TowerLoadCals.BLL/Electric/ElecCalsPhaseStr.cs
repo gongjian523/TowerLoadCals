@@ -258,7 +258,7 @@ namespace TowerLoadCals.BLL.Electric
         /// 
         public void UpdateVertialSpan()
         {
-            foreach (var nameWd in WireData.WorkCdtNames)
+            foreach (var nameWd in WireData.WorkCdtNamesStrain)
             {
                 //这儿比载excel中用的是孤立档应力，用的是普通档应力
                 double rslt = VerticalSpan(SpaceStr.Span, SpaceStr.SubHei, WireData.YLTableXls[nameWd], WireData.BzDic[nameWd].BiZai, out string str);
@@ -290,7 +290,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public void UpdateHorFor(double diaInc)
         {
-            foreach (var nameWd in WireData.WorkCdtNames)
+            foreach (var nameWd in WireData.WorkCdtNamesStrain)
             {
                 double rslt = HorFor(diaInc, WireData.DevideNum, SpaceStr.Span, HangStr.DampLength, WireData.BzDic[nameWd].WindHezai, StrLoad[nameWd].WindLoad, out string str);
 
@@ -320,7 +320,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public void UpdateVerWei(double weiInc, int numJGB, double weiJGB, int numFZ, double weiFZ)
         {
-            foreach (var nameWd in WireData.WorkCdtNames)
+            foreach (var nameWd in WireData.WorkCdtNamesStrain)
             {
                 var wea = WireData.WeatherParas.WeathComm.Where(item => item.Name == nameWd).FirstOrDefault();
                 double iceThick = wea == null ? 0 : wea.IceThickness;
@@ -362,7 +362,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public void UpdateLoStr(double secInc,  double constrError, double isntallError, double extendPara)
         {
-            foreach (var nameWd in WireData.WorkCdtNames)
+            foreach (var nameWd in WireData.WorkCdtNamesStrain)
             {
                 double rslt;
                 string str;
@@ -407,7 +407,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public void CheckLoStr(List<LoadThrDe> anLoads, ElecCalsCommRes commPara)
         {
-            foreach (var nameWd in WireData.WorkCdtNames)
+            foreach (var nameWd in WireData.WorkCdtNamesStrain)
             {
                 int index = LoadList.FindIndex(item => item.GKName == nameWd);
                 if (index < 0)
@@ -458,7 +458,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public void UpdateJumpHorFor()
         {
-            foreach (var nameWd in WireData.WorkCdtNames)
+            foreach (var nameWd in WireData.WorkCdtNamesStrain)
             {
                 double rslt = JumpHorFor(JumpStrLoad[nameWd].JumpStrWindLoad, JumpStrLoad[nameWd].JumpWindLoad, JumpStrLoad[nameWd].SuTubleWindLoad, JmWireData.DevideNum, out string str);
 
@@ -488,7 +488,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public void UpdateJumpVerWei(double jgbWei, List<ElecCalsWorkCondition> anWeathComm)
         {
-            foreach (var nameWd in WireData.WorkCdtNames)
+            foreach (var nameWd in WireData.WorkCdtNamesStrain)
             {
                 var wea = JmWireData.WeatherParas.WeathComm.Where(item => item.Name == nameWd).FirstOrDefault();
                 var anWea = anWeathComm.Where(item => item.Name == nameWd).FirstOrDefault();
@@ -758,7 +758,7 @@ namespace TowerLoadCals.BLL.Electric
                 + FileUtils.PadRightEx("基本风速：", 12) + FileUtils.PadRightEx("风荷载：", 12) + FileUtils.PadRightEx("垂直荷载：", 12);
             rslt.Add(strTitle);
 
-            foreach (var name in WireData.WorkCdtNames)
+            foreach (var name in WireData.WorkCdtNamesStrain)
             {
                 var wea = WireData.WeatherParas.WeathComm.Where(item => item.Name == name).FirstOrDefault();
 

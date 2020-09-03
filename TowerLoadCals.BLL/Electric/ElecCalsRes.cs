@@ -81,17 +81,17 @@ namespace TowerLoadCals.BLL.Electric
         public void FlashWireData(string towerType, double spanVal, double angle)
         {
             IndWire.UpdataPara(Weather, CommParas, SideParas, towerType);
-            IndWire.UpdateWeaForCals(IsBackSide, angle);
+            IndWire.UpdateWeaForCals(IsBackSide, angle, towerType);
             IndWire.CalBZ();
             IndWire.SaveYLTabel(spanVal);
 
             GrdWire.UpdataPara(Weather, CommParas, SideParas, towerType);
-            GrdWire.UpdateWeaForCals(IsBackSide, angle);
+            GrdWire.UpdateWeaForCals(IsBackSide, angle, towerType);
             GrdWire.CalBZ();
             GrdWire.SaveYLTabel(spanVal);
 
             OPGWWire.UpdataPara(Weather, CommParas, SideParas, towerType);
-            OPGWWire.UpdateWeaForCals(IsBackSide, angle);
+            OPGWWire.UpdateWeaForCals(IsBackSide, angle, towerType);
             OPGWWire.CalBZ();
             OPGWWire.SaveYLTabel(spanVal);
         }
@@ -102,7 +102,7 @@ namespace TowerLoadCals.BLL.Electric
         public void FlashJumWireData(string towerType, double angle)
         {
             JumWire.UpdataPara(Weather, CommParas, SideParas, towerType);
-            JumWire.UpdateWeaForCals(IsBackSide, angle);
+            JumWire.UpdateWeaForCals(IsBackSide, angle, towerType);
             
             //JumWire.CalBZ();
             //JumWire.SaveYLTabel(spanVal);
@@ -149,7 +149,7 @@ namespace TowerLoadCals.BLL.Electric
                 + FileUtils.PadRightEx("垂直荷载：", 12) + FileUtils.PadRightEx("风荷载：", 12) + FileUtils.PadRightEx("应力：", 12) + FileUtils.PadRightEx("应力g：", 12);
             rslt.Add(strTitle);
 
-            foreach (var name in wire.WorkCdtNames)
+            foreach (var name in wire.WorkCdtNamesStrain)
             {
                 if (wire.WeatherParas.WeathComm.Where(item => item.Name == name).Count() <= 0)
                     continue;
