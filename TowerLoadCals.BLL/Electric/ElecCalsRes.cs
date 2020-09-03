@@ -166,20 +166,50 @@ namespace TowerLoadCals.BLL.Electric
             return rslt;
         }
 
-        public List<string> PrintTension()
+        public List<string> PrintTension(string towerType)
         {
             List<string> logStrs = new List<string>();
 
-            string str = FileUtils.PadRightEx(" ", 6) + FileUtils.PadRightEx("断线张力系数 ", 16) + FileUtils.PadRightEx("不平衡冰张力系数 ", 16);
+            string str = FileUtils.PadRightEx(" ", 6) + FileUtils.PadRightEx("断线张力系数 ", 16);
+            if(towerType == "悬垂塔"){
+                str += FileUtils.PadRightEx("地线开断 ", 16);
+            }
+            str += FileUtils.PadRightEx("不平衡冰张力系数 ", 20);
+            if (towerType == "悬垂塔"){
+                str += FileUtils.PadRightEx("地线开断 ", 16);
+            }
             logStrs.Add(str);
 
-            string strInd = FileUtils.PadRightEx("导线 ", 6) + FileUtils.PadRightEx(IndWire.BreakTensionPara.ToString("0.00"), 16) + FileUtils.PadRightEx(IndWire.UnbaTensionPara.ToString("0.00"), 16);
+            string strInd = FileUtils.PadRightEx("导线 ", 6) + FileUtils.PadRightEx(IndWire.BreakTensionPara.ToString("0.00"), 16);
+            if (towerType == "悬垂塔"){
+                strInd += FileUtils.PadRightEx("  ", 16);
+            }
+            strInd += FileUtils.PadRightEx(IndWire.UnbaTensionPara.ToString("0.00"), 20);
             logStrs.Add(strInd);
 
-            string strGrd = FileUtils.PadRightEx("地线 ", 6) + FileUtils.PadRightEx(GrdWire.BreakTensionPara.ToString("0.00"), 16) + FileUtils.PadRightEx(GrdWire.UnbaTensionPara.ToString("0.00"), 16);
+            string strGrd = FileUtils.PadRightEx("地线 ", 6) + FileUtils.PadRightEx(GrdWire.BreakTensionPara.ToString("0.00"), 16);
+            if (towerType == "悬垂塔")
+            {
+                strGrd += FileUtils.PadRightEx(GrdWire.BreakTensionGrdBrePara.ToString("0.00"), 16);
+            }
+            strGrd += FileUtils.PadRightEx(GrdWire.UnbaTensionPara.ToString("0.00"), 20);
+            if (towerType == "悬垂塔")
+            {
+                strGrd += FileUtils.PadRightEx(GrdWire.UnbaTensionGrdBrePara.ToString("0.00"), 16);
+            }
+
             logStrs.Add(strGrd);
 
-            string strOPGW = FileUtils.PadRightEx("OPGW ", 6) + FileUtils.PadRightEx(OPGWWire.BreakTensionPara.ToString("0.00"), 16) + FileUtils.PadRightEx(OPGWWire.UnbaTensionPara.ToString("0.00"), 16);
+            string strOPGW = FileUtils.PadRightEx("OPGW ", 6) + FileUtils.PadRightEx(OPGWWire.BreakTensionPara.ToString("0.00"), 16);
+            if (towerType == "悬垂塔")
+            {
+                strOPGW += FileUtils.PadRightEx(OPGWWire.BreakTensionGrdBrePara.ToString("0.00"), 16);
+            }
+            strOPGW += FileUtils.PadRightEx(OPGWWire.UnbaTensionPara.ToString("0.00"), 20);
+            if (towerType == "悬垂塔")
+            {
+                strOPGW += FileUtils.PadRightEx(OPGWWire.UnbaTensionGrdBrePara.ToString("0.00"), 16);
+            }
             logStrs.Add(strOPGW);
 
             return logStrs;

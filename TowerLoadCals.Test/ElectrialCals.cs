@@ -259,10 +259,10 @@ namespace TowerLoadCals.Test
             CalTower.GetAndUpdateSideRes(BackSideCalRes, FrontSideCalRes);
 
             LogList.Add("\n小号塔张力：");
-            LogList.AddRange(CalTower.BackSideRes.PrintTension());
+            LogList.AddRange(CalTower.BackSideRes.PrintTension(CalTower.TowerType));
 
             LogList.Add("\n大号塔张力：");
-            LogList.AddRange(CalTower.FrontSideRes.PrintTension());
+            LogList.AddRange(CalTower.FrontSideRes.PrintTension(CalTower.TowerType));
 
             LogList.Add("\n小号塔比载和应力：");
             LogList.AddRange(CalTower.BackSideRes.PrintBzAndYL());
@@ -351,7 +351,7 @@ namespace TowerLoadCals.Test
             pro.VoltStr = "500kV";
             pro.ACorDC = 0;
 
-            ElecCalsWire DxData = new ElecCalsWire("JL/G2A-720/50-45/7", 1, 775.41, 36.23, 2397.7, 63000, 20.9, 150450, 0, 25, 4);
+            ElecCalsWire DxData = new ElecCalsWire("JL/G2A-720/50-45/7", 1, 775.41, 36.23, 2397.7, 63000, 20.9, 170600, 0, 25, 4);
             ElecCalsWire GrdData = new ElecCalsWire("JLB20A-150", 2, 148.07, 15.75, 989.4, 147200, 13, 178570, 1, 10);
             ElecCalsWire OPGWData = new ElecCalsWire("JLB20A-150", 3, 148.07, 15.75, 989.4, 147200, 13, 178570, 2, 10);
 
@@ -488,11 +488,19 @@ namespace TowerLoadCals.Test
 
             ElecCalsRes SideCalRes = new ElecCalsRes();
             SideCalRes.SpanFit = SpanFit;
+            SideCalRes.IsBackSide = true; //只是为了计算45风
             SideCalRes.UpdataSor(Weath15, DxData, GrdData, OPGWData, DxData, OneWrieSidePara, CommParas);
 
             CommParas.UpateIceCovrage(SideCalRes.Weather.WeathComm, SideCalRes.SideParas.IceArea);
             LogList.Add(CommParas.PrintIceCovrageHang());
 
+            CalTower.GetAndUpdateSideRes(SideCalRes);
+
+            LogList.Add("\n张力：");
+            LogList.AddRange(CalTower.SideRes.PrintTension(CalTower.TowerType));
+
+            LogList.Add("\n比载和应力：");
+            LogList.AddRange(CalTower.SideRes.PrintBzAndYL());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, LogList);
         }

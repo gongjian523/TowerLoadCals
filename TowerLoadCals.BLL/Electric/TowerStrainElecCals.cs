@@ -10,6 +10,19 @@ namespace TowerLoadCals.BLL.Electric
     {
         public override string TowerType { get { return "耐张塔"; } }
 
+
+        /// <summary>
+        /// 前侧的计算资源
+        /// </summary>
+        public ElecCalsRes BackSideRes { get; set; }
+
+        /// <summary>
+        /// 后侧的计算资源
+        /// </summary>
+        public ElecCalsRes FrontSideRes { get; set; }
+
+
+
         public TowerStrainElecCals()
         {           
             for (int i = 0; i < 10; i++)
