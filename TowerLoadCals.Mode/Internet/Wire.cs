@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 
+/// <summary>
+/// created by :glj
+/// </summary>
+
 namespace TowerLoadCals.Mode.Internet
 {
     /// <summary>

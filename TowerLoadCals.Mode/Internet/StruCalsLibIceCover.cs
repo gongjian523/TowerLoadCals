@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// created by :glj
+/// </summary>
+
 namespace TowerLoadCals.Mode.Internet
 {
 

@@ -126,35 +126,45 @@ namespace TowerLoadCals.Modules
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     sourcePath = openFileDialog.FileName;
-                }
-                List<TowerStrData> list = TowerStPraReader.ReadImportFile(sourcePath);
 
-                if (list != null && list.Count > 0)
-                {
-                    int index = SelectedItems.Count + 1;
-                    TowerStrData tower;
-                    foreach (TowerStrData item in list)
+                    List<TowerStrData> list = TowerStPraReader.ReadImportFile(sourcePath);
+
+                    if (list != null && list.Count > 0)
                     {
-                        item.ID = index;
-                        tower = this.SelectedItems.Where(k => k.Name == item.Name).First();
-                        if (tower != null)
+                        if (this.SelectedItems.Count > 0)
                         {
-                            DialogResult dr = MessageBox.Show(string.Format("已经存在名称为【{0}】相同的杆塔型号信息，是否替换？", item.Name), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                            if (dr == DialogResult.OK)
+                            int index = SelectedItems.Count + 1;
+                            TowerStrData tower;
+                            foreach (TowerStrData item in list)
                             {
-                                this.SelectedItems.Where(k => k.Name == item.Name).First().VoltageLevel = 1000;
-                                //this.SelectedItems.Remove(this.SelectedItems.Where(k => k.Name == item.Name).First());
-                                //item.ID = tower.ID;
-                                //this.SelectedItems.Add(item);
+                                item.ID = index;
+                                tower = this.SelectedItems.Where(k => k.Name == item.Name).First();
+                                if (tower != null)
+                                {
+                                    DialogResult dr = MessageBox.Show(string.Format("已经存在名称为【{0}】相同的杆塔型号信息，是否替换？", item.Name), "重复确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                                    if (dr == DialogResult.OK)
+                                    {
+                                        this.SelectedItems.Where(k => k.Name == item.Name).First().VoltageLevel = 1000;
+                                        //this.SelectedItems.Remove(this.SelectedItems.Where(k => k.Name == item.Name).First());
+                                        //item.ID = tower.ID;
+                                        //this.SelectedItems.Add(item);
+                                    }
+                                }
+                                else
+                                    this.SelectedItems.Add(item);
+                                index++;
                             }
                         }
-                        else
-                            this.SelectedItems.Add(item);
-                        index++;
+                        else {
+                            this.SelectedItems = new ObservableCollection<TowerStrData>(list);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("无可导入信息");
                     }
                 }
-                else
-                    MessageBox.Show("无可导入信息");
+                
             }
             catch (Exception ex)
             {

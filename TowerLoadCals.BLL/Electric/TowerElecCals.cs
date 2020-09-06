@@ -330,6 +330,23 @@ namespace TowerLoadCals.BLL.Electric
 
 
         /// <summary>
+        /// 更新绝缘子串参数
+        /// </summary>
+        /// <param name="indStr"></param>
+        /// <param name="grdStr"></param>
+        /// <param name="jumpStr"></param>
+        public void GetAndUpdateStrData(ElecCalsStrData indStr, ElecCalsStrData grdStr)
+        {
+            PhaseTraList[0].HangStr = PhaseTraList[1].HangStr = PhaseTraList[2].HangStr = indStr;
+            PhaseTraList[5].HangStr = PhaseTraList[6].HangStr = PhaseTraList[7].HangStr = indStr;
+            PhaseTraList[3].HangStr = grdStr;
+            PhaseTraList[4].HangStr = grdStr;
+            PhaseTraList[8].HangStr = grdStr;
+            PhaseTraList[9].HangStr = grdStr;
+        }
+
+
+        /// <summary>
         /// 更新铁塔前后水平档距和垂直档距，此处计算可能没用
         /// </summary>
         public void FlashHoriVetSpan()

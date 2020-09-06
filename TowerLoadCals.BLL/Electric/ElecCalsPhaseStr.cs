@@ -204,6 +204,11 @@ namespace TowerLoadCals.BLL.Electric
         }
 
 
+        public virtual void CalDFCure(double span, double repStrLen, double cl, char terrainType, double wireHei)
+        {
+
+        }
+
         /// <summary>
         /// 计算绝缘子串的风荷载和垂直荷载
         /// </summary>
@@ -747,7 +752,7 @@ namespace TowerLoadCals.BLL.Electric
         #endregion
 
         #region 打印函数
-        public List<string> PrintStrLoad()
+        public List<string> PrintStrLoad(string towerType)
         {
             List<string> rslt = new List<string>();
 
@@ -758,7 +763,9 @@ namespace TowerLoadCals.BLL.Electric
                 + FileUtils.PadRightEx("基本风速：", 12) + FileUtils.PadRightEx("风荷载：", 12) + FileUtils.PadRightEx("垂直荷载：", 12);
             rslt.Add(strTitle);
 
-            foreach (var name in WireData.WorkCdtNamesStrain)
+            List<string> wkCdtList = towerType == "悬垂塔" ? WireData.WorkCdtNamesHang : WireData.WorkCdtNamesStrain;
+
+            foreach (var name in wkCdtList)
             {
                 var wea = WireData.WeatherParas.WeathComm.Where(item => item.Name == name).FirstOrDefault();
 

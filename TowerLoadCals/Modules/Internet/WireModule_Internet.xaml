@@ -8,6 +8,11 @@
     x:Class="TowerLoadCals.Modules.Internet.WireModule_Internet"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:Wire_InternetViewModel}}" Background="AliceBlue">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="HeaderTemplate" >
+                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"  />
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>
             <RowDefinition Height="*"/>
@@ -37,9 +42,10 @@
             <dxg:GridColumn FieldName="Category"  Header="线类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="TotCroSection"  Header="截面积(mm²)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="TotDiaConductor"  Header="外径(mm)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="ConWeight"  Header="单位长度质量(km/mm)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="ConWeight"  Header="单位长度质量(km/mm)" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="110"  HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="DCRes"  Header="直流电阻(Ω)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="UltTenStrength"  Header="额定拉断力(N)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="UltTenStrength"  Header="额定拉断力(N)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"  Width="120"  HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+
             <dxg:GridColumn FieldName="ModElastioity"  Header="弹性模量" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="CoeExpansion"  Header="线性膨胀系数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
         </dxg:GridControl>

@@ -12,7 +12,7 @@
     <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="HeaderTemplate" >
-                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"/>
+                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"  />
             </DataTemplate>
         </Grid.Resources>
         <dxg:GridControl Margin="8,0" ItemsSource="{Binding WireExtraLoadParas}"  >
@@ -27,7 +27,7 @@
             <dxg:GridColumn FieldName="OverhangingTowerWireExtraLoad"  Header="悬垂塔导线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="TensionTowerEarthWireExtraLoad"  Header="耐张塔地线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="TensionTowerWireExtraLoad"  Header="耐张塔导线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
-            <dxg:GridColumn FieldName="TensionTowerJumperWireExtraLoad"  Header="耐张塔跳线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="TensionTowerJumperWireExtraLoad"  Header="耐张塔跳线附加荷载(kN)" HorizontalHeaderContentAlignment="Center" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}" />
         </dxg:GridControl>
     </Grid>
 </UserControl>

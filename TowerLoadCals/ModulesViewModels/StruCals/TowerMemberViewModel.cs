@@ -49,7 +49,7 @@ namespace TowerLoadCals.ModulesViewModels.StruCals
         }
 
         /// <summary>
-        /// 查询方法
+        /// 全部显示
         /// </summary>
         public void doSearchAll()
         {
@@ -57,8 +57,10 @@ namespace TowerLoadCals.ModulesViewModels.StruCals
             DataSource = new ObservableCollection<TowerMember>(struCalsParas.ResultFullStess);
 
         }
+        
         /// <summary>
-        /// 查询方法
+        /// 问题显示 
+        /// 修
         /// </summary>
         public void doSearchError()
         {

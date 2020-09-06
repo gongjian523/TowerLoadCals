@@ -6,6 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TowerLoadCals.Mode.Internet;
 
+
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
 namespace TowerLoadCals.Service.Helpers
 {
     public class DbContext

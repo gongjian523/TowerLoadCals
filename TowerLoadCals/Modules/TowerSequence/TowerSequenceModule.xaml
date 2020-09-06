@@ -9,6 +9,11 @@
     x:Class="TowerLoadCals.Modules.TowerSequence.TowerSequenceModule"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:TowerSequenceViewModel}}">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="HeaderTemplate" >
+                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"  />
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>
             <RowDefinition Height="*"  />
@@ -20,17 +25,14 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Button Grid.Row="0"   Grid.Column="0" Content="气象区设置" Height="30"  Name="btnWeatherConditionSetting" Command="{Binding doWeatherSettingCommand}"  Margin="8,0"    />
-        <Button Grid.Row="0"   Grid.Column="1" Content="刷新关联" Height="30" Name="btnRe"   Command="{Binding doRefreshCommand }"  Margin="8,0" />
+        <Button Grid.Row="0"   Grid.Column="1" Content="超条件判断" Height="30" Name="btnRe"   Command="{Binding doRefreshCommand }"  Margin="8,0" />
         <Button Grid.Row="0"   Grid.Column="2" Content="保 存" Height="30" Name="btnSave"   Command="{Binding doSaveCommand }" Margin="8,0" />
 
         <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="None" Margin="8,0" EnableSmartColumnsGeneration="False"
                 ItemsSource="{Binding DataSource}"   x:Name="grid">
-            <!---->
             <dxg:GridControl.View>
-                <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}" >
-
+                <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}">
                     <dxg:TableView.FormatConditions>
-
                         <dxg:FormatCondition ValueRule="Equal" Value1="True" FieldName="IsChecking" PredefinedFormatName="LightRedFillWithDarkRedText" >
 
                             <dx:Format Background="Red"/>
@@ -52,30 +54,79 @@
 
                 </dxg:TableView>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="ID"  Header="序号" HorizontalHeaderContentAlignment="Center" Width="50" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="IsChecking"  Header="是否验算" HorizontalHeaderContentAlignment="Center" />
-            <dxg:GridColumn FieldName="WeatherCondition"  Header="气象条件" HorizontalHeaderContentAlignment="Center"     AllowCellMerge="True"/>
-            <dxg:GridColumn FieldName="TowerName"  Header="塔位号" HorizontalHeaderContentAlignment="Center"  Width="120"   AllowCellMerge="True"/>
-            <dxg:GridColumn FieldName="NameOfPositioningPile"  Header="塔位点" HorizontalHeaderContentAlignment="Center" Width="120"   />
-            <dxg:GridColumn FieldName="TowerPattern"  Header="塔型" HorizontalHeaderContentAlignment="Center" Width="100"   />
-            <dxg:GridColumn FieldName="CallItHigh"  Header="呼高" HorizontalHeaderContentAlignment="Center" Width="60"   />
-            <dxg:GridColumn FieldName="TowerFootElevation"  Header="塔位桩高程" HorizontalHeaderContentAlignment="Center" Width="120"    />
-            <dxg:GridColumn FieldName="BaseLevelDescent"  Header="定位高差" HorizontalHeaderContentAlignment="Center" Width="100"   />
-            <dxg:GridColumn FieldName="Span"  Header="档距" HorizontalHeaderContentAlignment="Center" Width="100"    />
-            <dxg:GridColumn FieldName="HorizontalSpan"  Header="水平档距" HorizontalHeaderContentAlignment="Center" Width="120"   />
-            <dxg:GridColumn FieldName="VerticalSpan"  Header="垂直档距" HorizontalHeaderContentAlignment="Center" Width="120"   />
-            <dxg:GridColumn FieldName="FrontSpan"  Header="前侧代表档距" HorizontalHeaderContentAlignment="Center" Width="100"    />
-            <dxg:GridColumn FieldName="BackSpan"  Header="后侧代表档距" HorizontalHeaderContentAlignment="Center" Width="100"    />
-            <dxg:GridColumn FieldName="TurningAngleStr"  Header="转角中心桩位移(m)" HorizontalHeaderContentAlignment="Center" Width="100"   />
-            <dxg:GridColumn FieldName="ConductorModel"  Header="导线型号" HorizontalHeaderContentAlignment="Center" Width="120"   />
-            <dxg:GridColumn FieldName="InsulationStringModel"  Header="导线串型号" HorizontalHeaderContentAlignment="Center" Width="100"   />
-            <dxg:GridColumn FieldName="InsulationStringSlices"  Header="导线串片数" HorizontalHeaderContentAlignment="Center" Width="100"   />
-            <dxg:GridColumn FieldName="InsulationStringNumber"  Header="导线串数量" HorizontalHeaderContentAlignment="Center" Width="100"   />
-            <dxg:GridColumn FieldName="InsulationStringLength"  Header="导线串长度" HorizontalHeaderContentAlignment="Center" Width="100"   />
-            <dxg:GridColumn FieldName="GroundWireModel"  Header="地线型号" HorizontalHeaderContentAlignment="Center" Width="120"    />
-            <dxg:GridColumn FieldName="GroundWireInsulationStringModel"  Header="地线串型号" HorizontalHeaderContentAlignment="Center" Width="100"   />
-            <dxg:GridColumn FieldName="GroundWireInsulationStringNumber"  Header="地线串数量" HorizontalHeaderContentAlignment="Center"   />
-            <dxg:GridColumn FieldName="GroundWireInsulationStringLength"  Header="地线串数量" HorizontalHeaderContentAlignment="Center"   />
+
+            <dxg:GridControl.Bands>
+
+                <dxg:GridControlBand Header="序号" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="ID"  Header="序号" HorizontalHeaderContentAlignment="Center" Width="50" ReadOnly="True"/>
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="是否验算" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="IsChecking"  Header="是否验算" HorizontalHeaderContentAlignment="Center" />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="气象条件" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="WeatherCondition"  Header="气象条件" HorizontalHeaderContentAlignment="Center"     AllowCellMerge="True"/>
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="塔位号" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="TowerName"  Header="塔位号" HorizontalHeaderContentAlignment="Center"  Width="120"   AllowCellMerge="True"/>
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="塔位点" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="NameOfPositioningPile"  Header="塔位点" HorizontalHeaderContentAlignment="Center" Width="120"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="塔型" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="TowerPattern"  Header="塔型" HorizontalHeaderContentAlignment="Center" Width="100"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="呼高" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="CallItHigh"  Header="呼高" HorizontalHeaderContentAlignment="Center" Width="60"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="塔位桩高程" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="TowerFootElevation"  Header="塔位桩高程" HorizontalHeaderContentAlignment="Center" Width="120"    />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="定位高差" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="BaseLevelDescent"  Header="定位高差" HorizontalHeaderContentAlignment="Center" Width="100"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="档距" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="Span"  Header="档距" HorizontalHeaderContentAlignment="Center" Width="100"    />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="水平档距" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="HorizontalSpan"  Header="水平档距" HorizontalHeaderContentAlignment="Center" Width="120"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="垂直档距" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="VerticalSpan"  Header="垂直档距" HorizontalHeaderContentAlignment="Center" Width="120"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="前侧代表档距" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="FrontSpan"  Header="前侧代表档距" HorizontalHeaderContentAlignment="Center" Width="100"    />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="后侧代表档距" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="BackSpan"  Header="后侧代表档距" HorizontalHeaderContentAlignment="Center" Width="100"    />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="转角中心桩位移(m)" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="TurningAngleStr"  Header="转角中心桩位移(m)" HorizontalHeaderContentAlignment="Center" Width="120"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="导线型号" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="ConductorModel"  Header="导线型号" HorizontalHeaderContentAlignment="Center" Width="120"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="导线安全系数" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="ConductorSafeCoef"  Header="导线安全系数" HorizontalHeaderContentAlignment="Center" Width="120"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="导线串" HorizontalHeaderContentAlignment="Center">
+                    <dxg:GridColumn FieldName="InsulationStringModel"  Header="导型号" HorizontalHeaderContentAlignment="Center" Width="100" SortOrder="Ascending" SortIndex="0"   />
+                    <dxg:GridColumn FieldName="InsulationStringSlices"  Header="片数" HorizontalHeaderContentAlignment="Center" Width="100"   />
+                    <dxg:GridColumn FieldName="InsulationStringNumber"  Header="数量" HorizontalHeaderContentAlignment="Center" Width="100"   />
+                    <dxg:GridColumn FieldName="InsulationStringLength"  Header="长度" HorizontalHeaderContentAlignment="Center" Width="100"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="地线型号" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="GroundWireModel"  Header="地线型号" HorizontalHeaderContentAlignment="Center" Width="120"    />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="地线安全系数" OverlayHeaderByChildren="True">
+                    <dxg:GridColumn FieldName="GroundWireSafeCoef"  Header="地线安全系数" HorizontalHeaderContentAlignment="Center" Width="120"   />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="地线串" HorizontalHeaderContentAlignment="Center">
+                    <dxg:GridColumn FieldName="GroundWireInsulationStringModel"  Header="型号" HorizontalHeaderContentAlignment="Center" Width="100"   />
+                    <dxg:GridColumn FieldName="GroundWireInsulationStringNumber"  Header="数量" HorizontalHeaderContentAlignment="Center"   />
+                    <dxg:GridColumn FieldName="GroundWireInsulationStringLength"  Header="长度" HorizontalHeaderContentAlignment="Center"   />
+                </dxg:GridControlBand>
+            </dxg:GridControl.Bands>
+
 
         </dxg:GridControl>
     </Grid>

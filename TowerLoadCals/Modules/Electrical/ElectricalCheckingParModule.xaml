@@ -62,17 +62,17 @@
                     <dxg:GridColumn FieldName="WireSpacerNum"  Header="导线间隔棒数量" HorizontalHeaderContentAlignment="Center" Width="95"    />
                 </dxg:GridControlBand>
                 <dxg:GridControlBand Header="计算条件" HorizontalHeaderContentAlignment="Center">
-                    <dxg:GridColumn FieldName="EngineerPar" Header="工程参数"  Width="80"  >
+                    <dxg:GridColumn FieldName="EngineerPar" Header="公共参数"  Width="80"  >
                         <dxg:GridColumn.EditSettings>
                             <dxe:ComboBoxEditSettings ItemsSource="{Binding EngineerParDataSource}" IsTextEditable="False"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
-                    <dxg:GridColumn FieldName="FrontPar" Header="前侧相参数"  Width="80"  >
+                    <dxg:GridColumn FieldName="FrontPar" Header="前侧参数"  Width="80"  >
                         <dxg:GridColumn.EditSettings>
                             <dxe:ComboBoxEditSettings ItemsSource="{Binding FrontParDataSource}" IsTextEditable="False"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
-                    <dxg:GridColumn FieldName="BackPar" Header="后侧相参数" Width="80"  >
+                    <dxg:GridColumn FieldName="BackPar" Header="后侧参数" Width="80"  >
                         <dxg:GridColumn.EditSettings>
                             <dxe:ComboBoxEditSettings ItemsSource="{Binding BackParDataSource}" IsTextEditable="False"  />
                         </dxg:GridColumn.EditSettings>

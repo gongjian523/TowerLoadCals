@@ -15,6 +15,13 @@ using TowerLoadCals.Mode.Internet;
 using TowerLoadCals.Service.Helpers;
 using TowerLoadCals.Service.Internet;
 
+
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
 namespace TowerLoadCals.Service.Login
 {
     public class LoginService : DbContext

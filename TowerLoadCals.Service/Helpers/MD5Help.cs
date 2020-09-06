@@ -5,6 +5,13 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
 namespace TowerLoadCals.Service.Helpers
 {
     public class MD5Help

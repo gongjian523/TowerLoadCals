@@ -53,6 +53,7 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Charts.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Sparkline.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Dashboard.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Dashboard.v20.1.Wpf, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -66,6 +67,7 @@
     <Reference Include="DevExpress.PivotGrid.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.RichEdit.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Spreadsheet.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Accordion.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Charts.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Controls.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -88,6 +90,7 @@
     <Reference Include="DevExpress.Xpf.Office.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.RichEdit.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Scheduling.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Spreadsheet.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.TreeMap.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraScheduler.v20.1.Core, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -140,9 +143,11 @@
     <Compile Include="Controls\Converter\BooleanVisibityConverter .cs" />
     <Compile Include="Controls\Converter\InverseBooleanConverter.cs" />
     <Compile Include="Controls\Converter\InverseBooleanVisibityConverter.cs" />
+    <Compile Include="GridHelperBor.cs" />
     <Compile Include="MainWindowViewModel-RibbonCommand.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
     <Compile Include="MainWindowViewModel-BaseData.cs" />
+    <Compile Include="MainWindowViewModel-ElectricalCals.cs" />
     <Compile Include="MainWindowViewModel-TowerSequence.cs" />
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="ModulesViewModels\AccordionItem.cs" />
@@ -159,6 +164,11 @@
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\Electrical\ElecCalsCommResViewModel.cs" />
+    <Compile Include="ModulesViewModels\Electrical\ElecCalsSideResViewModel.cs" />
+    <Compile Include="ModulesViewModels\Electrical\ElectricalSideParViewModel.cs" />
+    <Compile Include="ModulesViewModels\Electrical\ElectricalCommonParViewModel.cs" />
+    <Compile Include="ModulesViewModels\Electrical\ElectricalCheckingParViewModel.cs" />
     <Compile Include="ModulesViewModels\Electrical\BaseDataTemplateViewModel.cs" />
     <Compile Include="ModulesViewModels\IBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\FitDataViewModel.cs" />
@@ -204,6 +214,18 @@
     </Compile>
     <Compile Include="Modules\Electrical\BaseDataTemplateModule.xaml.cs">
       <DependentUpon>BaseDataTemplateModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Electrical\ElectricalCommonParModule_1.xaml.cs">
+      <DependentUpon>ElectricalCommonParModule_1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Electrical\ElectricalSideParModule.xaml.cs">
+      <DependentUpon>ElectricalSideParModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Electrical\ElectricalCommonParModule.xaml.cs">
+      <DependentUpon>ElectricalCommonParModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Electrical\ElectricalCheckingParModule.xaml.cs">
+      <DependentUpon>ElectricalCheckingParModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Internet\SpacerModule.xaml.cs">
       <DependentUpon>SpacerModule.xaml</DependentUpon>
@@ -302,6 +324,22 @@
     <Page Include="Modules\Electrical\BaseDataTemplateModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Electrical\ElectricalCommonParModule_1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Electrical\ElectricalSideParModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Electrical\ElectricalCommonParModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Electrical\ElectricalCheckingParModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Internet\SpacerModule.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -9,6 +9,11 @@
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StruCalsLibIceCoverViewModel}}" Background="AliceBlue">
 
     <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="HeaderTemplate" >
+                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"  />
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"  />
             <RowDefinition Height="40" Name="g_footer"/>

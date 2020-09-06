@@ -127,35 +127,35 @@
                 <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center"  Width="60" AllowEditing = "false" />
                 <dxg:GridColumn FieldName="IsCalculate"  Header="选择与否" HorizontalHeaderContentAlignment="Center"  Width="60" 
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}" />
-                <dxg:GridColumn FieldName="WorkConditionCode"  Header="工况" HorizontalHeaderContentAlignment="Center"  Width="60" 
+                <dxg:GridColumn FieldName="WorkConditionCode"  Header="工况" HorizontalHeaderContentAlignment="Center"  Width="150" 
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}" />
-                <dxg:GridColumn FieldName="TensionAngleCode"  Header="张力角" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding IsTensionAngleVisible}"
+                <dxg:GridColumn FieldName="TensionAngleCode"  Header="张力角" HorizontalHeaderContentAlignment="Center" Width="160"  Visible="{Binding IsTensionAngleVisible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="VertialLoadCode"  Header="垂直载荷" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding IsVertialLoadVisible}"
+                <dxg:GridColumn FieldName="VertialLoadCode"  Header="垂直载荷" HorizontalHeaderContentAlignment="Center" Width="160"  Visible="{Binding IsVertialLoadVisible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
                 <dxg:GridColumn FieldName="WindDirectionCode"  Header="风向" HorizontalHeaderContentAlignment="Center" Width="60"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire1"  Header="{Binding Wire1Name}" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding Wire1Visible}"
+                <dxg:GridColumn FieldName="Wire1"  Header="{Binding Wire1Name}" HorizontalHeaderContentAlignment="Center" Width="100"  Visible="{Binding Wire1Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire2"  Header="{Binding Wire2Name}" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding Wire2Visible}"
+                <dxg:GridColumn FieldName="Wire2"  Header="{Binding Wire2Name}" HorizontalHeaderContentAlignment="Center" Width="100"  Visible="{Binding Wire2Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire3"  Header="{Binding Wire3Name}" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding Wire3Visible}"
+                <dxg:GridColumn FieldName="Wire3"  Header="{Binding Wire3Name}" HorizontalHeaderContentAlignment="Center" Width="100"  Visible="{Binding Wire3Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire4"  Header="{Binding Wire4Name}" HorizontalHeaderContentAlignment="Center" Width="60"  Visible="{Binding Wire4Visible}"
+                <dxg:GridColumn FieldName="Wire4"  Header="{Binding Wire4Name}" HorizontalHeaderContentAlignment="Center" Width="100"  Visible="{Binding Wire4Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire5"  Header="{Binding Wire5Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire5Visible}"
+                <dxg:GridColumn FieldName="Wire5"  Header="{Binding Wire5Name}" HorizontalHeaderContentAlignment="Center" Width="100" Visible="{Binding Wire5Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire6"  Header="{Binding Wire6Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire6Visible}"
+                <dxg:GridColumn FieldName="Wire6"  Header="{Binding Wire6Name}" HorizontalHeaderContentAlignment="Center" Width="100" Visible="{Binding Wire6Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire7"  Header="{Binding Wire7Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire7Visible}"
+                <dxg:GridColumn FieldName="Wire7"  Header="{Binding Wire7Name}" HorizontalHeaderContentAlignment="Center" Width="100" Visible="{Binding Wire7Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire8"  Header="{Binding Wire8Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire8Visible}"
+                <dxg:GridColumn FieldName="Wire8"  Header="{Binding Wire8Name}" HorizontalHeaderContentAlignment="Center" Width="100" Visible="{Binding Wire8Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire9"  Header="{Binding Wire9Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire9Visible}"
+                <dxg:GridColumn FieldName="Wire9"  Header="{Binding Wire9Name}" HorizontalHeaderContentAlignment="Center" Width="100" Visible="{Binding Wire9Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire10"  Header="{Binding Wire10Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire10Visible}"
+                <dxg:GridColumn FieldName="Wire10"  Header="{Binding Wire10Name}" HorizontalHeaderContentAlignment="Center" Width="100" Visible="{Binding Wire10Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
-                <dxg:GridColumn FieldName="Wire11"  Header="{Binding Wire11Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire11Visible}"
+                <dxg:GridColumn FieldName="Wire11"  Header="{Binding Wire11Name}" HorizontalHeaderContentAlignment="Center" Width="100" Visible="{Binding Wire11Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>
                 <dxg:GridColumn FieldName="Wire12"  Header="{Binding Wire12Name}" HorizontalHeaderContentAlignment="Center" Width="60" Visible="{Binding Wire12Visible}"
                                 AllowEditing="{Binding IsReadOnly, Converter= {StaticResource InverseBooleanConverter}}"/>

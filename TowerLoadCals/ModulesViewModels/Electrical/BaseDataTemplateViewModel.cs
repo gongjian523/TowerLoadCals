@@ -10,7 +10,7 @@ using TowerLoadCals.BLL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 
-namespace TowerLoadCals.Modules.Electrical
+namespace TowerLoadCals.ModulesViewModels.Electrical
 {
     public class BaseDataTemplateViewModel : ViewModelBase
     {

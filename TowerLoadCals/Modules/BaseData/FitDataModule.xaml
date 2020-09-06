@@ -8,7 +8,12 @@
     x:Class="TowerLoadCals.Modules.FitDataModule"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:FitDataViewModel}}">
     <Grid>
-        <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
+        <Grid.Resources>
+            <DataTemplate x:Key="HeaderTemplate" >
+                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"  />
+            </DataTemplate>
+        </Grid.Resources>
+        <dxg:GridControl Grid.Column="1" AutoGenerateColumns="None" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"
                 ScrollViewer.VerticalScrollBarVisibility="Auto" 

@@ -1,156 +1,156 @@
 ﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:TowerLoadCals.Modules.Electrical"
+    xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.Electrical"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     x:Class="TowerLoadCals.Modules.Electrical.BaseDataTemplateModule"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:BaseDataTemplateViewModel}}" >
     <ScrollViewer VerticalScrollBarVisibility="Visible">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Name="tab1"  Height="250"/>
-            <RowDefinition  Name="tab2" Height="250"/>
-            <RowDefinition  Name="tab3"  Height="250"/>
-            <RowDefinition  Name="tab4" Height="250"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition  Width="5*"/>
-        </Grid.ColumnDefinitions>
-        <GroupBox Header="基础系数" Margin="0,10,3,0" Grid.Row="0" Grid.Column="0"   >
-            <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Name="tab1"  Height="250"/>
+                <RowDefinition  Name="tab2" Height="120"/>
+                <RowDefinition  Name="tab3"  Height="250"/>
+                <RowDefinition  Name="tab4" Height="250"/>
+                <RowDefinition  Name="tab5" Height="200"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="基础系数" Margin="0,10,3,0" Grid.Row="0"    >
+                <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None"
                 ItemsSource="{Binding BasicsSource}" >
-                <dxg:GridControl.View>
-                    <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"/>
-                </dxg:GridControl.View>
-                <dxg:GridColumn FieldName="Voltage"  Header="电压等级" HorizontalHeaderContentAlignment="Center" />
-                <dxg:GridColumn FieldName="Category"  Header="分类" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                <dxg:GridColumn FieldName="WindCategory"  Header="风压系数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                <dxg:GridColumn FieldName="Coef"  Header="跳线风压不均匀系数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            </dxg:GridControl>
-        </GroupBox>
-        <GroupBox Header="垂直荷载"   Margin="0,10,0,0" Grid.Row="0" Grid.Column="1">
-            <dxg:GridControl   Margin="8,0"         EnableSmartColumnsGeneration="True" 
+                    <dxg:GridControl.View>
+                        <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"/>
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="Voltage"  Header="电压等级" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn FieldName="Category"  Header="分类" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+                    <dxg:GridColumn FieldName="WindCategory"  Header="风压系数" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+                    <dxg:GridColumn FieldName="Coef"  Header="跳线风压不均匀系数" HorizontalHeaderContentAlignment="Center" ReadOnly="True" />
+                </dxg:GridControl>
+            </GroupBox>
+            <GroupBox Header="垂直荷载"   Margin="0,10,0,0" Grid.Row="1" >
+                <dxg:GridControl   Margin="8,0"         EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding LoadSource}" AutoGenerateColumns="None" 
                 >
-                <dxg:GridControl.View>
-                    <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"  />
-                </dxg:GridControl.View>
-                <dxg:GridColumn FieldName="WorkCondition"  Header="工况" HorizontalHeaderContentAlignment="Center" />
-                <dxg:GridColumn FieldName="Percent"  Header="设计冰荷载的百分数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            </dxg:GridControl>
-        </GroupBox>
+                    <dxg:GridControl.View>
+                        <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"  />
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="WorkCondition"  Header="工况" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn FieldName="Percent"  Header="设计冰荷载的百分数" HorizontalHeaderContentAlignment="Center" />
+                </dxg:GridControl>
+            </GroupBox>
 
-        <GroupBox Header="断线张力取值" Margin="0,10,3,0" Grid.Row="1" Grid.ColumnSpan="2">
-            <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None" ItemsSource="{Binding TensionSource}" >
+            <GroupBox Header="断线张力取值" Margin="0,10,3,0" Grid.Row="2" >
+                <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None" ItemsSource="{Binding TensionSource}" >
 
-                <dxg:GridControl.View>
-                    <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"/>
-                </dxg:GridControl.View>
-                <dxg:GridControl.Bands>
-                    <dxg:GridControlBand Header="覆冰厚度">
-                        <dxg:GridColumn FieldName="IceThickness"  Header="覆冰厚度" HorizontalHeaderContentAlignment="Center" />
-                    </dxg:GridControlBand>
-                    <dxg:GridControlBand Header="等级">
-                        <dxg:GridColumn FieldName="Type"  Header="等级" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                    </dxg:GridControlBand>
-                    <dxg:GridControlBand Header="地形">
-                        <dxg:GridColumn FieldName="Terrain"  Header="地形" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                    </dxg:GridControlBand>
+                    <dxg:GridControl.View>
+                        <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"/>
+                    </dxg:GridControl.View>
+                    <dxg:GridControl.Bands>
+                        <dxg:GridControlBand Header="覆冰厚度" OverlayHeaderByChildren="True">
+                            <dxg:GridColumn FieldName="IceThickness"  Header="覆冰厚度" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80" />
+                        </dxg:GridControlBand>
+                        <dxg:GridControlBand Header="等级" OverlayHeaderByChildren="True">
+                            <dxg:GridColumn FieldName="Type"  Header="等级" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                        </dxg:GridControlBand>
+                        <dxg:GridControlBand Header="地形" OverlayHeaderByChildren="True">
+                            <dxg:GridColumn FieldName="Terrain"  Header="地形" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                        </dxg:GridControlBand>
 
-                    <dxg:GridControlBand Header="最大使用张力的百分数" HorizontalHeaderContentAlignment="Center">
-                        <dxg:GridControlBand.Bands>
-                            <dxg:GridControlBand Header="悬垂型杆塔" HorizontalHeaderContentAlignment="Center">
-                                <dxg:GridColumn FieldName="X_DWires"  Header="单导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="X_SWires"  Header="双分裂导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="X_SFWires"  Header="双分裂以上导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="X_GroundWires"  Header="地线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                            </dxg:GridControlBand>
-                            <dxg:GridControlBand Header="耐张型杆塔" HorizontalHeaderContentAlignment="Center">
-                                <dxg:GridColumn FieldName="N_DWires"  Header="单导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="N_SFWires"  Header="双分裂及以上导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="N_GroundWires"  Header="地线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                            </dxg:GridControlBand>
-                        </dxg:GridControlBand.Bands>
-                    </dxg:GridControlBand>
-                    <dxg:GridControlBand Header="覆冰率百分数" HorizontalHeaderContentAlignment="Center">
-                        <dxg:GridControlBand.Bands>
-                            <dxg:GridControlBand Header="悬垂型杆塔" HorizontalHeaderContentAlignment="Center">
-                                <dxg:GridColumn FieldName="X_FCategory"  Header="一类" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="X_SCategory"  Header="二类" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="X_TCategory"  Header="三类" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                            </dxg:GridControlBand>
-                            <dxg:GridControlBand Header="耐张型杆塔" HorizontalHeaderContentAlignment="Center">
+                        <dxg:GridControlBand Header="最大使用张力的百分数" HorizontalHeaderContentAlignment="Center">
+                            <dxg:GridControlBand.Bands>
+                                <dxg:GridControlBand Header="悬垂型杆塔" HorizontalHeaderContentAlignment="Center">
+                                    <dxg:GridColumn FieldName="X_DWires"  Header="单导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                    <dxg:GridColumn FieldName="X_SWires"  Header="双分裂导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                    <dxg:GridColumn FieldName="X_SFWires"  Header="双分裂以上导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="110"/>
+                                    <dxg:GridColumn FieldName="X_GroundWires"  Header="地线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                </dxg:GridControlBand>
+                                <dxg:GridControlBand Header="耐张型杆塔" HorizontalHeaderContentAlignment="Center">
+                                    <dxg:GridColumn FieldName="N_DWires"  Header="单导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                    <dxg:GridColumn FieldName="N_SFWires"  Header="双分裂及以上导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="110"/>
+                                    <dxg:GridColumn FieldName="N_GroundWires"  Header="地线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                </dxg:GridControlBand>
+                            </dxg:GridControlBand.Bands>
+                        </dxg:GridControlBand>
+                        <dxg:GridControlBand Header="覆冰率百分数" HorizontalHeaderContentAlignment="Center">
+                            <dxg:GridControlBand.Bands>
+                                <dxg:GridControlBand Header="悬垂型杆塔" HorizontalHeaderContentAlignment="Center">
+                                    <dxg:GridColumn FieldName="X_FCategory"  Header="一类" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                    <dxg:GridColumn FieldName="X_SCategory"  Header="二类" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                    <dxg:GridColumn FieldName="X_TCategory"  Header="三类" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                </dxg:GridControlBand>
+                                <dxg:GridControlBand Header="耐张型杆塔" HorizontalHeaderContentAlignment="Center">
 
-                                <dxg:GridColumn FieldName="N_FCategory"  Header="一类" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="N_SCategory"  Header="二类" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                                <dxg:GridColumn FieldName="N_TCategory"  Header="三类" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-                            </dxg:GridControlBand>
-                        </dxg:GridControlBand.Bands>
-                    </dxg:GridControlBand>
-                </dxg:GridControl.Bands>
-            </dxg:GridControl>
-        </GroupBox>
-           
-        <GroupBox Header="不均匀冰不平衡张力" Margin="0,10,3,0" Grid.Row="2" Grid.ColumnSpan="2">
-            <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None"
+                                    <dxg:GridColumn FieldName="N_FCategory"  Header="一类" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                    <dxg:GridColumn FieldName="N_SCategory"  Header="二类" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                    <dxg:GridColumn FieldName="N_TCategory"  Header="三类" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="80"/>
+                                </dxg:GridControlBand>
+                            </dxg:GridControlBand.Bands>
+                        </dxg:GridControlBand>
+                    </dxg:GridControl.Bands>
+                </dxg:GridControl>
+            </GroupBox>
+
+            <GroupBox Header="不均匀冰不平衡张力" Margin="0,10,3,0" Grid.Row="3" >
+                <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None"
                 ItemsSource="{Binding IceUnbalanceSource}" >
-                <dxg:GridControl.View>
-                    <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"  />
-                </dxg:GridControl.View>
+                    <dxg:GridControl.View>
+                        <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"  />
+                    </dxg:GridControl.View>
 
-                <dxg:GridControl.Bands>
-                    <dxg:GridControlBand Header="覆冰厚度">
-                        <dxg:GridColumn FieldName="IceThickness"  Header="覆冰厚度" HorizontalHeaderContentAlignment="Center" Width="157" />
-                    </dxg:GridControlBand>
-                    <dxg:GridControlBand Header="等级">
-                        <dxg:GridColumn FieldName="Type"  Header="等级" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="160"/>
-                    </dxg:GridControlBand>
+                    <dxg:GridControl.Bands>
+                        <dxg:GridControlBand Header="覆冰厚度" OverlayHeaderByChildren="True">
+                            <dxg:GridColumn FieldName="IceThickness"  Header="覆冰厚度" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="140"/>
+                        </dxg:GridControlBand>
+                        <dxg:GridControlBand Header="等级" OverlayHeaderByChildren="True">
+                            <dxg:GridColumn FieldName="Type"  Header="等级" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="120"/>
+                        </dxg:GridControlBand>
 
-                    <dxg:GridControlBand Header="最大使用张力的百分数" HorizontalHeaderContentAlignment="Center">
-                        <dxg:GridControlBand.Bands>
-                            <dxg:GridControlBand Header="悬垂型杆塔" HorizontalHeaderContentAlignment="Center">
-                                <dxg:GridColumn FieldName="X_Wires"  Header="导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="130" />
-                                <dxg:GridColumn FieldName="X_GroundWires"  Header="地线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="130"/>
-                            </dxg:GridControlBand>
-                            <dxg:GridControlBand Header="耐张型杆塔" HorizontalHeaderContentAlignment="Center">
+                        <dxg:GridControlBand Header="最大使用张力的百分数" HorizontalHeaderContentAlignment="Center">
+                            <dxg:GridControlBand.Bands>
+                                <dxg:GridControlBand Header="悬垂型杆塔" HorizontalHeaderContentAlignment="Center">
+                                    <dxg:GridColumn FieldName="X_Wires"  Header="导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="130" />
+                                    <dxg:GridColumn FieldName="X_GroundWires"  Header="地线" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="130"/>
+                                </dxg:GridControlBand>
+                                <dxg:GridControlBand Header="耐张型杆塔" HorizontalHeaderContentAlignment="Center">
 
-                                <dxg:GridColumn FieldName="N_Wires"  Header="导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"  Width="130"/>
-                                <dxg:GridColumn FieldName="N_GroundWires"  Header="地线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"  Width="130"/>
-                            </dxg:GridControlBand>
-                        </dxg:GridControlBand.Bands>
-                    </dxg:GridControlBand>
+                                    <dxg:GridColumn FieldName="N_Wires"  Header="导线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"  Width="130"/>
+                                    <dxg:GridColumn FieldName="N_GroundWires"  Header="地线" HorizontalHeaderContentAlignment="Center" ReadOnly="True"  Width="130"/>
+                                </dxg:GridControlBand>
+                            </dxg:GridControlBand.Bands>
+                        </dxg:GridControlBand>
 
-                </dxg:GridControl.Bands>
-            </dxg:GridControl>
-        </GroupBox>
+                    </dxg:GridControl.Bands>
+                </dxg:GridControl>
+            </GroupBox>
 
-        <GroupBox Header="线路等级" Margin="0,10,3,0" Grid.Row="3" Grid.ColumnSpan="2"  >
-            <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None"
+            <GroupBox Header="线路等级" Margin="0,10,3,0" Grid.Row="4"   >
+                <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None"
                 ItemsSource="{Binding LineGradeSource}" >
-                <dxg:GridControl.View>
-                    <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}" />
-                </dxg:GridControl.View>
-                <dxg:GridControl.Bands>
-                    <dxg:GridControlBand Header="分类" TextOptions.TextRenderingMode="Auto" >
-                        <dxg:GridColumn FieldName="Category"  Header="分类" HorizontalHeaderContentAlignment="Center"  Width="197" />
-                    </dxg:GridControlBand>
-                    <dxg:GridControlBand Header="线路等级覆冰率" HorizontalHeaderContentAlignment="Center">
-                        <dxg:GridControlBand.Bands>
-                            <dxg:GridControlBand Header="悬垂型杆" HorizontalHeaderContentAlignment="Center">
-                                <dxg:GridColumn FieldName="X_Side" HorizontalHeaderContentAlignment="Center" Header="一侧" ReadOnly="True" Width="160"/>
-                                <dxg:GridColumn FieldName="X_OtherSide" HorizontalHeaderContentAlignment="Center" Header="另一侧" ReadOnly="True" Width="160"/>
-                            </dxg:GridControlBand>
-                            <dxg:GridControlBand Header="耐张型杆塔" HorizontalHeaderContentAlignment="Center">
-                                <dxg:GridColumn FieldName="N_Side" HorizontalHeaderContentAlignment="Center" Header="一侧" ReadOnly="True" Width="160"/>
-                                <dxg:GridColumn FieldName="N_OtherSide" HorizontalHeaderContentAlignment="Center" Header="另一侧" ReadOnly="True" Width="160"/>
-                            </dxg:GridControlBand>
-                        </dxg:GridControlBand.Bands>
-                    </dxg:GridControlBand>
-                </dxg:GridControl.Bands>
-            </dxg:GridControl>
-                </GroupBox>
+                    <dxg:GridControl.View>
+                        <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}" />
+                    </dxg:GridControl.View>
+                    <dxg:GridControl.Bands>
+                        <dxg:GridControlBand Header="分类" TextOptions.TextRenderingMode="Auto" OverlayHeaderByChildren="True" >
+                            <dxg:GridColumn FieldName="Category"  Header="分类" HorizontalHeaderContentAlignment="Center"  Width="170" />
+                        </dxg:GridControlBand>
+                        <dxg:GridControlBand Header="线路等级覆冰率" HorizontalHeaderContentAlignment="Center">
+                            <dxg:GridControlBand.Bands>
+                                <dxg:GridControlBand Header="悬垂型杆" HorizontalHeaderContentAlignment="Center">
+                                    <dxg:GridColumn FieldName="X_Side" HorizontalHeaderContentAlignment="Center" Header="一侧" ReadOnly="True" Width="160"/>
+                                    <dxg:GridColumn FieldName="X_OtherSide" HorizontalHeaderContentAlignment="Center" Header="另一侧" ReadOnly="True" Width="160"/>
+                                </dxg:GridControlBand>
+                                <dxg:GridControlBand Header="耐张型杆塔" HorizontalHeaderContentAlignment="Center">
+                                    <dxg:GridColumn FieldName="N_Side" HorizontalHeaderContentAlignment="Center" Header="一侧" ReadOnly="True" Width="160"/>
+                                    <dxg:GridColumn FieldName="N_OtherSide" HorizontalHeaderContentAlignment="Center" Header="另一侧" ReadOnly="True" Width="160"/>
+                                </dxg:GridControlBand>
+                            </dxg:GridControlBand.Bands>
+                        </dxg:GridControlBand>
+                    </dxg:GridControl.Bands>
+                </dxg:GridControl>
+            </GroupBox>
 
         </Grid>
     </ScrollViewer>

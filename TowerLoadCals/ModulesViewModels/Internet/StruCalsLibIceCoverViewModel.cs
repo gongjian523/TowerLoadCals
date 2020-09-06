@@ -13,6 +13,11 @@ using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Internet;
 using TowerLoadCals.Service.Internet;
 
+
+/// <summary>
+/// created by :glj
+/// </summary>
+
 namespace TowerLoadCals.ModulesViewModels.Internet
 {
     /// <summary>

@@ -10,6 +10,10 @@ using System.Xml;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 
+/// <summary>
+/// created by :glj
+/// </summary>
+
 namespace TowerLoadCals.DAL.Common
 {
     /// <summary>
@@ -98,7 +102,7 @@ namespace TowerLoadCals.DAL.Common
 
 
         /// <summary>
-        /// 计算页面展示结果值 计算
+        /// 计算页面展示结果值 计算 后期调整
         /// </summary>
         /// <param name="tower"></param>
         public static void CalsParameters(List<TowerSerial> list)

@@ -8,6 +8,11 @@
     x:Class="TowerLoadCals.Modules.Internet.RigidJumperInsulatorModule"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:RigidJumperInsulatorViewModel}}" Background="AliceBlue">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="HeaderTemplate" >
+                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"  />
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>
             <RowDefinition Height="*"/>
@@ -39,7 +44,7 @@
             <dxg:GridColumn FieldName="Type"  Header="串类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="FitLength"  Header="长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="90"  HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="PieceNum"  Header="片数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="GoldPieceNum"  Header="金具换算片数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="LNum"  Header="联数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>

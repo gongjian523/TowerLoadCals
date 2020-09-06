@@ -9,6 +9,10 @@ using System.Xml;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Common;
 
+/// <summary>
+/// created by :glj
+/// </summary>
+/// 
 namespace TowerLoadCals.DAL.Common
 {
     /// <summary>

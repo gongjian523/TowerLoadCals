@@ -18,6 +18,11 @@ using TowerLoadCals.Mode.Internet;
 using TowerLoadCals.Modules;
 using TowerLoadCals.Service.Internet;
 
+
+/// <summary>
+/// created by :glj
+/// </summary>
+
 namespace TowerLoadCals.ModulesViewModels.Internet
 {
     public class StruTemplateLibGeneralViewModel : ViewModelBase

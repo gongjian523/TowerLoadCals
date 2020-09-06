@@ -351,25 +351,57 @@ namespace TowerLoadCals.BLL.Electric
         /// <returns></returns>
         protected static double BBValue(double iceThickness)
         {
-            if (iceThickness < 10 && iceThickness >= 5) {
+            if (iceThickness <= 5 && iceThickness > 0) {
                 return 1.1;
             }
-            else if (iceThickness < 15 && iceThickness >= 10){
+            else if (iceThickness <= 10 && iceThickness >5){
                 return 1.2;
             }
-            else if (iceThickness < 20 && iceThickness >= 15){
+            else if (iceThickness <= 15 && iceThickness >10){
                 return 1.3;
             }
-            else if (iceThickness < 30 && iceThickness >= 20){
+            else if (iceThickness <= 20 && iceThickness >15){
                 return 1.5;
             }
-            else if (iceThickness < 50 && iceThickness >= 30){
+            else if (iceThickness <= 30 && iceThickness >20){
                 return 1.8;
             }
-            else if (iceThickness >= 50){
+            else if (iceThickness >= 30){
                 return 2;
             }
             else {
+                return 1;
+            }
+        }
+
+        protected static double BBValuePy(double iceThickness)
+        {
+            if (iceThickness <= 5 && iceThickness > 0)
+            {
+                return 1.1;
+            }
+            else if (iceThickness <= 10 && iceThickness > 5)
+            {
+                return 1.2;
+            }
+            else if (iceThickness <= 15 && iceThickness > 10)
+            {
+                return 1.3;
+            }
+            else if (iceThickness <= 20 && iceThickness > 15)
+            {
+                return 1.5;
+            }
+            else if (iceThickness <= 30 && iceThickness > 20)
+            {
+                return 1.8;
+            }
+            else if (iceThickness >= 30)
+            {
+                return 2;
+            }
+            else
+            {
                 return 1;
             }
         }
@@ -431,6 +463,37 @@ namespace TowerLoadCals.BLL.Electric
             }
             else{
                 return 1;
+            }
+        }
+
+        public static double UZFunction(double H, char  CZD,  double JSH)
+        {
+            switch (CZD)
+            {
+                case 'A':
+                    return Math.Round(1.379 * Math.Pow(H / JSH, 0.24), 3);
+                case 'B':
+                    return Math.Round(1 * Math.Pow(H / JSH, 0.32), 3);
+                case 'C':
+                    return Math.Round(0.544 * Math.Pow(H / JSH, 0.44), 3);
+                default:
+                    return Math.Round(0.262 * Math.Pow(H / JSH, 0.6), 3);
+            }
+        }
+
+
+        public static double TerrainValue(char CZD)
+        {
+            switch (CZD)
+            {
+                case 'A':
+                    return 0.12;
+                case 'B':
+                    return 0.16;
+                case 'C':
+                    return 0.22;
+                default:
+                    return 0.3;
             }
         }
     }

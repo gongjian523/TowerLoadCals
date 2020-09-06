@@ -81,17 +81,17 @@ namespace TowerLoadCals.BLL.Electric
         public void FlashWireData(string towerType, double spanVal, double angle)
         {
             IndWire.UpdataPara(Weather, CommParas, SideParas, towerType);
-            IndWire.UpdateWeaForCals(IsBackSide, angle, towerType);
+            IndWire.UpdateWeaForCals(IsBackSide, angle, towerType, IndWire.Dia, GrdWire.Dia);
             IndWire.CalBZ();
             IndWire.SaveYLTabel(spanVal);
 
             GrdWire.UpdataPara(Weather, CommParas, SideParas, towerType);
-            GrdWire.UpdateWeaForCals(IsBackSide, angle, towerType);
+            GrdWire.UpdateWeaForCals(IsBackSide, angle, towerType, IndWire.Dia, GrdWire.Dia);
             GrdWire.CalBZ();
             GrdWire.SaveYLTabel(spanVal);
 
             OPGWWire.UpdataPara(Weather, CommParas, SideParas, towerType);
-            OPGWWire.UpdateWeaForCals(IsBackSide, angle, towerType);
+            OPGWWire.UpdateWeaForCals(IsBackSide, angle, towerType, IndWire.Dia, GrdWire.Dia);
             OPGWWire.CalBZ();
             OPGWWire.SaveYLTabel(spanVal);
         }
@@ -102,29 +102,29 @@ namespace TowerLoadCals.BLL.Electric
         public void FlashJumWireData(string towerType, double angle)
         {
             JumWire.UpdataPara(Weather, CommParas, SideParas, towerType);
-            JumWire.UpdateWeaForCals(IsBackSide, angle, towerType);
+            JumWire.UpdateWeaForCals(IsBackSide, angle, towerType, IndWire.Dia, GrdWire.Dia);
             
             //JumWire.CalBZ();
             //JumWire.SaveYLTabel(spanVal);
         }
 
-        public List<string> PrintBzAndYL()
+        public List<string> PrintBzAndYL(string towerType)
         {
             List<string> logStrs = new List<string>();
 
             logStrs.Add("导线：");
-            logStrs.AddRange(PrintSpecLoadAndStress(IndWire));
+            logStrs.AddRange(PrintSpecLoadAndStress(IndWire, towerType));
 
             logStrs.Add("\n地线：");
-            logStrs.AddRange(PrintSpecLoadAndStress(GrdWire));
+            logStrs.AddRange(PrintSpecLoadAndStress(GrdWire, towerType));
 
             logStrs.Add("\nOPGW：");
-            logStrs.AddRange(PrintSpecLoadAndStress(OPGWWire));
+            logStrs.AddRange(PrintSpecLoadAndStress(OPGWWire, towerType));
 
             return logStrs;
         }
 
-        protected List<string> PrintSpecLoadAndStress(ElecCalsWire wire)
+        protected List<string> PrintSpecLoadAndStress(ElecCalsWire wire, string towerType)
         {
             List<string> rslt = new List<string>();
 
@@ -149,7 +149,9 @@ namespace TowerLoadCals.BLL.Electric
                 + FileUtils.PadRightEx("垂直荷载：", 12) + FileUtils.PadRightEx("风荷载：", 12) + FileUtils.PadRightEx("应力：", 12) + FileUtils.PadRightEx("应力g：", 12);
             rslt.Add(strTitle);
 
-            foreach (var name in wire.WorkCdtNamesStrain)
+            List<string> wkCdtList = towerType == "悬垂塔" ? wire.WorkCdtNamesHang : wire.WorkCdtNamesStrain;
+
+            foreach (var name in wkCdtList)
             {
                 if (wire.WeatherParas.WeathComm.Where(item => item.Name == name).Count() <= 0)
                     continue;

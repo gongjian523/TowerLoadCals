@@ -8,6 +8,7 @@
     x:Class="TowerLoadCals.Modules.Internet.SpacerModule"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:SpacerViewModel}}" Background="AliceBlue">
     <Grid>
+       
         <Grid.RowDefinitions>
             <RowDefinition Height="40" Name="g_heard"/>
             <RowDefinition Height="*"  />

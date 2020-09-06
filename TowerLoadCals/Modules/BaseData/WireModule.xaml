@@ -8,6 +8,11 @@
     x:Class="TowerLoadCals.Modules.WireModule"
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:WireViewModel}}">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="HeaderTemplate" >
+                <TextBlock Text="{Binding}" TextWrapping="Wrap"   TextAlignment="Center"  />
+            </DataTemplate>
+        </Grid.Resources>
         <dxg:GridControl Grid.Column="1" AutoGenerateColumns="AddNew" Margin="8,0"
                 EnableSmartColumnsGeneration="True" 
                 ItemsSource="{Binding SelectedItems}"
@@ -29,7 +34,7 @@
             <dxg:GridColumn FieldName="WireType"  Header="线类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="SectionArea"  Header="截面积(mm²)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="ExternalDiameter"  Header="外径(mm)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="UnitLengthMass"  Header="单位长度质量(km/mm)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
+            <dxg:GridColumn FieldName="UnitLengthMass"  Header="单位长度质量(km/mm)" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="110"  HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="DCResistor"  Header="直流电阻(Ω)" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="RatedBreakingForce"  Header="额定拉断力(N)" HorizontalHeaderContentAlignment="Center"/>
             <dxg:GridColumn FieldName="ModulusElasticity"  Header="弹性模量" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>

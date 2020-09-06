@@ -14,6 +14,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
+/// <summary>
+/// created by :glj
+/// </summary>
+
 namespace TowerLoadCals.Modules.Internet
 {
     /// <summary>

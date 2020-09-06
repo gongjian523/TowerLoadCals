@@ -8,6 +8,13 @@ using TowerLoadCals.Modules.TowerSequence;
 using TowerLoadCals.ModulesViewModels;
 using TowerLoadCals.ModulesViewModels.TowerSequence;
 
+
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
 namespace TowerLoadCals
 {
     public partial class MainWindowViewModel
@@ -26,7 +33,7 @@ namespace TowerLoadCals
         }
 
         /// <summary>
-        /// 点击结构计算按钮时的操作
+        /// 点击杆塔序列按钮时的操作
         /// </summary>
         /// <param name="mv"></param>
         private void OnTowerSequenceModuleSeleced(ModuleMenu mv)
@@ -100,8 +107,23 @@ namespace TowerLoadCals
             newSequenceMenu.SetIcon("Menu_weather.png");
 
             SelectedModuleInfo.MenuItems.Add(newSequenceMenu);
-
             MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
+
+            //电气计算同步增加菜单
+            var subMenu = new SubMenuBase("ElectricalCheckingParModule", this, "    " + newSequenceName, (e) => { OnSelectedBaseDataSubModuleChanged(e); });
+            subMenu.ParentNode = ElectricalCalsMenu.MenuItems[0];
+            var subList = new List<SubMenuBase>() { };
+
+            var subMenu1 = new SubMenuBase("", this, "        悬垂塔", (e) => { OnSelectedSubModuleItemChanged(e); });
+            subMenu1.ParentNode = subMenu;
+            subList.Add(subMenu1);
+
+            var subMenu2 = new SubMenuBase("", this, "        耐张塔", (e) => { OnSelectedSubModuleItemChanged(e); });
+            subMenu2.ParentNode = subMenu;
+            subList.Add(subMenu2);
+
+            subMenu.ChildItems = subList;
+            ElectricalCalsMenu.MenuItems[0].ChildItems.Add(subMenu);
         }
         #endregion
 

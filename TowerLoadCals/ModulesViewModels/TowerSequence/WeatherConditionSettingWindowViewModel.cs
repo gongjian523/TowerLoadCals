@@ -16,6 +16,13 @@ using TowerLoadCals.DAL;
 using System.Collections.ObjectModel;
 using DevExpress.DataProcessing.InMemoryDataProcessor;
 
+
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
 namespace TowerLoadCals.ModulesViewModels.TowerSequence
 {
     /// <summary>

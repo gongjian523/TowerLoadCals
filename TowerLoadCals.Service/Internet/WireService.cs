@@ -7,6 +7,13 @@ using System.Web.UI;
 using TowerLoadCals.Mode.Internet;
 using TowerLoadCals.Service.Helpers;
 
+
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
 namespace TowerLoadCals.Service.Internet
 {
     /// <summary>

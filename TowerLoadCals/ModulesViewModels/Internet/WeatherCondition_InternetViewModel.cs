@@ -13,6 +13,11 @@ using TowerLoadCals.BLL;
 using TowerLoadCals.Mode.Internet;
 using TowerLoadCals.Service.Internet;
 
+
+/// <summary>
+/// created by :glj
+/// </summary>
+
 namespace TowerLoadCals.ModulesViewModels.Internet
 {
     public class WeatherCondition_InternetViewModel : ViewModelBase

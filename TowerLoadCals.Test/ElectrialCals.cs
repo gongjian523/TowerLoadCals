@@ -265,10 +265,10 @@ namespace TowerLoadCals.Test
             LogList.AddRange(CalTower.FrontSideRes.PrintTension(CalTower.TowerType));
 
             LogList.Add("\n小号塔比载和应力：");
-            LogList.AddRange(CalTower.BackSideRes.PrintBzAndYL());
+            LogList.AddRange(CalTower.BackSideRes.PrintBzAndYL(CalTower.TowerType));
 
             LogList.Add("\n大号塔比载和应力：");
-            LogList.AddRange(CalTower.FrontSideRes.PrintBzAndYL());
+            LogList.AddRange(CalTower.FrontSideRes.PrintBzAndYL(CalTower.TowerType));
 
             //绝缘子串参数
             ElecCalsStrData IndStr = new ElecCalsStrData();
@@ -289,15 +289,15 @@ namespace TowerLoadCals.Test
             //导线有2侧，每侧有3相，因为三相的数据一样，故每侧打印一相
             LogList.Add("\n小号侧绝缘子串风荷载和垂直荷载：");
             LogList.Add("导线");
-            LogList.AddRange(CalTower.PhaseTraList[0].PrintStrLoad());
+            LogList.AddRange(CalTower.PhaseTraList[0].PrintStrLoad(CalTower.TowerType));
             LogList.Add("地线");
-            LogList.AddRange(CalTower.PhaseTraList[3].PrintStrLoad());
+            LogList.AddRange(CalTower.PhaseTraList[3].PrintStrLoad(CalTower.TowerType));
 
             LogList.Add("\n大号侧绝缘子串风荷载和垂直荷载：");
             LogList.Add("导线");
-            LogList.AddRange(CalTower.PhaseTraList[5].PrintStrLoad());
+            LogList.AddRange(CalTower.PhaseTraList[5].PrintStrLoad(CalTower.TowerType));
             LogList.Add("地线");
-            LogList.AddRange(CalTower.PhaseTraList[8].PrintStrLoad());
+            LogList.AddRange(CalTower.PhaseTraList[8].PrintStrLoad(CalTower.TowerType));
 
             for (int i = 0; i <= 2; i++)
             {
@@ -469,8 +469,8 @@ namespace TowerLoadCals.Test
             BackTower.UpdataTowerTraHei();
             BackTower.UpdateAtitudeTower();
 
-            CalTower.SetPosInf("N6099", "SZ253", 48, 1273, -4.7, 6, 0.3, 3);
-            CalTower.SetFrontBackPosInf(325, 430, 593, 593);
+            CalTower.SetPosInf("N6099", "SZ253", 48, 1273, -4.7, 6, 0.3, 0);
+            CalTower.SetFrontBackPosInf(374, 428, 466, 428);
             CalTower.TowerAppre = CalsAppre;
             CalTower.UpdataTowerTraHei();
             CalTower.UpdateAtitudeTower();
@@ -500,7 +500,31 @@ namespace TowerLoadCals.Test
             LogList.AddRange(CalTower.SideRes.PrintTension(CalTower.TowerType));
 
             LogList.Add("\n比载和应力：");
-            LogList.AddRange(CalTower.SideRes.PrintBzAndYL());
+            LogList.AddRange(CalTower.SideRes.PrintBzAndYL(CalTower.TowerType));
+
+            //绝缘子串参数
+            ElecCalsStrData IndStr = new ElecCalsStrData();
+            IndStr.SetIGPara(701.58, 1, 28, 0, 8, 0, 0);
+            ElecCalsStrData GrdStr = new ElecCalsStrData();
+            GrdStr.SetIGPara(29.08, 2, 1, 0, 4, 0, 0);
+    
+            CalTower.GetAndUpdateStrData(IndStr, GrdStr);
+
+            for (int i = 0; i <= 9; i++)
+            {
+                CalTower.PhaseTraList[i].CalsStrLoad();
+            }
+
+            //导线有2侧，每侧有3相，因为三相的数据一样，故每侧打印一相
+            LogList.Add("\n侧绝缘子串风荷载和垂直荷载：");
+            LogList.Add("导线");
+            LogList.AddRange(CalTower.PhaseTraList[0].PrintStrLoad(CalTower.TowerType));
+            LogList.Add("地线");
+            LogList.AddRange(CalTower.PhaseTraList[3].PrintStrLoad(CalTower.TowerType));
+
+            CalTower.FlashBackHeiSub(BackTower);
+            CalTower.UpdateDFCure();
+            LogList.AddRange(CalTower.PrintDFCure());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, LogList);
         }

@@ -7,6 +7,13 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
 namespace TowerLoadCals.Service.Helpers
 {
     public class InternetLinkHelper

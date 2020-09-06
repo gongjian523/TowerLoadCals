@@ -14,6 +14,13 @@ using TowerLoadCals.Modules.TowerSequence;
 using TowerLoadCals.ModulesViewModels;
 
 
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
+
 namespace TowerLoadCals.ModulesViewModels.TowerSequence
 {
     public class TowerSequenceViewModel : DaseDataBaseViewModel<TowerSerial, List<TowerSerial>>
@@ -131,16 +138,93 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
 
 
         /// <summary>
-        /// 页面刷新
+        /// 超前判断 对当前列表数据进行条件判断 
+        /// 垂直档距字段根据塔型可能会包含/,后期需要进行读取逻辑判断 
+        /// 修
         /// </summary>
         public void doRefreshLink()
         {
-            DialogResult dr = MessageBox.Show("页面信息可能已发生改变，请确认是否保存当前页面数据？", "保存确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (dr == DialogResult.OK)
+            //DialogResult dr = MessageBox.Show("页面信息可能已发生改变，请确认是否保存当前页面数据？", "保存确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            //if (dr == DialogResult.OK)
+            //{
+            //    doSave();//保存方法xml
+            //}
+            //GetDataSource(pageName);
+
+            string towerPath = globalInfo.ProjectPath + "\\" + ConstVar.DataBaseStr + "\\TowerStr.xml";
+
+            List<TowerStrData> towerList = TowerStrDataReader.ReadLoadFile(towerPath).ToList();
+
+            TowerStrData tower;//塔型实体
+            List<string> StrHeight;//直线塔呼高
+            double StrAllowHorSpan;// 直线塔档距序列字符串
+
+            foreach (TowerSerial item in this.dataSource)
             {
-                doSave();//保存方法xml
+                //杆塔型号实体
+                tower = towerList.Where(t => t.Name == item.TowerPattern).FirstOrDefault();
+
+                if (tower != null)//塔型判断
+                {
+                    if (tower.TypeName == "直线塔" || tower.TypeName == "直线转角塔" || tower.TypeName == "终端塔" || tower.TypeName == "分支塔")
+                    {
+                        //                      水平档距的验算
+                        //实际使用直线塔水平档距大于铁塔使用条件中水平档距的
+                        StrHeight = tower.StrHeightSer.Split(',').ToList();
+                        int index = StrHeight.IndexOf(item.CallItHigh.ToString());
+                        StrAllowHorSpan = double.Parse(tower.StrAllowHorSpan.Split(',').ToList()[index]);
+
+                        if (item.HorizontalSpan > StrAllowHorSpan && item.IsChecking == false)//如果水平档距大于了设定呼高设置最大值
+                        {
+                            item.IsChecking = true;
+                        }
+                        //                     垂直档距验算 
+                        //实际使用直线塔垂直档距大于铁塔使用条件中垂直档距的
+                        if (double.Parse(item.VerticalSpan) > tower.AllowedVerSpan && item.IsChecking == false)
+                        {
+                            item.IsChecking = true;
+                        }
+                        if (tower.TypeName == "直线塔")//直线塔判断
+                        {
+                            //                    带角度直线塔验算
+                            //实际使用时直线塔带角度的，全部进行验算
+                            if (item.TurningAngle != 0 && item.IsChecking == false)
+                            {
+                                item.IsChecking = true;
+                            }
+                        }
+                        else if (tower.TypeName == "直线转角塔" || tower.TypeName == "终端塔" || tower.TypeName == "分支塔")//直线转角塔判断
+                        {
+                            //                        带角度直线塔验算
+                            //转角度数超过塔库中使用条件最大转角的，就验算。
+                            if (item.TurningAngle > tower.MaxAngel && item.IsChecking == false)
+                            {
+                                item.IsChecking = true;
+                            }
+                        }
+                    }
+                    else //耐张塔
+                    {
+                        if (item.HorizontalSpan > tower.AllowedHorSpan && item.IsChecking == false)//设计水平档距
+                        {
+                            item.IsChecking = true;
+                        }
+                        if (item.HorizontalSpan > tower.MaxAngHorSpan && item.IsChecking == false)//最大水平档距
+                        {
+                            item.IsChecking = true;
+                        }
+                        if (item.HorizontalSpan > (tower.AllowedHorSpan + (tower.MaxAngel - item.TurningAngle) * tower.AngelToHorSpan) && item.IsChecking == false)//水平档距
+                        {
+                            item.IsChecking = true;
+                        }
+                        if (Math.Abs(item.VerticalSpan.Split('/').Sum(k => double.Parse(k))) > tower.AllowedVerSpan)//垂直档距验算
+                        {
+                            item.IsChecking = true;
+                        }
+                    }
+                }
+
             }
-            GetDataSource(pageName);
         }
 
 

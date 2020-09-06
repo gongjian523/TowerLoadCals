@@ -1,0 +1,627 @@
+﻿<UserControl x:Class="TowerLoadCals.Modules.Electrical.ElectricalCommonParModule_1"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.Electrical" 
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:ext="clr-namespace:TowerLoadCals"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:ElectricalCommonParViewModel}}" >
+    <Grid>
+        <TabControl>
+            <TabItem Header="共同参数" >
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="128"/>
+                            <RowDefinition Height="105" />
+                            <RowDefinition Height="99"/>
+                            <RowDefinition Height="76"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical"  Grid.Row="0">
+                            <Border BorderThickness="1" BorderBrush="LightGray" Padding="10,8">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2.5*"/>
+                                        <ColumnDefinition Width="2.5*"/>
+                                        <ColumnDefinition Width="2.5*"/>
+                                        <ColumnDefinition Width="2.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="地形：" />
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left"  />
+                                    <ComboBox Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left"  />
+
+                                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="地形系数：" />
+
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="3" 
+                                  MaskType="Numeric"
+                                  VerticalAlignment="Center" HorizontalContentAlignment="Left" 
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" />
+
+
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical"  Grid.Row="1">
+                            <Border BorderThickness="1" BorderBrush="LightGray" Padding="10,8">
+                                <Grid>
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Center"  Margin="0,8,0,0"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1"   HorizontalAlignment="Center" Text="电线参数增大系数" Margin="0,8,0,0"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2"  HorizontalAlignment="Center"  Text="截面增大"  Margin="0,8,0,0"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Text="重量增大" Margin="0,8,0,0" />
+                                    <TextBlock Grid.Row="0" Grid.Column="4"  HorizontalAlignment="Center" Text="直径增大" Margin="0,8,0,0"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="导线" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="1"  HorizontalContentAlignment="Left"   Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="2"   HorizontalContentAlignment="Left"    Margin="0,8,0,0" Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="3"    HorizontalContentAlignment="Left"  Margin="0,8,0,0"   Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="4"    HorizontalContentAlignment="Left"  Margin="0,8,0,0"   Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="地线" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="2" Grid.Column="1"  HorizontalContentAlignment="Left"   Margin="0,8,0,0" Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="2" Grid.Column="2"   HorizontalContentAlignment="Left"    Margin="0,8,0,0" Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="2" Grid.Column="3"    HorizontalContentAlignment="Left"  Margin="0,8,0,0"  Width="120"   MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="2" Grid.Column="4"    HorizontalContentAlignment="Left"  Margin="0,8,0,0"   Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="OPGW" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="3" Grid.Column="1"  HorizontalContentAlignment="Left"   Margin="0,8,0,0" Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="3" Grid.Column="2"  HorizontalContentAlignment="Left"    Margin="0,8,0,0" Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="3" Grid.Column="3"    HorizontalContentAlignment="Left"  Margin="0,8,0,0"   Width="120"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="3" Grid.Column="4"  HorizontalContentAlignment="Left"  Margin="0,8,0,0"  Width="120"   MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical"  Grid.Row="2">
+                            <Border BorderThickness="1" BorderBrush="LightGray" Padding="10,8">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"  Text="导线计算平均高"  Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left"   Margin="0,8,0,0"  Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Text="地线计算平均高"  Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="3" HorizontalContentAlignment="Left"   Margin="0,8,0,0"  Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right"  Text="导地线高空风压系数" Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="5" HorizontalContentAlignment="Left"  Margin="0,8,0,0" Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="6" HorizontalAlignment="Right"  Text="跳串高空风压系数"  Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="7" HorizontalContentAlignment="Left"   Margin="0,8,0,0" Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"  Text="地线覆冰张力取值"  Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left"   Margin="0,8,0,0"  Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" Text="地线不平衡张力取值"   Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Left"   Margin="0,8,0,0"  Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" Text="地线验算张力取值" Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="5" HorizontalContentAlignment="Left"  Margin="0,8,0,0" Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right" Text="锚线张力取值"  Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="7" HorizontalContentAlignment="Left"   Margin="0,8,0,0" Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="断线张力填法"  Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Left"   Margin="0,8,0,0"  Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Text="不均匀冰张力填法"  Margin="0,8,0,0"  />
+                                    <dxe:TextEdit Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Left"   Margin="0,8,0,0"  Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right"  Text="断线max取值" Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="2" Grid.Column="5" HorizontalContentAlignment="Left"  Margin="0,8,0,0" Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="6" HorizontalAlignment="Right"  Text="不均匀冰max取值"  Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="2" Grid.Column="7" HorizontalContentAlignment="Left"   Margin="0,8,0,0" Width="70"  MaskType="Numeric"
+                                  VerticalAlignment="Center"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="3" >
+                            <Border BorderThickness="1" BorderBrush="LightGray" Padding="10,8">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="张力系数" Margin="0,8,0,0"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="施工误差系数"  Margin="0,8,0,0"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="安装误差系数" Margin="0,8,0,0" />
+                                    <TextBlock Grid.Row="0" Grid.Column="3"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="导线伸长系数" Margin="0,8,0,0"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="4"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="地线伸长系数" Margin="0,8,0,0"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="5"    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="6"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="过牵引系数" Margin="0,8,0,0"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="大张力侧" Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center"   Margin="0,8,0,0" Width="90"   MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="2"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="3"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="4"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="1"  Grid.Column="5"   HorizontalAlignment="Right" VerticalAlignment="Center" Text="导线" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+
+                                    <TextBlock Grid.Row="2"  Grid.Column="0"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="小张力侧" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="2"  Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Text=""  Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="2"  Grid.Column="2"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0"  Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="2"  Grid.Column="3"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <dxe:TextEdit Grid.Row="2"  Grid.Column="4"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="2"  Grid.Column="5"   HorizontalAlignment="Right" Text="地线" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="2"  Grid.Column="6"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+
+
+                        <StackPanel Orientation="Vertical"  Grid.Row="4">
+                            <Border BorderThickness="1" BorderBrush="LightGray" Padding="10,8">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Center" Text="导线过牵引长(m)" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="1"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0"  Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2"  HorizontalAlignment="Center" Text="地线过牵引长(m)"  Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Center" VerticalAlignment="Center" Text=""  Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="4"   HorizontalAlignment="Center" Text="对地距离(m)" Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="5"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="6"   HorizontalAlignment="Center" Text="安装垂直荷载取值" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="0" Grid.Column="7"   VerticalAlignment="Center" Text="" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0"   HorizontalAlignment="Center" Text="不均匀冰垂直荷载取值" Margin="0,8,0,0" />
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Text="手动确定高度系数" Margin="0,8,0,0"/>
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="4"   HorizontalAlignment="Center" Text="导线分裂数" Margin="0,8,0,0"/>
+
+                                    <dxe:TextEdit Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" Margin="0,8,0,0" Width="90" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+
+                    </Grid>
+               
+            </TabItem>
+            <TabItem Header="单侧参数">
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="65"/>
+                            <RowDefinition Height="200"/>
+                            <RowDefinition  Height="170"/>
+                            <RowDefinition Height="65"/>
+                            <RowDefinition Height="88"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Header="基础设置" Grid.Row="0" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition  Width="90"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition  Width="90"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="90" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Right"  VerticalAlignment="Center"  Text="手动确定高度系数：" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="1"   HorizontalAlignment="Left" Margin="0,8,0,0" Width="80"  MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Right"   VerticalAlignment="Center" Text="小号侧冰区划分：" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Left" Margin="0,8,0,0" Width="80" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="4"   HorizontalAlignment="Right"   VerticalAlignment="Center" Text="大号侧冰区划分：" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="5"  HorizontalAlignment="Left" Margin="0,8,0,0" Width="80" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="导地线及气象条件参数" Grid.Row="1" Grid.Column="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Center" Text="电线数据" Margin="0,8,0,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Center" Text="导线"  Margin="0,8,0,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Center" Text="地线" Margin="0,8,0,0" />
+                                <TextBlock Grid.Row="0" Grid.Column="3"   HorizontalAlignment="Center" Text="OPGW" Margin="0,8,0,0"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0"   HorizontalAlignment="Center" Text="有效系数" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="1" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0"   HorizontalAlignment="Center" Text="安全系数" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="2" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0"   HorizontalAlignment="Center" Text="平均引力百分比%" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="3" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="3" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0"   HorizontalAlignment="Center" Text="电线降温值（填正值）" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="4" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="4" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="5" Grid.Column="0"   HorizontalAlignment="Center" Text=" 导线气象名称" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="5" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="5" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="5" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="绝缘子串" Grid.Row="2" Grid.Column="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Text="本侧本体塔"  Margin="0,8,0,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Text="本侧相邻塔" Margin="0,8,0,0" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Text="导线串"  Margin="0,8,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Text="地线串"  Margin="0,8,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Text="导线串"  Margin="0,8,0,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" Text="地线串"  Margin="0,8,0,0"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0"   HorizontalAlignment="Center" Text="导地线型号" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="2" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="2" Grid.Column="4"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0"   HorizontalAlignment="Center" Text="绝缘子片数" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="3" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="3" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="3" Grid.Column="4"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0"   HorizontalAlignment="Center" Text="阻尼线长(m)" Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="4" Grid.Column="2"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="4" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <dxe:TextEdit Grid.Row="4" Grid.Column="4"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="120" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="其他附件型号" Grid.Row="3" Grid.Column="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition  Width="90"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition  Width="90"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="90" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="跳线串型号："  Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Width="65" Margin="0,8,0,0" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="导线间隔棒型号：" Margin="0,8,0,0" />
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Left" Width="65" Margin="0,8,0,0"  MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="4"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="导线防振锤型号："  Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="5" HorizontalAlignment="Left" Width="65" Margin="0,8,0,0"  MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Center" Text="地线防振锤型号：" Margin="0,8,0,0" />
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="7"  HorizontalAlignment="Left" Width="65"  Margin="0,8,0,0" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="允许张力（N/相）" Grid.Row="4" Grid.Column="0">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition  Width="120" />
+                                    <ColumnDefinition  Width="90"/>
+                                    <ColumnDefinition  Width="120"/>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition  Width="120"/>
+                                    <ColumnDefinition  Width="90"/>
+                                    <ColumnDefinition  Width="130"/>
+                                    <ColumnDefinition  Width="90"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="导线："  Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"  Width="65" Margin="0,8,0,0" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="地线1：" Margin="0,8,0,0" />
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Left" Width="65" Margin="0,8,0,0"  MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="4"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="地线2："  Margin="0,8,0,0"/>
+                                <dxe:TextEdit Grid.Row="0" Grid.Column="5" HorizontalAlignment="Left" Width="65" Margin="0,8,0,0"  MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="第一引下线长m：" Margin="0,8,0,0" />
+                                <dxe:TextEdit Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"  HorizontalAlignment="Left"  Width="65" Margin="0,8,0,0" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="第一引下距离后侧m：" Margin="0,8,0,0" />
+                                <dxe:TextEdit Grid.Row="1" Grid.Column="3"  Grid.ColumnSpan="2" HorizontalAlignment="Left"  Width="65" Margin="0,8,0,0" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Text="第二引下线长m：" Margin="0,8,0,0" />
+                                <dxe:TextEdit Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2"  HorizontalAlignment="Left"  Width="65" Margin="0,8,0,0" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Center" Text="第二引下线距离后侧m：" Margin="0,8,0,0" />
+                                <dxe:TextEdit Grid.Row="1" Grid.Column="7"  Grid.ColumnSpan="2" HorizontalAlignment="Left"  Width="65" Margin="0,8,0,0" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+
+</UserControl>

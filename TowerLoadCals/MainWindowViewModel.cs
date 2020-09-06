@@ -213,15 +213,9 @@ namespace TowerLoadCals
 
             moduleList.Add(IniBaseDataModule());//基础数据
 
-            //ModuleMenu towerMudule = new ModuleMenu("TowersModule", this, "塔杆序列", (e) => { OnSelectedModuleChanged(e); });
-            //towerMudule.SetIcon("FolderList_32x32.png");
-            //moduleList.Add(towerMudule);
-
             moduleList.Add(IniTowerSequenceModule());//塔杆序列
 
-            ModuleMenu elecCalsMudule = new ModuleMenu("ElecCalsModule", this, "电气计算", (e) => { OnSelectedModuleChanged(e); });
-            elecCalsMudule.SetIcon("FolderList_32x32.png");
-            moduleList.Add(elecCalsMudule);
+            moduleList.Add(IniElectricalCalsModule());// 电气计算
 
             moduleList.Add(IniStruCalsModule());//结构计算
 

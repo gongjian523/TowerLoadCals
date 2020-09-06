@@ -13,6 +13,13 @@ using TowerLoadCals.Mode;
 using System.IO;
 using Microsoft.Win32;
 
+
+
+/// <summary>
+/// created by : glj
+/// </summary>
+
+
 namespace TowerLoadCals.ModulesViewModels.TowerSequence
 {
     public class AddTowerSequenceViewModel : ViewModelBase

@@ -454,19 +454,19 @@ namespace TowerLoadCals.BLL.Electric
             return ForDic;
         }
 
-        public void UpdateWeaForCals(bool isBackSide, double angle, string towerType)
+        public void UpdateWeaForCals(bool isBackSide, double angle, string towerType, double diaInd, double diaGrd)
         {
             double aveHei = bGrd == 0 ? CommParas.IndAveHei : CommParas.GrdAveHei;
 
-            if(towerType == "耐张塔")
+            if (towerType == "耐张塔")
             {
                 //两种不同计算方式，一个是从按照Excel转换，一个从python转换，结果相同，采用从python转换的结果
                 //WeatherParas.ConverWind(aveHei, CommParas.TerrainPara);
                 WeatherParas.ConverWind(aveHei, CommParas.TerType);
 
                 WeatherParas.ConverWind45(isBackSide, angle);
-                WeatherParas.AddBreakGK("断线", bGrd, CommParas.GrdIceUnbaPara, Dia, CommParas.BreakIceCoverPer);
-                WeatherParas.AddUnevenIceGK(false, Dia, isBackSide, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
+                WeatherParas.AddBreakGKStrain("断线", bGrd, CommParas.GrdIceUnbaPara, diaInd, CommParas.BreakIceCoverPer);
+                WeatherParas.AddUnevenIceGKStrain(false, diaInd, isBackSide, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
 
                 WeatherParas.AddOtherGk();
                 WeatherParas.AddInstallColdGk(DecrTem);
@@ -477,9 +477,9 @@ namespace TowerLoadCals.BLL.Electric
                     WeatherParas.AddGrdWeath();
 
                     //下面的三种工况是各自工况的导线+5mm后的工况
-                    WeatherParas.AddBreakGK("断线(导线+5mm)", bGrd, CommParas.GrdIceUnbaPara, Dia, CommParas.BreakIceCoverPer);
-                    WeatherParas.AddUnevenIceGK(true, Dia, isBackSide, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
-                    WeatherParas.AddCkeckGKIcr5mm();
+                    WeatherParas.AddBreakGKStrain("断线(导线+5mm)", bGrd, CommParas.GrdIceUnbaPara, diaGrd, CommParas.BreakIceCoverPer);
+                    WeatherParas.AddUnevenIceGKStrain(true, diaGrd, isBackSide, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
+                    WeatherParas.AddCkeckGKIcr5mm(towerType);
                 }
             }
             else
@@ -488,9 +488,20 @@ namespace TowerLoadCals.BLL.Electric
 
                 //悬垂塔的45风的计算方式和耐张塔后侧的一样，所以直接前后侧的参数直接设置成True
                 WeatherParas.ConverWind45(true, angle);
+                WeatherParas.AddBreakGKHang(false, diaInd, CommParas.BreakIceCoverPer, CommParas.BreakIceCoverPerII);
+                WeatherParas.AddUnevenIceGKHang(false, diaInd, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
 
+                WeatherParas.AddInstallColdGk(DecrTem);
 
+                if (bGrd > 0)
+                {
+                    //增加地线覆冰工况
+                    WeatherParas.AddGrdWeath();
 
+                    WeatherParas.AddBreakGKHang(true, diaGrd, CommParas.BreakIceCoverPer, CommParas.BreakIceCoverPerII);
+                    WeatherParas.AddUnevenIceGKHang(true, diaGrd, CommParas.UnbaIceCoverPerI, CommParas.UnbaIceCoverPerII);
+                    WeatherParas.AddCkeckGKIcr5mm(towerType);
+                }
             }
         }
     }
