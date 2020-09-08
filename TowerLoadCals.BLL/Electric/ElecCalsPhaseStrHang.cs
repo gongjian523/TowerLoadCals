@@ -10,6 +10,14 @@ namespace TowerLoadCals.BLL.Electric
 {
     public class ElecCalsPhaseStrHang: ElecCalsPhaseStr
     {
+        public override List<string> WireWorkConditionNames
+        {
+            get
+            {
+                return WireData.WorkCdtNamesHang;
+            }
+        }
+
         /// <summary>
         /// 1弧垂值（m）
         /// </summary>
@@ -35,6 +43,19 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double CalHei { get; set; }
 
+
+        /// <summary>
+        /// 断线工况张力差-地线开断情况
+        /// </summary>
+        public double BreakTenDiffGrdBre { get; set; }
+        public string BreakTenDiffGrdBreStr { get; set; }
+
+        /// <summary>
+        /// 不均匀冰工况张力差-地线开断情况
+        /// </summary>
+        public double UnbaIceTenDiffGrdBre { get; set; }
+        public string UnbaIceTenDiffGrdBreStr { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -58,6 +79,60 @@ namespace TowerLoadCals.BLL.Electric
 
             double terrainPara = ElecCalsToolBox2.TerrainValue(terrainType);
             StrWindPara = Math.Round(Math.Pow(SpaceStr.GDHei/ wireHei, terrainPara * 2) , 3);
+        }
+
+
+
+        public override void UpdateHorFor(double diaInc)
+        {
+            foreach (var nameWd in WireWorkConditionNames)
+            {
+                double rslt = HorFor(diaInc, WireData.DevideNum, SpaceStr.HorSpan, HangStr.DampLength, WireData.BzDic[nameWd].WindHezai, StrLoad[nameWd].WindLoad, out string str);
+
+                int index = LoadList.FindIndex(item => item.GKName == nameWd);
+                if (index < 0)
+                {
+                    LoadList.Add(new LoadThrDe()
+                    {
+                        GKName = nameWd,
+                        HorFor = rslt,
+                        HorForStr = str,
+                    });
+                }
+                else
+                {
+                    LoadList[index].HorFor = rslt;
+                    LoadList[index].HorForStr = str;
+                }
+            }
+        }
+
+        public override double UpdateHorFor(string nameGK, out string str, double diaInc)
+        {
+            double rslt = HorFor(diaInc, WireData.DevideNum, SpaceStr.HorSpan, HangStr.DampLength, WireData.BzDic[nameGK].WindHezai, StrLoad[nameGK].WindLoad, out str);
+            return rslt;
+        }
+
+
+        public override void UpdateTensionDiff(double secInc, double effectPara, double safePara)
+        {
+            BreakTenDiff = TensionDiff(out string breakTensionDiffStr, WireData.Fore, secInc, effectPara, safePara, WireData.BreakTensionPara, WireData.DevideNum);
+            BreakTenDiffStr = breakTensionDiffStr;
+
+            UnbaIceTenDiff = TensionDiff(out string unbaIceTensionDiffStr, WireData.Fore, secInc, effectPara, safePara, WireData.UnbaTensionPara, WireData.DevideNum);
+            UnbaIceTenDiffStr = unbaIceTensionDiffStr;
+
+            if(WireData.bGrd != 0)
+            {
+                BreakTenDiffGrdBre = TensionDiff(out string breakTenDiffGrdBreStr, WireData.Fore, secInc, effectPara, safePara, WireData.BreakTensionGrdBrePara, WireData.DevideNum);
+                BreakTenDiffGrdBreStr = breakTenDiffGrdBreStr;
+
+                UnbaIceTenDiffGrdBre = TensionDiff(out string unbaIceTenDiffGrdBreStr, WireData.Fore, secInc, effectPara, safePara, WireData.UnbaTensionGrdBrePara, WireData.DevideNum);
+                UnbaIceTenDiffGrdBreStr = unbaIceTenDiffGrdBreStr;
+            }
+
+            BreakTenMax = BreakTensionMax(secInc, effectPara, safePara);
+            UnbaIceTenMax = UnbaIceTensionMax(secInc, effectPara, safePara);
         }
     }
 }

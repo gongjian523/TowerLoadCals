@@ -22,7 +22,6 @@ namespace TowerLoadCals.BLL.Electric
         public ElecCalsRes FrontSideRes { get; set; }
 
 
-
         public TowerStrainElecCals()
         {           
             for (int i = 0; i < 10; i++)
@@ -1116,12 +1115,12 @@ namespace TowerLoadCals.BLL.Electric
                     var laod = phase.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double loStr = laod == null ? 0 : laod.LoStr;
                     string loStrStr = laod == null ? "" : laod.LoStrStr;
-                    string loStrCheckStr = laod == null ? "" : laod.LoStrCheck;
+                    string loStrCheckStr = laod == null ? "" : laod.LoStrCheckStr;
 
                     var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double loStrAn = phaseAn == null ? 0 : laodAn.LoStr;
                     string loStrStrAn = phaseAn == null ? "" : laodAn.LoStrStr;
-                    string loStrCheckStrAn = phaseAn == null ? "" : laodAn.LoStrCheck;
+                    string loStrCheckStrAn = phaseAn == null ? "" : laodAn.LoStrCheckStr;
 
                     //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.TensionStrDic[name], 80) + FileUtils.PadRightEx(phase.TensionDic[name].ToString("0.###"), 12)
                     //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.TensionStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.TensionDic[name].ToString("0.###"), 12));

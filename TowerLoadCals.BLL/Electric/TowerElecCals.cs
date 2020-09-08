@@ -185,24 +185,32 @@ namespace TowerLoadCals.BLL.Electric
         /// 有5个相位
         /// </summary>
         /// <param name="PntTower"></param>
+        /// 
         public void FlashBackHeiSub(TowerElecCals pntTower)
         {
             PhaseTraList[0].SpaceStr.SubHei = AtiUpSide - pntTower.AtiUpSide;
             PhaseTraList[0].SpaceStr.GDHei = AbsUpSideHei;
             PhaseTraList[0].SpaceStr.Span = BackPosRes.Span;
+            PhaseTraList[0].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span)/2;
             PhaseTraList[1].SpaceStr.SubHei = AtiMid - pntTower.AtiMid;
             PhaseTraList[1].SpaceStr.GDHei = AbsMidHei;
             PhaseTraList[1].SpaceStr.Span = BackPosRes.Span;
+            PhaseTraList[1].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
             PhaseTraList[2].SpaceStr.SubHei = AtiDownd - pntTower.AtiDownd;
             PhaseTraList[2].SpaceStr.GDHei = AbsDownSideHei;
             PhaseTraList[2].SpaceStr.Span = BackPosRes.Span;
+            PhaseTraList[2].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
             PhaseTraList[3].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
             PhaseTraList[3].SpaceStr.GDHei = AbsGrdHei;
             PhaseTraList[3].SpaceStr.Span = BackPosRes.Span;
+            PhaseTraList[3].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
             PhaseTraList[4].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
             PhaseTraList[4].SpaceStr.GDHei = AbsGrdHei;
             PhaseTraList[4].SpaceStr.Span = BackPosRes.Span;
+            PhaseTraList[4].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
         }
+
+
 
         /// <summary>
         /// 更新前侧高差，传统模式  本塔-前侧铁塔
@@ -214,18 +222,23 @@ namespace TowerLoadCals.BLL.Electric
             PhaseTraList[5].SpaceStr.SubHei = AtiUpSide - pntTower.AtiUpSide;
             PhaseTraList[5].SpaceStr.GDHei = AbsUpSideHei;
             PhaseTraList[5].SpaceStr.Span = FrontPosRes.Span;
+            PhaseTraList[5].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
             PhaseTraList[6].SpaceStr.SubHei = AtiMid - pntTower.AtiMid;
             PhaseTraList[6].SpaceStr.GDHei = AbsMidHei;
             PhaseTraList[6].SpaceStr.Span = FrontPosRes.Span;
+            PhaseTraList[6].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
             PhaseTraList[7].SpaceStr.SubHei = AtiDownd - pntTower.AtiDownd;
             PhaseTraList[7].SpaceStr.GDHei = AbsDownSideHei;
             PhaseTraList[7].SpaceStr.Span = FrontPosRes.Span;
+            PhaseTraList[7].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
             PhaseTraList[8].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
             PhaseTraList[8].SpaceStr.GDHei = AbsGrdHei;
             PhaseTraList[8].SpaceStr.Span = FrontPosRes.Span;
+            PhaseTraList[8].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
             PhaseTraList[9].SpaceStr.SubHei = AtiGrd - pntTower.AtiGrd;
             PhaseTraList[9].SpaceStr.GDHei = AbsGrdHei;
             PhaseTraList[9].SpaceStr.Span = FrontPosRes.Span;
+            PhaseTraList[9].SpaceStr.HorSpan = (BackPosRes.Span + FrontPosRes.Span) / 2;
         }
 
 

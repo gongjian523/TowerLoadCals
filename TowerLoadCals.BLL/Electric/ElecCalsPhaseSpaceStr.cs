@@ -9,6 +9,11 @@
         public double Span { get; set; }
 
         /// <summary>
+        /// 水平档距
+        /// </summary>
+        public double HorSpan { get; set; }
+
+        /// <summary>
         /// 高差数据
         /// </summary>
         public double SubHei { get; set; }

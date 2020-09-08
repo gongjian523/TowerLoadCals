@@ -382,8 +382,8 @@ namespace TowerLoadCals.BLL.Electric
             wkCdtList.Add(maxIceWkCdt);
             wkCdtList.Add(aveTempWkCdt);
 
-            CtrlStress = Math.Round(Fore / Sec / 9.80665 * EffectPara / SafePara, 3);
-            AvaStress = Math.Round(Fore / Sec / 9.80665 * EffectPara * AvePara / 100, 3);
+            CtrlStress = Math.Round(Fore / Sec / CommParas.GraAcc * EffectPara / SafePara, 3);
+            AvaStress = Math.Round(Fore / Sec / CommParas.GraAcc * EffectPara * AvePara / 100, 3);
 
             CtrlGkName = ElecCalsToolBox2.GetCtrlWorkConditionName(BzDic, wkCdtList,span, Elas, CtrlStress, AvaStress, Coef);
             CtrlGkStress = CtrlGkName == "平均气温" ? AvaStress : CtrlStress;

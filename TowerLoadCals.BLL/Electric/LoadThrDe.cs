@@ -18,6 +18,7 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double HorFor { get; set; }
 
+
         /// <summary>
         /// 水平荷载表达式
         /// </summary>
@@ -49,13 +50,19 @@ namespace TowerLoadCals.BLL.Electric
         public double LoStr { get; set; }
 
         /// <summary>
-        ///  纵向荷载 (张力)
+        ///  纵向荷载 (张力) 验算 (只用于耐张塔)
         /// </summary>
-        public string LoStrCheck { get; set; }
+        public string LoStrCheckStr { get; set; }
 
         /// <summary>
-        ///  纵向荷载 (张力)
-        ///  只有断线和不均匀冰工况才有
+        ///  纵向荷载 (张力) 验算 (只用于悬垂塔)
+        /// </summary>
+        public double LoStrCheck { get; set; }
+
+        /// <summary>
+        ///  纵向荷载 (张力) 验算
+        ///  在耐张塔中只有断线和不均匀冰工况才有
+        ///  在悬垂塔中每种工况都要计算
         /// </summary>
         public double LoStrCheck2 { get; set; }
 

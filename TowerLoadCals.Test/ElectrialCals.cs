@@ -523,8 +523,12 @@ namespace TowerLoadCals.Test
             LogList.AddRange(CalTower.PhaseTraList[3].PrintStrLoad(CalTower.TowerType));
 
             CalTower.FlashBackHeiSub(BackTower);
+            CalTower.FlashFrontHeiSub(FrontTower);
             CalTower.UpdateDFCure();
             LogList.AddRange(CalTower.PrintDFCure());
+
+            CalTower.Cals();
+            LogList.AddRange(CalTower.PrintCalsReslt());
 
             FileUtils.TextSaveByLine(saveFileDialog.FileName, LogList);
         }

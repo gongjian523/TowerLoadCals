@@ -53,7 +53,6 @@ namespace TowerLoadCals.Service.Helpers
     {
         public string status { get; set; }
         public string msg { get; set; }
-
     }
 
 }
