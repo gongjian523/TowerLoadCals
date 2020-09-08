@@ -480,17 +480,6 @@ namespace TowerLoadCals.BLL.Electric
 
         public virtual void UpdateTensionDiff(double secInc, double effectPara, double safePara)
         {
-            //BreakTenDiff = TensionDiff(out string breakTensionDiffStr, WireData.Fore, secInc, effectPara, safePara, WireData.BreakTensionPara, WireData.DevideNum);
-            //BreakTenDiffStr = breakTensionDiffStr;
-
-            //UnbaIceTenDiff = TensionDiff(out string unbaIceTensionDiffStr, WireData.Fore, secInc, effectPara, safePara, WireData.UnbaTensionPara, WireData.DevideNum);
-            //UnbaIceTenDiffStr = unbaIceTensionDiffStr;
-
-            //BreakTenMaxTemp = BreakTensionMax(secInc, effectPara, safePara);
-            //BreakTenMax = Math.Max(BreakTenMaxTemp, BreakTenDiff);
-
-            //UnbaIceTenMaxTemp = UnbaIceTensionMax(secInc, effectPara, safePara);
-            //UnbaIceTenMax = Math.Max(UnbaIceTenMaxTemp, UnbaIceTenDiff);
         }
 
         #region 内部计算函数
@@ -660,42 +649,6 @@ namespace TowerLoadCals.BLL.Electric
             double rslt = secInc * Math.Round(fore * effectPara / 9.80665, 2) / savePara * devideNum * tensionCoef;
             str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/9.80665/" + savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
             return rslt;
-        }
-
-        protected double BreakTensionMax(double secInc, double effectPara, double safePara)
-        {
-            if (WireData.CommParas.BreakMaxPara == 1)
-            {
-                return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
-            }
-            else
-            {
-                var load = LoadList.Where(item => item.GKName == "覆冰无风").FirstOrDefault();
-                double loStr = load == null ? 0 : load.LoStr;
-
-                var loadAdd5 = LoadList.Where(item => item.GKName == "覆冰无风+5").FirstOrDefault();
-                double loStrAdd5 = loadAdd5 == null ? 0 : loadAdd5.LoStr;
-
-                return WireData.bGrd == 0 ? loStr : (WireData.CommParas.GrdIceUnbaPara == 1 ? loStr : loStrAdd5);
-            }
-        }
-
-        protected double UnbaIceTensionMax(double secInc, double effectPara, double safePara)
-        {
-            if (WireData.CommParas.UnbaMaxPara == 1)
-            {
-                return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
-            }
-            else
-            {
-                var load = LoadList.Where(item => item.GKName == "最大覆冰").FirstOrDefault();
-                double loStr = load == null ? 0 : load.LoStr;
-
-                var loadGrdIce = LoadList.Where(item => item.GKName == "地线覆冰").FirstOrDefault();
-                double loStrGrdIce = loadGrdIce == null ? 0 : loadGrdIce.LoStr;
-
-                return WireData.bGrd == 0 ? loStr : (WireData.CommParas.GrdIceUnbaPara == 1 ? loStr : loStrGrdIce);
-            }
         }
 
         #endregion

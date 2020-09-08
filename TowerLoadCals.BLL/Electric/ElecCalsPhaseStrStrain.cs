@@ -109,18 +109,46 @@ namespace TowerLoadCals.BLL.Electric
             UnbaIceTenDiff = TensionDiff(out string unbaIceTensionDiffStr, WireData.Fore, secInc, effectPara, safePara, WireData.UnbaTensionPara, WireData.DevideNum);
             UnbaIceTenDiffStr = unbaIceTensionDiffStr;
 
-            BreakTenMax = TensionMax(secInc, effectPara, safePara);
-            UnbaIceTenMax = TensionMax(secInc, effectPara, safePara);
+            BreakTenMaxTemp = BreakTensionMax(secInc, effectPara, safePara);
+            BreakTenMax = Math.Max(BreakTenMaxTemp, BreakTenDiff);
+            UnbaIceTenMaxTemp = UnbaIceTensionMax(secInc, effectPara, safePara);
+            UnbaIceTenMax = Math.Max(UnbaIceTenMaxTemp, UnbaIceTenDiff);
         }
 
-        protected double TensionMax(double secInc, double effectPara, double safePara)
+        protected double BreakTensionMax(double secInc, double effectPara, double safePara)
         {
-            return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
+            if (WireData.CommParas.BreakMaxPara == 1)
+            {
+                return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
+            }
+            else
+            {
+                var load = LoadList.Where(item => item.GKName == "覆冰无风").FirstOrDefault();
+                double loStr = load == null ? 0 : load.LoStr;
+
+                var loadAdd5 = LoadList.Where(item => item.GKName == "覆冰无风+5").FirstOrDefault();
+                double loStrAdd5 = loadAdd5 == null ? 0 : loadAdd5.LoStr;
+
+                return WireData.bGrd == 0 ? loStr : (WireData.CommParas.GrdIceUnbaPara == 1 ? loStr : loStrAdd5);
+            }
         }
 
-        protected double IceCover100BreakTension(double secInc, double effectPara, double safePara)
+        protected double UnbaIceTensionMax(double secInc, double effectPara, double safePara)
         {
-            return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
+            if (WireData.CommParas.UnbaMaxPara == 1)
+            {
+                return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
+            }
+            else
+            {
+                var load = LoadList.Where(item => item.GKName == "最大覆冰").FirstOrDefault();
+                double loStr = load == null ? 0 : load.LoStr;
+
+                var loadGrdIce = LoadList.Where(item => item.GKName == "地线覆冰").FirstOrDefault();
+                double loStrGrdIce = loadGrdIce == null ? 0 : loadGrdIce.LoStr;
+
+                return WireData.bGrd == 0 ? loStr : (WireData.CommParas.GrdIceUnbaPara == 1 ? loStr : loStrGrdIce);
+            }
         }
 
     }

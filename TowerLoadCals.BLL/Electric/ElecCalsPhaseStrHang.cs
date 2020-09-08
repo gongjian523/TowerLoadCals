@@ -57,6 +57,15 @@ namespace TowerLoadCals.BLL.Electric
         public string UnbaIceTenDiffGrdBreStr { get; set; }
 
         /// <summary>
+        /// 断线工况张力-覆冰100%
+        /// </summary>
+        public double BreakTenIceCov100 { get; set; }
+        /// <summary>
+        /// 不均匀冰工况张力-覆冰100%
+        /// </summary>
+        public double UnbaIceTenIceCov100 { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="span"></param>
@@ -131,8 +140,62 @@ namespace TowerLoadCals.BLL.Electric
                 UnbaIceTenDiffGrdBreStr = unbaIceTenDiffGrdBreStr;
             }
 
-            BreakTenMax = BreakTensionMax(secInc, effectPara, safePara);
-            UnbaIceTenMax = UnbaIceTensionMax(secInc, effectPara, safePara);
+            BreakTenMax = TensionMax(secInc, effectPara, safePara);
+            UnbaIceTenMax = TensionMax(secInc, effectPara, safePara);
+
+            BreakTenIceCov100 = BreakTensionIceCover100();
+            UnbaIceTenIceCov100 = UnbaIceTensionIceCover100();
+        }
+
+
+        protected double TensionMax(double secInc, double effectPara, double safePara)
+        {
+            return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
+        }
+
+        protected double BreakTensionIceCover100()
+        {
+
+            LoadThrDe loadItem;
+
+            if (WireData.bGrd == 0)
+            {
+                loadItem = LoadList.Where(item => item.GKName == "断线满冰").FirstOrDefault();
+
+            }
+            else
+            {
+                if(WireData.CommParas.GrdIceUnbaPara == 1)
+                {
+                    loadItem = LoadList.Where(item => item.GKName == "断线满冰").FirstOrDefault();
+                }
+                else
+                {
+                    loadItem = LoadList.Where(item => item.GKName == "断线满冰(导线+5mm)").FirstOrDefault();
+                }
+            }
+            return loadItem == null ? 0 : Math.Round(loadItem.LoStr / WireData.CommParas.BuildMaxPara, 0);
+        }
+
+        protected double UnbaIceTensionIceCover100()
+        {
+            LoadThrDe loadItem;
+            if (WireData.bGrd == 0)
+            {
+                loadItem = LoadList.Where(item => item.GKName == "不均匀冰满冰").FirstOrDefault();
+            }
+            else
+            {
+                if (WireData.CommParas.GrdIceUnbaPara == 1)
+                {
+                    loadItem = LoadList.Where(item => item.GKName == "不均匀冰满冰").FirstOrDefault();
+                }
+                else
+                {
+                    loadItem = LoadList.Where(item => item.GKName == "不均匀冰满冰(导线+5mm)").FirstOrDefault();
+                }
+            }
+            return loadItem == null ? 0 : Math.Round(loadItem.LoStr, 0);
         }
     }
 }

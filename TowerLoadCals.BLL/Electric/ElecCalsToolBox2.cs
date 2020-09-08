@@ -351,22 +351,22 @@ namespace TowerLoadCals.BLL.Electric
         /// <returns></returns>
         protected static double BBValue(double iceThickness)
         {
-            if (iceThickness <= 5 && iceThickness > 0) {
+            if (iceThickness < 10 && iceThickness >= 5) {
                 return 1.1;
             }
-            else if (iceThickness <= 10 && iceThickness >5){
+            else if (iceThickness < 15 && iceThickness >= 10){
                 return 1.2;
             }
-            else if (iceThickness <= 15 && iceThickness >10){
+            else if (iceThickness < 20 && iceThickness >= 15){
                 return 1.3;
             }
-            else if (iceThickness <= 20 && iceThickness >15){
+            else if (iceThickness < 30 && iceThickness >= 20){
                 return 1.5;
             }
-            else if (iceThickness <= 30 && iceThickness >20){
+            else if (iceThickness < 50 && iceThickness >= 30){
                 return 1.8;
             }
-            else if (iceThickness >= 30){
+            else if (iceThickness >= 50){
                 return 2;
             }
             else {
