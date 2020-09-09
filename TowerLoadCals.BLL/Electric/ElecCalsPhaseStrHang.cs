@@ -73,27 +73,61 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double TenBreakMax { get; set; }
         /// <summary>
-        /// 断线张力Max=最大张力
+        /// 小号侧断线张力Max=最大张力
         /// </summary>
-        public double TenBreakMaxTension { get; set; }
+        public double TenBreakMaxTensionS { get; set; }
         /// <summary>
-        /// 断线张力Max=覆冰100%断线工况
+        /// 大号侧断线张力Max=最大张力
         /// </summary>
-        public double TenBreakMaxIceCov100 { get; set; }
+        public double TenBreakMaxTensionL { get; set; }
 
         /// <summary>
-        /// 0与张力差（最终值）
+        ///  小号侧断线张力Max=覆冰100%断线工况
         /// </summary>
-        public double TenBreak { get; set; }
+        public double TenBreakMaxIceCov100S { get; set; }
+        /// <summary>
+        ///  大号侧断线张力Max=覆冰100%断线工况
+        /// </summary>
+        public double TenBreakMaxIceCov100L { get; set; }
 
         /// <summary>
-        /// 断线张力Max=最大张力 开断塔
+        /// 小号侧事故断线工况张力差(最终结果)
         /// </summary>
-        public double TenBreakMaxTensionBreak { get; set; }
+        public double BreakTenMaxS { get; set; }
         /// <summary>
-        /// 断线张力Max=覆冰100%断线工况 开断塔
+        /// 大号侧事故断线工况张力差(最终结果)
         /// </summary>
-        public double TenBreakMaxIceCov100Break { get; set; }
+        public double BreakTenMaxL { get; set; }
+
+
+        /// <summary>
+        /// 小号侧0与张力差（最终值）
+        /// </summary>
+        public double TenBreakS { get; set; }
+        /// <summary>
+        /// 大号侧0与张力差（最终值）
+        /// </summary>
+        public double TenBreakL { get; set; }
+
+        /// <summary>
+        /// 小号侧断线张力Max=最大张力 开断塔
+        /// </summary>
+        public double TenBreakMaxTensionBreakS { get; set; }
+        /// <summary>
+        /// 大号侧断线张力Max=最大张力 开断塔
+        /// </summary>
+        public double TenBreakMaxTensionBreakL { get; set; }
+
+        /// <summary>
+        /// 小号侧断线张力Max=覆冰100%断线工况 开断塔
+        /// </summary>
+        public double TenBreakMaxIceCov100BreakS { get; set; }
+
+        /// <summary>
+        /// 大号侧断线张力Max=覆冰100%断线工况 开断塔
+        /// </summary>
+        public double TenBreakMaxIceCov100BreakL { get; set; }
+
         /// <summary>
         /// 断线取值
         /// </summary>
@@ -111,27 +145,54 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double TenUnbaIceMax { get; set; }
         /// <summary>
-        /// 断线张力Max=最大张力
+        /// 小号侧断线张力Max=最大张力
         /// </summary>
-        public double TenUnbaIceMaxTension { get; set; }
+        public double TenUnbaIceMaxTensionS { get; set; }
         /// <summary>
-        /// 断线张力Max=覆冰100%断线工况
+        /// 大号侧断线张力Max=最大张力
         /// </summary>
-        public double TenUnbaIceMaxIceCov100 { get; set; }
+        public double TenUnbaIceMaxTensionL { get; set; }
+        /// <summary>
+        /// 小号侧断线张力Max=覆冰100%断线工况
+        /// </summary>
+        public double TenUnbaIceMaxIceCov100S { get; set; }
+        /// <summary>
+        /// 大号侧断线张力Max=覆冰100%断线工况
+        /// </summary>
+        public double TenUnbaIceMaxIceCov100L { get; set; }
+
+        public double UnbaIceTenMaxS { get; set; }
+
+        public double UnbaIceTenMaxL { get; set; }
+
 
         /// <summary>
-        /// 0与张力差（最终值）
+        /// 小号侧0与张力差（最终值）
         /// </summary>
-        public double TenUnbaIce { get; set; }
+        public double TenUnbaIceS { get; set; }
+        /// <summary>
+        /// 大号侧0与张力差（最终值）
+        /// </summary>
+        public double TenUnbaIceL { get; set; }
 
         /// <summary>
-        /// 断线张力Max=最大张力 开断塔
+        /// 小号侧断线张力Max=最大张力 开断塔
         /// </summary>
-        public double TenUnbaIceMaxTensionBreak { get; set; }
+        public double TenUnbaIceMaxTensionBreakS { get; set; }
         /// <summary>
-        /// 断线张力Max=覆冰100%断线工况 开断塔
+        /// 大号侧断线张力Max=最大张力 开断塔
         /// </summary>
-        public double TenUnbaIceMaxIceCov100Break { get; set; }
+        public double TenUnbaIceMaxTensionBreakL { get; set; }
+
+        /// <summary>
+        /// 小号侧断线张力Max=覆冰100%断线工况 开断塔
+        /// </summary>
+        public double TenUnbaIceMaxIceCov100BreakS { get; set; }
+        /// <summary>
+        /// 大号侧断线张力Max=覆冰100%断线工况 开断塔
+        /// </summary>
+        public double TenUnbaIceMaxIceCov100BreakL { get; set; }
+
         /// <summary>
         /// 断线取值
         /// </summary>
