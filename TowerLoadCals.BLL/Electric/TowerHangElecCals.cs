@@ -217,6 +217,95 @@ namespace TowerLoadCals.BLL.Electric
 
                 PhaseTraList[i].UpdateTensionDiff(secInc, effectPara, savePara);
             }
+
+            for(int i = 0; i  <= 4; i++)
+            {
+                ElecCalsPhaseStrHang smallSize = (ElecCalsPhaseStrHang)PhaseTraList[i];
+                ElecCalsPhaseStrHang bigSize = (ElecCalsPhaseStrHang)PhaseTraList[i+5];
+
+                //断线计算 
+                //直线塔计算项
+                //Max=最大张力
+                smallSize.TenBreakMaxTension = Math.Round(smallSize.TenBreakMax, 0) - Math.Round(smallSize.BreakTenDiff, 0);
+                bigSize.TenBreakMaxTension = Math.Round(bigSize.TenBreakMax, 0);
+                //Max=覆冰100%断线工况
+                if(smallSize.WireData.bGrd == 0)
+                {
+                    smallSize.TenBreakMaxIceCov100 = Math.Round(smallSize.TenBreakIceCov100, 0) - Math.Round(smallSize.BreakTenDiff, 0);
+                    bigSize.TenBreakMaxIceCov100 = Math.Round(bigSize.TenBreakIceCov100, 0);
+                }
+                else
+                {
+                    double temp = Math.Round(smallSize.TenBreakIceCov100, 0) - Math.Round(smallSize.BreakTenDiff, 0);
+                    smallSize.TenBreakMaxIceCov100 = temp < 0 ? 0 : temp;
+                    bigSize.TenBreakMaxIceCov100 = smallSize.TenBreakMaxIceCov100 + Math.Round(bigSize.BreakTenDiff, 0);
+                }
+                //最大张力取值
+                smallSize.BreakTenMax = smallSize.WireData.CommParas.BreakMaxPara == 1 ? smallSize.TenBreakMaxTension:smallSize.TenBreakMaxIceCov100; 
+                bigSize.BreakTenMax = bigSize.WireData.CommParas.BreakMaxPara == 1 ? bigSize.TenBreakMaxTension : bigSize.TenBreakMaxIceCov100;
+                //直线塔
+                //O与张力差(在excel中有一个与是否增加5mm的比较过程，但是里面没有填写任何值，故计算过程简化)
+                smallSize.TenBreak = smallSize.WireData.CommParas.BreakInPara == 1 ? 0 : smallSize.BreakTenMax;
+                bigSize.TenBreak = bigSize.WireData.CommParas.BreakInPara == 1 ? Math.Round(bigSize.BreakTenDiff, 0) : bigSize.BreakTenMax;
+
+                //开断
+                if(smallSize.WireData.bGrd != 0)
+                {
+                    //直线塔计算项
+                    //Max=最大张力
+                    smallSize.TenBreakMaxTensionBreak = Math.Round(smallSize.TenBreakMaxBreak, 0) - Math.Round(smallSize.BreakTenDiff, 0);
+                    bigSize.TenBreakMaxTensionBreak = Math.Round(bigSize.TenBreakMaxBreak, 0);
+
+                    //Excel中写的是大号塔
+                    double temp = Math.Round(bigSize.TenBreakIceCov100, 0) - Math.Round(smallSize.BreakTenDiff, 0);
+                    smallSize.TenBreakMaxIceCov100Break = temp < 0 ? 0 : temp;
+                    bigSize.TenBreakMaxIceCov100Break = smallSize.TenBreakMaxIceCov100 + Math.Round(bigSize.BreakTenDiff, 0);
+
+
+                }
+
+
+
+
+                //不均匀冰计算 
+                //直线塔计算项
+                //Max=最大张力
+                smallSize.TenUnbaIceMaxTension = Math.Round(smallSize.TenUnbaIceMax, 0) - Math.Round(smallSize.UnbaIceTenDiff, 0);
+                bigSize.TenUnbaIceMaxTension = Math.Round(bigSize.TenUnbaIceMax, 0);
+                //Max=覆冰100%断线工况
+                if (smallSize.WireData.bGrd == 0)
+                {
+                    smallSize.TenUnbaIceMaxIceCov100 = Math.Round(smallSize.TenUnbaIceIceCov100, 0) - Math.Round(smallSize.UnbaIceTenDiff, 0);
+                    bigSize.TenUnbaIceMaxIceCov100 = Math.Round(bigSize.TenUnbaIceIceCov100, 0);
+                }
+                else
+                {
+                    double temp = Math.Round(smallSize.TenUnbaIceIceCov100, 0) - Math.Round(smallSize.UnbaIceTenDiff, 0);
+                    smallSize.TenUnbaIceMaxIceCov100 = temp < 0 ? 0 : temp;
+                    bigSize.TenUnbaIceMaxIceCov100 = smallSize.TenUnbaIceMaxIceCov100 + Math.Round(bigSize.UnbaIceTenDiff, 0);
+                }
+                //最大张力取值
+                smallSize.UnbaIceTenMax = smallSize.WireData.CommParas.UnbaMaxPara == 1 ? smallSize.TenUnbaIceMaxTension : smallSize.TenUnbaIceMaxIceCov100;
+                bigSize.UnbaIceTenMax = bigSize.WireData.CommParas.UnbaMaxPara == 1 ? bigSize.TenUnbaIceMaxTension : bigSize.TenUnbaIceMaxIceCov100;
+
+                //直线塔
+                //O与张力差(在excel中有一个与是否增加5mm的比较过程，但是里面没有填写任何值，故计算过程简化)
+                smallSize.TenUnbaIce = smallSize.WireData.CommParas.UnbaInPara == 1 ? 0 : smallSize.UnbaIceTenMax;
+                bigSize.TenUnbaIce = bigSize.WireData.CommParas.UnbaInPara == 1 ? Math.Round(smallSize.UnbaIceTenDiff, 0) : bigSize.UnbaIceTenMax;
+
+                if (smallSize.WireData.bGrd != 0)
+                {
+                    //直线塔计算项
+                    //Max=最大张力
+                    smallSize.TenUnbaIceMaxTensionBreak = Math.Round(smallSize.TenUnbaIceMaxBreak, 0) - Math.Round(smallSize.UnbaIceTenDiff, 0);
+                    bigSize.TenUnbaIceMaxTensionBreak = Math.Round(bigSize.TenUnbaIceMaxBreak, 0);
+
+                    //Excel中写的是大号塔
+                    double temp = Math.Round(bigSize.TenUnbaIceIceCov100, 0) - Math.Round(smallSize.UnbaIceTenDiff, 0);
+                    smallSize.TenUnbaIceMaxIceCov100Break = temp < 0 ? 0 : temp;
+                    bigSize.TenUnbaIceMaxIceCov100Break = smallSize.TenUnbaIceMaxIceCov100 + Math.Round(bigSize.UnbaIceTenDiff, 0);
+                }
+            }
         }
 
 
@@ -352,37 +441,91 @@ namespace TowerLoadCals.BLL.Electric
 
         public List<string> PrintTensionDiff()
         {
-            List<string> relt = new List<string>();
+            List<string> rslt = new List<string>();
 
-            relt.Add(FileUtils.PadRightEx("\n断线计算：", 184) + FileUtils.PadRightEx("Max", 16) + FileUtils.PadRightEx("最大张力", 16) + FileUtils.PadRightEx("覆冰断线1", 16) + FileUtils.PadRightEx("覆冰断线2", 16));
-            relt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[0].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[0].BreakTenDiff.ToString("0.##"), 16)
+            rslt.Add(FileUtils.PadRightEx("\n断线计算：", 184) + FileUtils.PadRightEx("Max", 16) + FileUtils.PadRightEx("最大张力", 16) + FileUtils.PadRightEx("覆冰断线1", 16) + FileUtils.PadRightEx("覆冰断线2", 16));
+            rslt.Add(FileUtils.PadRightEx("导线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[0].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[0].BreakTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx("开断情况", 92)
-                + FileUtils.PadRightEx("导线", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).BreakTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).BreakTenIceCov100.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).BreakTenIceCov100.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[3].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[3].BreakTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).BreakTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).TenBreakIceCov100.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).TenBreakIceCov100.ToString("0.##"), 16));
+            rslt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[3].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[3].BreakTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).BreakTenDiffGrdBreStr, 50) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).BreakTenDiffGrdBre.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("地线1", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).BreakTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).BreakTenIceCov100.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).BreakTenIceCov100.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[4].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[4].BreakTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("地线1", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).BreakTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenBreakIceCov100.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenBreakIceCov100.ToString("0.##"), 16));
+            rslt.Add(FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(PhaseTraList[4].BreakTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[4].BreakTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx("地线事故断线工况", 26) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).BreakTenDiffGrdBreStr, 50) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).BreakTenDiffGrdBre.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("地线2", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).BreakTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).BreakTenIceCov100.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).BreakTenIceCov100.ToString("0.##"), 16));
+                + FileUtils.PadRightEx("地线2", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).BreakTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenBreakIceCov100.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenBreakIceCov100.ToString("0.##"), 16));
 
-            relt.Add(FileUtils.PadRightEx("\n不均匀冰计算：", 184) + FileUtils.PadRightEx("Max", 16) + FileUtils.PadRightEx("最大张力", 16) + FileUtils.PadRightEx("覆冰断线1", 16) + FileUtils.PadRightEx("覆冰断线2", 16));
-            relt.Add(FileUtils.PadRightEx("导线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiff.ToString("0.##"), 16)
+            rslt.Add(FileUtils.PadRightEx("\n直线塔计算：", 20) + FileUtils.PadRightEx("Max=最大张力", 24) + FileUtils.PadRightEx("Max=覆冰100%断线", 24) + FileUtils.PadRightEx("最大张力取值", 24));
+            rslt.Add(FileUtils.PadRightEx("导线小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).TenBreakMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).TenBreakMaxIceCov100.ToString(), 24) 
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).BreakTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("导线大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).TenBreakMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).TenBreakMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).BreakTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenBreakMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenBreakMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).BreakTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenBreakMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenBreakMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).BreakTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenBreakMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenBreakMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).BreakTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenBreakMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenBreakMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).BreakTenMax.ToString(), 24));
+
+            rslt.Add(FileUtils.PadRightEx("\n直线塔：", 20) + FileUtils.PadRightEx("最终值", 24));
+            rslt.Add(FileUtils.PadRightEx("导线小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).TenBreak.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("导线大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).TenBreak.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenBreak.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenBreak.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenBreak.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenBreak.ToString(), 24));
+
+            rslt.Add(FileUtils.PadRightEx("\n开断：", 20) + FileUtils.PadRightEx("Max=最大张力", 24) + FileUtils.PadRightEx("Max=覆冰100%断线", 24) + FileUtils.PadRightEx("最大张力取值", 24));
+            rslt.Add(FileUtils.PadRightEx("地线1小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenBreakMaxTensionBreak.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenBreakMaxIceCov100Break.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).BreakTenMaxBreak.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenBreakMaxTensionBreak.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenBreakMaxIceCov100Break.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).BreakTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenBreakMaxTensionBreak.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenBreakMaxIceCov100Break.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).BreakTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenBreakMaxTensionBreak.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenBreakMaxIceCov100Break.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).BreakTenMax.ToString(), 24));
+
+            rslt.Add(FileUtils.PadRightEx("\n不均匀冰计算：", 184) + FileUtils.PadRightEx("Max", 16) + FileUtils.PadRightEx("最大张力", 16) + FileUtils.PadRightEx("覆冰断线1", 16) + FileUtils.PadRightEx("覆冰断线2", 16));
+            rslt.Add(FileUtils.PadRightEx("导线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[0].UnbaIceTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx("开断情况", 92)
-                + FileUtils.PadRightEx("导线", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).UnbaIceTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).UnbaIceTenIceCov100.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).UnbaIceTenIceCov100.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("导线", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).UnbaIceTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).TenUnbaIceIceCov100.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).TenUnbaIceIceCov100.ToString("0.##"), 16));
+            rslt.Add(FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[3].UnbaIceTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).UnbaIceTenDiffGrdBreStr, 50) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).UnbaIceTenDiffGrdBre.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("地线1", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).UnbaIceTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).UnbaIceTenIceCov100.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).UnbaIceTenIceCov100.ToString("0.##"), 16));
-            relt.Add(FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiff.ToString("0.##"), 16)
+                + FileUtils.PadRightEx("地线1", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).UnbaIceTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenUnbaIceIceCov100.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenUnbaIceIceCov100.ToString("0.##"), 16));
+            rslt.Add(FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiffStr, 50) + FileUtils.PadRightEx(PhaseTraList[4].UnbaIceTenDiff.ToString("0.##"), 16)
                 + FileUtils.PadRightEx("地线不均匀冰工况", 26) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).UnbaIceTenDiffGrdBreStr, 50) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).UnbaIceTenDiffGrdBre.ToString("0.##"), 16)
-                + FileUtils.PadRightEx("地线2", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).UnbaIceTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).UnbaIceTenIceCov100.ToString("0.##"), 16)
-                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).UnbaIceTenIceCov100.ToString("0.##"), 16));
-            
-            return relt;
+                + FileUtils.PadRightEx("地线2", 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).UnbaIceTenMax.ToString("0.##"), 16) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenUnbaIceIceCov100.ToString("0.##"), 16)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenUnbaIceIceCov100.ToString("0.##"), 16));
+
+            rslt.Add(FileUtils.PadRightEx("\n直线塔计算：", 20) + FileUtils.PadRightEx("Max=最大张力", 24) + FileUtils.PadRightEx("Max=覆冰100%断线", 24) + FileUtils.PadRightEx("最大张力取值", 24));
+            rslt.Add(FileUtils.PadRightEx("导线小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).TenUnbaIceMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).TenUnbaIceMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).UnbaIceTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("导线大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).TenUnbaIceMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).TenUnbaIceMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).UnbaIceTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenUnbaIceMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenUnbaIceMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).UnbaIceTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenUnbaIceMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenUnbaIceMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).UnbaIceTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenUnbaIceMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenUnbaIceMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).UnbaIceTenMax.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenUnbaIceMaxTension.ToString(), 24) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenUnbaIceMaxIceCov100.ToString(), 24)
+                + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).UnbaIceTenMax.ToString(), 24));
+
+            rslt.Add(FileUtils.PadRightEx("\n直线塔：", 20) + FileUtils.PadRightEx("最终值", 24));
+            rslt.Add(FileUtils.PadRightEx("导线小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[0]).TenUnbaIce.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("导线大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[5]).TenUnbaIce.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[3]).TenUnbaIce.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线1大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[8]).TenUnbaIce.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2小号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[4]).TenUnbaIce.ToString(), 24));
+            rslt.Add(FileUtils.PadRightEx("地线2大号侧：", 20) + FileUtils.PadRightEx(((ElecCalsPhaseStrHang)PhaseTraList[9]).TenUnbaIce.ToString(), 24));
+
+            return rslt;
         }
     }
 }

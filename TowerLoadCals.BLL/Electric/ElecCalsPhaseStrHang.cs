@@ -59,11 +59,89 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 断线工况张力-覆冰100%
         /// </summary>
-        public double BreakTenIceCov100 { get; set; }
+        public double TenBreakIceCov100 { get; set; }
         /// <summary>
         /// 不均匀冰工况张力-覆冰100%
         /// </summary>
-        public double UnbaIceTenIceCov100 { get; set; }
+        public double TenUnbaIceIceCov100 { get; set; }
+
+
+
+        #region 断线计算
+        /// <summary>
+        /// 断线取值
+        /// </summary>
+        public double TenBreakMax { get; set; }
+        /// <summary>
+        /// 断线张力Max=最大张力
+        /// </summary>
+        public double TenBreakMaxTension { get; set; }
+        /// <summary>
+        /// 断线张力Max=覆冰100%断线工况
+        /// </summary>
+        public double TenBreakMaxIceCov100 { get; set; }
+
+        /// <summary>
+        /// 0与张力差（最终值）
+        /// </summary>
+        public double TenBreak { get; set; }
+
+        /// <summary>
+        /// 断线张力Max=最大张力 开断塔
+        /// </summary>
+        public double TenBreakMaxTensionBreak { get; set; }
+        /// <summary>
+        /// 断线张力Max=覆冰100%断线工况 开断塔
+        /// </summary>
+        public double TenBreakMaxIceCov100Break { get; set; }
+        /// <summary>
+        /// 断线取值
+        /// </summary>
+        public double TenBreakMaxBreak { get; set; }
+
+        //
+        public double BreakTenMaxBreak { get; set; }
+
+
+        #endregion
+
+        #region 不均匀冰计算
+        /// <summary>
+        /// 断线取值
+        /// </summary>
+        public double TenUnbaIceMax { get; set; }
+        /// <summary>
+        /// 断线张力Max=最大张力
+        /// </summary>
+        public double TenUnbaIceMaxTension { get; set; }
+        /// <summary>
+        /// 断线张力Max=覆冰100%断线工况
+        /// </summary>
+        public double TenUnbaIceMaxIceCov100 { get; set; }
+
+        /// <summary>
+        /// 0与张力差（最终值）
+        /// </summary>
+        public double TenUnbaIce { get; set; }
+
+        /// <summary>
+        /// 断线张力Max=最大张力 开断塔
+        /// </summary>
+        public double TenUnbaIceMaxTensionBreak { get; set; }
+        /// <summary>
+        /// 断线张力Max=覆冰100%断线工况 开断塔
+        /// </summary>
+        public double TenUnbaIceMaxIceCov100Break { get; set; }
+        /// <summary>
+        /// 断线取值
+        /// </summary>
+        public double TenUnbaIceMaxBreak { get; set; }
+
+
+        public double UnbaIceTenMaxBreak { get; set; }
+
+        #endregion
+
 
         /// <summary>
         /// 
@@ -140,17 +218,17 @@ namespace TowerLoadCals.BLL.Electric
                 UnbaIceTenDiffGrdBreStr = unbaIceTenDiffGrdBreStr;
             }
 
-            BreakTenMax = TensionMax(secInc, effectPara, safePara);
-            UnbaIceTenMax = TensionMax(secInc, effectPara, safePara);
+            TenBreakMax = TensionMax(secInc, effectPara, safePara);
+            TenBreakIceCov100 = BreakTensionIceCover100();
 
-            BreakTenIceCov100 = BreakTensionIceCover100();
-            UnbaIceTenIceCov100 = UnbaIceTensionIceCover100();
+            TenUnbaIceMax = TensionMax(secInc, effectPara, safePara);
+            TenUnbaIceIceCov100 = UnbaIceTensionIceCover100();
         }
 
 
         protected double TensionMax(double secInc, double effectPara, double safePara)
         {
-            return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
+            return Math.Round(secInc * WireData.Fore * effectPara / WireData.CommParas.GraAcc/ safePara * WireData.DevideNum, 2);
         }
 
         protected double BreakTensionIceCover100()

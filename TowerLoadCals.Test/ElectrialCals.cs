@@ -530,6 +530,9 @@ namespace TowerLoadCals.Test
             CalTower.Cals();
             LogList.AddRange(CalTower.PrintCalsReslt());
 
+            CalTower.UpdateTensionDiff();
+            LogList.AddRange(CalTower.PrintTensionDiff());
+
             FileUtils.TextSaveByLine(saveFileDialog.FileName, LogList);
         }
     }

@@ -27,7 +27,7 @@ namespace TowerLoadCals.BLL.Electric
             double BB = BBValue(iceThickness);
 
             //BiZai = ((Q / S + 2.82743334 * b * (d + b) / S) ^ 2 + (a * Usc * (d + 2 * b) * v ^ 2 / 16 / S * BB) ^ 2) ^ (1 / 2)
-            double BiZai = Math.Pow(Math.Pow(wei / sec + 2.82743334 * iceThickness * (dia + iceThickness) / sec, 2) + Math.Pow(a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / sec * BB / 9.80665, 2), 0.5);
+            double BiZai = Math.Pow(Math.Pow(wei / sec + 2.82743334 * iceThickness * (dia + iceThickness) / sec, 2) + Math.Pow(a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / sec * BB / ConstVar.GraAcc, 2), 0.5);
             return BiZai;
         }
 
@@ -59,10 +59,10 @@ namespace TowerLoadCals.BLL.Electric
             int i, LinShiJi;
             double LinShiV;
 
-            VMax[0] = elsa / 9.80665 * Math.Pow(span, 2) * Math.Pow(bizai1, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / 9.80665 * temp1);
-            VMax[1] = elsa / 9.80665 * Math.Pow(span, 2) * Math.Pow(bizai2, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / 9.80665 * temp2);
-            VMax[2] = elsa / 9.80665 * Math.Pow(span, 2) * Math.Pow(bizai3, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / 9.80665 * temp3);
-            VMax[3] = elsa / 9.80665 * Math.Pow(span, 2) * Math.Pow(bizai4, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / 9.80665 * temp4);
+            VMax[0] = elsa / ConstVar.GraAcc * Math.Pow(span, 2) * Math.Pow(bizai1, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / ConstVar.GraAcc * temp1);
+            VMax[1] = elsa / ConstVar.GraAcc * Math.Pow(span, 2) * Math.Pow(bizai2, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / ConstVar.GraAcc * temp2);
+            VMax[2] = elsa / ConstVar.GraAcc * Math.Pow(span, 2) * Math.Pow(bizai3, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / ConstVar.GraAcc * temp3);
+            VMax[3] = elsa / ConstVar.GraAcc * Math.Pow(span, 2) * Math.Pow(bizai4, 2) / 24 / Math.Pow(StressM, 2) - (StressM + coef * elsa / ConstVar.GraAcc * temp4);
 
             LinShiV = VMax[0];
             LinShiJi = 0;
@@ -109,8 +109,8 @@ namespace TowerLoadCals.BLL.Electric
             {
                 var stress = wkCdt.Name == "平均气温" ? StressA : StressM;
 
-                var tempV = elas / 9.80665 * Math.Pow(span, 2) * Math.Pow(bzDic[wkCdt.Name].BiZai, 2) / 24 / Math.Pow(stress, 2) - 
-                    (stress + coef * elas / 9.80665 * wkCdt.Temperature);
+                var tempV = elas / ConstVar.GraAcc * Math.Pow(span, 2) * Math.Pow(bzDic[wkCdt.Name].BiZai, 2) / 24 / Math.Pow(stress, 2) - 
+                    (stress + coef * elas / ConstVar.GraAcc * wkCdt.Temperature);
 
                 if(tempV > maxV)
                 {
@@ -193,7 +193,7 @@ namespace TowerLoadCals.BLL.Electric
             double Bc = BcValue(VoL, windSpeedBase);
 
             //WindPa = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
-            return Bc * a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / 9.80665 * BB;
+            return Bc * a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / ConstVar.GraAcc * BB;
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace TowerLoadCals.BLL.Electric
             double BB = BBValue(iceThickness);
            
             //BiZaiH = a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB / S
-            return a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / 9.80665 * BB / sec;
+            return a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / ConstVar.GraAcc * BB / sec;
         }
     
         //风压系数
@@ -236,8 +236,8 @@ namespace TowerLoadCals.BLL.Electric
         {
             double BB = BBValue(iceThickness);
 
-            double rlst = BB * 0.04 * (pieceNum * lNum + glodPieceNum) * Math.Pow(windSpeed, 2) / 1.6 / 9.80665;
-            str = BB.ToString() + "*" + (0.04 * (pieceNum * lNum + glodPieceNum)).ToString() + "*" + windSpeed.ToString() + "^2/1.6/9.80665" + "=" + rlst.ToString("0.00");
+            double rlst = BB * 0.04 * (pieceNum * lNum + glodPieceNum) * Math.Pow(windSpeed, 2) / 1.6 / ConstVar.GraAcc;
+            str = BB.ToString() + "*" + (0.04 * (pieceNum * lNum + glodPieceNum)).ToString() + "*" + windSpeed.ToString() + "^2/1.6/" + ConstVar.GraAcc.ToString() + "=" + rlst.ToString("0.00");
             return rlst;
         }
 
@@ -260,8 +260,8 @@ namespace TowerLoadCals.BLL.Electric
             double Bc = BcValue(VoL, windSpeedBase);
 
             //WindPaT = Bc * a * Usc * (d + 2 * b) * v ^ 2 / 16 * BB
-            double rslt =  Bc * a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / 9.80665 * BB;
-            str = Bc.ToString() + "*" + a.ToString() + "*" + Usc.ToString() + "*" + BB.ToString() + "*(" + dia.ToString() + "+2*" + iceThickness.ToString() + ")*" + windSpeed.ToString() + "^2/1.6/9.80665" + rslt.ToString("0.00");
+            double rslt =  Bc * a * Usc * (dia + 2 * iceThickness) * Math.Pow(windSpeed, 2) / 1.6 / ConstVar.GraAcc * BB;
+            str = Bc.ToString() + "*" + a.ToString() + "*" + Usc.ToString() + "*" + BB.ToString() + "*(" + dia.ToString() + "+2*" + iceThickness.ToString() + ")*" + windSpeed.ToString() + "^2/1.6/" + ConstVar.GraAcc.ToString() + "=" + rslt.ToString("0.00");
 
             return rslt;
         }

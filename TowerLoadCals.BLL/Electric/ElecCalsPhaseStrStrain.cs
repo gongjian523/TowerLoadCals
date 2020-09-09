@@ -119,7 +119,7 @@ namespace TowerLoadCals.BLL.Electric
         {
             if (WireData.CommParas.BreakMaxPara == 1)
             {
-                return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
+                return Math.Round(secInc * WireData.Fore * effectPara / WireData.CommParas.GraAcc/ safePara * WireData.DevideNum, 2);
             }
             else
             {
@@ -137,7 +137,7 @@ namespace TowerLoadCals.BLL.Electric
         {
             if (WireData.CommParas.UnbaMaxPara == 1)
             {
-                return Math.Round(secInc * WireData.Fore * effectPara / 9.80665 / safePara * WireData.DevideNum, 2);
+                return Math.Round(secInc * WireData.Fore * effectPara / WireData.CommParas.GraAcc / safePara * WireData.DevideNum, 2);
             }
             else
             {

@@ -11,6 +11,11 @@ namespace TowerLoadCals.Mode
     /// </summary>
     public static class ConstVar
     {
+        public static double GraAcc
+        {
+            get { return 9.80665; }
+        }
+
         public static string StruCalsParasFileName
         {
             get { return "计算参数.xml"; }

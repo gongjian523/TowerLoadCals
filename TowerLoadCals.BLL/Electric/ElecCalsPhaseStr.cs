@@ -646,8 +646,8 @@ namespace TowerLoadCals.BLL.Electric
         /// <returns></returns>
         protected double TensionDiff(out string str, double fore, double secInc, double effectPara, double savePara, double tensionCoef, int devideNum = 1)
         {
-            double rslt = secInc * Math.Round(fore * effectPara / 9.80665, 2) / savePara * devideNum * tensionCoef;
-            str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/9.80665/" + savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
+            double rslt = secInc * Math.Round(fore * effectPara / WireData.CommParas.GraAcc, 2) / savePara * devideNum * tensionCoef;
+            str = secInc.ToString("0.##") + "*" + fore.ToString("0.##") + "*" + effectPara.ToString("0.##") + "/" + ConstVar.GraAcc.ToString()  + "/" + savePara.ToString("0.##") + "*" + devideNum.ToString("0.##") + "*" + tensionCoef.ToString("0.##") + "=" + rslt.ToString("0.###");
             return rslt;
         }
 
