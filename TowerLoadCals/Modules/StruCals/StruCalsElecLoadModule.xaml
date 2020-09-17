@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="TowerLoadCals.Modules.StruCalsElecLoadModule"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxsps="http://schemas.devexpress.com/winfx/2008/xaml/spreadsheet"
+             xmlns:local="clr-namespace:TowerLoadCals.Modules"
+             xmlns:cvt="clr-namespace:TowerLoadCals.Converter"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Control.Resources>
+        <cvt:BooleanVisibityConverter x:Key="BooleanVisibityConverter"/>
+    </Control.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Padding="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" >
+                    <Button Content="简" Height="25" Width="50"/>
+                    <Button Content="繁" Height="25" Width="50" Margin="10,0,0,0"/>
+                </StackPanel>
+                <dxsps:SpreadsheetControl x:Name="elecLoadSC"  Grid.Row="1" CommandBarStyle="Empty" ShowFormulaBar="False" ShowStatusBar="False"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="高呼高风荷计算" Grid.Row="1" Margin="5" Visibility="{Binding BaseParas.IsLineTower,Converter={StaticResource BooleanVisibityConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None" ItemsSource="{Binding IceUnbalanceSource}" >
+                    <dxg:GridControl.View>
+                        <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"  />
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn Header="序号" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn Header="项目" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn Header="线荷载" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn Header="串荷载" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn Header="kz导基" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn Header="kz导高" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn Header="kz串基" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn Header="kz串高" HorizontalHeaderContentAlignment="Center" />
+                </dxg:GridControl>
+                <StackPanel Grid.Column="1" Orientation="Vertical"  HorizontalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="基准呼高水平档距"  />
+                    <dxe:TextEdit MaskType="Numeric" VerticalAlignment="Center" HorizontalContentAlignment="Center"  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}" Margin="0,3,0,0" 
+                        DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.NewPerPara,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Text="高呼高水平档距"  Margin="0,8,0,0"  />
+                    <dxe:TextEdit  MaskType="Numeric" VerticalAlignment="Center" HorizontalContentAlignment="Center" EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}" Margin="0,3,0,0" 
+                        DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.GraAcc,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="计算" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="小角度风荷载计算" Grid.Row="1" Margin="5" Visibility="{Binding BaseParas.IsLineCornerTower,Converter={StaticResource BooleanVisibityConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None" ItemsSource="{Binding IceUnbalanceSource}" >
+                    <dxg:GridControl.View>
+                        <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"  />
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="IceThickness"  Header="序号" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn FieldName="IceThickness"  Header="项目" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn FieldName="IceThickness"  Header="方向" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn FieldName="IceThickness"  Header="小角度张力" HorizontalHeaderContentAlignment="Center" />
+                    <dxg:GridColumn FieldName="IceThickness"  Header="大角度张力" HorizontalHeaderContentAlignment="Center" />
+                </dxg:GridControl>
+                <StackPanel Grid.Column="1" Orientation="Vertical"  HorizontalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="大角度水平档距"  />
+                    <dxe:TextEdit MaskType="Numeric" VerticalAlignment="Center" HorizontalContentAlignment="Center"  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}" Margin="0,3,0,0" 
+                        DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.NewPerPara,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Text="小角度水平档距"  Margin="0,8,0,0"  />
+                    <dxe:TextEdit  MaskType="Numeric" VerticalAlignment="Center" HorizontalContentAlignment="Center" EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}" Margin="0,3,0,0" 
+                        DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.GraAcc,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="计算" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="45°风荷载计算" Grid.Row="1" Margin="5" Visibility="{Binding BaseParas.IsTensionTower,Converter={StaticResource BooleanVisibityConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <dxg:GridControl    Margin="8,0"  EnableSmartColumnsGeneration="True"  AutoGenerateColumns="None" ItemsSource="{Binding Wind45TenParas}" >
+                    <dxg:GridControl.View>
+                        <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"  />
+                    </dxg:GridControl.View>
+                        <dxg:GridColumn FieldName="Id"  Header="序号" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="WireType"  Header="项目" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="Direct"  Header="方向" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="AngleTensionX"  Header="小角度张力" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="AngleTensionD"  Header="大角度张力" HorizontalHeaderContentAlignment="Center" />
+                    </dxg:GridControl>
+                <StackPanel Grid.Column="1" Orientation="Vertical"  HorizontalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="大角度水平档距"  />
+                    <dxe:TextEdit MaskType="Numeric" VerticalAlignment="Center" HorizontalContentAlignment="Center"  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}" Margin="0,3,0,0" 
+                        DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.NewPerPara,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Text="小角度水平档距"  Margin="0,8,0,0"  />
+                    <dxe:TextEdit  MaskType="Numeric" VerticalAlignment="Center" HorizontalContentAlignment="Center" EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}" Margin="0,3,0,0" 
+                        DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.GraAcc,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="计算" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

@@ -232,7 +232,7 @@ namespace TowerLoadCals.BLL
                             else
                             {
                                 //只有直线塔和直转塔会使用基类
-                                if (Paras.Type == TowerType.LineTower)
+                                if (Paras.Type == TowerTypeEnum.LineTower)
                                 {
                                     //直线塔
                                     if (Math.Abs(wdItem.WireIndexCodes[i]) < 1000)

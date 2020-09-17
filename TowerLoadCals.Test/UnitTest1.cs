@@ -5,7 +5,6 @@ using TowerLoadCals.BLL;
 using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
-using static TowerLoadCals.DAL.TowerTemplateReader;
 
 namespace TowerLoadCals.Test
 {
@@ -41,13 +40,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.LineTower);
 
-            Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
+            TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.LineTower;
+            formulaParas.Type = TowerTypeEnum.LineTower;
             formulaParas.LoadRatio = 1;
 
             //结构重要性系数
@@ -318,13 +317,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.LineTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.LineTower;
+            formulaParas.Type = TowerTypeEnum.LineTower;
             formulaParas.LoadRatio = 1;
 
             //结构重要性系数
@@ -588,13 +587,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineCornerTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.LineCornerTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.LineCornerTower;
+            formulaParas.Type = TowerTypeEnum.LineCornerTower;
             formulaParas.LoadRatio = 1;
 
             //结构重要性系数
@@ -826,13 +825,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.CornerTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.CornerTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.CornerTower;
+            formulaParas.Type = TowerTypeEnum.CornerTower;
             formulaParas.LoadRatio = 1;
             formulaParas.IsMethod1Selected = false;
 
@@ -1242,13 +1241,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.CornerTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.CornerTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.CornerTower;
+            formulaParas.Type = TowerTypeEnum.CornerTower;
             formulaParas.LoadRatio = 1;
             formulaParas.IsMethod1Selected = false;
 
@@ -1482,13 +1481,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.CornerTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.CornerTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.CornerTower;
+            formulaParas.Type = TowerTypeEnum.CornerTower;
             formulaParas.LoadRatio = 1;
             formulaParas.IsMethod1Selected = false;
 
@@ -1745,13 +1744,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.TerminalTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.TerminalTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.TerminalTower;
+            formulaParas.Type = TowerTypeEnum.TerminalTower;
             formulaParas.LoadRatio = 1;
             formulaParas.IsMethod1Selected = false;
 
@@ -1982,13 +1981,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.BranchTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.BranchTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.BranchTower;
+            formulaParas.Type = TowerTypeEnum.BranchTower;
             formulaParas.LoadRatio = 1;
             formulaParas.IsMethod1Selected = false;
 

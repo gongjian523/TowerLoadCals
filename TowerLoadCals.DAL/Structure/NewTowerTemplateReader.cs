@@ -24,7 +24,7 @@ namespace TowerLoadCals.DAL
             get { return 6; }
         }
 
-        public NewTowerTemplateReader(TowerType type):base()
+        public NewTowerTemplateReader(TowerTypeEnum type):base()
         {
             Type = type;
 

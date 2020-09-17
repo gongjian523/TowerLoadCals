@@ -130,19 +130,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Modules\ElecCalsTowerParaNameEditWindow.xaml.cs">
+      <DependentUpon>ElecCalsTowerParaNameEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Modules\ElecCalsSideParaNameEditWindow.xaml.cs">
+      <DependentUpon>ElecCalsSideParaNameEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Modules\ElecCalsCommParaNameEditWindow.xaml.cs">
+      <DependentUpon>ElecCalsCommParaNameEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Modules\SmartTowerModeEditWindow.xaml.cs">
       <DependentUpon>SmartTowerModeEditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\Modules\SmartTowerPathEditWindow.xaml.cs">
       <DependentUpon>SmartTowerPathEditWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ViewModels\ElecCalsTowerParaNameEditViewModel.cs" />
+    <Compile Include="Common\ViewModels\ElecCalsSideParaNameEditViewModel.cs" />
+    <Compile Include="Common\ViewModels\ElecCalsCommParaNameEditViewModel.cs" />
     <Compile Include="Common\ViewModels\SmartTowerModeEditViewModel.cs" />
     <Compile Include="Common\ViewModels\SmartTowerPathEditViewModel.cs" />
+    <Compile Include="Controls\Converter\FitDataCalsVisibityConverter.cs" />
+    <Compile Include="Controls\Converter\GrdIceForceParaConverter.cs" />
+    <Compile Include="Controls\Converter\HandForceParaConverter.cs" />
+    <Compile Include="Controls\Converter\GrdIceUnbaParaConverter.cs" />
+    <Compile Include="Controls\Converter\ElecCalsModeConverter.cs" />
+    <Compile Include="Controls\Converter\BooleanChVisibityConverter.cs" />
+    <Compile Include="Controls\Converter\MaxParaConverter.cs" />
     <Compile Include="Controls\Converter\SmartTowerModeStringConvert.cs" />
     <Compile Include="Controls\Converter\StringVisibityConverter.cs" />
     <Compile Include="Controls\Converter\BooleanVisibityConverter .cs" />
     <Compile Include="Controls\Converter\InverseBooleanConverter.cs" />
     <Compile Include="Controls\Converter\InverseBooleanVisibityConverter.cs" />
+    <Compile Include="Controls\Converter\JumpWindParaConverter.cs" />
+    <Compile Include="Controls\Converter\InParaConverter.cs" />
+    <Compile Include="Controls\Converter\WireWindParaConverter.cs" />
     <Compile Include="GridHelperBor.cs" />
     <Compile Include="MainWindowViewModel-RibbonCommand.cs" />
     <Compile Include="MainWindowViewModel-StruCals.cs" />
@@ -164,8 +186,7 @@
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
-    <Compile Include="ModulesViewModels\Electrical\ElecCalsCommResViewModel.cs" />
-    <Compile Include="ModulesViewModels\Electrical\ElecCalsSideResViewModel.cs" />
+    <Compile Include="ModulesViewModels\Electrical\ElectricalTowerParViewModel.cs" />
     <Compile Include="ModulesViewModels\Electrical\ElectricalSideParViewModel.cs" />
     <Compile Include="ModulesViewModels\Electrical\ElectricalCommonParViewModel.cs" />
     <Compile Include="ModulesViewModels\Electrical\ElectricalCheckingParViewModel.cs" />
@@ -184,6 +205,7 @@
     <Compile Include="ModulesViewModels\Internet\EarthWire_InternetViewModel.cs" />
     <Compile Include="ModulesViewModels\Internet\Wire_InternetViewModel.cs" />
     <Compile Include="ModulesViewModels\Login\LoginHelpers.cs" />
+    <Compile Include="ModulesViewModels\StruCals\StruCalsElecLoadViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\BaseAndLineParasViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\HangingPointViewModel.cs" />
     <Compile Include="ModulesViewModels\StruCals\NewStruCalsTowerViewModel.cs" />
@@ -194,7 +216,9 @@
     <Compile Include="ModulesViewModels\StruCals\WorkConditionComboViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\TowerViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\WireViewModel.cs" />
+    <Compile Include="ModulesViewModels\TowerSequence\TowerParaSettingViewModel.cs" />
     <Compile Include="ModulesViewModels\TowerSequence\WeatherConditionSettingWindowViewModel.cs" />
+    <Compile Include="ModulesViewModels\TowerSequence\CommSideParaSettingViewModel.cs" />
     <Compile Include="ModulesViewModels\TowerSequence\AddTowerSequenceViewModel.cs" />
     <Compile Include="ModulesViewModels\TowerSequence\TowerSequenceViewModel.cs" />
     <Compile Include="Modules\BaseData\FitDataModule.xaml.cs">
@@ -215,8 +239,8 @@
     <Compile Include="Modules\Electrical\BaseDataTemplateModule.xaml.cs">
       <DependentUpon>BaseDataTemplateModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Electrical\ElectricalCommonParModule_1.xaml.cs">
-      <DependentUpon>ElectricalCommonParModule_1.xaml</DependentUpon>
+    <Compile Include="Modules\Electrical\ElectricalTowerParModule.xaml.cs">
+      <DependentUpon>ElectricalTowerParModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Electrical\ElectricalSideParModule.xaml.cs">
       <DependentUpon>ElectricalSideParModule.xaml</DependentUpon>
@@ -272,6 +296,9 @@
     <Compile Include="Modules\Internet\WireModule_Internet.xaml.cs">
       <DependentUpon>WireModule_Internet.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modules\StruCals\StruCalsElecLoadModule.xaml.cs">
+      <DependentUpon>StruCalsElecLoadModule.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\StruCals\NewStruCalsTowerWindow.xaml.cs">
       <DependentUpon>NewStruCalsTowerWindow.xaml</DependentUpon>
     </Compile>
@@ -281,6 +308,18 @@
     <Compile Include="Modules\StruCals\HangingPointModule.xaml.cs">
       <DependentUpon>HangingPointModule.xaml</DependentUpon>
     </Compile>
+    <Page Include="Common\Modules\ElecCalsTowerParaNameEditWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\Modules\ElecCalsSideParaNameEditWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\Modules\ElecCalsCommParaNameEditWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Common\Modules\SmartTowerModeEditWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -325,7 +364,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\Electrical\ElectricalCommonParModule_1.xaml">
+    <Page Include="Modules\Electrical\ElectricalTowerParModule.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -401,6 +440,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Modules\StruCals\StruCalsElecLoadModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Modules\StruCals\NewStruCalsTowerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -436,6 +479,12 @@
     </Compile>
     <Compile Include="Modules\BaseData\WireModule.xaml.cs">
       <DependentUpon>WireModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TowerSequence\CommSideParaSettingWindow.xaml.cs">
+      <DependentUpon>CommSideParaSettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TowerSequence\TowerParaSettingWindow.xaml.cs">
+      <DependentUpon>TowerParaSettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\TowerSequence\WeatherConditionSettingWindow.xaml.cs">
       <DependentUpon>WeatherConditionSettingWindow.xaml</DependentUpon>
@@ -499,6 +548,14 @@
     <Page Include="Modules\BaseData\WeatherConditionModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\TowerSequence\CommSideParaSettingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\TowerSequence\TowerParaSettingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\TowerSequence\WeatherConditionSettingWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

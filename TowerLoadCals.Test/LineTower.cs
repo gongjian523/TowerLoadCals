@@ -40,13 +40,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.LineTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.LineTower;
+            formulaParas.Type = TowerTypeEnum.LineTower;
             formulaParas.LoadRatio = 1;
 
             //结构重要性系数
@@ -260,13 +260,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.LineTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.LineTower;
+            formulaParas.Type = TowerTypeEnum.LineTower;
             formulaParas.LoadRatio = 1;
 
             //结构重要性系数
@@ -480,13 +480,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.LineTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.LineTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.LineTower;
+            formulaParas.Type = TowerTypeEnum.LineTower;
             formulaParas.LoadRatio = 1;
 
             //结构重要性系数

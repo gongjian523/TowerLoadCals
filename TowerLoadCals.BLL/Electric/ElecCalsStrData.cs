@@ -18,86 +18,103 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 导线安全系数
         /// </summary>
+        [XmlAttribute]
         public int ID { get; set; }
 
         /// <summary>
         /// 名称
         /// </summary>
+        [XmlAttribute]
         public string Name { get; set; }
 
         /// <summary>
         /// 类型
         /// </summary>
+        [XmlAttribute]
         public int Type { get; set; }
 
         /// <summary>
         /// 重量(导地线串重)
         /// </summary>
+        [XmlAttribute]
         public double Weight { get; set; }
 
         /// <summary>
         ///  长度(金具结构高度)
         /// </summary>
+        [XmlAttribute]
         public double FitLength { get; set; }
 
         /// <summary>
         ///  单片绝缘子长度(绝缘子结构高度（mm）)
         /// </summary>
+        [XmlAttribute]
         public double PieceLength { get; set; }
 
         /// <summary>
         /// 片数(绝缘子片数)
         /// </summary>
+        [XmlAttribute]
         public int PieceNum { get; set; }
 
         /// <summary>
         /// 金具换片数(导地线串金具折片数)
         /// </summary>
+        [XmlAttribute]
         public int GoldPieceNum { get; set; }
 
         /// <summary>
         /// 联数(绝缘子联数)
         /// </summary>
+        [XmlAttribute]
         public int LNum { get; set; }
 
         /// <summary>
         /// 阻尼线长度(阻尼线长)
         /// </summary>
+        [XmlAttribute]
         public double DampLength { get; set; }
 
         /// <summary>
         ///  硬跳线参数，支撑管长度 单位m
         /// </summary>
+        [XmlAttribute]
         public double SuTubleLen { get; set; }
 
         /// <summary>
         ///  硬跳线参数，软跳线长度
         /// </summary>
+        [XmlAttribute]
         public double SoftLineLen { get; set; }
 
         /// <summary>
         /// 硬跳线间隔棒数量
         /// </summary>
+        [XmlAttribute]
         public int JGBNum { get; set; }
 
         /// <summary>
         /// 间隔棒资源ID
         /// </summary>
+        [XmlAttribute]
         public int JGBPnt { get; set; }
 
         /// <summary>
         ///支撑管直径,单位mm,
         /// </summary>
+        [XmlAttribute]
         public double SuTubleDia { get; set; }
 
         /// <summary>
         /// 单位长度重量,单位kg
         /// </summary>
+        [XmlAttribute]
         public double SuTubleWei { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public double Length { get; set; }
 
         public void UpdateLen()
@@ -108,16 +125,19 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 通常使用的工况：小号侧
         /// </summary>
+        [XmlIgnore]
         public ElecCalsWeaRes WeaParas { get; set; }
 
         /// <summary>
         /// 大号侧
         /// </summary>
+        [XmlIgnore]
         public ElecCalsWeaRes WeaAnSideParas { get; set; }
 
         /// <summary>
         /// 公共参数
         /// </summary>
+        [XmlIgnore]
         public ElecCalsCommRes CommPara { get; set; }
 
         public ElecCalsStrData()
@@ -183,23 +203,6 @@ namespace TowerLoadCals.BLL.Electric
             WeaParas = weaData;
             WeaAnSideParas = anWeaData;
         }
-
-        protected double WeightIceIn(double iceThick)
-        {
-            //Dim exZai As Boolean
-            //Dim IceBank As Double
-            //exZai = False
-            //For i = 0 To 6
-            //    IceBank = AAIce.Cells(1, 1 + i).Value
-            //    If Abs(IceBank -Ice) < 0.001 Then
-            //       WeightIceIn = AAIce.Cells(2, 1 + i).Value
-            //        exZai = True
-            //    End If
-            //Next i
-
-            return (iceThick / 5);
-        }
-
     }
 
 }

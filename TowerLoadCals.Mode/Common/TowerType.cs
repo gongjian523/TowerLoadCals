@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TowerLoadCals.Mode
 {
-    public enum TowerType
+    public enum TowerTypeEnum
     {
         LineTower,
         LineCornerTower,
@@ -17,29 +17,29 @@ namespace TowerLoadCals.Mode
     
     public class TowerTypeStringConvert
     {
-        static public TowerType TowerStringToType(string tower)
+        static public TowerTypeEnum TowerStringToType(string tower)
         {
             if (tower == "直线塔")
-                return TowerType.LineTower;
+                return TowerTypeEnum.LineTower;
             else if (tower == "直转塔")
-                return TowerType.LineCornerTower;
+                return TowerTypeEnum.LineCornerTower;
             else if (tower == "转角塔")
-                return TowerType.CornerTower;
+                return TowerTypeEnum.CornerTower;
             else if (tower == "分支塔")
-                return TowerType.BranchTower;
+                return TowerTypeEnum.BranchTower;
             else
-                return TowerType.TerminalTower;
+                return TowerTypeEnum.TerminalTower;
         }
 
-        static public string TowerTypeToString(TowerType type)
+        static public string TowerTypeToString(TowerTypeEnum type)
         {
-            if (type == TowerType.LineTower)
+            if (type == TowerTypeEnum.LineTower)
                 return "直线塔";
-            else if (type == TowerType.LineCornerTower)
+            else if (type == TowerTypeEnum.LineCornerTower)
                 return "直转塔";
-            else if (type == TowerType.CornerTower)
+            else if (type == TowerTypeEnum.CornerTower)
                 return "转角塔";
-            else if (type == TowerType.BranchTower)
+            else if (type == TowerTypeEnum.BranchTower)
                 return "分支塔";
             else
                 return "终端塔";
@@ -48,29 +48,29 @@ namespace TowerLoadCals.Mode
 
     public class TowerTypeEngStringConvert
     {
-        static public TowerType TowerStringToType(string tower)
+        static public TowerTypeEnum TowerStringToType(string tower)
         {
             if (tower == ConstVar.LineTowerStr)
-                return TowerType.LineTower;
+                return TowerTypeEnum.LineTower;
             else if (tower == ConstVar.LineCornerTowerStr)
-                return TowerType.LineCornerTower;
+                return TowerTypeEnum.LineCornerTower;
             else if (tower == ConstVar.CornerTowerStr)
-                return TowerType.CornerTower;
+                return TowerTypeEnum.CornerTower;
             else if (tower == ConstVar.BranchTowerStr)
-                return TowerType.BranchTower;
+                return TowerTypeEnum.BranchTower;
             else
-                return TowerType.TerminalTower;
+                return TowerTypeEnum.TerminalTower;
         }
 
-        static public string TowerTypeToString(TowerType type)
+        static public string TowerTypeToString(TowerTypeEnum type)
         {
-            if (type == TowerType.LineTower)
+            if (type == TowerTypeEnum.LineTower)
                 return ConstVar.LineTowerStr;
-            else if (type == TowerType.LineCornerTower)
+            else if (type == TowerTypeEnum.LineCornerTower)
                 return ConstVar.LineCornerTowerStr;
-            else if (type == TowerType.CornerTower)
+            else if (type == TowerTypeEnum.CornerTower)
                 return ConstVar.CornerTowerStr;
-            else if (type == TowerType.BranchTower)
+            else if (type == TowerTypeEnum.BranchTower)
                 return ConstVar.BranchTowerStr;
             else
                 return ConstVar.TerminalTowerStr;

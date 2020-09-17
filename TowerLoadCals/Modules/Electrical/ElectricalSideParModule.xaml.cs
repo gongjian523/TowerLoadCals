@@ -24,5 +24,10 @@ namespace TowerLoadCals.Modules.Electrical
         {
             InitializeComponent();
         }
+
+        private void TabControl_SelectionChanged(object sender, DevExpress.Xpf.Core.TabControlSelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

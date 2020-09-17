@@ -334,6 +334,285 @@ namespace TowerLoadCals.Test
             return;
         }
 
+        [TestMethod]
+        public void TestMethod1_TowerStrain_GenerateInputFile()
+        {
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml"
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            ElecCalsParas CalsParas = new ElecCalsParas();
+
+            var pro = new ProjectInfo("新建工程", "施工图");
+            pro.Volt = 500;
+            pro.VoltStr = "500kV";
+            pro.ACorDC = 0;
+            //CalsParas.Project = pro;
+
+            CalsParas.WirePara = new ElecCalsWireData()
+            {
+                Ind = new ElecCalsWireBase("JL/G1A-630/45", 1, 674, 33.8, 2079, 63000, 20.9, 150450, 0, 25, 4),
+                Grd = new ElecCalsWireBase("JLB20A-120", 2, 121.21, 14.25, 810, 147200, 13, 146180, 1, 10),
+                OPGW = new ElecCalsWireBase("OPGW-15-120-1", 3, 120, 15.2, 832, 162000, 13, 147000, 2, 10),
+            };
+
+            List<ElecCalsWorkCondition> wkcList = new List<ElecCalsWorkCondition>()
+            {
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最大风速",
+                    Temperature = 10,
+                    WindSpeed = 27,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最低气温",
+                    Temperature = -20,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    //即Excel中的"电线覆冰"
+                    Name = "最大覆冰",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 15,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "平均气温",
+                    Temperature = 15,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最高气温",
+                    Temperature = 50,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "安装情况",
+                    Temperature = -10,
+                    WindSpeed = 10,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "不均匀风",
+                    Temperature = 10,
+                    WindSpeed = 27,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算冰",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 15,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算不均匀冰I",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 15,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算不均匀冰II",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 15,
+                },
+            };
+            List<ElecCalsWorkCondition> wkcList2 = new List<ElecCalsWorkCondition>()
+            {
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最大风速",
+                    Temperature = 10,
+                    WindSpeed = 27,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最低气温",
+                    Temperature = -20,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    //即Excel中的"电线覆冰"
+                    Name = "最大覆冰",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 25,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "平均气温",
+                    Temperature = 15,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "最高气温",
+                    Temperature = 50,
+                    WindSpeed = 0,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "安装情况",
+                    Temperature = -10,
+                    WindSpeed = 10,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "不均匀风",
+                    Temperature = 10,
+                    WindSpeed = 27,
+                    IceThickness = 0,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算冰",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 15,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算不均匀冰I",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 15,
+                },
+                new ElecCalsWorkCondition()
+                {
+                    Name = "验算不均匀冰II",
+                    Temperature = -5,
+                    WindSpeed = 10,
+                    IceThickness = 15,
+                },
+
+            };
+            CalsParas.WeatherData = new ElecCalsWeatherData()
+            {
+                OneWeather = wkcList,
+                AnWeather = wkcList2
+            };
+
+
+            ElecCalsCommRes CommParas = new ElecCalsCommRes();
+            CommParas.Volt = pro.Volt;
+            CommParas.VoltStr = pro.VoltStr;
+            CommParas.Terrain = "山地";
+            CommParas.TerrainPara = 0.16;
+            CommParas.IndAveHei = 20;
+            CommParas.GrdAveHei = 20;
+            CommParas.GrdCl = 12;
+            CommParas.SetForIncrPara(1, 1.05, 1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1);
+            CommParas.SetForMaxMinPara(1.025, 1.025, 1.122, 1.08, 0.95, 0.95, 1, 1);
+            CommParas.SetOverDrive(0, 0);
+            CommParas.CalMethodParaStrain(1, 1, 1, 1, 1, 1, 2, 2, 1, 1);
+            CalsParas.CommParas = CommParas;
+
+            ElecCalsSideRes OneWrieSidePara = new ElecCalsSideRes(0.95, 2.85, 25, 1, 4.1, 20, 1, 4.1, 20);
+            OneWrieSidePara.IceArea = "中冰区";
+            ElecCalsSideRes AnoWrieSidePara = new ElecCalsSideRes(0.95, 2.8, 25, 1, 4.1, 20, 1, 4.1, 20);
+            AnoWrieSidePara.IceArea = "中冰区";
+            CalsParas.SideParas = new ElecCalsSideData ()
+            {
+                SidePara = OneWrieSidePara,
+                AnSidePara = AnoWrieSidePara,
+            };
+
+            ElecCalsTowerAppre BackAppre = new ElecCalsTowerAppre();
+            BackAppre.SetTraPara(29.2, 14.1, 0, 37.2, 29.2, 14.1, 0);
+            ElecCalsTowerAppre CalsAppre = new ElecCalsTowerAppre();
+            CalsAppre.SetTraPara(29.2, 14.1, 0, 37.2, 29.2, 14.1, 0);
+            ElecCalsTowerAppre FrontAppre = new ElecCalsTowerAppre();
+            FrontAppre.SetTraPara(30, 14.3, 0, 34, 30, 14.3, 0);
+            CalsParas.AppreData = new ElecCalsAppreData()
+            {
+                BackAppre = BackAppre,
+                CalsAppre = CalsAppre,
+                FrontAppre = FrontAppre,
+            };
+
+            ElecCalsSpanFit BackSpanFit = new ElecCalsSpanFit(0, 4, 10, 0, 2, 7, 0, 12, 15);
+            ElecCalsSpanFit FrontSpanFit = new ElecCalsSpanFit(0, 0, 10, 0, 2, 7, 0, 7, 15);
+            CalsParas.SpanFitData = new ElecCalsSpanFitData()
+            {
+                BackSpanFit = BackSpanFit,
+                FrontSpanFit = FrontSpanFit,
+            };
+
+            TowerElecCals BackTower = new TowerElecCals();
+            BackTower.SetPosInf("NAB204", "SJC29152", 48, 1997.1, -4.1, 0, 0, 0);
+            BackTower.TowerType = "耐张塔";
+            TowerElecCals CalTower = new TowerElecCals();
+            CalTower.SetPosInf("NAB205", "SJC29152", 48, 2277.1, -6.3, 0, 0, 45.98);
+            CalTower.TowerType = "耐张塔";
+            TowerElecCals FrontTower = new TowerElecCals();
+            FrontTower.SetPosInf("NAB206", "SZC27154A", 67, 2350.8, -5, 8, 0.5, 45.98);
+            FrontTower.TowerType = "悬垂塔";
+            CalsParas.TowerData = new ElecCalsTowerData()
+            {
+                BackTower = BackTower,
+                CalsTower = CalTower,
+                FrontTower = FrontTower,
+            };
+
+            //绝缘子串参数
+            ElecCalsStrData IndStr = new ElecCalsStrData();
+            IndStr.SetIGPara(1500, 2, 29, 205, 15, 2.5, 0);
+            ElecCalsStrData GrdStr = new ElecCalsStrData();
+            GrdStr.SetIGPara(40, 2, 2, 146, 4, 2.5, 0);
+            ElecCalsStrData JumpStr = new ElecCalsStrData();
+            JumpStr.SetJumPara(400, 1, 38, 8, 30, 4, 0);
+            CalsParas.StrDatas = new ElecCalsStrDatas()
+            {
+                IndStr = IndStr,
+                GrdStr = GrdStr,
+                JumpStr = JumpStr,
+            };
+
+            XmlUtils.Serializer(saveFileDialog.FileName, CalsParas);
+
+            return;
+        }
+
+        [TestMethod]
+        public void TestMethod1_TowerStrain_WithIuput()
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml"
+            };
+
+            if (openFileDialog.ShowDialog() != true)
+                return;
+
+            ElecCalsParas CalsParas = XmlUtils.Deserializer<ElecCalsParas>(openFileDialog.FileName);
+
+
+        }
+
+
 
         [TestMethod]
         public void TestMethod2_TowerHang()

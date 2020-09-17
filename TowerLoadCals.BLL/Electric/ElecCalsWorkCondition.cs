@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using TowerLoadCals.Mode;
+using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL.Electric
 {
-    public class ElecCalsWorkCondition
+    public class ElecCalsWorkCondition: ElecCalsWorkConditionBase
     {
         public ElecCalsWorkCondition()
         {
@@ -23,30 +25,5 @@ namespace TowerLoadCals.BLL.Electric
             Temperature = Convert.ToDouble(wkCdt.STemperature);
             IceThickness = Convert.ToDouble(wkCdt.SIceThickness);
         }
-
-        /// <summary>
-        /// 工况名称
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 风速
-        /// </summary>
-        public double WindSpeed { get; set; }
-
-        /// <summary>
-        /// 气温
-        /// </summary>
-        public double Temperature { get; set; }
-
-        /// <summary>
-        /// 冰厚
-        /// </summary>
-        public double IceThickness { get; set; }
-
-        /// <summary>
-        /// 基本风速
-        /// </summary>
-        public double BaseWindSpeed { get; set; }
     }
 }

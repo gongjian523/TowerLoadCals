@@ -30,8 +30,6 @@ namespace TowerLoadCals.Modules
 
             ShowTemplateEditWindow(temp, true);
         }
-        
-
 
     }
 

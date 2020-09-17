@@ -54,7 +54,6 @@ namespace TowerLoadCals.ModulesViewModels
 
             globalInfo = GlobalInfo.GetInstance();
 
-            //SetSelectedItemCommand = new DelegateCommand<object>(SelectedItemChanged);
         }
 
         abstract protected void InitializeData();

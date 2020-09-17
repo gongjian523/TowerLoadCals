@@ -7,6 +7,8 @@ using TowerLoadCals.Common;
 using TowerLoadCals.Mode;
 using System.Xml;
 using TowerLoadCals.Mode.Electric;
+using TowerLoadCals.BLL.Electric;
+using TowerLoadCals.DAL;
 
 namespace TowerLoadCals.BLL
 {
@@ -81,7 +83,8 @@ namespace TowerLoadCals.BLL
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.ProjectStruTemplateStr + "\\" + ConstVar.TerminalTowerStr);
 
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.StruCalsStr);
-            
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.ElecCalsStr);
+
             if (!ConfigFileUtils.CreateProjetcFile(strDir + "\\" + prejectName + "\\" + saveFileDialog.SafeFileName))
             {
                 System.Windows.Forms.MessageBox.Show("新建工程Lcp文件失败");
@@ -230,6 +233,47 @@ namespace TowerLoadCals.BLL
 
             return true;
         }
+
+        #region 基本数据的相关函数
+
+        public List<Weather> ReadLocalWeathers()
+        {
+            WeatherXmlReader _weatherXmlReader = new WeatherXmlReader();
+            var filePath = GlobalInfo.GetInstance().ProjectPath + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.WeatherConditioFileName;
+            var weas = _weatherXmlReader.ReadLocal(filePath);
+            if (weas == null)
+                weas = new List<Weather>();
+            return weas;
+        }
+
+        public List<WireType> ReadLocalWires()
+        {
+            var filePath = GlobalInfo.GetInstance().ProjectPath + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.WireFileName;
+            var wires = WireReader.Read(filePath);
+            if (wires == null)
+                wires = new List<WireType>();
+            return wires;
+        }
+
+        public List<FitDataCollection> ReadLocalFitDatas()
+        {
+            var filePath = GlobalInfo.GetInstance().ProjectPath + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.FitDataFileName;
+            var fits = FitDataReader.Read(filePath); ;
+            if (fits == null)
+                fits = new List<FitDataCollection>();
+            return fits;
+        }
+
+        public List<StrDataCollection> ReadLocalStrDatas()
+        {
+            var filePath = GlobalInfo.GetInstance().ProjectPath + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.StrDataFileName;
+            var strDatas = StrDataReader.Read(filePath); ;
+            if (strDatas == null)
+                strDatas = new List<StrDataCollection>();
+            return strDatas;
+        }
+
+        #endregion
 
 
         #region 结构计算 塔位相关函数
@@ -554,6 +598,79 @@ namespace TowerLoadCals.BLL
             string path = Directory.GetCurrentDirectory() + "\\" + ConstVar.UserDataStr + "\\" + ConstVar.ElecCalsSpecFileName;
 
             return XmlUtils.Deserializer<ElecCalsSpec>(path);
+        }
+
+        public List<ElecCalsCommRes> ReadElecCalsCommParas()
+        {
+            string path = ProjectPath + "\\" + ConstVar.ElecCalsStr + "\\" + ConstVar.ElecCalsCommParasFileName;
+            var result = XmlUtils.Deserializer<List<ElecCalsCommRes>>(path);
+
+            if (result == null)
+                result = new List<ElecCalsCommRes>();
+            //if (result == null)
+            //{
+            //    result = new List<ElecCalsCommRes>()
+            //    {
+            //        new ElecCalsCommRes(),
+            //    };
+            //}
+            //else if(result.Count == 0)
+            //{
+            //    result.Add(new ElecCalsCommRes());
+            //}
+            return result;
+        }
+
+        public void SaveElecCalsCommParas(List<ElecCalsCommRes> commParas)
+        {
+            string path = ProjectPath + "\\" + ConstVar.ElecCalsStr + "\\" + ConstVar.ElecCalsCommParasFileName;
+            XmlUtils.Serializer(path, commParas);
+        }
+
+        public List<ElecCalsSideRes> ReadElecCalsSideParas()
+        {
+            string path = ProjectPath + "\\" + ConstVar.ElecCalsStr + "\\" + ConstVar.ElecCalsSideParasFileName;
+            var result = XmlUtils.Deserializer<List<ElecCalsSideRes>>(path);
+
+            if (result == null)
+                result = new List<ElecCalsSideRes>();
+
+            //if (result == null)
+            //{
+            //    result = new List<ElecCalsSideRes>()
+            //    {
+            //        new ElecCalsSideRes(),
+            //    };
+            //}
+            //else if (result.Count == 0)
+            //{
+            //    result.Add(new ElecCalsSideRes());
+            //}
+            return result;
+        }
+
+        public void SaveElecCalsSideParas(List<ElecCalsSideRes> sideParas)
+        {
+            string path = ProjectPath + "\\" + ConstVar.ElecCalsStr + "\\" + ConstVar.ElecCalsSideParasFileName;
+            XmlUtils.Serializer(path, sideParas);
+        }
+
+
+        public List<ElecCalsTowerRes> ReadElecCalsTowerParas()
+        {
+            string path = ProjectPath + "\\" + ConstVar.ElecCalsStr + "\\" + ConstVar.ElecCalsTowerParasFileName;
+            var result = XmlUtils.Deserializer<List<ElecCalsTowerRes>>(path);
+
+            if (result == null)
+                result = new List<ElecCalsTowerRes>();
+
+            return result;
+        }
+
+        public void SaveElecCalsTowerParas(List<ElecCalsTowerRes> towerParas)
+        {
+            string path = ProjectPath + "\\" + ConstVar.ElecCalsStr + "\\" + ConstVar.ElecCalsTowerParasFileName;
+            XmlUtils.Serializer(path, towerParas);
         }
         #endregion
     }

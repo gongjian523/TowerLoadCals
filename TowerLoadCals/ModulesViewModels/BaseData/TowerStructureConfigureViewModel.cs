@@ -56,7 +56,6 @@ namespace TowerLoadCals.Modules
             IList<string> templateList = ProjectUtils.GetInstance().GetGeneralTowerTemplate().Select(item => "[通用模板]" + item.Name).ToList();
             this.templetDataSource = projectList.Concat(templateList).ToList();
 
-
             this.dataSource = new ObservableCollection<TowerStrData>(TowerStrDataReader.ReadLoadFile(filePath));//获取本地已保存信息
 
         }

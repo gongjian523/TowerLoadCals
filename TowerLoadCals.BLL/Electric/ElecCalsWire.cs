@@ -8,11 +8,97 @@ using TowerLoadCals.Mode.Electric;
 
 namespace TowerLoadCals.BLL.Electric
 {
-    //Wire  
-    //EarthWire
+    //这个类主要用于输入数据，在后期可以跟Internet.Wire和Internet.EarthWire合并
+    public class ElecCalsWireBase
+    {
+        [XmlAttribute("BaseDataId")]
+        public int ID { get; set; }
+
+        /// <summary>
+        /// 导线型号
+        /// </summary>
+        [XmlAttribute]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 截面积 mm2
+        /// </summary>
+        [XmlAttribute]
+        public double Sec { get; set; }
+
+        /// <summary>
+        /// 直径 mm
+        /// </summary>
+        [XmlAttribute]
+        public double Dia { get; set; }
+
+        /// <summary>
+        /// 单位质量  Kg/Km,默认换算为kg/m
+        /// </summary>
+        [XmlAttribute]
+        public double Wei { get; set; }
+
+        /// <summary>
+        /// 综合弹性系数 Gpa 10^6 N/m2 
+        /// </summary>
+        [XmlAttribute]
+        public double Elas { get; set; }
+
+        /// <summary>
+        /// 线性膨胀系数 10^-6/℃
+        /// </summary
+        [XmlAttribute]
+        public double Coef { get; set; }
+
+        /// <summary>
+        /// 计算拉断力 N//计算破断力?
+        /// </summary>
+        [XmlAttribute]
+        public double Fore { get; set; }
+
+        /// <summary>
+        /// #0：导线；1：普通地线；2：OPGW
+        /// </summary>
+        [XmlAttribute]
+        public int bGrd { get; set; }
+
+        /// <summary>
+        /// #降温值
+        /// </summary>
+        [XmlAttribute]
+        public double DecrTem { get; set; }
+
+        /// <summary>
+        /// 导线分裂数
+        /// </summary>
+        [XmlAttribute]
+        public int DevideNum { get; set; }
+
+        public ElecCalsWireBase()
+        {
+
+        }
+
+
+        public ElecCalsWireBase(string name = "", int id = 0, double sec = 0, double dia = 0, double wei = 0, double elas = 0,
+            double coef = 0, double fore = 0, int grd = 0, double decrTem = 0, int devide = 1)
+        {
+            ID = id;
+            Name = name;
+            Sec = sec;
+            Dia = dia;
+            Wei = wei / 1000;
+            Elas = elas;
+            Coef = coef * 1e-6;
+            Fore = fore;
+            bGrd = grd;
+            DecrTem = decrTem;
+            DevideNum = devide;
+        }
+    }
+
     public class ElecCalsWire
     {
-
         public int ID {get; set;}
 
         /// <summary>
@@ -42,7 +128,7 @@ namespace TowerLoadCals.BLL.Electric
 
         /// <summary>
         /// 线性膨胀系数 10^-6/℃
-        /// </summary>
+        /// </summary
         public double Coef { get; set; }
 
         /// <summary>
@@ -179,6 +265,21 @@ namespace TowerLoadCals.BLL.Electric
 
         public ElecCalsWire()
         {
+        }
+
+        public ElecCalsWire(ElecCalsWireBase wireBase)
+        {
+            ID = wireBase.ID;
+            Name = wireBase.Name;
+            Sec = wireBase.Sec;
+            Dia = wireBase.Dia;
+            Wei = wireBase.Wei / 1000;
+            Elas = wireBase.Elas;
+            Coef = wireBase.Coef * 1e-6;
+            Fore = wireBase.Fore;
+            bGrd = wireBase.bGrd;
+            DecrTem = wireBase.DecrTem;
+            DevideNum = wireBase.DevideNum;
         }
 
         public ElecCalsWire(string name = "", int id = 0, double sec = 0, double dia = 0, double wei = 0, double elas = 0,

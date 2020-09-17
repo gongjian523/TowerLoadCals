@@ -6,6 +6,7 @@ using TowerLoadCals.Common;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
+using TowerLoadCals.Mode.Structure;
 
 namespace TowerLoadCals.Test
 {
@@ -25,7 +26,7 @@ namespace TowerLoadCals.Test
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.LineTower;
+            formulaParas.Type = TowerTypeEnum.LineTower;
             formulaParas.LoadRatio = 1;
 
             //结构重要性系数
@@ -696,11 +697,6 @@ namespace TowerLoadCals.Test
                          Category = "一类",
                     },
                 },
-
-            
-                
-
-
             };
 
 
@@ -709,6 +705,117 @@ namespace TowerLoadCals.Test
             XmlUtils.Serializer(saveFileDialog.FileName, spec);
 
             var paras2 = XmlUtils.Deserializer<ElecCalsSpec>(saveFileDialog.FileName);
+
+        }
+
+
+        [TestMethod]
+        public void TestMethod07_StruCalsParas()
+        {
+
+            //var openFileDialog = new Microsoft.Win32.OpenFileDialog()
+            //{
+            //    Filter = "XML Files (*.xml)|*.xml",
+            //};
+
+            //if (openFileDialog.ShowDialog() != true)
+            //    return;
+
+            //StruCalsParas paras = XmlUtils.Deserializer<StruCalsParas>(openFileDialog.FileName);
+
+            StruCalsParas paras = new StruCalsParas();
+
+            List<ElecCalsWorkConditionBase> listWd = new List<ElecCalsWorkConditionBase>
+            {
+                new ElecCalsWorkConditionBase
+                {
+                    Id = 1,
+                    Name = "大风",
+                    IceThickness = 0,
+                    Temperature = 10,
+                    WindSpeed = 35,
+                },
+                new ElecCalsWorkConditionBase
+                {
+                    Id = 2,
+                    Name = "覆冰",
+                    IceThickness = 0,
+                    Temperature = 10,
+                    WindSpeed = 35,
+                }
+            };
+
+            List<WireElecLoadLine> listLoad = new List<WireElecLoadLine>() {
+                new WireElecLoadLine {
+                    WireType = "左地",
+                    ElecLoad = new List<ElecLoadLine>()
+                    {
+                        new ElecLoadLine
+                        {
+                            WorkConditionId = 1,
+                            WorkConditionName = "大风",
+                            Wind = 8.07f,
+                            GMax = 8.07f,
+                            GMin = 8.07f,
+                            TensionMax = 8.07f,
+                            TensionMin = 8.07f,
+                        },
+                        new ElecLoadLine
+                        {
+                            WorkConditionId = 2,
+                            WorkConditionName = "覆冰",
+                            Wind = 8.07f,
+                            GMax = 8.07f,
+                            GMin = 8.07f,
+                            TensionMax = 8.07f,
+                            TensionMin = 8.07f,
+                        },
+                    }
+                },
+                new WireElecLoadLine {
+                    WireType = "右地",
+                    ElecLoad = new List<ElecLoadLine>()
+                    {
+                        new ElecLoadLine
+                        {
+                            WorkConditionId = 1,
+                            WorkConditionName = "大风",
+                            Wind = 8.07f,
+                            GMax = 8.07f,
+                            GMin = 8.07f,
+                            TensionMax = 8.07f,
+                            TensionMin = 8.07f,
+                        },
+                        new ElecLoadLine
+                        {
+                            WorkConditionId = 2,
+                            WorkConditionName = "覆冰",
+                            Wind = 8.07f,
+                            GMax = 8.07f,
+                            GMin = 8.07f,
+                            TensionMax = 8.07f,
+                            TensionMin = 8.07f,
+                        },
+                    }
+                }
+            };
+
+            StruCalsElecLoad elecLoad = new StruCalsElecLoad {
+               WorkCondition = listWd,
+               LineElecLoads = listLoad,
+            };
+
+            paras.ElecLoad = elecLoad;
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            XmlUtils.Serializer<StruCalsParas>(saveFileDialog.FileName, paras);
 
         }
     }

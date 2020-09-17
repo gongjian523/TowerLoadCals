@@ -26,12 +26,12 @@ namespace TowerLoadCals.Test
             DES.DesDecrypt(openFileDialog.FileName, datPath, "12345678");
 
 
-            TowerTemplateReader templateReader = new TowerTemplateReader(TowerType.LineTower);
+            TowerTemplateReader templateReader = new TowerTemplateReader(TowerTypeEnum.LineTower);
             TowerTemplate template = templateReader.Read(datPath);
 
 
             string newDatPath = openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4) + "New.dat";
-            NewTowerTemplateReader newTemplateReader = new NewTowerTemplateReader(TowerType.LineTower);
+            NewTowerTemplateReader newTemplateReader = new NewTowerTemplateReader(TowerTypeEnum.LineTower);
             newTemplateReader.Save(newDatPath, template);
 
             TowerTemplate newTemplate = newTemplateReader.Read(newDatPath);

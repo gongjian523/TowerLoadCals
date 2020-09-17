@@ -67,7 +67,7 @@ namespace TowerLoadCals.BLL
                 FullStressTemplateNames.Add(path.Substring(path.LastIndexOf('\\') + 1));
             }
 
-            TowerType type = TowerTypeStringConvert.TowerStringToType(towerType);
+            TowerTypeEnum type = TowerTypeStringConvert.TowerStringToType(towerType);
 
             ElectricalLoadFilePath = electricalLaodFilePath;
 
@@ -184,7 +184,7 @@ namespace TowerLoadCals.BLL
 
 
             //配置默认参数
-            if(BaseParas.Type == TowerType.LineTower)
+            if(BaseParas.Type == TowerTypeEnum.LineTower)
             {
                 paras.GCQ = 0.5f;
                 paras.GCH = 0.5f;
@@ -206,7 +206,7 @@ namespace TowerLoadCals.BLL
                 paras.DMCQ = 0.7f;
                 paras.DMCH = 0.3f;
             }
-            else if(BaseParas.Type == TowerType.LineCornerTower)
+            else if(BaseParas.Type == TowerTypeEnum.LineCornerTower)
             {
                 paras.GCQ = 0.5f;
                 paras.GCH = 0.5f;
@@ -276,7 +276,7 @@ namespace TowerLoadCals.BLL
             return result;
         }
 
-        public bool DecodeTemplate(TowerType towerType, string templatesPath)
+        public bool DecodeTemplate(TowerTypeEnum towerType, string templatesPath)
         {
             string file = templatesPath.Substring(0,templatesPath.Length - 3) + "dat";
             DES.DesDecrypt(templatesPath, file, "12345678");
@@ -292,7 +292,7 @@ namespace TowerLoadCals.BLL
         /// <summary>
         /// 从配置文件中获取默认参数
         /// </summary>
-        protected void SetDefaultValue(TowerType towerType)
+        protected void SetDefaultValue(TowerTypeEnum towerType)
         {
             var libParas = GlobalInfo.GetInstance().GetStruCalsLibParas();
 
@@ -302,7 +302,7 @@ namespace TowerLoadCals.BLL
                 var config = new MapperConfiguration(x => x.CreateMap<StruCalsLibBaseParas, StruCalseBaseParas>().ForMember(des=>des.Type, item =>item.Ignore()));
                 IMapper mapper = new Mapper(config);
 
-                StruCalsLibBaseParas libBaseParas = (towerType == TowerType.LineTower || towerType == TowerType.LineCornerTower) ? libParas.OverhangingTowerBaseParas : libParas.TensionTowerBaseParas;
+                StruCalsLibBaseParas libBaseParas = (towerType == TowerTypeEnum.LineTower || towerType == TowerTypeEnum.LineCornerTower) ? libParas.OverhangingTowerBaseParas : libParas.TensionTowerBaseParas;
 
                 BaseParas = mapper.Map<StruCalseBaseParas>(libBaseParas);
 
@@ -334,7 +334,7 @@ namespace TowerLoadCals.BLL
                     {
                         Index = i + 1,
                         WireType = Template.Wires[i],
-                        DrawingCoef = ((towerType == TowerType.LineTower || towerType == TowerType.LineCornerTower) ? libParas.OverhangingTowerBaseParas.DrawingCoef
+                        DrawingCoef = ((towerType == TowerTypeEnum.LineTower || towerType == TowerTypeEnum.LineCornerTower) ? libParas.OverhangingTowerBaseParas.DrawingCoef
                         : libParas.TensionTowerBaseParas.DrawingCoef)
                     });
                 }

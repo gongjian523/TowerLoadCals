@@ -1,4 +1,6 @@
-﻿namespace TowerLoadCals.BLL.Electric
+﻿using System.Xml.Serialization;
+
+namespace TowerLoadCals.BLL.Electric
 {
     //档中金具结构
     //CounterWeight 
@@ -8,46 +10,55 @@
         /// <summary>
         /// 导线防振锤资源ID
         /// </summary>
+        [XmlAttribute]
         public int InFZCID { get; set; }
 
         /// <summary>
         /// 导线防振锤数量
         /// </summary>
+        [XmlAttribute]
         public int NumInFZC { get; set; }
 
         /// <summary>
         /// 导线防振锤重量
         /// </summary>
+        [XmlAttribute]
         public int WeiInFZC { get; set; }
 
         /// <summary>
         /// 地线防振锤ID
         /// </summary>
+        [XmlAttribute]
         public int GrFZCID { get; set; }
 
         /// <summary>
         /// 地线防振锤数量
         /// </summary>
+        [XmlAttribute]
         public int NumGrFZC { get; set; }
 
         /// <summary>
         /// 地线防振锤重量
         /// </summary>
+        [XmlAttribute]
         public int WeiGrFZC { get; set; }
 
         /// <summary>
         /// 间隔棒资源ID
         /// </summary>
+        [XmlAttribute]
         public int JGBID { get; set; }
 
         /// <summary>
         /// 间隔棒数量
         /// </summary>
+        [XmlAttribute]
         public int NumJGB { get; set; }
 
         /// <summary>
         /// 间隔棒重量
         /// </summary>
+        [XmlAttribute]
         public int WeiJGB { get; set; }
 
 

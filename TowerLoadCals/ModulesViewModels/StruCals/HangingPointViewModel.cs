@@ -253,7 +253,6 @@ namespace TowerLoadCals.Modules
             IsNormalHangingPointVisible = isNormalVisible;
         }
 
-
         protected ObservableCollection<VStringParas> _vStrings { get; set; }
         public ObservableCollection<VStringParas> VStrings 
         {
@@ -287,7 +286,6 @@ namespace TowerLoadCals.Modules
         protected int turningPointNum;
         public ObservableCollection<Column> TurningColumns { get; private set; }
         public ObservableCollection<HangingPointParas> TurningPoints { get; set; }
-
 
         public void AddVString()
         {

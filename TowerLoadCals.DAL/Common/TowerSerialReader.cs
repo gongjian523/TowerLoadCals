@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using TowerLoadCals.Common.Utils;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 
@@ -72,9 +73,8 @@ namespace TowerLoadCals.DAL.Common
                 tower.QuantityOfGroundWireFittings = itemLine[17] == "" ? 0 : Convert.ToDouble(itemLine[17]);
                 tower.BackGroundDistance = itemLine[18] == "" ? 0 : Convert.ToDouble(itemLine[18]);
                 tower.FrontGroundDistance = itemLine[19] == "" ? 0 : Convert.ToDouble(itemLine[19]);
-                tower.TurningAngle = itemLine[20] == "" ? 0 : Convert.ToDouble(itemLine[20]);//转角(度 分)
-                tower.TurningAngleStr = itemLine[20] == "" || double.Parse(itemLine[20].ToString()) == 0 ? "" : (Convert.ToDouble(itemLine[20]) < 0 ? "右" : "左") + itemLine[20];//转角(度 分)
-                tower.VerticalSpan = itemLine[21];
+                tower.TurningAngle = itemLine[21] == "" ? 0 : Convert.ToDouble(itemLine[21]);//转角(度 分)
+                tower.TurningAngleStr = itemLine[21] == "" || double.Parse(itemLine[21].ToString()) == 0 ? "" : (Convert.ToDouble(itemLine[21]) < 0 ? "右:" : "左:") + itemLine[21].ToString().Trim(' ').TrimStart('-');//转角(度 分)
                 tower.SafetyDistanceOfCutWire = itemLine[22] == "" ? 0 : Convert.ToDouble(itemLine[22]);
                 tower.SafetyFactorKConductor = itemLine[23] == "" ? 0 : Convert.ToDouble(itemLine[23]);
                 tower.SafetyFactorKValueOfGroundWire = itemLine[24] == "" ? 0 : Convert.ToDouble(itemLine[24]);
@@ -108,48 +108,75 @@ namespace TowerLoadCals.DAL.Common
         public static void CalsParameters(List<TowerSerial> list)
         {
             TowerSerial tower;
-            TowerSerial beforeTower;
+            TowerSerial backTower;
+            TowerSerial frontTower;
 
             double x = 0, y = 0;
+            double accPreSpan = 0 , accPreSpan1 = 0 , accPreSpan2 = 0, accPreSpan3 = 0, accPreSpanRst = 0;
+            int preSt = 0, preEnd = 0; 
+
             for (int i = 0; i < list.Count; i++)
             {
                 tower = list[i];
-                beforeTower = i == 0 ? new TowerSerial() : list[i - 1];
+                backTower = i == 0 ? list[0] : list[i - 1];
 
-                tower.Span = tower.AccumulativeDistance - beforeTower.AccumulativeDistance;//档距=当前累距-前一项累距
-                tower.HorizontalSpan = (beforeTower.Span + tower.Span) / 2;// 水平档距 = (前侧档距 + 后侧档距)/2
-                tower.guadg = tower.TowerFootElevation + tower.CallItHigh + tower.BaseLevelDescent - tower.InsulationStringLength;//挂点高=塔角高程+呼陈高+基面下降-绝缘串长
-                tower.h = tower.guadg - beforeTower.guadg;//挂线点高差=当前挂点高-前一项挂点高
+                tower.Span = tower.AccumulativeDistance - backTower.AccumulativeDistance;//档距=当前累距-前一项累距
+            }
+
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                tower = list[i];
+                backTower = i == 0 ? new TowerSerial() : list[i - 1];
+                frontTower = i == list.Count - 1 ? new TowerSerial() : list[i + 1];
+
+                //tower.Span = tower.AccumulativeDistance - beforeTower.AccumulativeDistance;//档距=当前累距-前一项累距
+                tower.HorizontalSpan = (frontTower.Span + tower.Span) / 2;// 水平档距 = (前侧档距 + 后侧档距)/2
+                tower.guadg = tower.TowerType == 1 ? tower.TowerFootElevation + tower.CallItHigh + tower.BaseLevelDescent - tower.InsulationStringLength
+                    : tower.TowerFootElevation + tower.CallItHigh + tower.BaseLevelDescent;//挂点高=塔角高程+呼陈高+基面下降-绝缘串长
+                tower.h = tower.guadg - backTower.guadg;//挂线点高差=当前挂点高-前一项挂点高
+
+                double subHb;
+
                 if (i != 0)
                 {
                     x = tower.KValueOfConductor * tower.Span * 0.001;
-                    y = -tower.KValueOfConductor * tower.h * 0.001 / Math.Sin(x);
-                    tower.FrontVerticalSpan = (int)(tower.Span / 2 + Math.Asin(y) / (2 * tower.KValueOfConductor * 0.001) + 0.5);
-                    tower.BackVerticalSpan = (int)(tower.Span - tower.FrontVerticalSpan + 0.5);
+                    y = tower.KValueOfConductor * tower.h * 0.001 / Math.Sinh(x);
+                    tower.BackVerticalSpan = Math.Floor(tower.Span / 2 + Calc.Asinh(y) / (2 * tower.KValueOfConductor * 0.001) + 0.5);
+                    backTower.FrontVerticalSpan = Math.Floor(tower.Span - tower.BackVerticalSpan + 0.5);
+
+                    subHb = tower.Span / Math.Sqrt(Math.Pow(tower.h, 2) + Math.Pow(tower.Span, 2));
+                    accPreSpan = accPreSpan + tower.Span / subHb;
+                    accPreSpan1 = accPreSpan1 + tower.Span;
+                    accPreSpan2 = accPreSpan2 + tower.Span / Math.Pow(subHb, 2);
+                    accPreSpan3 = accPreSpan3 + Math.Pow(tower.Span, 3) * subHb;
                 }
 
-                if (tower.TowerType == 1)
+                preEnd = i;
+                if(tower.TowerType != 1 && i != 0)
                 {
-                    tower.VerticalSpan = (tower.FrontVerticalSpan + beforeTower.BackVerticalSpan) + "";
-                }
-                else
-                {
-                    tower.VerticalSpan = beforeTower.BackVerticalSpan + "/" + tower.FrontVerticalSpan;
-                }
+                    accPreSpanRst = Math.Floor(accPreSpan2 / accPreSpan * Math.Sqrt(accPreSpan3 / accPreSpan) + 0.5);
+                    list[preSt].FrontPreSpan = accPreSpanRst;
+                    list[preSt].FrontAccPreSpan = accPreSpan1;
 
-                //tower.FrontSpan = (beforeTower.Span + tower.Span) / 2;// 前侧代表档距
-                //tower.BackSpan = (beforeTower.Span + tower.Span) / 2;// 后侧代表档距
+                    for(int j = preSt + 1; j < preEnd; j++)
+                    {
+                        list[j].FrontPreSpan = list[j].BackPreSpan = accPreSpanRst;
+                        list[j].FrontAccPreSpan = list[j].BackAccPreSpan = accPreSpan1;
+                    }
+
+                    list[preEnd].BackPreSpan = accPreSpanRst;
+                    list[preEnd].BackAccPreSpan = accPreSpan1;
+
+                    preSt = preEnd;
+
+                    accPreSpan = accPreSpan1 = accPreSpan2 = accPreSpan3 = 0;
+                }
             }
-            for (int i = 1; i < list.Count; i++)
-            {
-                list[i - 1].Span = list[i].Span;
-                list[i - 1].HorizontalSpan = list[i].HorizontalSpan;
-                if (i == list.Count - 1)
-                {
-                    list[i].Span = 0;
-                    list[i].HorizontalSpan = 0;
 
-                }
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].VerticalSpan = list[i].FrontVerticalSpan + list[i].BackVerticalSpan ;
             }
         }
         #endregion
@@ -217,8 +244,10 @@ namespace TowerLoadCals.DAL.Common
                 row.SetAttribute("FrontVerticalSpan", item.FrontVerticalSpan.ToString());//前侧垂距
                 row.SetAttribute("BackVerticalSpan", item.BackVerticalSpan.ToString());//后侧垂距
                 row.SetAttribute("VerticalSpan", item.VerticalSpan.ToString());//垂直档距
-                row.SetAttribute("FrontSpan", item.VerticalSpan.ToString());//前侧代表档距
-                row.SetAttribute("BackSpan", item.VerticalSpan.ToString());//后侧代表档距
+                row.SetAttribute("FrontPreSpan", item.FrontPreSpan.ToString());//前侧代表档距
+                row.SetAttribute("FrontAccPreSpan", item.FrontAccPreSpan.ToString());//前侧代表档距
+                row.SetAttribute("BackPreSpan", item.BackPreSpan.ToString());//后侧代表档距
+                row.SetAttribute("BackAccPreSpan", item.BackAccPreSpan.ToString());//后侧耐张段长度
                 row.SetAttribute("TurningAngle", item.TurningAngle.ToString());//转角中心桩位移(m)
                 row.SetAttribute("TurningAngleStr", item.TurningAngleStr);//转角中心桩位移(m)
                 row.SetAttribute("ConductorModel", item.ConductorModel.ToString());//导线型号
@@ -235,9 +264,12 @@ namespace TowerLoadCals.DAL.Common
                 row.SetAttribute("WireCounterWeightNum", "0");//导线防震锤数量
                 row.SetAttribute("GroundCounterWeightNum", "0");//地线防震锤数量
                 row.SetAttribute("WireSpacerNum", "0");//导线间隔棒数量
-                row.SetAttribute("EngineerPar", "0");//工程参数
-                row.SetAttribute("FrontPar", "0");//前侧相参数
-                row.SetAttribute("BackPar", "0");//后侧相参数
+
+                row.SetAttribute("CommPar", item.CommPar);
+                row.SetAttribute("FrontSidePar", item.FrontSidePar);
+                row.SetAttribute("BackSidePar", item.BackSidePar);
+                row.SetAttribute("TowerPar", item.TowerPar);
+
 
                 root.AppendChild(row);
             }
@@ -297,6 +329,7 @@ namespace TowerLoadCals.DAL.Common
                 item.IsChecking =bool.Parse(xmlNode.Attributes.GetNamedItem("IsChecking").InnerText);//气象条件
                 item.WeatherCondition = xmlNode.Attributes.GetNamedItem("WeatherCondition").InnerText;//气象条件
                 item.TowerName = xmlNode.Attributes.GetNamedItem("TowerName").InnerText;//塔位号
+                item.TowerType = int.Parse(xmlNode.Attributes.GetNamedItem("TowerType").InnerText); //塔型
                 item.NameOfPositioningPile = xmlNode.Attributes.GetNamedItem("NameOfPositioningPile").InnerText;//塔位点
                 item.TowerPattern = xmlNode.Attributes.GetNamedItem("TowerPattern").InnerText;//塔型
                 item.CallItHigh = double.Parse(xmlNode.Attributes.GetNamedItem("CallItHigh").InnerText);//呼高
@@ -304,9 +337,13 @@ namespace TowerLoadCals.DAL.Common
                 item.BaseLevelDescent = double.Parse(xmlNode.Attributes.GetNamedItem("BaseLevelDescent").InnerText);//定位高差
                 item.Span = double.Parse(xmlNode.Attributes.GetNamedItem("Span").InnerText);//档距
                 item.HorizontalSpan = double.Parse(xmlNode.Attributes.GetNamedItem("HorizontalSpan").InnerText);//水平档距
-                item.VerticalSpan = xmlNode.Attributes.GetNamedItem("VerticalSpan").InnerText;//垂直档距
-                //item.TensionSpan = double.Parse(xmlNode.Attributes.GetNamedItem("TensionSpan").InnerText);//耐张段长/代表档距
-                item.TurningAngle = double.Parse(xmlNode.Attributes.GetNamedItem("TurningAngle").InnerText);//转角中心桩位移(m)
+                item.VerticalSpan = double.Parse(xmlNode.Attributes.GetNamedItem("VerticalSpan").InnerText);//垂直档距
+                item.FrontVerticalSpan = double.Parse(xmlNode.Attributes.GetNamedItem("FrontVerticalSpan").InnerText);//前侧垂直档距
+                item.BackVerticalSpan = double.Parse(xmlNode.Attributes.GetNamedItem("BackVerticalSpan").InnerText);//后侧垂直档距
+                item.FrontPreSpan = double.Parse(xmlNode.Attributes.GetNamedItem("FrontPreSpan").InnerText);//前侧代表档距
+                item.FrontAccPreSpan = double.Parse(xmlNode.Attributes.GetNamedItem("FrontAccPreSpan").InnerText);//前侧耐张段长度
+                item.BackPreSpan = double.Parse(xmlNode.Attributes.GetNamedItem("BackPreSpan").InnerText);//后侧代表档距
+                item.BackAccPreSpan = double.Parse(xmlNode.Attributes.GetNamedItem("BackAccPreSpan").InnerText);//后侧耐张段长度
                 item.TurningAngleStr = xmlNode.Attributes.GetNamedItem("TurningAngleStr").InnerText;//转角中心桩位移(m)
                 item.ConductorModel = xmlNode.Attributes.GetNamedItem("ConductorModel").InnerText;//导线型号
                 item.InsulationStringModel = xmlNode.Attributes.GetNamedItem("InsulationStringModel").InnerText;//导线串型号
@@ -333,6 +370,11 @@ namespace TowerLoadCals.DAL.Common
                 {
                     item.ExistsWireInsulationString = true;
                 }
+
+                item.CommPar = xmlNode.Attributes.GetNamedItem("CommPar").InnerText;
+                item.FrontSidePar = xmlNode.Attributes.GetNamedItem("FrontSidePar").InnerText;
+                item.BackSidePar = xmlNode.Attributes.GetNamedItem("BackSidePar").InnerText;
+                item.TowerPar = xmlNode.Attributes.GetNamedItem("TowerPar").InnerText;
 
                 towerSeriList.Add(item);
             }
@@ -389,8 +431,10 @@ namespace TowerLoadCals.DAL.Common
                     item.GroundCounterWeightNum = int.Parse(xmlNode.Attributes.GetNamedItem("GroundCounterWeightNum").InnerText);//地线防震锤数量
                     item.WireSpacerNum = int.Parse(xmlNode.Attributes.GetNamedItem("WireSpacerNum").InnerText);//导线间隔棒数量
                     item.EngineerPar = int.Parse(xmlNode.Attributes.GetNamedItem("EngineerPar").InnerText);//工程参数
-                    item.FrontPar = int.Parse(xmlNode.Attributes.GetNamedItem("FrontPar").InnerText);//前侧相参数
-                    item.BackPar = int.Parse(xmlNode.Attributes.GetNamedItem("BackPar").InnerText);//后侧相参数
+                    item.FrontSidePar = xmlNode.Attributes.GetNamedItem("FrontSidePar").InnerText;//前侧参数
+                    item.BackSidePar = xmlNode.Attributes.GetNamedItem("BackPar").InnerText;//后侧参数
+                    item.CommPar = xmlNode.Attributes.GetNamedItem("CommPar").InnerText;//公共参数
+                    item.TowerPar = xmlNode.Attributes.GetNamedItem("TowerPar").InnerText;//后侧相参数
 
                     towerSeriList.Add(item);
 
@@ -429,8 +473,10 @@ namespace TowerLoadCals.DAL.Common
                         xmlNode.Attributes.GetNamedItem("GroundCounterWeightNum").InnerText = item.GroundCounterWeightNum.ToString();//地线防震锤数量
                         xmlNode.Attributes.GetNamedItem("WireSpacerNum").InnerText = item.WireSpacerNum.ToString();//导线间隔棒数量
                         xmlNode.Attributes.GetNamedItem("EngineerPar").InnerText = item.EngineerPar.ToString();//工程参数
-                        xmlNode.Attributes.GetNamedItem("FrontPar").InnerText = item.FrontPar.ToString();//前侧相参数
-                        xmlNode.Attributes.GetNamedItem("BackPar").InnerText = item.BackPar.ToString();//后侧相参数
+                        xmlNode.Attributes.GetNamedItem("FrontSidePar").InnerText = item.FrontSidePar.ToString();//前侧档内参数
+                        xmlNode.Attributes.GetNamedItem("BackSidePar").InnerText = item.BackSidePar.ToString();//后侧档内参数
+                        xmlNode.Attributes.GetNamedItem("CommPar").InnerText = item.CommPar.ToString();//公共参数
+                        xmlNode.Attributes.GetNamedItem("TowerPar").InnerText = item.TowerPar.ToString();//铁塔配置参数
                         break;
                     }
                 }

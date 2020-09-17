@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using TowerLoadCals.Mode;
 
 namespace TowerLoadCals.BLL.Electric
@@ -10,270 +11,415 @@ namespace TowerLoadCals.BLL.Electric
     /// </summary>
     public class ElecCalsCommRes
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlAttribute]
+        public string Name { get; set; }
+
         /// <summary>
         /// 1,代表传统计算模式；2，采用示例铁塔计算模式
         /// 在程序中选择（结构计算中就是标准的选择）
         /// </summary>
+        [XmlAttribute]
         public int CalMode { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlAttribute]
         public int Volt { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlAttribute]
         public string VoltStr { get; set; }
 
 
         /// <summary>
         /// 新线系数，默认值为0.95
         /// </summary>
+        [XmlAttribute]
         public double NewPerPara { get; set; }
 
         /// <summary>
         /// 重力加速度常数
         /// </summary>
+        [XmlAttribute]
         public double GraAcc { get; set; }
 
         /// <summary>
         /// 地形类型
         /// </summary>
+        [XmlAttribute]
         public string Terrain { get; set; }
 
         /// <summary>
         /// 地形系数
         /// </summary>
+        [XmlAttribute]
         public double TerrainPara { get; set; }
 
         /// <summary>
         /// 地形类型
         /// </summary>
+        [XmlAttribute]
         public char TerType { get; set; }
-
 
         /// <summary>
         /// 导地线高空风压系数计算模式  
         /// 1.平均高度计算 2.按照挂点高减去2/3弧垂
         /// </summary>
+        [XmlAttribute]
         public int HeiDDType { get; set; }
 
         /// <summary>
         /// 跳串高空风压系数  
         /// 1.全部按照最高高度计算 2.  考虑支撑管高度
         /// </summary>
+        [XmlAttribute]
         public int HeiJmpType { get; set; }
 
         /// <summary>
         /// 导线截面增大系数
         /// </summary>
+        [XmlAttribute]
         public double SecIndInc { get; set; }
 
         /// <summary>
         /// 导线重量增大系数
         /// </summary>
+        [XmlAttribute]
         public double WeiIndInc { get; set; }
 
         /// <summary>
         /// 导线直径增大系数
         /// </summary>
+        [XmlAttribute]
         public double DiaIndInc { get; set; }
 
         /// <summary>
         /// 地线截面增大系数
         /// </summary>
+        [XmlAttribute]
         public double SecGrdInc { get; set; }
 
         /// <summary>
         /// 地线重量增大系数
         /// </summary>
+        [XmlAttribute]
         public double WeiGrdInc { get; set; }
 
         /// <summary>
         /// 地线直径增大系数
         /// </summary>
+        [XmlAttribute]
         public double DiaGrdInc { get; set; }
 
         /// <summary>
         /// OPGW截面增大系数
         /// </summary>
+        [XmlAttribute]
         public double SecOPGWInc { get; set; }
 
         /// <summary>
         /// OPGW重量增大系数
         /// </summary>
+        [XmlAttribute]
         public double WeiOPGWInc { get; set; }
 
         /// <summary>
         /// OPGW直径增大系数
         /// </summary>
+        [XmlAttribute]
         public double DiaOPGWInc { get; set; }
 
 
         /// <summary>
         ///大张力侧施工误差,
         /// </summary>
+        [XmlAttribute]
         public double BuildMaxPara { get; set; }
 
         /// <summary>
         /// 大张力侧安装误差
         /// </summary>
+        [XmlAttribute]
         public double InstMaxPara { get; set; }
 
         /// <summary>
         /// 大张力侧导线伸长系数
         /// </summary>
+        [XmlAttribute]
         public double IndExMaxPara { get; set; }
 
         /// <summary>
         ///大张力侧地线伸长系数
         /// </summary>
+        [XmlAttribute]
         public double GrdExMaxPara { get; set; }
 
         /// <summary>
         /// 小张力侧施工误差
         /// </summary>
+        [XmlAttribute]
         public double BuildMinPara { get; set; }
 
         /// <summary>
         /// 小张力侧安装误差
         /// </summary>
+        [XmlAttribute]
         public double InstMinPara { get; set; }
 
         /// <summary>
         /// 小张力侧导线伸长系数
         /// </summary>
+        [XmlAttribute]
         public double IndExMinPara { get; set; }
 
         /// <summary>
         /// 小张力侧地线伸长系数
         /// </summary>
+        [XmlAttribute]
         public double GrdExMinPara { get; set; }
 
 
         /// <summary>
         /// 导线过牵引系数
         /// </summary>
+        [XmlAttribute]
         public double IndODri { get; set; }
 
         /// <summary>
         /// 地线过牵引系数
         /// </summary>
+        [XmlAttribute]
         public double GrdODri { get; set; }
 
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public double IndBrePara { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public double GrdBrePara { get; set; }
 
         /// <summary>
         /// 类别，有电压决定
         /// </summary>
+        [XmlIgnore]
         public string Catagory { get; set; }
 
         /// <summary>
         /// 不均匀冰覆冰率I
         /// </summary>
+        [XmlIgnore]
         public double UnbaIceCoverPerI { get; set; }
 
         /// <summary>
         /// 不均匀冰覆冰率II
         /// </summary>
+        [XmlIgnore]
         public double UnbaIceCoverPerII { get; set; }
 
         /// <summary>
         /// 断线覆冰率
         /// </summary>
+        [XmlIgnore]
         public double BreakIceCoverPer { get; set; }
+        [XmlIgnore]
         public double BreakIceCoverPerII { get; set; }
 
         /// <summary>
         /// 断线覆冰参数 1：考虑断线覆冰率 2：不考虑断线覆冰率
         /// </summary>
+        [XmlAttribute]
         public double BreakIceCoverPara { get; set; }
 
         /// <summary>
-        /// 导地线高空风压系数计算模式，1：线平均高 2:按照下相挂点高反算
+        /// 导地线高空风压系数计算模式，1：线平均高(Ecex中的挂点高) 2:按照下相挂点高反算（线平均高）
         /// </summary>
+        [XmlAttribute]
         public int WireWindPara { get; set; }
 
         /// <summary>
         /// 跳线高空风压系数计算模式，1：挂线高，2：按照跳线中点高度，硬跳线按照实际高度
         /// </summary>
+        [XmlAttribute]
         public int JmpWindPara { get; set; }
 
         /// <summary>
         /// 地线覆冰张力计算模式，1：加5mm冰计算张力，2：不增加5mm冰计算
         /// </summary>
+        [XmlAttribute]
         public int GrdIceForcePara { get; set; }
 
         /// <summary>
         /// 地线不平衡张力取值，1:轻冰区不考虑增加5mm，2：重冰区增加5mm
         /// </summary>
+        [XmlAttribute]
         public int GrdIceUnbaPara { get; set; }
 
         /// <summary>
         /// 地线验算张力取值，1:不考虑增加5mm，2：考虑增加5mm
         /// </summary>
+        [XmlAttribute]
         public int GrdIceCheckPara { get; set; }
 
         /// <summary>
         /// 锚线张力取值方法，1:取两者最大值，2:系数法，3：降温法
         /// </summary>
+        [XmlAttribute]
         public int HandForcePara { get; set; }
 
         /// <summary>
         /// 断线张力填法：1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)
         /// </summary>
+        [XmlAttribute]
         public int BreakInPara { get; set; }
 
         /// <summary>
         /// 不均匀冰最大张力取值：1：直线塔，0/张力差；2：耐张塔，max/(max-张力差)
         /// </summary>
+        [XmlAttribute]
         public int UnbaInPara { get; set; }
 
         /// <summary>
         /// 断线最大张力取值，1：最大允许张力，2：100%覆冰率断线情况
         /// </summary>
+        [XmlAttribute]
         public int BreakMaxPara { get; set; }
 
         /// <summary>
         /// 不均匀冰最大张力取值，1：最大允许张力，2：100%覆冰率断线情况
         /// </summary>
+        [XmlAttribute]
         public int UnbaMaxPara { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public int LevelOfLine { get; set; }
 
         /// <summary>
         /// 导线计算平均高
         /// </summary>
+        [XmlAttribute]
         public double IndAveHei { get; set; }
 
         /// <summary>
         /// 地线计算平均高
         /// </summary>
+        [XmlAttribute]
         public double GrdAveHei { get; set; }
 
         /// <summary>
         /// 跳线绝缘子串长
         /// 暂时放在这里
         /// </summary>
+        [XmlIgnore]
         public double JumpStrLen { get; set; }
 
         /// <summary>
         /// 对地距离(m)
         /// </summary>
+        [XmlAttribute]
         public double GrdCl  {get; set;}
+
+        /// <summary>
+        /// 安装垂直荷载取值
+        /// </summary>
+        [XmlAttribute]
+        public string InsVerWeiPara { get; set; }
+
+        /// <summary>
+        /// 不均匀冰垂直荷载取值
+        /// </summary>
+        [XmlAttribute]
+        public string UnbaIceVerWeiPara { get; set; }
+
+        /// <summary>
+        /// 手动确定高度系数
+        /// </summary>
+        [XmlAttribute]
+        public string AutoHeiPara { get; set; } = "否";
+
+
+        /// <summary>
+        ///上(边)相导线μz
+        /// </summary>
+        [XmlAttribute]
+        public double UpIndWindPara { get; set; }
+
+        /// <summary>
+        ///上(边)相串μz
+        /// </summary>
+        [XmlAttribute]
+        public double UpStrWindPara { get; set; }
+
+        /// <summary>
+        ///上(边)相跳线绝缘子μz
+        /// </summary>
+        [XmlAttribute]
+        public double UpJumpWindPara { get; set; }
+
+        /// <summary>
+        ///中相导线μz
+        /// </summary>
+        [XmlAttribute]
+        public double MidIndWindPara { get; set; }
+
+        /// <summary>
+        ///中相串μz
+        /// </summary>
+        [XmlAttribute]
+        public double MidStrWindPara { get; set; }
+
+        /// <summary>
+        ///中相跳线绝缘子μz
+        /// </summary>
+        [XmlAttribute]
+        public double MidJumpWindPara { get; set; }
+
+
+        /// <summary>
+        ///下(边)相导线μz
+        /// </summary>
+        [XmlAttribute]
+        public double DnIndWindPara { get; set; }
+
+        /// <summary>
+        ///下(边)相串μz
+        /// </summary>
+        [XmlAttribute]
+        public double DnStrWindPara { get; set; }
+
+        /// <summary>
+        ///下(边)相跳线绝缘子μz
+        /// </summary>
+        [XmlAttribute]
+        public double DnJumpWindPara { get; set; }
+
+        /// <summary>
+        ///地线μz
+        /// </summary>
+        [XmlAttribute]
+        public double GrdWindPara { get; set; }
+
+        /// <summary>
+        ///地线串μz
+        /// </summary>
+        [XmlAttribute]
+        public double GrdStrWindPara { get; set; }
+
 
         public ElecCalsCommRes()
         {
@@ -438,9 +584,6 @@ namespace TowerLoadCals.BLL.Electric
             UnbaInPara = unbaInPara;
         }
 
-
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -543,7 +686,6 @@ namespace TowerLoadCals.BLL.Electric
                 UnbaIceCoverPerII = ElecCalsToolBox.IBlanceR2("耐张塔", Catagory);
             }
         }
-
 
         public string PrintIceCovrageStrain()
         {

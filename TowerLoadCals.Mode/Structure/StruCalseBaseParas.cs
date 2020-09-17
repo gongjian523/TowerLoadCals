@@ -269,7 +269,7 @@ namespace TowerLoadCals.Mode
         public float TractionAgnle { get; set; }
 
         [XmlAttribute]
-        public TowerType Type { get; set; }
+        public TowerTypeEnum Type { get; set; }
 
         [XmlAttribute]
         public float Voltage { get; set; }
@@ -279,7 +279,7 @@ namespace TowerLoadCals.Mode
         {
             get
             {
-                return Type == TowerType.LineTower;
+                return Type == TowerTypeEnum.LineTower;
             }
         }
 
@@ -288,7 +288,7 @@ namespace TowerLoadCals.Mode
         {
             get
             {
-                return Type == TowerType.CornerTower;
+                return Type == TowerTypeEnum.CornerTower;
             }
         }
 
@@ -297,7 +297,7 @@ namespace TowerLoadCals.Mode
         {
             get
             {
-                return Type == TowerType.LineCornerTower;
+                return Type == TowerTypeEnum.LineCornerTower;
             }
         }
 
@@ -306,7 +306,7 @@ namespace TowerLoadCals.Mode
         {
             get
             {
-                return Type == TowerType.BranchTower;
+                return Type == TowerTypeEnum.BranchTower;
             }
         }
 
@@ -315,16 +315,16 @@ namespace TowerLoadCals.Mode
         {
             get
             {
-                return Type == TowerType.TerminalTower;
+                return Type == TowerTypeEnum.TerminalTower;
             }
         }
 
-
+        [XmlIgnore]
         public bool IsShowPulleyTensionDif
         {
             get
             {
-                return  (Type==TowerType.LineTower || Type==TowerType.LineCornerTower);
+                return  (Type==TowerTypeEnum.LineTower || Type==TowerTypeEnum.LineCornerTower);
             }
         }
 
@@ -333,7 +333,7 @@ namespace TowerLoadCals.Mode
         {
             get
             {
-                return Type == TowerType.LineTower;
+                return Type == TowerTypeEnum.LineTower;
             }
         }
 
@@ -342,7 +342,7 @@ namespace TowerLoadCals.Mode
         {
             get
             {
-                return (Type == TowerType.CornerTower || Type == TowerType.TerminalTower || Type == TowerType.BranchTower);
+                return (Type == TowerTypeEnum.CornerTower || Type == TowerTypeEnum.TerminalTower || Type == TowerTypeEnum.BranchTower);
             }
         }
 

@@ -146,7 +146,7 @@
         /// <summary>
         /// 垂直档距
         /// </summary>
-        public string VerticalSpan { get; set; }
+        public double VerticalSpan { get; set; }
 
         /// <summary>
         /// 切地线安全距离
@@ -271,12 +271,22 @@
         /// <summary>
         ///前侧代表档距
         /// </summary>
-        public double FrontSpan { get; set; }
+        public double FrontPreSpan { get; set; }
+
+        /// <summary>
+        /// 前侧耐张段长度
+        /// </summary>
+        public double FrontAccPreSpan { get; set; }
 
         /// <summary>
         ///后侧代表档距
         /// </summary>
-        public double BackSpan { get; set; }
+        public double BackPreSpan { get; set; }
+
+        /// <summary>
+        /// 后侧耐张段长度
+        /// </summary>
+        public double BackAccPreSpan { get; set; }
 
 
         /// <summary>
@@ -322,6 +332,8 @@
         public bool ExistsGroundWireModel { get; set; }
 
 
+
+
 #region 电气计算-验算条件
 
 
@@ -346,15 +358,27 @@
         public int EngineerPar { get; set; }
 
         /// <summary>
-        /// 前侧相参数
+        /// 前侧档内参数
         /// </summary>
-        public int FrontPar { get; set; }
+        public string FrontSidePar { get; set; } = "";
 
         /// <summary>
-        /// 后侧相参数
+        /// 后侧档内参数
         /// </summary>
-        public int BackPar { get; set; }
+        public string BackSidePar { get; set; } = "";
 
-        #endregion 
+        /// <summary>
+        /// 公共参数
+        /// </summary>
+        public string CommPar { get; set; } = "";
+
+        /// <summary>
+        /// 铁塔配置参数
+        /// </summary>
+        public string TowerPar { get; set; } = "";
+        #endregion
+
+
+
     }
 }

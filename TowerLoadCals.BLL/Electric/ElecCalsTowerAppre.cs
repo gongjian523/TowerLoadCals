@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace TowerLoadCals.BLL.Electric
 {
@@ -11,63 +12,73 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public int Type { get; set; }
-
         
         /// <summary>
         ///
         /// </summary>
+        [XmlIgnore]
         public int CirNum { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public int CurType { get; set; }
 
         /// <summary>
         /// 标记基本参数是否设置完毕
         /// </summary>
+        [XmlIgnore]
         public bool SetBasePara { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public int GroundNum { get; set; }
-
 
         /// <summary>
         /// 上相导线高差(上相（中相）与下横担高差)
         /// </summary>
+        [XmlAttribute]
         public double UpSideInHei { get; set; }
 
         /// <summary>
         /// 中相导线高差(中相（边相）与下横担高差)
         /// </summary>
+        [XmlAttribute]
         public double MidInHei { get; set; }
 
         /// <summary>
         /// 下相导线高差(下相（边相）与下横担高差)
         /// </summary>
+        [XmlAttribute]
         public double DnSideInHei { get; set; }
 
         /// <summary>
         /// 地线高差(地线与下横担高差)
         /// </summary>
+        [XmlAttribute]
         public double GrDHei { get; set; }
 
         /// <summary>
         /// 上相跳线高差(上相（中相）跳线挂点与下横担高差)
         /// </summary>
+        [XmlAttribute]
         public double UpSideJuHei { get; set; }
 
         /// <summary>
         ///  中相跳线高差(中相（边相）跳线挂点与下横担高差)
         /// </summary>
+        [XmlAttribute]
         public double MidJuHei { get; set; }
 
         /// <summary>
         /// 下相跳线高差(下相（边相）跳线挂点与下横担高差)
         /// </summary>
+        [XmlAttribute]
         public double DnSideJuHei { get; set; }
 
         public ElecCalsTowerAppre()

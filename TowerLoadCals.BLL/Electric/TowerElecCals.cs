@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace TowerLoadCals.BLL.Electric
 {
@@ -11,61 +12,73 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 
         /// </summary>
+        [XmlAttribute]
         public int ID { get; set; }
 
         /// <summary>
         /// 塔号
         /// </summary>
+        [XmlIgnore]
         public string Num { get; set; }
 
         /// <summary>
         /// 塔位名称
         /// </summary>
+        [XmlIgnore]
         public string PosName { get; set; }
 
         /// <summary>
         /// 塔位偏移
         /// </summary>
+        [XmlIgnore]
         public int PosOffset { get; set; }
 
         /// <summary>
         /// 杆塔名称
         /// </summary>
+        [XmlAttribute]
         public string Name { get; set; }
 
         /// <summary>
         /// 杆塔呼高
         /// </summary>
+        [XmlAttribute]
         public double Height { get; set; }
 
         /// <summary>
         ///  累距
         /// </summary>
+        [XmlIgnore]
         public double AccumDis { get; set; }
 
         /// <summary>
         ///  塔位高程
         /// </summary>
+        [XmlAttribute]
         public double Elevation { get; set; }
 
         /// <summary>
         /// 基面降低
         /// </summary>
+        [XmlAttribute]
         public double SubOfElv { get; set; }
 
         /// <summary>
         /// 导线等效串长
         /// </summary>
+        [XmlAttribute]
         public double RepStrIndLen { get; set; }
 
         /// <summary>
         /// 地线等效串长
         /// </summary>
+        [XmlAttribute]
         public double RepStrGrdLen { get; set; }
 
         /// <summary>
         /// 转角度数，小数，度
         /// </summary>
+        [XmlAttribute]
         public double AngelofApplication { get; set; }
 
         //考虑到多回路，不同分支的情况，将每根地线也作为一个回路中的一相
@@ -73,28 +86,32 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         ///  前侧位置结构
         /// </summary>
+        [XmlIgnore]
         public ElecCalsTowerPosStr FrontPosRes { get; set; } = new ElecCalsTowerPosStr();
 
         /// <summary>
         /// 后侧位置结构
         /// </summary>
+        [XmlIgnore]
         public ElecCalsTowerPosStr BackPosRes { get; set; } = new ElecCalsTowerPosStr();
-
 
         /// <summary>
         /// 后侧位置结构
         /// </summary>
+        [XmlIgnore]
         public ElecCalsTowerAppre FrontAppreRes { get; set; }
 
         /// <summary>
         /// 后侧位置结构
         /// </summary>
+        [XmlIgnore]
         public ElecCalsTowerAppre BackAppreRes { get; set; }
 
 
         /// <summary>
         /// 相列表，存储回路、相信息
         /// </summary>
+        [XmlIgnore]
         public List<ElecCalsPhaseStr> PhaseTraList { get; set; } = new List<ElecCalsPhaseStr>();
 
         /// <summary>
@@ -110,6 +127,7 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 铁塔外形数据
         /// </summary>
+        [XmlIgnore]
         public ElecCalsTowerAppre TowerAppre { get; set; }
 
 
@@ -118,60 +136,71 @@ namespace TowerLoadCals.BLL.Electric
         /// <summary>
         /// 塔中相挂点高（单回）/塔上相挂点高（双回）
         /// </summary>
+        [XmlIgnore]
         public double AbsUpSideHei { get; set; }
 
         /// <summary>
         /// 塔边相挂点高（单回）/塔中相挂点高（双回）
         /// </summary>
+        [XmlIgnore]
         public double AbsMidHei { get; set; }
 
         /// <summary>
         /// 塔边相挂点高（单回）/塔下相挂点高（双回）
         /// </summary>
+        [XmlIgnore]
         public double AbsDownSideHei { get; set; }
 
         /// <summary>
         /// 地线挂点高
         /// </summary>
+        [XmlIgnore]
         public double AbsGrdHei { get; set; }
 
         /// <summary>
         /// 塔中相跳线串挂点高（单回）/塔上相跳线串挂点高（双回）
         /// </summary>
+        [XmlIgnore]
         public double AbsUpJumHei { get; set; }
 
         /// <summary>
         /// 塔边相跳线串挂点高（单回）/塔中相跳线串挂点高（双回）
         /// </summary>
+        [XmlIgnore]
         public double AbsMidJumHei { get; set; }
-
 
         /// <summary>
         /// 塔边相跳线串挂点高（单回）/塔下相跳线串挂点高（双回）
         /// </summary>
+        [XmlIgnore]
         public double AbsDownJumHei { get; set; }
 
         //特征相地理高度
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public double AtiUpSide { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public double AtiMid { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public double AtiDownd { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
+        [XmlIgnore]
         public double AtiGrd { get; set; }
 
+        [XmlAttribute]
         public virtual string TowerType { get; set; }
 
         public TowerElecCals()

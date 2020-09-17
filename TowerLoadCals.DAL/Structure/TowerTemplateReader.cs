@@ -13,7 +13,7 @@ namespace TowerLoadCals.DAL
     {
         public TowerTemplate template = new TowerTemplate();
 
-        protected TowerType Type { get; set;}
+        protected TowerTypeEnum Type { get; set;}
 
         protected int WireNum { get; set; }
 
@@ -37,16 +37,16 @@ namespace TowerLoadCals.DAL
 
         }
 
-        public TowerTemplateReader(TowerType type)
+        public TowerTemplateReader(TowerTypeEnum type)
         {
-            if(type == TowerType.LineTower)
+            if(type == TowerTypeEnum.LineTower)
             {
                 WorkConditongsLine = 15;
                 WorkConditongsComboStartLine = 17;
 
                 template.TowerType = "直线塔";
             }
-            else if (type == TowerType.LineCornerTower)
+            else if (type == TowerTypeEnum.LineCornerTower)
             {
                 WorkConditongsLine = 16;
                 WorkConditongsComboStartLine = 18;
@@ -58,9 +58,9 @@ namespace TowerLoadCals.DAL
                 WorkConditongsLine = 26;
                 WorkConditongsComboStartLine = 29;
 
-               if(type == TowerType.CornerTower)
+               if(type == TowerTypeEnum.CornerTower)
                     template.TowerType = "转角塔";
-               else if (type == TowerType.TerminalTower)
+               else if (type == TowerTypeEnum.TerminalTower)
                     template.TowerType = "终端塔";
                else
                     template.TowerType = "分支塔";
@@ -224,7 +224,7 @@ namespace TowerLoadCals.DAL
             combo.IsCalculate = Convert.ToBoolean(aWords[1].ToString());
             combo.WorkConditionCode = aWords[2];
 
-            if (Type == TowerType.LineTower)
+            if (Type == TowerTypeEnum.LineTower)
             {
                 
                 combo.WindDirectionCode = Convert.ToInt32(aWords[iIndex]);
@@ -234,7 +234,7 @@ namespace TowerLoadCals.DAL
                 combo.TensionAngleCode = "None";
                 combo.VertialLoadCode = "None";
             }
-            else if (Type == TowerType.LineCornerTower)
+            else if (Type == TowerTypeEnum.LineCornerTower)
             {
                 combo.TensionAngleCode = aWords[iIndex];
                 iIndex++;
@@ -317,11 +317,11 @@ namespace TowerLoadCals.DAL
             //添加工况代号
             comboStr +=  combo.WorkConditionCode.PadRight(8);
 
-            if (Type == TowerType.LineTower)
+            if (Type == TowerTypeEnum.LineTower)
             {
                 comboStr += combo.WindDirectionCode.ToString().PadRight(8);
             }
-            else if (Type == TowerType.LineCornerTower)
+            else if (Type == TowerTypeEnum.LineCornerTower)
             {
                 comboStr += combo.TensionAngleCode.PadRight(8);
                 comboStr += combo.WindDirectionCode.ToString().PadRight(8);

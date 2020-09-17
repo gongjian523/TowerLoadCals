@@ -1,0 +1,131 @@
+﻿<dx:ThemedWindow 
+        x:Class="TowerLoadCals.Modules.TowerSequence.TowerParaSettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.TowerSequence"
+        mc:Ignorable="d"
+        Title="铁塔配置参数设置" Height="380" Width="680"
+        DataContext="{dxmvvm:ViewModelSource local:TowerParaSettingViewModel}" 
+        Closed="ThemedWindow_Closed" ShowActivated="False">
+    <dx:ThemedWindow.WindowStartupLocation>
+        <WindowStartupLocation>CenterScreen</WindowStartupLocation>
+    </dx:ThemedWindow.WindowStartupLocation>
+    <Grid Margin="20,20,20,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <dx:DXTabControl Grid.ColumnSpan="4" Name="tabControl">
+            <dx:DXTabItem Header="悬垂塔">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Content="新增行" Command="{DXCommand 'HangAddNew()'}"  Width="80" Height="25"/>
+                    <dxg:GridControl Grid.Row="1" AutoGenerateColumns="None" EnableSmartColumnsGeneration="False"  ItemsSource="{Binding HangDataSource}" >
+                        <dxg:GridControl.View>
+                            <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+                        </dxg:GridControl.View>
+                        <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" Width="60" ReadOnly="True"/>
+                        <dxg:GridColumn FieldName="StartTowerName" Header="起始塔位号" Width="112">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings    ItemsSource="{Binding HangTowerNameList}"   IsTextEditable="False" />
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn FieldName="EndTowerName" Header="终止塔位号" Width="112">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings ItemsSource="{Binding HangTowerNameList}"   IsTextEditable="False" />
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn FieldName="TowerPara" Header="铁塔配置参数" Width="112">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings ItemsSource="{Binding TowerParaNameList}"    IsTextEditable="False" />
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn   Header="操作" HorizontalHeaderContentAlignment="Center"   Width="120">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition>
+                                            </ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="删 除"  BorderThickness="0" Background="Transparent"  Width="60" Height="20" >
+                                            <dxmvvm:Interaction.Behaviors>
+                                                <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.HangDelRow(@parameter) }"  CommandParameter="{Binding RowData.Row.Id}"/>
+                                            </dxmvvm:Interaction.Behaviors>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn ReadOnly="True" />
+                    </dxg:GridControl>
+                </Grid>
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="耐张塔">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Content="新增行" Command="{DXCommand 'StrainAddNew()'}"  Width="80" Height="25"/>
+                    <dxg:GridControl Grid.Row="1" AutoGenerateColumns="None" Margin="5,5" EnableSmartColumnsGeneration="False"  ItemsSource="{Binding StrainDataSource}" >
+                        <dxg:GridControl.View>
+                            <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
+                        </dxg:GridControl.View>
+                        <dxg:GridColumn FieldName="Index"  Header="序号" HorizontalHeaderContentAlignment="Center" Width="60" ReadOnly="True"/>
+                        <dxg:GridColumn FieldName="StartTowerName" Header="起始塔位号" Width="120">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings    ItemsSource="{Binding StrainTowerNameList}"   IsTextEditable="False" />
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn FieldName="EndTowerName" Header="终止塔位号" Width="120">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings ItemsSource="{Binding StrainTowerNameList}"   IsTextEditable="False" />
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn FieldName="TowerPara" Header="铁塔配置参数" Width="120">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings ItemsSource="{Binding TowerParaNameList}"    IsTextEditable="False" />
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn   Header="操作" HorizontalHeaderContentAlignment="Center"   Width="120">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition>
+                                            </ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="删 除"  BorderThickness="0" Background="Transparent"  Width="60" Height="20" >
+                                            <dxmvvm:Interaction.Behaviors>
+                                                <dxmvvm:EventToCommand EventName="Click" Command="{DXCommand View.DataContext.StrainDelRow(@parameter) }"  CommandParameter="{Binding RowData.Row.Index}"/>
+                                            </dxmvvm:Interaction.Behaviors>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn ReadOnly="True" />
+                    </dxg:GridControl>
+                </Grid>
+            </dx:DXTabItem>
+        </dx:DXTabControl>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"   HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="确 定" Command="{DXCommand 'onConfirm()'}"   Width="70"  Height="25"  />
+            <Button Grid.Column="1"   HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="关 闭" Command="{DXCommand 'onConcel()'}" Width="70" Height="25"/>
+        </Grid>
+    </Grid>
+</dx:ThemedWindow>

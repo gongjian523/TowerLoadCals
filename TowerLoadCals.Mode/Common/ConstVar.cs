@@ -16,6 +16,26 @@ namespace TowerLoadCals.Mode
             get { return 9.80665; }
         }
 
+        public static string WeatherConditioFileName
+        {
+            get { return "WeatherCondition.xml"; }
+        }
+
+        public static string WireFileName
+        {
+            get { return "Wire.xml"; }
+        }
+
+        public static string FitDataFileName
+        {
+            get { return "FitData.xml"; }
+        }
+
+        public static string StrDataFileName
+        {
+            get { return "StrData.xml"; }
+        }
+
         public static string StruCalsParasFileName
         {
             get { return "计算参数.xml"; }
@@ -43,6 +63,21 @@ namespace TowerLoadCals.Mode
         public static string ElecCalsSpecFileName
         {
             get { return "ElecCalsSpec.xml"; }
+        }
+
+        public static string ElecCalsCommParasFileName
+        {
+            get { return "ElecCalsCommParas.xml"; }
+        }
+
+        public static string ElecCalsSideParasFileName
+        {
+            get { return "ElecCalsSideParas.xml"; }
+        }
+
+        public static string ElecCalsTowerParasFileName
+        {
+            get { return "ElecCalsTowerParas.xml"; }
         }
 
         public static string SmartTowerQTName
@@ -73,6 +108,11 @@ namespace TowerLoadCals.Mode
         public static string StruCalsStr
         {
             get { return "StruCals"; }
+        }
+
+        public static string ElecCalsStr
+        {
+            get { return "ElecCals"; }
         }
 
         /// <summary>

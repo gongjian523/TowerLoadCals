@@ -177,8 +177,6 @@ namespace TowerLoadCals
         public override void Command2(SubMenuBase menu)
         {
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog()
-
-
             {
                 Filter = "Result Files (*.calc)|*.calc",
             };
@@ -206,11 +204,11 @@ namespace TowerLoadCals
             {
                 LoadComposeBase loadCompose;
 
-                if (paras.BaseParas.Type == TowerType.LineTower)
+                if (paras.BaseParas.Type == TowerTypeEnum.LineTower)
                 {
                     loadCompose = new LoadComposeLineTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
                 }
-                else if (paras.BaseParas.Type == TowerType.LineCornerTower)
+                else if (paras.BaseParas.Type == TowerTypeEnum.LineCornerTower)
                 {
                     loadCompose = new LoadComposeLineCornerTower(paras.BaseParas, paras.LineParas.ToArray(), paras.HPSettingsParas[i], paras.Template, paras.ElectricalLoadFilePath);
                 }
@@ -319,5 +317,107 @@ namespace TowerLoadCals
             parentVm.MenuItems = new ObservableCollection<SubMenuBase>(parentVm.SelectedModuleInfo.MenuItems);
         }
     }
+
+
+
+    /// <summary>
+    /// 结构计算模块的按钮
+    /// </summary>
+    public class ECComParaModuleSubMenu : SubMenuBase
+    {
+
+        public ECComParaModuleSubMenu(string _type,
+                        object parent,
+                        string _title,
+                        Action<ECComParaModuleSubMenu> func,
+                        IList<SubMenuBase> children = null)
+                        : base(_type, parent, _title, null)
+        {
+            Type = _type;
+            Title = _title;
+            this.parent = (ISupportServices)parent;
+
+            CommandClick = new DelegateCommand<ECComParaModuleSubMenu>(func);
+
+            ContextVisible = Visibility.Visible;
+
+            Command1Name = "新增";
+            Command1BtnVisible = Visibility.Visible;
+
+            ChildItems = children;
+        }
+
+        public override void Command1(SubMenuBase menu)
+        {
+            parentVm.ShowEidtECCommParaNameWindow();
+        }
+    }
+
+
+    public class ECSideParaModuleSubMenu : SubMenuBase
+    {
+        public ECSideParaModuleSubMenu(string _type,
+                        object parent,
+                        string _title,
+                        Action<ECSideParaModuleSubMenu> func,
+                        IList<SubMenuBase> children = null)
+                        : base(_type, parent, _title, null)
+        {
+            Type = _type;
+            Title = _title;
+            this.parent = (ISupportServices)parent;
+
+            CommandClick = new DelegateCommand<ECSideParaModuleSubMenu>(func);
+
+            ContextVisible = Visibility.Visible;
+
+            Command1Name = "新增";
+            Command1BtnVisible = Visibility.Visible;
+
+            ChildItems = children;
+        }
+
+        public override void Command1(SubMenuBase menu)
+        {
+            parentVm.ShowEidtECSideParaNameWindow();
+        }
+    }
+
+    public class ECTowerParaModuleSubMenu : SubMenuBase
+    {
+        public ECTowerParaModuleSubMenu(string _type,
+                        object parent,
+                        string _title,
+                        Action<ECTowerParaModuleSubMenu> func,
+                        IList<SubMenuBase> children = null)
+                        : base(_type, parent, _title, null)
+        {
+            Type = _type;
+            Title = _title;
+            this.parent = (ISupportServices)parent;
+
+            CommandClick = new DelegateCommand<ECTowerParaModuleSubMenu>(func);
+
+            ContextVisible = Visibility.Visible;
+
+            Command1Name = "新增";
+            Command1BtnVisible = Visibility.Visible;
+
+            ChildItems = children;
+        }
+
+        public override void Command1(SubMenuBase menu)
+        {
+            parentVm.ShowEidtECTowerParaNameWindow();
+        }
+    }
+
+
+    //电气计算模块的按钮 暂空
+    public class ElecCalsModuleSubMenu
+    {
+
+    }
+
 
 }

@@ -54,6 +54,11 @@ namespace TowerLoadCals
         protected void AddStruClasTowerSubMenu(SubMenuBase menuVm)
         {
             var subMenus = new List<SubMenuBase>() { };
+
+            var elecLoadMenu = new SubMenuBase("StruCalsElecLoadModule", this, "  电气荷载", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
+            elecLoadMenu.ParentNode = menuVm;
+            subMenus.Add(elecLoadMenu);
+
             var paraMenu = new SubMenuBase("BaseAndLineParasModule", this, "  计算参数", (e) => { OnSelectedStruCalsSubModuleChanged(e); });
             paraMenu.ParentNode = menuVm;
             subMenus.Add(paraMenu);

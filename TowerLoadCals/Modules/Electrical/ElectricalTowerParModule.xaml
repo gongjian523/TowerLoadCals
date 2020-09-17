@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="TowerLoadCals.Modules.Electrical.ElectricalTowerParModule"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.Electrical"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:cvt="clr-namespace:TowerLoadCals.Converter"
+        DataContext="{dxmvvm:ViewModelSource Type={x:Type local:ElectricalTowerParViewModel}}" >
+    <Control.Resources>
+        <cvt:FitDataCalsVisibityConverter x:Key="FitDataCalsVisibityConverter"/>
+    </Control.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="导线绝缘子串" Grid.Row="0" Margin="0,8,0,0" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Right"  VerticalAlignment="Center"  Text="上(边)相型号：" Margin="0,8,0,0"/>
+                <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding StrDataNameOptions}"  SelectedItem="{Binding TowerParas.UpIndStrDataName}"  Margin="0,8,0,0" Width="150" >
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+                <TextBlock Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Right"   VerticalAlignment="Center" Text="中相型号：" Margin="0,8,0,0"/>
+                <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="3" ItemsSource="{Binding StrDataNameOptions}"  SelectedItem="{Binding TowerParas.MidIndStrDataName}"  Margin="0,8,0,0" Width="150" >
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+                <TextBlock Grid.Row="0" Grid.Column="4"   HorizontalAlignment="Right"   VerticalAlignment="Center" Text="下(边)相型号：" Margin="0,8,0,0"/>
+                <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="5" ItemsSource="{Binding StrDataNameOptions}"  SelectedItem="{Binding TowerParas.DnIndStrDataName}"  Margin="0,8,0,0" Width="150" >
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+
+                <TextBlock Grid.Row="1" Grid.Column="0"   HorizontalAlignment="Right" VerticalAlignment="Center" Text="片数："  Margin="0,8,0,0"/>
+                <dxe:TextEdit Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding TowerParas.IndStrDataNum,  UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="跳线绝缘子串" Grid.Row="1" Margin="0,8,0,0" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Right"  VerticalAlignment="Center"  Text="上(边)相型号：" Margin="0,8,0,0"/>
+                <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding JumpStrDataNameOptions}"  SelectedItem="{Binding TowerParas.UpJmmpStrDataName}"  Margin="0,8,0,0" Width="150" >
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+                <TextBlock Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Right"   VerticalAlignment="Center" Text="中相型号：" Margin="0,8,0,0"/>
+                <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="3" ItemsSource="{Binding JumpStrDataNameOptions}"  SelectedItem="{Binding TowerParas.MidJumpStrDataName}"  Margin="0,8,0,0" Width="150" >
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+                <TextBlock Grid.Row="0" Grid.Column="4"   HorizontalAlignment="Right"   VerticalAlignment="Center" Text="下(边)相型号：" Margin="0,8,0,0"/>
+                <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="5" ItemsSource="{Binding JumpStrDataNameOptions}"  SelectedItem="{Binding TowerParas.DnJumpStrDataName}"  Margin="0,8,0,0" Width="150" >
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+
+                <TextBlock Grid.Row="1" Grid.Column="0"   HorizontalAlignment="Right" VerticalAlignment="Center" Text="片数：" Margin="0,8,0,0"/>
+                <dxe:TextEdit Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding TowerParas.JumpStrDataNum,  UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="跳线" Grid.Row="2" Margin="0,8,0,0" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Right"  VerticalAlignment="Center"  Text="跳线型号：" Margin="0,8,0,0"/>
+                <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding JumpOptions}"  SelectedItem="{Binding TowerParas.JumpName}"  Margin="0,8,0,0" Width="150" >
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+                <TextBlock Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Right"  VerticalAlignment="Center" Text="跳线分裂数：" Margin="0,8,0,0"/>
+                <dxe:TextEdit Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding TowerParas.JumpDevideNum,  UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="地线绝缘子串" Grid.Row="3" Margin="0,8,0,0" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Right"  VerticalAlignment="Center"  Text="绝缘子串型号：" Margin="0,8,0,0"/>
+                <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding StrDataNameOptions}"  SelectedItem="{Binding TowerParas.GrdStrDataName}"  Margin="0,8,0,0" Width="150" >
+                    <dxe:ComboBoxEdit.StyleSettings>
+                        <dxe:ComboBoxStyleSettings />
+                    </dxe:ComboBoxEdit.StyleSettings>
+                </dxe:ComboBoxEdit>
+                <TextBlock Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Right"  VerticalAlignment="Center" Text="绝缘子串片数：" Margin="0,8,0,0"/>
+                <dxe:TextEdit Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Center" Margin="0,8,0,0" Width="150" MaskType="Numeric"
+                                  EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                  DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding TowerParas.GrdStrDataNum,  UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </GroupBox>
+
+
+        <Button Content="保存" Grid.Row="4"  Grid.ColumnSpan="2" Command="{DXCommand 'onSave()'}"  Width="100" Height="30" Margin="0,8,0,0"/>
+    </Grid>
+
+</UserControl>

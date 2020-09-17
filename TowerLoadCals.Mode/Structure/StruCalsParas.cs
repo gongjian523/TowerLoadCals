@@ -12,6 +12,18 @@ namespace TowerLoadCals.Mode
         [XmlAttribute]
         public string TowerName { get; set; }
 
+        [XmlAttribute]
+        public string TowerType { get; set; }
+
+        [XmlAttribute]
+        public string Volt { get; set; }
+
+        /// <summary>
+        /// 杆塔型号
+        /// </summary>
+        [XmlAttribute]
+        public string ToweMode { get; set; }
+
         /// <summary>
         /// 工况模块的路径，只是在新加入塔位，保存不在工程目录下的模块路径
         /// </summary>
@@ -45,5 +57,9 @@ namespace TowerLoadCals.Mode
 
         //挂点参数，来自HangingPointModule
         public List<HangingPointSettingParas> HPSettingsParas { get; set; }
+
+        public StruCalsElecLoad ElecLoad { get; set; }
+
+
     }
 }

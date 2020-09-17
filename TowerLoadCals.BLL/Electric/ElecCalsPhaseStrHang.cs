@@ -127,15 +127,17 @@ namespace TowerLoadCals.BLL.Electric
         /// 大号侧断线张力Max=覆冰100%断线工况 开断塔
         /// </summary>
         public double TenBreakMaxIceCov100BreakL { get; set; }
+        
+        public double BreakTenMaxBreakS { get; set; }
+        public double BreakTenMaxBreakL { get; set; }
 
-        /// <summary>
-        /// 断线取值
-        /// </summary>
-        public double TenBreakMaxBreak { get; set; }
+        //考虑增加5mm的情况 
+        public double BreakTenAdd5mmBreakS { get; set; }
+        public double BreakTenAdd5mmBreakL { get; set; }
 
-        //
-        public double BreakTenMaxBreak { get; set; }
-
+        //断线的最终结果
+        public double BreakTenBreakS { get; set; }
+        public double BreakTenBreakL { get; set; }
 
         #endregion
 
@@ -193,14 +195,16 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double TenUnbaIceMaxIceCov100BreakL { get; set; }
 
-        /// <summary>
-        /// 断线取值
-        /// </summary>
-        public double TenUnbaIceMaxBreak { get; set; }
+        public double UnbaIceTenMaxBreakS { get; set; }
+        public double UnbaIceTenMaxBreakL { get; set; }
 
+        //考虑增加5mm的情况 
+        public double UnbaIceTenAdd5mmBreakS { get; set; }
+        public double UnbaIceTenAdd5mmBreakL { get; set; }
 
-        public double UnbaIceTenMaxBreak { get; set; }
-
+        //断线的最终结果
+        public double UnbaIceTenBreakS { get; set; }
+        public double UnbaIceTenBreakL { get; set; }
         #endregion
 
 
@@ -228,7 +232,6 @@ namespace TowerLoadCals.BLL.Electric
             double terrainPara = ElecCalsToolBox2.TerrainValue(terrainType);
             StrWindPara = Math.Round(Math.Pow(SpaceStr.GDHei/ wireHei, terrainPara * 2) , 3);
         }
-
 
 
         public override void UpdateHorFor(double diaInc)

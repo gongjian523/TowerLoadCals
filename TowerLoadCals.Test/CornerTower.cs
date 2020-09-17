@@ -40,13 +40,13 @@ namespace TowerLoadCals.Test
 
             DES.DesDecrypt(openFileDialog.FileName, saveFileDialog.FileName, "12345678");
 
-            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerType.CornerTower);
+            TowerTemplateReader TemplateReader = new TowerTemplateReader(TowerTypeEnum.CornerTower);
 
             Mode.TowerTemplate template = TemplateReader.Read(saveFileDialog.FileName);
 
             StruCalseBaseParas formulaParas = new StruCalseBaseParas();
 
-            formulaParas.Type = TowerType.CornerTower;
+            formulaParas.Type = TowerTypeEnum.CornerTower;
             formulaParas.LoadRatio = 1;
             formulaParas.IsMethod1Selected = false;
 

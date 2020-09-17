@@ -17,8 +17,6 @@ namespace TowerLoadCals.ModulesViewModels.StruCals
         public DelegateCommand SearchAllCommand { get; private set; }
         public DelegateCommand SearchErrorCommand { get; private set; }
 
-        
-
         public TowerMemberViewModel()
         {
             //memberBLL.UnionTextFile();

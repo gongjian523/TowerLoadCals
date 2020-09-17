@@ -110,6 +110,8 @@ namespace TowerLoadCals
         }
         private void btn_login_Click(object sender, RoutedEventArgs e)
         {
+
+
             //判断用户名不能为空
             if (string.IsNullOrEmpty(txtUsername.Text))
             {

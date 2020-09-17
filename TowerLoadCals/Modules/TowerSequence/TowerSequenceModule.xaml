@@ -3,11 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.TowerSequence"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
-    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
-        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxsps="http://schemas.devexpress.com/winfx/2008/xaml/spreadsheet"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    x:Class="TowerLoadCals.Modules.TowerSequence.TowerSequenceModule"
-    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:TowerSequenceViewModel}}">
+    x:Class="TowerLoadCals.Modules.TowerSequence.TowerSequenceModule">
     <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="HeaderTemplate" >
@@ -19,16 +18,19 @@
             <RowDefinition Height="*"  />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="160"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="0"   Grid.Column="0" Content="气象区设置" Height="30"  Name="btnWeatherConditionSetting" Command="{Binding doWeatherSettingCommand}"  Margin="8,0"    />
-        <Button Grid.Row="0"   Grid.Column="1" Content="超条件判断" Height="30" Name="btnRe"   Command="{Binding doRefreshCommand }"  Margin="8,0" />
-        <Button Grid.Row="0"   Grid.Column="2" Content="保 存" Height="30" Name="btnSave"   Command="{Binding doSaveCommand }" Margin="8,0" />
+        <!--<Button Grid.Row="0"   Grid.Column="0" Content="气象区设置" Height="30"  Name="btnWeatherConditionSetting" Command="{Binding doWeatherSettingCommand}"  Margin="8,0"/>-->
+        <Button Grid.Row="0"   Grid.Column="0" Content="公共和档内参数设置" Height="30"  Name="btnCommParaSetting" Command="{Binding doCommSideParaSettingCommand}"  Margin="8,0"/>
+        <Button Grid.Row="0"   Grid.Column="1" Content="铁塔配置参数设置" Height="30"  Name="btnSideParaSetting" Command="{Binding doTowerParaSettingCommand}"  Margin="8,0"/>
+        <Button Grid.Row="0"   Grid.Column="2" Content="超条件判断" Height="30" Name="btnRe"   Command="{Binding doRefreshCommand }"  Margin="8,0" />
+        <Button Grid.Row="0"   Grid.Column="3" Content="保 存" Height="30" Name="btnSave"   Command="{Binding doSaveCommand }" Margin="8,0" />
 
-        <dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="None" Margin="8,0" EnableSmartColumnsGeneration="False"
+        <!--<dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="None" Margin="8,0" EnableSmartColumnsGeneration="False"
                 ItemsSource="{Binding DataSource}"   x:Name="grid">
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}">
@@ -38,7 +40,7 @@
                             <dx:Format Background="Red"/>
                         </dxg:FormatCondition>
                         <dxg:FormatCondition Expression="[ExistsTowerPattern] ==False" FieldName="TowerPattern" PredefinedFormatName="LightRedFillWithDarkRedText" >
-                            <!--ValueRule="Equal" Value1=""-->
+                            --><!--ValueRule="Equal" Value1=""--><!--
                             <dx:Format Background="Yellow"/>
                         </dxg:FormatCondition>
                         <dxg:FormatCondition Expression="[ExistsConductorModel] ==False"  FieldName="ConductorModel" PredefinedFormatName="LightRedFillWithDarkRedText">
@@ -126,8 +128,9 @@
                     <dxg:GridColumn FieldName="GroundWireInsulationStringLength"  Header="长度" HorizontalHeaderContentAlignment="Center"   />
                 </dxg:GridControlBand>
             </dxg:GridControl.Bands>
+        </dxg:GridControl>-->
 
+        <dxsps:SpreadsheetControl x:Name="towerSerSC" Grid.Row="1" Grid.ColumnSpan="5"  CommandBarStyle="Empty" ShowFormulaBar="False" ShowStatusBar="False"/>
 
-        </dxg:GridControl>
     </Grid>
 </UserControl>

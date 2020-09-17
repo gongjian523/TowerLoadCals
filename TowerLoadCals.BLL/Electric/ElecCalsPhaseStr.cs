@@ -486,6 +486,17 @@ namespace TowerLoadCals.BLL.Electric
 
         protected double WeightIceIn(double iceThick)
         {
+            //Dim exZai As Boolean
+            //Dim IceBank As Double
+            //exZai = False
+            //For i = 0 To 6
+            //    IceBank = AAIce.Cells(1, 1 + i).Value
+            //    If Abs(IceBank -Ice) < 0.001 Then
+            //       WeightIceIn = AAIce.Cells(2, 1 + i).Value
+            //        exZai = True
+            //    End If
+            //Next i
+
             return (iceThick / 5);
         }
 
