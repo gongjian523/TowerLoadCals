@@ -105,6 +105,8 @@
     <Compile Include="Common\WeatherCollection.cs" />
     <Compile Include="Common\WireLib.cs" />
     <Compile Include="Common\WireType.cs" />
+    <Compile Include="Common\WkCdtNameElec.cs" />
+    <Compile Include="Common\WkCdtNameStru.cs" />
     <Compile Include="Common\WorkConditionComboSpec.cs" />
     <Compile Include="Common\WorkConditionComboBase.cs" />
     <Compile Include="Common\WorkConditonSet.cs" />
@@ -161,7 +163,7 @@
     <Compile Include="Structure\ElecLoadCorner.cs" />
     <Compile Include="Structure\ElecLoadLineCorner.cs" />
     <Compile Include="Structure\ElecLoadLine.cs" />
-    <Compile Include="Structure\StruCalsWind45Tension.cs" />
+    <Compile Include="Structure\StruCalsTension.cs" />
     <Compile Include="Structure\StruCalseBaseParas.cs" />
     <Compile Include="Structure\HangingPointParas.cs" />
     <Compile Include="Structure\HangingPointSettingParas.cs" />

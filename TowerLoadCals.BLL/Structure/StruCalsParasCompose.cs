@@ -9,6 +9,7 @@ using TowerLoadCals.DAL;
 using TowerLoadCals.DAL.Common;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Common;
+using TowerLoadCals.Mode.Electric;
 using TowerLoadCals.Mode.Structure;
 
 namespace TowerLoadCals.BLL
@@ -48,6 +49,15 @@ namespace TowerLoadCals.BLL
             DecodeTemplate(BaseParas.Type, templatePath);
 
             ResultPointLoad = new List<StruCalsPointLoad>();
+
+            ElecLoad = new StruCalsElecLoad()
+            {
+                CornerElecLoads = new List<WireElecLoadCorner>(),
+                LineCornerElecLoads = new List<WireElecLoadLineCorner>(),
+                LineElecLoads = new List<WireElecLoadLine>(),
+                Tension = new List<StruCalsTension>(),
+                WorkCondition = new List<ElecCalsWorkConditionBase>(),
+            };
         }
 
         //此构造函数用于新增塔位，线条相关的初始化信息主要来自于Template，
@@ -86,8 +96,16 @@ namespace TowerLoadCals.BLL
             NewHangingPointSetting();
 
             ResultPointLoad = new List<StruCalsPointLoad>();
-        }
 
+            ElecLoad = new StruCalsElecLoad()
+            {
+                CornerElecLoads = new List<WireElecLoadCorner>(),
+                LineCornerElecLoads = new List<WireElecLoadLineCorner>(),
+                LineElecLoads = new List<WireElecLoadLine>(),
+                Tension = new List<StruCalsTension>(),
+                WorkCondition = new List<ElecCalsWorkConditionBase>(),
+            };
+        }
 
         public static List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template, bool isCalculation = false)
         {

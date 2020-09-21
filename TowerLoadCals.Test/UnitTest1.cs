@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DevExpress.ClipboardSource.SpreadsheetML;
+using DevExpress.Spreadsheet;
+using DevExpress.Xpf.Spreadsheet;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using TowerLoadCals.BLL;
@@ -2371,6 +2374,20 @@ namespace TowerLoadCals.Test
         {
             float[,] arr = new float[5, 3];
 
+        }
+
+
+        [TestMethod]
+        public void TestMethod12_SpreadSheet()
+        {
+            SpreadsheetControl SSC = new SpreadsheetControl();
+
+            IWorkbook workbook = SSC.Document;
+
+            string path = "D:\\00-项目\\Test1.xlsx";
+            workbook.LoadDocument(path, DocumentFormat.Xlsx);
+
+            var sheetPara = workbook.Worksheets[0];
         }
 
 

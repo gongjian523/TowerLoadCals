@@ -36,9 +36,15 @@ namespace TowerLoadCals.Modules
         protected override void InitializeData(string towerName)
         {
             base.InitializeData(towerName);
+            
+            List<HangingPointSettingParas> hPList = struCalsParas.HPSettingsParas;
+            if(hPList == null || hPList.Count == 0)
+            {
+                struCalsParas.NewHangingPointSetting();
+            }
 
             HangingPoints = new ObservableCollection<HangingPoint>();
-            for (num = 1; num < 2; num++)
+            for (num = 1; num <= struCalsParas.HPSettingsParas.Count; num++)
             {
                 HangingPoints.Add(HangingPoint.Create("挂点方案" + num.ToString(), struCalsParas));
             }
@@ -65,7 +71,7 @@ namespace TowerLoadCals.Modules
             Title = title;
             Template = calsParas.Template;
 
-            HPSetitingParas = calsParas.HPSettingsParas.Where(item => item.HangingPointSettingName == title).First();
+            HPSetitingParas = calsParas.HPSettingsParas.Where(item => item.HangingPointSettingName == title).FirstOrDefault();
             BaseParas = calsParas.BaseParas;
 
             NormalXYPoints = new ObservableCollection<HangingPointParas>(HPSetitingParas.NormalXYPoints);

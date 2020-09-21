@@ -11,10 +11,44 @@ namespace TowerLoadCals.Mode
     /// </summary>
     public static class ConstVar
     {
+        #region 电气计算 
+        //重力加速度常量
         public static double GraAcc
         {
             get { return 9.80665; }
         }
+
+        //电气计算Excel模板中参数Sheet的名称
+        public static string ElecLoadParaSheet
+        {
+            get { return "基础数据"; }
+        }
+
+        public static string ElecLoadCalsProSheet
+        {
+            get { return "计算过程"; }
+        }
+
+        public static string ElecLoadCalsRstSheet
+        {
+            get { return "提资（计算结果）"; }
+        }
+
+        public static string ElecLoadSingleCircuitOutputSheet
+        {
+            get { return "单回路结构输出"; }
+        }
+
+        public static string ElecLoadDoubleCircuitOutputSheet
+        {
+            get { return "双回路结构输出"; }
+        }
+
+        public static string ElecLoadConvStruSheet
+        {
+            get { return "电气--->结构"; }
+        }
+        #endregion
 
         public static string WeatherConditioFileName
         {
@@ -50,7 +84,7 @@ namespace TowerLoadCals.Mode
         {
             get { return "StruCalsParasLib.xml"; }
         }
-        
+
         public static string ConfigSettingsFileName
         {
             get { return "ConfigSettings.xml"; }
@@ -180,7 +214,7 @@ namespace TowerLoadCals.Mode
 
         public static string SmartTowerStr
         {
-            get { return "SmartTower";  }
+            get { return "SmartTower"; }
         }
 
         public static string SmartTowerMode1Str
@@ -197,5 +231,112 @@ namespace TowerLoadCals.Mode
         {
             get { return "基础作用力betaZ=-1/2+1"; }
         }
+
+        #region 结构计算中各种力的中文名称
+        //Wind;
+        public static string StruCalsWindStr
+        {
+            get { return "风荷wind"; } 
+        }
+
+        //GMax;
+        public static string StruCalsGmaxStr
+        {
+            get { return "垂荷Gmax"; }
+        }
+
+        //GMin;
+        public static string StruCalsGminStr
+        {
+            get { return "垂荷Gmin"; }
+        }
+
+        //TensionMax;
+        public static string StruCalsTmaxStr
+        {
+            get { return "张力Tmax"; }
+        }
+
+        //TensionMin;
+        public static string StruCalsTminStr
+        {
+            get { return "张力Tmin"; }
+        }
+
+        //Wind;
+        public static string StruCalsWindDStr
+        {
+            get { return "风荷wind大转角"; }
+        }
+
+        //Windx;
+        public static string StruCalsWindXStr
+        {
+            get { return "风荷wind小转角"; }
+        }
+
+        //WindDF;
+        public static string StruCalsWindDFStr
+        {
+            get { return "前侧风荷wind大转角"; }
+        }
+
+        //WindXF;
+        public static string StruCalsWindXFStr
+        {
+            get { return "前侧风荷wind小转角"; }
+        }
+
+        //WindDB;
+        public static string StruCalsWindDBStr
+        {
+            get { return "后侧风荷wind大转角"; }
+        }
+
+        //WindXB;
+        public static string StruCalsWindXBStr
+        {
+            get { return "后侧风荷wind大转角"; }
+        }
+
+        //GMaxF
+        public static string StruCalsGMaxFStr
+        {
+            get { return "前侧垂荷Gmax"; }
+        }
+
+        //GMaxB
+        public static string StruCalsGMaxBStr
+        {
+            get { return "后侧垂荷Gmax"; }
+        }
+
+        //GMinF
+        public static string StruCalsGMinFStr
+        {
+            get { return "前侧垂荷Gmin"; }
+        }
+
+        //GMinB
+        public static string StruCalsGMinBStr
+        {
+            get { return "后侧垂荷Gmin"; }
+        }
+
+
+        //WindTX
+        public static string StruCalsWindTXStr
+        {
+            get { return "跳线风荷wind"; }
+        }
+
+        //GTX
+        public static string StruCalsGTXStr
+        {
+            get { return "跳线垂荷G"; }
+        }
+
+
+        #endregion
     }
 }

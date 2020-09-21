@@ -39,5 +39,11 @@ namespace TowerLoadCals.Mode.Electric
         /// </summary>
         [XmlAttribute]
         public double BaseWindSpeed { get; set; }
+
+        /// <summary>
+        ///在电气荷载模板中的位置
+        /// </summary>
+        [XmlIgnore]
+        public int Pos { get; set; }
     }
 }

@@ -61,7 +61,6 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
-
         public List<string> PrintDFCure()
         {
             List<string> rslt = new List<string>();
@@ -142,8 +141,11 @@ namespace TowerLoadCals.BLL.Electric
                 PhaseTraList[i].UpdateHorFor(diaInc);
                 PhaseTraList[i].UpdateVerWei(weiInc, spanFit.NumJGB, spanFit.WeiJGB, numFZC, weiFZC);
                 PhaseTraList[i].UpdateLoStr(secInc, SideRes.CommParas.BuildMaxPara, SideRes.CommParas.InstMaxPara, wireExtend);
+                //PhaseTraList[i].U(secInc, SideRes.CommParas.BuildMaxPara, SideRes.CommParas.InstMaxPara, wireExtend);
+
             }
         }
+        
 
         //直线塔的垂直档距需要将前后侧相加
         protected void UpdateVertialSpan()
@@ -547,7 +549,6 @@ namespace TowerLoadCals.BLL.Electric
 
             return rslt;
         }
-
 
         public List<string> PrintTensionDiff()
         {

@@ -52,8 +52,14 @@ namespace TowerLoadCals.ModulesViewModels.StruCals
         public void doSearchAll()
         {
             //memberBLL.TextFileReadAll())
-            DataSource = new ObservableCollection<TowerMember>(struCalsParas.ResultFullStess);
-
+            if (struCalsParas.ResultFullStess == null)
+            {
+                DataSource = new ObservableCollection<TowerMember>();
+            }
+            else
+            {
+                DataSource = new ObservableCollection<TowerMember>(struCalsParas.ResultFullStess);
+            }
         }
         
         /// <summary>
@@ -62,7 +68,14 @@ namespace TowerLoadCals.ModulesViewModels.StruCals
         /// </summary>
         public void doSearchError()
         {
-            DataSource = new ObservableCollection<TowerMember>(struCalsParas.ResultFullStess.Where(item => item.EFFIC > 100));
+            if (struCalsParas.ResultFullStess == null)
+            {
+                DataSource = new ObservableCollection<TowerMember>();
+            }
+            else
+            {
+                DataSource = new ObservableCollection<TowerMember>(struCalsParas.ResultFullStess.Where(item => item.EFFIC > 100));
+            }
         }
 
         /// <summary>

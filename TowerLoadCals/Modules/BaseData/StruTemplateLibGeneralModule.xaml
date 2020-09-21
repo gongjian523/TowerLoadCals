@@ -11,9 +11,9 @@
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource CostumWidthTableViewStyle}"/>
             </dxg:GridControl.View>
-            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"  Width="5*"/>
+            <dxg:GridColumn FieldName="Name"  Header="名称" HorizontalHeaderContentAlignment="Center"  Width="*"/>
             <dxg:GridColumn FieldName="TowerType"  Header="塔型" HorizontalHeaderContentAlignment="Center" Width="*" />
-            <dxg:GridColumn FieldName="Operator"  Header="操作" HorizontalHeaderContentAlignment="Center" Width="150">
+            <dxg:GridColumn FieldName="Operator"  Header="操作" HorizontalHeaderContentAlignment="Center" Width="*">
                 <dxg:GridColumn.CellTemplate>
                     <DataTemplate>
                         <Button Content="查看"  BorderThickness="0"  Background="Transparent"  Width="60" Height="20" >

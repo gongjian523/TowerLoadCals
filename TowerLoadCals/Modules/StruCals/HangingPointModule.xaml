@@ -281,7 +281,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <GroupBox Header="{Binding HPCheckBoxName}">
+                            <GroupBox>
                                 <StackPanel Orientation="Vertical">
                                     <Button  Content="增加挂点" Command="{DXCommand 'AddTurningPoint()'}" Margin="0,0,0,5" Width="80" HorizontalAlignment="Right"/>
                                     <dxg:GridControl ItemsSource="{Binding TurningPoints}"  MaxHeight="500" ColumnsSource="{Binding TurningColumns}"

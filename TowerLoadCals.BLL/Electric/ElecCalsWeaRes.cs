@@ -20,7 +20,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
-        /// 用于打印日志
+        /// 
         /// </summary>
         public List<string> NameOfWkCalsIndStrain
         {
@@ -34,7 +34,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
-        /// 用于打印日志
+        /// 
         /// </summary>
         public List<string> NameOfWkCalsGrdStrain
         {
@@ -50,9 +50,18 @@ namespace TowerLoadCals.BLL.Electric
             }
         }
 
+        public List<string> NameOfWkStainForStru
+        {
+            get
+            {
+                return new List<string> { "最大风速","最大覆冰","最低气温","安装情况",
+                "未断线","断线","不均匀冰I","验算冰","不均匀冰II","验算不均匀冰I","验算不均匀冰II","不均匀风","顺线路外角侧45风","逆线路外角侧45风","顺线路内角侧45风","逆线路内角侧45风",
+                };
+            }
+        }
 
         /// <summary>
-        /// 用于打印日志
+        /// 
         /// </summary>
         public List<string> NameOfWkCalsIndHang
         {
@@ -66,7 +75,7 @@ namespace TowerLoadCals.BLL.Electric
         }
 
         /// <summary>
-        /// 用于打印日志
+        /// 
         /// </summary>
         public List<string> NameOfWkCalsGrdHang
         {
@@ -78,6 +87,19 @@ namespace TowerLoadCals.BLL.Electric
                 "断线(导线+5mm)","地线覆冰","不均匀冰满冰(导线+5mm)","不均匀冰20%(导线+5mm)",
                 "验算冰(导线+5mm)", "断线开断(导线+5mm)","不均匀冰开断(导线+5mm)",
                 "换算不均匀风","断线满冰","断线满冰(导线+5mm)","安装情况降温",
+                };
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> NameOfWkHangForStru
+        {
+            get
+            {
+                return new List<string> { "最大风速","最大覆冰","最低气温","安装情况",
+                "未断线","断线","不均匀冰I","验算冰"
                 };
             }
         }
@@ -501,9 +523,6 @@ namespace TowerLoadCals.BLL.Electric
                 Temperature = chekIIWkCdt.Temperature,
                 WindSpeed = chekIIWkCdt.WindSpeed,
             });
-
-
-
         }
 
         public void AddInstallColdGk(double decrTem)
@@ -519,8 +538,5 @@ namespace TowerLoadCals.BLL.Electric
                 WindSpeed = wkCdt.WindSpeed,
             });
         }
-        
-
-
     }
 }

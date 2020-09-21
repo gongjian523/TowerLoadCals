@@ -608,10 +608,7 @@ namespace TowerLoadCals.Test
                 return;
 
             ElecCalsParas CalsParas = XmlUtils.Deserializer<ElecCalsParas>(openFileDialog.FileName);
-
-
         }
-
 
 
         [TestMethod]

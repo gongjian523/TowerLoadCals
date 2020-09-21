@@ -19,6 +19,7 @@
         <cvt:MaxParaConverter x:Key="MaxParaConverter"/>
         <cvt:ElecCalsModeConverter x:Key="ElecCalsModeConverter"/>
         <cvt:BooleanChVisibityConverter x:Key="BooleanChVisibityConverter"/>
+        <cvt:ElecCalsCircuitTypeConverter x:Key="ElecCalsCircuitTypeConverter"/>
     </Control.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -62,6 +63,12 @@
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
+                    <TextBlock Grid.Row="0" Grid.Column="4"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="回路类型：" />
+                    <dxe:ComboBoxEdit  Grid.Row="0" Grid.Column="5" ItemsSource="{Binding CircuitTypeOptions}"  SelectedItem="{Binding ComParas.CircuitType, Converter={StaticResource ElecCalsCircuitTypeConverter}}">
+                        <dxe:ComboBoxEdit.StyleSettings>
+                            <dxe:ComboBoxStyleSettings />
+                        </dxe:ComboBoxEdit.StyleSettings>
+                    </dxe:ComboBoxEdit>
 
                     <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center" Text="地形类型："  Margin="0,8,0,0" />
                     <dxe:ComboBoxEdit  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding TerTypeOptions}"  SelectedItem="{Binding ComParas.TerType}"  Margin="0,8,0,0" >
@@ -90,6 +97,7 @@
                     <dxe:TextEdit Grid.Row="2" Grid.Column="3"  MaskType="Numeric" VerticalAlignment="Center" HorizontalContentAlignment="Left"  Margin="0,8,0,0" 
                                                       EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
                                                       DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.GraAcc,  UpdateSourceTrigger=PropertyChanged}"/>
+
                 </Grid>
             </Border>
         </StackPanel>
@@ -304,55 +312,58 @@
                         <ColumnDefinition />
 
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"  Text="地线覆冰张力取值"  Margin="0,8,0,0" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"  VerticalAlignment="Center" Text="地线覆冰张力取值"  Margin="0,8,0,0" />
                     <dxe:ComboBoxEdit  Grid.Row="2" Grid.Column="1" ItemsSource="{Binding GrdIceForceParaOptions}"  SelectedItem="{Binding ComParas.GrdIceForcePara, Converter={StaticResource GrdIceForceParaConverter}}" Margin="0,8,0,0" Width="110" >
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
-                    <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Text="地线不平衡张力取值"   Margin="0,8,0,0" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="地线不平衡张力取值"   Margin="0,8,0,0" />
                     <dxe:ComboBoxEdit  Grid.Row="2" Grid.Column="3" ItemsSource="{Binding GrdIceUnbaParaOptions}"  SelectedItem="{Binding ComParas.GrdIceUnbaPara, Converter={StaticResource GrdIceUnbaParaConverter}}" Margin="0,8,0,0" Width="110" >
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
-                    <TextBlock Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" Text="地线验算张力取值" Margin="0,8,0,0" />
+                    <TextBlock Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Text="地线验算张力取值" Margin="0,8,0,0" />
                     <dxe:ComboBoxEdit  Grid.Row="2" Grid.Column="5" ItemsSource="{Binding GrdIceUnbaParaOptions}"  SelectedItem="{Binding ComParas.GrdIceCheckPara, Converter={StaticResource GrdIceUnbaParaConverter} }" Margin="0,8,0,0" Width="110" >
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
-                    <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="锚线张力取值"  Margin="0,8,0,0"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="锚线张力取值"  Margin="0,8,0,0"/>
                     <dxe:ComboBoxEdit  Grid.Row="3" Grid.Column="1" ItemsSource="{Binding HandForceParaOptions}"  SelectedItem="{Binding ComParas.HandForcePara, Converter={StaticResource HandForceParaConverter} }" Margin="0,8,0,0" Width="110" >
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
-                    <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" Text="断线张力填法"  Margin="0,8,0,0" />
+                    <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="断线张力填法"  Margin="0,8,0,0" />
                     <dxe:ComboBoxEdit  Grid.Row="3" Grid.Column="3" ItemsSource="{Binding InParaOptions}"  SelectedItem="{Binding ComParas.BreakInPara, Converter={StaticResource InParaConverter}}" Margin="0,8,0,0" Width="110" >
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
-                    <TextBlock Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right" Text="不均匀冰张力填法"  Margin="0,8,0,0"  />
+                    <TextBlock Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Text="不均匀冰张力填法"  Margin="0,8,0,0"  />
                     <dxe:ComboBoxEdit  Grid.Row="3" Grid.Column="5" ItemsSource="{Binding InParaOptions}"  SelectedItem="{Binding ComParas.UnbaInPara, Converter={StaticResource InParaConverter}}" Margin="0,8,0,0" Width="110" >
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
-                    <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right"  Text="断线max取值" Margin="0,8,0,0" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right"  VerticalAlignment="Center" Text="断线max取值" Margin="0,8,0,0" />
                     <dxe:ComboBoxEdit  Grid.Row="4" Grid.Column="1" ItemsSource="{Binding MaxParaOptions}"  SelectedItem="{Binding ComParas.BreakMaxPara, Converter={StaticResource MaxParaConverter}  }" Margin="0,8,0,0" Width="110" >
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
-                    <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right"  Text="不均匀冰max取值"  Margin="0,8,0,0"/>
+                    <TextBlock Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right"  VerticalAlignment="Center" Text="不均匀冰max取值"  Margin="0,8,0,0"/>
                     <dxe:ComboBoxEdit  Grid.Row="4" Grid.Column="3" ItemsSource="{Binding MaxParaOptions}"  SelectedItem="{Binding ComParas.UnbaMaxPara, Converter={StaticResource MaxParaConverter}  }" Margin="0,8,0,0" Width="110" >
                         <dxe:ComboBoxEdit.StyleSettings>
                             <dxe:ComboBoxStyleSettings />
                         </dxe:ComboBoxEdit.StyleSettings>
                     </dxe:ComboBoxEdit>
-
+                    <TextBlock Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center"  Text="直线塔导线安装张力差"  Margin="0,8,0,0"  />
+                    <dxe:TextEdit Grid.Row="4" Grid.Column="5" HorizontalContentAlignment="Left"   Margin="0,8,0,0"  Width="110"  MaskType="Numeric"
+                                        VerticalAlignment="Center" EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
+                                        DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.IndInstallTenDiff,  UpdateSourceTrigger=PropertyChanged}"/>
 
                 </Grid>
             </Border>
@@ -368,13 +379,15 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="张力系数" Margin="0,8,0,0"/>
@@ -382,8 +395,8 @@
                     <TextBlock Grid.Row="0" Grid.Column="2"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="安装误差系数" Margin="0,8,0,0" />
                     <TextBlock Grid.Row="0" Grid.Column="3"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="导线伸长系数" Margin="0,8,0,0"/>
                     <TextBlock Grid.Row="0" Grid.Column="4"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="地线伸长系数" Margin="0,8,0,0"/>
-                    <TextBlock Grid.Row="0" Grid.Column="5"    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0"/>
                     <TextBlock Grid.Row="0" Grid.Column="6"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="过牵引系数" Margin="0,8,0,0"/>
+                    <TextBlock Grid.Row="0" Grid.Column="8"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="是否开断" Margin="0,8,0,0"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="0"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="大张力侧" Margin="0,8,0,0" />
                     <dxe:TextEdit Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center"   Margin="0,8,0,0" Width="90"   MaskType="Numeric"
@@ -402,6 +415,12 @@
                     <dxe:TextEdit Grid.Row="1" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0" Width="90" MaskType="Numeric"
                                   EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
                                   DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.IndODri,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="7" HorizontalAlignment="Right"  VerticalAlignment="Center" Text="地线1"  Margin="0,8,0,0"/>
+                    <dxe:ComboBoxEdit  Grid.Row="1" Grid.Column="8" ItemsSource="{Binding BoolOptions}"  SelectedItem="{Binding ComParas.bGrd1Break}" Margin="0,8,0,0" Width="90" >
+                        <dxe:ComboBoxEdit.StyleSettings>
+                            <dxe:ComboBoxStyleSettings />
+                        </dxe:ComboBoxEdit.StyleSettings>
+                    </dxe:ComboBoxEdit>
 
 
                     <TextBlock Grid.Row="2"  Grid.Column="0"   HorizontalAlignment="Center" VerticalAlignment="Center" Text="小张力侧" Margin="0,8,0,0"/>
@@ -421,6 +440,12 @@
                     <dxe:TextEdit Grid.Row="2"  Grid.Column="6"   HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0,8,0,0" Width="90" MaskType="Numeric"
                                   EditValue="{Binding Path=EditValue, ElementName=numericValue, Mode=TwoWay}"
                                   DisplayFormatString="{Binding Path=EditValue, ElementName=numericFormat, Mode=TwoWay}" Text="{Binding ComParas.GrdODri,  UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="7" HorizontalAlignment="Right"  VerticalAlignment="Center" Text="地线2"  Margin="0,8,0,0"/>
+                    <dxe:ComboBoxEdit  Grid.Row="2" Grid.Column="8" ItemsSource="{Binding BoolOptions}"  SelectedItem="{Binding ComParas.bGrd2Break}" Margin="0,8,0,0" Width="90" >
+                        <dxe:ComboBoxEdit.StyleSettings>
+                            <dxe:ComboBoxStyleSettings />
+                        </dxe:ComboBoxEdit.StyleSettings>
+                    </dxe:ComboBoxEdit>
                 </Grid>
             </Border>
         </StackPanel>

@@ -66,6 +66,10 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double LoStrCheck2 { get; set; }
 
+        public string Tension { get; set; }
+
+        public string OPGWBreakTension { get; set; }
+
         /// <summary>
         ///  纵向荷载 (张力)的计算表达式
         /// </summary>

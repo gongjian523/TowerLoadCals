@@ -32,10 +32,28 @@ namespace TowerLoadCals.BLL.Electric
         public int Volt { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [XmlAttribute]
         public string VoltStr { get; set; }
+
+        /// <summary>
+        /// 1 - 单回路  2- 双回路
+        /// </summary>
+        [XmlAttribute]
+        public int CircuitType { get; set; }
+
+        /// <summary>
+        /// 地线1是否开断：是 否
+        /// </summary>
+        [XmlAttribute]
+        public string bGrd1Break { get; set; }
+
+        /// <summary>
+        /// 地线2是否开断：是 否
+        /// </summary>
+        [XmlAttribute]
+        public string bGrd2Break { get; set; }
 
 
         /// <summary>
@@ -197,7 +215,6 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         [XmlAttribute]
         public double GrdODri { get; set; }
-
 
         /// <summary>
         /// 
@@ -419,6 +436,13 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         [XmlAttribute]
         public double GrdStrWindPara { get; set; }
+
+        /// <summary>
+        /////导线安装张力差
+        /// </summary>
+        [XmlAttribute]
+        public double IndInstallTenDiff { get; set; }
+
 
 
         public ElecCalsCommRes()

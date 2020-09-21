@@ -45,6 +45,8 @@ namespace TowerLoadCals.BLL.Electric
 
         public ElecCalsCommRes CommParas { get; set; }
 
+        public ElecCalsTowerRes TowerParas { get; set; }
+
 
         public ElecCalsSpanFit SpanFit { get; set; }
 

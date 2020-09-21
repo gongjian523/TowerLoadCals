@@ -131,7 +131,7 @@ namespace TowerLoadCals
         /// <param name="menuItem"></param>
         private void GetRightMenuList(List<SubMenuBase> menuItem)
         {
-            var weatherMenu = new SubMenuBase("WeatherConditionModule_Internet", this, "网络气象条件", (e) => { OnSelectedMenuChanged(e); });
+            var weatherMenu = new SubMenuBase("WeatherConditionModule_Internet", this, "气象条件", (e) => { OnSelectedMenuChanged(e); });
             weatherMenu.SetIcon("Menu_weather.png");
             menuItem.Add(weatherMenu);
 

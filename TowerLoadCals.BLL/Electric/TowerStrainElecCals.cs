@@ -1035,9 +1035,6 @@ namespace TowerLoadCals.BLL.Electric
                     double verSpanAn = phaseAn == null ? 0 : laodAn.VetiSpan;
                     string verSpanStrAn = phaseAn == null ? "" : laodAn.VetiSpanStr;
 
-                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.VerSpanStrDic[name], 80) + FileUtils.PadRightEx(phase.VerSpanDic[name].ToString("0.###"), 12)
-                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.VerSpanStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.VerSpanDic[name].ToString("0.###"), 12));
-
                     relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(verSpanStr, 80) + FileUtils.PadRightEx(verSpan.ToString("0.###"), 12)
                         + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(verSpanStrAn, 80) + FileUtils.PadRightEx(verSpanAn.ToString("0.###"), 12));
                 }
@@ -1062,9 +1059,6 @@ namespace TowerLoadCals.BLL.Electric
                     var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double horForAn = phaseAn == null ? 0 : laodAn.HorFor;
                     string horForStrAn = phaseAn == null ? "" : laodAn.HorForStr;
-
-                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.HoriLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.HoriLoadDic[name].ToString("0.###"), 12)
-                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.HoriLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.HoriLoadDic[name].ToString("0.###"), 12));
 
                     relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(horForStr, 80) + FileUtils.PadRightEx(horFor.ToString("0.###"), 12)
                         + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(horForStrAn, 80) + FileUtils.PadRightEx(horForAn.ToString("0.###"), 12));
@@ -1091,9 +1085,6 @@ namespace TowerLoadCals.BLL.Electric
                     var laodAn = phaseAn.LoadList.Where(item => item.GKName == name).FirstOrDefault();
                     double verWeiAn = phaseAn == null ? 0 : laodAn.VerWei;
                     string verWeiStrAn = phaseAn == null ? "" : laodAn.VerWeiStr;
-
-                    //relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phase.VerLoadStrDic[name], 80) + FileUtils.PadRightEx(phase.VerLoadDic[name].ToString("0.###"), 12)
-                    //    + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(phaseAn.VerLoadStrDic[name], 80) + FileUtils.PadRightEx(phaseAn.VerLoadDic[name].ToString("0.###"), 12));
 
                     relt.Add(FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(verWeiStr, 80) + FileUtils.PadRightEx(verWei.ToString("0.###"), 12)
                         + FileUtils.PadRightEx(name, 26) + FileUtils.PadRightEx(verWeiStrAn, 80) + FileUtils.PadRightEx(verWeiAn.ToString("0.###"), 12));

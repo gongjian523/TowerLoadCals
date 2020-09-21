@@ -206,6 +206,7 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         public double UnbaIceTenIIDiffCheck { get; set; }
 
+        public virtual List<string>  GkNameForStruCals { get; set; }
 
         public ElecCalsPhaseStr()
         {
@@ -303,7 +304,7 @@ namespace TowerLoadCals.BLL.Electric
 
         public virtual void  UpdateHorFor(double diaInc)
         {
-
+            
         }
 
         public virtual double UpdateHorFor(string nameGK, out string str, double diaInc)
@@ -480,6 +481,14 @@ namespace TowerLoadCals.BLL.Electric
 
         public virtual void UpdateTensionDiff(double secInc, double effectPara, double safePara)
         {
+        }
+
+        /// <summary>
+        /// 为了结构计算将所需要的张力都放在LoadList.Tension和OPGWBreakTension
+        /// </summary>
+        public virtual void UpdateTensionForStruCals()
+        {
+
         }
 
         #region 内部计算函数

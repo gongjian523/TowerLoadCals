@@ -29,8 +29,8 @@ namespace TowerLoadCals.Modules
             }
         }
 
-        protected ObservableCollection<StruCalsWind45Tension> _wind45TenParas = new ObservableCollection<StruCalsWind45Tension>();
-        public ObservableCollection<StruCalsWind45Tension> Wind45TenParas
+        protected ObservableCollection<StruCalsTension> _wind45TenParas = new ObservableCollection<StruCalsTension>();
+        public ObservableCollection<StruCalsTension> Wind45TenParas
         {
             get
             {
@@ -55,7 +55,6 @@ namespace TowerLoadCals.Modules
         {
             InitializeData((string)parameter);
             View.InitElecLoadSheet(BaseParas.Type, ElecLoad);
-
         }
 
         protected override void  InitializeData(string towerName)
@@ -64,13 +63,14 @@ namespace TowerLoadCals.Modules
 
             BaseParas = struCalsParas.BaseParas;
             ElecLoad = struCalsParas.ElecLoad;
-            Wind45TenParas = new ObservableCollection<StruCalsWind45Tension>(struCalsParas.ElecLoad.Wind45Tension); 
+            Wind45TenParas = new ObservableCollection<StruCalsTension>(struCalsParas.ElecLoad.Tension); 
         }
 
 
         public override void Save()
         {
-            //需要中View中更新
+            //从WorkSheet获取最新的数据
+            View.CollectElecLoadFromWorkSheet();
             ProjectUtils.GetInstance().SaveStruCalsTower();
         }
     }

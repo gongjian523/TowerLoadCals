@@ -33,13 +33,13 @@ namespace TowerLoadCals.Modules.TowerSequence
 
             IWorkbook workbook = towerSerSC.Document;
             worksheet = workbook.Worksheets[0];
+            //workbook.LoadDocument("D:\\00-项目\\Test1.xlsx", DocumentFormat.Xlsx);
+
             InitSpreadSheetTitle();
         }
 
         public void RefreshSpreadSheet(List<TowerSerial> dataSource)
         {
-            
-
             RefreshValue(dataSource);
         }
 

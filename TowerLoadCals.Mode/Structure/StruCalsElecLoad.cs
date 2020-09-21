@@ -22,8 +22,8 @@ namespace TowerLoadCals.Mode
         public List<WireElecLoadCorner> CornerElecLoads { get; set; }
 
         /// <summary>
-        /// 45°风荷载计算参数
+        /// 锚线张力、过滑车张力差和45°风
         /// </summary>
-        public List<StruCalsWind45Tension> Wind45Tension { get; set; }
-}
+        public List<StruCalsTension> Tension { get; set; }
+    }
 }

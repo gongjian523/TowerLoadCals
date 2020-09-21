@@ -219,10 +219,6 @@ namespace TowerLoadCals
 
             moduleList.Add(IniStruCalsModule());//结构计算
 
-            ModuleMenu resultMudule = new ModuleMenu("ResultModule", this, "成功输出", (e) => { OnSelectedModuleChanged(e); });
-            resultMudule.SetIcon("FolderList_32x32.png");
-            moduleList.Add(resultMudule);
-
             Modules = moduleList;
 
             OnModulesLoaded();

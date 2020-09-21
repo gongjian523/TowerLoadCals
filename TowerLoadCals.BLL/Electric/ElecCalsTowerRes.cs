@@ -83,6 +83,24 @@ namespace TowerLoadCals.BLL.Electric
         [XmlAttribute]
         public int GrdStrDataNum { get; set; }
 
+        /// <summary>
+        ///导线上拔力
+        /// </summary>
+        [XmlAttribute]
+        public double IndUpliftForce { get; set; }
+
+        /// <summary>
+        ///一根导线上拔力
+        /// </summary>
+        [XmlAttribute]
+        public double Grd1UpliftForce { get; set; }
+
+        /// <summary>
+        ///另一根导线上拔力
+        /// </summary>
+        [XmlAttribute]
+        public double Grd2pliftForce { get; set; }
+
         public ElecCalsTowerRes()
         {
 

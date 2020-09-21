@@ -27,8 +27,8 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" >
-                    <Button Content="简" Height="25" Width="50"/>
-                    <Button Content="繁" Height="25" Width="50" Margin="10,0,0,0"/>
+                    <Button Content="简" Height="25" Width="50" Click="onSimpleBtnClick"/>
+                    <Button Content="繁" Height="25" Width="50" Click="onCompleteBtnClick" Margin="10,0,0,0"/>
                 </StackPanel>
                 <dxsps:SpreadsheetControl x:Name="elecLoadSC"  Grid.Row="1" CommandBarStyle="Empty" ShowFormulaBar="False" ShowStatusBar="False"/>
             </Grid>
@@ -90,7 +90,6 @@
                 </StackPanel>
             </Grid>
         </GroupBox>
-
         <GroupBox Header="45°风荷载计算" Grid.Row="1" Margin="5" Visibility="{Binding BaseParas.IsTensionTower,Converter={StaticResource BooleanVisibityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>

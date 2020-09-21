@@ -45,8 +45,6 @@ namespace TowerLoadCals.Modules
             SaveXmlCommand = new DelegateCommand(SaveXml);
             DBFImportCommand = new DelegateCommand(DBFImport);
 
-            //BaseData = TowerStrDataReader.Read(@"D:\杆塔项目\other\【0810】\铁塔库.xml");
-
             this.SelectedItems = new ObservableCollection<TowerStrData>(TowerStrDataReader.ReadLoadFile(filePath));//获取本地已保存信息
 
         }
@@ -178,7 +176,6 @@ namespace TowerLoadCals.Modules
         {
             ;
         }
-
 
         public override void Save()
         {

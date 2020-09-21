@@ -38,7 +38,15 @@ namespace TowerLoadCals.ModulesViewModels.Electrical
                 return new List<string>() { "1 GB50545-2010", "2 新规则", };
             }
         }
-        
+
+
+        public List<String> CircuitTypeOptions
+        {
+            get
+            {
+                return new List<string>() { "1 单回路", "2 双回路", };
+            }
+        }
 
         public List<String> TerrainOptions
         {
@@ -88,6 +96,7 @@ namespace TowerLoadCals.ModulesViewModels.Electrical
             }
         }
 
+        //
         public List<string> GrdIceForceParaOptions
         {
             get

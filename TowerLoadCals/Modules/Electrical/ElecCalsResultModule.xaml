@@ -1,0 +1,13 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TowerLoadCals.ModulesViewModels.TowerSequence"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxsps="http://schemas.devexpress.com/winfx/2008/xaml/spreadsheet"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    x:Class="TowerLoadCals.Modules.Electrical.ElecCalsResultModule">
+    <Grid Margin="5">
+        <dxsps:SpreadsheetControl x:Name="elecCalsRstSC" Grid.Row="1" Grid.ColumnSpan="5"  CommandBarStyle="Empty" ShowFormulaBar="False" ShowStatusBar="False"/>
+    </Grid>
+</UserControl>

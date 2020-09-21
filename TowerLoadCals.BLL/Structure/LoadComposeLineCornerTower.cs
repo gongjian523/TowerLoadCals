@@ -1090,9 +1090,6 @@ namespace TowerLoadCals.BLL
                     y1 = TensionMin[j, zhsAM];
                     y2 = TensionMax[j, zhsAM];
                     z1 = GMax[j, zhsAM];
-                    //z2 = GMax[j, 1];
-                    //z3 = GMin[j, zhsAM];
-                    //z4 = GMin[j, 1];
                 }
                 else
                 {

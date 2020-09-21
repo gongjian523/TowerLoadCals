@@ -34,7 +34,7 @@
             <dxg:GridColumn FieldName="StrType"  Header="串类型" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="Weight"  Header="重量" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="FitLength"  Header="长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
-            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="90"  HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+            <dxg:GridColumn FieldName="PieceLength"  Header="单片绝缘子长度" HorizontalHeaderContentAlignment="Center" ReadOnly="True" Width="100"  HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
             <dxg:GridColumn FieldName="PieceNum"  Header="片数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="GoldPieceNum"  Header="金具换算片数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>
             <dxg:GridColumn FieldName="LNum"  Header="联数" HorizontalHeaderContentAlignment="Center" ReadOnly="True"/>

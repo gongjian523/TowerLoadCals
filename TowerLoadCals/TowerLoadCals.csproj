@@ -164,6 +164,7 @@
     <Compile Include="Controls\Converter\InverseBooleanVisibityConverter.cs" />
     <Compile Include="Controls\Converter\JumpWindParaConverter.cs" />
     <Compile Include="Controls\Converter\InParaConverter.cs" />
+    <Compile Include="Controls\Converter\ElecCalsCircuitTypeConverter.cs" />
     <Compile Include="Controls\Converter\WireWindParaConverter.cs" />
     <Compile Include="GridHelperBor.cs" />
     <Compile Include="MainWindowViewModel-RibbonCommand.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="ModulesViewModels\Column.cs" />
     <Compile Include="ModulesViewModels\BaseData\DaseDataBaseViewModel.cs" />
     <Compile Include="ModulesViewModels\BaseData\StrDataViewModel.cs" />
+    <Compile Include="ModulesViewModels\Electrical\ElecCalsResultViewModel.cs" />
     <Compile Include="ModulesViewModels\Electrical\ElectricalTowerParViewModel.cs" />
     <Compile Include="ModulesViewModels\Electrical\ElectricalSideParViewModel.cs" />
     <Compile Include="ModulesViewModels\Electrical\ElectricalCommonParViewModel.cs" />
@@ -250,6 +252,9 @@
     </Compile>
     <Compile Include="Modules\Electrical\ElectricalCheckingParModule.xaml.cs">
       <DependentUpon>ElectricalCheckingParModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Electrical\ElecCalsResultModule.xaml.cs">
+      <DependentUpon>ElecCalsResultModule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Internet\SpacerModule.xaml.cs">
       <DependentUpon>SpacerModule.xaml</DependentUpon>
@@ -379,6 +384,10 @@
     <Page Include="Modules\Electrical\ElectricalCheckingParModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Electrical\ElecCalsResultModule.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\Internet\SpacerModule.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -93,7 +93,7 @@ namespace TowerLoadCals.DAL
                 data = new TowerStrData();
                 data.Name = row["杆塔型号"].ToString().Split('-')[0];
                 data.Type = int.Parse(row["直线1耐张2"].ToString()) ;
-                data.TypeName = int.Parse(row["直线1耐张2"].ToString()) == 1 ? "直线塔" : "耐张塔";
+                data.TypeName = int.Parse(row["直线1耐张2"].ToString()) == 1 ? "直线塔" : "转角塔";
                 data.VoltageLevel = row["电压等级"].ToString()==""?0:double.Parse(row["电压等级"].ToString());
                 data.MaxAngel = row["最大转角"].ToString() == "" ? 0 : double.Parse(row["最大转角"].ToString());
                 data.MinHeight = row["呼高"].ToString() == "" ? 0 : double.Parse(row["呼高"].ToString());//最小呼高

@@ -263,6 +263,16 @@ namespace TowerLoadCals.BLL.Electric
             get { return WeatherParas == null ? new List<string>() : (bGrd == 0 ? WeatherParas.NameOfWkCalsIndHang : WeatherParas.NameOfWkCalsGrdHang); }
         }
 
+        public List<string> WorkCdtNamesStrainForStru
+        {
+            get { return WeatherParas == null ? new List<string>() : WeatherParas.NameOfWkStainForStru; }
+        }
+
+        public List<string> WorkCdtNamesStrainForHang
+        {
+            get { return WeatherParas == null ? new List<string>() : WeatherParas.NameOfWkHangForStru; }
+        }
+
         public ElecCalsWire()
         {
         }

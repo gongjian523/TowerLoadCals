@@ -8,7 +8,7 @@
     DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StruTemplateLibProjectViewModel}}">
     <StackPanel Orientation="Vertical">
         <Button Content="新增模板" Grid.Column="1" Margin="8,0,0,0"  Command="{DXCommand 'NewTemplate()'}"  Width="100" Height="30" HorizontalAlignment="Left"/> 
-        <dxg:GridControl MaxHeight="500"  AutoGenerateColumns="None" Margin="8,5,5,0" ItemsSource="{Binding TowerTemplates}">
+        <dxg:GridControl MaxHeight="500"  AutoGenerateColumns="None" Margin="8,5,5,0" ItemsSource="{Binding TowerTemplates}" >
             <dxg:GridControl.View>
                 <dxg:TableView Style="{StaticResource DefaultTableViewStyle}"/>
             </dxg:GridControl.View>

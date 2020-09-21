@@ -75,8 +75,10 @@ namespace TowerLoadCals.BLL
             WindTX = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
             GTX = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
 
-            Tension45D = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
-            Tension45X = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
+            //前側[0,没有用； 1: 小角度张力；2：大角度张力]
+            Tension45D = new float[Template.Wires.Count + 1, 3];
+            //后側[0,没有用； 1: 小角度张力；2：大角度张力]
+            Tension45X = new float[Template.Wires.Count + 1, 3];
 
             int dx = Template.Wires.Where(item => item.Contains("地")).Count();
 
