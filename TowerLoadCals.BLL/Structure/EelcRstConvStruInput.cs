@@ -83,7 +83,6 @@ namespace TowerLoadCals.BLL.Structure
             return elecLoad;
         }
 
-
         //
         private void GetWorkCondition(string wkCdtName, out ElecCalsWorkConditionBase wkCdt)
         {

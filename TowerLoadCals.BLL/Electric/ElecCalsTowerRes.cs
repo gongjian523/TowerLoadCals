@@ -38,7 +38,7 @@ namespace TowerLoadCals.BLL.Electric
         /// 
         /// </summary>
         [XmlAttribute]
-        public string UpJmmpStrDataName { get; set; }
+        public string UpJumpStrDataName { get; set; }
 
         /// <summary>
         /// 
@@ -100,6 +100,38 @@ namespace TowerLoadCals.BLL.Electric
         /// </summary>
         [XmlAttribute]
         public double Grd2pliftForce { get; set; }
+
+
+        /// <summary>
+        ///导线串等效串长
+        /// </summary>
+        [XmlAttribute]
+        public double RepStrIndLen { get; set; }
+
+        /// <summary>
+        ///地线串等效串长
+        /// </summary>
+        [XmlAttribute]
+        public double RepStrGrdLen { get; set; }
+
+        /// <summary>
+        ///支撑管直径,单位mm,
+        /// </summary>
+        [XmlAttribute]
+        public double SuTubleDia { get; set; }
+
+        /// <summary>
+        /// 单位长度重量,单位kg
+        /// </summary>
+        [XmlAttribute]
+        public double SuTubleWei { get; set; }
+
+        /// <summary>
+        /// 跳线绝缘子串长
+        /// </summary>
+        [XmlAttribute]
+        public double JumpStrLen { get; set; }
+
 
         public ElecCalsTowerRes()
         {

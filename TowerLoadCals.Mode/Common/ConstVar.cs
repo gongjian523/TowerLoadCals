@@ -50,6 +50,27 @@ namespace TowerLoadCals.Mode
         }
         #endregion
 
+        #region 电气计算中模板文件的名称
+        /// <summary>
+        /// 直线塔电气荷载模板名称，放在UserData目录下
+        /// </summary>
+        public static string ElecLoadLineTowerTemplateFileName
+        {
+            get { return "直线塔验算模板.xls"; }
+        }
+
+        public static string ElecLoadCornerTowerTemplateFileName
+        {
+            get { return "耐张塔验算模板.xls"; }
+        }
+
+        public static string ElecLoadTemplateFileName
+        {
+            get { return "验算模板.xls"; }
+        }
+        #endregion
+
+
         public static string WeatherConditioFileName
         {
             get { return "WeatherCondition.xml"; }
@@ -148,6 +169,8 @@ namespace TowerLoadCals.Mode
         {
             get { return "ElecCals"; }
         }
+
+        public static string TowerUploadFileStr { get { return "TowerUploadFile"; } }
 
         /// <summary>
         /// 杆塔序列

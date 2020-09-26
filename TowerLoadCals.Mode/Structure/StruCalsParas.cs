@@ -10,6 +10,9 @@ namespace TowerLoadCals.Mode
     public class StruCalsParas
     {
         [XmlAttribute]
+        public string SequenceName { get; set; } = "";
+
+        [XmlAttribute]
         public string TowerName { get; set; }
 
         [XmlAttribute]

@@ -135,16 +135,19 @@ namespace TowerLoadCals
     /// </summary>
     public class StrCalsModuleSubMenu : SubMenuBase
     {
+        public string Sequence { get; set; }
 
         public StrCalsModuleSubMenu(string _type,
                         object parent,
                         string _title,
+                        string _seqence,
                         Action<StrCalsModuleSubMenu> func,
                         IList<SubMenuBase> children = null)
                         : base(_type, parent, _title, null)
             {
             Type = _type;
             Title = _title;
+            Sequence = _seqence;
             this.parent = (ISupportServices)parent;
 
             CommandClick = new DelegateCommand<StrCalsModuleSubMenu>(func);
@@ -188,12 +191,20 @@ namespace TowerLoadCals
 
             //StruCalsParas中塔位数据，是在点击这个塔位的页面后才加载的GlobalInfo中，
             //下面代码针对的是，没有打开这个塔位的页面而直接进行计算的情况
-            if (globalInfo.StruCalsParas.Where(item => item.TowerName == ((SubMenuBase)menu).Title).Count() <= 0)
+            if (globalInfo.StruCalsParas.Where(item => item.TowerName == ((SubMenuBase)menu).Title && item.SequenceName == ((StrCalsModuleSubMenu)menu).Sequence).Count() <= 0)
             {
-                ProjectUtils.GetInstance().ReadStruCalsTowerParas(((SubMenuBase)menu).Title);
+                if (((StrCalsModuleSubMenu)menu).Sequence == null)
+                {
+                    ProjectUtils.GetInstance().ReadStruCalsTowerParas(((SubMenuBase)menu).Title);
+                }
+                else
+                {
+                    ProjectUtils.GetInstance().ReadStruCalsTowerParas(((SubMenuBase)menu).Title, ((StrCalsModuleSubMenu)menu).Sequence);
+                }
+                    
             }
 
-            StruCalsParasCompose paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((SubMenuBase)menu).Title).First();
+            StruCalsParasCompose paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((SubMenuBase)menu).Title && para.SequenceName == ((StrCalsModuleSubMenu)menu).Sequence).FirstOrDefault();
             if (paras == null)
                 return;
 
@@ -246,7 +257,6 @@ namespace TowerLoadCals
             }
 
             string stConsolePath = stQtPath.Substring(0, stQtPath.LastIndexOf("\\")) + "\\" + ConstVar.SmartTowerConsoleName;
-            //string stConsolePath1 = string.Format(@"D:\00-项目\P-200325-杆塔负荷程序\01塔库满应力分析\SmartTower\SmartTower_Console.exe");
             if (!File.Exists(stConsolePath))
             {
                 return;
@@ -256,18 +266,19 @@ namespace TowerLoadCals
 
             GlobalInfo globalInfo = GlobalInfo.GetInstance();
 
-            if (globalInfo.StruCalsParas.Where(item => item.TowerName == ((SubMenuBase)menu).Title).Count() <= 0)
+            if (globalInfo.StruCalsParas.Where(item => item.TowerName == ((SubMenuBase)menu).Title && item.SequenceName == ((StrCalsModuleSubMenu)menu).Sequence).Count() <= 0)
             {
-                ProjectUtils.GetInstance().ReadStruCalsTowerParas(((SubMenuBase)menu).Title);
+                if (((StrCalsModuleSubMenu)menu).Sequence == null)
+                    ProjectUtils.GetInstance().ReadStruCalsTowerParas(((SubMenuBase)menu).Title);
+                else
+                    ProjectUtils.GetInstance().ReadStruCalsTowerParas(((SubMenuBase)menu).Title, ((StrCalsModuleSubMenu)menu).Sequence);
             }
 
-            StruCalsParasCompose paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((SubMenuBase)menu).Title).First();
+            StruCalsParasCompose paras = globalInfo.StruCalsParas.Where(para => para.TowerName == ((SubMenuBase)menu).Title && para.SequenceName == ((StrCalsModuleSubMenu)menu).Sequence).FirstOrDefault();
             if (paras == null)
                 return;
 
             string path = paras.FullStressTemplatePaths[0];
-            //foreach (var path in paras.FullStressTemplatePaths)
-            //{
             if (!File.Exists(path))
                 return;
 
@@ -287,8 +298,6 @@ namespace TowerLoadCals
             TowerMemberBLL memberBLL = new TowerMemberBLL();
             string outPath = path.Substring(0, path.LastIndexOf(".")) + ".out";
             paras.ResultFullStess = memberBLL.TextFileReadAll(outPath).ToList();
-
-
 
         }
 

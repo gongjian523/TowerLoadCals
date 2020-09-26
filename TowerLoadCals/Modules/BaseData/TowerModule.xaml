@@ -23,7 +23,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Button Grid.Row="0"  Grid.Column="0" Content="保 存" Height="30" Width="78"  Name="btnSave" Command="{Binding SaveXmlCommand}"/>
-        <Button Grid.Row="0"   Grid.Column="1" Content="导 入" Height="30" Width="78"  Name="btnImport" Command="{Binding DBFImportCommand}"/>
+        <Button Grid.Row="0"  Grid.Column="1" Content="导 入" Height="30" Width="78"  Name="btnImport" Command="{Binding DBFImportCommand}"/>
         <Grid Grid.Row="1" Grid.ColumnSpan="3">
             <Grid.Resources>
                 <DataTemplate x:Key="HeaderTemplate" >
@@ -66,6 +66,14 @@
                 <dxg:GridColumn FieldName="StrAllowHorSpan"  Header="悬垂塔档距序列字符串" HorizontalHeaderContentAlignment="Center" Width="130" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
                 <dxg:GridColumn FieldName="AngelToHorSpan"  Header="耐张塔角度折档距" HorizontalHeaderContentAlignment="Center" Width="130" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
                 <dxg:GridColumn FieldName="MaxAngHorSpan"  Header="耐张塔最大应用水平档距" HorizontalHeaderContentAlignment="Center" Width="150" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+
+                <dxg:GridColumn FieldName="UpSideInHei"  Header="上相导线高差" HorizontalHeaderContentAlignment="Center" Width="120" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+                <dxg:GridColumn FieldName="MidInHei"  Header="中相导线高差" HorizontalHeaderContentAlignment="Center" Width="100" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+                <dxg:GridColumn FieldName="DnSideInHei"  Header="下相导线高差" HorizontalHeaderContentAlignment="Center" Width="100" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+                <dxg:GridColumn FieldName="GrDHei"  Header="地线高差" HorizontalHeaderContentAlignment="Center" Width="120" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+                <dxg:GridColumn FieldName="UpSideJuHei"  Header="上相跳线高差" HorizontalHeaderContentAlignment="Center" Width="100" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+                <dxg:GridColumn FieldName="MidJuHei"  Header="中相跳线高差" HorizontalHeaderContentAlignment="Center" Width="100" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
+                <dxg:GridColumn FieldName="DnSideJuHei"  Header="下相跳线高差" HorizontalHeaderContentAlignment="Center" Width="100" HeaderTemplate="{StaticResource ResourceKey=HeaderTemplate}"/>
 
             </dxg:GridControl>
         </Grid>

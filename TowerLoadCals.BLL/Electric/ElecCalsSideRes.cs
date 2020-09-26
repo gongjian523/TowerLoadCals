@@ -96,7 +96,7 @@ namespace TowerLoadCals.BLL.Electric
         ///
         /// </summary>
         [XmlAttribute]
-        public double IndDevideNum { get; set; }
+        public int IndDevideNum { get; set; }
 
         /// <summary>
         ///

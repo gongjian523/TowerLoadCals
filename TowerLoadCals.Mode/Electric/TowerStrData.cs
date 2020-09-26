@@ -150,10 +150,44 @@ namespace TowerLoadCals.Mode
 
 
         /// <summary>
+        /// 上相导线高差(上相（中相）与下横担高差)
+        /// </summary>
+        public double UpSideInHei { get; set; }
+
+        /// <summary>
+        /// 中相导线高差(中相（边相）与下横担高差)
+        /// </summary>
+        public double MidInHei { get; set; }
+
+        /// <summary>
+        /// 下相导线高差(下相（边相）与下横担高差)
+        /// </summary>
+        public double DnSideInHei { get; set; }
+
+        /// <summary>
+        /// 地线高差(地线与下横担高差)
+        /// </summary>
+        public double GrDHei { get; set; }
+
+        /// <summary>
+        /// 上相跳线高差(上相（中相）跳线挂点与下横担高差)
+        /// </summary>
+        public double UpSideJuHei { get; set; }
+
+        /// <summary>
+        ///  中相跳线高差(中相（边相）跳线挂点与下横担高差)
+        /// </summary>
+        public double MidJuHei { get; set; }
+
+        /// <summary>
+        /// 下相跳线高差(下相（边相）跳线挂点与下横担高差)
+        /// </summary>
+        public double DnSideJuHei { get; set; }
+
+        /// <summary>
         /// 结构计算模板
         /// </summary>
         public string TempletName { get; set; }
-
 
         /// <summary>
         /// 结构计算模型

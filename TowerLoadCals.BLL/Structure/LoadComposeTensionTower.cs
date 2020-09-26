@@ -58,7 +58,7 @@ namespace TowerLoadCals.BLL
             formula = new FormulaTensionTower(para);
         }
 
-        protected override void ReadElectricLoad(DataSet ds)
+        protected override void ReadElectricLoad(DataSet ds )
         {
             //后续计算的序号从1开始
             WindDF = new float[Template.Wires.Count + 1, Template.WorkConditongs.Count + 1];
@@ -106,6 +106,7 @@ namespace TowerLoadCals.BLL
                     float.TryParse(obj9.ToString(), out TensionD[i, j]);
                     object obj10 = ds.Tables[0].Rows[13 + 11 * (i - 1)][j];
                     float.TryParse(obj10.ToString(), out TensionX[i, j]);
+
                 }
             }
 
@@ -141,6 +142,16 @@ namespace TowerLoadCals.BLL
                     float.TryParse(obj12.ToString(), out GTX[dx + i, j]);
                 }
             }
+
+            //车达修改：赋值45风
+            for (int i = 1; i <= Template.Wires.Count; i++)
+            {
+                Tension45D[i, 1] = ElecLoad.ExtraLoad[i].AngleWinTenXF;
+                Tension45D[i, 2] = ElecLoad.ExtraLoad[i].AngleWinTenDF;
+                Tension45X[i, 1] = ElecLoad.ExtraLoad[i].AngleWinTenXF;
+                Tension45X[i, 2] = ElecLoad.ExtraLoad[i].AngleWinTenDF;
+            }
+
         }
 
         public override void CalculateLoadDistribute(string path)

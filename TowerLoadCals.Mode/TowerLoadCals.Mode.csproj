@@ -95,8 +95,8 @@
     <Compile Include="Common\ConstVar.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\ProInfo.cs" />
+    <Compile Include="Common\TowerSeq.cs" />
     <Compile Include="Common\TowerSerial.cs" />
-    <Compile Include="Common\TowerSeri.cs" />
     <Compile Include="Common\TowerStPra.cs" />
     <Compile Include="Common\TowerStructure.cs" />
     <Compile Include="Common\TowerTemplateStorageInfo.cs" />

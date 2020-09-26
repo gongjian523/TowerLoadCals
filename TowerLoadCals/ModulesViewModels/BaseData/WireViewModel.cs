@@ -30,7 +30,6 @@ namespace TowerLoadCals.Modules
 
         protected string curType;
 
-
         protected override void InitializeItemsSource()
         {
             base.InitializeItemsSource();

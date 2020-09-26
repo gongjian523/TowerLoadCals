@@ -24,6 +24,6 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 锚线张力、过滑车张力差和45°风
         /// </summary>
-        public List<StruCalsTension> Tension { get; set; }
+        public List<StruCalsTension> ExtraLoad { get; set; }
     }
 }

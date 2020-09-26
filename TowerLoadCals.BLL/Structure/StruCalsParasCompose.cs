@@ -55,17 +55,18 @@ namespace TowerLoadCals.BLL
                 CornerElecLoads = new List<WireElecLoadCorner>(),
                 LineCornerElecLoads = new List<WireElecLoadLineCorner>(),
                 LineElecLoads = new List<WireElecLoadLine>(),
-                Tension = new List<StruCalsTension>(),
+                ExtraLoad = new List<StruCalsTension>(),
                 WorkCondition = new List<ElecCalsWorkConditionBase>(),
             };
         }
 
-        //此构造函数用于新增塔位，线条相关的初始化信息主要来自于Template，
+        //此构造函数用于不是杆塔序列中新增塔位， 线条相关的初始化信息主要来自于Template，
         public StruCalsParasCompose(string towerName, string towerType, float voltage, string templatePath, string electricalLaodFilePath, List<string> fullStressTemplatePaths,  out string decodeTemolateStr)
         {
             decodeTemolateStr = "";
 
             TowerName = towerName;
+            SequenceName = "";
 
             TemplatePath = templatePath;
             TemplateName = templatePath.Substring(templatePath.LastIndexOf('\\')+1);
@@ -102,10 +103,90 @@ namespace TowerLoadCals.BLL
                 CornerElecLoads = new List<WireElecLoadCorner>(),
                 LineCornerElecLoads = new List<WireElecLoadLineCorner>(),
                 LineElecLoads = new List<WireElecLoadLine>(),
-                Tension = new List<StruCalsTension>(),
+                ExtraLoad = new List<StruCalsTension>(),
                 WorkCondition = new List<ElecCalsWorkConditionBase>(),
             };
         }
+
+
+        //此构造函数用于杆塔序列中新增塔位，
+        public StruCalsParasCompose(string towerName, string sequence, string towerType,  string excelPath,  float voltage, string templatePath, List<string> fullStressTemplatePaths, List<HangingPointSettingParas> hpSettingsParas, out string decodeTemolateStr)
+        {
+            decodeTemolateStr = "";
+
+            TowerName = towerName;
+            SequenceName = sequence;
+
+            TemplatePath = templatePath;
+            TemplateName = templatePath.Substring(templatePath.LastIndexOf('\\') + 1);
+
+            FullStressTemplatePaths = fullStressTemplatePaths;
+            FullStressTemplateNames = new List<string>();
+            foreach (var path in FullStressTemplatePaths)
+            {
+                FullStressTemplateNames.Add(path.Substring(path.LastIndexOf('\\') + 1));
+            }
+
+            TowerTypeEnum type = TowerTypeStringConvert.TowerStringToType(towerType);
+
+            //在杆塔序列中新增的塔位，保存的是电气计算中结果的Excel
+            ElectricalLoadFilePath = excelPath;
+
+            if (!DecodeEncryTemplate(type, templatePath))
+            {
+                decodeTemolateStr = "解码模块错误！";
+                return;
+            }
+
+            LineParas = new List<StruLineParas>();
+
+            SetDefaultValue(type);
+            BaseParas.Voltage = voltage;
+
+            HPSettingsParas = hpSettingsParas;
+
+            ResultPointLoad = new List<StruCalsPointLoad>();
+
+            ElecLoad = new StruCalsElecLoad()
+            {
+                CornerElecLoads = new List<WireElecLoadCorner>(),
+                LineCornerElecLoads = new List<WireElecLoadLineCorner>(),
+                LineElecLoads = new List<WireElecLoadLine>(),
+                ExtraLoad = new List<StruCalsTension>(),
+                WorkCondition = new List<ElecCalsWorkConditionBase>(),
+            };
+        }
+
+        //此构造函数用于从配置文件中获取已经保存的塔位参数()，所有参数都来做保存文件
+        public StruCalsParasCompose(string templatePath, List<string> fullStressTemplatePaths, StruCalsParasCompose temp)
+        {
+            TowerName = temp.TowerName;
+            TemplateName = temp.TemplateName;
+
+            ElectricalLoadFilePath = temp.ElectricalLoadFilePath;
+
+            FullStressTemplateNames = temp.FullStressTemplateNames;
+            FullStressTemplatePaths = fullStressTemplatePaths;
+
+            BaseParas = temp.BaseParas;
+            LineParas = temp.LineParas;
+            HPSettingsParas = temp.HPSettingsParas;
+
+            DecodeEncryTemplate(BaseParas.Type, templatePath);
+
+            ResultPointLoad = new List<StruCalsPointLoad>();
+
+            ElecLoad = new StruCalsElecLoad()
+            {
+                CornerElecLoads = new List<WireElecLoadCorner>(),
+                LineCornerElecLoads = new List<WireElecLoadLineCorner>(),
+                LineElecLoads = new List<WireElecLoadLine>(),
+                ExtraLoad = new List<StruCalsTension>(),
+                WorkCondition = new List<ElecCalsWorkConditionBase>(),
+            };
+        }
+
+
 
         public static List<WorkConditionComboSpec> ConvertTemplateToSpec(TowerTemplate template, bool isCalculation = false)
         {
@@ -294,6 +375,7 @@ namespace TowerLoadCals.BLL
             return result;
         }
 
+        //解码加密的结构计算模板
         public bool DecodeTemplate(TowerTypeEnum towerType, string templatesPath)
         {
             string file = templatesPath.Substring(0,templatesPath.Length - 3) + "dat";
@@ -301,6 +383,17 @@ namespace TowerLoadCals.BLL
 
             TowerTemplateReader templateReader = new TowerTemplateReader(towerType);
             Template = templateReader.Read(file);
+
+            WorkConditions = ConvertTemplateToSpec(Template);
+
+            return true;
+        }
+
+        //解码没有加密的结构计算模板
+        public bool DecodeEncryTemplate(TowerTypeEnum towerType, string templatesPath)
+        {
+            TowerTemplateReader templateReader = new TowerTemplateReader(towerType);
+            Template = templateReader.Read(templatesPath);
 
             WorkConditions = ConvertTemplateToSpec(Template);
 

@@ -227,11 +227,15 @@
                     <dxdo:LayoutPanel ItemWidth="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}"
                                       AllowClose="False" ShowCaption="False" Name="subLayoutPanel" AllowSizing="False">
                         <Grid Width="{Binding ElementName=subAccordion, Path=IsExpanded, Converter={StaticResource expandedToWidthConverter}}">
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Vertical" Visibility="{Binding NewStruCalsTowerBtnVisibity}">
-                                    <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
-                                   Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}"/>
-                                    <Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>
+                            <StackPanel Orientation="Vertical" >
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding NewStruCalsTowerBtnVisibity}" Margin="5,5,5,2" >
+                                    <StackPanel Orientation="Horizontal"  Visibility="{Binding  StruCalsTowerSingleBtnVisibity}">
+                                        <Button Height="25"  Width="25" Command="{DXCommand 'StruCalsTowerSerialShow()'}" />
+                                        <dx:SimpleButton Height="25"  Width="25"  Margin="5,0,0,0"  HorizontalAlignment="Left"  VerticalAlignment="Top" 
+                                            Glyph="{dxc:DXImage Image=Open_16x16.png}"  ToolTip="添加结构计算塔位"    Command="{DXCommand 'ShowNewStruCalsTowerWindow()'}"/>
+                                        <!--<Line Margin="5,1,5,2"  StrokeThickness="2" Stroke="LightGray"/>-->
+                                    </StackPanel>
+                                    <Button  Height="25"  Width="25" Visibility="{Binding StruCalsTowerSerialBtnVisibity}"  Command="{DXCommand 'StruCalsTowerSingleShow()'}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical" Visibility="{Binding NewTowerSequenceTowerBtnVisibity}">
                                     <dx:SimpleButton Height="25"  Width="25" Margin="5,5,5,2"  HorizontalAlignment="Left"  VerticalAlignment="Top" 

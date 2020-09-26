@@ -74,8 +74,6 @@ namespace TowerLoadCals.BLL.Electric
             PhaseTraList[5].JumpStr = PhaseTraList[6].JumpStr = PhaseTraList[7].JumpStr = jumpStr;
         }
 
-
-
         /// <summary>
         /// 更新风压系数
         /// </summary>
@@ -261,10 +259,8 @@ namespace TowerLoadCals.BLL.Electric
                     weiFZC = spanFit.WeiGrFZC;
                     secInc = BackSideRes.CommParas.SecOPGWInc;
                 }
-
                 
                 wireExtend = PhaseTraList[i].WireData.bGrd == 0 ? BackSideRes.CommParas.IndExMaxPara : BackSideRes.CommParas.GrdExMaxPara;
-
                 foreach(var nameGk in PhaseTraList[i].WireData.WorkCdtNamesStrain)
                 {
                     double verSpan = PhaseTraList[i].UpdateVertialSpan(nameGk, out string verSpanStr);
@@ -312,7 +308,6 @@ namespace TowerLoadCals.BLL.Electric
                         PhaseTraList[i].LoadList[index].JumpVerWeiStr = jumpVerWeiStr;
                     }
                 }
-                
                 PhaseTraList[i].UpdateLoStr(secInc, BackSideRes.CommParas.BuildMaxPara, BackSideRes.CommParas.InstMaxPara, wireExtend);
             }
 

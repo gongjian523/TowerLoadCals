@@ -207,19 +207,19 @@ namespace TowerLoadCals.DAL
                     if (node.Attributes["WireType"] != null)
                         wire.WireType = node.Attributes["WireType"].Value.ToString();
                     if (node.Attributes["WireType"] != null)
-                        wire.SectionArea = Convert.ToDecimal(node.Attributes["SectionArea"].Value.ToString());
+                        wire.SectionArea = Convert.ToDouble(node.Attributes["SectionArea"].Value.ToString());
                     if (node.Attributes["ExternalDiameter"] != null)
-                        wire.ExternalDiameter = Convert.ToDecimal(node.Attributes["ExternalDiameter"].Value.ToString());
+                        wire.ExternalDiameter = Convert.ToDouble(node.Attributes["ExternalDiameter"].Value.ToString());
                     if (node.Attributes["UnitLengthMass"] != null)
-                        wire.UnitLengthMass = Convert.ToDecimal(node.Attributes["UnitLengthMass"].Value.ToString());
+                        wire.UnitLengthMass = Convert.ToDouble(node.Attributes["UnitLengthMass"].Value.ToString());
                     if (node.Attributes["DCResistor"] != null)
-                        wire.DCResistor = Convert.ToDecimal(node.Attributes["DCResistor"].Value.ToString());
+                        wire.DCResistor = Convert.ToDouble(node.Attributes["DCResistor"].Value.ToString());
                     if (node.Attributes["RatedBreakingForce"] != null)
-                        wire.RatedBreakingForce = Convert.ToDecimal(node.Attributes["RatedBreakingForce"].Value.ToString());
+                        wire.RatedBreakingForce = Convert.ToDouble(node.Attributes["RatedBreakingForce"].Value.ToString());
                     if (node.Attributes["ModulusElasticity"] != null)
-                        wire.ModulusElasticity = Convert.ToDecimal(node.Attributes["ModulusElasticity"].Value.ToString());
+                        wire.ModulusElasticity = Convert.ToDouble(node.Attributes["ModulusElasticity"].Value.ToString());
                     if (node.Attributes["LineCoefficient"] != null)
-                        wire.LineCoefficient = Convert.ToDecimal(node.Attributes["LineCoefficient"].Value.ToString());
+                        wire.LineCoefficient = Convert.ToDouble(node.Attributes["LineCoefficient"].Value.ToString());
                     
                     typeItem.Wires.Add(wire);
                 }

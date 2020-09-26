@@ -15,36 +15,36 @@
         /// <summary>
         /// 截面积
         /// </summary>
-        public decimal SectionArea { get; set; }
+        public double SectionArea { get; set; }
 
         /// <summary>
         /// 外径
         /// </summary>
-        public decimal ExternalDiameter { get; set; }
+        public double ExternalDiameter { get; set; }
 
         /// <summary>
         /// 单位长度质量
         /// </summary>
-        public decimal UnitLengthMass { get; set; }
+        public double UnitLengthMass { get; set; }
 
         /// <summary>
         /// 直流电阻
         /// </summary>
-        public decimal DCResistor { get; set; }
+        public double DCResistor { get; set; }
 
         /// <summary>
         /// 额定拉断力
         /// </summary>
-        public decimal RatedBreakingForce { get; set; }
+        public double RatedBreakingForce { get; set; }
 
         /// <summary>
         /// 弹性模量
         /// </summary>
-        public decimal ModulusElasticity { get; set; }
+        public double ModulusElasticity { get; set; }
 
         /// <summary>
         /// 线膨胀系数
         /// </summary>
-        public decimal LineCoefficient { get; set; }
+        public double LineCoefficient { get; set; }
     }
 }

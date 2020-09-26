@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TowerLoadCals.BLL;
+using TowerLoadCals.BLL.Electric;
 using TowerLoadCals.DAL;
 using TowerLoadCals.DAL.Common;
 using TowerLoadCals.Mode;
@@ -46,6 +48,11 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
         /// </summary>
         public DelegateCommand doSaveCommand { get; private set; }
 
+        /// <summary>
+        /// 计算
+        /// </summary>
+        public DelegateCommand doCaculateCommand { get; private set; }
+
 
         protected ProjectUtils projectUtils;
 
@@ -62,28 +69,38 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
         /// <param name="navg"></param>
         public void GetDataSource(string navg)
         {
-            string filePath = globalInfo.ProjectPath + "\\" + ConstVar.TowerSequenceStr + "\\" + navg + "\\TowerSequenceStr.xml";
-            if (File.Exists(filePath))
-            {
-                DataSource = new ObservableCollection<TowerSerial>(TowerSerialReader.ReadXml(globalInfo.ProjectPath, navg));
-            }
-        }
-        /// <summary>
-        /// 数据源
-        /// </summary>
-        private ObservableCollection<TowerSerial> dataSource;
+            //string filePath = globalInfo.ProjectPath + "\\" + ConstVar.TowerSequenceStr + "\\" + navg + "\\TowerSequenceStr.xml";
+            //if (File.Exists(filePath))
+            //{
+            //    //dataSource = new ObservableCollection<TowerSerial>(TowerSerialReader.ReadXml(globalInfo.ProjectPath, navg));
+            //    towerList = TowerSerialReader.ReadXml(globalInfo.ProjectPath, navg);
+            //}
 
+            towerList = globalInfo.GetTowerSequenceBySequenceName(navg).Towers;
+        }
+
+
+        /// <summary>
+        /// 旧界面使用Gird的数据源，现在使用Spreadsheet后已经废弃 
+        /// </summary>
+        [Obsolete]
+        private ObservableCollection<TowerSerial> dataSource;
+        [Obsolete]
         public ObservableCollection<TowerSerial> DataSource
         {
             get { return dataSource; }
             set { dataSource = value; RaisePropertyChanged(() => DataSource); }
         }
 
+
+        private List<TowerSerial> towerList = new List<TowerSerial>();
+        
+
         public override void UpDateView(string fileName, string para2 = "")
         {
             pageName = fileName;
             GetDataSource(fileName);
-            View.RefreshSpreadSheet(dataSource.ToList());
+            View.RefreshSpreadSheet(towerList);
         }
 
         protected override void InitializeData()
@@ -94,13 +111,15 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
             doTowerParaSettingCommand = new DelegateCommand(doTowerParaSetting);
             doRefreshCommand = new DelegateCommand(doRefreshLink);
             doSaveCommand = new DelegateCommand(doSave);
+            doCaculateCommand = new DelegateCommand(doCaculate);
         }
 
         #region 气象条件设置(弃用)
         WeatherConditionSettingWindow setting;
         /// <summary>
-        /// 气象条件设置
+        /// 气象条件设置  气象区在公共参数中选择，在此界面中弃用
         /// </summary>
+        [Obsolete]
         public void doWeatherConditionSetting()
         {
             //塔位号
@@ -113,6 +132,7 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
             setting.ShowDialog();
         }
 
+        [Obsolete]
         public void WeatherConditionSettingWindowClosed(object sender, IList<WeatherConditionSetting> list)
         {
             WeatherConditionSettingWindowViewModel model = (WeatherConditionSettingWindowViewModel)sender;
@@ -157,7 +177,7 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
         public void doCommSideParaSetting()
         {
             //塔位号
-            List<string> list = dataSource.Select(item => item.TowerName).ToList();
+            List<string> list = towerList.Select(item => item.TowerName).ToList();
 
             commSideParaSettingWindow = new CommSideParaSettingWindow();
             ((CommSideParaSettingViewModel)commSideParaSettingWindow.DataContext).CloseWindowEvent += CommSideParaSettingWindowClosed;
@@ -176,24 +196,24 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
             //设置公共和档内参数
             if (list != null)
             {
-                var sourcList = dataSource;
+                var sourcList = towerList;
                 int startIndex = 0, endIndex = 0;
                 foreach (CommSideParaSetting item in list)
                 {
                     try
                     {
-                        startIndex = this.dataSource.Where(t => t.TowerName == item.StartTowerName).Single().ID;
-                        endIndex = this.dataSource.Where(t => t.TowerName == item.EndTowerName).Single().ID;
+                        startIndex = towerList.Where(t => t.TowerName == item.StartTowerName).Single().ID;
+                        endIndex = towerList.Where(t => t.TowerName == item.EndTowerName).Single().ID;
                         //筛选需要修改的序列信息
                         var sourceList = sourcList.Where(t => t.ID >= startIndex && t.ID <= endIndex).ToList();
 
                         foreach (TowerSerial serial in sourceList)
                         {
-                            dataSource.Where(k => k.ID == serial.ID).First().CommPar = item.CommPara;
+                            towerList.Where(k => k.ID == serial.ID).First().CommPar = item.CommPara;
                             if(startIndex != serial.ID)
-                                dataSource.Where(k => k.ID == serial.ID).First().BackSidePar = item.SidePara;
+                                towerList.Where(k => k.ID == serial.ID).First().BackSidePar = item.SidePara;
                             if (endIndex != serial.ID)
-                                dataSource.Where(k => k.ID == serial.ID).First().FrontSidePar = item.SidePara;
+                                towerList.Where(k => k.ID == serial.ID).First().FrontSidePar = item.SidePara;
                         }
                     }
                     catch (Exception ex)
@@ -202,7 +222,7 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
                     }
                 }
 
-                View.RefreshCommSidePara(dataSource.ToList());
+                View.RefreshCommSidePara(towerList.ToList());
             }
         }
         #endregion
@@ -216,8 +236,8 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
         public void doTowerParaSetting()
         {
             //塔位号
-            List<string> hangList = dataSource.Where(item =>item.TowerType == 1).Select(item => item.TowerName).ToList();
-            List<string> strainList = dataSource.Where(item => item.TowerType != 1).Select(item => item.TowerName).ToList();
+            List<string> hangList = towerList.Where(item =>item.TowerType == 1).Select(item => item.TowerName).ToList();
+            List<string> strainList = towerList.Where(item => item.TowerType != 1).Select(item => item.TowerName).ToList();
 
             towerParaSettingWindow = new TowerParaSettingWindow();
             ((TowerParaSettingViewModel)towerParaSettingWindow.DataContext).CloseWindowEvent += TowerParaSettingWindowClosed;
@@ -237,20 +257,20 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
             //设置铁塔配置参数
             if (hangList != null)
             {
-                var sourcList = dataSource;
+                var sourcList = towerList;
                 int startIndex = 0, endIndex = 0;
                 foreach (TowrParaSetting item in hangList)
                 {
                     try
                     {
-                        startIndex = dataSource.Where(t => t.TowerName == item.StartTowerName).Single().ID;
-                        endIndex = dataSource.Where(t => t.TowerName == item.EndTowerName).Single().ID;
+                        startIndex = towerList.Where(t => t.TowerName == item.StartTowerName).Single().ID;
+                        endIndex = towerList.Where(t => t.TowerName == item.EndTowerName).Single().ID;
                         //筛选需要修改的序列信息
                         var sourceList = sourcList.Where(t => t.ID >= startIndex && t.ID <= endIndex && t.TowerType == 1).ToList();
 
                         foreach (TowerSerial serial in sourceList)
                         {
-                            dataSource.Where(k => k.ID == serial.ID).First().TowerPar = item.TowerPara;
+                            towerList.Where(k => k.ID == serial.ID).First().TowerPar = item.TowerPara;
                         }
                     }
                     catch (Exception ex)
@@ -262,20 +282,20 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
 
             if (strainList != null)
             {
-                var sourcList = dataSource;
+                var sourcList = towerList;
                 int startIndex = 0, endIndex = 0;
                 foreach (TowrParaSetting item in strainList)
                 {
                     try
                     {
-                        startIndex = dataSource.Where(t => t.TowerName == item.StartTowerName).Single().ID;
-                        endIndex = dataSource.Where(t => t.TowerName == item.EndTowerName).Single().ID;
+                        startIndex = towerList.Where(t => t.TowerName == item.StartTowerName).Single().ID;
+                        endIndex = towerList.Where(t => t.TowerName == item.EndTowerName).Single().ID;
                         //筛选需要修改的序列信息
                         var sourceList = sourcList.Where(t => t.ID >= startIndex && t.ID <= endIndex && t.TowerType != 1).ToList();
 
                         foreach (TowerSerial serial in sourceList)
                         {
-                            dataSource.Where(k => k.ID == serial.ID).First().TowerPar = item.TowerPara;
+                            towerList.Where(k => k.ID == serial.ID).First().TowerPar = item.TowerPara;
                         }
                     }
                     catch (Exception ex)
@@ -287,10 +307,8 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
 
             if (hangList != null || strainList != null)
             {
-                View.RefreshTowerPara(dataSource.ToList());
+                View.RefreshTowerPara(towerList.ToList());
             }
-
-                
         }
         #endregion
 
@@ -309,18 +327,18 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
             //}
             //GetDataSource(pageName);
 
-            string towerPath = globalInfo.ProjectPath + "\\" + ConstVar.DataBaseStr + "\\TowerStr.xml";
-
-            List<TowerStrData> towerList = TowerStrDataReader.ReadLoadFile(towerPath).ToList();
+            //string towerPath = globalInfo.ProjectPath + "\\" + ConstVar.DataBaseStr + "\\TowerStr.xml";
+            //List<TowerStrData> towers = TowerStrDataReader.ReadLoadFile(towerPath).ToList();
+            List<TowerStrData> towers = GlobalInfo.GetInstance().GetLocalTowerStrs();
 
             TowerStrData tower;//塔型实体
             List<string> StrHeight;//直线塔呼高
             double StrAllowHorSpan;// 直线塔档距序列字符串
 
-            foreach (TowerSerial item in this.dataSource)
+            foreach (TowerSerial item in towerList)
             {
                 //杆塔型号实体
-                tower = towerList.Where(t => t.Name == item.TowerPattern).FirstOrDefault();
+                tower = towers.Where(t => t.Name == item.TowerPattern).FirstOrDefault();
 
                 if (tower != null)//塔型判断
                 {
@@ -393,9 +411,10 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
         {
             try
             {
+                View.UpdateTowerPara(towerList);
                 string savePath = projectUtils.ProjectPath + "\\" + ConstVar.TowerSequenceStr + "\\" + pageName;
                 //保存计算后的杆塔序列文件
-                TowerSerialReader.SaveDT(this.DataSource.ToList(), savePath);
+                TowerSerialReader.SaveDT(towerList, savePath);
 
                 MessageBox.Show("保存成功!");
             }
@@ -407,21 +426,31 @@ namespace TowerLoadCals.ModulesViewModels.TowerSequence
 
         public override void Save()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void DelSubItem(string itemName)
         {
-            //DialogResult  result;
-            //result = MessageBox.Show("确定要删除该序列码？", "删除确认", MessageBoxButtons.YesNoCancel);
-            //if (result == DialogResult.Yes)
-            //{
-            //    if (Directory.Exists(savePath))
-            //    {
-            //        Directory.Delete(savePath, true);
-            //    }
 
-            //}
+        }
+
+        public void doCaculate()
+        {
+            View.UpdateTowerPara(towerList);
+
+            Task.Factory.StartNew(a =>
+            {
+                caculating(towerList);
+            }, towerList);
+        }
+
+        protected void  caculating(List<TowerSerial> towers)
+        {
+            if (towers == null || towers.Count == 0)
+                return;
+
+            ElecCals elecCals = new ElecCals(pageName,towers);
+            elecCals.TowerSerialsCaculate();
         }
     }
 }

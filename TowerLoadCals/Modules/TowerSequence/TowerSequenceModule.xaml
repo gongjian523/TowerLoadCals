@@ -17,18 +17,15 @@
             <RowDefinition Height="40" Name="g_heard"/>
             <RowDefinition Height="*"  />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160"/>
-            <ColumnDefinition Width="160"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <!--<Button Grid.Row="0"   Grid.Column="0" Content="气象区设置" Height="30"  Name="btnWeatherConditionSetting" Command="{Binding doWeatherSettingCommand}"  Margin="8,0"/>-->
-        <Button Grid.Row="0"   Grid.Column="0" Content="公共和档内参数设置" Height="30"  Name="btnCommParaSetting" Command="{Binding doCommSideParaSettingCommand}"  Margin="8,0"/>
-        <Button Grid.Row="0"   Grid.Column="1" Content="铁塔配置参数设置" Height="30"  Name="btnSideParaSetting" Command="{Binding doTowerParaSettingCommand}"  Margin="8,0"/>
-        <Button Grid.Row="0"   Grid.Column="2" Content="超条件判断" Height="30" Name="btnRe"   Command="{Binding doRefreshCommand }"  Margin="8,0" />
-        <Button Grid.Row="0"   Grid.Column="3" Content="保 存" Height="30" Name="btnSave"   Command="{Binding doSaveCommand }" Margin="8,0" />
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <!--<Button Content="气象区设置" Height="30"  Name="btnWeatherConditionSetting" Command="{Binding doWeatherSettingCommand}"  Margin="8,0"/>-->
+            <Button Content="公共和档内参数设置" Height="30" Width="160" Name="btnCommParaSetting" Command="{Binding doCommSideParaSettingCommand}"  Margin="0,0,8,0"/>
+            <Button Content="铁塔配置参数设置" Height="30"  Width="160" Name="btnSideParaSetting" Command="{Binding doTowerParaSettingCommand}"  Margin="8,0"/>
+            <Button Content="超条件判断" Height="30" Width="100" Name="btnRe"   Command="{Binding doRefreshCommand }"  Margin="8,0" />
+            <Button Content="保存" Height="30"  Width="100"  Name="btnSave"   Command="{Binding doSaveCommand }" Margin="8,0" />
+            <Button Content="计算" Height="30" Width="100"  Name="btnCaculate"   Command="{Binding doCaculateCommand }" Margin="8,0" />
+        </StackPanel>
 
         <!--<dxg:GridControl Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="None" Margin="8,0" EnableSmartColumnsGeneration="False"
                 ItemsSource="{Binding DataSource}"   x:Name="grid">
@@ -130,7 +127,7 @@
             </dxg:GridControl.Bands>
         </dxg:GridControl>-->
 
-        <dxsps:SpreadsheetControl x:Name="towerSerSC" Grid.Row="1" Grid.ColumnSpan="5"  CommandBarStyle="Empty" ShowFormulaBar="False" ShowStatusBar="False"/>
+        <dxsps:SpreadsheetControl x:Name="towerSerSC" Grid.Row="1"  CommandBarStyle="Empty" ShowFormulaBar="False" ShowStatusBar="False"/>
 
     </Grid>
 </UserControl>

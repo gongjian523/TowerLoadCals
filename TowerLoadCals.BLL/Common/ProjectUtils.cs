@@ -64,10 +64,11 @@ namespace TowerLoadCals.BLL
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);
             AddFileToProject(ConstVar.DataBaseStr, strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr);//创建5个xml
 
-            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\TowerUploadFile");//杆塔结构配置文件夹
+            Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.TowerUploadFileStr);//杆塔结构配置文件夹
 
             //创建杆塔序列文件夹  
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.TowerSequenceStr);
+
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr);
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.LineTowerStr);
             Directory.CreateDirectory(strDir + "\\" + prejectName + "\\" + ConstVar.DataBaseStr + "\\" + ConstVar.GeneralStruTemplateStr + "\\" + ConstVar.LineCornerTowerStr);
@@ -290,7 +291,7 @@ namespace TowerLoadCals.BLL
         }
 
         /// <summary>
-        /// 将新增的塔位参数添加的GlobalInfo中
+        /// 将新增的塔位参数添加的GlobalInfo中 只用单个增加的塔，不用于塔库序列中的塔
         /// </summary>
         /// <param name="towerName"></param>
         /// <param name="towerType"></param>
@@ -301,7 +302,7 @@ namespace TowerLoadCals.BLL
         {
             var struCalsParas = GlobalInfo.GetInstance().StruCalsParas;
             
-            if(struCalsParas.Where(item=>item.TowerName == towerName).Count() > 0)
+            if(struCalsParas.Where(item=>item.TowerName == towerName && item.TemplateName == "").Count() > 0)
             {
                 System.Windows.Forms.MessageBox.Show(towerName + "已经存在！");
                 return false;
@@ -322,6 +323,7 @@ namespace TowerLoadCals.BLL
 
         /// <summary>
         /// 在结构计算的参数的保存文件读取参数，并保存在GlobalInfo中
+        /// 只用于单个增加的塔，非杆塔序列中的塔
         /// </summary>
         /// <param name="name"></param>
         public void ReadStruCalsTowerParas(string name)
@@ -331,6 +333,7 @@ namespace TowerLoadCals.BLL
             string electricalLaodFilePath = struCalsDirPath + ConstVar.StruCalsElecLoadFileName;
 
             string parasSavedFilePath = struCalsDirPath + ConstVar.StruCalsParasFileName;
+
             StruCalsParasCompose temp = XmlUtils.Deserializer<StruCalsParasCompose>(parasSavedFilePath);
 
             if (temp == null || temp == default(StruCalsParasCompose))
@@ -349,17 +352,20 @@ namespace TowerLoadCals.BLL
             GlobalInfo.GetInstance().StruCalsParas.Add(paras);
         }
 
+
+
+        //保存非塔库序列中的塔
         public void SaveStruCalsTower(List<string> towers = null)
         {
             List<StruCalsParasCompose> towerParas;
             
             if(towers == null || towers.Count == 0)
             {
-                towerParas = globalInfo.StruCalsParas;
+                towerParas = globalInfo.StruCalsParas.Where(item => item.SequenceName != "").ToList();
             }
             else
             {
-                towerParas = globalInfo.StruCalsParas.Where(item => towers.Contains(item.TowerName)).ToList();
+                towerParas = globalInfo.StruCalsParas.Where(item => towers.Contains(item.TowerName) && item.SequenceName != "").ToList();
             }
 
             List<string> savedToewer = GetAllStrucTowerNames();
@@ -417,6 +423,70 @@ namespace TowerLoadCals.BLL
             }
         }
 
+        /// <summary>
+        /// 将新增的塔位参数添加的GlobalInfo中 只用于塔库序列中的塔
+        /// </summary>
+        /// <returns></returns>
+        public bool NewStruCalsTower(string towerName, string sequence, string excelPath, string towerType, float voltage, string templatePath, List<string> fullStressTemplatePaths, List<HangingPointSettingParas> hpSettingsParas)
+        {
+            var struCalsParas = GlobalInfo.GetInstance().StruCalsParas;
+
+            if (struCalsParas.Where(item => item.TowerName == towerName && item.TemplateName == "").Count() > 0)
+            {
+                System.Windows.Forms.MessageBox.Show(towerName + "已经存在！");
+                return false;
+            }
+
+            StruCalsParasCompose paras = new StruCalsParasCompose(towerName, sequence, towerType, excelPath, voltage, templatePath, fullStressTemplatePaths, hpSettingsParas, out string decodeTemplateStr);
+
+            if (decodeTemplateStr != "")
+            {
+                System.Windows.Forms.MessageBox.Show(towerName + decodeTemplateStr);
+                return false;
+            }
+
+            struCalsParas.Add(paras);
+            SaveStruCalsTowerParaInSequence(paras);
+
+            return true;
+        }
+
+
+        //保存塔库序列中的塔
+        public void SaveStruCalsTowerParaInSequence(StruCalsParasCompose paras)
+        {
+            string dirStruCalsPath = StruCalsDirForTower(paras.TowerName, paras.SequenceName);
+            XmlUtils.Serializer(dirStruCalsPath + "\\" + ConstVar.StruCalsParasFileName, paras);
+        }
+
+        /// <summary>
+        /// 在结构计算的参数的保存文件读取参数，并保存在GlobalInfo中
+        /// 只用于杆塔序列中的塔
+        /// </summary>
+        /// <param name="name"></param>
+        public void ReadStruCalsTowerParas(string name, string sequence)
+        {
+            string struCalsDirPath = StruCalsDirForTower(name,sequence) + "\\";
+            string fullStessDirPath = FullStressDirForTower(name, sequence) + "\\";
+            string parasSavedFilePath = struCalsDirPath + ConstVar.StruCalsParasFileName;
+
+            StruCalsParasCompose temp = XmlUtils.Deserializer<StruCalsParasCompose>(parasSavedFilePath);
+
+            if (temp == null || temp == default(StruCalsParasCompose))
+                return;
+
+            string templatePath = struCalsDirPath + temp.TemplateName;
+
+            List<string> fullStressTemplatePaths = new List<string>();
+            foreach (var tempName in temp.FullStressTemplateNames)
+            {
+                fullStressTemplatePaths.Add(fullStessDirPath + tempName);
+            }
+
+            StruCalsParasCompose paras = new StruCalsParasCompose(templatePath, fullStressTemplatePaths, temp);
+
+            GlobalInfo.GetInstance().StruCalsParas.Add(paras);
+        }
 
         public List<string> GetAllStrucTowerNames()
         {
@@ -460,14 +530,20 @@ namespace TowerLoadCals.BLL
             return ConfigFileUtils.DeleteStrucTowerNames(ConfigFilePath, towerNames);
         }
 
-        public string StruCalsDirForTower(string towerName)
+        public string StruCalsDirForTower(string towerName, string sequenceName = "")
         {
-            return  ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + towerName + "\\" + ConstVar.StruCalsStr;
+            if(sequenceName == "")
+                return  ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + towerName + "\\" + ConstVar.StruCalsStr;
+            else
+                return ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + sequenceName +  "\\" + towerName + "\\" + ConstVar.StruCalsStr;
         }
 
-        public string FullStressDirForTower(string towerName)
+        public string FullStressDirForTower(string towerName, string sequenceName = "")
         {
-            return ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + towerName + "\\" + ConstVar.FullStressStr;
+            if (sequenceName == "")
+                return ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + towerName + "\\" + ConstVar.FullStressStr;
+            else
+                return ProjectPath + "\\" + ConstVar.StruCalsStr + "\\" + sequenceName + "\\" + towerName + "\\" + ConstVar.FullStressStr;
         }
 
         //默认这两个文件和满应力模板在同一个目录下
@@ -480,7 +556,6 @@ namespace TowerLoadCals.BLL
 
             return;
         }
-
         #endregion
 
         #region 满应力分析相关函数

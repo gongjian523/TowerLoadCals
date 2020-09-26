@@ -63,7 +63,7 @@ namespace TowerLoadCals.Modules
 
             BaseParas = struCalsParas.BaseParas;
             ElecLoad = struCalsParas.ElecLoad;
-            Wind45TenParas = new ObservableCollection<StruCalsTension>(struCalsParas.ElecLoad.Tension); 
+            Wind45TenParas = new ObservableCollection<StruCalsTension>(struCalsParas.ElecLoad.ExtraLoad); 
         }
 
 

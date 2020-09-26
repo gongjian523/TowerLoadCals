@@ -56,7 +56,8 @@ namespace TowerLoadCals.Modules
             IList<string> templateList = ProjectUtils.GetInstance().GetGeneralTowerTemplate().Select(item => "[通用模板]" + item.Name).ToList();
             this.templetDataSource = projectList.Concat(templateList).ToList();
 
-            this.dataSource = new ObservableCollection<TowerStrData>(TowerStrDataReader.ReadLoadFile(filePath));//获取本地已保存信息
+            //this.dataSource = new ObservableCollection<TowerStrData>(TowerStrDataReader.ReadLoadFile(filePath));//获取本地已保存信息
+            this.dataSource = new ObservableCollection<TowerStrData>(GlobalInfo.GetInstance().GetLocalTowerStrs());
 
         }
 
@@ -82,7 +83,6 @@ namespace TowerLoadCals.Modules
             }
 
         }
-
 
         #endregion
 
@@ -191,7 +191,6 @@ namespace TowerLoadCals.Modules
 
 
         #region 保存xml文件信息
-
         /// <summary>
         /// 保存xml文件信息
         /// </summary>

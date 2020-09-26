@@ -107,7 +107,6 @@ namespace TowerLoadCals.BLL.Electric
         [XmlIgnore]
         public ElecCalsTowerAppre BackAppreRes { get; set; }
 
-
         /// <summary>
         /// 相列表，存储回路、相信息
         /// </summary>
@@ -385,6 +384,20 @@ namespace TowerLoadCals.BLL.Electric
             PhaseTraList[4].HangStr = grdStr;
             PhaseTraList[8].HangStr = grdStr;
             PhaseTraList[9].HangStr = grdStr;
+        }
+
+        public void GetAndUpdateStrData(ElecCalsStrDatas strDatas)
+        {
+            PhaseTraList[0].HangStr = PhaseTraList[5].HangStr = strDatas.UpIndStr;
+            PhaseTraList[1].HangStr = PhaseTraList[6].HangStr = strDatas.MidIndStr;
+            PhaseTraList[2].HangStr = PhaseTraList[7].HangStr = strDatas.DnIndStr;
+
+            PhaseTraList[3].HangStr = PhaseTraList[8].HangStr = strDatas.GrdStr;
+            PhaseTraList[4].HangStr = PhaseTraList[9].HangStr = strDatas.GrdStr;
+
+            PhaseTraList[0].JumpStr = PhaseTraList[5].JumpStr = strDatas.UpJumpStr;
+            PhaseTraList[1].JumpStr = PhaseTraList[6].JumpStr = strDatas.MidJumpStr;
+            PhaseTraList[2].JumpStr = PhaseTraList[7].JumpStr = strDatas.DnJumpStr;
         }
 
 

@@ -1,10 +1,7 @@
 ﻿using DevExpress.Spreadsheet;
 using DevExpress.Xpf.Spreadsheet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TowerLoadCals.Mode;
 using TowerLoadCals.Mode.Electric;
 using TowerLoadCals.Mode.Structure;
@@ -41,7 +38,7 @@ namespace TowerLoadCals.BLL.Electric
             sheetLoadConv = workbook.Worksheets[ConstVar.ElecLoadConvStruSheet];
         }
 
-        public StruCalsElecLoad CalsElecLoad(TowerElecCals calsTower, TowerTemplate template)
+        public void CalsElecLoad(TowerElecCals calsTower)
         {
             TowerCals = calsTower;
             if (calsTower.TowerType == "悬垂塔")
@@ -64,7 +61,6 @@ namespace TowerLoadCals.BLL.Electric
             }
 
             Caculate();
-            return GetLoad(template);
         }
 
         protected void LoadHangTowerResult()
@@ -826,7 +822,7 @@ namespace TowerLoadCals.BLL.Electric
             sheetElecLoad.Calculate();
         }
 
-        protected StruCalsElecLoad GetLoad(TowerTemplate template)
+        public StruCalsElecLoad ProvideMeterial(TowerTemplate template)
         {
             List<ElecCalsWorkConditionBase> wkCdtList = new List<ElecCalsWorkConditionBase>();
             List<WireElecLoadLine> lineLoads = new List<WireElecLoadLine>();
@@ -893,7 +889,6 @@ namespace TowerLoadCals.BLL.Electric
                     int rowPos = j >= elecWireNum ? 0 : 4 + j * 6;
                     List<ElecLoadLine> elecLoad = new List<ElecLoadLine>();
 
-
                     for (int k = 1; k <= template.WorkConditongs.Count; k++)
                     {
                         int colPos = posDic[k];
@@ -903,8 +898,6 @@ namespace TowerLoadCals.BLL.Electric
                             WorkConditionId = k,
                             WorkConditionName = template.WorkConditongs[k],
                         };
-
-
 
 
                         if (rowPos!=0 && colPos != 0)
@@ -1018,10 +1011,9 @@ namespace TowerLoadCals.BLL.Electric
                 LineElecLoads = lineLoads,
                 LineCornerElecLoads = new List<WireElecLoadLineCorner>(),
                 CornerElecLoads = cornerLoads,
-                Tension = tensions,
+                ExtraLoad = tensions,
             };
         }
-
         
         protected string StruWorkConditionNameConvertElec(string elecWkCdtName)
         {

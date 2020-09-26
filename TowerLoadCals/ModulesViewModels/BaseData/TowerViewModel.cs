@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using TowerLoadCals.BLL;
 using TowerLoadCals.DAL;
 using TowerLoadCals.Mode;
 using TowerLoadCals.ModulesViewModels;
@@ -45,7 +46,8 @@ namespace TowerLoadCals.Modules
             SaveXmlCommand = new DelegateCommand(SaveXml);
             DBFImportCommand = new DelegateCommand(DBFImport);
 
-            this.SelectedItems = new ObservableCollection<TowerStrData>(TowerStrDataReader.ReadLoadFile(filePath));//获取本地已保存信息
+            //this.SelectedItems = new ObservableCollection<TowerStrData>(TowerStrDataReader.ReadLoadFile(filePath));//获取本地已保存信息
+            this.SelectedItems = new ObservableCollection<TowerStrData>(GlobalInfo.GetInstance().GetLocalTowerStrs());
 
         }
 
@@ -56,55 +58,75 @@ namespace TowerLoadCals.Modules
         /// </summary>
         public void SaveXml()
         {
-            try
+            var editData = SelectedItems.ToList();
+
+            if(TowerStrDataReader.SaveLocalFile(filePath, editData, out string warning))
             {
-                var editData = this.SelectedItems.ToList();
-
-                XmlDocument doc = new XmlDocument();
-                doc.Load(filePath);
-
-                XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
-                rootNode.RemoveAll();//移除所有节点，全部新增
-
-                foreach (TowerStrData item in editData)
-                {
-                    XmlElement row = doc.CreateElement("Tower");
-                    row.SetAttribute("ID", item.ID.ToString());
-                    row.SetAttribute("Name", item.Name == null ? "" : item.Name);
-                    row.SetAttribute("Type", item.Type.ToString());
-                    row.SetAttribute("TypeName", item.TypeName.ToString());
-                    row.SetAttribute("VoltageLevel", item.VoltageLevel.ToString());
-                    row.SetAttribute("CirNum", item.CirNum.ToString());
-                    row.SetAttribute("CurType", item.CurType.ToString());
-                    row.SetAttribute("MinAngel", item.MinAngel.ToString());
-                    row.SetAttribute("MaxAngel", item.MaxAngel.ToString());
-                    row.SetAttribute("CalHeight", item.CalHeight.ToString());
-                    row.SetAttribute("MinHeight", item.MinHeight.ToString());
-                    row.SetAttribute("MaxHeight", item.MaxHeight.ToString());
-                    row.SetAttribute("AllowedHorSpan", item.AllowedHorSpan.ToString());
-                    row.SetAttribute("OneSideMinHorSpan", item.OneSideMinHorSpan.ToString());
-                    row.SetAttribute("OneSideMaxHorSpan", item.OneSideMaxHorSpan.ToString());
-                    row.SetAttribute("AllowedVerSpan", item.AllowedVerSpan.ToString());
-                    row.SetAttribute("OneSideMinVerSpan", item.OneSideMinVerSpan.ToString());
-                    row.SetAttribute("OneSideMaxVerSpan", item.OneSideMaxVerSpan.ToString());
-                    row.SetAttribute("OneSideUpVerSpanMin", item.OneSideUpVerSpanMin.ToString());
-                    row.SetAttribute("OneSideUpVerSpanMax", item.OneSideUpVerSpanMax.ToString());
-                    row.SetAttribute("DRepresentSpanMin", item.DRepresentSpanMin.ToString());
-                    row.SetAttribute("DRepresentSpanMax", item.DRepresentSpanMax.ToString());
-                    row.SetAttribute("StrHeightSer", item.StrHeightSer == null ? "" : item.StrHeightSer.ToString());
-                    row.SetAttribute("StrAllowHorSpan", item.StrAllowHorSpan == null ? "" : item.StrAllowHorSpan.ToString());
-                    row.SetAttribute("AngelToHorSpan", item.AngelToHorSpan.ToString());
-                    row.SetAttribute("MaxAngHorSpan", item.MaxAngHorSpan.ToString());
-                    rootNode.AppendChild(row);
-
-                }
-                doc.Save(filePath);
                 MessageBox.Show("保存信息成功");
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("保存信息失败，请确认后重试！错误信息为：" + ex.Message);
+                MessageBox.Show("保存信息失败，请确认后重试！错误信息为：" + warning);
             }
+
+            //try
+            //{
+                
+
+            //    XmlDocument doc = new XmlDocument();
+            //    doc.Load(filePath);
+
+            //    XmlNode rootNode = doc.GetElementsByTagName("Root")[0];
+            //    rootNode.RemoveAll();//移除所有节点，全部新增
+
+            //    foreach (TowerStrData item in editData)
+            //    {
+            //        XmlElement row = doc.CreateElement("Tower");
+            //        row.SetAttribute("ID", item.ID.ToString());
+            //        row.SetAttribute("Name", item.Name == null ? "" : item.Name);
+            //        row.SetAttribute("Type", item.Type.ToString());
+            //        row.SetAttribute("TypeName", item.TypeName.ToString());
+            //        row.SetAttribute("VoltageLevel", item.VoltageLevel.ToString());
+            //        row.SetAttribute("CirNum", item.CirNum.ToString());
+            //        row.SetAttribute("CurType", item.CurType.ToString());
+            //        row.SetAttribute("MinAngel", item.MinAngel.ToString());
+            //        row.SetAttribute("MaxAngel", item.MaxAngel.ToString());
+            //        row.SetAttribute("CalHeight", item.CalHeight.ToString());
+            //        row.SetAttribute("MinHeight", item.MinHeight.ToString());
+            //        row.SetAttribute("MaxHeight", item.MaxHeight.ToString());
+            //        row.SetAttribute("AllowedHorSpan", item.AllowedHorSpan.ToString());
+            //        row.SetAttribute("OneSideMinHorSpan", item.OneSideMinHorSpan.ToString());
+            //        row.SetAttribute("OneSideMaxHorSpan", item.OneSideMaxHorSpan.ToString());
+            //        row.SetAttribute("AllowedVerSpan", item.AllowedVerSpan.ToString());
+            //        row.SetAttribute("OneSideMinVerSpan", item.OneSideMinVerSpan.ToString());
+            //        row.SetAttribute("OneSideMaxVerSpan", item.OneSideMaxVerSpan.ToString());
+            //        row.SetAttribute("OneSideUpVerSpanMin", item.OneSideUpVerSpanMin.ToString());
+            //        row.SetAttribute("OneSideUpVerSpanMax", item.OneSideUpVerSpanMax.ToString());
+            //        row.SetAttribute("DRepresentSpanMin", item.DRepresentSpanMin.ToString());
+            //        row.SetAttribute("DRepresentSpanMax", item.DRepresentSpanMax.ToString());
+            //        row.SetAttribute("StrHeightSer", item.StrHeightSer == null ? "" : item.StrHeightSer.ToString());
+            //        row.SetAttribute("StrAllowHorSpan", item.StrAllowHorSpan == null ? "" : item.StrAllowHorSpan.ToString());
+            //        row.SetAttribute("AngelToHorSpan", item.AngelToHorSpan.ToString());
+            //        row.SetAttribute("MaxAngHorSpan", item.MaxAngHorSpan.ToString());
+
+            //        row.SetAttribute("UpSideInHei", item.UpSideInHei.ToString());
+            //        row.SetAttribute("MidInHei", item.MidInHei.ToString());
+            //        row.SetAttribute("DnSideInHei", item.DnSideInHei.ToString());
+            //        row.SetAttribute("GrDHei", item.GrDHei.ToString());
+            //        row.SetAttribute("UpSideJuHei", item.UpSideJuHei.ToString());
+            //        row.SetAttribute("MidJuHei", item.MidJuHei.ToString());
+            //        row.SetAttribute("DnSideJuHei", item.DnSideJuHei.ToString());
+
+            //        rootNode.AppendChild(row);
+
+            //    }
+            //    doc.Save(filePath);
+            //    MessageBox.Show("保存信息成功");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("保存信息失败，请确认后重试！错误信息为：" + ex.Message);
+            //}
         }
         #endregion
 
@@ -179,8 +201,6 @@ namespace TowerLoadCals.Modules
 
         public override void Save()
         {
-            List<WireType> wireType = new List<WireType>();
-            WireReader.Save(filePath, wireType);
         }
 
         public override void UpDateView(string para1, string para2 = "")

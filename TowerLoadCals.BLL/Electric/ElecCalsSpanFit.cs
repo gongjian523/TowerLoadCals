@@ -23,7 +23,7 @@ namespace TowerLoadCals.BLL.Electric
         /// 导线防振锤重量
         /// </summary>
         [XmlAttribute]
-        public int WeiInFZC { get; set; }
+        public double WeiInFZC { get; set; }
 
         /// <summary>
         /// 地线防振锤ID
@@ -41,7 +41,7 @@ namespace TowerLoadCals.BLL.Electric
         /// 地线防振锤重量
         /// </summary>
         [XmlAttribute]
-        public int WeiGrFZC { get; set; }
+        public double WeiGrFZC { get; set; }
 
         /// <summary>
         /// 间隔棒资源ID
@@ -59,14 +59,14 @@ namespace TowerLoadCals.BLL.Electric
         /// 间隔棒重量
         /// </summary>
         [XmlAttribute]
-        public int WeiJGB { get; set; }
+        public double WeiJGB { get; set; }
 
 
         public ElecCalsSpanFit()
         {
         }
 
-        public ElecCalsSpanFit(int inFZCID = 0, int numInFZC = 0, int weiInFZC = 0, int grFZCID = 0, int numGrFZC = 0, int weiGrFZC = 0, int jGBID = 0, int numJGB = 0, int weiJGB = 0)
+        public ElecCalsSpanFit(int inFZCID = 0, int numInFZC = 0, double weiInFZC = 0, int grFZCID = 0, int numGrFZC = 0, double weiGrFZC = 0, int jGBID = 0, int numJGB = 0, double weiJGB = 0)
         {
             InFZCID = inFZCID;
             NumInFZC = numInFZC;

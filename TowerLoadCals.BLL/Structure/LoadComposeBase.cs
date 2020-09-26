@@ -75,6 +75,8 @@ namespace TowerLoadCals.BLL
 
         protected FormulaTower formula;
 
+        protected StruCalsElecLoad ElecLoad;
+
         public LoadComposeBase(StruCalseBaseParas para, StruLineParas[] lineParas, HangingPointSettingParas hpParas, TowerTemplate template, string tablePath)
         {
             ProcessString = new List<string>();

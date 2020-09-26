@@ -631,7 +631,6 @@ namespace TowerLoadCals.Test
             if (saveFileDialog.ShowDialog() != true)
                 return;
 
-
             ElecCalsSpec spec = new ElecCalsSpec()
             {
                 Category = new List<ElecCalsCateSpec>()
@@ -816,6 +815,24 @@ namespace TowerLoadCals.Test
                 return;
 
             XmlUtils.Serializer<StruCalsParas>(saveFileDialog.FileName, paras);
+
+        }
+
+        [TestMethod]
+        public void TestMethod08_StruCalsHangPointSettong()
+        {
+
+            var saveFileDialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Filter = "XML Files (*.xml)|*.xml",
+            };
+
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            var HPSettingsParas = XmlUtils.Deserializer<List<HangingPointSettingParas>>(saveFileDialog.FileName);
+
+            XmlUtils.Serializer(saveFileDialog.FileName+1, HPSettingsParas);
 
         }
     }

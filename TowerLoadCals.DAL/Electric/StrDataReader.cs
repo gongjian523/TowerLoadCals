@@ -40,23 +40,23 @@ namespace TowerLoadCals.DAL
                     if (node.Attributes["StrType"] != null)
                         fitData.StrType = node.Attributes["StrType"].Value.ToString();
                     if (node.Attributes["Weight"] != null)
-                        fitData.Weight = Convert.ToDecimal(node.Attributes["Weight"].Value.ToString());
+                        fitData.Weight = Convert.ToDouble(node.Attributes["Weight"].Value.ToString());
                     if (node.Attributes["FitLength"] != null)
-                        fitData.FitLength = Convert.ToDecimal(node.Attributes["FitLength"].Value.ToString());
+                        fitData.FitLength = Convert.ToDouble(node.Attributes["FitLength"].Value.ToString());
                     if (node.Attributes["PieceLength"] != null)
-                        fitData.PieceLength = Convert.ToDecimal(node.Attributes["PieceLength"].Value.ToString());
+                        fitData.PieceLength = Convert.ToDouble(node.Attributes["PieceLength"].Value.ToString());
                     if (node.Attributes["PieceNum"] != null)
-                        fitData.PieceNum = Convert.ToDecimal(node.Attributes["PieceNum"].Value.ToString());
+                        fitData.PieceNum = Convert.ToInt32(node.Attributes["PieceNum"].Value.ToString());
                     if (node.Attributes["GoldPieceNum"] != null)
-                        fitData.GoldPieceNum = Convert.ToDecimal(node.Attributes["GoldPieceNum"].Value.ToString());
+                        fitData.GoldPieceNum = Convert.ToInt32(node.Attributes["GoldPieceNum"].Value.ToString());
                     if (node.Attributes["LNum"] != null)
-                        fitData.LNum = Convert.ToDecimal(node.Attributes["LNum"].Value.ToString());
+                        fitData.LNum = Convert.ToInt32(node.Attributes["LNum"].Value.ToString());
                     if (node.Attributes["DampLength"] != null)
-                        fitData.DampLength = Convert.ToDecimal(node.Attributes["DampLength"].Value.ToString());
+                        fitData.DampLength = Convert.ToDouble(node.Attributes["DampLength"].Value.ToString());
                     if (node.Attributes["SuTubleLen"] != null)
-                        fitData.SuTubleLen = Convert.ToDecimal(node.Attributes["SuTubleLen"].Value.ToString());
+                        fitData.SuTubleLen = Convert.ToDouble(node.Attributes["SuTubleLen"].Value.ToString());
                     if (node.Attributes["SoftLineLen"] != null)
-                        fitData.SoftLineLen = Convert.ToDecimal(node.Attributes["SoftLineLen"].Value.ToString());
+                        fitData.SoftLineLen = Convert.ToDouble(node.Attributes["SoftLineLen"].Value.ToString());
 
                     collectionItem.StrDatas.Add(fitData);
                 }

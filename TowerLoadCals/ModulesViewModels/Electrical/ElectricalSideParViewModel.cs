@@ -77,10 +77,9 @@ namespace TowerLoadCals.ModulesViewModels.Electrical
         {
             get
             {
-                return new List<string> { "1 按规则", "2 手动配置", }; ;
+                return new List<string> { "1 按规则", "2 手动配置", }; 
             }
         }
-        
 
 
         public ElectricalSideParViewModel()

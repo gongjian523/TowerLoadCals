@@ -344,6 +344,7 @@ namespace TowerLoadCals.DAL.Common
                 item.FrontAccPreSpan = double.Parse(xmlNode.Attributes.GetNamedItem("FrontAccPreSpan").InnerText);//前侧耐张段长度
                 item.BackPreSpan = double.Parse(xmlNode.Attributes.GetNamedItem("BackPreSpan").InnerText);//后侧代表档距
                 item.BackAccPreSpan = double.Parse(xmlNode.Attributes.GetNamedItem("BackAccPreSpan").InnerText);//后侧耐张段长度
+                item.TurningAngle = double.Parse(xmlNode.Attributes.GetNamedItem("TurningAngle").InnerText);//转角中心桩位移(m)
                 item.TurningAngleStr = xmlNode.Attributes.GetNamedItem("TurningAngleStr").InnerText;//转角中心桩位移(m)
                 item.ConductorModel = xmlNode.Attributes.GetNamedItem("ConductorModel").InnerText;//导线型号
                 item.InsulationStringModel = xmlNode.Attributes.GetNamedItem("InsulationStringModel").InnerText;//导线串型号

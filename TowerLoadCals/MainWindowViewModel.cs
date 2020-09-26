@@ -286,8 +286,7 @@ namespace TowerLoadCals
         }
     }
 
-
-
+    
     public class PrefixEnumWithExternalMetadata
     {
         

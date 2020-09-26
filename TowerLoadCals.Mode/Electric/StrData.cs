@@ -25,46 +25,52 @@ namespace TowerLoadCals.Mode
         /// <summary>
         /// 重量
         /// </summary>
-        public decimal Weight { get; set; }
+        public double Weight { get; set; }
 
         /// <summary>
         /// 长度 
         /// </summary>
-        public decimal FitLength { get; set; }
+        public double FitLength { get; set; }
 
         /// <summary>
         /// 单片绝缘子长度 
         /// </summary>
-        public decimal PieceLength { get; set; }
+        public double PieceLength { get; set; }
 
         /// <summary>
         ///片数
         /// </summary>
-        public decimal PieceNum { get; set; }
+        public int PieceNum { get; set; }
 
         /// <summary>
         ///金具换算片数
         /// </summary>
-        public decimal GoldPieceNum { get; set; }
+        public int GoldPieceNum { get; set; }
 
         /// <summary>
         ///联数
         /// </summary>
-        public decimal LNum { get; set; }
+        public int LNum { get; set; }
 
         /// <summary>
         ///阻尼线长度
         /// </summary>
-        public decimal DampLength { get; set; }
+        public double DampLength { get; set; }
 
         /// <summary>
         ///硬跳线参数，支撑管长度
         /// </summary>
-        public decimal SuTubleLen { get; set; }
+        public double SuTubleLen { get; set; }
 
         /// <summary>
         ///硬跳线参数，软跳线长度
         /// </summary>
-        public decimal SoftLineLen { get; set; }
+        public double SoftLineLen { get; set; }
+
+
+        /// <summary>
+        ///硬跳线参数，软跳线长度
+        /// </summary>
+        public int JGBNum { get; set; }
     }
 }

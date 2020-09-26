@@ -22,6 +22,8 @@ namespace TowerLoadCals.Modules.TowerSequence
     /// <summary>
     /// WeatherConditionModule.xaml 的交互逻辑
     /// </summary>
+    /// 
+
     public partial class TowerSequenceModule : UserControl
     {
         protected Worksheet worksheet;
@@ -161,6 +163,18 @@ namespace TowerLoadCals.Modules.TowerSequence
                 worksheet.Cells[1 + 2 * (dataSource[i].ID - 1), 15].Value = dataSource[i].TowerPar;//公共参数 
             }
         }
-
+        
+        //只保存是否验算
+        public void UpdateTowerPara(List<TowerSerial> dataSource)
+        {
+            for (int i = 0; i < dataSource.Count(); i++)
+            {
+                dataSource[i].IsChecking = worksheet.Cells[1 + 2 * i, 0].Value.BooleanValue;
+                dataSource[i].CommPar = worksheet.Cells[1 + 2 * i, 12].Value.ToString(); //公共参数
+                dataSource[i].BackSidePar = worksheet.Cells[1 + 2 * i, 13].Value.ToString(); //后侧档内参数
+                dataSource[i].FrontSidePar = worksheet.Cells[1 + 2 * i, 14].Value.ToString(); //前侧档内参数
+                dataSource[i].TowerPar = worksheet.Cells[1 + 2 * i, 15].Value.ToString() ; //铁塔配置参数
+            }
+        }
     }
 }

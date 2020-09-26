@@ -74,6 +74,8 @@ namespace TowerLoadCals
             if (subVm == null)
                 return;
 
+            _curTowerSeqence = vm.Title.Trim();
+
             subVm.UpDateView(vm.Title.Trim());
         }
 

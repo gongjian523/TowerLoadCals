@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using TowerLoadCals.BLL;
 using TowerLoadCals.Modules;
 using TowerLoadCals.ModulesViewModels;
 
@@ -31,24 +32,12 @@ namespace TowerLoadCals
             NewStruCalsTowerBtnVisibity = Visibility.Visible;
             NewTowerSequenceTowerBtnVisibity = Visibility.Collapsed;
 
-            //以前没有加载过子菜单，从配置文件中读出所有塔位名称
-            if (mv.MenuItems == null || mv.MenuItems.Count() == 0)
-            {
-                var menuItems = new List<SubMenuBase>() { };
+            //清除以前的结构计算模块下的子菜单，
+            if (mv.MenuItems != null)
+                mv.MenuItems.Clear();
 
-                var towers = projectUtils.GetAllStrucTowerNames();
-
-                foreach (var tower in towers)
-                {
-                    StrCalsModuleSubMenu menu = new StrCalsModuleSubMenu("", this, tower, (e) => { OnSelectedStruCalsTowersChanged(e); });
-                    AddStruClasTowerSubMenu(menu);
-                    menuItems.Add(menu);
-                }
-
-                mv.MenuItems = menuItems;
-            }
-
-            MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
+            //根据当前铁塔序列加载其下所选择的塔位或者单独增加的塔位
+            LaodTowerSubMenu(_curTowerSeqence == "" ? true :false, mv);
         }
 
         protected void AddStruClasTowerSubMenu(SubMenuBase menuVm)
@@ -101,13 +90,12 @@ namespace TowerLoadCals
 
         private void OnSelectedStruCalsTowersChanged(SubMenuBase menuVm)
         {
-         
-            
+
+
         }
 
-        NewStruCalsTowerWindow newStruCalsTowerWindow;
-
         #region 新增塔位
+        NewStruCalsTowerWindow newStruCalsTowerWindow;
         public void ShowNewStruCalsTowerWindow()
         {
             newStruCalsTowerWindow = new NewStruCalsTowerWindow();
@@ -122,12 +110,12 @@ namespace TowerLoadCals
             if (newStruCalsTowerWindow != null) newStruCalsTowerWindow.Close();
             newStruCalsTowerWindow = null;
 
-            if(newTowerName == null || newTowerName == "")
+            if (newTowerName == null || newTowerName == "")
             {
                 return;
             }
 
-            StrCalsModuleSubMenu newTowerMenu = new StrCalsModuleSubMenu("", this, newTowerName, (e) => { OnSelectedStruCalsTowersChanged(e); });
+            StrCalsModuleSubMenu newTowerMenu = new StrCalsModuleSubMenu("", this, newTowerName, "", (e) => { OnSelectedStruCalsTowersChanged(e); });
 
             SelectedModuleInfo.MenuItems.Add(newTowerMenu);
 
@@ -157,7 +145,7 @@ namespace TowerLoadCals
                 return;
             }
 
-            StrCalsModuleSubMenu newTowerMenu = new StrCalsModuleSubMenu("", this, newTowerName, (e) => { OnSelectedStruCalsTowersChanged(e); });
+            StrCalsModuleSubMenu newTowerMenu = new StrCalsModuleSubMenu("", this, newTowerName, "", (e) => { OnSelectedStruCalsTowersChanged(e); });
 
             SelectedModuleInfo.MenuItems.Add(newTowerMenu);
 
@@ -168,7 +156,7 @@ namespace TowerLoadCals
         #endregion
 
         protected Visibility _newStruCalsTowerBtnVisibity = Visibility.Collapsed;
-        public Visibility NewStruCalsTowerBtnVisibity 
+        public Visibility NewStruCalsTowerBtnVisibity
         {
             set
             {
@@ -181,5 +169,78 @@ namespace TowerLoadCals
             }
         }
 
+        protected Visibility _struCalsTowerSerialBtnVisibity = Visibility.Collapsed;
+        public Visibility StruCalsTowerSerialBtnVisibity
+        {
+            set
+            {
+                _struCalsTowerSerialBtnVisibity = value;
+                RaisePropertyChanged("StruCalsTowerSerialBtnVisibity");
+            }
+            get
+            {
+                return _struCalsTowerSerialBtnVisibity;
+            }
+        }
+
+        protected Visibility _struCalsTowerSingleBtnVisibity = Visibility.Visible;
+        public Visibility StruCalsTowerSingleBtnVisibity
+        {
+            set
+            {
+                _struCalsTowerSingleBtnVisibity = value;
+                RaisePropertyChanged("StruCalsTowerSingleBtnVisibity");
+            }
+            get
+            {
+                return _struCalsTowerSingleBtnVisibity;
+            }
+        }
+
+        protected string _curTowerSeqence = "";
+
+        public void StruCalsTowerSerialShow()
+        {
+            StruCalsTowerSingleBtnVisibity = Visibility.Collapsed;
+            StruCalsTowerSerialBtnVisibity = Visibility.Visible;
+
+            var struCalsMenu = Modules.Where(item => item.Title.Trim() == "结构计算").FirstOrDefault();
+            if(struCalsMenu != null)
+                LaodTowerSubMenu(false, struCalsMenu);
+        }
+
+        public void StruCalsTowerSingleShow()
+        {
+            StruCalsTowerSingleBtnVisibity = Visibility.Visible;
+            StruCalsTowerSerialBtnVisibity = Visibility.Collapsed;
+
+            var struCalsMenu = Modules.Where(item => item.Title.Trim() == "结构计算").FirstOrDefault();
+            if (struCalsMenu != null)
+                LaodTowerSubMenu(true, struCalsMenu);
+        }
+
+
+        protected void LaodTowerSubMenu(bool isSingle, ModuleMenu mv)
+        {
+            var menuItems = new List<SubMenuBase>() { };
+
+            var towers = isSingle ? projectUtils.GetAllStrucTowerNames() : GlobalInfo.GetInstance().GetSelecedTowerNamesInSequence(_curTowerSeqence);
+
+            string seq = isSingle ? "" : _curTowerSeqence;
+
+            foreach (var tower in towers)
+            {
+                StrCalsModuleSubMenu menu = new StrCalsModuleSubMenu("", this, tower, seq, (e) => { OnSelectedStruCalsTowersChanged(e); });
+                AddStruClasTowerSubMenu(menu);
+                menuItems.Add(menu);
+            }
+
+            mv.MenuItems = menuItems;
+
+            MenuItems = new ObservableCollection<SubMenuBase>(SelectedModuleInfo.MenuItems);
+        }
+
     }
 }
+
+
