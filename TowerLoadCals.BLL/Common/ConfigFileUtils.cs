@@ -22,7 +22,7 @@ namespace TowerLoadCals.BLL
 
             XmlNode xmlNode = doc.CreateElement("Project");
             doc.AppendChild(xmlNode);
-
+                
             XmlNode nodeBaseData = doc.CreateElement(ConstVar.DataBaseStr);
             xmlNode.AppendChild(nodeBaseData);
 

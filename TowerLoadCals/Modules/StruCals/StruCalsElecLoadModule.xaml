@@ -102,9 +102,12 @@
                     </dxg:GridControl.View>
                         <dxg:GridColumn FieldName="Id"  Header="序号" HorizontalHeaderContentAlignment="Center" />
                         <dxg:GridColumn FieldName="WireType"  Header="项目" HorizontalHeaderContentAlignment="Center" />
-                        <dxg:GridColumn FieldName="Direct"  Header="方向" HorizontalHeaderContentAlignment="Center" />
-                        <dxg:GridColumn FieldName="AngleTensionX"  Header="小角度张力" HorizontalHeaderContentAlignment="Center" />
-                        <dxg:GridColumn FieldName="AngleTensionD"  Header="大角度张力" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="DirectB"  Header="后侧" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="AngleWinTenXB"  Header="后侧小角度张力" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="AngleWinTenDB"  Header="后侧大角度张力" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="DirectF"  Header="前侧" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="AngleWinTenXF"  Header="前侧小角度张力" HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn FieldName="AngleWinTenDF"  Header="前侧大角度张力" HorizontalHeaderContentAlignment="Center" />
                     </dxg:GridControl>
                 <StackPanel Grid.Column="1" Orientation="Vertical"  HorizontalAlignment="Center">
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="大角度水平档距"  />

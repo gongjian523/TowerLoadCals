@@ -45,20 +45,32 @@ namespace TowerLoadCals.Modules
         /// <param name="towerName"></param>
         protected virtual void InitializeData(string towerName)
         {
-            TowerName = towerName;
-
             var globalInfo = GlobalInfo.GetInstance();
 
-            if(globalInfo.StruCalsParas.Where(item => item.TowerName == towerName).Count() <= 0)
+            string sequence = "";
+            
+            if(towerName.Contains("*"))
             {
-                ProjectUtils.GetInstance().ReadStruCalsTowerParas(towerName);
+                int pos = towerName.IndexOf('*');
+                TowerName = towerName.Substring(0, pos);
+                sequence = towerName.Substring(pos + 1);
+            }
+            else
+            {
+                TowerName = towerName;
             }
 
-            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerName);
-            if (index < 0) 
+            if (globalInfo.StruCalsParas.Where(item => item.TowerName == towerName).Count() <= 0)
             {
-                return;
+                if(sequence == "")
+                    ProjectUtils.GetInstance().ReadStruCalsTowerParas(towerName);
+                else
+                    ProjectUtils.GetInstance().ReadStruCalsTowerParas(towerName, sequence);
             }
+
+            int index = globalInfo.StruCalsParas.FindIndex(para => para.TowerName == towerName && para.SequenceName == sequence);
+            if (index < 0) 
+                return;
 
             struCalsParas = globalInfo.StruCalsParas[index];
 

@@ -38,6 +38,9 @@ namespace TowerLoadCals
 
             //根据当前铁塔序列加载其下所选择的塔位或者单独增加的塔位
             LaodTowerSubMenu(_curTowerSeqence == "" ? true :false, mv);
+
+            StruCalsTowerSingleBtnVisibity = _curTowerSeqence == "" ? Visibility.Visible : Visibility.Collapsed;
+            StruCalsTowerSerialBtnVisibity = _curTowerSeqence != "" ? Visibility.Visible : Visibility.Collapsed;
         }
 
         protected void AddStruClasTowerSubMenu(SubMenuBase menuVm)
@@ -83,15 +86,27 @@ namespace TowerLoadCals
             IStruCalsBaseViewModel viewModel = NavigationService.Current as IStruCalsBaseViewModel;
             if (curSubModule != menuVm.Title || (viewModel != null && viewModel.GetTowerName() != menuVm.ParentNode.Title))
             {
-                menuVm.Show(menuVm.ParentNode.Title);
+                //杆塔序列中的塔需要将序列名字也传进去
+                if(((StrCalsModuleSubMenu)menuVm.ParentNode).Sequence == null || ((StrCalsModuleSubMenu)menuVm.ParentNode).Sequence == "")
+                    menuVm.Show(menuVm.ParentNode.Title.Trim());
+                else
+                    menuVm.Show(menuVm.ParentNode.Title.Trim() + "*" + ((StrCalsModuleSubMenu)menuVm.ParentNode).Sequence);
                 curSubModule = menuVm.Title;
             }
         }
-
+        
         private void OnSelectedStruCalsTowersChanged(SubMenuBase menuVm)
         {
-
-
+            IStruCalsBaseViewModel viewModel = NavigationService.Current as IStruCalsBaseViewModel;
+            if (viewModel == null || (viewModel != null && viewModel.GetTowerName() != menuVm.Title))
+            {
+                //杆塔序列中的塔需要将序列名字也传进去
+                if (((StrCalsModuleSubMenu)menuVm).Sequence == null || ((StrCalsModuleSubMenu)menuVm).Sequence == "")
+                    menuVm.ChildItems[0].Show(menuVm.Title.Trim());
+                else
+                    menuVm.ChildItems[0].Show(menuVm.Title.Trim() + "*" + ((StrCalsModuleSubMenu)menuVm).Sequence);
+                curSubModule = menuVm.Title;
+            }
         }
 
         #region 新增塔位

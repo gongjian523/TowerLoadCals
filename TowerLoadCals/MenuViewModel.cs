@@ -193,7 +193,7 @@ namespace TowerLoadCals
             //下面代码针对的是，没有打开这个塔位的页面而直接进行计算的情况
             if (globalInfo.StruCalsParas.Where(item => item.TowerName == ((SubMenuBase)menu).Title && item.SequenceName == ((StrCalsModuleSubMenu)menu).Sequence).Count() <= 0)
             {
-                if (((StrCalsModuleSubMenu)menu).Sequence == null)
+                if (((StrCalsModuleSubMenu)menu).Sequence == "")
                 {
                     ProjectUtils.GetInstance().ReadStruCalsTowerParas(((SubMenuBase)menu).Title);
                 }
